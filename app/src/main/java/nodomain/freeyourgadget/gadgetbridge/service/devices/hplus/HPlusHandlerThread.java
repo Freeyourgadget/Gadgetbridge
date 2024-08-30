@@ -293,7 +293,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
                     sample.setProvider(provider);
                     samples.add(sample);
 
-                    if (HPlusCoordinator.getAllDayHR(gbDevice.getAddress()) == HPlusConstants.ARG_HEARTRATE_ALLDAY_ON && storedRecord.heartRate == ActivitySample.NOT_MEASURED && storedRecord.steps <= 0) {
+                    if (mHPlusSupport.getAllDayHR() == HPlusConstants.ARG_HEARTRATE_ALLDAY_ON && storedRecord.heartRate == ActivitySample.NOT_MEASURED && storedRecord.steps <= 0) {
                         notWornSlots.add(sample.getTimestamp());
                         notWornSlots.add(sample.getTimestamp() + 10 * 60);
 

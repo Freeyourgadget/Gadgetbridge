@@ -202,7 +202,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
             } else if(data[0] == Casio2C2DSupport.FEATURE_SETTING_FOR_BASIC) {
                 SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
 
-                String timeformat = GBApplication.getDevicePrefs(getDevice().getAddress()).getTimeFormat();
+                String timeformat = GBApplication.getDevicePrefs(getDevice()).getTimeFormat();
 
                 if(timeformat.equals(getContext().getString(R.string.p_timeformat_24h))) {
                     data[1]  |= 0x01;

@@ -1028,7 +1028,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     private void sendReminders(final TransactionBuilder builder, final List<? extends Reminder> reminders) {
         final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
-        int reservedSlots = GBApplication.getDevicePrefs(gbDevice.getAddress()).getReservedReminderCalendarSlots(gbDevice);
+        int reservedSlots = GBApplication.getDevicePrefs(gbDevice).getReservedReminderCalendarSlots();
         LOG.info("On Set Reminders. Reminders: {}, Reserved slots: {}", reminders.size(), reservedSlots);
 
         // Send the reminders, skipping the reserved slots for calendar events
@@ -2754,7 +2754,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
         final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
 
-        int availableSlots = GBApplication.getDevicePrefs(gbDevice.getAddress()).getReservedReminderCalendarSlots(gbDevice);
+        int availableSlots = GBApplication.getDevicePrefs(gbDevice).getReservedReminderCalendarSlots();
 
         CalendarManager upcomingEvents = new CalendarManager(getContext(), getDevice().getAddress());
         List<CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList();
@@ -3373,7 +3373,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     protected HuamiSupport setTimeFormat(TransactionBuilder builder) {
-        String timeFormat = GBApplication.getDevicePrefs(gbDevice.getAddress()).getTimeFormat();
+        String timeFormat = GBApplication.getDevicePrefs(gbDevice).getTimeFormat();
 
         LOG.info("Setting time format to " + timeFormat);
         if (timeFormat.equals(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H)) {

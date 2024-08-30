@@ -89,7 +89,7 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        DevicePrefs prefs = GBApplication.getDevicePrefs(device.getAddress());
+        DevicePrefs prefs = GBApplication.getDevicePrefs(device);
         int activityTracker = prefs.getInt("pebble_activitytracker", SampleProvider.PROVIDER_PEBBLE_HEALTH);
         switch (activityTracker) {
             case SampleProvider.PROVIDER_PEBBLE_HEALTH:
@@ -285,7 +285,7 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     public boolean isBackgroundJsEnabled(final GBDevice device) {
-        DevicePrefs deviceSpecificPreferences = GBApplication.getDevicePrefs(device.getAddress());
+        DevicePrefs deviceSpecificPreferences = GBApplication.getDevicePrefs(device);
         return deviceSpecificPreferences.getBoolean(BG_JS_ENABLED, BG_JS_ENABLED_DEFAULT);
     }
 

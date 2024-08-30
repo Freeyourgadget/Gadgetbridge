@@ -61,7 +61,7 @@ public abstract class AbstractXiaomiService {
     }
 
     protected DevicePrefs getDevicePrefs() {
-        return GBApplication.getDevicePrefs(getSupport().getDevice().getAddress());
+        return GBApplication.getDevicePrefs(getSupport().getDevice());
     }
 
     public void onDisconnect() {}

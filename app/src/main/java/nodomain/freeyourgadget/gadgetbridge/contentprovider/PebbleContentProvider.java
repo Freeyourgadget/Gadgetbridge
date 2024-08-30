@@ -80,7 +80,7 @@ public class PebbleContentProvider extends ContentProvider {
             int pebbleKit = 0;
             String fwString = "unknown";
             if (mGBDevice != null && mGBDevice.getType() == DeviceType.PEBBLE && mGBDevice.isInitialized()) {
-                final DevicePrefs deviceSpecificSharedPrefsrefs = GBApplication.getDevicePrefs(mGBDevice.getAddress());
+                final DevicePrefs deviceSpecificSharedPrefsrefs = GBApplication.getDevicePrefs(mGBDevice);
                 if (deviceSpecificSharedPrefsrefs.getBoolean("third_party_apps_set_settings", false)) {
                     pebbleKit = 1;
                 }

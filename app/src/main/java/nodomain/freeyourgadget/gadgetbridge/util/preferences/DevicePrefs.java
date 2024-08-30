@@ -32,8 +32,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class DevicePrefs extends Prefs {
-    public DevicePrefs(final SharedPreferences preferences) {
+    private GBDevice gbDevice;
+
+    public DevicePrefs(final SharedPreferences preferences, GBDevice gbDevice) {
         super(preferences);
+        this.gbDevice = gbDevice;
     }
 
     public boolean getBatteryShowInNotification(final int batteryIndex) {
@@ -104,7 +107,7 @@ public class DevicePrefs extends Prefs {
         return dateFormat;
     }
 
-    public int getReservedReminderCalendarSlots(GBDevice gbDevice) {
+    public int getReservedReminderCalendarSlots() {
         if (!gbDevice.getDeviceCoordinator().getReserveReminderSlotsForCalendar())
             return 0;
         if (!getBoolean(DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR, false))

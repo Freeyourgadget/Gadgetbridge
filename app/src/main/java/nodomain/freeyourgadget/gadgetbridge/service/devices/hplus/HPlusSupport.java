@@ -322,23 +322,33 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
 
+    public byte getScreenTime() {
+        return (byte) (getDevicePrefs().getInt(HPlusConstants.PREF_HPLUS_SCREENTIME, 5) & 0xFF);
+    }
+
     private HPlusSupport setScreenTime(TransactionBuilder transaction) {
-        byte value = HPlusCoordinator.getScreenTime(getDevice().getAddress());
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_SCREENTIME,
-                value
+                getScreenTime()
 
         });
         return this;
     }
 
+    public byte getAllDayHR() {
+        boolean value = (getDevicePrefs().getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
+
+        if (value) {
+            return HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
+        } else {
+            return HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
+        }
+    }
+
     private HPlusSupport setAllDayHeart(TransactionBuilder transaction) {
-
-        byte value = HPlusCoordinator.getAllDayHR(getDevice().getAddress());
-
         transaction.write(ctrlCharacteristic, new byte[]{
                 HPlusConstants.CMD_SET_ALLDAY_HRM,
-                value
+                getAllDayHR()
 
         });
 

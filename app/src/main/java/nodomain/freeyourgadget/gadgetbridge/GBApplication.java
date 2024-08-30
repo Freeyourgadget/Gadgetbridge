@@ -1737,8 +1737,8 @@ public class GBApplication extends Application {
         return context.getSharedPreferences("devicesettings_" + deviceIdentifier, Context.MODE_PRIVATE);
     }
 
-    public static DevicePrefs getDevicePrefs(final String deviceIdentifier) {
-        return new DevicePrefs(getDeviceSpecificSharedPrefs(deviceIdentifier));
+    public static DevicePrefs getDevicePrefs(GBDevice gbDevice) {
+        return new DevicePrefs(getDeviceSpecificSharedPrefs(gbDevice.getAddress()), gbDevice);
     }
 
     public static void deleteDeviceSpecificSharedPrefs(String deviceIdentifier) {

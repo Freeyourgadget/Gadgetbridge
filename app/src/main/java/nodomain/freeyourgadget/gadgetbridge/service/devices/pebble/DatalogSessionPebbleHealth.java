@@ -31,7 +31,7 @@ abstract class DatalogSessionPebbleHealth extends DatalogSession {
     DatalogSessionPebbleHealth(byte id, UUID uuid, int timestamp, int tag, byte itemType, short itemSize, GBDevice device) {
         super(id, uuid, timestamp, tag, itemType, itemSize);
         mDevice = device;
-        devicePrefs = GBApplication.getDevicePrefs(mDevice.getAddress());
+        devicePrefs = GBApplication.getDevicePrefs(mDevice);
     }
 
     public GBDevice getDevice() {

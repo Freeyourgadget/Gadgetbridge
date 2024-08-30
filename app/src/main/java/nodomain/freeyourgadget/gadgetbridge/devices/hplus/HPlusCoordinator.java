@@ -181,20 +181,6 @@ public class HPlusCoordinator extends AbstractBLEDeviceCoordinator {
         return activityUser.getStepsGoal();
     }
 
-    public static byte getScreenTime(String address) {
-        return (byte) (GBApplication.getDevicePrefs(address).getInt(HPlusConstants.PREF_HPLUS_SCREENTIME, 5) & 0xFF);
-    }
-
-    public static byte getAllDayHR(String address) {
-        boolean value = (GBApplication.getDevicePrefs(address).getBoolean(HPlusConstants.PREF_HPLUS_ALLDAYHR, true));
-
-        if (value) {
-            return HPlusConstants.ARG_HEARTRATE_ALLDAY_ON;
-        } else {
-            return HPlusConstants.ARG_HEARTRATE_ALLDAY_OFF;
-        }
-    }
-
     public static byte getSocial(String address) {
         //TODO: Figure what this is. Returning the default value
 

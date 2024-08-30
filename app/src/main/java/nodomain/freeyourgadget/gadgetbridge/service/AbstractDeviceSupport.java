@@ -540,7 +540,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         gbDevice.setBatteryState(deviceEvent.state);
         gbDevice.setBatteryVoltage(deviceEvent.voltage, deviceEvent.batteryIndex);
 
-        final DevicePrefs devicePrefs = GBApplication.getDevicePrefs(gbDevice.getAddress());
+        final DevicePrefs devicePrefs = GBApplication.getDevicePrefs(gbDevice);
         final BatteryConfig batteryConfig = gbDevice.getDeviceCoordinator().getBatteryConfig(gbDevice)[deviceEvent.batteryIndex];
 
         if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
@@ -786,7 +786,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     public DevicePrefs getDevicePrefs() {
-        return GBApplication.getDevicePrefs(gbDevice.getAddress());
+        return GBApplication.getDevicePrefs(gbDevice);
     }
 
     @Override

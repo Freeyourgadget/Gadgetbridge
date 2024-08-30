@@ -149,7 +149,7 @@ class PebbleIoThread extends GBDeviceIoThread {
 
     PebbleIoThread(PebbleSupport pebbleSupport, GBDevice gbDevice, GBDeviceProtocol gbDeviceProtocol, BluetoothAdapter btAdapter, Context context) {
         super(gbDevice, context);
-        devicePrefs = GBApplication.getDevicePrefs(gbDevice.getAddress());
+        devicePrefs = GBApplication.getDevicePrefs(gbDevice);
         mPebbleProtocol = (PebbleProtocol) gbDeviceProtocol;
         mBtAdapter = btAdapter;
         mPebbleSupport = pebbleSupport;
@@ -193,7 +193,7 @@ class PebbleIoThread extends GBDeviceIoThread {
                     LOG.info("This is a Pebble 2 or Pebble-LE/Pebble Time LE, will use BLE");
                     mInStream = new PipedInputStream();
                     mOutStream = new PipedOutputStream();
-                    mPebbleLESupport = new PebbleLESupport(this.getContext(), btDevice, (PipedInputStream) mInStream, (PipedOutputStream) mOutStream);
+                    mPebbleLESupport = new PebbleLESupport(this.getContext(), gbDevice, btDevice, (PipedInputStream) mInStream, (PipedOutputStream) mOutStream);
                 } else {
                     ParcelUuid[] uuids = btDevice.getUuids();
                     if (uuids == null) {

@@ -1057,7 +1057,7 @@ public class HuaweiSupportProvider {
                         GB.toast(context, context.getString(R.string.toast_setting_requires_reconnect), Toast.LENGTH_SHORT, GB.INFO);
                     }
                 case DeviceSettingsPreferenceConst.PREF_BATTERY_POLLING_ENABLE:
-                    if (!GBApplication.getDevicePrefs(gbDevice.getAddress()).getBatteryPollingEnabled()) {
+                    if (!GBApplication.getDevicePrefs(gbDevice).getBatteryPollingEnabled()) {
                         stopBatteryRunnerDelayed();
                         break;
                     }
@@ -2118,7 +2118,7 @@ public class HuaweiSupportProvider {
     }
 
     public boolean startBatteryRunnerDelayed() {
-        int interval_minutes = GBApplication.getDevicePrefs(deviceMac).getBatteryPollingIntervalMinutes();
+        int interval_minutes = GBApplication.getDevicePrefs(gbDevice).getBatteryPollingIntervalMinutes();
         int interval = interval_minutes * 60 * 1000;
         LOG.debug("Starting battery runner delayed by {} ({} minutes)", interval, interval_minutes);
         handler.removeCallbacks(batteryRunner);

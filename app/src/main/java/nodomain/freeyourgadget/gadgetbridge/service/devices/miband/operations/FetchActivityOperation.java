@@ -410,7 +410,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
         byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time, getDevice().getAddress());
-        Prefs prefs = GBApplication.getDevicePrefs(getDevice().getAddress());
+        Prefs prefs = GBApplication.getDevicePrefs(getDevice());
 
         byte[] ackChecksum = new byte[]{
                 (byte) (bytesTransferred & 0xff),

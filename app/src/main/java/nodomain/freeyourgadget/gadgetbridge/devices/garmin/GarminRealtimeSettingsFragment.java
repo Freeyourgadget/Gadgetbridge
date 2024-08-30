@@ -232,7 +232,7 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
     }
 
     void reload() {
-        final boolean debug = GBApplication.getDevicePrefs(device.getAddress()).getBoolean(PREF_DEBUG, BuildConfig.DEBUG);
+        final boolean debug = GBApplication.getDevicePrefs(device).getBoolean(PREF_DEBUG, BuildConfig.DEBUG);
 
         final FragmentActivity activity = getActivity();
         if (activity == null) {
@@ -800,7 +800,7 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
     }
 
     void toggleDebug() {
-        final Prefs prefs = GBApplication.getDevicePrefs(device.getAddress());
+        final Prefs prefs = GBApplication.getDevicePrefs(device);
         prefs.getPreferences().edit()
                 .putBoolean(PREF_DEBUG, !prefs.getBoolean(PREF_DEBUG, BuildConfig.DEBUG))
                 .apply();

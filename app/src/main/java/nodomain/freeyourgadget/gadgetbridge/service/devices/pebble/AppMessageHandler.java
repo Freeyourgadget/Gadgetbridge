@@ -48,7 +48,7 @@ class AppMessageHandler {
     AppMessageHandler(UUID uuid, PebbleProtocol pebbleProtocol) {
         mUUID = uuid;
         mPebbleProtocol = pebbleProtocol;
-        devicePrefs = GBApplication.getDevicePrefs(pebbleProtocol.getDevice().getAddress());
+        devicePrefs = GBApplication.getDevicePrefs(pebbleProtocol.getDevice());
     }
 
     public boolean isEnabled() {

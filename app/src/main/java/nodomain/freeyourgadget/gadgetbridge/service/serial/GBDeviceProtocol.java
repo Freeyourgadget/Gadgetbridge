@@ -182,6 +182,6 @@ public abstract class GBDeviceProtocol {
     }
 
     protected DevicePrefs getDevicePrefs() {
-        return GBApplication.getDevicePrefs(getDevice().getAddress());
+        return GBApplication.getDevicePrefs(getDevice());
     }
 }

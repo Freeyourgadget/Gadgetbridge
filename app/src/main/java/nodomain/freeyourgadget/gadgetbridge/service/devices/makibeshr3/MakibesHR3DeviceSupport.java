@@ -1003,7 +1003,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
     }
 
     public byte getTimeMode(SharedPreferences sharedPrefs) {
-        String timeMode = new DevicePrefs(sharedPrefs).getTimeFormat();
+        String timeMode = new DevicePrefs(sharedPrefs, gbDevice).getTimeFormat();
 
         if (timeMode.equals(getContext().getString(R.string.p_timeformat_24h))) {
             return MakibesHR3Constants.ARG_SET_TIMEMODE_24H;

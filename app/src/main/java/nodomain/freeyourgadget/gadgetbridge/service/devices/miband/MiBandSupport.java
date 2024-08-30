@@ -366,7 +366,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 // Unfortunately this extra pairing causes problems when bonding is not used/does not work
 // so we only do this when configured to keep data on the device
 
-        Prefs prefs = GBApplication.getDevicePrefs(gbDevice.getAddress());
+        Prefs prefs = GBApplication.getDevicePrefs(gbDevice);
         if (prefs.getBoolean("keep_activity_data_on_device", false)) {
             LOG.info("Attempting to pair MI device...");
             BluetoothGattCharacteristic characteristic = getCharacteristic(MiBandService.UUID_CHARACTERISTIC_PAIR);

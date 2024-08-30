@@ -29,9 +29,11 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class PebbleLESupport {
     private static final Logger LOG = LoggerFactory.getLogger(PebbleLESupport.class);
+    private final GBDevice mgbDevice;
     private final BluetoothDevice mBtDevice;
     private PipeReader mPipeReader;
     private PebbleGATTServer mPebbleGATTServer;
@@ -45,7 +47,8 @@ public class PebbleLESupport {
     private HandlerThread mWriteHandlerThread;
     private Handler mWriteHandler;
 
-    public PebbleLESupport(Context context, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
+    public PebbleLESupport(Context context, GBDevice gbDevice, final BluetoothDevice btDevice, PipedInputStream pipedInputStream, PipedOutputStream pipedOutputStream) throws IOException {
+        mgbDevice = gbDevice;
         mBtDevice = btDevice;
         mPipedInputStream = new PipedInputStream();
         mPipedOutputStream = new PipedOutputStream();
@@ -60,11 +63,11 @@ public class PebbleLESupport {
         mWriteHandlerThread.start();
         mWriteHandler = new Handler(mWriteHandlerThread.getLooper());
 
-        mMTULimit = GBApplication.getDevicePrefs(mBtDevice.getAddress()).getInt("pebble_mtu_limit", 512);
+        mMTULimit = GBApplication.getDevicePrefs(mgbDevice).getInt("pebble_mtu_limit", 512);
         mMTULimit = Math.max(mMTULimit, 20);
         mMTULimit = Math.min(mMTULimit, 512);
 
-        clientOnly = GBApplication.getDevicePrefs(mBtDevice.getAddress()).getBoolean("pebble_gatt_clientonly", false);
+        clientOnly = GBApplication.getDevicePrefs(mgbDevice).getBoolean("pebble_gatt_clientonly", false);
 
         if (!clientOnly) {
             mPebbleGATTServer = new PebbleGATTServer(this, context, mBtDevice);

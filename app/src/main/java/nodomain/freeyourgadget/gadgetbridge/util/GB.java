@@ -284,7 +284,7 @@ public class GB {
     }
 
     public static String buildDeviceBatteryString(final Context context, final GBDevice device) {
-        final DevicePrefs devicePrefs = GBApplication.getDevicePrefs(device.getAddress());
+        final DevicePrefs devicePrefs = GBApplication.getDevicePrefs(device);
         final List<Integer> batteryLevels = new ArrayList<>();
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 3; i++) {
