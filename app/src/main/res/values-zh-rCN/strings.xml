@@ -3372,4 +3372,9 @@
     <string name="menuitem_stress_segmented">压力（分段）</string>
     <string name="search">搜索</string>
     <string name="devicetype_soundcore_liberty4_nc">声阔 Liberty 4 NC</string>
+    <string name="pref_header_deprecated_functionalities">已弃用的功能</string>
+    <string name="pref_deprecated_media_control_title">已弃用的媒体控制</string>
+    <string name="pref_deprecated_media_control_summary">将媒体控制命令作为按键事件而不是媒体控制器发送。</string>
+    <string name="pref_header_deprecated_functionalities_warning">以下功能已被弃用，并将很快从软件中删除。
+\n如果您需要启用以下设置之一，请务必与项目团队联系。</string>
 </resources>
