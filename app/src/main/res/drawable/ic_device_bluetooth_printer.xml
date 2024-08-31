@@ -5,19 +5,19 @@
     android:viewportHeight="28.74">
 
     <path
-        android:fillColor="#1f7fdb"
+        android:fillColor="?attr/deviceIconLight"
         android:pathData="M3.871,3.877L24.796,3.877A0.947,0.947 0,0 1,25.744 4.824L25.744,24.834A0.947,0.947 0,0 1,24.796 25.782L3.871,25.782A0.947,0.947 0,0 1,2.924 24.834L2.924,4.824A0.947,0.947 0,0 1,3.871 3.877z"
         android:strokeWidth="3.57115"
         android:strokeColor="#00000000" />
 
     <path
-        android:fillColor="#4dabf5"
+        android:fillColor="?attr/deviceIconDark"
         android:pathData="M3.879,3.035L24.804,3.035A0.947,0.947 0,0 1,25.751 3.982L25.751,23.992A0.947,0.947 0,0 1,24.804 24.94L3.879,24.94A0.947,0.947 0,0 1,2.932 23.992L2.932,3.982A0.947,0.947 0,0 1,3.879 3.035z"
         android:strokeWidth="3.57115"
         android:strokeColor="#00000000" />
 
     <path
-        android:fillColor="#2196f3"
+        android:fillColor="?attr/deviceIconPrimary"
         android:pathData="M3.871,3.413L24.796,3.413A0.947,0.947 0,0 1,25.743 4.36L25.743,24.37A0.947,0.947 0,0 1,24.796 25.318L3.871,25.318A0.947,0.947 0,0 1,2.924 24.37L2.924,4.36A0.947,0.947 0,0 1,3.871 3.413z"
         android:strokeWidth="3.57115"
         android:strokeColor="#00000000" />
