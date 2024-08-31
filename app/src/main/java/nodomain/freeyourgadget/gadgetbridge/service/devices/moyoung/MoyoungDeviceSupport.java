@@ -90,6 +90,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -381,8 +382,11 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
         if (packetType == MoyoungConstants.CMD_NOTIFY_WEATHER_CHANGE)
         {
-            LOG.info("The watch really wants us to transmit the weather data for some reason...");
-            // TODO: transmit weather
+            LOG.info("Will transmit cached weather (if any) since the watch asks for it");
+            if (Weather.getInstance().getWeatherSpec() != null) {
+                final ArrayList<WeatherSpec> specs = new ArrayList<>(Weather.getInstance().getWeatherSpecs());
+                GBApplication.deviceService().onSendWeather(specs);
+            }
             return true;
         }
 
