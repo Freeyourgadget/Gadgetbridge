@@ -11,9 +11,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -32,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -92,6 +97,53 @@ public class GenericThermalPrinterSupport extends AbstractBTLEDeviceSupport {
         return result;
     }
 
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+//        printImage(createNotificationBitmap(notificationSpec), true);
+    }
+
+    public Bitmap createNotificationBitmap(NotificationSpec spec) {
+        float textSize = 24f; // Approx 10pt at 200 dpi
+
+        // Prepare the paint for drawing text
+        TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(0xFF000000); // Black color
+        textPaint.setTextSize(textSize);
+        textPaint.setTypeface(Typeface.DEFAULT);
+
+        StringBuilder textBuilder = new StringBuilder();
+        if (spec.sender != null) {
+            textBuilder.append("Sender: ").append(spec.sender).append("\n");
+        }
+        if (spec.title != null) {
+            textBuilder.append("Title: ").append(spec.title).append("\n");
+        }
+        if (spec.subject != null) {
+            textBuilder.append("Subject: ").append(spec.subject).append("\n\n");
+        }
+        if (spec.body != null) {
+            textBuilder.append(spec.body);
+        }
+
+        String text = textBuilder.toString();
+
+        // Create StaticLayout to handle text wrapping
+        StaticLayout staticLayout = new StaticLayout(text, textPaint, IMAGE_WIDTH,
+                Layout.Alignment.ALIGN_NORMAL,
+                1.0f, 0.0f, false);
+
+        // Calculate required height for the bitmap
+        int bitmapHeight = staticLayout.getHeight();
+
+        // Create the bitmap
+        Bitmap bitmap = Bitmap.createBitmap(IMAGE_WIDTH, bitmapHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        // Draw the text onto the canvas using the StaticLayout
+        staticLayout.draw(canvas);
+
+        return bitmap;
+    }
 
     private static int getCrc8(final byte[] seq) {
         int crc = 0x00;
