@@ -130,7 +130,6 @@ public class DashboardFragment extends Fragment implements MenuProvider {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View dashboardView = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        requireActivity().addMenuProvider(this);
         textViewDate = dashboardView.findViewById(R.id.dashboard_date);
         gridLayout = dashboardView.findViewById(R.id.dashboard_gridlayout);
 

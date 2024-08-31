@@ -57,6 +57,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -240,9 +241,21 @@ public class ControlCenterv2 extends AppCompatActivity
 
         // Sync ViewPager changes with BottomNavigationView
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            private MenuProvider existingMenuProvider = null;
+
             @Override
             public void onPageSelected(int position) {
                 navigationView.getMenu().getItem(position).setChecked(true);
+
+                // Ensure the menu provider is set to the current fragment
+                if (existingMenuProvider != null) {
+                    ControlCenterv2.this.removeMenuProvider(existingMenuProvider);
+                }
+                final Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + position);
+                if (fragment instanceof MenuProvider) {
+                    existingMenuProvider = (MenuProvider) fragment;
+                    ControlCenterv2.this.addMenuProvider(existingMenuProvider);
+                }
             }
         });
 
