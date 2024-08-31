@@ -216,20 +216,14 @@ public class Prefs {
     public LocalDate getLocalDate(final String key, final String defaultValue) {
         final String time = getString(key, defaultValue);
 
-        final DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
         try {
-            final Date parse = df.parse(time);
-            final Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(parse);
-
-            return LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            return LocalDate.parse(time);
         } catch (final Exception e) {
             Log.e(TAG, "Error reading localdate preference value: " + key + "; returning default current day", e); // log the first exception
         }
 
         return LocalDate.now();
     }
-
 
     private void logReadError(String key, Exception ex) {
         Log.e(TAG, "Error reading preference value: " + key + "; returning default value", ex); // log the first exception
