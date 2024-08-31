@@ -3381,4 +3381,18 @@
     <string name="pref_header_deprecated_functionalities_warning">Las siguientes funcionalidades han quedado obsoletas y se eliminarán pronto del software.
 \nSi necesitas activar alguna de las siguientes opciones, póngate en contacto con el equipo del proyecto.</string>
     <string name="pref_deprecated_media_control_summary">Enviar comandos de control de medios como eventos clave en lugar del controlador de medios.</string>
+    <string name="pref_title_nagivation_apps">Aplicaciones de navegación</string>
+    <string name="pref_header_external_integrations">Integraciones externas</string>
+    <string name="pref_header_automations">Automatizaciones</string>
+    <string name="pref_description_general">Inicio, idioma, región, ubicación</string>
+    <string name="pref_description_notifications">Notificaciones de aplicaciones, lista blanca/lista negra</string>
+    <string name="pref_description_user_interface">Tema, pantalla principal</string>
+    <string name="pref_description_dashboard">Widgets, dispositivos a incluir</string>
+    <string name="pref_description_developer_options">Registros,intenciones de la api</string>
+    <string name="pref_description_deprecated_functionalities">Configuraciones que se eliminarán en una versión futura</string>
+    <string name="pref_header_main_screen">Pantalla principal</string>
+    <string name="pref_title_user_interface">Interfaz de usuario</string>
+    <string name="activity_prefs_date_birth">Fecha de nacimiento</string>
+    <string name="pref_description_automations">Exportación automática, recuperación automática</string>
+    <string name="pref_description_about_you">Fecha de nacimiento, género, altura, peso, objetivos</string>
 </resources>
