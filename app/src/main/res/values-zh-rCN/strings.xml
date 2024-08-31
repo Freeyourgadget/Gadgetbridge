@@ -3377,4 +3377,18 @@
     <string name="pref_deprecated_media_control_summary">将媒体控制命令作为按键事件而不是媒体控制器发送。</string>
     <string name="pref_header_deprecated_functionalities_warning">以下功能已被弃用，并将很快从软件中删除。
 \n如果您需要启用以下设置之一，请务必与项目团队联系。</string>
+    <string name="pref_title_nagivation_apps">导航应用</string>
+    <string name="pref_header_external_integrations">外部集成</string>
+    <string name="pref_header_automations">自动化</string>
+    <string name="pref_description_general">启动、语言、地区、位置</string>
+    <string name="pref_description_about_you">生日、性别、身高、体重、目标</string>
+    <string name="pref_description_notifications">应用通知、白名单/黑名单</string>
+    <string name="pref_description_user_interface">主题、主屏幕</string>
+    <string name="pref_description_dashboard">小部件，要包含的设备</string>
+    <string name="pref_description_automations">自动导出、自动获取</string>
+    <string name="pref_description_developer_options">日志、意图 API</string>
+    <string name="pref_header_main_screen">主屏幕</string>
+    <string name="pref_title_user_interface">用户界面</string>
+    <string name="pref_description_deprecated_functionalities">将在未来版本中删除的设置</string>
+    <string name="activity_prefs_date_birth">生日</string>
 </resources>
