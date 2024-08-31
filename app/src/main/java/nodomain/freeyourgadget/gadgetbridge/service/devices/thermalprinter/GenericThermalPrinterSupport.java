@@ -181,7 +181,7 @@ public class GenericThermalPrinterSupport extends AbstractBTLEDeviceSupport {
         final int cmdId = data.get();
         PrinterCommand command = PrinterCommand.fromId(cmdId);
         if (command == null) {
-            LOG.error("Unkwnown incoming command{} in message: {}", cmdId, GB.hexdump(data.array()));
+            LOG.error("Unknown incoming command{} in message: {}", cmdId, GB.hexdump(data.array()));
             return true;
         }
         int response = data.get();
@@ -210,6 +210,19 @@ public class GenericThermalPrinterSupport extends AbstractBTLEDeviceSupport {
         LOG.debug("Incoming message: {}", GB.hexdump(data.array()));
         final ByteBuffer payloadBB = ByteBuffer.wrap(payload);
         switch (command) {
+            case flowControl:
+                //5178AE010100 10 70FF -> buffer full
+                //5178AE010100 00 00FF -> buffer empty
+                final int code = payloadBB.get();
+                if (code == 0x10) {
+                    LOG.info("Printer buffer is full, will stop the queue");
+                    getQueue().setPaused(true);
+                } else if (code == 0x00) {
+                    LOG.info("Printer buffer is empty, will resume the queue");
+                    getQueue().setPaused(false);
+                }
+
+                break;
             case getDevInfo:
                 if (payloadBB.get() != 0) {
                     LOG.info("Setting the device supports Run Length Encoding");
@@ -357,6 +370,7 @@ public class GenericThermalPrinterSupport extends AbstractBTLEDeviceSupport {
         quality(0xa4),
         printHeadSetup(0xa6), //possibly
         getDevInfo(0xa8),
+        flowControl(0xae),
         intensity(0xaf),
         printSpeed(0xbd),
         printType(0xbe),
