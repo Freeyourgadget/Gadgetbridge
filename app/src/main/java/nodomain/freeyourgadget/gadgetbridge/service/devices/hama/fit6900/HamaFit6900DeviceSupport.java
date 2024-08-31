@@ -123,7 +123,7 @@ public final class HamaFit6900DeviceSupport extends AbstractBTLEDeviceSupport {
             case ActivityUser.PREF_USER_WEIGHT_KG:
             case ActivityUser.PREF_USER_GENDER:
             case ActivityUser.PREF_USER_HEIGHT_CM:
-            case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+            case ActivityUser.PREF_USER_DATE_OF_BIRTH:
             case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL:
                 sendMessage("update-user-info", makeSetUserInfoMessage());
                 return;

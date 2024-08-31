@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_ACTIVETIME_MINUTES;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_CALORIES_BURNT;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_DATE_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_DISTANCE_METERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GOAL_FAT_BURN_TIME_MINUTES;
@@ -29,7 +30,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEP_LENGTH_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -62,7 +62,7 @@ public class AboutUserPreferencesActivity extends AbstractSettingsActivityV2 {
             setPreferencesFromResource(R.xml.about_user, rootKey);
 
             addPreferenceHandlerFor(PREF_USER_NAME, true, false);
-            addPreferenceHandlerFor(PREF_USER_YEAR_OF_BIRTH, true, false);
+            addPreferenceHandlerFor(PREF_USER_DATE_OF_BIRTH, true, false);
             addPreferenceHandlerFor(PREF_USER_HEIGHT_CM, true, true);
             addPreferenceHandlerFor(PREF_USER_WEIGHT_KG, true, false);
             addPreferenceHandlerFor(PREF_USER_GENDER, true, false);
@@ -74,7 +74,6 @@ public class AboutUserPreferencesActivity extends AbstractSettingsActivityV2 {
             addPreferenceHandlerFor(PREF_USER_STEP_LENGTH_CM, false, true);
             addPreferenceHandlerFor(PREF_USER_DISTANCE_METERS, false, true);
 
-            setInputTypeFor(PREF_USER_YEAR_OF_BIRTH, InputType.TYPE_CLASS_NUMBER);
             setInputTypeFor(PREF_USER_HEIGHT_CM, InputType.TYPE_CLASS_NUMBER);
             setInputTypeFor(PREF_USER_WEIGHT_KG, InputType.TYPE_CLASS_NUMBER);
             setInputTypeFor(PREF_USER_STEPS_GOAL, InputType.TYPE_CLASS_NUMBER);

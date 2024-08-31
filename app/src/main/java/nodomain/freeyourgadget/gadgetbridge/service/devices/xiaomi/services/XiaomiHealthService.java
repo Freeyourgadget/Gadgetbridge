@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -209,7 +210,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         switch (config) {
             case ActivityUser.PREF_USER_HEIGHT_CM:
             case ActivityUser.PREF_USER_WEIGHT_KG:
-            case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+            case ActivityUser.PREF_USER_DATE_OF_BIRTH:
             case ActivityUser.PREF_USER_GENDER:
             case ActivityUser.PREF_USER_CALORIES_BURNT:
             case ActivityUser.PREF_USER_STEPS_GOAL:
@@ -260,14 +261,14 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         LOG.debug("Setting user info");
 
         final ActivityUser activityUser = new ActivityUser();
-        final int birthYear = activityUser.getYearOfBirth();
-        final byte birthMonth = 7; // not in user attributes
-        final byte birthDay = 1; // not in user attributes
+        final LocalDate dateOfBirth = activityUser.getDateOfBirth();
+        final int birthYear = dateOfBirth.getYear();
+        final byte birthMonth = (byte) dateOfBirth.getMonthValue();
+        final byte birthDay = (byte) dateOfBirth.getDayOfMonth();
 
         final int genderInt = activityUser.getGender() != ActivityUser.GENDER_FEMALE ? GENDER_MALE : GENDER_FEMALE;  // TODO other gender?
 
-        final Calendar now = GregorianCalendar.getInstance();
-        final int age = now.get(Calendar.YEAR) - birthYear;
+        final int age = activityUser.getAge();
         // Compute the approximate max heart rate from the user age
         // TODO max heart rate should be input by the user
         int maxHeartRate = (int) Math.round(age <= 40 ? 220 - age : 207 - 0.7 * age);

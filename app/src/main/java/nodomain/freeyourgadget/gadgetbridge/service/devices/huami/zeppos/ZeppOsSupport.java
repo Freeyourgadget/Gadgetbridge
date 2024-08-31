@@ -61,6 +61,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -458,9 +459,10 @@ public class ZeppOsSupport extends HuamiSupport implements ZeppOsFileTransferSer
         final ActivityUser activityUser = new ActivityUser();
         final int height = activityUser.getHeightCm();
         final int weight = activityUser.getWeightKg();
-        final int birthYear = activityUser.getYearOfBirth();
-        final byte birthMonth = 7; // not in user attributes
-        final byte birthDay = 1; // not in user attributes
+        final LocalDate dateOfBirth = activityUser.getDateOfBirth();
+        final int birthYear = dateOfBirth.getYear();
+        final byte birthMonth = (byte) dateOfBirth.getMonthValue();
+        final byte birthDay = (byte) dateOfBirth.getDayOfMonth();
         final String region = devicePrefs.getString(DeviceSettingsPreferenceConst.PREF_DEVICE_REGION, "unknown");
 
         if (alias == null || weight == 0 || height == 0 || birthYear == 0) {

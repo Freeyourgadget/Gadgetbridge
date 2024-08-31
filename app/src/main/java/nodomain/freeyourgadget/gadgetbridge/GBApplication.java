@@ -123,7 +123,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 37;
+    private static final int CURRENT_PREFS_VERSION = 38;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -735,7 +735,7 @@ public class GBApplication extends Application {
                 editor.remove("mi_user_weight_kg");
             }
             if (legacyYOB != null) {
-                editor.putString(ActivityUser.PREF_USER_YEAR_OF_BIRTH, legacyYOB);
+                editor.putString("activity_user_year_of_birth", legacyYOB);
                 editor.remove("mi_user_year_of_birth");
             }
         }
@@ -1723,6 +1723,14 @@ public class GBApplication extends Application {
             final String dashboardWidgetsOrder = sharedPrefs.getString("pref_dashboard_widgets_order", null);
             if (!StringUtils.isBlank(dashboardWidgetsOrder) && !dashboardWidgetsOrder.contains("bodyenergy")) {
                 editor.putString("pref_dashboard_widgets_order", dashboardWidgetsOrder + ",bodyenergy,stress_segmented,hrv");
+            }
+        }
+
+        if (oldVersion < 38) {
+            // Migrate year of birth to date of birth
+            final String yearOfBirth = sharedPrefs.getString("activity_user_year_of_birth", null);
+            if (StringUtils.isNotBlank(yearOfBirth)) {
+                editor.putString("activity_user_date_of_birth", String.format(Locale.ROOT, "%s-01-01", yearOfBirth.trim()));
             }
         }
 

@@ -19,8 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
@@ -50,12 +49,10 @@ public class SendFitnessUserInfoRequest extends Request {
                 gender = 1;
             }
 
-            Date birthday = activityUser.getUserBirthday();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(birthday);
-            int birthdayEncoded = cal.get(Calendar.YEAR) << 16;
-            birthdayEncoded += (cal.get(Calendar.MONTH)+1) << 8;
-            birthdayEncoded += cal.get(Calendar.DAY_OF_MONTH);
+            LocalDate dateOfBirth = activityUser.getDateOfBirth();
+            int birthdayEncoded = dateOfBirth.getYear() << 16;
+            birthdayEncoded += dateOfBirth.getMonthValue() << 8;
+            birthdayEncoded += dateOfBirth.getDayOfMonth();
 
             return new UserInfo.Request(paramsProvider,
                     activityUser.getHeightCm(),

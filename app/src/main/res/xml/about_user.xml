@@ -13,13 +13,10 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <EditTextPreference
+        <nodomain.freeyourgadget.gadgetbridge.util.XDatePreference
             app:iconSpaceReserved="false"
-            android:inputType="number"
-            android:key="activity_user_year_of_birth"
-            android:maxLength="4"
-            android:title="@string/activity_prefs_year_birth"
-            app:useSimpleSummaryProvider="true" />
+            android:key="activity_user_date_of_birth"
+            android:title="@string/activity_prefs_date_birth" />
 
         <ListPreference
             app:iconSpaceReserved="false"

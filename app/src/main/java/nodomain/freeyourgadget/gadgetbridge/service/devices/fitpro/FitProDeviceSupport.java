@@ -491,7 +491,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ActivityUser.PREF_USER_WEIGHT_KG:
                 case ActivityUser.PREF_USER_GENDER:
                 case ActivityUser.PREF_USER_HEIGHT_CM:
-                case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+                case ActivityUser.PREF_USER_DATE_OF_BIRTH:
                     setUserData(builder);
                     break;
                 case ActivityUser.PREF_USER_STEPS_GOAL:

@@ -17,6 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -36,7 +38,7 @@ public class ActivityUser {
 
     private String activityUserName;
     private int activityUserGender;
-    private int activityUserYearOfBirth;
+    private LocalDate activityUserDateOfBirth;
     private int activityUserHeightCm;
     private int activityUserWeightKg;
     private int activityUserSleepDurationGoal;
@@ -49,7 +51,7 @@ public class ActivityUser {
 
     private static final String defaultUserName = "gadgetbridge-user";
     public static final int defaultUserGender = GENDER_FEMALE;
-    public static final int defaultUserYearOfBirth = 1970;
+    public static final String defaultUserDateOfBirth = "1970-01-01";
     public static final int defaultUserAge = 0;
     public static final int defaultUserHeightCm = 175;
     public static final int defaultUserWeightKg = 70;
@@ -64,7 +66,7 @@ public class ActivityUser {
     public static final int defaultUserFatBurnTimeMinutes = 30;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
-    public static final String PREF_USER_YEAR_OF_BIRTH = "activity_user_year_of_birth";
+    public static final String PREF_USER_DATE_OF_BIRTH = "activity_user_date_of_birth";
     public static final String PREF_USER_GENDER = "activity_user_gender";
     public static final String PREF_USER_HEIGHT_CM = "activity_user_height_cm";
     public static final String PREF_USER_WEIGHT_KG = "activity_user_weight_kg";
@@ -99,8 +101,8 @@ public class ActivityUser {
         return activityUserGender;
     }
 
-    public int getYearOfBirth() {
-        return activityUserYearOfBirth;
+    public LocalDate getDateOfBirth() {
+        return activityUserDateOfBirth;
     }
 
     /**
@@ -145,15 +147,7 @@ public class ActivityUser {
     }
 
     public int getAge() {
-        int userYear = getYearOfBirth();
-        int age = 25;
-        if (userYear > 1900) {
-            age = Calendar.getInstance().get(Calendar.YEAR) - userYear;
-            if (age <= 0) {
-                age = 25;
-            }
-        }
-        return age;
+        return Period.between(getDateOfBirth(), LocalDate.now()).getYears();
     }
 
     private void fetchPreferences() {
@@ -162,7 +156,7 @@ public class ActivityUser {
         activityUserGender = prefs.getInt(PREF_USER_GENDER, defaultUserGender);
         activityUserHeightCm = prefs.getInt(PREF_USER_HEIGHT_CM, defaultUserHeightCm);
         activityUserWeightKg = prefs.getInt(PREF_USER_WEIGHT_KG, defaultUserWeightKg);
-        activityUserYearOfBirth = prefs.getInt(PREF_USER_YEAR_OF_BIRTH, defaultUserYearOfBirth);
+        activityUserDateOfBirth = prefs.getLocalDate(PREF_USER_DATE_OF_BIRTH, defaultUserDateOfBirth);
         activityUserSleepDurationGoal = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDurationGoal);
         activityUserStepsGoal = prefs.getInt(PREF_USER_STEPS_GOAL, defaultUserStepsGoal);
         activityUserCaloriesBurntGoal = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurntGoal);
@@ -172,9 +166,16 @@ public class ActivityUser {
         activityUserStepLengthCm = prefs.getInt(PREF_USER_STEP_LENGTH_CM, defaultUserStepLengthCm);
     }
 
+    /**
+     * @deprecated use {@link #getDateOfBirth()}.
+     */
+    @Deprecated
     public Date getUserBirthday() {
+        final LocalDate dateOfBirth = getDateOfBirth();
         Calendar cal = DateTimeUtils.getCalendarUTC();
-        cal.set(GregorianCalendar.YEAR, getYearOfBirth());
+        cal.set(GregorianCalendar.YEAR, dateOfBirth.getYear());
+        cal.set(GregorianCalendar.MONTH, dateOfBirth.getMonthValue() - 1);
+        cal.set(GregorianCalendar.DAY_OF_MONTH, dateOfBirth.getDayOfMonth());
         return cal.getTime();
     }
 

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -843,7 +844,8 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
     private void sendActivityGoalSettings(TransactionBuilder b) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         ActivityUser user = new ActivityUser();
-        if(user.getYearOfBirth() < 1920) {
+        LocalDate dateOfBirth = user.getDateOfBirth();
+        if(dateOfBirth.getYear() < 1920) {
             LOG.error("Device does not support this year of birth");
             return;
         }
@@ -851,8 +853,16 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
 
         GenderSetting gender = user.getGender() == ActivityUser.GENDER_FEMALE ? GenderSetting.FEMALE : GenderSetting.MALE;
 
+
         // Maybe we need to set the full birth date?
-        BodyPropertiesSetting bodyPropertiesSetting = new BodyPropertiesSetting(gender, (short)user.getYearOfBirth(), (short)0, (short)1, (short)user.getHeightCm(), (short)user.getWeightKg());
+        BodyPropertiesSetting bodyPropertiesSetting = new BodyPropertiesSetting(
+                gender,
+                (short)dateOfBirth.getYear(),
+                (short)dateOfBirth.getMonthValue(),
+                (short)dateOfBirth.getDayOfMonth(),
+                (short)user.getHeightCm(),
+                (short)user.getWeightKg()
+        );
         GoalStepsSetting stepsSetting = new GoalStepsSetting(stepsNotification, user.getStepsGoal());
 
         b.write(
@@ -1034,7 +1044,7 @@ public class SonyWena3DeviceSupport extends AbstractBTLEDeviceSupport {
                     sendHomeScreenSettings(builder);
                     break;
 
-                case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+                case ActivityUser.PREF_USER_DATE_OF_BIRTH:
                 case ActivityUser.PREF_USER_GENDER:
                 case ActivityUser.PREF_USER_HEIGHT_CM:
                 case ActivityUser.PREF_USER_WEIGHT_KG:

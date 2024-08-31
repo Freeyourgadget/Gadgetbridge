@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -120,10 +121,10 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                     }
                 }
                 if(option == CasioConstants.ConfigurationOption.OPTION_BIRTHDAY || all) {
-                    int year = user.getYearOfBirth();
-                    // Month and Day are not configured in Gadgetbridge!
-                    int month = 1;
-                    int day = 1;
+                    LocalDate dateOfBirth = user.getDateOfBirth();
+                    int year = dateOfBirth.getYear();
+                    int month = dateOfBirth.getMonthValue();
+                    int day = dateOfBirth.getDayOfMonth();
                     data[6] = BcdUtil.toBcd8(year % 100);
                     data[7] = BcdUtil.toBcd8((year - (year % 100)) / 100);
                     data[8] = BcdUtil.toBcd8(month);

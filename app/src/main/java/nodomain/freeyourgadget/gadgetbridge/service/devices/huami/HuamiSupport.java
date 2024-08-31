@@ -48,6 +48,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
@@ -285,11 +286,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VI
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefIntValue;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_DATE_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
 public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements Huami2021Handler {
@@ -646,9 +647,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         ActivityUser activityUser = new ActivityUser();
         int height = activityUser.getHeightCm();
         int weight = activityUser.getWeightKg();
-        int birth_year = activityUser.getYearOfBirth();
-        byte birth_month = 7; // not in user attributes
-        byte birth_day = 1; // not in user attributes
+        LocalDate dateOfBirth = activityUser.getDateOfBirth();
+        int birth_year = dateOfBirth.getYear();
+        byte birth_month = (byte) dateOfBirth.getMonthValue();
+        byte birth_day = (byte) dateOfBirth.getDayOfMonth();
 
         if (alias == null || weight == 0 || height == 0 || birth_year == 0) {
             LOG.warn("Unable to set user info, make sure it is set up");
@@ -2914,8 +2916,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 case PREF_SOUNDS:
                     setBeepSounds(builder);
                     break;
+                case PREF_USER_DATE_OF_BIRTH:
                 case PREF_USER_NAME:
-                case PREF_USER_YEAR_OF_BIRTH:
                 case PREF_USER_WEIGHT_KG:
                 case PREF_USER_HEIGHT_CM:
                 case PREF_USER_GENDER:
