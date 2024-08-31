@@ -22,8 +22,8 @@
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Správa aplikací</string>
     <string name="appmanager_cached_watchapps_watchfaces">Aplikace v cache</string>
-    <string name="appmanager_installed_watchapps">Instalované aplikace</string>
-    <string name="appmanager_installed_watchfaces">Instalované ciferníky</string>
+    <string name="appmanager_installed_watchapps">Nainstalované aplikace</string>
+    <string name="appmanager_installed_watchfaces">Nainstalované ciferníky</string>
     <string name="appmananger_app_delete">Odstranit</string>
     <string name="appmananger_app_delete_cache">Odstranit z cache</string>
     <string name="appmananger_app_reinstall">Přeinstalovat</string>
@@ -154,10 +154,10 @@
     <string name="installing_binary_d_d">Instaluji soubor %1$d/%2$d</string>
     <string name="installation_failed_">Instalace selhala</string>
     <string name="installation_successful">Instalace úspěšná</string>
-    <string name="firmware_install_warning">CHCETE INSTALOVAT FIRMVÉR, POKRAČUJTE NA SVÉ RIZIKO.
+    <string name="firmware_install_warning">CHYSTÁTE SE NAINSTALOVAT FIRMWARE, POKRAČUJTE NA VLASTNÍ NEBEZPEČÍ.
 \n
 \n
-\nTento firmvér je pro revizi HW: %s</string>
+\nTento firmware je pro revizi HW: %s</string>
     <string name="app_install_info">Instalujete aplikaci:
 \n
 \n%1$s
@@ -192,7 +192,7 @@
     <string name="appinstaller_install">Instalovat</string>
     <string name="discovery_connected_devices_hint">Nastavte své zařízení jako viditelné. Již připojená zařízení nejspíše nebudou nalezena. Povolte polohu (GPS) pro mobily se systémem Android 6 a novějším. Vypněte hlídání soukromí (Privacy Guard) pro Gadgetbridge, protože může způsobit nestabilitu telefonu. Pokud nebude zařízení nalezeno během několika minut, zkuste to znovu po restartu telefonu.</string>
     <string name="discovery_note">Poznámka:</string>
-    <string name="candidate_item_device_image">Obraz zařízení</string>
+    <string name="candidate_item_device_image">Obrázek zařízení</string>
     <string name="miband_prefs_alias">Jméno/přezdívka</string>
     <string name="pref_header_vibration_count">Počet vibrací</string>
     <string name="title_activity_sleepmonitor">Sledování spánku</string>
@@ -243,7 +243,7 @@
     <string name="cannot_connect">Nelze se připojit k: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Nemohu najít program k instalaci tohoto souboru.</string>
     <string name="pbw_install_handler_unable_to_install">Nelze nainstalovat vybraný soubor: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">Nelze nainstalovat vybraný firmvér: neshoduje se s HW revizi vašeho Pebble.</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">Nepodařilo se nainstalovat vybraný firmware: neshoduje se s revizí hardware vašeho Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Vyčkejte na zjištění stavu instalace…</string>
     <string name="notif_battery_low_title">Nízká úroveň baterie v zařízení!</string>
     <string name="notif_battery_low_percent">%1$s zbývá v baterii: %2$s%%</string>
@@ -254,21 +254,21 @@
     <string name="weeksleepchart_today_sleep_description">Spánek dnes, cíl: %1$s</string>
     <string name="weekstepschart_steps_a_week">Kroky za týden</string>
     <string name="activity_sleepchart_activity_and_sleep">Aktivita</string>
-    <string name="updating_firmware">Nahrávám firmvér…</string>
+    <string name="updating_firmware">Nahrávám firmware…</string>
     <string name="fwapp_install_device_not_ready">Soubor nelze nainstalovat, zařízení není připraveno.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Kompatibilní verze</string>
     <string name="miband_fwinstaller_untested_version">Netestovaná verze!</string>
     <string name="fwappinstaller_connection_state">Připojení k zařízení: %1$s</string>
-    <string name="pbw_installhandler_pebble_firmware">Pebble Firmvér %1$s</string>
+    <string name="pbw_installhandler_pebble_firmware">Firmware Pebble %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">Správná revize HW</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Revize HW není správná!</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
     <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Při přenosu firmwaru nastaly potíže. Nerestartujte svůj Mi Band!</string>
-    <string name="updatefirmwareoperation_metadata_updateproblem">Problém při přenosu matadat firmvéru</string>
-    <string name="updatefirmwareoperation_update_complete">Instalace firmvéru je kompletní</string>
-    <string name="updatefirmwareoperation_update_complete_rebooting">Instalace firmvéru je kompletní, restartuji zařízení…</string>
-    <string name="updatefirmwareoperation_write_failed">Zápis firmvéru selhal</string>
+    <string name="updatefirmwareoperation_metadata_updateproblem">Problém při přenosu metadat firmware</string>
+    <string name="updatefirmwareoperation_update_complete">Instalace firmware byla dokončena</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">Instalace firmware byla dokončena, restartuji zařízení…</string>
+    <string name="updatefirmwareoperation_write_failed">Nahrání firmware selhalo</string>
     <string name="chart_steps">Kroků</string>
     <string name="liveactivity_live_activity">Aktuální aktivita</string>
     <string name="weeksteps_today_steps_description">Kroků dnes, cíl: %1$s</string>
@@ -289,8 +289,8 @@
     <string name="device_not_connected">Nepřipojeno.</string>
     <string name="user_feedback_all_alarms_disabled">Všechny budíky vypnuty</string>
     <string name="pref_title_keep_data_on_device">Zachovat data o aktivitě v zařízení</string>
-    <string name="miband_fwinstaller_incompatible_version">Nekompatibilní firmvér</string>
-    <string name="fwinstaller_firmware_not_compatible_to_device">Tento firmvér není kompatibilní s tímto zařízením</string>
+    <string name="miband_fwinstaller_incompatible_version">Nekompatibilní firmware</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">Tento firmware není kompatibilní s tímto zařízením</string>
     <string name="miband_prefs_reserve_alarm_calendar">Budíky pro nadcházející události</string>
     <string name="miband_prefs_hr_sleep_detection">Použít senzor tepu pro zlepšení detekce spánku</string>
     <string name="miband_prefs_device_time_offset_hours">Časový posun zařízení v hodinách (pro zjišťování spánku směnařů)</string>
@@ -315,8 +315,8 @@
     <string name="device_fw">Verze FW: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Chyba při vytváření adresáře pro protokoly: %1$s</string>
     <string name="DEVINFO_HR_VER">"Tep: "</string>
-    <string name="updatefirmwareoperation_update_in_progress">Aktualizace firmvéru</string>
-    <string name="updatefirmwareoperation_firmware_not_sent">Firmvér nebyl odeslán</string>
+    <string name="updatefirmwareoperation_update_in_progress">Aktualizace firmware</string>
+    <string name="updatefirmwareoperation_firmware_not_sent">Firmware nebyl odeslán</string>
     <string name="charts_legend_heartrate">Srdeční tep</string>
     <string name="live_activity_heart_rate">Srdeční tep</string>
     <string name="pref_title_pebble_health_store_raw">Uložit hrubý záznam do databáze</string>
@@ -465,10 +465,10 @@
     <string name="_pebble_watch_open_on_phone">Otevřít na Android zařízení</string>
     <string name="_pebble_watch_mute">Ztlumit</string>
     <string name="_pebble_watch_reply">Znova</string>
-    <string name="kind_firmware">Firmvér</string>
+    <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Neplatná data</string>
     <string name="kind_font">Písmo</string>
-    <string name="kind_gps">GPS Firmvér</string>
+    <string name="kind_gps">Firmware GPS</string>
     <string name="kind_gps_almanac">Almanach GPS</string>
     <string name="kind_gps_cep">Korekce chyb GPS</string>
     <string name="kind_resources">Zdroje</string>
@@ -2330,7 +2330,7 @@
     <string name="zepp_os_watchface_rush">Rush</string>
     <string name="zepp_os_watchface_vibrant">Vibrant</string>
     <string name="ftp_server_summary">Nastavení FTP serveru na hodinkách</string>
-    <string name="changelog_full_title">Změnový soubor</string>
+    <string name="changelog_full_title">Seznam změn</string>
     <string name="fw_upgrade_notice_zepp_os">Chystáte se nainstalovat firmware %s na váš %s.
 \n
 \nVaše hodinky se po instalaci souboru .zip restartuje.
@@ -3354,7 +3354,7 @@
     <string name="sleep_colored_stats_awake_avg">Prům. vzhůru</string>
     <string name="activity_type_rem_sleep">Spánek REM</string>
     <string name="lactateThresholdHeartRate">Laktátový práh srdeční frekvence</string>
-    <string name="recoveryTime">Doba zotavení</string>
+    <string name="recoveryTime">Doba na zotavení</string>
     <string name="target">Cíl</string>
     <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
     <string name="weight_lbs">%1$.2f lb</string>
