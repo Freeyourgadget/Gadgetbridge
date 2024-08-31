@@ -3390,4 +3390,18 @@
 \nAşağıdaki ayarlardan birini etkinleştirmeniz gerekiyorsa, proje takımıyla iletişime geçin.</string>
     <string name="pref_deprecated_media_control_title">Kullanımdan kaldırılan medya denetimi</string>
     <string name="pref_deprecated_media_control_summary">Medya denetim komutlarını medya denetleyicisi yerine tuş olayları olarak gönder.</string>
+    <string name="pref_title_nagivation_apps">Navigasyon uygulamaları</string>
+    <string name="pref_header_automations">Otomatikleştirmeler</string>
+    <string name="pref_description_automations">Otomatik dışa aktar, otomatik getir</string>
+    <string name="pref_description_developer_options">Günlükler, Amaç API\'si</string>
+    <string name="pref_description_deprecated_functionalities">Gelecekteki bir sürümde kaldırılacak ayarlar</string>
+    <string name="pref_header_main_screen">Ana ekran</string>
+    <string name="pref_title_user_interface">Kullanıcı arayüzü</string>
+    <string name="pref_header_external_integrations">Harici Bütünleşmeler</string>
+    <string name="pref_description_general">Başlangıç, dil, bölge, konum</string>
+    <string name="pref_description_about_you">Doğum tarihi, cinsiyet, boy, kilo, hedefler</string>
+    <string name="pref_description_notifications">Uygulama bildirimleri, beyaz liste/kara liste</string>
+    <string name="pref_description_user_interface">Tema, ana ekran</string>
+    <string name="pref_description_dashboard">Widget\'lar, dahil edilecek aygıtlar</string>
+    <string name="activity_prefs_date_birth">Doğum tarihi</string>
 </resources>
