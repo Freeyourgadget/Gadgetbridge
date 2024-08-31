@@ -50,11 +50,6 @@ public class HybridHRWatchfaceWidgetActivity extends AbstractSettingsActivityV2 
     private static final Boolean WIDGET_CUSTOM_DEFAULT_SHOW_CIRCLE = true;
 
     @Override
-    protected String fragmentTag() {
-        return HybridHRWatchfaceWidgetFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return new HybridHRWatchfaceWidgetFragment();
     }
@@ -99,8 +94,6 @@ public class HybridHRWatchfaceWidgetActivity extends AbstractSettingsActivityV2 
     }
 
     public static class HybridHRWatchfaceWidgetFragment extends AbstractPreferenceFragment implements Preference.OnPreferenceChangeListener {
-        static final String FRAGMENT_TAG = "HYBRID_HR_WATCHFACE_WIDGET_FRAGMENT";
-
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.fossil_hr_widget_settings, rootKey);

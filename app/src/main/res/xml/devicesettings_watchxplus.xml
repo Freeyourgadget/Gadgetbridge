@@ -62,7 +62,7 @@
             android:entries="@array/language_only_EN_CH"
             android:entryValues="@array/language_only_EN_CH_values"
             android:key="language"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
             android:icon="@drawable/ic_access_time"
             android:defaultValue="false"

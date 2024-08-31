@@ -61,8 +61,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 public class LoyaltyCardsSettingsFragment extends AbstractPreferenceFragment {
     private static final Logger LOG = LoggerFactory.getLogger(LoyaltyCardsSettingsFragment.class);
 
-    static final String FRAGMENT_TAG = "LOYALTY_CARDS_SETTINGS_FRAGMENT";
-
     private GBDevice device;
 
     private void setSettingsFileSuffix(final String settingsFileSuffix) {

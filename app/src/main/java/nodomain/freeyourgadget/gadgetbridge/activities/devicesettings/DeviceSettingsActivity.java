@@ -16,9 +16,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
+import android.content.Intent;
+
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.bytehamster.lib.preferencesearch.SearchPreferenceResult;
+
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class DeviceSettingsActivity extends AbstractSettingsActivityV2 {
@@ -31,15 +36,26 @@ public class DeviceSettingsActivity extends AbstractSettingsActivityV2 {
     }
 
     @Override
-    protected String fragmentTag() {
-        return DeviceSpecificSettingsFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         final GBDevice device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
         final MENU_ENTRY_POINTS menu_entry = (MENU_ENTRY_POINTS) getIntent().getSerializableExtra(MENU_ENTRY_POINT);
 
         return DeviceSpecificSettingsFragment.newInstance(device, menu_entry);
+    }
+
+    @Override
+    public void onSearchResultClicked(final SearchPreferenceResult result) {
+        final GBDevice device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        DeviceCoordinator coordinator = device.getDeviceCoordinator();
+        DeviceSpecificSettings deviceSpecificSettings = coordinator.getDeviceSpecificSettings(device);
+
+        String rootScreenForSubScreen = deviceSpecificSettings.getRootScreenForSubScreen(result.getResourceFile());
+
+        if (rootScreenForSubScreen != null) {
+            final Intent intent = getIntent(); // FIXME new Intent(this, DeviceSettingsActivity.class);
+            intent.putExtra(EXTRA_PREF_SCREEN, rootScreenForSubScreen);
+            intent.putExtra(EXTRA_PREF_HIGHLIGHT, result.getKey());
+            startActivity(intent);
+        }
     }
 }

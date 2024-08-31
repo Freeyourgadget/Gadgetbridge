@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:icon="@drawable/ic_heartrate"
         android:key="heartrate_monitoring_key"
@@ -20,7 +21,7 @@
             android:entryValues="@array/prefs_heartrate_measurement_interval_values"
             android:icon="@drawable/ic_heartrate"
             android:key="heartrate_measurement_interval"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_title_heartrate_measurement_interval" />
 
         <!-- Activity Monitoring -->
@@ -50,7 +51,7 @@
             android:entryValues="@array/prefs_miband_heartrate_alert_threshold_values"
             android:icon="@drawable/ic_heartrate"
             android:key="heartrate_alert_threshold"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_heartrate_alert_threshold" />
 
         <!-- Stress Monitoring -->

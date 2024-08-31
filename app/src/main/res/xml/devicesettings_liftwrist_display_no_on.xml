@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:icon="@drawable/ic_arrow_upward"
         android:key="screen_liftwrist_display"
@@ -15,7 +16,7 @@
             android:entries="@array/do_not_disturb_no_auto"
             android:entryValues="@array/do_not_disturb_no_auto_values"
             android:key="activate_display_on_lift_wrist"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/mi2_prefs_activate_display_on_lift" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference

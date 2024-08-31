@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
         android:defaultValue="left"
@@ -7,7 +8,7 @@
         android:entries="@array/wearside"
         android:entryValues="@array/wearside_values"
         android:key="wearlocation"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/prefs_wearside" />
 
 </androidx.preference.PreferenceScreen>

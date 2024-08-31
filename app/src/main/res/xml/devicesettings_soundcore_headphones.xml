@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:key="pref_key_header_soundcore_ambient_sound_control"
         android:title="@string/pref_header_sony_ambient_sound_control">
@@ -10,7 +11,7 @@
             android:entryValues="@array/sony_ambient_sound_control_values"
             android:icon="@drawable/ic_hearing"
             android:key="pref_soundcore_ambient_sound_control"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/sony_ambient_sound" />
 
         <SwitchPreferenceCompat

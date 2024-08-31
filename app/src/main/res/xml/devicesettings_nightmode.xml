@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceScreen
         android:icon="@drawable/ic_brightness_2"
@@ -16,7 +17,7 @@
             android:entries="@array/mi3_night_mode"
             android:entryValues="@array/mi3_night_mode_values"
             android:key="night_mode"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/mi3_prefs_night_mode" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference

@@ -353,6 +353,8 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_search);
+
         //
         // Apps
         // TODO: These should go somewhere else

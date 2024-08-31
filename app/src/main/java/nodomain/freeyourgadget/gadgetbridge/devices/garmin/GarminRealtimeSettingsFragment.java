@@ -77,8 +77,6 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
 
     public static final int ROOT_SCREEN_ID = 36352;
 
-    static final String FRAGMENT_TAG = "GARMIN_REALTIME_SETTINGS_FRAGMENT";
-
     private GBDevice device;
     private int screenId = ROOT_SCREEN_ID;
 

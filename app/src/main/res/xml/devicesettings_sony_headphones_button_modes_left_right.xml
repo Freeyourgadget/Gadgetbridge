@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:icon="@drawable/ic_help_outline"
         android:key="pref_screen_sony_button_mode_help"
@@ -73,7 +74,7 @@
         android:entryValues="@array/sony_wfsp800n_button_mode_values"
         android:icon="@drawable/ic_touch"
         android:key="pref_sony_button_mode_left"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/sony_button_mode_left" />
 
     <ListPreference
@@ -82,6 +83,6 @@
         android:entryValues="@array/sony_wfsp800n_button_mode_values"
         android:icon="@drawable/ic_touch"
         android:key="pref_sony_button_mode_right"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/sony_button_mode_right" />
 </androidx.preference.PreferenceScreen>

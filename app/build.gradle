@@ -246,6 +246,7 @@ dependencies {
     implementation 'com.github.wax911.android-emojify:gson:1.9.3'
     implementation 'com.google.protobuf:protobuf-javalite:4.27.3'
     implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.github.ByteHamster:SearchPreference:v2.5.1'
 
     // Bouncy Castle is included directly in GB, to avoid pulling the entire dependency
     // It's included in the org.bouncycastle.shaded package, to fix conflicts with roboelectric

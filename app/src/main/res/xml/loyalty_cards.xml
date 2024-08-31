@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:key="pref_key_header_loyalty_cards_catima"
         android:title="@string/loyalty_cards_catima">
@@ -9,7 +10,7 @@
             android:entries="@array/pref_huami2021_empty_array"
             android:entryValues="@array/pref_huami2021_empty_array"
             android:key="loyalty_cards_catima_package"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/loyalty_cards_catima_package" />
 
         <Preference

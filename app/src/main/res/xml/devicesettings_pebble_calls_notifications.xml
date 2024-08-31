@@ -6,7 +6,7 @@
         android:entries="@array/pebble_privacymode"
         android:entryValues="@array/pebble_privacymode_values"
         android:key="pebble_pref_privacy_mode"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/pref_title_pebble_privacy_mode"
         app:iconSpaceReserved="false" />
     <SwitchPreferenceCompat

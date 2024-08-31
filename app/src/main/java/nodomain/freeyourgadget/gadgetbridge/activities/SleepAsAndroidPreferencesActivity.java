@@ -23,18 +23,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SleepAsAndroidFeature;
 
 public class SleepAsAndroidPreferencesActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected String fragmentTag() {
-        return SleepAsAndroidPreferencesFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return new SleepAsAndroidPreferencesFragment();
     }
 
     public static class SleepAsAndroidPreferencesFragment extends AbstractPreferenceFragment {
-        static final String FRAGMENT_TAG = "SLEEPASANDROID_PREFERENCES_FRAGMENT";
-
         @Override
         public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
             setPreferencesFromResource(R.xml.sleepasandroid_preferences, rootKey);

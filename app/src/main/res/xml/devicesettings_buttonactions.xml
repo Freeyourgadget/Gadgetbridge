@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:key="screen_button_actions"
         android:icon="@drawable/ic_smart_button"
@@ -36,7 +37,7 @@
             android:entryValues="@array/button_action_values"
             android:key="button_single_press_action_selection"
             android:defaultValue="@string/pref_button_action_disabled_value"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_button_single_press_action_selection_title" />
 
         <ListPreference
@@ -45,7 +46,7 @@
             android:entries="@array/button_action_options"
             android:entryValues="@array/button_action_values"
             android:key="button_double_press_action_selection"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:defaultValue="@string/pref_button_action_disabled_value"
             android:title="@string/prefs_button_double_press_action_selection_title" />
 
@@ -55,7 +56,7 @@
             android:entries="@array/button_action_options"
             android:entryValues="@array/button_action_values"
             android:key="button_triple_press_action_selection"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:defaultValue="@string/pref_button_action_disabled_value"
             android:title="@string/prefs_button_triple_press_action_selection_title" />
 

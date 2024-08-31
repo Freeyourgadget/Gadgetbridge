@@ -8,7 +8,6 @@
         android:entryValues="@array/sony_protocol_version_values"
         android:icon="@drawable/ic_developer_mode"
         android:key="pref_protocol_version"
-        android:summary="%s"
         android:title="@string/protocol_version"
         app:useSimpleSummaryProvider="true" />
 

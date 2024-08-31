@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:icon="@drawable/ic_power_settings_new"
         android:key="screen_wena3_auto_power_off"
@@ -15,7 +16,7 @@
             android:entries="@array/do_not_disturb_no_auto"
             android:entryValues="@array/do_not_disturb_no_auto_values"
             android:key="pref_wena3_power_schedule_kind"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_wena3_auto_power_off_item" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference

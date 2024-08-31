@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Not including PREF_LANGUAGE here since GadgetBridge seems to add it for us -->
     <PreferenceCategory
         android:title="@string/prefs_wena3_title_activity">
@@ -16,7 +17,7 @@
             android:entryValues="@array/prefs_wena3_day_start_values_list"
             android:key="pref_wena3_day_start_hour"
             android:icon="@drawable/ic_wb_twilight"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_wena3_day_start_hour_item" />
     </PreferenceCategory>
     <PreferenceCategory
@@ -28,7 +29,7 @@
             android:key="pref_wena3_default_vibration"
             android:icon="@drawable/ic_vibration"
             android:title="@string/prefs_wena3_notification_default_vibration"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/prefs_wena3_vibration_times"
@@ -36,7 +37,7 @@
             android:key="pref_wena3_default_vibration_repetition"
             android:icon="@drawable/ic_refresh"
             android:title="@string/prefs_wena3_notification_default_vibration_repetition"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:defaultValue="blue"
             android:entries="@array/prefs_wena3_led_patterns"
@@ -44,7 +45,7 @@
             android:key="pref_wena3_default_led_color"
             android:icon="@drawable/ic_circle"
             android:title="@string/prefs_wena3_notification_default_led"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <Preference
             android:title="@string/prefs_wena3_notification_per_app_settings_title"
             android:icon="@drawable/ic_widgets"
@@ -69,7 +70,7 @@
             android:key="pref_wena3_call_default_vibration"
             android:icon="@drawable/ic_vibration"
             android:title="@string/prefs_wena3_notification_default_call_vibration"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/prefs_wena3_vibration_times"
@@ -77,7 +78,7 @@
             android:key="pref_wena3_default_call_vibration_repetition"
             android:icon="@drawable/ic_refresh"
             android:title="@string/prefs_wena3_notification_default_call_vibration_repetition"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:defaultValue="white"
             android:entries="@array/prefs_wena3_led_patterns"
@@ -85,7 +86,7 @@
             android:key="pref_wena3_default_call_led_color"
             android:icon="@drawable/ic_circle"
             android:title="@string/prefs_wena3_notification_default_call_led"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -96,7 +97,7 @@
             android:entryValues="@array/screen_timeout_values"
             android:key="screen_timeout"
             android:icon="@drawable/ic_hourglass_empty"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_screen_timeout" />
         <SwitchPreferenceCompat
             android:title="@string/mi2_prefs_activate_display_on_lift"
@@ -145,7 +146,7 @@
             android:icon="@drawable/ic_list_numbered"
             android:key="pref_wena3_status_pages_csv"
             android:persistent="true"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/prefs_wena3_status_page_title" />
     </PreferenceCategory>
     <PreferenceCategory
@@ -156,7 +157,7 @@
             android:defaultValue="music"
             android:entries="@array/prefs_wena3_home_icons_names_list"
             android:entryValues="@array/prefs_wena3_home_icons_values_list"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:icon="@drawable/ic_wena_icon_left" />
         <ListPreference
             android:key="pref_wena3_home_icon_center"
@@ -164,7 +165,7 @@
             android:defaultValue="pedometer"
             android:entries="@array/prefs_wena3_home_icons_names_list"
             android:entryValues="@array/prefs_wena3_home_icons_values_list"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:icon="@drawable/ic_wena_icon_center" />
         <ListPreference
             android:key="pref_wena3_home_icon_right"
@@ -172,7 +173,7 @@
             android:defaultValue="calories"
             android:entries="@array/prefs_wena3_home_icons_names_list"
             android:entryValues="@array/prefs_wena3_home_icons_values_list"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:icon="@drawable/ic_wena_icon_right" />
     </PreferenceCategory>
     <PreferenceCategory
@@ -184,7 +185,7 @@
             android:defaultValue="10"
             android:entries="@array/sonyswr12_smart_alarm_intervals"
             android:entryValues="@array/sonyswr12_smart_alarm_interval_values"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_header_vibration_settings">
@@ -195,7 +196,7 @@
             android:defaultValue="normal"
             android:entries="@array/prefs_wena3_vibration_strength_names_list"
             android:entryValues="@array/prefs_wena3_vibration_strength_values_list"
-            android:summary="%s" />
+            app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
             android:title="@string/prefs_wena3_vibration_smart_item"
             android:key="pref_wena3_vibration_smart"
@@ -210,13 +211,13 @@
             android:defaultValue="none"
             android:entries="@array/prefs_wena3_button_action_list"
             android:entryValues="@array/prefs_wena3_button_action_values_list"
-            android:summary="%s"/>
+            app:useSimpleSummaryProvider="true"/>
         <ListPreference
             android:key="pref_wena3_button_long_action"
             android:title="@string/prefs_wena3_button_action_item_long"
             android:defaultValue="none"
             android:entries="@array/prefs_wena3_button_action_list"
             android:entryValues="@array/prefs_wena3_button_action_values_list"
-            android:summary="%s"/>
+            app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 </PreferenceScreen>

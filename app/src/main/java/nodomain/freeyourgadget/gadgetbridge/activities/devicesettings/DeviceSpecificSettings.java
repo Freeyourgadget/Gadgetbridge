@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 /**
  * A class that contains the device-specific settings screens for a device. All the integers in this
  * class correspond to xml resources for preferences.
@@ -115,6 +117,25 @@ public class DeviceSpecificSettings implements Parcelable {
                 Objects.requireNonNull(subScreens.get(e.getKey())).add(screen);
             }
         }
+
+        // Ensure search is always at the start
+        final int searchIndex = rootScreens.indexOf(R.xml.devicesettings_search);
+        if (searchIndex >= 0) {
+            rootScreens.remove(searchIndex);
+            rootScreens.add(0, R.xml.devicesettings_search);
+        }
+    }
+
+    public String getRootScreenForSubScreen(final int subScreen) {
+        for (final Map.Entry<String, List<Integer>> e : subScreens.entrySet()) {
+            for (final Integer ss : e.getValue()) {
+                if (ss == subScreen) {
+                    return e.getKey();
+                }
+            }
+        }
+
+        return null;
     }
 
     public List<Integer> getRootScreens() {

@@ -40,11 +40,6 @@ public class ChartsPreferencesActivity extends AbstractSettingsActivityV2 {
     private GBDevice device;
 
     @Override
-    protected String fragmentTag() {
-        return ChartsPreferencesFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return ChartsPreferencesFragment.newInstance(device);
     }
@@ -57,8 +52,6 @@ public class ChartsPreferencesActivity extends AbstractSettingsActivityV2 {
     }
 
     public static class ChartsPreferencesFragment extends AbstractPreferenceFragment {
-        static final String FRAGMENT_TAG = "CHARTS_PREFERENCES_FRAGMENT";
-
         private GBDevice device;
 
         static ChartsPreferencesFragment newInstance(final GBDevice device) {

@@ -39,15 +39,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 
 public class AboutUserPreferencesActivity extends AbstractSettingsActivityV2 {
-    @Override
-    protected String fragmentTag() {
-        return AboutUserPreferencesFragment.FRAGMENT_TAG;
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(AboutUserPreferencesActivity.class);
 
     @Override
     protected PreferenceFragmentCompat newFragment() {
@@ -55,8 +55,6 @@ public class AboutUserPreferencesActivity extends AbstractSettingsActivityV2 {
     }
 
     public static class AboutUserPreferencesFragment extends AbstractPreferenceFragment {
-        static final String FRAGMENT_TAG = "ABOUT_USER_PREFERENCES_FRAGMENT";
-
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.about_user, rootKey);

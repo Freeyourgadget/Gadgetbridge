@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:icon="@drawable/ic_heartrate"
         android:key="pref_screen_heartrate_monitoring"
@@ -36,7 +37,7 @@
                 android:entryValues="@array/prefs_heartrate_measurement_interval_values"
                 android:icon="@drawable/ic_heartrate"
                 android:key="heartrate_measurement_interval"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_title_heartrate_measurement_interval" />
         </PreferenceCategory>
 
@@ -62,7 +63,7 @@
                 android:entryValues="@array/prefs_miband_heartrate_high_alert_threshold_with_off_values"
                 android:icon="@drawable/ic_heartrate"
                 android:key="heartrate_alert_threshold"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_heartrate_alert_high_threshold" />
 
             <ListPreference
@@ -71,7 +72,7 @@
                 android:entryValues="@array/prefs_miband_heartrate_low_alert_threshold_values"
                 android:icon="@drawable/ic_heartrate"
                 android:key="heartrate_alert_low_threshold"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_heartrate_alert_low_threshold" />
 
             <ListPreference
@@ -80,7 +81,7 @@
                 android:entryValues="@array/prefs_miband_heartrate_high_active_alert_threshold_with_off_values"
                 android:icon="@drawable/ic_heartrate"
                 android:key="heartrate_alert_active_high_threshold"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_heartrate_alert_active_high_threshold" />
         </PreferenceCategory>
 
@@ -125,7 +126,7 @@
                 android:entries="@array/prefs_spo2_alert_threshold"
                 android:entryValues="@array/prefs_spo2_alert_threshold_values"
                 android:key="spo2_low_alert_threshold"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_spo2_alert_threshold" />
         </PreferenceCategory>
     </PreferenceScreen>

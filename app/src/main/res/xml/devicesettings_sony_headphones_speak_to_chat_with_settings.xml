@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceScreen
         android:icon="@drawable/ic_voice"
@@ -26,7 +27,7 @@
                 android:entries="@array/sony_speak_to_chat_voice_sensitivity_names"
                 android:entryValues="@array/sony_speak_to_chat_voice_sensitivity_values"
                 android:key="pref_sony_speak_to_chat_sensitivity"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/sony_speak_to_chat_sensitivity" />
 
             <SwitchPreferenceCompat
@@ -44,7 +45,7 @@
                 android:entryValues="@array/sony_speak_to_chat_voice_timeout_values"
                 android:icon="@drawable/ic_timer"
                 android:key="pref_sony_speak_to_chat_timeout"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/sony_speak_to_chat_timeout" />
         </PreferenceCategory>
     </PreferenceScreen>

@@ -50,7 +50,7 @@
                 android:entries="@array/device_action_options"
                 android:entryValues="@array/device_action_values"
                 android:key="events_forwarding_startnonwear_action_selections"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:defaultValue="@array/empty_array"
                 android:title="@string/prefs_events_forwarding_action_title" />
             <EditTextPreference

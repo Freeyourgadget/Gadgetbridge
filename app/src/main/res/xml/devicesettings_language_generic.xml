@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:icon="@drawable/ic_language"
         android:defaultValue="auto"
         android:entries="@array/pref_language_all"
         android:entryValues="@array/pref_language_all_values"
         android:key="language"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/pref_title_language" />
 </androidx.preference.PreferenceScreen>

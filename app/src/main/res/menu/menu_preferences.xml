@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.DashboardFragment">
+
+    <item
+        android:id="@+id/preferences_search"
+        android:icon="@drawable/searchpreference_ic_search"
+        android:title="@string/menuitem_calendar"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="always" />
+</menu>

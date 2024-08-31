@@ -24,6 +24,7 @@ vendor's servers.
 * Gadgetbridge is licensed under the AGPLv3
 * Files in app/src/main/java/net/osmand/ and app/src/main/aidl/net/osmand/ are licensed under the GPLv3 by OsmAnd BV
 * Files in app/src/main/java/org/bouncycastle are licensed under the MIT license by The Legion of the Bouncy Castle Inc.
+* File app/src/main/java/nodomain/freeyourgadget/gadgetbridge/util/SearchPreferenceHighlighter.java is licensed under the MIT license by ByteHamster
 
 ## Download
 

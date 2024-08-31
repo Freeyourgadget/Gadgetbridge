@@ -10,7 +10,7 @@
             android:entries="@array/pebble_activitytracker"
             android:entryValues="@array/pebble_activitytracker_values"
             android:key="pebble_activitytracker"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_pebble_activitytracker"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat

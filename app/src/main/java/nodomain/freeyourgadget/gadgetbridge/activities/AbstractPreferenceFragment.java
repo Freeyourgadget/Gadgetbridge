@@ -19,8 +19,15 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.XmlRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -33,6 +40,8 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.bytehamster.lib.preferencesearch.SearchConfiguration;
+import com.bytehamster.lib.preferencesearch.SearchPreference;
 import com.mobeta.android.dslv.DragSortListPreference;
 import com.mobeta.android.dslv.DragSortListPreferenceFragment;
 
@@ -54,10 +63,58 @@ import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialEditTextPrefere
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialListPreferenceDialogFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialMultiSelectListPreferenceDialogFragment;
 
-public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompat {
-    protected static final Logger LOG = LoggerFactory.getLogger(AbstractPreferenceFragment.class);
+public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompat implements MenuProvider {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractPreferenceFragment.class);
+
+    public static final String FRAGMENT_TAG = "preference_fragment";
 
     private final SharedPreferencesChangeHandler sharedPreferencesChangeHandler = new SharedPreferencesChangeHandler();
+
+    private SearchConfiguration mSearchConfiguration;
+
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        requireActivity().addMenuProvider(this);
+
+        ensureSearchConfiguration();
+    }
+
+    private SearchConfiguration ensureSearchConfiguration() {
+        if (mSearchConfiguration == null) {
+            final SearchPreference searchPreference = findPreference("searchPreference");
+            if (searchPreference != null) {
+                mSearchConfiguration = searchPreference.getSearchConfiguration();
+                mSearchConfiguration.setActivity((AppCompatActivity) requireActivity());
+                mSearchConfiguration.setHistoryId(requireActivity().getClass().getName());
+                mSearchConfiguration.setBreadcrumbsEnabled(true);
+            }
+        }
+
+        return mSearchConfiguration;
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
+        if (mSearchConfiguration != null) {
+            inflater.inflate(R.menu.menu_preferences, menu);
+        }
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull final MenuItem item) {
+        final int itemId = item.getItemId();
+        if (itemId == R.id.preferences_search) {
+            final SearchPreference searchPreference = findPreference("searchPreference");
+            if (searchPreference != null) {
+                mSearchConfiguration.showSearchFragment();
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public void onStart() {
@@ -139,6 +196,29 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
         final EditTextPreference textPreference = findPreference(preferenceKey);
         if (textPreference != null) {
             textPreference.setOnBindEditTextListener(editText -> editText.setInputType(editTypeFlags));
+        }
+    }
+
+    protected void index(@XmlRes final int preferencesResId) {
+        index(preferencesResId, 0);
+    }
+
+    protected void index(final Preference preference) {
+        ensureSearchConfiguration();
+
+        if (mSearchConfiguration != null) {
+            mSearchConfiguration.indexItem(preference);
+        }
+    }
+
+    protected void index(@XmlRes final int preferencesResId, final int breadcrumb) {
+        ensureSearchConfiguration();
+
+        if (mSearchConfiguration != null) {
+            final SearchConfiguration.SearchIndexItem indexItem = mSearchConfiguration.index(preferencesResId);
+            if (breadcrumb != 0) {
+                indexItem.addBreadcrumb(breadcrumb);
+            }
         }
     }
 

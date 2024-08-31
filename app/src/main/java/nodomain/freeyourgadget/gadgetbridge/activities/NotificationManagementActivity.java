@@ -39,19 +39,12 @@ public class NotificationManagementActivity extends AbstractSettingsActivityV2 {
     private static final String DEFAULT_RINGTONE_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString();
 
     @Override
-    protected String fragmentTag() {
-        return NotificationPreferencesFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return new NotificationPreferencesFragment();
     }
 
     public static class NotificationPreferencesFragment extends AbstractPreferenceFragment {
         private static final Logger LOG = LoggerFactory.getLogger(NotificationPreferencesFragment.class);
-
-        static final String FRAGMENT_TAG = "NOTIFICATION_PREFERENCES_FRAGMENT";
 
         @Override
         protected void onSharedPreferenceChanged(final Preference preference) {

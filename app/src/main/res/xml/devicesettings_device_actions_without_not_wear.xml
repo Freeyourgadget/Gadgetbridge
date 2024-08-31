@@ -17,7 +17,7 @@
                 android:entries="@array/device_action_options"
                 android:entryValues="@array/device_action_values"
                 android:key="events_forwarding_fellsleep_action_selections"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_events_forwarding_action_title" />
             <EditTextPreference
                 android:defaultValue="@string/prefs_events_forwarding_fellsleep_broadcast_default_value"
@@ -35,7 +35,7 @@
                 android:entries="@array/device_action_options"
                 android:entryValues="@array/device_action_values"
                 android:key="events_forwarding_wokeup_action_selections"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_events_forwarding_action_title" />
             <EditTextPreference
                 android:defaultValue="@string/prefs_events_forwarding_wokeup_broadcast_default_value"

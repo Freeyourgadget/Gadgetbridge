@@ -140,6 +140,8 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_search);
+
         if (supports(device, GarminCapability.REALTIME_SETTINGS)) {
             deviceSpecificSettings.addRootScreen(R.xml.devicesettings_garmin_realtime_settings);
         }

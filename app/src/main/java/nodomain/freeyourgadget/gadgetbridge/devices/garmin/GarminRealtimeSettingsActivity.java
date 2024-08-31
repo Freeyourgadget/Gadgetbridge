@@ -27,11 +27,6 @@ public class GarminRealtimeSettingsActivity extends AbstractSettingsActivityV2 {
     public static final String EXTRA_SCREEN_ID = "screenId";
 
     @Override
-    protected String fragmentTag() {
-        return GarminRealtimeSettingsFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return GarminRealtimeSettingsFragment.newInstance(device, screenId);
     }

@@ -62,7 +62,7 @@
                 android:entryValues="@array/galaxy_eqalizer_values"
                 android:icon="@drawable/ic_equalizer"
                 android:key="pref_galaxy_buds_equalizer_mode"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_equalizer_preset" />
         </PreferenceCategory>
     </PreferenceScreen>
@@ -87,7 +87,7 @@
                 android:entryValues="@array/galaxy_touch_options_values"
                 android:icon="@drawable/ic_touch"
                 android:key="pref_galaxy_buds_touch_left"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_left" />
             <ListPreference
                 android:dependency="pref_galaxy_buds_lock_touch"
@@ -95,7 +95,7 @@
                 android:entryValues="@array/galaxy_touch_options_values"
                 android:icon="@drawable/ic_touch"
                 android:key="pref_galaxy_buds_touch_right"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_right" />
         </PreferenceCategory>
     </PreferenceScreen>

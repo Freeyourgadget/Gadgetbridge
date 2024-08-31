@@ -13,7 +13,7 @@
             android:entryValues="@array/pref_language_all_values"
             android:icon="@drawable/ic_language"
             android:key="voice_service_language"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_language" />
 
         <PreferenceCategory

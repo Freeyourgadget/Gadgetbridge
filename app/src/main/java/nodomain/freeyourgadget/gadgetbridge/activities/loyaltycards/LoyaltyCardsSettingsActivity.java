@@ -42,11 +42,6 @@ public class LoyaltyCardsSettingsActivity extends AbstractSettingsActivityV2 imp
     private GBDevice device;
 
     @Override
-    protected String fragmentTag() {
-        return LoyaltyCardsSettingsFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return LoyaltyCardsSettingsFragment.newInstance(device);
     }

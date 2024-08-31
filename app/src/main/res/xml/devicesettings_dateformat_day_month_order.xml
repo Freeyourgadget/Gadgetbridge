@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:defaultValue="auto"
         android:icon="@drawable/ic_access_time"
         android:entries="@array/dateformat_day_month_order_entries"
         android:entryValues="@array/dateformat_day_month_order_values"
         android:key="dateformat"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/miband2_prefs_dateformat" />
 
 </androidx.preference.PreferenceScreen>

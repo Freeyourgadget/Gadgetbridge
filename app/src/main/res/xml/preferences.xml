@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:iconSpaceReserved="false">
 
+    <com.bytehamster.lib.preferencesearch.SearchPreference
+        android:key="searchPreference"
+        app:isPreferenceVisible="false" />
+
     <PreferenceScreen
         android:icon="@drawable/ic_settings"
         android:key="pref_screen_general"
@@ -48,7 +52,7 @@
                 android:entries="@array/pref_language_options"
                 android:entryValues="@array/pref_language_values"
                 android:key="language"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_title_language"
                 app:iconSpaceReserved="false" />
             <ListPreference
@@ -56,7 +60,7 @@
                 android:entries="@array/pref_entries_unit_system"
                 android:entryValues="@array/pref_values_unit_system"
                 android:key="measurement_system"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_title_unit_system"
                 app:iconSpaceReserved="false" />
             <PreferenceScreen
@@ -166,7 +170,7 @@
             android:entries="@array/pref_theme_options"
             android:entryValues="@array/pref_theme_values"
             android:key="pref_key_theme"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_theme"
             app:iconSpaceReserved="false" />
         <SwitchPreferenceCompat
@@ -225,7 +229,7 @@
             app:iconSpaceReserved="false">
             <Preference
                 android:key="auto_export_location"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_title_auto_export_location"
                 app:iconSpaceReserved="false" />
             <SwitchPreferenceCompat
@@ -468,7 +472,7 @@
                 android:defaultValue="default"
                 android:dependency="mb_intents"
                 android:key="audio_player"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_title_audio_player"
                 app:iconSpaceReserved="false" />
         </PreferenceCategory>

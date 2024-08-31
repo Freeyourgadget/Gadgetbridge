@@ -56,4 +56,14 @@ public enum DeviceSpecificSettingsScreen {
     public int getXml() {
         return xml;
     }
+
+    public static DeviceSpecificSettingsScreen fromXml(final int xml) {
+        for (final DeviceSpecificSettingsScreen screen : DeviceSpecificSettingsScreen.values()) {
+            if (screen.xml == xml) {
+                return screen;
+            }
+        }
+
+        return null;
+    }
 }

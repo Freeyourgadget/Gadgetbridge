@@ -24,7 +24,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_app_alerts"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -55,7 +55,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_incoming_call"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -86,7 +86,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_incoming_sms"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -117,7 +117,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_goal_notification"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -148,7 +148,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_alarm"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -179,7 +179,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_idle_alerts"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -210,7 +210,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_event_reminder"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -241,7 +241,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_find_band"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -272,7 +272,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_todo_list"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference
@@ -303,7 +303,7 @@
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_schedule"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/miband_prefs_vibration" />
 
             <EditTextPreference

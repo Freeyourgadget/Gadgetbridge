@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:defaultValue="off"
         android:entries="@array/sony_equalizer_mode_names"
         android:entryValues="@array/sony_equalizer_mode_values"
         android:icon="@drawable/ic_graphic_eq"
         android:key="pref_sony_equalizer_mode"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/sony_equalizer" />
 </androidx.preference.PreferenceScreen>

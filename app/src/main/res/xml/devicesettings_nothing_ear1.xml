@@ -13,6 +13,6 @@
         android:entryValues="@array/nothing_ear1_audio_mode_values"
         android:entries="@array/nothing_ear1_audio_mode_names"
         android:key="pref_nothing_audiomode"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/nothing_prefs_audiomode_title" />
 </androidx.preference.PreferenceScreen>

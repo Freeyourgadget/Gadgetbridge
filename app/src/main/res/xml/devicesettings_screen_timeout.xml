@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:defaultValue="5"
         android:entries="@array/screen_timeout"
         android:entryValues="@array/screen_timeout_values"
         android:key="screen_timeout"
         android:icon="@drawable/ic_hourglass_empty"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/prefs_screen_timeout" />
 </androidx.preference.PreferenceScreen>

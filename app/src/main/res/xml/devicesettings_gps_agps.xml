@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:icon="@drawable/ic_gps_location"
         android:key="pref_header_gps"
@@ -15,7 +16,7 @@
                 android:entries="@array/pref_gps_mode_preset"
                 android:entryValues="@array/pref_gps_mode_preset_values"
                 android:key="pref_gps_mode_preset"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_gps_mode_preset" />
 
             <ListPreference
@@ -23,7 +24,7 @@
                 android:entries="@array/pref_gps_band"
                 android:entryValues="@array/pref_gps_band_values"
                 android:key="pref_gps_band"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_gps_band" />
 
             <ListPreference
@@ -31,7 +32,7 @@
                 android:entries="@array/pref_gps_combination"
                 android:entryValues="@array/pref_gps_combination_values"
                 android:key="pref_gps_combination"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_gps_combination" />
 
             <ListPreference
@@ -39,7 +40,7 @@
                 android:entries="@array/pref_gps_satellite_search"
                 android:entryValues="@array/pref_gps_satellite_search_values"
                 android:key="pref_gps_satellite_search"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/pref_gps_satellite_search" />
         </PreferenceCategory>
 

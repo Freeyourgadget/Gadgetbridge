@@ -35,18 +35,16 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class DashboardPreferencesActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected String fragmentTag() {
-        return DashboardPreferencesFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return new DashboardPreferencesFragment();
     }
 
-    public static class DashboardPreferencesFragment extends AbstractPreferenceFragment {
-        static final String FRAGMENT_TAG = "DASHBOARD_PREFERENCES_FRAGMENT";
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
+    public static class DashboardPreferencesFragment extends AbstractPreferenceFragment {
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.dashboard_preferences, rootKey);

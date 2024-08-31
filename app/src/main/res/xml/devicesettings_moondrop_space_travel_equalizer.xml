@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:entries="@array/moondrop_equalizer_preset_names"
         android:entryValues="@array/moondrop_equalizer_preset_values"
         android:icon="@drawable/ic_graphic_eq"
         android:key="pref_moondrop_equalizer_preset"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/prefs_equalizer_preset" />
 </androidx.preference.PreferenceScreen>

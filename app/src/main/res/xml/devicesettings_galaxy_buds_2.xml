@@ -15,7 +15,7 @@
                 android:entryValues="@array/galaxy_pro_noise_controls_options_values"
                 android:icon="@drawable/ic_surround"
                 android:key="pref_galaxy_buds_2_noise_control"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_noise_control" />
 
             <SeekBarPreference
@@ -90,7 +90,7 @@
         android:entryValues="@array/galaxy_buds_live_equalizer_values"
         android:icon="@drawable/ic_equalizer"
         android:key="pref_galaxy_buds_equalizer_mode"
-        android:summary="%s"
+        app:useSimpleSummaryProvider="true"
         android:title="@string/prefs_equalizer_preset" />
 
     <PreferenceScreen
@@ -112,7 +112,7 @@
                 android:entryValues="@array/galaxy_pro_touch_options_values"
                 android:icon="@drawable/ic_switch_left"
                 android:key="pref_galaxy_buds_touch_left"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_left" />
 
             <ListPreference
@@ -121,7 +121,7 @@
                 android:entries="@array/galaxy_pro_touch_switch_controls_options"
                 android:entryValues="@array/galaxy_pro_touch_switch_controls_values"
                 android:key="pref_galaxy_buds_touch_left_switch"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_switch_control_left" />
 
             <ListPreference
@@ -131,7 +131,7 @@
                 android:entryValues="@array/galaxy_pro_touch_options_values"
                 android:icon="@drawable/ic_switch_right"
                 android:key="pref_galaxy_buds_touch_right"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_right" />
             <ListPreference
                 android:defaultValue="0"
@@ -139,7 +139,7 @@
                 android:entries="@array/galaxy_pro_touch_switch_controls_options"
                 android:entryValues="@array/galaxy_pro_touch_switch_controls_values"
                 android:key="pref_galaxy_buds_touch_right_switch"
-                android:summary="%s"
+                app:useSimpleSummaryProvider="true"
                 android:title="@string/prefs_switch_control_right" />
 
             <SwitchPreferenceCompat

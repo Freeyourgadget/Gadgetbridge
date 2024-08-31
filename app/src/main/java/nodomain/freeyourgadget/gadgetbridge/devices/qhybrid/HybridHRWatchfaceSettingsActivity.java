@@ -36,11 +36,6 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivityV
     static HybridHRWatchfaceSettings settings;
 
     @Override
-    protected String fragmentTag() {
-        return HybridHRWatchfaceSettingsFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return new HybridHRWatchfaceSettingsFragment();
     }
@@ -82,8 +77,6 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivityV
     }
 
     public static class HybridHRWatchfaceSettingsFragment extends AbstractPreferenceFragment implements Preference.OnPreferenceChangeListener {
-        static final String FRAGMENT_TAG = "HYBRID_HR_WATCHFACE_SETTINGS_FRAGMENT";
-
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.fossil_hr_watchface_settings, rootKey);

@@ -12,21 +12,21 @@
             android:entries="@array/pref_hybridhr_buttonfunctions"
             android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
             android:key="button_1_function_short"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_upper_button_function_short" />
         <ListPreference
             android:defaultValue="weatherApp"
             android:entries="@array/pref_hybridhr_buttonfunctions"
             android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
             android:key="button_1_function_long"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_upper_button_function_long" />
         <ListPreference
             android:defaultValue="commuteApp"
             android:entries="@array/pref_hybridhr_buttonfunctions"
             android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
             android:key="button_2_function_short"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_middle_button_function_short" />
         <Preference
             android:selectable="false"
@@ -39,14 +39,14 @@
             android:entries="@array/pref_hybridhr_buttonfunctions"
             android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
             android:key="button_3_function_short"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_lower_button_function_short" />
         <ListPreference
             android:defaultValue="musicApp"
             android:entries="@array/pref_hybridhr_buttonfunctions"
             android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
             android:key="button_3_function_long"
-            android:summary="%s"
+            app:useSimpleSummaryProvider="true"
             android:title="@string/pref_title_lower_button_function_long" />
         <Preference
             android:selectable="false"

@@ -29,18 +29,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected String fragmentTag() {
-        return DiscoveryPairingPreferenceFragment.FRAGMENT_TAG;
-    }
-
-    @Override
     protected PreferenceFragmentCompat newFragment() {
         return new DiscoveryPairingPreferenceFragment();
     }
 
     public static class DiscoveryPairingPreferenceFragment extends AbstractPreferenceFragment {
-        static final String FRAGMENT_TAG = "DISCOVERY_PAIRING_PREFERENCES_FRAGMENT";
-
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.discovery_pairing_preferences, rootKey);
