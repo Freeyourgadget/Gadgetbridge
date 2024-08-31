@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
@@ -26,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -102,6 +104,11 @@ public class FossilInstallHandler implements InstallHandler {
 
     @Override
     public void onStartInstall(GBDevice device) {
+    }
+
+    @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return FwAppInstallerActivity.class;
     }
 
     @Override

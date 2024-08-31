@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
@@ -34,6 +35,7 @@ import java.io.InputStream;
 import java.io.Writer;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -202,6 +204,10 @@ public class PBWInstallHandler implements InstallHandler {
                 }
             }
         }
+    }
+    @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return FwAppInstallerActivity.class;
     }
 
     @Override

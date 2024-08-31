@@ -16,6 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability.COURSE_DOWNLOAD;
+
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -35,8 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GpxRouteFileConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
-
-import static nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability.COURSE_DOWNLOAD;
 
 public class GarminGpxRouteInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(GarminGpxRouteInstallHandler.class);
@@ -68,6 +70,11 @@ public class GarminGpxRouteInstallHandler implements InstallHandler {
     }
 
     @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return FwAppInstallerActivity.class;
+    }
+
+    @Override
     public boolean isValid() {
         return gpxRouteFileConverter != null;
     }
@@ -88,7 +95,7 @@ public class GarminGpxRouteInstallHandler implements InstallHandler {
             return;
         }
         final GarminCoordinator garminCoordinator = (GarminCoordinator) coordinator;
-        if (!garminCoordinator.supports(device, COURSE_DOWNLOAD)) {
+        if (garminCoordinator.supports(device, COURSE_DOWNLOAD)) {
             installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
             installActivity.setInstallEnabled(false);
             return;

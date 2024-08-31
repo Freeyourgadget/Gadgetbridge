@@ -17,9 +17,11 @@
 
 package nodomain.freeyourgadget.gadgetbridge.devices.divoom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -31,6 +33,11 @@ public class PixooInstallHandler implements InstallHandler {
     public PixooInstallHandler(Uri uri, Context context) {
         mContext = context;
         mUri = uri;
+    }
+
+    @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return FwAppInstallerActivity.class;
     }
 
     @Override

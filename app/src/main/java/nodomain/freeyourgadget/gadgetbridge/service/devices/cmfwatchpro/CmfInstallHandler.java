@@ -16,10 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.cmfwatchpro;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -34,6 +36,11 @@ public class CmfInstallHandler implements InstallHandler {
         this.mUri = uri;
         this.mContext = context;
         this.helper = new CmfFwHelper(uri, context);
+    }
+
+    @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return FwAppInstallerActivity.class;
     }
 
     @Override

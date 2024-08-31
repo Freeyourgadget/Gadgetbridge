@@ -17,16 +17,18 @@
 
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiAppManager;
@@ -152,6 +154,11 @@ public class HuaweiInstallHandler implements InstallHandler {
             LOG.debug("Initialized HuaweiInstallHandler");
         }
 
+    }
+
+    @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return FwAppInstallerActivity.class;
     }
 
     @Override

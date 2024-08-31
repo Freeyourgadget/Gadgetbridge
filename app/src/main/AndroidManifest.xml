@@ -211,6 +211,11 @@
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
             android:parentActivityName=".activities.ControlCenterv2"
+            android:exported="true" />
+        <activity
+            android:name=".activities.FileInstallerActivity"
+            android:label="@string/title_activity_file_installer"
+            android:parentActivityName=".activities.ControlCenterv2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -18,9 +18,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType.AGPS_UIHH;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+
+import androidx.annotation.Nullable;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -56,6 +59,12 @@ public class ZeppOsFwInstallHandler implements InstallHandler {
         mUri = uri;
         mContext = context;
         mHelper = new ZeppOsFwHelper(uri, context, deviceName, deviceSources);
+    }
+
+    @Nullable
+    @Override
+    public Class<? extends Activity> getInstallActivity() {
+        return null;
     }
 
     @Override

@@ -209,6 +209,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
         super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Intent startIntent = new Intent(AppManagerActivity.this, FwAppInstallerActivity.class);
+            startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
             startIntent.setAction(Intent.ACTION_VIEW);
             startIntent.setDataAndType(resultData.getData(), null);
             startActivity(startIntent);
