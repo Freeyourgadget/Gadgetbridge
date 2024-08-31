@@ -1728,9 +1728,18 @@ public class GBApplication extends Application {
 
         if (oldVersion < 38) {
             // Migrate year of birth to date of birth
-            final String yearOfBirth = sharedPrefs.getString("activity_user_year_of_birth", null);
-            if (StringUtils.isNotBlank(yearOfBirth)) {
-                editor.putString("activity_user_date_of_birth", String.format(Locale.ROOT, "%s-01-01", yearOfBirth.trim()));
+            try {
+                final String yearOfBirth = sharedPrefs.getString("activity_user_year_of_birth", null);
+                if (StringUtils.isNotBlank(yearOfBirth)) {
+                    final int yearOfBirthValue = Integer.parseInt(yearOfBirth);
+                    if (yearOfBirthValue > 1800 && yearOfBirthValue < 3000) {
+                        editor.putString("activity_user_date_of_birth", String.format(Locale.ROOT, "%s-01-01", yearOfBirth.trim()));
+                    } else {
+                        Log.e(TAG, "Year of birth out of range, not migrating - " + yearOfBirth);
+                    }
+                }
+            } catch (final Exception e) {
+                Log.e(TAG, "Failed to migrate year of birth to date of birth in version 38", e);
             }
         }
 
