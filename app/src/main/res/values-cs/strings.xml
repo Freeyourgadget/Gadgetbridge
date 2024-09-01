@@ -3377,4 +3377,18 @@
     <string name="pref_header_deprecated_functionalities">Zastaralé funkce</string>
     <string name="pref_header_deprecated_functionalities_warning">Následující funkce jsou zastaralé a budou z tohoto software brzy odstraněny.
 \nPokud potřebujete jedno z následujících nastavení povolit, kontaktujte prosím projektový tým.</string>
+    <string name="pref_title_nagivation_apps">Navigační aplikace</string>
+    <string name="pref_header_external_integrations">Externí integrace</string>
+    <string name="pref_header_automations">Automatizace</string>
+    <string name="pref_description_general">Základní nastavení, jazyk, oblast, umístění</string>
+    <string name="pref_description_about_you">Datum narození, pohlaví, výška, váha, cíle</string>
+    <string name="pref_description_notifications">Oznámení aplikací, seznam povolených/zakázaných</string>
+    <string name="pref_description_user_interface">Motiv, hlavní obrazovka</string>
+    <string name="pref_description_dashboard">Widgety, zařízení k zahrnutí</string>
+    <string name="pref_description_automations">Automatický export, automatické stahování</string>
+    <string name="pref_title_user_interface">Uživatelské rozhraní</string>
+    <string name="pref_description_developer_options">Protokoly, intent API</string>
+    <string name="pref_description_deprecated_functionalities">Nastavení, která budou odstraněna v budoucích verzích</string>
+    <string name="pref_header_main_screen">Hlavní obrazovka</string>
+    <string name="activity_prefs_date_birth">Datum narození</string>
 </resources>
