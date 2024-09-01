@@ -1,7 +1,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import android.widget.Toast;
@@ -14,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,8 +27,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -81,8 +80,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.Supp
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.SystemEventMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.NotificationSubscriptionStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS;
@@ -97,8 +96,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     private final List<MessageHandler> messageHandlers;
     private final List<FileType> supportedFileTypeList = new ArrayList<>();
     private ICommunicator communicator;
-    private MusicStateSpec musicStateSpec;
-    private Timer musicStateTimer;
+    private MediaManager mediaManager;
     private boolean mFirstConnect = false;
     private boolean isBusyFetching;
 
@@ -117,19 +115,16 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     @Override
+    public void setContext(final GBDevice gbDevice, final BluetoothAdapter btAdapter, final Context context) {
+        super.setContext(gbDevice, btAdapter, context);
+        this.mediaManager = new MediaManager(context);
+    }
+
+    @Override
     public void dispose() {
         LOG.info("Garmin dispose()");
         GBLocationService.stop(getContext(), getDevice());
-        stopMusicTimer();
         super.dispose();
-    }
-
-    private void stopMusicTimer() {
-        if (musicStateTimer != null) {
-            musicStateTimer.cancel();
-            musicStateTimer.purge();
-            musicStateTimer = null;
-        }
     }
 
     public void addFileToDownloadList(FileTransferHandler.DirectoryEntry directoryEntry) {
@@ -632,6 +627,11 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
+        if (!mediaManager.onSetMusicInfo(musicSpec)) {
+            return;
+        }
+
+        LOG.debug("onSetMusicInfo: {}", musicSpec.toString());
 
         Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
 
@@ -641,42 +641,41 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         attributes.put(MusicControlEntityUpdateMessage.TRACK.DURATION, String.valueOf(musicSpec.duration));
 
         sendOutgoingMessage("set music info", new MusicControlEntityUpdateMessage(attributes));
+
+        // Update the music state spec as well
+        final MusicStateSpec bufferMusicStateSpec = mediaManager.getBufferMusicStateSpec();
+        if (bufferMusicStateSpec != null) {
+            sendMusicState(bufferMusicStateSpec, bufferMusicStateSpec.position);
+        }
     }
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        musicStateSpec = stateSpec;
+        if (!mediaManager.onSetMusicState(stateSpec)) {
+            return;
+        }
 
-        stopMusicTimer();
-
-        musicStateTimer = new Timer();
-        int updatePeriod = 29000; //milliseconds
         LOG.debug("onSetMusicState: {}", stateSpec.toString());
 
+        sendMusicState(stateSpec, stateSpec.position);
+    }
+
+    private void sendMusicState(final MusicStateSpec stateSpec, final int progress) {
+        final int playing;
+        final float playRate;
         if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
-            musicStateTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    String playing = "1";
-                    String playRate = "1.0";
-                    String position = new DecimalFormat("#.000").format(musicStateSpec.position);
-                    musicStateSpec.position += updatePeriod / 1000;
-
-                    Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
-                    attributes.put(MusicControlEntityUpdateMessage.PLAYER.PLAYBACK_INFO, StringUtils.join(",", playing, playRate, position).toString());
-                    sendOutgoingMessage("music state timer", new MusicControlEntityUpdateMessage(attributes));
-
-                }
-            }, 0, updatePeriod);
+            playing = 1;
+            playRate = stateSpec.playRate > 0 ? stateSpec.playRate / 100f : 1.0f;
         } else {
-            String playing = "0";
-            String playRate = "0.0";
-            String position = new DecimalFormat("#.###").format(stateSpec.position);
-
-            Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
-            attributes.put(MusicControlEntityUpdateMessage.PLAYER.PLAYBACK_INFO, StringUtils.join(",", playing, playRate, position).toString());
-            sendOutgoingMessage("music stopped", new MusicControlEntityUpdateMessage(attributes));
+            playing = 0;
+            playRate = 0;
         }
+        final Map<MusicControlEntityUpdateMessage.MusicEntity, String> attributes = new HashMap<>();
+        attributes.put(
+                MusicControlEntityUpdateMessage.PLAYER.PLAYBACK_INFO,
+                String.format(Locale.ROOT, "%d,%.1f,%.3f", playing, playRate, (float) progress)
+        );
+        sendOutgoingMessage("set music state", new MusicControlEntityUpdateMessage(attributes));
     }
 
     @Override
