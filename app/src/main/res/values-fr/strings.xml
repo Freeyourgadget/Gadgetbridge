@@ -3242,7 +3242,7 @@ Temps de sommeil préféré en heures</string>
     <string name="soundcore_equalizer_band5">Bande 5</string>
     <string name="soundcore_equalizer_value">Valeur</string>
     <string name="pref_summary_garmin_default_reply_suffix">Ajouté en plus du suffixe défini dans Gadgetbridge</string>
-    <string name="pref_battery_polling_enable">Activer l\'interrogation de la batteire</string>
+    <string name="pref_battery_polling_enable">Activer l\'interrogation de la batterie</string>
     <string name="devicetype_soundcore_motion300">Soundcore Motion 300</string>
     <string name="soundcore_equalizer_preset">Prérégler</string>
     <string name="soundcore_equalizer_direction_hanging">Suspendu</string>
@@ -3275,7 +3275,7 @@ Temps de sommeil préféré en heures</string>
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">Impossible de charger le cadran, trop de cadrans installés</string>
     <string name="insufficient_space_for_upload">Espace insuffisant pour le chargement</string>
     <string name="pref_battery_polling_configuration">Configuration de l’interrogation de la batterie</string>
-    <string name="battery_polling_failed_start">Echec du démarrage de l’interrogation de la batterie</string>
+    <string name="battery_polling_failed_start">Échec du démarrage de l’interrogation de la batterie</string>
     <string name="activity_type_canoeing">Canoë-kayak</string>
     <string name="activity_type_water_scooter">Scooter des mers</string>
     <string name="activity_type_bobsleigh">Bobsleigh</string>
@@ -3364,4 +3364,5 @@ Temps de sommeil préféré en heures</string>
     <string name="weight_lbs">%1$.2f lbs</string>
     <string name="weight_kg">%1$.2f kg</string>
     <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
+    <string name="pref_description_developer_options">Logs, API d’intention</string>
 </resources>
