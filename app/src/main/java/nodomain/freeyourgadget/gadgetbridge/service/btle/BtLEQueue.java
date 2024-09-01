@@ -598,6 +598,8 @@ public final class BtLEQueue {
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             super.onMtuChanged(gatt, mtu, status);
 
+            LOG.debug("mtu changed to {}{}", mtu, getStatusString(status));
+
             if(getCallbackToUse() != null){
                 getCallbackToUse().onMtuChanged(gatt, mtu, status);
             }
