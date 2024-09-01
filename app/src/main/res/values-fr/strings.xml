@@ -3365,4 +3365,35 @@ Temps de sommeil préféré en heures</string>
     <string name="weight_kg">%1$.2f kg</string>
     <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
     <string name="pref_description_developer_options">Logs, API d’intention</string>
+    <string name="pref_header_sound">Son</string>
+    <string name="workoutSets">Série</string>
+    <string name="workout_set_i">Série %1d</string>
+    <string name="workout_set_repetitions">%1d x</string>
+    <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
+    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f lbs</string>
+    <string name="choose_device">Choisissez un appareil</string>
+    <string name="no_supported_devices_found">Aucun appareil pris en charge trouvé</string>
+    <string name="search">Recherche</string>
+    <string name="pref_header_deprecated_functionalities">Fonctionnalités obsolètes</string>
+    <string name="pref_title_nagivation_apps">Applications de navigation</string>
+    <string name="pref_header_external_integrations">Intégrations extérieures</string>
+    <string name="pref_header_automations">Automatisations</string>
+    <string name="pref_description_about_you">Date de naissance, sexe, taille, poids, objectifs</string>
+    <string name="pref_description_notifications">Notifications d\'application, liste blanche/liste noire</string>
+    <string name="menuitem_stress_breakdown">Stress (détaillé)</string>
+    <string name="pref_header_deprecated_functionalities_warning">Les fonctionnalités suivantes sont obsolètes et seront bientôt supprimées du logiciel.
+\nSi vous devez activer l\'un des paramètres suivants, prenez contacte avec l\'équipe du projet.</string>
+    <string name="pref_deprecated_media_control_title">Contrôle des médias obsolètes</string>
+    <string name="pref_deprecated_media_control_summary">Envoyez les commandes de contrôle des médias comme des événements clés au lieu du contrôleur des médias.</string>
+    <string name="pref_description_dashboard">Widgets, dispositifs à inclure</string>
+    <string name="pref_title_user_interface">Interface utilisateur</string>
+    <string name="pref_description_general">Démarrage, langue, région, emplacement</string>
+    <string name="activity_prefs_date_birth">Date de naissance</string>
+    <string name="menuitem_stress_simple">Stress (simple)</string>
+    <string name="pref_description_user_interface">Thème, écran principal</string>
+    <string name="pref_description_automations">Export et récupération automatique</string>
+    <string name="pref_description_deprecated_functionalities">Paramètres qui seront supprimés dans une version future</string>
+    <string name="menuitem_stress_segmented">Stress (segmenté)</string>
+    <string name="pref_header_main_screen">Écran principal</string>
+    <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
 </resources>
