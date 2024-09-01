@@ -411,6 +411,8 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                             case 2: // garmin pay
                             case 7: // text responses
                             case 8: // music providers
+                            case 29: // Set Up ECG App
+                            case 30: // ECG
                                 pref = new Preference(activity);
                                 pref.setVisible(debug);
                                 pref.setEnabled(false);
@@ -570,6 +572,7 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                     case 10: // find my device
                     case 11: // preferred activity tracker
                     case 13: // help & info
+                    case 24: // available accessories?
                         pref = new Preference(activity);
                         pref.setVisible(debug);
                         pref.setEnabled(false);
@@ -725,8 +728,15 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                 sb.append("id=").append(entry.getId());
                 sb.append(", type=").append(entry.getType());
 
+                if (icon == 0 && entry.hasIcon()) {
+                    sb.append(", icon=").append(entry.getIcon());
+                }
+
                 if (entry.hasTarget()) {
                     sb.append(", targetType=").append(entry.getTarget().getType());
+                    if (entry.getTarget().hasActivity()) {
+                        sb.append(", targetActivity=").append(entry.getTarget().getActivity());
+                    }
                 }
 
                 pref.setSummary(sb.toString());
@@ -740,12 +750,11 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
         // If no preferences after the last visible preference category are visible, hide it
         for (int i = prefScreen.getPreferenceCount() - 1; i >= 0; i--) {
             final Preference lastVisiblePreference = prefScreen.getPreference(i);
-            if (lastVisiblePreference.isVisible()) {
+            if (lastVisiblePreference.isVisible() && !(lastVisiblePreference instanceof PreferenceCategory)) {
                 break;
             }
             if (lastVisiblePreference instanceof PreferenceCategory) {
                 lastVisiblePreference.setVisible(false);
-                break;
             }
         }
     }
@@ -772,22 +781,35 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                     return R.drawable.ic_shortcut;
                 case 27: // Notifications & Alerts
                     return R.drawable.ic_notifications;
+                case 5: // Sensors & accessories
                 case 46: // Watch Sensors
                     return R.drawable.ic_sensor_calibration;
                 case 47: // Accessories
                     return R.drawable.ic_bluetooth_searching;
+                case 6: // Map
+                    return R.drawable.ic_map;
                 case 7: // Music
                     return R.drawable.ic_music_note;
+                case 11: // Connectivity
+                    return R.drawable.ic_bluetooth_searching;
                 case 13: // Audio Prompts
                     return R.drawable.ic_volume_up;
                 case 14: // User Profile
                     return R.drawable.ic_person;
                 case 15: // Safety & Tracking
-                    return R.drawable.ic_health;
+                    return R.drawable.ic_emergency;
                 case 16: // Activity Tracking
                     return R.drawable.ic_activity_unknown_small;
+                case 17: // Navigation
+                    return R.drawable.ic_navigation;
+                case 18: // Power manager
+                    return R.drawable.ic_battery;
                 case 19: // System
                     return R.drawable.ic_settings;
+                case 26: // Appearance
+                    return R.drawable.ic_paint;
+                case 44: // Health & wellness
+                    return R.drawable.ic_health;
 
                 //
                 // Sortable screens (glances, apps, etc)
