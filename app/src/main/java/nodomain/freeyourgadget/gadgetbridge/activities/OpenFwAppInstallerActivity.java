@@ -83,7 +83,7 @@ public class OpenFwAppInstallerActivity extends AbstractGBActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Intent startIntent = new Intent(OpenFwAppInstallerActivity.this, FwAppInstallerActivity.class);
+            Intent startIntent = new Intent(OpenFwAppInstallerActivity.this, FileInstallerActivity.class);
             startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
             startIntent.setAction(Intent.ACTION_VIEW);
             startIntent.setDataAndType(resultData.getData(), null);
