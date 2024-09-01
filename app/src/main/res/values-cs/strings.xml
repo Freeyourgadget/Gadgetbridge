@@ -122,7 +122,7 @@
     <string name="pref_title_pebble_forceuntested">Povolit netestované funkce</string>
     <string name="pref_summary_pebble_forceuntested">Povolí funkce, které nebyl testovány. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
     <string name="pref_title_pebble_forcele">Vždy preferovat BLE</string>
-    <string name="pref_summary_pebble_forcele">Použít experimentální podporu Pebble LE pro všechny Pebble místo BT classic, vyžaduje spárování \"Pebble LE\" po připojení bez LE</string>
+    <string name="pref_summary_pebble_forcele">Použít experimentální podporu Pebble LE namísto BT classic pro všechna zařízení Pebble. Vyžaduje nejprve spárovat s ne-LE a poté s Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU limity</string>
     <string name="pref_summary_pebble_mtu_limit">Pokud vaše Pebble 2/Pebble LE nepracuje jak má, zkuste toto nastavení pro omezení MTU (povolený rozsah 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Zapnout logování aplikací hodinek</string>
@@ -184,7 +184,7 @@
     <string name="preferences_miband_settings">Nastavení Mi Band / Amazfit</string>
     <string name="male">Muž</string>
     <string name="female">Žena</string>
-    <string name="other">Jiný</string>
+    <string name="other">Jiné</string>
     <string name="left">Levé</string>
     <string name="right">Pravé</string>
     <string name="miband_pairing_using_dummy_userdata">Data uživatele nejsou platná, nyní používám vzorová.</string>
@@ -907,7 +907,7 @@
     <string name="about_activity_title_generic">O aplikaci Gadgetbridge</string>
     <string name="about_title">O aplikaci</string>
     <string name="menuitem_worldclock">Světový Čas</string>
-    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují aplikaci \"Weather Notification\". Více informací naleznete na wiki Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Použito pro poskytovatele počasí v systému LineageOS. Ostatní verze Androidu vyžadují aplikaci jako například „Weather Notification“. Více informací naleznete na wiki Gadgetbridge.</string>
     <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Nedoporučujeme pokračovat! Verze má název „%s“</string>
     <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a pokud nebudou udělena, může dojít k nestabilitě</string>
     <string name="activity_detail_show_gps_label">Zobrazit trasu GPS</string>
@@ -1489,7 +1489,7 @@
     <string name="add_test_device">Přidat testovací zařízení</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="discover_unsupported_devices">Vyhledávat nepodporovaná zařízení</string>
-    <string name="discover_unsupported_devices_description">Povolením této volby budou vyhledávána i nepodporovaná zařízení. Kliknutí zkopíruje jméno a MAC adresu zařízení do schránky. Podržení spustí dialog `Přidat testovací zařízení`. Může potenciálně způsobit zamrzání aplikace.</string>
+    <string name="discover_unsupported_devices_description">Povolením této volby budou zobrazena i nepodporovaná objevená zařízení. Klepnutím zkopírujete název a adresu MAC zařízení do schránky. Podržením otevřete nabídku „Přidat testovací zařízení“. Může způsobit zamrznutí aplikace.</string>
     <string name="sony_pause_when_taken_off">Pozastavení přehrávání při sundání sluchátek</string>
     <string name="sony_button_mode_left">Režim tlačítka (vlevo)</string>
     <string name="sony_button_mode_off">Vypnout</string>
@@ -2224,7 +2224,7 @@
     <string name="continue_pressing">Dlouhý Stisk</string>
     <string name="quick_attention">Rychlá pozornost</string>
     <string name="changelog_show_full">Více…</string>
-    <string name="pref_show_changelog">Zobrazit seznam změn při startu aplikace</string>
+    <string name="pref_show_changelog">Zobrazit seznam změn při spuštění aplikace</string>
     <string name="pref_show_changelog_summary">Zobrazí seznam změn od poslední aktualizace Gadgetbridge</string>
     <string name="activity_detail_share_raw_summary">Sdílet Souhrn Nezpracovaných Dat</string>
     <string name="activity_detail_share_raw_details">Sdílet Detaily Nezpracovaných Dat</string>
@@ -2366,7 +2366,7 @@
     <string name="sony_ambient_sound_control_button_mode_as_off">Zvuky Okolí, Vypnuto</string>
     <string name="pref_summary_navigation_forward">Předávat instrukce z navigačních aplikací do hodinek</string>
     <string name="sony_quick_access_triple_tap">Rychlý Přístup (trojté ťuknutí)</string>
-    <string name="pref_title_navigation_forward">Posílat navigaci do hodinek</string>
+    <string name="pref_title_navigation_forward">Odesílat navigaci do hodinek</string>
     <string name="withings_steel_hr">Withings Steel HR</string>
     <string name="sony_button_mode_help_summary">Popis módů tlačítek</string>
     <string name="sony_ambient_sound_control_button_modes">Režimy ovládání okolního zvuku</string>
@@ -3380,7 +3380,7 @@
     <string name="pref_title_nagivation_apps">Navigační aplikace</string>
     <string name="pref_header_external_integrations">Externí integrace</string>
     <string name="pref_header_automations">Automatizace</string>
-    <string name="pref_description_general">Základní nastavení, jazyk, oblast, umístění</string>
+    <string name="pref_description_general">Spouštění, jazyk, oblast, umístění</string>
     <string name="pref_description_about_you">Datum narození, pohlaví, výška, váha, cíle</string>
     <string name="pref_description_notifications">Oznámení aplikací, seznam povolených/zakázaných</string>
     <string name="pref_description_user_interface">Motiv, hlavní obrazovka</string>
