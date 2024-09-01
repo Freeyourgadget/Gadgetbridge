@@ -1,0 +1,10 @@
+package nodomain.freeyourgadget.gadgetbridge.devices;
+
+import androidx.annotation.Nullable;
+
+import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
+
+public interface Vo2MaxSampleProvider<T extends Vo2MaxSample> extends TimeSampleProvider<T> {
+    @Nullable
+    T getLatestSample(Vo2MaxSample.Type type);
+}

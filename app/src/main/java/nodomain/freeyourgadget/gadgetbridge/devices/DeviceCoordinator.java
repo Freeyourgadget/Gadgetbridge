@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
+import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
 import nodomain.freeyourgadget.gadgetbridge.model.WeightSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
@@ -220,6 +221,8 @@ public interface DeviceCoordinator {
 
     boolean supportsHrvMeasurement();
 
+    boolean supportsVo2Max();
+
     boolean supportsSleepMeasurement();
     boolean supportsStepCounter();
     boolean supportsSpeedzones();
@@ -309,6 +312,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for HRV values, for the device being supported.
      */
     TimeSampleProvider<? extends HrvValueSample> getHrvValueSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for VO2 max values, for the device being supported.
+     */
+    TimeSampleProvider<? extends Vo2MaxSample> getVo2MaxSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the stress ranges (relaxed, mild, moderate, high), so that stress can be categorized.

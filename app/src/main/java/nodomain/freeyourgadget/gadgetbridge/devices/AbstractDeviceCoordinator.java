@@ -80,6 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
+import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
 import nodomain.freeyourgadget.gadgetbridge.model.WeightSample;
 import nodomain.freeyourgadget.gadgetbridge.service.ServiceDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -217,6 +218,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends HrvValueSample> getHrvValueSampleProvider(GBDevice device, DaoSession session) {
+        return null;
+    }
+
+    @Override
+    public Vo2MaxSampleProvider<? extends Vo2MaxSample> getVo2MaxSampleProvider(GBDevice device, DaoSession session) {
         return null;
     }
 
@@ -466,6 +472,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public boolean supportsHrvMeasurement() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsVo2Max() {
         return false;
     }
 
