@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOREMOVE_MESSAGE;
@@ -299,32 +300,27 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         // If not a call or email, check the sender and if null, promote the title and message preview
         // as subtitle
         if (showMessagePreview && icon != CasioConstants.CATEGORY_INCOMING_CALL && icon != CasioConstants.CATEGORY_EMAIL) {
-            if (sender == null) {
+            if (!StringUtils.isNullOrEmpty(sender)) {
                 // Shift title to sender slot
                 sender = title;
             }
             //Shift content to title
-            if (message != null) {
+            if (!StringUtils.isNullOrEmpty(message)) {
                 title = message.substring(0, Math.min(message.length(), 18)) + "..";
             }
         }
 
         // Make sure title and sender are less than 32 characters
         byte[] titleBytes = new byte[0];
-        if(title != null) {
+        if (!StringUtils.isNullOrEmpty(title)) {
             if (title.length() > 32) {
                 title = title.substring(0, 30) + "..";
             }
             titleBytes = title.getBytes(StandardCharsets.UTF_8);
         }
 
-        byte[] messageBytes = new byte[0];
-        if(message != null) {
-            messageBytes = message.getBytes(StandardCharsets.UTF_8);
-        }
-
         byte[] senderBytes = new byte[0];
-        if(sender != null) {
+        if (!StringUtils.isNullOrEmpty(sender)) {
             if (sender.length() > 32) {
                 sender = sender.substring(0, 30) + "..";
             }
@@ -332,8 +328,15 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         }
 
         byte[] subtitleBytes = new byte[0];
-        if (subtitle != null) {
+        if (!StringUtils.isNullOrEmpty(subtitle)) {
             subtitleBytes = subtitle.getBytes(StandardCharsets.UTF_8);
+        }
+
+        // Ensure the sum of all messages is not over 287 bytes, as per #4063
+        // FIXME: We probably need to take the MTU into account too...
+        byte[] messageBytes = new byte[0];
+        if (!StringUtils.isNullOrEmpty(message)) {
+            messageBytes = StringUtils.truncateToBytes(message, 287 - titleBytes.length - senderBytes.length - subtitleBytes.length);
         }
 
         byte[] arr = new byte[22];
@@ -400,10 +403,10 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         try {
             TransactionBuilder builder = performInitialized("showNotification");
             builder.write(getCharacteristic(CasioConstants.CASIO_NOTIFICATION_CHARACTERISTIC_UUID), copy);
-            LOG.info("Showing notification, title: " + title + " message (not sent): " + message);
+            LOG.info("Showing notification, title: {} message: {}", title, message);
             builder.queue(getQueue());
         } catch (IOException e) {
-            LOG.warn("showNotification failed: " + e.getMessage());
+            LOG.error("showNotification failed", e);
         }
     }
 
@@ -432,7 +435,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
                 icon = CasioConstants.CATEGORY_OTHER;
                 break;
         }
-        LOG.info("onNotification id=" + notificationSpec.getId());
+        LOG.info("onNotification id={}", notificationSpec.getId());
         showNotification(icon, notificationSpec.sender, notificationSpec.title, notificationSpec.body, notificationSpec.getId(), false);
         mSyncedNotificationIDs.add(notificationSpec.getId());
         if(autoremove) {

@@ -83,28 +83,8 @@ public class CasioGBX100DeviceCoordinator extends Casio2C2DDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsWeather() {
-        return false;
-    }
-
-    @Override
     public boolean supportsAlarmSnoozing() {
         return true;
-    }
-
-    @Override
-    public boolean supportsFindDevice() {
-        return false;
     }
 
     @Override
@@ -133,23 +113,8 @@ public class CasioGBX100DeviceCoordinator extends Casio2C2DDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
     public int getAlarmSlotCount(GBDevice device) {
         return 4;
-    }
-
-    @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
-    }
-
-    @Override
-    public boolean supportsAppsManagement(final GBDevice device) {
-        return false;
     }
 
     @Override
