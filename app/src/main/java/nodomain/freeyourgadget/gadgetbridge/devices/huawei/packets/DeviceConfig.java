@@ -1225,6 +1225,7 @@ public class DeviceConfig {
             public Step2Data step2Data;
             public Step3Data step3Data;
             public Step4Data step4Data;
+            public int errorCode = 0;
 
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
@@ -1252,6 +1253,9 @@ public class DeviceConfig {
                         } else if (jsonPayload.has("encAuthToken")) {
                             this.step = 0x03;
                             this.step3Data = new Step3Data(jsonPayload);
+                        }
+                        if (jsonPayload.has("errorCode")) {
+                            this.errorCode = jsonPayload.getInt("errorCode");
                         }
                     } catch (JSONException e) {
                         throw new JsonException("", e);

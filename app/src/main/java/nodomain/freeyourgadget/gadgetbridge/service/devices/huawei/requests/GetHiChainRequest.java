@@ -163,9 +163,10 @@ public class GetHiChainRequest extends Request {
         if (!(receivedPacket instanceof HiChain.Response))
             throw new ResponseTypeMismatchException(receivedPacket, HiChain.Response.class);
 
-        // TODO: handle failure codes
-
         HiChain.Response response = (HiChain.Response)receivedPacket;
+        if (response.errorCode != 0) {
+            throw new ResponseParseException("Got errorCode " +  response.errorCode);
+        }
         step = response.step;
 
         LOG.debug("Response operationCode: " + operationCode + " - step: " + step);
