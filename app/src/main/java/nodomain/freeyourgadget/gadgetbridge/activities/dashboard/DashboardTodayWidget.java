@@ -49,6 +49,7 @@ import java.util.TreeMap;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.StepAnalysis;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -400,7 +401,9 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 if (sample.getHeartRate() < 10 && firstTimestamp == 0) continue;
                 if (firstTimestamp == 0) firstTimestamp = sample.getTimestamp();
                 if (lastTimestamp == 0) lastTimestamp = sample.getTimestamp();
-                if ((sample.getHeartRate() < 10 || sample.getTimestamp() > lastTimestamp + dashboardData.hrIntervalSecs) && firstTimestamp != lastTimestamp) {
+                if (HeartRateUtils.getInstance().isValidHeartRateValue(sample.getHeartRate())
+                        && sample.getTimestamp() > lastTimestamp + dashboardData.hrIntervalSecs
+                        && firstTimestamp != lastTimestamp) {
                     LOG.debug("Registered worn session from {} to {}", firstTimestamp, lastTimestamp);
                     addActivity(firstTimestamp, lastTimestamp, ActivityKind.NOT_MEASURED);
                     if (sample.getHeartRate() < 10) {
@@ -412,7 +415,9 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                     }
                     continue;
                 }
-                lastTimestamp = sample.getTimestamp();
+                if (HeartRateUtils.getInstance().isValidHeartRateValue(sample.getHeartRate())) {
+                    lastTimestamp = sample.getTimestamp();
+                }
             }
             if (firstTimestamp != lastTimestamp) {
                 LOG.debug("Registered worn session from {} to {}", firstTimestamp, lastTimestamp);

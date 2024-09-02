@@ -39,7 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiActivitySample> {
     private static final Logger LOG = LoggerFactory.getLogger(ColmiActivitySampleProvider.class);
@@ -100,7 +99,12 @@ public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiAct
         );
         final long nanoStart = System.nanoTime();
 
-        final List<ColmiActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to);
+        final List<ColmiActivitySample> samples = fillGaps(
+                super.getGBActivitySamples(timestamp_from, timestamp_to),
+                timestamp_from,
+                timestamp_to
+        );
+
         final Map<Integer, ColmiActivitySample> sampleByTs = new HashMap<>();
         for (final ColmiActivitySample sample : samples) {
             sampleByTs.put(sample.getTimestamp(), sample);
@@ -108,19 +112,6 @@ public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiAct
 
         overlayHeartRate(sampleByTs, timestamp_from, timestamp_to);
         overlaySleep(sampleByTs, timestamp_from, timestamp_to);
-
-        // Add empty dummy samples every 5 min to make sure the charts and stats aren't too malformed
-        // This is necessary due to the Colmi rings just reporting steps/calories/distance aggregates per hour
-        for (int i=timestamp_from; i<=timestamp_to; i+=300) {
-            ColmiActivitySample sample = sampleByTs.get(i);
-            if (sample == null) {
-                sample = new ColmiActivitySample();
-                sample.setTimestamp(i);
-                sample.setProvider(this);
-                sample.setRawKind(ActivitySample.NOT_MEASURED);
-                sampleByTs.put(i, sample);
-            }
-        }
 
         final List<ColmiActivitySample> finalSamples = new ArrayList<>(sampleByTs.values());
         Collections.sort(finalSamples, (a, b) -> Integer.compare(a.getTimestamp(), b.getTimestamp()));
