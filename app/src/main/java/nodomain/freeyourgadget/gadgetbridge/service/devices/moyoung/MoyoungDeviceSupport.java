@@ -701,13 +701,14 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -daysAgo);
         cal.set(Calendar.SECOND, 0);
+        LOG.info("Received HR history packet: index={}, daysAgo={}, startHour={}", packetIndex, daysAgo, startHour);
         int index = 1;
         for (int hour=startHour; hour<startHour+6; hour++) {
             cal.set(Calendar.HOUR_OF_DAY, hour);
             for (int minute=0; minute<60; minute+=5) {
                 cal.set(Calendar.MINUTE, minute);
                 int hr = data[index] & 0xff;
-                if (HeartRateUtils.getInstance().isValidHeartRateValue(hr)) {
+                if (HeartRateUtils.getInstance().isValidHeartRateValue(hr) && cal.getTimeInMillis() < System.currentTimeMillis()) {
                     MoyoungHeartRateSample sample = new MoyoungHeartRateSample();
                     sample.setTimestamp(cal.getTimeInMillis());
                     sample.setHeartRate(hr);
@@ -1191,7 +1192,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         switch (config) {
             case ActivityUser.PREF_USER_HEIGHT_CM:
             case ActivityUser.PREF_USER_WEIGHT_KG:
-            case ActivityUser.PREF_USER_YEAR_OF_BIRTH:
+            case ActivityUser.PREF_USER_DATE_OF_BIRTH:
             case ActivityUser.PREF_USER_GENDER:
                 sendSetting(getSetting("USER_INFO"), new ActivityUser());
                 break;

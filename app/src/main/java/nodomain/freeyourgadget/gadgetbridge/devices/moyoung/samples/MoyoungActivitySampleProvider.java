@@ -165,7 +165,12 @@ public class MoyoungActivitySampleProvider extends AbstractSampleProvider<Moyoun
         );
         final long nanoStart = System.nanoTime();
 
-        final List<MoyoungActivitySample> samples = super.getGBActivitySamples(timestamp_from, timestamp_to);
+        final List<MoyoungActivitySample> samples = fillGaps(
+                super.getGBActivitySamples(timestamp_from, timestamp_to),
+                timestamp_from,
+                timestamp_to
+        );
+
         final Map<Integer, MoyoungActivitySample> sampleByTs = new HashMap<>();
         for (final MoyoungActivitySample sample : samples) {
             sampleByTs.put(sample.getTimestamp(), sample);
