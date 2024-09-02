@@ -77,6 +77,7 @@ public class ZeppECoordinator extends HuamiCoordinator {
 
         final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
         generic.add(R.xml.devicesettings_wearlocation);
+        generic.add(R.xml.devicesettings_device_actions);
         final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
         dateTime.add(R.xml.devicesettings_timeformat);
         final List<Integer> display = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY);
@@ -97,7 +98,6 @@ public class ZeppECoordinator extends HuamiCoordinator {
         connection.add(R.xml.devicesettings_disconnectnotification);
         connection.add(R.xml.devicesettings_expose_hr_thirdparty);
         connection.add(R.xml.devicesettings_bt_connected_advertisement);
-        connection.add(R.xml.devicesettings_device_actions);
         connection.add(R.xml.devicesettings_high_mtu);
         connection.add(R.xml.devicesettings_overwrite_settings_on_connection);
         final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);

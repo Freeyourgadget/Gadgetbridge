@@ -98,6 +98,7 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
 
         final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
         generic.add(R.xml.devicesettings_wearlocation);
+        generic.add(R.xml.devicesettings_device_actions);
         final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
         dateTime.add(R.xml.devicesettings_timeformat);
         dateTime.add(R.xml.devicesettings_world_clocks);
@@ -122,7 +123,6 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
         final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
         connection.add(R.xml.devicesettings_expose_hr_thirdparty);
         connection.add(R.xml.devicesettings_bt_connected_advertisement);
-        connection.add(R.xml.devicesettings_device_actions);
         connection.add(R.xml.devicesettings_high_mtu);
         connection.add(R.xml.devicesettings_overwrite_settings_on_connection);
         final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);

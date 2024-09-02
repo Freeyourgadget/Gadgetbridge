@@ -57,6 +57,7 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
         final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
         generic.add(R.xml.devicesettings_wearlocation);
         generic.add(R.xml.devicesettings_buttonactions_with_longpress);
+        generic.add(R.xml.devicesettings_device_actions);
         final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
         dateTime.add(R.xml.devicesettings_timeformat);
         final List<Integer> display = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY);
@@ -76,7 +77,6 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
         final List<Integer> connection = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CONNECTION);
         connection.add(R.xml.devicesettings_disconnectnotification);
         connection.add(R.xml.devicesettings_bt_connected_advertisement);
-        connection.add(R.xml.devicesettings_device_actions);
         connection.add(R.xml.devicesettings_overwrite_settings_on_connection);
         final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
         developer.add(R.xml.devicesettings_relax_firmware_checks);
