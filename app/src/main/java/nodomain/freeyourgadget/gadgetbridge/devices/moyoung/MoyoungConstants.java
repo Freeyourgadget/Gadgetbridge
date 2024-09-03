@@ -197,6 +197,9 @@ public class MoyoungConstants {
     public static final byte ARG_OPERATION_PREV_SONG = 1;
     public static final byte ARG_OPERATION_NEXT_SONG = 2;
     public static final byte ARG_OPERATION_DROP_INCOMING_CALL = 3;
+    public static final byte ARG_OPERATION_VOLUME_UP = 4;
+    public static final byte ARG_OPERATION_VOLUME_DOWN = 5;
+    public static final byte ARG_OPERATION_PLAY = 6;
 
     public static final byte CMD_QUERY_ALARM_CLOCK = 33;                            // (?) {} -> a list of entries like below
     public static final byte CMD_SET_ALARM_CLOCK = 17;                              // (?) {id, enable ? 1 : 0, repeat, hour, minute, i >> 8, i, repeatMode}, repeatMode is 0(SINGLE), 127(EVERYDAY), or bitmask of 1,2,4,8,16,32,64(SUNDAY-SATURDAY) is 0,1,2, i is ((year << 12) + (month << 8) + day) where year is 2015-based, month and day start at 1 for repeatMode=SINGLE and 0 otherwise, repeat is 0(SINGLE),1(EVERYDAY),2(OTHER)

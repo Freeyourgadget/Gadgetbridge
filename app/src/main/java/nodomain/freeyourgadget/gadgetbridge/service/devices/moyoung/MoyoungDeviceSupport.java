@@ -86,12 +86,16 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
@@ -371,6 +375,27 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 evaluateGBDeviceEvent(callCmd);
                 return true;
             }
+            if (operation == MoyoungConstants.ARG_OPERATION_VOLUME_UP)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
+            if (operation == MoyoungConstants.ARG_OPERATION_VOLUME_DOWN)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
+            if (operation == MoyoungConstants.ARG_OPERATION_PLAY)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
         }
 
         if (packetType == MoyoungConstants.CMD_SWITCH_CAMERA_VIEW)
@@ -643,6 +668,31 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             default:
                 sendSetting(getSetting("HR_AUTO_INTERVAL"), MoyoungConstants.HR_INTERVAL_OFF);
         }
+    }
+
+    @Override
+    public void onSetMusicState(MusicStateSpec stateSpec) {
+        // TODO
+    }
+
+    @Override
+    public void onSetMusicInfo(MusicSpec musicSpec) {
+        // TODO
+    }
+
+    @Override
+    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+        // TODO
+    }
+
+    @Override
+    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
+        // TODO
+    }
+
+    @Override
+    public void onDeleteCalendarEvent(byte type, long id) {
+        // TODO
     }
 
     @Override
