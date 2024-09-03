@@ -212,12 +212,28 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
     }
 
     @Override
-    public String[] getSupportedLanguageSettings(GBDevice device) {
+    public String[] getSupportedLanguageSettings(final GBDevice device) {
+        // TODO: use settings customizer to display the languages
+        //  retrieved from the watch instead of this fixed list
         return new String[]{
+                "ar_SA",
+                "cs_CZ",
+                "de_DE",
                 "en_US",
+                "es_ES",
+                "fr_FR",
+                "it_IT",
+                "ja_JP",
+                "ko_KO",
                 "nl_NL",
+                "pl_PL",
+                "pt_PT",
+                "ro_RO",
+                "ru_RU",
+                "uk_UA",
+                "zh_CN",
         };
-    }
+    };
 
     @Override
     public List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals() {

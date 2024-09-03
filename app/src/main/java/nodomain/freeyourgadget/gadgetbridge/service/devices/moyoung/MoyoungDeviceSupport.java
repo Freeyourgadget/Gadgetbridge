@@ -1235,12 +1235,63 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(getSetting("DISPLAY_WATCH_FACE"), watchFace);
                 break;
 
-            case MoyoungConstants.PREF_LANGUAGE:
-                String languagePref = prefs.getString(MoyoungConstants.PREF_LANGUAGE,
-                    String.valueOf(MoyoungEnumLanguage.LANGUAGE_ENGLISH.value()));
-                byte languageNum = Byte.valueOf(languagePref);
+            case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
+                String languagePref = prefs.getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "en_US");
+                byte languageCode;
+                switch (languagePref.substring(0, 2)) {
+                    case "zh":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_CHINESE.value();
+                        break;
+                    case "it":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_ITALIAN.value();
+                        break;
+                    case "cs":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_CZECH.value();
+                        break;
+                    case "ru":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_RUSSIAN.value();
+                        break;
+                    case "pl":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_POLISH.value();
+                        break;
+                    case "nl":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_DUTCH.value();
+                        break;
+                    case "fr":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_FRENCH.value();
+                        break;
+                    case "es":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_SPANISH.value();
+                        break;
+                    case "de":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_GERMAN.value();
+                        break;
+                    case "pt":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_PORTUGUESE.value();
+                        break;
+                    case "jp":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_JAPANESE.value();
+                        break;
+                    case "ko":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_KOREAN.value();
+                        break;
+                    case "ar":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_ARABIC.value();
+                        break;
+                    case "uk":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_UKRAINIAN.value();
+                        break;
+                    case "hu":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_HUNGARIAN.value();
+                        break;
+                    case "ro":
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_ROMANIAN.value();
+                        break;
+                    default:
+                        languageCode = MoyoungEnumLanguage.LANGUAGE_ENGLISH.value();
+                }
                 MoyoungSettingEnum<MoyoungEnumLanguage> languageSetting = getSetting("DEVICE_LANGUAGE");
-                sendSetting(languageSetting, languageSetting.findByValue(languageNum));
+                sendSetting(languageSetting, languageSetting.findByValue(languageCode));
                 break;
 
             case MoyoungConstants.PREF_DEVICE_VERSION:
