@@ -57,7 +57,8 @@ public class WeatherHandler {
                 final List<WeatherForecastDay> ret = new ArrayList<>(duration);
                 final GregorianCalendar date = new GregorianCalendar();
                 date.setTime(new Date(weatherSpec.timestamp * 1000L));
-                for (int i = 0; i < Math.min(duration, weatherSpec.forecasts.size()); i++) {
+                ret.add(new WeatherForecastDay(date, weatherSpec.todayAsDaily(), tempUnit, speedUnit));
+                for (int i = 0; i < Math.min(duration, weatherSpec.forecasts.size()) - 1; i++) {
                     date.add(Calendar.DAY_OF_MONTH, 1);
                     ret.add(new WeatherForecastDay(date, weatherSpec.forecasts.get(i), tempUnit, speedUnit));
                 }

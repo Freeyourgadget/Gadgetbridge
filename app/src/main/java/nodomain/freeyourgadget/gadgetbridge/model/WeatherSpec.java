@@ -200,6 +200,30 @@ public class WeatherSpec implements Parcelable, Serializable {
         dest.writeList(hourly);
     }
 
+    /**
+     * Convert the current day's forecast to a {@link Daily} object.
+     */
+    public Daily todayAsDaily() {
+        final Daily daily = new Daily();
+
+        daily.minTemp = this.todayMinTemp;
+        daily.maxTemp = this.todayMaxTemp;
+        daily.conditionCode = this.currentConditionCode;
+        daily.humidity = this.currentHumidity;
+        daily.windSpeed = this.windSpeed;
+        daily.windDirection = this.windDirection;
+        daily.uvIndex = this.uvIndex;
+        daily.precipProbability = this.precipProbability;
+        daily.sunRise = this.sunRise;
+        daily.sunSet = this.sunSet;
+        daily.moonRise = this.moonRise;
+        daily.moonSet = this.moonSet;
+        daily.moonPhase = this.moonPhase;
+        daily.airQuality = this.airQuality;
+
+        return daily;
+    }
+
     @Deprecated // kept for backwards compatibility with old weather apps
     public static class Forecast implements Parcelable, Serializable {
         private static final long serialVersionUID = 1L;
