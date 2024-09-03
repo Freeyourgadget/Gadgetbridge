@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 Yoran Vulker
+/*  Copyright (C) 2023-2024 Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -28,10 +28,11 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiChannelHandler.Channel;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class XiaomiSppPacket {
-    private static final Logger LOG = LoggerFactory.getLogger(XiaomiSppPacket.class);
+public class XiaomiSppPacketV1 {
+    private static final Logger LOG = LoggerFactory.getLogger(XiaomiSppPacketV1.class);
 
     public static final byte[] PACKET_PREAMBLE = new byte[]{(byte) 0xba, (byte) 0xdc, (byte) 0xfe};
     public static final byte[] PACKET_EPILOGUE = new byte[]{(byte) 0xef};
@@ -55,17 +56,38 @@ public class XiaomiSppPacket {
     public static final int DATA_TYPE_ENCRYPTED = 1;
     public static final int DATA_TYPE_AUTH = 2;
 
+    public static final int OPCODE_READ = 0;
+    public static final int OPCODE_SEND = 2;
+
     private byte[] payload;
     private boolean flag, needsResponse;
-    private int channel, opCode, frameSerial, dataType;
+    private Channel channel;
+    private int rawChannel, opCode, frameSerial, dataType;
+
+    public static int getDataTypeForChannel(final Channel channel) {
+        switch (channel) {
+            case Authentication:
+                return DATA_TYPE_AUTH;
+            case ProtobufCommand:
+            case Version:
+            case Data:
+                return DATA_TYPE_ENCRYPTED;
+            default:
+                LOG.warn("getDataTypeForChannel(): cannot determine data type for channel {}", channel);
+                // fall through
+            case Activity: // and voice
+                return DATA_TYPE_PLAIN;
+        }
+    }
 
     public static class Builder {
-        private byte[] payload = null;
-        private boolean flag = false, needsResponse = false;
-        private int channel = -1, opCode = -1, frameSerial = -1, dataType = -1;
+        private byte[] payload = new byte[0];
+        private boolean flag = true, needsResponse = false;
+        private Channel channel = Channel.Unknown;
+        private int opCode = -1, frameSerial = -1, dataType = -1;
 
-        public XiaomiSppPacket build() {
-            XiaomiSppPacket result = new XiaomiSppPacket();
+        public XiaomiSppPacketV1 build() {
+            XiaomiSppPacketV1 result = new XiaomiSppPacketV1();
 
             result.channel = channel;
             result.flag = flag;
@@ -74,11 +96,12 @@ public class XiaomiSppPacket {
             result.frameSerial = frameSerial;
             result.dataType = dataType;
             result.payload = payload;
+            result.rawChannel = getRawChannel(channel, true);
 
             return result;
         }
 
-        public Builder channel(final int channel) {
+        public Builder channel(final Channel channel) {
             this.channel = channel;
             return this;
         }
@@ -114,7 +137,7 @@ public class XiaomiSppPacket {
         }
     }
 
-    public int getChannel() {
+    public Channel getChannel() {
         return channel;
     }
 
@@ -126,6 +149,29 @@ public class XiaomiSppPacket {
         return payload;
     }
 
+    public byte[] getDecryptedPayload(final XiaomiAuthService authService) {
+        if (payload == null) {
+            LOG.warn("getDecryptedPayload(): payload is null");
+            return null;
+        }
+
+        if (authService == null) {
+            LOG.warn("getDecryptedPayload(): authService is null");
+            return payload;
+        }
+
+        if (!authService.isEncryptionInitialized() && dataType == DATA_TYPE_ENCRYPTED) {
+            LOG.warn("getDecryptedPayload(): authService is not ready to decrypt");
+            return payload;
+        }
+
+        if (dataType == DATA_TYPE_ENCRYPTED) {
+            return authService.decrypt(payload);
+        }
+
+        return payload;
+    }
+
     public boolean needsResponse() {
         return needsResponse;
     }
@@ -134,10 +180,10 @@ public class XiaomiSppPacket {
         return this.flag;
     }
 
-    public static XiaomiSppPacket fromXiaomiCommand(final XiaomiProto.Command command, int frameCounter, boolean needsResponse) {
-        return newBuilder().channel(CHANNEL_PROTO_TX).flag(true).needsResponse(needsResponse).dataType(
+    public static XiaomiSppPacketV1 fromXiaomiCommand(final XiaomiProto.Command command, int frameCounter, boolean needsResponse) {
+        return newBuilder().channel(Channel.ProtobufCommand).needsResponse(needsResponse).dataType(
                 command.getType() == XiaomiAuthService.COMMAND_TYPE && command.getSubtype() >= 17 ? DATA_TYPE_AUTH : DATA_TYPE_ENCRYPTED
-        ).frameSerial(frameCounter).opCode(2).payload(command.toByteArray()).build();
+        ).frameSerial(frameCounter).opCode(OPCODE_SEND).payload(command.toByteArray()).build();
     }
 
     public static Builder newBuilder() {
@@ -148,11 +194,45 @@ public class XiaomiSppPacket {
     @Override
     public String toString() {
         return String.format(Locale.ROOT,
-                "SppPacket{ channel=0x%x, flag=%b, needsResponse=%b, opCode=0x%x, frameSerial=0x%x, dataType=0x%x, payloadSize=%d }",
-                channel, flag, needsResponse, opCode, frameSerial, dataType, payload.length);
+                "SppPacket{ channel=%s, rawChannel=%d, flag=%b, needsResponse=%b, opCode=0x%x, frameSerial=0x%x, dataType=0x%x, payloadSize=%d }",
+                channel, rawChannel, flag, needsResponse, opCode, frameSerial, dataType, payload.length);
     }
 
-    public static XiaomiSppPacket decode(final byte[] packet) {
+    public static int getRawChannel(final Channel channel, final boolean tx) {
+        switch (channel) {
+            case Version:
+                return CHANNEL_VERSION;
+            case Authentication:
+            case ProtobufCommand:
+                return tx ? CHANNEL_PROTO_TX : CHANNEL_PROTO_RX;
+            case Activity:
+                return CHANNEL_FITNESS;
+            case Data:
+                return CHANNEL_MASS;
+            default:
+                LOG.warn("Raw channel for {} unknown", channel);
+                return -1;
+        }
+    }
+
+    public static Channel getChannel(final byte rawChannel) {
+        switch (rawChannel & 0xff) {
+            case CHANNEL_PROTO_RX:
+            case CHANNEL_PROTO_TX:
+                return Channel.ProtobufCommand;
+            case CHANNEL_FITNESS:
+                return Channel.Activity;
+            case CHANNEL_MASS:
+                return Channel.Data;
+            case CHANNEL_VERSION:
+                return Channel.Version;
+            default:
+                LOG.warn("Cannot convert raw channel {} to known channel", rawChannel & 0xff);
+                return Channel.Unknown;
+        }
+    }
+
+    public static XiaomiSppPacketV1 decode(final byte[] packet) {
         if (packet.length < 11) {
             LOG.error("Cannot decode incomplete packet");
             return null;
@@ -208,8 +288,9 @@ public class XiaomiSppPacket {
             return null;
         }
 
-        XiaomiSppPacket result = new XiaomiSppPacket();
-        result.channel = channel;
+        XiaomiSppPacketV1 result = new XiaomiSppPacketV1();
+        result.rawChannel = channel;
+        result.channel = getChannel(channel);
         result.flag = flag;
         result.needsResponse = needsResponse;
         result.opCode = opCode;
@@ -223,7 +304,7 @@ public class XiaomiSppPacket {
     public byte[] encode(final XiaomiAuthService authService, final AtomicInteger encryptionCounter) {
         byte[] payload = this.payload;
 
-        if (dataType == DATA_TYPE_ENCRYPTED && channel == CHANNEL_PROTO_TX) {
+        if (dataType == DATA_TYPE_ENCRYPTED && channel == Channel.ProtobufCommand) {
             int packetCounter = encryptionCounter.incrementAndGet();
             payload = authService.encrypt(payload, packetCounter);
             payload = ByteBuffer.allocate(payload.length + 2).order(ByteOrder.LITTLE_ENDIAN).putShort((short) packetCounter).put(payload).array();
@@ -234,7 +315,7 @@ public class XiaomiSppPacket {
         ByteBuffer buffer = ByteBuffer.allocate(11 + payload.length).order(ByteOrder.LITTLE_ENDIAN);
         buffer.put(PACKET_PREAMBLE);
 
-        buffer.put((byte) (channel & 0xf));
+        buffer.put((byte) (getRawChannel(channel, true) & 0xf));
         buffer.put((byte) ((flag ? 0x80 : 0) | (needsResponse ? 0x40 : 0)));
         buffer.putShort((short) (payload.length + 3));
 

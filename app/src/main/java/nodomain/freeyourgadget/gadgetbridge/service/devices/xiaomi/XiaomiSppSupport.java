@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023 José Rebelo, Yoran Vulker
+/*  Copyright (C) 2023-2024 José Rebelo, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -16,15 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.CHANNEL_FITNESS;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.CHANNEL_MASS;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.CHANNEL_PROTO_RX;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.DATA_TYPE_ENCRYPTED;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacket.PACKET_PREAMBLE;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacketV1.DATA_TYPE_PLAIN;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSppPacketV1.OPCODE_READ;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.Nullable;
 
@@ -33,14 +32,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.proto.xiaomi.XiaomiProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.AbstractBTBRDeviceSupport;
@@ -48,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.PlainAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiChannelHandler.Channel;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiSppSupport extends XiaomiConnectionSupport {
@@ -65,11 +62,6 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         }
 
         @Override
-        public boolean getAutoReconnect() {
-            return mXiaomiSupport.getAutoReconnect();
-        }
-
-        @Override
         protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
             // FIXME unsetDynamicState unsets the fw version, which causes problems..
             if (getDevice().getFirmwareVersion() == null) {
@@ -80,10 +72,18 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
 
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
             builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
+            builder.write(XiaomiSppPacketV1.newBuilder()
+                    .channel(Channel.Version)
+                    .needsResponse(true)
+                    .opCode(OPCODE_READ)
+                    .dataType(DATA_TYPE_PLAIN)
+                    .frameSerial(0)
+                    .build()
+                    .encode(null, null));
             builder.add(new PlainAction() {
                 @Override
                 public boolean run(BluetoothSocket socket) {
-                    mXiaomiSupport.getAuthService().startEncryptedHandshake();
+                    mVersionResponseTimeoutHandler.postDelayed(new VersionTimeoutRunnable(), 5000L);
                     return true;
                 }
             });
@@ -97,12 +97,6 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         }
 
         @Override
-        public void disconnect() {
-            mXiaomiSupport.onDisconnect();
-            super.disconnect();
-        }
-
-        @Override
         public void dispose() {
             mXiaomiSupport.onDisconnect();
             super.dispose();
@@ -110,16 +104,22 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
     };
 
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    private final AtomicInteger frameCounter = new AtomicInteger(0);
-    private final AtomicInteger encryptionCounter = new AtomicInteger(0);
     private final XiaomiSupport mXiaomiSupport;
-    private final Map<Integer, XiaomiChannelHandler> mChannelHandlers = new HashMap<>();
+    private final Map<Channel, XiaomiChannelHandler> mChannelHandlers = new HashMap<>();
+    private final Handler mVersionResponseTimeoutHandler = new Handler(Looper.getMainLooper());
+    private AbstractXiaomiSppProtocol mProtocol = new XiaomiSppProtocolV1(this);
 
     public XiaomiSppSupport(final XiaomiSupport xiaomiSupport) {
         this.mXiaomiSupport = xiaomiSupport;
 
-        mChannelHandlers.put(CHANNEL_PROTO_RX, this.mXiaomiSupport::handleCommandBytes);
-        mChannelHandlers.put(CHANNEL_FITNESS, this.mXiaomiSupport.getHealthService().getActivityFetcher()::addChunk);
+        mChannelHandlers.put(Channel.Version, this::handleVersionPacket);
+        mChannelHandlers.put(Channel.ProtobufCommand, this.mXiaomiSupport::handleCommandBytes);
+        mChannelHandlers.put(Channel.Activity, this.mXiaomiSupport.getHealthService().getActivityFetcher()::addChunk);
+    }
+
+    @Override
+    public void setContext(GBDevice device, BluetoothAdapter adapter, Context context) {
+        this.commsSupport.setContext(device, adapter, context);
     }
 
     @Override
@@ -128,8 +128,12 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
     }
 
     @Override
-    public void onAuthSuccess() {
-        // Do nothing.
+    public void dispose() {
+        commsSupport.dispose();
+    }
+
+    protected XiaomiAuthService getAuthService() {
+        return mXiaomiSupport.getAuthService();
     }
 
     @Override
@@ -153,7 +157,7 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         if (commsSupport == null) {
             LOG.error("commsSupport is null, unable to queue task");
             return;
-	}
+        }
 
         final TransactionBuilder b = commsSupport.createTransactionBuilder("run task " + taskName + " on queue");
         b.add(new PlainAction() {
@@ -166,85 +170,52 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         b.queue(commsSupport.getQueue());
     }
 
-    @Override
-    public void setContext(GBDevice device, BluetoothAdapter adapter, Context context) {
-        this.commsSupport.setContext(device, adapter, context);
-    }
+    private void skipBuffer(int newStart) {
+        final byte[] bufferState = buffer.toByteArray();
+        buffer.reset();
 
-    private int findNextPossiblePreamble(final byte[] haystack) {
-        for (int i = 1; i + 2 < haystack.length; i++) {
-            // check if first byte matches
-            if (haystack[i] == PACKET_PREAMBLE[0]) {
-                return i;
-            }
+        if (newStart < 0) {
+            newStart = bufferState.length;
         }
 
-        // did not find preamble
-        return -1;
+        if (newStart >= bufferState.length) {
+            return;
+        }
+
+        buffer.write(bufferState, newStart, bufferState.length - newStart);
     }
 
     private void processBuffer() {
-        // wait until at least an empty packet is in the buffer
-        while (buffer.size() >= 11) {
-            // start preamble compare
-            byte[] bufferState = buffer.toByteArray();
-            ByteBuffer headerBuffer = ByteBuffer.wrap(bufferState, 0, 7).order(ByteOrder.LITTLE_ENDIAN);
-            byte[] preamble = new byte[PACKET_PREAMBLE.length];
-            headerBuffer.get(preamble);
+        boolean shouldProcess = true;
+        while (shouldProcess) {
+            final byte[] bufferState = buffer.toByteArray();
+            final AbstractXiaomiSppProtocol.ParseResult parseResult = mProtocol.processPacket(bufferState);
+            LOG.debug("processBuffer(): protocol.processPacket() returned status {}", parseResult.status);
+            int skipBytes;
 
-            if (!Arrays.equals(PACKET_PREAMBLE, preamble)) {
-                int preambleOffset = findNextPossiblePreamble(bufferState);
-
-                if (preambleOffset == -1) {
-                    LOG.debug("Buffer did not contain a valid (start of) preamble, resetting");
-                    buffer.reset();
-                } else {
-                    LOG.debug("Found possible preamble at offset {}, dumping preceeding bytes", preambleOffset);
-                    byte[] remaining = new byte[bufferState.length - preambleOffset];
-                    System.arraycopy(bufferState, preambleOffset, remaining, 0, remaining.length);
-                    buffer.reset();
-                    try {
-                        buffer.write(remaining);
-                    } catch (IOException ex) {
-                        LOG.error("Failed to write bytes from found preamble offset back to buffer: ", ex);
+            switch (parseResult.status) {
+                case Incomplete:
+                    skipBytes = 0;
+                    shouldProcess = false;
+                    break;
+                case Complete:
+                    skipBytes = parseResult.packetSize;
+                    break;
+                case Invalid:
+                    skipBytes = mProtocol.findNextPacketOffset(bufferState);
+                    if (skipBytes < 0) {
+                        skipBytes = bufferState.length;
                     }
-                }
-
-                // continue processing at beginning of new buffer
-                continue;
+                    break;
+                default:
+                    throw new IllegalStateException(String.format("Unhandled parse state %s", parseResult.status));
             }
 
-            headerBuffer.getShort(); // skip flags and channel ID
-            int payloadSize = headerBuffer.getShort() & 0xffff;
-            int packetSize = payloadSize + 8; // payload size includes payload header
-
-            if (bufferState.length < packetSize) {
-                LOG.debug("Packet buffer not yet satisfied: buffer size {} < expected packet size {}", bufferState.length, packetSize);
-                return;
-            }
-
-            LOG.debug("Full packet in buffer (buffer size: {}, packet size: {})", bufferState.length, packetSize);
-            XiaomiSppPacket receivedPacket = XiaomiSppPacket.decode(bufferState); // remaining bytes unaffected
-
-            onPacketReceived(receivedPacket);
-
-            // extract remaining bytes from buffer
-            byte[] remaining = new byte[bufferState.length - packetSize];
-            System.arraycopy(bufferState, packetSize, remaining, 0, remaining.length);
-
-            buffer.reset();
-
-            try {
-                buffer.write(remaining);
-            } catch (IOException ex) {
-                LOG.error("Failed to write remaining packet bytes back to buffer: ", ex);
+            if (skipBytes > 0) {
+                LOG.debug("processBuffer(): skipping {} bytes for state {}", skipBytes, parseResult.status);
+                skipBuffer(skipBytes);
             }
         }
-    }
-
-    @Override
-    public void dispose() {
-        commsSupport.dispose();
     }
 
     public void onSocketRead(byte[] data) {
@@ -257,26 +228,12 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         processBuffer();
     }
 
-    private void onPacketReceived(final XiaomiSppPacket packet) {
-        if (packet == null) {
-            // likely failed to parse the packet
-            LOG.warn("Received null packet, did we fail to decode?");
-            return;
-        }
-
-        LOG.debug("Packet received: {}", packet);
-        // TODO send response if needsResponse is set
-        byte[] payload = packet.getPayload();
-
-        if (packet.getDataType() == 1) {
-            payload = mXiaomiSupport.getAuthService().decrypt(payload);
-        }
-
-        final XiaomiChannelHandler handler = mChannelHandlers.get(packet.getChannel());
+    protected void onPacketReceived(final Channel channel, final byte[] payload) {
+        final XiaomiChannelHandler handler = mChannelHandlers.get(channel);
         if (handler != null) {
             handler.handle(payload);
         } else {
-            LOG.warn("Unhandled SppPacket on channel {}", packet.getChannel());
+            LOG.warn("Unhandled SppPacket on channel {}", channel);
         }
     }
 
@@ -292,27 +249,20 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
     }
 
     public void sendCommand(final TransactionBuilder builder, final XiaomiProto.Command command) {
-        final XiaomiSppPacket packet = XiaomiSppPacket.fromXiaomiCommand(command, frameCounter.getAndIncrement(), false);
-        LOG.debug("sending packet: {}, payload={}", packet, GB.hexdump(packet.getPayload()));
-
-        builder.write(packet.encode(mXiaomiSupport.getAuthService(), encryptionCounter));
+        LOG.debug("sendCommand(): encoded command for task '{}': {}", builder.getTransaction().getTaskName(), GB.hexdump(command.toByteArray()));
+        if (command.getType() == XiaomiAuthService.COMMAND_TYPE) {
+            builder.write(mProtocol.encodePacket(Channel.Authentication, command.toByteArray()));
+        } else {
+            builder.write(mProtocol.encodePacket(Channel.ProtobufCommand, command.toByteArray()));
+        }
         // do not queue here, that's the job of the caller
     }
 
     public void sendDataChunk(final String taskName, final byte[] chunk, @Nullable final XiaomiCharacteristic.SendCallback callback) {
-        XiaomiSppPacket packet = XiaomiSppPacket.newBuilder()
-                .channel(CHANNEL_MASS)
-                .needsResponse(false)
-                .flag(true)
-                .opCode(2)
-                .frameSerial(frameCounter.getAndIncrement())
-                .dataType(DATA_TYPE_ENCRYPTED)
-                .payload(chunk)
-                .build();
-        LOG.debug("sending data packet: {}", packet);
-        TransactionBuilder b = this.commsSupport.createTransactionBuilder("send " + taskName);
-        b.write(packet.encode(mXiaomiSupport.getAuthService(), encryptionCounter));
-        b.queue(commsSupport.getQueue());
+        LOG.debug("sendDataChunk(): encoded data chunk for task '{}': {}", taskName, GB.hexdump(chunk));
+        this.commsSupport.createTransactionBuilder("send " + taskName)
+            .write(mProtocol.encodePacket(Channel.Data, chunk))
+            .queue(commsSupport.getQueue());
 
         if (callback != null) {
             // callback puts a SetProgressAction onto the queue
@@ -320,9 +270,34 @@ public class XiaomiSppSupport extends XiaomiConnectionSupport {
         }
     }
 
-    @Override
-    public void setAutoReconnect(boolean enabled) {
-        // for sanity, but this is not supposed to be set on BT Classic devices
-        this.commsSupport.setAutoReconnect(enabled);
+    private void handleVersionPacket(final byte[] payloadBytes) {
+        // remove timeout actions from handler
+        mVersionResponseTimeoutHandler.removeCallbacksAndMessages(null);
+
+        if (payloadBytes != null && payloadBytes.length > 0) {
+            LOG.debug("Received SPP protocol version: {}", GB.hexdump(payloadBytes));
+
+            // show in details
+            final GBDeviceEventUpdateDeviceInfo event = new GBDeviceEventUpdateDeviceInfo("SPP_PROTOCOL: ", GB.hexdump(payloadBytes));
+            mXiaomiSupport.evaluateGBDeviceEvent(event);
+
+            // TODO handle different protocol versions
+            if (payloadBytes[0] >= 2) {
+                LOG.info("handleVersionPacket(): detected protocol version higher than 2, switching protocol");
+                mProtocol = new XiaomiSppProtocolV2(this);
+            }
+        }
+
+        if (mProtocol.initializeSession()) {
+            mXiaomiSupport.getAuthService().startEncryptedHandshake();
+        }
+    }
+
+    class VersionTimeoutRunnable implements Runnable {
+        @Override
+        public void run() {
+            LOG.warn("SPP protocol version request timed out");
+            XiaomiSppSupport.this.handleVersionPacket(new byte[0]);
+        }
     }
 }

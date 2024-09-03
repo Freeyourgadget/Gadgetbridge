@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Andreas Shimokawa, José Rebelo
+/*  Copyright (C) 2023-2024 Andreas Shimokawa, José Rebelo, Yoran Vulker
 
     This file is part of Gadgetbridge.
 
@@ -37,14 +37,19 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Locale;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -358,5 +363,33 @@ public class XiaomiAuthService extends AbstractXiaomiService {
         final CCMBlockCipher blockCipher = new CCMBlockCipher(aesFastEngine);
         blockCipher.init(forEncrypt, new AEADParameters(new KeyParameter(secretKey.getEncoded()), macSizeBits, nonce, null));
         return blockCipher;
+    }
+
+    public byte[] encryptV2(final byte[] message) {
+        try {
+            // I wish I was kidding
+            return ctrCrypt(Cipher.ENCRYPT_MODE, encryptionKey, encryptionKey, message);
+        } catch (final GeneralSecurityException ex) {
+            throw new RuntimeException("failed to encrypt message", ex);
+        }
+    }
+
+    public byte[] decryptV2(final byte[] ciphertext) {
+        try {
+            // I wish I was kidding
+            return ctrCrypt(Cipher.DECRYPT_MODE, decryptionKey, decryptionKey, ciphertext);
+        } catch (final GeneralSecurityException ex) {
+            throw new RuntimeException("failed to decrypt message", ex);
+        }
+    }
+
+    public byte[] ctrCrypt(final int op, final byte[] key, final byte[] iv, final byte[] message) throws GeneralSecurityException {
+        final Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
+        cipher.init(
+                op,
+                new SecretKeySpec(key, "AES"),
+                new IvParameterSpec(iv)
+        );
+        return cipher.doFinal(message);
     }
 }
