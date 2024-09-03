@@ -626,6 +626,26 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onSetHeartRateMeasurementInterval(int seconds) {
+        switch (seconds) {
+            case 300:
+                sendSetting(getSetting("HR_AUTO_INTERVAL"), MoyoungConstants.HR_INTERVAL_5MIN);
+                break;
+            case 600:
+                sendSetting(getSetting("HR_AUTO_INTERVAL"), MoyoungConstants.HR_INTERVAL_10MIN);
+                break;
+            case 1200:
+                sendSetting(getSetting("HR_AUTO_INTERVAL"), MoyoungConstants.HR_INTERVAL_20MIN);
+                break;
+            case 1800:
+                sendSetting(getSetting("HR_AUTO_INTERVAL"), MoyoungConstants.HR_INTERVAL_30MIN);
+                break;
+            default:
+                sendSetting(getSetting("HR_AUTO_INTERVAL"), MoyoungConstants.HR_INTERVAL_OFF);
+        }
+    }
+
+    @Override
     public void onFetchRecordedData(int dataTypes) {
         if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0)
         {

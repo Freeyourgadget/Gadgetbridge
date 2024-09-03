@@ -45,6 +45,7 @@ public class HeartRateCapability {
         MINUTES_5(300, R.string.interval_five_minutes),
         MINUTES_10(600, R.string.interval_ten_minutes),
         MINUTES_15(900, R.string.interval_fifteen_minutes),
+        MINUTES_20(1200, R.string.interval_twenty_minutes),
         MINUTES_30(1800, R.string.interval_thirty_minutes),
         MINUTES_45(2700, R.string.interval_forty_five_minutes),
         HOUR_1(3600, R.string.interval_one_hour),

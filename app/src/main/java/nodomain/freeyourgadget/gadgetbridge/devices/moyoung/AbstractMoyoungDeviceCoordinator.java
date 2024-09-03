@@ -241,7 +241,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
                 HeartRateCapability.MeasurementInterval.OFF,
                 HeartRateCapability.MeasurementInterval.MINUTES_5,
                 HeartRateCapability.MeasurementInterval.MINUTES_10,
-                HeartRateCapability.MeasurementInterval.MINUTES_15,
+                HeartRateCapability.MeasurementInterval.MINUTES_20,
                 HeartRateCapability.MeasurementInterval.MINUTES_30
         );
     }

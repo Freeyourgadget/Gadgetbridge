@@ -751,6 +751,7 @@
     <string name="interval_five_minutes">every 5 minutes</string>
     <string name="interval_ten_minutes">every 10 minutes</string>
     <string name="interval_fifteen_minutes">every 15 minutes</string>
+    <string name="interval_twenty_minutes">every 20 minutes</string>
     <string name="interval_thirty_minutes">every 30 minutes</string>
     <string name="interval_forty_five_minutes">every 45 minutes</string>
     <string name="heartrate_bpm_40">40 bpm</string>
