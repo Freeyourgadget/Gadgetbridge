@@ -199,9 +199,8 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
         final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
         generic.add(R.xml.devicesettings_moyoung_device_version);
-        generic.add(R.xml.devicesettings_colmi_r0x);
+        generic.add(R.xml.devicesettings_heartrate_interval);
         generic.add(R.xml.devicesettings_timeformat);
-        generic.add(R.xml.devicesettings_measurementsystem);
         generic.add(R.xml.devicesettings_moyoung_watchface);
         generic.add(R.xml.devicesettings_liftwrist_display);
         generic.add(R.xml.devicesettings_moyoung_sedentary_reminder);

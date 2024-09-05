@@ -2645,6 +2645,7 @@
         <item>Watch face 8</item>
         <item>Watch face 9</item>
         <item>Watch face 10</item>
+        <item>Watch face 11</item>
     </string-array>
 
     <string-array name="pref_moyoung_watch_face_values">
@@ -2658,6 +2659,7 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+        <item>11</item>
     </string-array>
 
     <string-array name="pref_moyoung_device_version">

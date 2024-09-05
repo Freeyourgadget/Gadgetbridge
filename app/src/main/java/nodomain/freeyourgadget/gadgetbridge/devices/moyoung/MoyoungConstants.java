@@ -402,10 +402,10 @@ public class MoyoungConstants {
     }
 
 
-    public static final String PREF_WATCH_FACE = "moyoung_watch_face";
+    public static final String PREF_MOYOUNG_WATCH_FACE = "moyoung_watch_face";
     public static final String PREF_LANGUAGE = "moyoung_language";
     public static final String PREF_LANGUAGE_SUPPORT = "moyoung_language_supported";
-    public static final String PREF_DEVICE_VERSION = "moyoung_device_version";
+    public static final String PREF_MOYOUNG_DEVICE_VERSION = "moyoung_device_version";
     public static final String PREF_SEDENTARY_REMINDER = "sedentary_reminder";
     public static final String PREF_SEDENTARY_REMINDER_PERIOD = "sedentary_reminder_period";
     public static final String PREF_SEDENTARY_REMINDER_STEPS = "sedentary_reminder_steps";

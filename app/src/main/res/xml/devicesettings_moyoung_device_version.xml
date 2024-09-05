@@ -6,5 +6,6 @@
         android:entryValues="@array/pref_moyoung_device_version_values"
         android:key="moyoung_device_version"
         android:summary="%s"
-        android:title="@string/pref_device_version" />
+        android:title="@string/pref_device_version"
+        android:icon="@drawable/ic_language" />
 </androidx.preference.PreferenceScreen>

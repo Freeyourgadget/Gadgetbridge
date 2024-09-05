@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -57,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.AbstractMoyoungDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.MoyoungConstants;
@@ -68,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungHeart
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.samples.MoyoungSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumDeviceVersion;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumLanguage;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumMetricSystem;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumTimeSystem;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSetting;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingEnum;
@@ -175,6 +178,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(MoyoungConstants.UUID_CHARACTERISTIC_DATA_IN), true);
         deviceInfoProfile.requestDeviceInfo(builder);
         setTime(builder);
+        setMeasurementSystem(builder);
         sendSetting(builder, getSetting("USER_INFO"), new ActivityUser()); // these settings are write-only, so write them just in case because there is no way to know if they desynced somehow
         sendSetting(builder, getSetting("GOAL_STEP"), new ActivityUser().getStepsGoal());
         batteryInfoProfile.requestBatteryInfo(builder);
@@ -435,6 +439,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
         if (packetType == MoyoungConstants.CMD_QUERY_DISPLAY_WATCH_FACE)
         {
             LOG.info("Watchface changed on watch to nr {}", payload[0]);
+            onReadConfigurationDone(getSetting("DISPLAY_WATCH_FACE"), payload[0], null);
             return true;
         }
 
@@ -539,6 +544,26 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             sendNotification(MoyoungConstants.NOTIFICATION_TYPE_CALL, NotificationUtils.getPreferredTextFor(callSpec));
         else
             sendNotification(MoyoungConstants.NOTIFICATION_TYPE_CALL_OFF_HOOK, "");
+    }
+
+    private void setMeasurementSystem(TransactionBuilder builder) {
+        Prefs prefs = GBApplication.getPrefs();
+        String unit = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+
+        MoyoungEnumMetricSystem metricSystem = null;
+        if (unit.equals(getContext().getString(R.string.p_unit_metric)))
+            metricSystem = MoyoungEnumMetricSystem.METRIC_SYSTEM;
+        else if (unit.equals(getContext().getString(R.string.p_unit_imperial)))
+            metricSystem = MoyoungEnumMetricSystem.IMPERIAL_SYSTEM;
+        else
+            LOG.warn("Invalid unit preference: {}", unit);
+
+        if (metricSystem != null) {
+            if (builder == null)
+                sendSetting(getSetting("METRIC_SYSTEM"), metricSystem);
+            else
+                sendSetting(builder, getSetting("METRIC_SYSTEM"), metricSystem);
+        }
     }
 
     private void setTime(TransactionBuilder builder) {
@@ -1285,22 +1310,12 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(getSetting("TIME_SYSTEM"), timeSystem);
                 break;
 
-//            case DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM:
-//                String metricSystemPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_MEASUREMENTSYSTEM, getContext().getString(R.string.p_unit_metric));
-//
-//                MoyoungEnumMetricSystem metricSystem;
-//                if (metricSystemPref.equals(getContext().getString(R.string.p_unit_metric)))
-//                    metricSystem = MoyoungEnumMetricSystem.METRIC_SYSTEM;
-//                else if (metricSystemPref.equals(getContext().getString(R.string.p_unit_imperial)))
-//                    metricSystem = MoyoungEnumMetricSystem.IMPERIAL_SYSTEM;
-//                else
-//                    throw new IllegalArgumentException();
-//
-//                sendSetting(getSetting("METRIC_SYSTEM"), metricSystem);
-//                break;
+            case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
+                setMeasurementSystem(null);
+                break;
 
-            case MoyoungConstants.PREF_WATCH_FACE:
-                String watchFacePref = prefs.getString(MoyoungConstants.PREF_WATCH_FACE, String.valueOf(1));
+            case MoyoungConstants.PREF_MOYOUNG_WATCH_FACE:
+                String watchFacePref = prefs.getString(MoyoungConstants.PREF_MOYOUNG_WATCH_FACE, String.valueOf(1));
                 byte watchFace = Byte.valueOf(watchFacePref);
                 sendSetting(getSetting("DISPLAY_WATCH_FACE"), watchFace);
                 break;
@@ -1364,8 +1379,8 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(languageSetting, languageSetting.findByValue(languageCode));
                 break;
 
-            case MoyoungConstants.PREF_DEVICE_VERSION:
-                String versionPref = prefs.getString(MoyoungConstants.PREF_DEVICE_VERSION,
+            case MoyoungConstants.PREF_MOYOUNG_DEVICE_VERSION:
+                String versionPref = prefs.getString(MoyoungConstants.PREF_MOYOUNG_DEVICE_VERSION,
                     String.valueOf(MoyoungEnumDeviceVersion.INTERNATIONAL_EDITION.value()));
                 byte versionNum = Byte.valueOf(versionPref);
                 MoyoungSettingEnum<MoyoungEnumDeviceVersion> versionSetting = getSetting("DEVICE_VERSION");
@@ -1463,7 +1478,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                querySetting(getSetting("METRIC_SYSTEM"));
 //                break;
 
-            case MoyoungConstants.PREF_WATCH_FACE:
+            case MoyoungConstants.PREF_MOYOUNG_WATCH_FACE:
                 querySetting(getSetting("DISPLAY_WATCH_FACE"));
                 break;
 
@@ -1471,7 +1486,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 querySetting(getSetting("DEVICE_LANGUAGE"));
                 break;
 
-            case MoyoungConstants.PREF_DEVICE_VERSION:
+            case MoyoungConstants.PREF_MOYOUNG_DEVICE_VERSION:
                 querySetting(getSetting("DEVICE_VERSION"));
                 break;
 
@@ -1511,18 +1526,19 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onReadConfigurationDone(MoyoungSetting setting, Object value, byte[] data)
     {
         LOG.info("CONFIG " + setting.name + " = " + value);
-        Prefs prefs = getDevicePrefs();
-        Map<String, String> changedProperties = new ArrayMap<>();
-        SharedPreferences.Editor prefsEditor = prefs.getPreferences().edit();
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences();
+//        Prefs prefs = getDevicePrefs();
+//        Map<String, String> changedProperties = new ArrayMap<>();
+//        SharedPreferences.Editor prefsEditor = prefs.getPreferences().edit();
         switch (setting.name) {
             case "TIME_SYSTEM":
                 MoyoungEnumTimeSystem timeSystem = (MoyoungEnumTimeSystem) value;
-                if (timeSystem == MoyoungEnumTimeSystem.TIME_SYSTEM_24)
-                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
-                else if (timeSystem == MoyoungEnumTimeSystem.TIME_SYSTEM_12)
-                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_am_pm));
-                else
-                    throw new IllegalArgumentException("Invalid value");
+//                if (timeSystem == MoyoungEnumTimeSystem.TIME_SYSTEM_24)
+//                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_24h));
+//                else if (timeSystem == MoyoungEnumTimeSystem.TIME_SYSTEM_12)
+//                    changedProperties.put(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, getContext().getString(R.string.p_timeformat_am_pm));
+//                else
+//                    throw new IllegalArgumentException("Invalid value");
                 break;
 
 //            case "METRIC_SYSTEM":
@@ -1536,23 +1552,28 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                break;
 
             case "DISPLAY_WATCH_FACE":
-                byte watchFace = (Byte) value;
-                changedProperties.put(MoyoungConstants.PREF_WATCH_FACE, String.valueOf(watchFace));
+//                byte watchFace = (Byte) value;
+//                changedProperties.put(MoyoungConstants.PREF_MOYOUNG_WATCH_FACE, String.valueOf(watchFace));
+                eventUpdatePreferences.withPreference(
+                        MoyoungConstants.PREF_MOYOUNG_WATCH_FACE,
+                        String.valueOf((byte) value)
+                );
+                evaluateGBDeviceEvent(eventUpdatePreferences);
                 break;
 
             case "DEVICE_LANGUAGE":
                 MoyoungEnumLanguage language = (MoyoungEnumLanguage) value;
-                changedProperties.put(MoyoungConstants.PREF_LANGUAGE, String.valueOf(language.value()));
-                MoyoungEnumLanguage[] supportedLanguages = ((MoyoungSettingLanguage) setting).decodeSupportedValues(data);
-                Set<String> supportedLanguagesList = new HashSet<>();
-                for(MoyoungEnumLanguage supportedLanguage : supportedLanguages)
-                    supportedLanguagesList.add(String.valueOf(supportedLanguage.value()));
-                prefsEditor.putStringSet(MoyoungConstants.PREF_LANGUAGE_SUPPORT, supportedLanguagesList);
+//                changedProperties.put(MoyoungConstants.PREF_LANGUAGE, String.valueOf(language.value()));
+//                MoyoungEnumLanguage[] supportedLanguages = ((MoyoungSettingLanguage) setting).decodeSupportedValues(data);
+//                Set<String> supportedLanguagesList = new HashSet<>();
+//                for(MoyoungEnumLanguage supportedLanguage : supportedLanguages)
+//                    supportedLanguagesList.add(String.valueOf(supportedLanguage.value()));
+//                prefsEditor.putStringSet(MoyoungConstants.PREF_LANGUAGE_SUPPORT, supportedLanguagesList);
                 break;
 
             case "DEVICE_VERSION":
                 MoyoungEnumDeviceVersion deviceVersion = (MoyoungEnumDeviceVersion) value;
-                changedProperties.put(MoyoungConstants.PREF_DEVICE_VERSION, String.valueOf(deviceVersion.value()));
+//                changedProperties.put(MoyoungConstants.PREF_MOYOUNG_DEVICE_VERSION, String.valueOf(deviceVersion.value()));
                 break;
 
 //            case "DO_NOT_DISTURB_TIME":
@@ -1589,20 +1610,20 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
             case "SEDENTARY_REMINDER":
                 boolean sedentaryReminderEnabled = (Boolean) value;
-                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER, sedentaryReminderEnabled ? "on": "off");
+//                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER, sedentaryReminderEnabled ? "on": "off");
                 break;
 
             case "REMINDERS_TO_MOVE_PERIOD":
                 MoyoungSettingRemindersToMove.RemindersToMove remindersToMove = (MoyoungSettingRemindersToMove.RemindersToMove) value;
-                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_PERIOD, String.valueOf(remindersToMove.period));
-                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_STEPS, String.valueOf(remindersToMove.steps));
-                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_START, String.valueOf(remindersToMove.start_h));
-                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_END, String.valueOf(remindersToMove.end_h));
+//                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_PERIOD, String.valueOf(remindersToMove.period));
+//                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_STEPS, String.valueOf(remindersToMove.steps));
+//                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_START, String.valueOf(remindersToMove.start_h));
+//                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_END, String.valueOf(remindersToMove.end_h));
                 break;
         }
-        for (Map.Entry<String, String> property : changedProperties.entrySet())
-            prefsEditor.putString(property.getKey(), property.getValue());
-        prefsEditor.apply();
+//        for (Map.Entry<String, String> property : changedProperties.entrySet())
+//            prefsEditor.putString(property.getKey(), property.getValue());
+//        prefsEditor.apply();
 //        for (Map.Entry<String, String> property : changedProperties.entrySet())
 //        {
 //            GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();

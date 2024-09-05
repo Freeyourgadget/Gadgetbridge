@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/prefs_heartrate_measurement_interval"
+        android:entryValues="@array/prefs_heartrate_measurement_interval_values"
+        android:icon="@drawable/ic_heartrate"
+        android:key="heartrate_measurement_interval"
+        android:summary="%s"
+        android:title="@string/prefs_title_heartrate_measurement_interval" />
+</androidx.preference.PreferenceScreen>
