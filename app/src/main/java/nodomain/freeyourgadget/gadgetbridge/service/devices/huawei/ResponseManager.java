@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -80,47 +81,57 @@ public class ResponseManager {
      * @param data The received data
      */
     public void handleData(byte[] data) {
-        try {
-            if (receivedPacket == null)
-                receivedPacket = new HuaweiPacket(support.getParamsProvider()).parse(data);
-            else
-                receivedPacket = receivedPacket.parse(data);
-        } catch (HuaweiPacket.ParseException e) {
-            LOG.error("Packet parse exception", e);
+        //NOTE: This is a quick fix issue with concatenated packets.
+        //TODO: Extract transport related code from packet.
+        int left = 0;
+        do {
+            if(left > 0)
+                data = Arrays.copyOfRange(data, data.length - left, data.length);
 
-            // Clean up so the next message may be parsed correctly
-            this.receivedPacket = null;
-            return;
-        }
+            try {
+                if (receivedPacket == null)
+                    receivedPacket = new HuaweiPacket(support.getParamsProvider()).parse(data);
+                else
+                    receivedPacket = receivedPacket.parse(data);
 
-        if (receivedPacket.complete) {
-            Request handler = null;
-            synchronized (handlers) {
-                for (Request req : handlers) {
-                    if (req.handleResponse(receivedPacket)) {
-                        handler = req;
-                        break;
-                    }
-                }
+                left = receivedPacket.getLeft();
+            } catch (HuaweiPacket.ParseException e) {
+                LOG.error("Packet parse exception", e);
+
+                // Clean up so the next message may be parsed correctly
+                this.receivedPacket = null;
+                return;
             }
 
-            if (handler == null) {
-                LOG.debug("Service: " + Integer.toHexString(receivedPacket.serviceId & 0xff) + ", command: " + Integer.toHexString(receivedPacket.commandId & 0xff)  + ", asynchronous response.");
-
-                // Asynchronous response
-                asynchronousResponse.handleResponse(receivedPacket);
-            } else {
-                LOG.debug("Service: " + Integer.toHexString(receivedPacket.serviceId & 0xff)  + ", command: " + Integer.toHexString(receivedPacket.commandId & 0xff)  + ", handled by: " + handler.getClass());
-
-                if (handler.autoRemoveFromResponseHandler()) {
-                    synchronized (handlers) {
-                        handlers.remove(handler);
+            if (receivedPacket.complete) {
+                Request handler = null;
+                synchronized (handlers) {
+                    for (Request req : handlers) {
+                        if (req.handleResponse(receivedPacket)) {
+                            handler = req;
+                            break;
+                        }
                     }
                 }
 
-                handler.handleResponse();
+                if (handler == null) {
+                    LOG.debug("Service: " + Integer.toHexString(receivedPacket.serviceId & 0xff) + ", command: " + Integer.toHexString(receivedPacket.commandId & 0xff) + ", asynchronous response.");
+
+                    // Asynchronous response
+                    asynchronousResponse.handleResponse(receivedPacket);
+                } else {
+                    LOG.debug("Service: " + Integer.toHexString(receivedPacket.serviceId & 0xff) + ", command: " + Integer.toHexString(receivedPacket.commandId & 0xff) + ", handled by: " + handler.getClass());
+
+                    if (handler.autoRemoveFromResponseHandler()) {
+                        synchronized (handlers) {
+                            handlers.remove(handler);
+                        }
+                    }
+
+                    handler.handleResponse();
+                }
+                receivedPacket = null;
             }
-            receivedPacket = null;
-        }
+        } while (left > 0);
     }
 }

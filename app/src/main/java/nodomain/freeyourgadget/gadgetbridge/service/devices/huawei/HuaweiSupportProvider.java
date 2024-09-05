@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.HUAWEI_MAGIC;
+
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -934,23 +936,7 @@ public class HuaweiSupportProvider {
     }
 
     public void onSocketRead(byte[] data) {
-        // The data can contain multiple packets, which need to be split.
-        // But we also need to take into account partial packets (where data does not contain a full packet)
-        if (data[0] != 0x5a) {
-            // Part of partial packet, just parse
             responseManager.handleData(data);
-            return;
-        }
-
-        ByteBuffer bData = ByteBuffer.wrap(data);
-        while (bData.remaining() != 0) {
-            int dataLen = bData.getShort(bData.position() + 1) + 0x05;
-            if (dataLen > bData.remaining())
-                dataLen = bData.remaining(); // Part of partial packet, just parse the remainder
-            byte[] newData = new byte[dataLen];
-            bData.get(newData, 0, dataLen);
-            responseManager.handleData(newData);
-        }
     }
 
     public void removeInProgressRequests(Request req) {

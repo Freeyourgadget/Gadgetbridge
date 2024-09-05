@@ -467,4 +467,24 @@ public class TestResponseManager {
         verify(request2, times(1)).handleResponse((HuaweiPacket) any());
         verify(request2, times(0)).handleResponse();
     }
+
+    @Test
+    public void testOnSocketReadMultiplePacketSplit() throws IllegalAccessException, HuaweiPacket.ParseException {
+        byte[] expected = {(byte) 0x5A, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x04, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x02, (byte) 0x99, (byte) 0x6B};
+
+        byte[] data1 = {(byte) 0x5A, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x04, (byte) 0x01, (byte) 0x01};
+        byte[] data2 = {(byte) 0x01, (byte) 0x02, (byte) 0x99, (byte) 0x6B, (byte) 0x5A, (byte) 0x00, (byte) 0x06, (byte) 0x00, (byte) 0x04, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x02, (byte) 0x99, (byte) 0x6B};
+
+        HuaweiPacket expectedPacket = new HuaweiPacket(supportProvider.getParamsProvider()).parse(expected);
+
+        AsynchronousResponse mockAsynchronousResponse = Mockito.mock(AsynchronousResponse.class);
+
+        ResponseManager responseManager = new ResponseManager(supportProvider);
+        asynchronousResponseField.set(responseManager, mockAsynchronousResponse);
+
+        responseManager.handleData(data1);
+        responseManager.handleData(data2);
+
+        verify(mockAsynchronousResponse, times(2)).handleResponse(expectedPacket);
+    }
 }

@@ -235,7 +235,7 @@ public class HuaweiPacket {
         }
     }
 
-    protected static final int PACKET_MINIMAL_SIZE = 6;
+    protected static final int PACKET_MINIMAL_SIZE = 3; // magic + data size
 
     protected ParamsProvider paramsProvider;
 
@@ -288,6 +288,7 @@ public class HuaweiPacket {
         this.partialPacket = packet.partialPacket;
         this.payload = packet.payload;
         this.complete = packet.complete;
+        this.left = packet.left;
 
         if (packet.isEncrypted)
             this.isEncrypted = true;
@@ -303,7 +304,14 @@ public class HuaweiPacket {
      */
     public void parseTlv() throws ParseException {}
 
+    private int left = 0;
+
+    public int getLeft() {
+        return this.left;
+    }
+
     private void parseData(byte[] data) throws ParseException {
+        this.left = 0;
         if (partialPacket != null) {
             int newCapacity = partialPacket.length + data.length;
             data = ByteBuffer.allocate(newCapacity)
@@ -313,23 +321,13 @@ public class HuaweiPacket {
         }
 
         ByteBuffer buffer = ByteBuffer.wrap(data);
-
-        if (buffer.capacity() < PACKET_MINIMAL_SIZE) {
+        if (buffer.capacity() < 1) {
             throw new LengthMismatchException("Packet length mismatch : "
                     + buffer.capacity()
-                    + " != 6");
+                    + " < 1");
         }
 
         byte magic = buffer.get();
-        short expectedSize = buffer.getShort();
-        int isSliced = buffer.get();
-        if (isSliced == 1 || isSliced == 2 || isSliced == 3) {
-            buffer.get(); // Throw away slice flag
-        }
-        byte[] newPayload = new byte[buffer.remaining() - 2];
-        buffer.get(newPayload, 0, buffer.remaining() - 2);
-        short expectedChecksum = buffer.getShort();
-        buffer.rewind();
 
         if (magic != HUAWEI_MAGIC) {
             throw new MagicMismatchException("Magic mismatch : "
@@ -337,26 +335,40 @@ public class HuaweiPacket {
                     + " != 0x5A");
         }
 
-        int newPayloadLen = newPayload.length + 1;
-        if (isSliced == 1 || isSliced == 2 || isSliced == 3) {
-            newPayloadLen = newPayload.length + 2;
+        if (buffer.capacity() < PACKET_MINIMAL_SIZE) {
+            this.partialPacket = data;
+            return;
         }
-        if (expectedSize != (short) newPayloadLen) {
-            if (expectedSize > (short) newPayloadLen) {
-                // Older band and BT version do not handle message with more than 256 bits.
-                this.partialPacket = data;
-                return;
-            } else {
-                throw new LengthMismatchException("Expected length mismatch : "
-                    + expectedSize
-                    + " < "
-                    + (short) newPayloadLen);
-            }
+
+        short expectedSize = buffer.getShort();
+
+        if(expectedSize < 0) {
+            throw new LengthMismatchException("Expected length mismatch : " + expectedSize);
         }
+
+        if (expectedSize + 2 > buffer.remaining()) {
+            // Older band and BT version do not handle message with more than 256 bits.
+            this.partialPacket = data;
+            return;
+        }
+
         this.partialPacket = null;
 
-        byte[] dataNoCRC = new byte[buffer.capacity() - 2];
-        buffer.get(dataNoCRC, 0, buffer.capacity() - 2);
+        int addLen = 1;
+        int isSliced = buffer.get();
+        if (isSliced == 1 || isSliced == 2 || isSliced == 3) {
+            buffer.get(); // Throw away slice flag
+            addLen++;
+        }
+
+        byte[] newPayload = new byte[expectedSize - addLen];
+        buffer.get(newPayload, 0, expectedSize - addLen);
+        short expectedChecksum = buffer.getShort();
+        this.left = buffer.remaining();
+        buffer.rewind();
+
+        byte[] dataNoCRC = new byte[expectedSize + 3];
+        buffer.get(dataNoCRC, 0, expectedSize + 3);
         short actualChecksum = (short) CheckSums.getCRC16(dataNoCRC, 0x0000);
         if (actualChecksum != expectedChecksum) {
             throw new ChecksumIncorrectException("Checksum mismatch : "
@@ -388,7 +400,8 @@ public class HuaweiPacket {
         if (
                 (serviceId == 0x0a && commandId == 0x05) ||
                 (serviceId == 0x28 && commandId == 0x06) ||
-                (serviceId == 0x2c && commandId == 0x05)
+                (serviceId == 0x2c && commandId == 0x05) ||
+                (serviceId == 0x1c && commandId == 0x05)
         ) {
             // TODO: this doesn't seem to be TLV
             this.payload = newPayload;
