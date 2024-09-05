@@ -83,8 +83,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_CONTROL = "qhybrid_command_control";
     public static final String QHYBRID_COMMAND_UNCONTROL = "qhybrid_command_uncontrol";
     public static final String QHYBRID_COMMAND_SET = "qhybrid_command_set";
-    public static final String QHYBRID_COMMAND_MOVE = "qhybrid_command_move";
-    public static final String QHYBRID_COMMAND_SAVE_CALIBRATION = "qhybrid_command_save_calibration";
+    public static final String QHYBRID_COMMAND_MOVE = "qhybrid_command_move"; // TODO deprecated
+    public static final String QHYBRID_COMMAND_SAVE_CALIBRATION = "qhybrid_command_save_calibration"; // TODO deprecated
     public static final String QHYBRID_COMMAND_VIBRATE = "qhybrid_command_vibrate";
     public static final String QHYBRID_COMMAND_UPDATE = "qhybrid_command_update";
     public static final String QHYBRID_COMMAND_UPDATE_TIMEZONE = "qhybrid_command_update_timezone";

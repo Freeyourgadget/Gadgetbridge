@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
+
+message HandCalibrationService {
+  optional StartRequest startRequest = 1;
+  optional StartResponse startResponse = 2;
+  optional MoveRequest moveRequest = 3;
+  optional MoveResponse moveResponse = 4;
+
+  message StartRequest {
+    optional uint32 command = 1; // 1 start 2 abort 3 save
+  }
+  message StartResponse {
+    optional uint32 status = 1; // 1
+  }
+  message MoveRequest {
+    optional uint32 hand = 1; // 1 hour 2 minute
+    optional uint32 direction = 2; // 1 + 2 -
+    optional uint32 unk3 = 3; // 1 - step?
+  }
+  message MoveResponse {
+    optional uint32 status = 1; // 1
+  }
+}

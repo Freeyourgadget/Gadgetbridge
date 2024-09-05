@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.calibration.HandCalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
@@ -183,6 +184,11 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         return isHybridHR() ? HybridHRWatchfaceDesignerActivity.class : null;
     }
 
+    @Override
+    public Class<? extends Activity> getCalibrationActivity() {
+        return isHybridHR() ? HandCalibrationActivity.class : null;
+    }
+
     /**
      * Returns the directory containing the watch app cache.
      * @throws IOException when the external files directory cannot be accessed
@@ -253,7 +259,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
             generic.add(R.xml.devicesettings_fossilhybridhr_pre_fw220);
         }
         // Settings applicable to all firmware versions
-        generic.add(R.xml.devicesettings_fossilhybridhr_calibration);
         generic.add(R.xml.devicesettings_fossilhybridhr_navigation);
         final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);
         health.add(R.xml.devicesettings_fossilhybridhr_workout_detection);

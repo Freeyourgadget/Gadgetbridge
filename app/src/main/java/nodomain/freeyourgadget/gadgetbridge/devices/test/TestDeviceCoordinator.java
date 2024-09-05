@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.calibration.HandCalibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -540,8 +541,7 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     @Nullable
     @Override
     public Class<? extends Activity> getCalibrationActivity() {
-        // TODO getCalibrationActivity
-        return super.getCalibrationActivity();
+        return supports(getTestDevice(), TestFeature.CALIBRATION) ? HandCalibrationActivity.class : null;
     }
 
     @Override

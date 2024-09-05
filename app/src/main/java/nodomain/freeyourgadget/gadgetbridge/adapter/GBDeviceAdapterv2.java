@@ -633,13 +633,10 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         holder.calibrateDevice.setVisibility(device.isInitialized() && (coordinator.getCalibrationActivity() != null) ? View.VISIBLE : View.GONE);
-        holder.calibrateDevice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(context, coordinator.getCalibrationActivity());
-                startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                context.startActivity(startIntent);
-            }
+        holder.calibrateDevice.setOnClickListener(v -> {
+            Intent startIntent = new Intent(context, coordinator.getCalibrationActivity());
+            startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+            context.startActivity(startIntent);
         });
 
         holder.fmFrequencyBox.setVisibility(View.GONE);

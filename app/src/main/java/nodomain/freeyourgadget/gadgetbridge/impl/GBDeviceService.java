@@ -568,4 +568,12 @@ public class GBDeviceService implements DeviceService {
             intent.putExtra(EXTRA_CAMERA_FILENAME, filename);
         invokeService(intent);
     }
+
+    @Override
+    public void onGenericCommand(final int type, final Bundle data) {
+        Intent intent = createIntent().setAction(ACTION_GENERIC_COMMAND);
+        intent.putExtra(EXTRA_GENERIC_COMMAND_TYPE, type);
+        intent.putExtra(EXTRA_GENERIC_COMMAND_DATA, data);
+        invokeService(intent);
+    }
 }

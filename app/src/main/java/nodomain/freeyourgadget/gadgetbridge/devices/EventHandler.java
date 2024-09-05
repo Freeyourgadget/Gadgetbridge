@@ -154,4 +154,6 @@ public interface EventHandler {
     void onSleepAsAndroidAction(String action, Bundle extras);
 
     void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename);
+
+    void onGenericCommand(int type, Bundle data);
 }

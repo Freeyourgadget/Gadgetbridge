@@ -524,4 +524,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onCameraStatusChange(event, filename);
     }
+
+    @Override
+    public void onGenericCommand(int type, Bundle data) {
+        if (checkBusy("generic command " + type)) {
+            return;
+        }
+        delegate.onGenericCommand(type, data);
+    }
 }

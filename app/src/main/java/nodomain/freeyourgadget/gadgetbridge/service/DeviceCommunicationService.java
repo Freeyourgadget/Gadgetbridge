@@ -1127,6 +1127,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
                 deviceSupport.onCameraStatusChange(event, filename);
                 break;
+            case ACTION_GENERIC_COMMAND:
+                final int genericCommandType = intentCopy.getIntExtra(EXTRA_GENERIC_COMMAND_TYPE, 0);
+                final Bundle genericCommandData = intentCopy.getBundleExtra(EXTRA_GENERIC_COMMAND_DATA);
+                deviceSupport.onGenericCommand(genericCommandType, genericCommandData);
+                break;
         }
     }
 

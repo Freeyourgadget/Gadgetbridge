@@ -11,6 +11,7 @@ import "garmin/gdi_http_service.proto";
 import "garmin/gdi_data_transfer_service.proto";
 import "garmin/gdi_sms_notification.proto";
 import "garmin/gdi_calendar_service.proto";
+import "garmin/gdi_hand_calibration_service.proto";
 import "garmin/gdi_settings_service.proto";
 
 message Smart {
@@ -21,6 +22,7 @@ message Smart {
     optional FindMyWatchService find_my_watch_service = 12;
     optional CoreService core_service = 13;
     optional SmsNotificationService sms_notification_service = 16;
+    optional HandCalibrationService hand_calibration_service = 33;
     optional SettingsService settings_service = 42;
 }
 

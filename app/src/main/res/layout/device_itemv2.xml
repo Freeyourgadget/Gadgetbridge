@@ -441,7 +441,7 @@
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
-                    card_view:srcCompat="@drawable/ic_activity_unknown"
+                    card_view:srcCompat="@drawable/ic_sensor_calibration"
                     card_view:tint="@color/secondarytext" />
 
                 <LinearLayout

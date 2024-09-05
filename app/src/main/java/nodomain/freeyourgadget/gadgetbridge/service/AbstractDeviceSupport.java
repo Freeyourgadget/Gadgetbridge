@@ -1230,4 +1230,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     @Override
     public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {}
+
+    public void onGenericCommand(int type, Bundle data) {}
 }

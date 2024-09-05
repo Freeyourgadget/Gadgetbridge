@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDataTransferService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiFindMyWatch;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHandCalibrationService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHttpService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSettingsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmartProto;
@@ -123,6 +124,18 @@ public class ProtocolBufferHandler implements MessageHandler {
             if (smart.hasFindMyWatchService()) {
                 processed = true;
                 processProtobufFindMyWatchResponse(smart.getFindMyWatchService());
+            }
+            if (smart.hasHandCalibrationService()) {
+                processed = true;
+
+                final GdiHandCalibrationService.HandCalibrationService handCalibrationService = smart.getHandCalibrationService();
+                if (handCalibrationService.hasStartResponse()) {
+                    LOG.debug("Got hand calibration start response, status={}", handCalibrationService.getStartResponse().getStatus());
+                } else if (handCalibrationService.hasMoveResponse()) {
+                    LOG.debug("Got hand calibration move response, status={}", handCalibrationService.getMoveResponse().getStatus());
+                } else {
+                    LOG.warn("Got unknown hand calibration response {}", smart);
+                }
             }
             if (smart.hasSettingsService()) {
                 processed = true;
@@ -437,6 +450,10 @@ public class ProtocolBufferHandler implements MessageHandler {
         }
 
         return processed;
+    }
+
+    public ProtobufMessage prepareProtobufRequest(GdiSmartProto.Smart.Builder protobufPayloadBuilder) {
+        return prepareProtobufRequest(protobufPayloadBuilder.build());
     }
 
     public ProtobufMessage prepareProtobufRequest(GdiSmartProto.Smart protobufPayload) {

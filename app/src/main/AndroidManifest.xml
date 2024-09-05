@@ -814,7 +814,7 @@
             android:exported="true"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
-            android:name=".devices.qhybrid.CalibrationActivity"
+            android:name=".activities.calibration.HandCalibrationActivity"
             android:label="@string/qhybrid_title_calibration"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity

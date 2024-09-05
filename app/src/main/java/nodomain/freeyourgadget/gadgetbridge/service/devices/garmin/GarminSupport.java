@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.calibration.HandCalibrationHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.PendingFileProvider;
@@ -52,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiCore;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiFindMyWatch;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHandCalibrationService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSettingsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -87,7 +89,8 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SEND_APP_NOTIFICATIONS;
 
 
-public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommunicator.Callback {
+public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommunicator.Callback,
+        HandCalibrationHandler.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(GarminSupport.class);
     private final ProtocolBufferHandler protocolBufferHandler;
     private final NotificationsHandler notificationsHandler;
@@ -310,7 +313,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         super.evaluateGBDeviceEvent(deviceEvent);
     }
 
-    /** @noinspection BooleanMethodIsAlwaysInverted*/
+    /**
+     * @noinspection BooleanMethodIsAlwaysInverted
+     */
     private boolean getKeepActivityDataOnDevice() {
         return getDevicePrefs().getBoolean("keep_activity_data_on_device", false);
     }
@@ -826,9 +831,26 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
         }
     }
 
+    int i = 0;
+
     @Override
     public void onTestNewFunction() {
-        parseAllFitFilesFromStorage();
+        switch (i) {
+            case 0:
+                onHandCalibrationStart();
+                break;
+            case 1:
+                onHandCalibrationMove(1, 1, 1);
+                break;
+            case 2:
+                onHandCalibrationMove(1, 2, 10);
+                break;
+            case 3:
+                onHandCalibrationEnd(false);
+                break;
+        }
+
+        i++;
     }
 
     boolean parsingFitFilesFromStorage = false;
@@ -905,5 +927,46 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 GB.signalActivityDataFinish(getDevice());
             }
         });
+    }
+
+    @Override
+    public void onHandCalibrationStart() {
+        sendOutgoingMessage("onHandCalibrationStart", protocolBufferHandler.prepareProtobufRequest(GdiSmartProto.Smart.newBuilder()
+                .setHandCalibrationService(
+                        GdiHandCalibrationService.HandCalibrationService.newBuilder()
+                                .setStartRequest(
+                                        GdiHandCalibrationService.HandCalibrationService.StartRequest.newBuilder()
+                                                .setCommand(1)
+                                )
+                )
+        ));
+    }
+
+    @Override
+    public void onHandCalibrationEnd(final boolean save) {
+        sendOutgoingMessage("onHandCalibrationEnd", protocolBufferHandler.prepareProtobufRequest(GdiSmartProto.Smart.newBuilder()
+                .setHandCalibrationService(
+                        GdiHandCalibrationService.HandCalibrationService.newBuilder()
+                                .setStartRequest(
+                                        GdiHandCalibrationService.HandCalibrationService.StartRequest.newBuilder()
+                                                .setCommand(save ? 3 : 2)
+                                )
+                )
+        ));
+    }
+
+    @Override
+    public void onHandCalibrationMove(final int hand, final int direction, final int step) {
+        sendOutgoingMessage("onHandCalibrationMove", protocolBufferHandler.prepareProtobufRequest(GdiSmartProto.Smart.newBuilder()
+                .setHandCalibrationService(
+                        GdiHandCalibrationService.HandCalibrationService.newBuilder()
+                                .setMoveRequest(
+                                        GdiHandCalibrationService.HandCalibrationService.MoveRequest.newBuilder()
+                                                .setHand(hand)
+                                                .setDirection(direction)
+                                                .setUnk3(step)
+                                )
+                )
+        ));
     }
 }

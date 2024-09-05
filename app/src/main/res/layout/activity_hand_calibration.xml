@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,13 +16,14 @@
             android:text="@string/qhybrid_calibration_align_hint" />
 
         <Spinner
+            android:id="@+id/hand_calibration_hand_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/qhybrid_calibration_hand_spinner" />
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -29,30 +31,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/qhybrid_calibration_counterclockwise"/>
+                    android:text="@string/qhybrid_calibration_counterclockwise" />
 
                 <Button
+                    android:id="@+id/hand_calibration_counter_clockwise_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/qhybrid_calibration_counter_clockwise_1"
                     android:text="@string/qhybrid_calibration_1_step" />
 
                 <Button
+                    android:id="@+id/hand_calibration_counter_clockwise_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/qhybrid_calibration_counter_clockwise_10"
                     android:text="@string/qhybrid_calibration_10_steps" />
 
                 <Button
+                    android:id="@+id/hand_calibration_counter_clockwise_100"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/qhybrid_calibration_counter_clockwise_100"
                     android:text="@string/qhybrid_calibration_100_steps" />
 
             </LinearLayout>
@@ -61,30 +63,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/qhybrid_calibration_clockwise"/>
+                    android:text="@string/qhybrid_calibration_clockwise" />
 
                 <Button
+                    android:id="@+id/hand_calibration_clockwise_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/qhybrid_calibration_clockwise_1"
                     android:text="@string/qhybrid_calibration_1_step" />
 
                 <Button
+                    android:id="@+id/hand_calibration_clockwise_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/qhybrid_calibration_clockwise_10"
                     android:text="@string/qhybrid_calibration_10_steps" />
 
                 <Button
+                    android:id="@+id/hand_calibration_clockwise_100"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/qhybrid_calibration_clockwise_100"
                     android:text="@string/qhybrid_calibration_100_steps" />
 
             </LinearLayout>
@@ -92,5 +94,16 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_hand_calibration_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/save_configuration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_save" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
