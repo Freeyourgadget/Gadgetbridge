@@ -523,7 +523,9 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onNotification(NotificationSpec notificationSpec) {
         final String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
-        String message = StringUtils.truncate(senderOrTitle, 32) + ":";
+        // Notifications are sent with both sender/title and message in 1 packet, separated by a ':',
+        // so we have to make sure there is no ':' in the sender/title part
+        String message = StringUtils.truncate(senderOrTitle, 32).replace(":", ";") + ":";
         if (notificationSpec.subject != null) {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
         }
