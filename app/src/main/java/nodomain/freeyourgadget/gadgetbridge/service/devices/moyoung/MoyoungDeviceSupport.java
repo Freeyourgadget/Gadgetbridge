@@ -396,10 +396,18 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             if (operation == MoyoungConstants.ARG_OPERATION_PLAY)
             {
                 GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
-                musicCmd.event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                musicCmd.event = GBDeviceEventMusicControl.Event.PLAY;
                 evaluateGBDeviceEvent(musicCmd);
                 return true;
             }
+            if (operation == MoyoungConstants.ARG_OPERATION_PAUSE)
+            {
+                GBDeviceEventMusicControl musicCmd = new GBDeviceEventMusicControl();
+                musicCmd.event = GBDeviceEventMusicControl.Event.PAUSE;
+                evaluateGBDeviceEvent(musicCmd);
+                return true;
+            }
+
         }
 
         if (packetType == MoyoungConstants.CMD_SWITCH_CAMERA_VIEW)
@@ -699,12 +707,34 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicState(MusicStateSpec stateSpec) {
-        // TODO
+        try {
+            TransactionBuilder builder = performInitialized("sendMusicState");
+            byte[] payload = new byte[]{(byte) (stateSpec.state == MusicStateSpec.STATE_PLAYING ? 0x01 : 0x00)};
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_MUSIC_STATE, payload));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error sending music state: ", e);
+        }
     }
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-        // TODO
+        try {
+            TransactionBuilder builder = performInitialized("sendMusicInfo");
+            byte[] artistBytes = musicSpec.artist.getBytes();
+            byte[] artistPayload = new byte[artistBytes.length + 1];
+            artistPayload[0] = 1;
+            System.arraycopy(artistBytes, 0, artistPayload, 1, artistBytes.length);
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_MUSIC_INFO, artistPayload));
+            byte[] trackBytes = musicSpec.track.getBytes();
+            byte[] trackPayload = new byte[trackBytes.length + 1];
+            trackPayload[0] = 0;
+            System.arraycopy(trackBytes, 0, trackPayload, 1, trackBytes.length);
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_MUSIC_INFO, trackPayload));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error sending music info: ", e);
+        }
     }
 
     @Override

@@ -182,6 +182,9 @@ public class MoyoungConstants {
     public static final byte CMD_SET_WEATHER_FUTURE = 66;                           //     {weatherId, low_temp, high_temp} * 7
     public static final byte CMD_SET_WEATHER_TODAY = 67;                            //     {have_pm25 ? 1 : 0, weatherId, temp[, pm25 >> 8, pm25], lunar_or_festival[8], city[8]}, names are UTF-16BE encoded (4 characters each!)
 
+    public static final byte CMD_SET_MUSIC_INFO = 68;                               //     {artist=1/track=0, string}
+    public static final byte CMD_SET_MUSIC_STATE = 123;                             //     {is_playing ? 1 : 0}
+
     public static final byte CMD_GSENSOR_CALIBRATION = 82;                          // (?) {}
 
     public static final byte CMD_QUERY_STEPS_CATEGORY = 89;                         // (*) {i} -> {0, data:uint16[*]}, {1}, {2, data:uint16[*]}, {3}, query 0+1 together and 2+3 together
@@ -200,6 +203,7 @@ public class MoyoungConstants {
     public static final byte ARG_OPERATION_VOLUME_UP = 4;
     public static final byte ARG_OPERATION_VOLUME_DOWN = 5;
     public static final byte ARG_OPERATION_PLAY = 6;
+    public static final byte ARG_OPERATION_PAUSE = 7;
 
     public static final byte CMD_QUERY_ALARM_CLOCK = 33;                            // (?) {} -> a list of entries like below
     public static final byte CMD_SET_ALARM_CLOCK = 17;                              // (?) {id, enable ? 1 : 0, repeat, hour, minute, i >> 8, i, repeatMode}, repeatMode is 0(SINGLE), 127(EVERYDAY), or bitmask of 1,2,4,8,16,32,64(SUNDAY-SATURDAY) is 0,1,2, i is ((year << 12) + (month << 8) + day) where year is 2015-based, month and day start at 1 for repeatMode=SINGLE and 0 otherwise, repeat is 0(SINGLE),1(EVERYDAY),2(OTHER)
