@@ -67,6 +67,10 @@ public class FitRecordDataFactory {
                 return new FitStressLevel(recordDefinition, recordHeader);
             case 269:
                 return new FitSpo2(recordDefinition, recordHeader);
+            case 273:
+                return new FitSleepDataInfo(recordDefinition, recordHeader);
+            case 274:
+                return new FitSleepDataRaw(recordDefinition, recordHeader);
             case 275:
                 return new FitSleepStage(recordDefinition, recordHeader);
             case 297:

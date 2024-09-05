@@ -28,6 +28,7 @@ public class FieldDefinitionSleepStage extends FieldDefinition {
     }
 
     public enum SleepStage {
+        UNMEASURABLE(0),
         AWAKE(1),
         LIGHT(2),
         DEEP(3),

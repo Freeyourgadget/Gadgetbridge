@@ -134,7 +134,12 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
                     case 0: // start
                         // We only need the start event as an upper-bound timestamp (anything before it is unknown)
                         stagesMap.put(event.getTimestamp(), ActivityKind.UNKNOWN);
+                        break;
                     case 1: // stop
+                        // See FitImporter#processRawSleepSamples / #4048
+                        if (event.getData() != null && event.getData() == -1) {
+                            stagesMap.put(event.getTimestamp(), ActivityKind.LIGHT_SLEEP);
+                        }
                     default:
                 }
             }

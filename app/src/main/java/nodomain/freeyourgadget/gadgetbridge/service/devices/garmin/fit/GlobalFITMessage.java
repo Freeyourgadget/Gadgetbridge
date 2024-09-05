@@ -282,6 +282,19 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
+    public static GlobalFITMessage SLEEP_DATA_INFO = new GlobalFITMessage(273, "SLEEP_DATA_INFO", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT8, "unk0"), // 2
+            new FieldDefinitionPrimitive(1, BaseType.UINT16, "sample_length"), // 60, sample time?
+            new FieldDefinitionPrimitive(2, BaseType.UINT32, "timestamp_in_tz"), // garmin timestamp, but in user timezone
+            new FieldDefinitionPrimitive(3, BaseType.ENUM, "unk3"), // 1
+            new FieldDefinitionPrimitive(4, BaseType.STRING, "version"), // matches ETE in settings
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
+    public static GlobalFITMessage SLEEP_DATA_RAW = new GlobalFITMessage(274, "SLEEP_DATA_RAW", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.BASE_TYPE_BYTE, "bytes") // arr of 20 bytes per sample
+    ));
+
     public static GlobalFITMessage SLEEP_STAGE = new GlobalFITMessage(275, "SLEEP_STAGE", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.ENUM, "sleep_stage", FieldDefinitionFactory.FIELD.SLEEP_STAGE),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
@@ -338,6 +351,8 @@ public class GlobalFITMessage {
         put(225, SET);
         put(227, STRESS_LEVEL);
         put(269, SPO2);
+        put(273, SLEEP_DATA_INFO);
+        put(274, SLEEP_DATA_RAW);
         put(275, SLEEP_STAGE);
         put(297, RESPIRATION_RATE);
         put(346, SLEEP_STATS);

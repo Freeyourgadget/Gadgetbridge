@@ -7,8 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import de.greenrobot.dao.AbstractDao;
+import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -24,6 +28,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSampleDao;
@@ -54,29 +62,24 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     public void deleteAllActivityData(@NonNull final Device device, @NonNull final DaoSession session) throws GBException {
         final Long deviceId = device.getId();
 
-        session.getGarminActivitySampleDao().queryBuilder()
-                .where(GarminActivitySampleDao.Properties.DeviceId.eq(deviceId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
+        final Map<AbstractDao<?, ?>, Property> daoMap = new HashMap<AbstractDao<?, ?>, Property>() {{
+            put(session.getGarminActivitySampleDao(), GarminActivitySampleDao.Properties.DeviceId);
+            put(session.getGarminStressSampleDao(), GarminStressSampleDao.Properties.DeviceId);
+            put(session.getGarminBodyEnergySampleDao(), GarminBodyEnergySampleDao.Properties.DeviceId);
+            put(session.getGarminSpo2SampleDao(), GarminSpo2SampleDao.Properties.DeviceId);
+            put(session.getGarminSleepStageSampleDao(), GarminSleepStageSampleDao.Properties.DeviceId);
+            put(session.getGarminEventSampleDao(), GarminEventSampleDao.Properties.DeviceId);
+            put(session.getGarminHrvSummarySampleDao(), GarminHrvSummarySampleDao.Properties.DeviceId);
+            put(session.getGarminHrvValueSampleDao(), GarminHrvValueSampleDao.Properties.DeviceId);
+            put(session.getBaseActivitySummaryDao(), BaseActivitySummaryDao.Properties.DeviceId);
+            put(session.getPendingFileDao(), PendingFileDao.Properties.DeviceId);
+        }};
 
-        session.getGarminStressSampleDao().queryBuilder()
-                .where(GarminStressSampleDao.Properties.DeviceId.eq(deviceId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
-
-        session.getGarminSleepStageSampleDao().queryBuilder()
-                .where(GarminSleepStageSampleDao.Properties.DeviceId.eq(deviceId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
-
-        session.getGarminSpo2SampleDao().queryBuilder()
-                .where(GarminSpo2SampleDao.Properties.DeviceId.eq(deviceId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
-
-        session.getBaseActivitySummaryDao().queryBuilder()
-                .where(BaseActivitySummaryDao.Properties.DeviceId.eq(deviceId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
-
-        session.getPendingFileDao().queryBuilder()
-                .where(PendingFileDao.Properties.DeviceId.eq(deviceId))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
+        for (final Map.Entry<AbstractDao<?, ?>, Property> e : daoMap.entrySet()) {
+            e.getKey().queryBuilder()
+                    .where(e.getValue().eq(deviceId))
+                    .buildDelete().executeDeleteWithoutDetachingEntities();
+        }
     }
 
     @Override
