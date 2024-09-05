@@ -1729,7 +1729,7 @@
     <string name="czech">Čeština</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Ukončit službu GPS polohy</string>
     <string name="prefs_password">Heslo</string>
-    <string name="prefs_password_summary">Zamknutí pásku heslem při sejmutí ze zápěstí</string>
+    <string name="prefs_password_summary">Zamknutí náramku heslem při sejmutí ze zápěstí</string>
     <string name="prefs_password_enabled">Heslo povoleno</string>
     <string name="bengali">Bengálština</string>
     <string name="estonian">Estonština</string>
@@ -1833,7 +1833,7 @@
     <string name="heartrate_bpm_115">115 tepů/min</string>
     <string name="prefs_heartrate_alert_low_threshold">Varovný práh nízké srdeční frekvence</string>
     <string name="prefs_relaxation_reminder_title">Připomenutí relaxace</string>
-    <string name="prefs_relaxation_reminder_description">Vibrování pásku vás upozorní, pokud je hodnota stresu vyšší než 80</string>
+    <string name="prefs_relaxation_reminder_description">Vibrování náramku vás upozorní, pokud je hodnota stresu vyšší než 80</string>
     <string name="prefs_spo2_monitoring_title">Monitorování kyslíku v krvi</string>
     <string name="seconds_6">6 sekund</string>
     <string name="seconds_7">7 sekund</string>
@@ -2399,7 +2399,7 @@
     <string name="pref_title_casio_alert_calendar">Upozornění pro oznámení kalendáře</string>
     <string name="pref_summary_casio_alert_calendar">Upozornit (vibrovat/pípnout) na oznámení kalendáře</string>
     <string name="pref_title_send_app_notifications">Posílat oznámení</string>
-    <string name="pref_summary_send_app_notifications">Poslat oznámení aplikací do zařízení</string>
+    <string name="pref_summary_send_app_notifications">Posílat oznámení aplikací do zařízení</string>
     <string name="spanish_mx">Španělština (Mexiko)</string>
     <string name="spanish_us">Španělština (Spojené státy)</string>
     <string name="french_fr">Francouzština (Francie)</string>
