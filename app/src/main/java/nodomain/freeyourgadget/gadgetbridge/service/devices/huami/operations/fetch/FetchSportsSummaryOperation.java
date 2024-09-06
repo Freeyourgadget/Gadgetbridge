@@ -60,7 +60,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 
     @Override
     protected void startFetching(TransactionBuilder builder) {
-        LOG.info("start" + getName());
+        LOG.info("start {}", getName());
         final GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
         startFetching(builder, HuamiFetchDataType.SPORTS_SUMMARIES.getCode(), sinceWhen);
     }
@@ -106,7 +106,14 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         }
 
         final AbstractHuamiActivityDetailsParser detailsParser = ((HuamiActivitySummaryParser) summaryParser).getDetailsParser(summary);
-        final FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, detailsParser, getSupport(), getLastSyncTimeKey(), fetchCount);
+        final FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(
+                summary,
+                detailsParser,
+                getSupport(),
+                getLastStartTimestamp(), // we need the actual start timestamp, including tz - #3592
+                getLastSyncTimeKey(),
+                fetchCount
+        );
         getSupport().getFetchOperationQueue().add(0, nextOperation);
 
         return true;

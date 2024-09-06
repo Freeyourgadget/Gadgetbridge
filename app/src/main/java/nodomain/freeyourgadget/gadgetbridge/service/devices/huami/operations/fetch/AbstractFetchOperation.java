@@ -196,7 +196,9 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         buffer.write(value, 1, value.length - 1); // skip the counter
     }
 
-    protected void startFetching(final TransactionBuilder builder, final byte fetchType, final GregorianCalendar sinceWhen) {
+    protected void startFetching(final TransactionBuilder builder, final byte fetchType, final Calendar sinceWhen) {
+        LOG.debug("Requesting {} since {}", getName(), sinceWhen.getTime());
+
         final HuamiSupport support = getSupport();
         byte[] fetchBytes = BLETypeConversions.join(new byte[]{
                         HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,

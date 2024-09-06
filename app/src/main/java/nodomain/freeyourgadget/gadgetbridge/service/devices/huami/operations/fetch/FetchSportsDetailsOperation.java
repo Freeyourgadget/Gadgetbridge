@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import androidx.annotation.NonNull;
@@ -55,17 +56,20 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsDetailsOperation.class);
     private final AbstractHuamiActivityDetailsParser detailsParser;
     private final BaseActivitySummary summary;
+    private final Calendar summarySyncTime;
     private final String lastSyncTimeKey;
 
     FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary,
                                 @NonNull AbstractHuamiActivityDetailsParser detailsParser,
                                 @NonNull HuamiSupport support,
+                                @NonNull Calendar summarySyncTime,
                                 @NonNull String lastSyncTimeKey,
                                 int fetchCount) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
         this.detailsParser = detailsParser;
+        this.summarySyncTime = summarySyncTime;
         this.lastSyncTimeKey = lastSyncTimeKey;
         this.fetchCount = fetchCount;
     }
@@ -77,9 +81,9 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
     @Override
     protected void startFetching(TransactionBuilder builder) {
-        LOG.info("start " + getName());
-        final GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        startFetching(builder, HuamiFetchDataType.SPORTS_DETAILS.getCode(), sinceWhen);
+        LOG.info("start {}", getName());
+        // Use the actual last time, including tz - #3592
+        startFetching(builder, HuamiFetchDataType.SPORTS_DETAILS.getCode(), summarySyncTime);
     }
 
     @Override
@@ -191,7 +195,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     @Override
     protected GregorianCalendar getLastSuccessfulSyncTime() {
         final GregorianCalendar calendar = BLETypeConversions.createCalendar();
-        calendar.setTime(summary.getStartTime());
+        calendar.setTime(summarySyncTime.getTime());
         return calendar;
     }
 
