@@ -76,8 +76,9 @@ public class NotificationsHandler implements MessageHandler {
     public NotificationUpdateMessage onSetCallState(CallSpec callSpec) {
         if (!enabled)
             return null;
+        final int id = StringUtils.firstNonBlank(callSpec.number, "Gadgetbridge Call").hashCode();
         if (callSpec.command == CallSpec.CALL_INCOMING) {
-            NotificationSpec callNotificationSpec = new NotificationSpec(callSpec.number.hashCode());
+            NotificationSpec callNotificationSpec = new NotificationSpec(id);
             callNotificationSpec.phoneNumber = callSpec.number;
             callNotificationSpec.sourceAppId = callSpec.sourceAppId;
             callNotificationSpec.title = StringUtils.isEmpty(callSpec.name) ? callSpec.number : callSpec.name;
@@ -91,10 +92,8 @@ public class NotificationsHandler implements MessageHandler {
 
             return onNotification(callNotificationSpec);
         } else {
-            if (callSpec.number != null) // this happens in debug screen
-                return onDeleteNotification(callSpec.number.hashCode());
+            return onDeleteNotification(id);
         }
-        return null;
     }
 
     public NotificationUpdateMessage onNotification(NotificationSpec notificationSpec) {
