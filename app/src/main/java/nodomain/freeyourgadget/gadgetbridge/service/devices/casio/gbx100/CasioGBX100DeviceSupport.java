@@ -332,11 +332,11 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
             subtitleBytes = subtitle.getBytes(StandardCharsets.UTF_8);
         }
 
-        // Ensure the sum of all messages is not over 287 bytes, as per #4063
+        // Ensure the message is not over 250 bytes, as per #4063
         // FIXME: We probably need to take the MTU into account too...
         byte[] messageBytes = new byte[0];
         if (!StringUtils.isNullOrEmpty(message)) {
-            messageBytes = StringUtils.truncateToBytes(message, 287 - titleBytes.length - senderBytes.length - subtitleBytes.length);
+            messageBytes = StringUtils.truncateToBytes(message, 250);
         }
 
         byte[] arr = new byte[22];
