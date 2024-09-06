@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         android:icon="@drawable/ic_wb_sunny"
         android:key="light_duration_longer"
+        android:layout="@layout/preference_checkbox"
         android:title="@string/prefs_light_duration_longer" />
 </androidx.preference.PreferenceScreen>

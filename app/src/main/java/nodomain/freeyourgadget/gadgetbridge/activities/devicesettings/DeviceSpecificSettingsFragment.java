@@ -520,7 +520,6 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_BUTTON_3_FUNCTION_DOUBLE);
         addPreferenceHandlerFor(PREF_VIBRATION_STRENGH_PERCENTAGE);
         addPreferenceHandlerFor(PREF_POWER_MODE);
-        addPreferenceHandlerFor(PREF_POWER_SAVING);
         addPreferenceHandlerFor(PREF_CONNECTION_DURATION);
         addPreferenceHandlerFor(PREF_LIFTWRIST_NOSHED);
         addPreferenceHandlerFor(PREF_DISCONNECTNOTIF_NOSHED);
