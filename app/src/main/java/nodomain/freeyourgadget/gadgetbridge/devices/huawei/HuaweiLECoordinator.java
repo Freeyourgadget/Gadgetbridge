@@ -176,6 +176,11 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
+    public int getContactsSlotCount(GBDevice device) {
+        return huaweiCoordinator.getContactsSlotCount(device);
+    }
+
+    @Override
     public boolean supportsActivityDataFetching() {
         return true;
     }

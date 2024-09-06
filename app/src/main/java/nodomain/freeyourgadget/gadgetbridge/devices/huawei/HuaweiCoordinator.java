@@ -65,6 +65,8 @@ public class HuaweiCoordinator {
 
     private boolean transactionCrypted=true;
 
+    private int maxContactsCount = 0;
+
     public HuaweiCoordinator(HuaweiCoordinatorSupplier parent) {
         this.parent = parent;
         for (String key : getCapabilitiesSharedPreferences().getAll().keySet()) {
@@ -84,6 +86,9 @@ public class HuaweiCoordinator {
                                             key,
                                             GB.hexdump(Notifications.defaultConstraints)
                     )));
+                if (key.equals("maxContactsCount"))
+                    this.maxContactsCount = getCapabilitiesSharedPreferences().getInt(key, 0);
+
             }
         }
     }
@@ -119,6 +124,11 @@ public class HuaweiCoordinator {
     public void saveNotificationConstraints(ByteBuffer constraints) {
         notificationConstraints = constraints;
         getCapabilitiesSharedPreferences().edit().putString("notificationConstraints", GB.hexdump(constraints.array())).apply();
+    }
+
+    public void saveMaxContactsCount(int maxContactsCount) {
+        this.maxContactsCount = maxContactsCount;
+        getCapabilitiesSharedPreferences().edit().putInt("maxContactsCount", maxContactsCount).apply();
     }
 
     public void addCommandsForService(int service, byte[] commands) {
@@ -232,6 +242,11 @@ public class HuaweiCoordinator {
         if (supportsCameraRemote())
             deviceSpecificSettings.addRootScreen(R.xml.devicesettings_camera_remote);
 
+        //Contacts
+        if (getContactsSlotCount(device) > 0) {
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_contacts);
+        }
+
         // Time
         if (supportsDateFormat()) {
             final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
@@ -295,6 +310,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsCameraRemote() {
         return supportsCommandForService(0x01, 0x29) && CameraActivity.supportsCamera();
+    }
+
+    public boolean supportsContacts() {
+        return supportsCommandForService(0x03, 0x1);
     }
 
     public boolean supportsAcceptAgreement() {
@@ -548,6 +567,10 @@ public class HuaweiCoordinator {
         if (supportsSmartAlarm(gbDevice))
             alarmCount += 1; // Always a single smart alarm
         return alarmCount;
+    }
+
+    public int getContactsSlotCount(GBDevice device) {
+        return supportsContacts()?maxContactsCount:0;
     }
 
     public void setTransactionCrypted(boolean crypted) {

@@ -24,12 +24,14 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -168,6 +170,11 @@ public class HuaweiBRSupport extends AbstractBTBRDeviceSupport {
     @Override
     public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {
         supportProvider.onCameraStatusChange(event, filename);
+    }
+
+    @Override
+    public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        supportProvider.onSetContacts(contacts);
     }
 
     @Override

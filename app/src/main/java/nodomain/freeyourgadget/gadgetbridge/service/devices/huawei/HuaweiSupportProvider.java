@@ -85,6 +85,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -94,6 +95,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetAppInfoParams;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetContactsCount;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetGpsParameterRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
@@ -105,6 +107,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Send
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendSetContactsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
@@ -791,6 +794,7 @@ public class HuaweiSupportProvider {
             if (getHuaweiCoordinator().supportsActivityReminder()) {
                 setActivityReminder();
             }
+
             if (getHuaweiCoordinator().supportsTruSleep()) {
                 setTrusleep();
             }
@@ -803,20 +807,55 @@ public class HuaweiSupportProvider {
                 getNotificationConstraintsReq.doPerform();
             }
 
-            if (getHuaweiCoordinator().supportsWatchfaceParams()) {
-                GetWatchfaceParams getWatchfaceParams = new GetWatchfaceParams(this);
-                getWatchfaceParams.doPerform();
-            }
-
             if (getHuaweiCoordinator().supportsCameraRemote() && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, false)) {
                 SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent = new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA);
                 sendCameraRemoteSetupEvent.doPerform();
             }
 
-            if (getHuaweiCoordinator().supportsAppParams()) {
-                GetAppInfoParams getAppInfoParams = new GetAppInfoParams(this);
-                getAppInfoParams.doPerform();
+            // FIXME: Limit number of simultaneous commands
+            // Huawei watch, for example the Watch GT4 has limited buffer for incoming commands.
+            // So sending a lot of command broke connection or cause that watch does not answer to requests.
+            // To avoid this issue I perform some commands in the chain, but we should limit number of simultaneous commands
+
+            RequestCallback contactsCallback = new RequestCallback() {
+                @Override
+                public void call() {
+                    if (getHuaweiCoordinator().supportsContacts()) {
+                        GetContactsCount getContactsCount = new GetContactsCount(HuaweiSupportProvider.this);
+                        try {
+                            getContactsCount.doPerform();
+                        } catch (IOException e) {
+                            LOG.error("Error perform contacts count request", e);
+                        }
+                    }
+                }
+            };
+
+            RequestCallback appsCallback= new RequestCallback() {
+                @Override
+                public void call() {
+                    if (getHuaweiCoordinator().supportsAppParams()) {
+                        GetAppInfoParams getAppInfoParams = new GetAppInfoParams(HuaweiSupportProvider.this);
+                        getAppInfoParams.setFinalizeReq(contactsCallback);
+                        try {
+                            getAppInfoParams.doPerform();
+                        } catch (IOException e) {
+                            LOG.error("Error perform app info request", e);
+                        }
+                    } else {
+                        contactsCallback.call();
+                    }
+                }
+            };
+
+            if (getHuaweiCoordinator().supportsWatchfaceParams()) {
+                GetWatchfaceParams getWatchfaceParams = new GetWatchfaceParams(this);
+                getWatchfaceParams.setFinalizeReq(appsCallback);
+                getWatchfaceParams.doPerform();
+            } else {
+                appsCallback.call();
             }
+
         } catch (IOException e) {
             GB.toast(getContext(), "Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR,
                     e);
@@ -2101,6 +2140,22 @@ public class HuaweiSupportProvider {
                 LOG.error("Failed to send open camera request", e);
             }
         }
+    }
+
+    public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        SendSetContactsRequest sendSetContactsRequest = new SendSetContactsRequest(
+                this,
+                contacts,
+                this.getHuaweiCoordinator().getContactsSlotCount(getDevice())
+        );
+        try {
+            sendSetContactsRequest.doPerform();
+        } catch (IOException e) {
+            // TODO: Use translatable string
+            GB.toast(context, "Failed to set contacts", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to send set contacts request", e);
+        }
+
     }
 
     public boolean startBatteryRunnerDelayed() {

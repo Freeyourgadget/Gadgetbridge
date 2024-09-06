@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.AccountRelate
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Contacts;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService2C;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
@@ -476,6 +477,15 @@ public class HuaweiPacket {
                     default:
                         return this;
                 }
+            case Contacts.id:
+                switch (this.commandId) {
+                    case Contacts.ContactsSet.id:
+                        return new Contacts.ContactsSet.Response(paramsProvider).fromPacket(this);
+                    case Contacts.ContactsCount.id:
+                        return new Contacts.ContactsCount.Response(paramsProvider).fromPacket(this);
+                }
+                this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                return this;
             case Calls.id:
                 if (this.commandId == Calls.AnswerCallResponse.id)
                     return new Calls.AnswerCallResponse(paramsProvider).fromPacket(this);
