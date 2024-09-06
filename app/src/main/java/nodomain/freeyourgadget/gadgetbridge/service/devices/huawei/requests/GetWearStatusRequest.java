@@ -36,6 +36,11 @@ public class GetWearStatusRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsMultiDevice();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new WearStatus.Request(paramsProvider).serialize();

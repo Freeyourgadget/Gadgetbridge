@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket.CryptoException;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
@@ -33,6 +32,11 @@ public class GetSettingRelatedRequest extends Request {
         super(support);
         this.serviceId = DeviceConfig.id;
         this.commandId = DeviceConfig.SettingRelated.id;
+    }
+
+    @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsSettingRelated();
     }
 
     @Override

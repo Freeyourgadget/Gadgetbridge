@@ -39,6 +39,11 @@ public class GetDndLiftWristTypeRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsQueryDndLiftWristDisturbType();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new DeviceConfig.DndLiftWristType.Request(

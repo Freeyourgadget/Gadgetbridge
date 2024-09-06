@@ -35,6 +35,11 @@ public class SendDndDeleteRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsDoNotDisturb(supportProvider.getDevice());
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new DeviceConfig.DndDeleteRequest(paramsProvider).serialize();

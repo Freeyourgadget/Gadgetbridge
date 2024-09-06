@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
@@ -39,6 +38,11 @@ public class GetActivityTypeRequest extends Request {
         super(support);
         this.serviceId = DeviceConfig.id;
         this.commandId = DeviceConfig.ActivityType.id;
+    }
+
+    @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsActivityType();
     }
 
     @Override

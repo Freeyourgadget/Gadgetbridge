@@ -37,6 +37,11 @@ public class SetWearLocationRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsWearLocation(supportProvider.getDevice());
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         String locationString = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

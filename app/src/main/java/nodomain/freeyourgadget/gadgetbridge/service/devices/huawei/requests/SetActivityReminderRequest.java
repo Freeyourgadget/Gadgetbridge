@@ -41,6 +41,11 @@ public class SetActivityReminderRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsActivityReminder();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(supportProvider.getDeviceMac());
 

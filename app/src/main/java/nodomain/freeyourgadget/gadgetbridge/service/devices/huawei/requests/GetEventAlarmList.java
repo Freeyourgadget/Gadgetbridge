@@ -34,6 +34,11 @@ public class GetEventAlarmList extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsChangingAlarm();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new Alarms.EventAlarmsList.Request(supportProvider.getParamsProvider()).serialize();

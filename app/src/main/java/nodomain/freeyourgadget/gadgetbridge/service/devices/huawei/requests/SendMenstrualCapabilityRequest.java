@@ -36,6 +36,11 @@ public class SendMenstrualCapabilityRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsMenstrual();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new CapabilityRequest(paramsProvider).serialize();

@@ -178,6 +178,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 public class HuaweiSupportProvider {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiSupportProvider.class);
 
+    private final int initTimeout = 1000;
+
     private HuaweiBRSupport brSupport;
     private HuaweiLESupport leSupport;
 
@@ -546,26 +548,18 @@ public class HuaweiSupportProvider {
     }
 
     protected void initializeDeviceConfigure() {
-        nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder leBuilder = null;
-        nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder brBuilder = null;
         if (isBLE()) {
-            leBuilder = createLeTransactionBuilder("Initializing");
+            nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder leBuilder = createLeTransactionBuilder("Initializing");
             leBuilder.setCallback(leSupport);
             if (!GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean("force_new_protocol", false))
                 leBuilder.notify(leSupport.getCharacteristic(HuaweiConstants.UUID_CHARACTERISTIC_HUAWEI_READ), true);
             leBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZING, context));
         } else {
-            brBuilder = createBrTransactionBuilder("Initializing");
+            nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder brBuilder = createBrTransactionBuilder("Initializing");
             brBuilder.setCallback(brSupport);
             brBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZING, context));
         }
         try {
-            GetProductInformationRequest productInformationReq = new GetProductInformationRequest(this);
-            Request setTimeReq = setTime();
-            GetSupportedServicesRequest supportedServicesReq = new GetSupportedServicesRequest(this);
-            productInformationReq.nextRequest(setTimeReq);
-            setTimeReq.nextRequest(supportedServicesReq);
-            productInformationReq.doPerform();
             if (firstConnection) {
                 // Workaround to enable PREF_HUAWEI_ROTATE_WRIST_TO_SWITCH_INFO preference
                 SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceMac);
@@ -573,17 +567,33 @@ public class HuaweiSupportProvider {
                 editor.putString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, "p_on");
                 editor.apply();
             }
-            getBatteryLevel();
-            sendUserInfo();
-            if (isBLE()) {
-                assert leBuilder != null;
-                leBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZED, context));
-                leSupport.performConnected(leBuilder.getTransaction());
-            } else {
-                assert brBuilder != null;
-                brBuilder.add(new nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZED, context));
-                brSupport.performConnected(brBuilder.getTransaction());
+
+            stopBatteryRunnerDelayed();
+            GetBatteryLevelRequest batteryLevelReq = new GetBatteryLevelRequest(this);
+            batteryLevelReq.setFinalizeReq(new RequestCallback() {
+                @Override
+                public void timeout(Request request) {
+                    request.handleNext();
+                    // Start the battery runner again so it keeps running even if the timeout is hit
+                    startBatteryRunnerDelayed();
+                }
+            });
+
+            final List<Request> initRequestQueue = new ArrayList<>();
+            initRequestQueue.add(new GetProductInformationRequest(this));
+            initRequestQueue.add(new SetTimeRequest(this, true));
+            initRequestQueue.add(batteryLevelReq);
+            initRequestQueue.add(new SendFitnessUserInfoRequest(this));
+            initRequestQueue.add(new GetSupportedServicesRequest(this)); // MUST BE LAST - it indirectly kicks off initializeDynamicServices
+
+            // Queue all the requests
+            for (int i = 1; i < initRequestQueue.size(); i++) {
+                initRequestQueue.get(i - 1).setupTimeoutUntilNext(initTimeout);
+                initRequestQueue.get(i - 1).nextRequest(initRequestQueue.get(i));
             }
+            initRequestQueue.get(initRequestQueue.size() - 1).setupTimeoutUntilNext(initTimeout);
+
+            initRequestQueue.get(0).doPerform();
         } catch (IOException e) {
             // TODO: Use translatable string
             GB.toast(context, "Final initialization of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR, e);
@@ -694,177 +704,69 @@ public class HuaweiSupportProvider {
      * To be called after the commandsPerService is filled in the coordinator
      */
     public void initializeDynamicServices() {
-
-        // Setup the alarms
-        if (!getHuaweiCoordinator().supportsChangingAlarm()) {
-            if (firstConnection) {
-                // TODO: not really sure if this is necessary, but it probably won't do any harm
-                initializeAlarms();
-            }
-        } else {
-            getAlarms();
-        }
         try {
-            if (getHuaweiCoordinator().supportsExpandCapability()) {
-                GetExpandCapabilityRequest expandCapabilityReq = new GetExpandCapabilityRequest(this);
-                expandCapabilityReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsAccountJudgment() && getHuaweiCoordinator().supportsAccountSwitch()) {
-                SendExtendedAccountRequest sendExtendedAccountRequest = new SendExtendedAccountRequest(this);
-                sendExtendedAccountRequest.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsSettingRelated()) { // GetSettingRelated
-                GetSettingRelatedRequest getSettingRelatedReq = new GetSettingRelatedRequest(this);
-                getSettingRelatedReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsAcceptAgreement()) {
-	            AcceptAgreementsRequest acceptAgreementsRequest = new AcceptAgreementsRequest(this);
-		        acceptAgreementsRequest.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsActivityType()) {
-                GetActivityTypeRequest activityTypeReq = new GetActivityTypeRequest(this);
-                activityTypeReq.doPerform();
+            // All of the below check that they are supported and otherwise they skip themselves
+            final List<Request> initRequestQueue = new ArrayList<>();
+            initRequestQueue.add(new GetExpandCapabilityRequest(this));
+            initRequestQueue.add(new SendExtendedAccountRequest(this));
+            initRequestQueue.add(new GetSettingRelatedRequest(this));
+            initRequestQueue.add(new AcceptAgreementsRequest(this));
+            initRequestQueue.add(new GetActivityTypeRequest(this));
+            initRequestQueue.add(new GetConnectStatusRequest(this));
+            initRequestQueue.add(new GetDndLiftWristTypeRequest(this));
+            initRequestQueue.add(new SendDndDeleteRequest(this));
+            initRequestQueue.add(new SendDndAddRequest(this));
+            initRequestQueue.add(new SendSetUpDeviceStatusRequest(this));
+            initRequestQueue.add(new GetWearStatusRequest(this));
+            initRequestQueue.add(new SendMenstrualCapabilityRequest(this));
+            initRequestQueue.add(new SendNotifyHeartRateCapabilityRequest(this));
+            initRequestQueue.add(new SendNotifyRestHeartRateCapabilityRequest(this));
+            initRequestQueue.add(new SetMediumToStrengthThresholdRequest(this));
+            initRequestQueue.add(new SendFitnessGoalRequest(this));
+            initRequestQueue.add(new GetNotificationCapabilitiesRequest(this));
+            initRequestQueue.add(new GetNotificationConstraintsRequest(this));
+            initRequestQueue.add(new GetWatchfaceParams(this));
+            initRequestQueue.add(new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA));
+            initRequestQueue.add(new GetAppInfoParams(this));
+            initRequestQueue.add(new SetActivateOnLiftRequest(this));
+            initRequestQueue.add(new SetWearLocationRequest(this));
+            initRequestQueue.add(new SetNavigateOnRotateRequest(this));
+            initRequestQueue.add(new SetNotificationRequest(this));
+            initRequestQueue.add(new SetWearMessagePushRequest(this));
+            initRequestQueue.add(new SetTimeZoneIdRequest(this));
+            initRequestQueue.add(new SetLanguageSettingRequest(this));
+            initRequestQueue.add(new SetDateFormatRequest(this));
+            initRequestQueue.add(new SetActivityReminderRequest(this));
+            initRequestQueue.add(new SetTruSleepRequest(this));
+            initRequestQueue.add(new GetContactsCount(this));
+            initRequestQueue.add(new GetEventAlarmList(this));
+            initRequestQueue.add(new GetSmartAlarmList(this));
+
+            // Setup the alarms if necessary
+            if (!getHuaweiCoordinator().supportsChangingAlarm() && firstConnection)
+                initializeAlarms();
+
+            // Queue all the requests
+            for (int i = 1; i < initRequestQueue.size(); i++) {
+                initRequestQueue.get(i - 1).setupTimeoutUntilNext(initTimeout);
+                initRequestQueue.get(i - 1).nextRequest(initRequestQueue.get(i));
             }
 
-            if (getHuaweiCoordinator().supportsConnectStatus()) {
-                GetConnectStatusRequest getConnectStatusReq = new GetConnectStatusRequest(this);
-                getConnectStatusReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsActivateOnLift()) {
-                setActivateOnLift();
-            }
-            if (getHuaweiCoordinator().supportsWearLocation(getDevice())) {
-                setWearLocation();
-            }
-            if (getHuaweiCoordinator().supportsRotateToCycleInfo()) {
-                setNavigateOnRotate();
-            }
-            if (getHuaweiCoordinator().supportsQueryDndLiftWristDisturbType()) {
-                GetDndLiftWristTypeRequest getDndLiftWristTypeReq = new GetDndLiftWristTypeRequest(this);
-                getDndLiftWristTypeReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsDoNotDisturb(gbDevice)) {
-                SendDndDeleteRequest sendDndDeleteReq = new SendDndDeleteRequest(this);
-                SendDndAddRequest sendDndAddReq = new SendDndAddRequest(this);
-                sendDndDeleteReq.nextRequest(sendDndAddReq);
-                sendDndDeleteReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsNotification()) { // 0x02 - 0x04
-                setNotificationStatus();
-            }
-            if (getHuaweiCoordinator().supportsDoNotDisturb(gbDevice) && getHuaweiCoordinator().supportsWearMessagePush()) {
-                setDndNotWear();
-            }
-            if (getHuaweiCoordinator().supportsTimeAndZoneId()) {
-                setTimeZoneId();
-            }
-            // Nothing usefull yet with this requests
-            if (getHuaweiCoordinator().supportsMultiDevice()) {
-                SendSetUpDeviceStatusRequest sendSetUpDeviceStatusReq = new SendSetUpDeviceStatusRequest(this);
-                sendSetUpDeviceStatusReq.doPerform();
-                GetWearStatusRequest getWearStatusReq = new GetWearStatusRequest(this);
-                getWearStatusReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsMenstrual()) {
-                SendMenstrualCapabilityRequest sendMenstrualCapabilityReq = new SendMenstrualCapabilityRequest(this);
-                sendMenstrualCapabilityReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsLanguageSetting()) { // 0x0c - 0x01
-                setLanguageSetting();
-            }
-            if (getHuaweiCoordinator().supportsWorkoutsTrustHeartRate()) {
-                SendNotifyHeartRateCapabilityRequest sendNotifyHeartRateCapabilityReq = new SendNotifyHeartRateCapabilityRequest(this);
-                sendNotifyHeartRateCapabilityReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsFitnessRestHeartRate()) {
-                SendNotifyRestHeartRateCapabilityRequest sendNotifyRestHeartRateCapabilityReq = new SendNotifyRestHeartRateCapabilityRequest(this);
-                sendNotifyRestHeartRateCapabilityReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsFitnessThresholdValue()) {
-                SetMediumToStrengthThresholdRequest setMediumToStrengthThresholdReq = new SetMediumToStrengthThresholdRequest(this);
-                setMediumToStrengthThresholdReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsDateFormat()) { //0x01 - 0x04
-                setDateFormat();
-            }
-            if (getHuaweiCoordinator().supportsMotionGoal()) {
-                SendFitnessGoalRequest sendFitnessGoalReq = new SendFitnessGoalRequest(this);
-                sendFitnessGoalReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsActivityReminder()) {
-                setActivityReminder();
-            }
-
-            if (getHuaweiCoordinator().supportsTruSleep()) {
-                setTrusleep();
-            }
-            if (getHuaweiCoordinator().supportsPromptPushMessage() && getProtocolVersion() == 2) {
-                GetNotificationCapabilitiesRequest getNotificationCapabilitiesReq = new GetNotificationCapabilitiesRequest(this);
-                getNotificationCapabilitiesReq.doPerform();
-            }
-            if (getHuaweiCoordinator().supportsNotificationAlert() && getProtocolVersion() == 2) {
-                GetNotificationConstraintsRequest getNotificationConstraintsReq = new GetNotificationConstraintsRequest(this);
-                getNotificationConstraintsReq.doPerform();
-            }
-
-            if (getHuaweiCoordinator().supportsCameraRemote() && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_CAMERA_REMOTE, false)) {
-                SendCameraRemoteSetupEvent sendCameraRemoteSetupEvent = new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA);
-                sendCameraRemoteSetupEvent.doPerform();
-            }
-
-            // FIXME: Limit number of simultaneous commands
-            // Huawei watch, for example the Watch GT4 has limited buffer for incoming commands.
-            // So sending a lot of command broke connection or cause that watch does not answer to requests.
-            // To avoid this issue I perform some commands in the chain, but we should limit number of simultaneous commands
-
-            RequestCallback contactsCallback = new RequestCallback() {
+            initRequestQueue.get(initRequestQueue.size() - 1).setupTimeoutUntilNext(initTimeout);
+            initRequestQueue.get(initRequestQueue.size() - 1).setFinalizeReq(new RequestCallback() {
                 @Override
                 public void call() {
-                    if (getHuaweiCoordinator().supportsContacts()) {
-                        GetContactsCount getContactsCount = new GetContactsCount(HuaweiSupportProvider.this);
-                        try {
-                            getContactsCount.doPerform();
-                        } catch (IOException e) {
-                            LOG.error("Error perform contacts count request", e);
-                        }
-                    }
+                    gbDevice.setState(GBDevice.State.INITIALIZED);
+                    gbDevice.sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUpdateSubject.DEVICE_STATE);
                 }
-            };
+            });
 
-            RequestCallback appsCallback= new RequestCallback() {
-                @Override
-                public void call() {
-                    if (getHuaweiCoordinator().supportsAppParams()) {
-                        GetAppInfoParams getAppInfoParams = new GetAppInfoParams(HuaweiSupportProvider.this);
-                        getAppInfoParams.setFinalizeReq(contactsCallback);
-                        try {
-                            getAppInfoParams.doPerform();
-                        } catch (IOException e) {
-                            LOG.error("Error perform app info request", e);
-                        }
-                    } else {
-                        contactsCallback.call();
-                    }
-                }
-            };
-
-            if (getHuaweiCoordinator().supportsWatchfaceParams()) {
-                GetWatchfaceParams getWatchfaceParams = new GetWatchfaceParams(this);
-                getWatchfaceParams.setFinalizeReq(appsCallback);
-                getWatchfaceParams.doPerform();
-            } else {
-                appsCallback.call();
-            }
-
+            initRequestQueue.get(0).doPerform();
         } catch (IOException e) {
-            GB.toast(getContext(), "Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR,
-                    e);
-            e.printStackTrace();
+            // TODO: Translatable string
+            GB.toast("Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Initializing dynamic services failed", e);
         }
-
-        // Properly update the device card
-        gbDevice.sendDeviceUpdateIntent(GBApplication.getContext());
-        GB.signalActivityDataFinish(getDevice());
     }
 
     public void setProtocolVersion(byte protocolVersion) {
@@ -917,7 +819,6 @@ public class HuaweiSupportProvider {
             return;
 
         GetEventAlarmList getEventAlarmList = new GetEventAlarmList(this);
-        responseManager.addHandler(getEventAlarmList);
         getEventAlarmList.setFinalizeReq(new RequestCallback() {
             @Override
             public void call() {
@@ -925,7 +826,6 @@ public class HuaweiSupportProvider {
                     return; // Don't get smart alarms when not supported
 
                 GetSmartAlarmList getSmartAlarmList = new GetSmartAlarmList(HuaweiSupportProvider.this);
-                responseManager.addHandler(getSmartAlarmList);
                 try {
                     getSmartAlarmList.doPerform();
                 } catch (IOException e) {
@@ -1401,26 +1301,11 @@ public class HuaweiSupportProvider {
 
     public void onSetTime() {
         try {
-            setTime().doPerform();
+            new SetTimeRequest(this, true).doPerform();
         } catch (IOException e) {
             // TODO: Use translatable string
             GB.toast(context, "Failed to configure time", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Failed to configure time", e);
-        }
-    }
-
-    private Request setTime() {
-        SetTimeRequest setTimeReq = new SetTimeRequest(this, true);
-        return setTimeReq;
-    }
-
-    public void setTimeZoneId() {
-        try {
-            SetTimeZoneIdRequest setTimeZoneIdReq = new SetTimeZoneIdRequest(this);
-            setTimeZoneIdReq.doPerform();
-        } catch (IOException e) {
-            // TODO: Use translatable string
-            GB.toast(context, "Failed to configure time and zoneId", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
     }
 
@@ -1726,7 +1611,6 @@ public class HuaweiSupportProvider {
             LOG.error("Failed to set user info", e);
         }
     }
-
 
     public void setActivateOnLift() {
         try {

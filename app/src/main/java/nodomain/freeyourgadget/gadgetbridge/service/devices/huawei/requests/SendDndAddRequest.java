@@ -42,6 +42,11 @@ public class SendDndAddRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsDoNotDisturb(supportProvider.getDevice());
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(supportProvider.getDeviceMac());
 

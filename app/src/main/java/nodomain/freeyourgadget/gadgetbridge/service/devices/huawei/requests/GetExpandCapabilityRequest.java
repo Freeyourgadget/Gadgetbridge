@@ -41,6 +41,11 @@ public class GetExpandCapabilityRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsExpandCapability();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         DeviceConfig.ExpandCapability.Request expandRequest = new DeviceConfig.ExpandCapability.Request(paramsProvider);
         try {

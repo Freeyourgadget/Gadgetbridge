@@ -37,6 +37,11 @@ public class SetTruSleepRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsTruSleep();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         boolean truSleepSwitch = GBApplication
                 .getDeviceSpecificSharedPrefs(this.getDevice().getAddress())

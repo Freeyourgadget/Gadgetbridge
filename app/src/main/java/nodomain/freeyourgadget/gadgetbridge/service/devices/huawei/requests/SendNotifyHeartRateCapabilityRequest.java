@@ -36,6 +36,11 @@ public class SendNotifyHeartRateCapabilityRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsWorkoutsTrustHeartRate();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new NotifyHeartRate.Request(paramsProvider).serialize();

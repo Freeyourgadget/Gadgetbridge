@@ -37,6 +37,11 @@ public class SetWearMessagePushRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsDoNotDisturb(supportProvider.getDevice()) && supportProvider.getHuaweiCoordinator().supportsWearMessagePush();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         boolean status = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

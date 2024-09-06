@@ -37,6 +37,11 @@ public class SetNotificationRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsNotification();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         boolean status = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

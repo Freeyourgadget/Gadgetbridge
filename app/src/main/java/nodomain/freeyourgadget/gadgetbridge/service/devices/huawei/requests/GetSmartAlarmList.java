@@ -16,10 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
@@ -28,13 +24,18 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
 
 public class GetSmartAlarmList extends Request {
-    private static final Logger LOG = LoggerFactory.getLogger(GetSmartAlarmList.class);
 
     public GetSmartAlarmList(HuaweiSupportProvider support) {
         super(support);
 
         this.serviceId = Alarms.id;
         this.commandId = Alarms.SmartAlarmList.id;
+    }
+
+    @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsChangingAlarm() &&
+                supportProvider.getHuaweiCoordinator().supportsSmartAlarm(supportProvider.getDevice());
     }
 
     @Override

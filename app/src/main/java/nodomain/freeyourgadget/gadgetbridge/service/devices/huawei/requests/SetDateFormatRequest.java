@@ -38,6 +38,11 @@ public class SetDateFormatRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsDateFormat();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         int time = DeviceConfig.Time.hours12;
         int date;

@@ -36,6 +36,11 @@ public class GetNotificationConstraintsRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsNotificationAlert() && supportProvider.getProtocolVersion() == 2;
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new NotificationConstraints.Request(paramsProvider).serialize();

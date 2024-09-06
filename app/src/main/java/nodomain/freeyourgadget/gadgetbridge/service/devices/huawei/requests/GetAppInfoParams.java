@@ -16,6 +16,11 @@ public class GetAppInfoParams extends Request{
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsAppParams();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new App.AppInfoParams.Request(paramsProvider).serialize();

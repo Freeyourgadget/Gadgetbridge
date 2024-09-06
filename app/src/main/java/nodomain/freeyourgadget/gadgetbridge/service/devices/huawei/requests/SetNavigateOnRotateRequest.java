@@ -37,6 +37,11 @@ public class SetNavigateOnRotateRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsRotateToCycleInfo();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         boolean navigate = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

@@ -36,6 +36,11 @@ public class SendSetUpDeviceStatusRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsMultiDevice();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         int relationShip = 1; // Hardcoded value for now - 1 = mainDevice
         String deviceName = supportProvider.getDevice().getName(); 

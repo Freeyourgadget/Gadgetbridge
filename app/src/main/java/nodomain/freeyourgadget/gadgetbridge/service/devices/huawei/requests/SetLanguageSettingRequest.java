@@ -42,6 +42,11 @@ public class SetLanguageSettingRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsLanguageSetting();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         String localeString = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

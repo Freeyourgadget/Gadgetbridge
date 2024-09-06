@@ -36,6 +36,11 @@ public class GetNotificationCapabilitiesRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsPromptPushMessage() && supportProvider.getProtocolVersion() == 2;
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new NotificationCapabilities.Request(paramsProvider).serialize();

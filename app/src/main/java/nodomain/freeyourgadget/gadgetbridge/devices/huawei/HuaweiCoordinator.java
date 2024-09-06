@@ -285,6 +285,7 @@ public class HuaweiCoordinator {
     public boolean supportsDoNotDisturb() {
         return supportsCommandForService(0x01, 0x0a);
     }
+
     public boolean supportsDoNotDisturb(GBDevice gbDevice) {
         return supportsDoNotDisturb() || getForceOption(gbDevice, PREF_FORCE_DND_SUPPORT);
     }
@@ -296,6 +297,7 @@ public class HuaweiCoordinator {
     public boolean supportsWearLocation() {
         return supportsCommandForService(0x01, 0x1a);
     }
+
     public boolean supportsWearLocation(GBDevice gbDevice) {
         return supportsWearLocation() || getForceOption(gbDevice, PREF_FORCE_ENABLE_WEAR_LOCATION);
     }

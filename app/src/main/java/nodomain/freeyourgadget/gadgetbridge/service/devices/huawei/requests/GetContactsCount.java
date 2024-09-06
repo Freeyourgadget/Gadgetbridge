@@ -19,6 +19,11 @@ public class GetContactsCount extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsContacts();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new Contacts.ContactsCount.Request(paramsProvider).serialize();

@@ -16,24 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig.AcceptAgreement;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms.SmartAlarmRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
-import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Alarms;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
-import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
 
 public class AcceptAgreementsRequest extends Request {
-
     private static final Logger LOG = LoggerFactory.getLogger(AcceptAgreementsRequest.class);
-
 
     public AcceptAgreementsRequest(HuaweiSupportProvider support) {
         super(support);
@@ -42,6 +35,12 @@ public class AcceptAgreementsRequest extends Request {
         this.commandId = DeviceConfig.AcceptAgreement.id;
     }
 
+    @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsAcceptAgreement();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new DeviceConfig.AcceptAgreement.Request(paramsProvider).serialize();

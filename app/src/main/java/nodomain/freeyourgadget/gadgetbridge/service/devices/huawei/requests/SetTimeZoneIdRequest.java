@@ -35,6 +35,11 @@ public class SetTimeZoneIdRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsTimeAndZoneId();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new DeviceConfig.TimeZoneIdRequest(paramsProvider).serialize();

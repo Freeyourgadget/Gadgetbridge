@@ -37,6 +37,11 @@ public class SetActivateOnLiftRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsActivateOnLift();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         boolean activate = GBApplication
             .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

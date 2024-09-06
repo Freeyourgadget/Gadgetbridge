@@ -38,6 +38,11 @@ public class SendExtendedAccountRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsAccountJudgment() && supportProvider.getHuaweiCoordinator().supportsAccountSwitch();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws Request.RequestCreationException {
         String account = GBApplication
                 .getDeviceSpecificSharedPrefs(supportProvider.getDevice().getAddress())

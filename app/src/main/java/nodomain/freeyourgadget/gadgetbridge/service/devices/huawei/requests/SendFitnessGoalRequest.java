@@ -38,6 +38,11 @@ public class SendFitnessGoalRequest extends Request {
     }
 
     @Override
+    protected boolean requestSupported() {
+        return supportProvider.getHuaweiCoordinator().supportsMotionGoal();
+    }
+
+    @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             // Hardcoded values till interface for goal
