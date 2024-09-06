@@ -121,6 +121,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetAutomaticSpoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetDisconnectNotification;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetMediumToStrengthThresholdRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetSkinTemperatureMeasurement;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetTemperatureUnitSetting;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.StopFindPhoneRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.StopNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetFitnessTotalsRequest;
@@ -925,6 +927,14 @@ public class HuaweiSupportProvider {
                     setTrusleep();
                     break;
                 }
+                case HuaweiConstants.PREF_HUAWEI_CONTINUOUS_SKIN_TEMPERATURE_MEASUREMENT: {
+                    setContinuousSkinTemperatureMeasurement();
+                    break;
+                }
+                case DeviceSettingsPreferenceConst.PREF_TEMPERATURE_SCALE_CF: {
+                    setTemperatureUnit();
+                    break;
+                }
                 case DeviceSettingsPreferenceConst.PREF_NOTIFICATION_ENABLE: {
                     setNotificationStatus();
                     break;
@@ -1658,6 +1668,28 @@ public class HuaweiSupportProvider {
             // TODO: Use translatable string
             GB.toast(context, "Failed to configure truSleep", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Failed to configure truSleep", e);
+        }
+    }
+
+    public void setTemperatureUnit() {
+            try {
+                SetTemperatureUnitSetting setTemperatureUnitSetting = new SetTemperatureUnitSetting(this);
+                setTemperatureUnitSetting.doPerform();
+            } catch (IOException e) {
+                // TODO: Use translatable string
+                GB.toast(context, "Failed to set temperature unit", Toast.LENGTH_SHORT, GB.ERROR, e);
+                LOG.error("Failed to configure TemperatureUnitSetting", e);
+            }
+    }
+
+    public void setContinuousSkinTemperatureMeasurement() {
+        try {
+            SetSkinTemperatureMeasurement skinTemperatureMeasurement = new SetSkinTemperatureMeasurement(this);
+            skinTemperatureMeasurement.doPerform();
+        } catch (IOException e) {
+            // TODO: Use translatable string
+            GB.toast(context, "Failed to configure continuous skin temperature measurement", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to configure SkinTemperatureMeasurement", e);
         }
     }
 

@@ -82,6 +82,7 @@ public final class HuaweiConstants {
     public static final String PREF_HUAWEI_ACCOUNT = "huawei_account";
     public static final String PREF_HUAWEI_DND_LIFT_WRIST_TYPE = "dnd_lift_wrist_type"; // SharedPref for 0x01 0x1D
     public static final String PREF_HUAWEI_DEBUG_REQUEST = "debug_huawei_request";
+    public static final String PREF_HUAWEI_CONTINUOUS_SKIN_TEMPERATURE_MEASUREMENT = "continuous_skin_temperature_measurement";
 
     public static final String PKG_NAME = "com.huawei.devicegroupmanage";
 }

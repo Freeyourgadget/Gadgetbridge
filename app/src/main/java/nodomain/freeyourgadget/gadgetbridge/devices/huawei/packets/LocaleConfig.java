@@ -49,4 +49,24 @@ public class LocaleConfig {
         public static final byte metric = 0x00;
         public static final byte imperial = 0x01;
     }
+
+    public static class SetTemperatureUnitSetting extends HuaweiPacket {
+        public static final byte id = 0x05;
+
+        public SetTemperatureUnitSetting(
+                ParamsProvider paramsProvider,
+                byte isFahrenheit
+        ) {
+            super(paramsProvider);
+
+            this.serviceId = LocaleConfig.id;
+            this.commandId = id;
+
+            this.tlv = new HuaweiTLV()
+                    .put(0x01, isFahrenheit);
+
+            this.complete = true;
+        }
+    }
+
 }

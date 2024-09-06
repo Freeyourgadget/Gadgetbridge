@@ -220,6 +220,9 @@ public class HuaweiCoordinator {
             deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_heartrate_automatic_enable);
         if (supportsSPo2())
             deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_spo_automatic_enable);
+        if(supportsTemperature()) {
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH, R.xml.devicesettings_temperature_automatic_enable);
+        }
 
         // Notifications
         final List<Integer> notifications = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.NOTIFICATIONS);
@@ -266,6 +269,9 @@ public class HuaweiCoordinator {
         // Currently on main setting menu.
         /*if (supportsLanguageSetting())
             deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_language_generic);*/
+        if(supportsTemperature()) {
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_temperature_scale_cf);
+        }
 
         // Developer
         final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
@@ -390,6 +396,11 @@ public class HuaweiCoordinator {
     public boolean supportsFitnessThresholdValue() {
         return supportsCommandForService(0x07, 0x29);
     }
+
+    // 0x1d - SupportTemperature
+    // 0xba - SupportTemperatureClassification
+    // 0x43 - SupportTemperatureStudy
+    public boolean supportsTemperature() { return supportsExpandCapability(0x1d); }
 
     public boolean supportsEventAlarm() {
         return supportsCommandForService(0x08, 0x01);

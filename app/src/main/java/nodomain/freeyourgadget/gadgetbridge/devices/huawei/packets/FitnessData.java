@@ -577,6 +577,25 @@ public class FitnessData {
         }
     }
 
+    public static class SkinTemperatureMeasurement {
+        public static final byte id = 0x2a;
+
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider, boolean temperatureSwitch) {
+                super(paramsProvider);
+
+                this.serviceId = FitnessData.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV()
+                        .put(0x01, (byte)0x01)
+                        .put(0x02, temperatureSwitch);
+
+                this.complete = true;
+            }
+        }
+    }
+
     public static class Type {
         // TODO: enum?
 

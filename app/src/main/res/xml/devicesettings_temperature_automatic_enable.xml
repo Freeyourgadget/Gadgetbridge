@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_temperature"
+        android:defaultValue="false"
+        android:key="continuous_skin_temperature_measurement"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_continuous_skin_temperature_measurement_description"
+        android:title="@string/pref_continuous_skin_temperature_measurement_title" />
+</androidx.preference.PreferenceScreen>

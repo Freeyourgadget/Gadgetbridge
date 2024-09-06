@@ -2750,6 +2750,8 @@
     <string name="pref_activity_recognition_mode_none">none</string>
     <string name="pref_activity_recognition_mode_ask">ask</string>
     <string name="pref_activity_recognition_mode_auto">auto</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">Continuous skin temperature measurement</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">Temperature retrieval is not currently supported. This setting only enable continuous measurement on the device</string>
 
     <string name="menuitem_menu">Menu</string>
     <string name="fossil_hr_button_config_info">Some buttons cannot be configured because their functions are hard-coded in the watch firmware.\n\nWarning: long-pressing the upper button when a watchface from the official Fossil app is installed will also toggle between showing/hiding widgets.</string>
