@@ -218,7 +218,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.gridlayout:gridlayout:1.0.0"
     implementation "androidx.palette:palette:1.0.0"
-    implementation "androidx.activity:activity:1.9.1"
+    implementation "androidx.activity:activity:1.9.2"
     implementation "androidx.fragment:fragment:1.8.2"
     implementation "androidx.viewpager2:viewpager2:1.1.0"
 
