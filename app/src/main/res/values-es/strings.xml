@@ -3395,4 +3395,5 @@
     <string name="activity_prefs_date_birth">Fecha de nacimiento</string>
     <string name="pref_description_automations">Exportación automática, recuperación automática</string>
     <string name="pref_description_about_you">Fecha de nacimiento, género, altura, peso, objetivos</string>
+    <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
 </resources>
