@@ -160,6 +160,8 @@ public class DashboardFragment extends Fragment implements MenuProvider {
 
         if (savedInstanceState != null && savedInstanceState.containsKey("dashboard_data") && dashboardData.isEmpty()) {
             dashboardData = (DashboardData) savedInstanceState.getSerializable("dashboard_data");
+        } else if (dashboardData.isEmpty()) {
+            reloadPreferences();
         }
 
         IntentFilter filterLocal = new IntentFilter();
@@ -226,13 +228,17 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         day.set(Calendar.MINUTE, 59);
         day.set(Calendar.SECOND, 59);
         dashboardData.clear();
+        reloadPreferences();
+        draw();
+    }
+
+    private void reloadPreferences() {
         Prefs prefs = GBApplication.getPrefs();
         dashboardData.showAllDevices = prefs.getBoolean("dashboard_devices_all", true);
         dashboardData.showDeviceList = prefs.getStringSet("dashboard_devices_multiselect", new HashSet<>());
         dashboardData.hrIntervalSecs = prefs.getInt("dashboard_widget_today_hr_interval", 1) * 60;
         dashboardData.timeTo = (int) (day.getTimeInMillis() / 1000);
         dashboardData.timeFrom = DateTimeUtils.shiftDays(dashboardData.timeTo, -1);
-        draw();
     }
 
     private void draw() {
