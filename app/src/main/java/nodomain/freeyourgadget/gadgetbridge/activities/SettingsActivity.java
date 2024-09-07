@@ -65,7 +65,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryPairingPreferenceActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.welcome.WelcomeActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
@@ -438,14 +437,6 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 });
             }
 
-            pref = findPreference("pref_show_first_run_screen");
-            if (pref != null) {
-                pref.setOnPreferenceClickListener(preference -> {
-                    Intent enableIntent = new Intent(requireContext(), WelcomeActivity.class);
-                    startActivity(enableIntent);
-                    return true;
-                });
-            }
             pref = findPreference("pref_discovery_pairing");
             if (pref != null) {
                 pref.setOnPreferenceClickListener(preference -> {
