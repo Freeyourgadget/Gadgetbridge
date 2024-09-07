@@ -2288,4 +2288,74 @@
 \n
 \nSIGA POR SUA PRÓPRIA CONTA E RISCO!</string>
     <string name="pref_cache_weather_summary">As informações do clima serão armazenadas em cache durante as reinicializações da aplicação.</string>
+    <string name="share_screenshot">Partilhar captura de ecrã</string>
+    <string name="impactMax">Impacto máximo</string>
+    <string name="flatDistance">Distância Plana</string>
+    <string name="fwapp_install_device_not_supported">O ficheiro não pode ser instalado, o dispositivo não é compatível.</string>
+    <string name="updatefirmwareoperation_updateproblem_free_space">O dispositivo não tem espaço livre suficiente</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">A pilha do dispositivo está muito fraca</string>
+    <string name="moondrop_touch_action_call_pick_hang">Atender a ligação</string>
+    <string name="pref_battery_polling_interval_format">a cada %1$s minutos</string>
+    <string name="minutes_20">20 minutos</string>
+    <string name="sleep_colored_stats_light">Claro</string>
+    <string name="activity_error_share_failed">Falha no compartilhamento do ficheiro.</string>
+    <string name="activity_type_flexibility">Flexibilidade</string>
+    <string name="activity_type_outdoor_cycling">Ciclismo ao ar livre</string>
+    <string name="watchface_dialog_title_widget">Configurações do widget</string>
+    <string name="hrv_status_seven_days_avg_status">Estado</string>
+    <string name="devicetype_mijia_lywsd03">Mijia Sensor de Temperatura e Humidade 2</string>
+    <string name="protocol_version">Versão do Protocolo</string>
+    <string name="pref_screen_auto_brightness_title">Brilho automático</string>
+    <string name="menuitem_thermometer">Termômetro</string>
+    <string name="activity_type_rock_climbing">Escalada em rocha</string>
+    <string name="permission_notification_listener">%1$s precisa de acesso às Notificações para exibi-las no relógio quando o ecrã do telefone estiver desligada.
+\n
+\nToque em \'%2$s\' e depois em \'%1$s\' e ative \'Permitir acesso a notificações\' e, em seguida, toque em \'Voltar\' para retornar a %1$s.</string>
+    <string name="impactAvg">Impacto médio</string>
+    <string name="moondrop_touch_action_call_start">Iniciar uma ligação</string>
+    <string name="pai_total">Total</string>
+    <string name="soundcore_equalizer_preset_balanced">Equilibrado</string>
+    <string name="proprietary_app_warning">Este recurso requer a instalação de uma app proprietária</string>
+    <string name="elevationLoss">Descida</string>
+    <string name="activity_type_darts">Dardos</string>
+    <string name="activity_type_archery">Arco e Flecha</string>
+    <string name="activity_type_stairs">Escadas</string>
+    <string name="activity_type_snow_sports">Desportos na neve</string>
+    <string name="activity_type_dancing">Dançar</string>
+    <string name="state_scanned">Escaneado</string>
+    <string name="elevationGain">Ganho de elevação</string>
+    <string name="menuitem_forecast">Previsão</string>
+    <string name="moondrop_touch_action_assistant">Iniciar o Assistente de Voz</string>
+    <string name="soundcore_button_brightness_medium">Médio</string>
+    <string name="watchface_dialog_widget_cat_generic">Genérico</string>
+    <string name="activity_db_management_autoexport_location">Não foi possível perceber a localização. Provavelmente um problema do sistema de permissão mais recente do Android. Muito provavelmente, a exportação automática não funciona no momento.</string>
+    <string name="activity_type_golf">Golfe</string>
+    <string name="screenshot_taken">Captura de ecrã feita</string>
+    <string name="prefs_control_center">Centro de Controle</string>
+    <string name="activity_type_ballet">Balé</string>
+    <string name="activity_type_tennis">Ténis</string>
+    <string name="activity_type_trail_run">Corrida em trilha</string>
+    <string name="menuitem_offline_voice">Voz offline</string>
+    <string name="activity_type_martial_arts">Artes marciais</string>
+    <string name="activity_type_fishing">Pesca</string>
+    <string name="activity_type_australian_football">Futebol australiano</string>
+    <string name="activity_type_rugby">Rúgbi</string>
+    <string name="activity_type_rowing">Remo</string>
+    <string name="activity_type_boxing">Boxe</string>
+    <string name="menuitem_recommendation">Recomendação</string>
+    <string name="activity_type_karate">Karatê</string>
+    <string name="stress_average">Médio</string>
+    <string name="activity_type_dance">Dança</string>
+    <string name="devicetype_scannable">Dispositivo escaneável</string>
+    <string name="activity_type_football">Futebol</string>
+    <string name="activity_type_parachuting">Paraquedismo</string>
+    <string name="pref_summary_notification_times_enabled">Enviar notificações somente entre horários específicos</string>
+    <string name="activity_type_rem_sleep">Sono REM</string>
+    <string name="activity_type_weightlifting">Levantamento de peso</string>
+    <string name="battery_polling_failed_start">Falha ao iniciar a captura de dados da pilha</string>
+    <string name="pref_title_nagivation_apps">Apps de navegação</string>
+    <string name="permission_location">%1$s precisa de acesso à sua localização em segundo plano para permitir que ele permaneça conectado ao seu relógio mesmo quando o ecrã estiver desligada.
+\n
+\nToque em \'%2$s\' para concordar.</string>
+    <string name="moondrop_touch_action_anc_mode">Ativar o modo de cancelamento de ruído</string>
 </resources>
