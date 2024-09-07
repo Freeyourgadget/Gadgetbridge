@@ -54,17 +54,17 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
     public boolean supportsHeartrate(GBDevice device) {
         DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        return coordinator != null && coordinator.supportsHeartRateMeasurement(device);
+        return coordinator.supportsHeartRateMeasurement(device);
     }
 
     public boolean supportsRemSleep(GBDevice device) {
         DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        return coordinator != null && coordinator.supportsRemSleep();
+        return coordinator.supportsRemSleep();
     }
 
     public boolean supportsAwakeSleep(GBDevice device) {
         DeviceCoordinator coordinator = device.getDeviceCoordinator();
-        return coordinator != null && coordinator.supportsAwakeSleep();
+        return coordinator.supportsAwakeSleep();
     }
 
     protected static final class ActivityConfig {

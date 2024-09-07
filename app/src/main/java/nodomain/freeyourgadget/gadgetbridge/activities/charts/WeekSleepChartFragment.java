@@ -91,12 +91,14 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
             }
 
             float[] totalAmounts = getTotalsForActivityAmounts(amounts);
-            deepWeeklyTotal += (long) totalAmounts[0];
-            lightWeeklyTotal += (long) totalAmounts[1];
-            remWeeklyTotal += (long) totalAmounts[2];
-
+            int i = 0;
+            deepWeeklyTotal += (long) totalAmounts[i++];
+            lightWeeklyTotal += (long) totalAmounts[i++];
+            if (supportsRemSleep(getChartsHost().getDevice())) {
+                remWeeklyTotal += (long) totalAmounts[i++];
+            }
             if (supportsAwakeSleep(getChartsHost().getDevice())) {
-                awakeWeeklyTotal += (long) totalAmounts[3];
+                awakeWeeklyTotal += (long) totalAmounts[i++];
             }
 
             day.add(Calendar.DATE, 1);
@@ -273,7 +275,10 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         int totalMinutesRemSleep = (int) (totalSecondsRemSleep / 60);
         int totalMinutesAwakeSleep = (int) (totalSecondsAwakeSleep / 60);
 
-        float[] activityAmountsTotals =  {totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep};
+        float[] activityAmountsTotals =  {totalMinutesDeepSleep, totalMinutesLightSleep};
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            activityAmountsTotals = ArrayUtils.add(activityAmountsTotals, totalMinutesRemSleep);
+        }
         if (supportsAwakeSleep(getChartsHost().getDevice())) {
             activityAmountsTotals = ArrayUtils.add(activityAmountsTotals, totalMinutesAwakeSleep);
         }

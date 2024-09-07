@@ -189,7 +189,7 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         PieDataSet set = new PieDataSet(entries, "");
 
         ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
-        float totalValues[] = getTotalsForActivityAmounts(amounts);
+        float[] totalValues = getTotalsForActivityAmounts(amounts);
         String[] pieLabels = getPieLabels();
         float totalValue = 0;
         for (int i = 0; i < totalValues.length; i++) {
