@@ -1239,8 +1239,8 @@ public class GBDaoGenerator {
 
     private static Entity addWena3EnergySample(Schema schema, Entity user, Entity device) {
         Entity activitySample = addEntity(schema, "Wena3EnergySample");
-        addCommonTimeSampleProperties("AbstractTimeSample", activitySample, user, device);
-        activitySample.addIntProperty("energy").notNull();
+        addCommonTimeSampleProperties("AbstractBodyEnergySample", activitySample, user, device);
+        activitySample.addIntProperty("energy").notNull().codeBeforeGetter(OVERRIDE);
         return activitySample;
     }
 
