@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecordDataFactory;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParser;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxTrack;
@@ -25,7 +25,6 @@ public class GpxRouteFileConverter {
     private final long timestamp;
     private final GpxFile gpxFile;
     private FitFile convertedFile;
-    private String name;
 
     public GpxRouteFileConverter(byte[] xmlBytes) {
         this.timestamp = System.currentTimeMillis() / 1000;
@@ -56,17 +55,22 @@ public class GpxRouteFileConverter {
 
     public String getName() {
         if (gpxFile == null) {
-            return "";
-        }
-
-        if (!StringUtils.isNullOrEmpty(this.name))
-            return this.name;
-
-        if (!StringUtils.isNullOrEmpty(gpxFile.getName())) {
-            return gpxFile.getName();
-        } else {
             return String.valueOf(timestamp);
         }
+
+        // Prioritize metadata name
+        if (StringUtils.isNotBlank(gpxFile.getName())) {
+            return gpxFile.getName();
+        }
+
+        // Fallback to the first track that has a name
+        for (final GpxTrack track : gpxFile.getTracks()) {
+            if (StringUtils.isNotBlank(track.getName())) {
+                return track.getName();
+            }
+        }
+
+        return String.valueOf(timestamp);
     }
 
     private FitFile convertGpxToRoute(GpxFile gpxFile) {
@@ -89,8 +93,6 @@ public class GpxRouteFileConverter {
             LOG.error("Gpx track segment contains no point");
             return null;
         }
-
-        this.name = track.getName();
 
         final RecordHeader gpxDataPointRecordHeader = new RecordHeader((byte) 0x05);
         final RecordDefinition gpxDataPointRecordDefinition = new RecordDefinition(new RecordHeader((byte) 0x45), ByteOrder.BIG_ENDIAN, GlobalFITMessage.RECORD, GlobalFITMessage.RECORD.getFieldDefinitions(0, 1, 2, 5, 253), null);
