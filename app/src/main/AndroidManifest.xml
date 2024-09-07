@@ -152,11 +152,11 @@
         </activity>
         <activity
             android:name=".activities.welcome.WelcomeActivity"
-            android:label="Welcome"
+            android:label="@string/first_start_welcome_title"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.PermissionsActivity"
-            android:label="Permissions"
+            android:label="@string/first_start_permissions_title"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.SettingsActivity"

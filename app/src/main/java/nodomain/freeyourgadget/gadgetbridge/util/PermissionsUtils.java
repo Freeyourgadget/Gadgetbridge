@@ -67,58 +67,58 @@ public class PermissionsUtils {
         permissionsList.add(new PermissionDetails(
                 CUSTOM_PERM_NOTIFICATION_LISTENER,
                 activity.getString(R.string.menuitem_notifications),
-                "Forwarding notifications to connected gadgets"));
+                activity.getString(R.string.permission_notifications_summary)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             permissionsList.add(new PermissionDetails(
                     CUSTOM_PERM_NOTIFICATION_SERVICE,
-                    "Manage Do Not Disturb",
-                    "Changing DND notification policy"));
+                    activity.getString(R.string.permission_manage_dnd_title),
+                    activity.getString(R.string.permission_manage_dnd_summary)));
             permissionsList.add(new PermissionDetails(
                     CUSTOM_PERM_DISPLAY_OVER,
-                    "Display over other apps",
-                    "Used by Bangle.js for starting apps and other functionality on your phone"));
+                    activity.getString(R.string.permission_displayover_title),
+                    activity.getString(R.string.permission_displayover_summary)));
         }
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                "Fine location",
-                "Scanning for Bluetooth devices"));
+                activity.getString(R.string.permission_fine_location_title),
+                activity.getString(R.string.permission_fine_location_summary)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                    "Background location",
-                    "Scanning for Bluetooth devices in the background and sending the location to certain gadgets"));
+                    activity.getString(R.string.permission_background_location_title),
+                    activity.getString(R.string.permission_background_location_summary)));
         }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.BLUETOOTH,
-                    "Bluetooth",
-                    "Connecting to Bluetooth devices"));
+                    activity.getString(R.string.permission_bluetooth_title),
+                    activity.getString(R.string.permission_bluetooth_summary)));
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.BLUETOOTH_ADMIN,
-                    "Bluetooth admin",
-                    "Discovering and pairing Bluetooth devices"));
+                    activity.getString(R.string.permission_bluetooth_admin_title),
+                    activity.getString(R.string.permission_bluetooth_admin_summary)));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.BLUETOOTH_SCAN,
-                    "Bluetooth scan",
-                    "Scanning for new Bluetooth devices"));
+                    activity.getString(R.string.permission_bluetooth_scan_title),
+                    activity.getString(R.string.permission_bluetooth_scan_summary)));
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.BLUETOOTH_CONNECT,
-                    "Bluetooth connect",
-                    "Connecting to already-paired Bluetooth devices"));
+                    activity.getString(R.string.permission_bluetooth_connect_title),
+                    activity.getString(R.string.permission_bluetooth_connect_summary)));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.POST_NOTIFICATIONS,
-                    "Post notifications",
-                    "Posting ongoing notification which keeps the service running"));
+                    activity.getString(R.string.permission_post_notification_title),
+                    activity.getString(R.string.permission_post_notification_summary)));
         }
         if (BuildConfig.INTERNET_ACCESS) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.INTERNET,
-                    "Internet access",
-                    "Synchronization with online resources"));
+                    activity.getString(R.string.permission_internet_access_title),
+                    activity.getString(R.string.permission_internet_access_summary)));
         }
 //        permissionsList.add(new PermissionDetails(  // NOTE: can't request this, it's only allowed for system apps
 //                Manifest.permission.MEDIA_CONTENT_CONTROL,
@@ -126,53 +126,53 @@ public class PermissionsUtils {
 //                "Read and control media playback"));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.READ_CONTACTS,
-                "Contacts",
-                "Sending contacts to gadgets"));
+                activity.getString(R.string.permission_contacts_title),
+                activity.getString(R.string.permission_contacts_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.READ_CALENDAR,
-                "Calendar",
-                "Sending calendar to gadgets"));
+                activity.getString(R.string.permission_calendar_title),
+                activity.getString(R.string.permission_calendar_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.RECEIVE_SMS,
-                "Receive SMS",
-                "Forwarding SMS messages to gadgets"));
+                activity.getString(R.string.permission_receive_sms_title),
+                activity.getString(R.string.permission_receive_sms_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.SEND_SMS,
-                "Send SMS",
-                "Sending SMS (canned response) from gadgets"));
+                activity.getString(R.string.permission_send_sms_title),
+                activity.getString(R.string.permission_send_sms_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.READ_CALL_LOG,
-                "Read call log",
-                "Forwarding call log to gadgets"));
+                activity.getString(R.string.permission_read_call_log_title),
+                activity.getString(R.string.permission_read_call_log_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.READ_PHONE_STATE,
-                "Read phone state",
-                "Reading status of ongoing calls"));
+                activity.getString(R.string.permission_read_phone_state_title),
+                activity.getString(R.string.permission_read_phone_state_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.CALL_PHONE,
-                "Call phone",
-                "Initiating phone calls from gadgets"));
+                activity.getString(R.string.permission_call_phone_title),
+                activity.getString(R.string.permission_call_phone_summary)));
         permissionsList.add(new PermissionDetails(
                 Manifest.permission.PROCESS_OUTGOING_CALLS,
-                "Process outgoing calls",
-                "Reading the number of an outgoing call to display it on a gadget"));
+                activity.getString(R.string.permission_process_outgoing_calls_title),
+                activity.getString(R.string.permission_process_outgoing_calls_summary)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.ANSWER_PHONE_CALLS,
-                    "Answer phone calls",
-                    "Answering phone calls from gadgets"));
+                    activity.getString(R.string.permission_answer_phone_calls_title),
+                    activity.getString(R.string.permission_answer_phone_calls_summary)));
         }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                    "External storage",
-                    "Using images, ringtones, app files and more"));
+                    activity.getString(R.string.permission_external_storage_title),
+                    activity.getString(R.string.permission_external_storage_summary)));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             permissionsList.add(new PermissionDetails(
                     Manifest.permission.QUERY_ALL_PACKAGES,
-                    "Query all packages",
-                    "Reading names and icons of all installed apps"));
+                    activity.getString(R.string.permission_query_all_packages_title),
+                    activity.getString(R.string.permission_query_all_packages_summary)));
         }
         return permissionsList;
     }
