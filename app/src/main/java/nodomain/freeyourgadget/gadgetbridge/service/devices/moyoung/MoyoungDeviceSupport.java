@@ -19,9 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.util.ArrayMap;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -37,10 +35,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -74,7 +73,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnum
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnumTimeSystem;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSetting;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingEnum;
-import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingLanguage;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingRemindersToMove;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
@@ -116,6 +114,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
 public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(MoyoungDeviceSupport.class);
@@ -143,6 +143,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private boolean realTimeHeartRate;
     private boolean findMyPhoneActive = false;
+    private final Set<CalendarEvent> lastSync = new HashSet<>();
 
     public int getMtu() {
         return this.mtu;
@@ -451,7 +452,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
 
-        if (packetType == MoyoungConstants.CMD_QUERY_STOCKS)
+        if (packetType == MoyoungConstants.CMD_ADVANCED_QUERY && payload[0] == MoyoungConstants.ARG_ADVANCED_QUERY_STOCKS)
         {
             LOG.info("Stocks queried from watch");
             return true;
@@ -744,12 +745,104 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        // TODO
+        syncCalendar();
     }
 
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
-        // TODO
+        syncCalendar();
+    }
+
+    private void syncCalendar() {
+        if (!getDevicePrefs().getBoolean("sync_calendar", false)) {
+            LOG.debug("Ignoring calendar sync request, sync is disabled");
+            return;
+        }
+
+        final CalendarManager upcomingEvents = new CalendarManager(getContext(), getDevice().getAddress());
+        final List<CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList();
+
+        final Set<CalendarEvent> thisSync = new HashSet<>();
+        int nEvents = 0;
+
+        for (final CalendarEvent calendarEvent : calendarEvents) {
+            if (++nEvents > MoyoungConstants.MAX_CALENDAR_ITEMS) {
+                LOG.warn("Syncing only first {} events of {}", MoyoungConstants.MAX_CALENDAR_ITEMS, calendarEvents.size());
+                break;
+            }
+            thisSync.add(calendarEvent);
+        }
+
+        if (thisSync.equals(lastSync)) {
+            LOG.debug("Already synced this set of events, won't send to device");
+            return;
+        }
+
+        lastSync.clear();
+        lastSync.addAll(thisSync);
+
+        List<CalendarEvent> sortedEventList = new ArrayList<>(thisSync);
+        Collections.sort(sortedEventList, Comparator.comparingLong(CalendarEvent::getBegin));
+
+        LOG.debug("Syncing {} calendar events", sortedEventList.size());
+
+        try {
+            TransactionBuilder builder = performInitialized("sendCalendar");
+            byte[] payload = new byte[]{
+                MoyoungConstants.ARG_ADVANCED_SET_CALENDAR,
+                MoyoungConstants.ARG_CALENDAR_CLEAR
+            };
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, payload));
+            int itemNr = 0;
+            for(CalendarEvent event : sortedEventList) {
+                byte[] title = event.getTitle().getBytes();
+                Calendar start = Calendar.getInstance();
+                start.setTimeInMillis(event.getBegin());
+                Calendar end = Calendar.getInstance();
+                end.setTimeInMillis(event.getEnd());
+                ByteBuffer packet = ByteBuffer.allocate(title.length + 12);
+                packet.order(ByteOrder.LITTLE_ENDIAN);
+                packet.put(MoyoungConstants.ARG_ADVANCED_SET_CALENDAR);
+                packet.put(MoyoungConstants.ARG_CALENDAR_ADD_ITEM);
+                packet.put((byte) itemNr);
+                packet.put((byte) title.length);
+                packet.put(title);
+                packet.put((byte) start.get(Calendar.HOUR_OF_DAY));
+                packet.put((byte) start.get(Calendar.MINUTE));
+                packet.put((byte) end.get(Calendar.HOUR_OF_DAY));
+                packet.put((byte) end.get(Calendar.MINUTE));
+                packet.putInt(MoyoungConstants.LocalTimeToWatchTime(start.getTime()));
+                sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, packet.array()));
+                itemNr++;
+            }
+            payload = new byte[]{
+                    MoyoungConstants.ARG_ADVANCED_SET_CALENDAR,
+                    MoyoungConstants.ARG_CALENDAR_FINISHED
+            };
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, payload));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error sending notification: ", e);
+        }
+    }
+
+    private void disableCalendar() {
+        try {
+            TransactionBuilder builder = performInitialized("disableCalendar");
+            byte[] payload = new byte[]{
+                    MoyoungConstants.ARG_ADVANCED_SET_CALENDAR,
+                    MoyoungConstants.ARG_CALENDAR_CLEAR
+            };
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, payload));
+            payload = new byte[]{
+                    MoyoungConstants.ARG_ADVANCED_SET_CALENDAR,
+                    MoyoungConstants.ARG_CALENDAR_DISABLE
+            };
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, payload));
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("Error while disabling calendar: ", e);
+        }
     }
 
     @Override
@@ -1477,6 +1570,14 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 byte sedentaryEnd = (byte) prefs.getInt(MoyoungConstants.PREF_SEDENTARY_REMINDER_END, 22);
                 sendSetting(getSetting("REMINDERS_TO_MOVE_PERIOD"),
                     new MoyoungSettingRemindersToMove.RemindersToMove(sedentaryPeriod, sedentarySteps, sedentaryStart, sedentaryEnd));
+                break;
+
+            case "sync_calendar":
+                if (prefs.getBoolean("sync_calendar", false)) {
+                    syncCalendar();
+                } else {
+                    disableCalendar();
+                }
                 break;
         }
 
