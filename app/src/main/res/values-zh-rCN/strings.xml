@@ -3391,4 +3391,5 @@
     <string name="pref_title_user_interface">用户界面</string>
     <string name="pref_description_deprecated_functionalities">将在未来版本中删除的设置</string>
     <string name="activity_prefs_date_birth">生日</string>
+    <string name="devicetype_garmin_forerunner_165">佳明 Forerunner 165</string>
 </resources>
