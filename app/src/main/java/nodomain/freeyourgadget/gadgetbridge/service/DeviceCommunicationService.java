@@ -296,6 +296,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private boolean reconnectViaScan = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
     private final String API_LEGACY_COMMAND_BLUETOOTH_CONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECT";
+    private final String API_LEGACY_COMMAND_BLUETOOTH_DISCONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_DISCONNECT";
     private final String API_LEGACY_ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
     private final String API_LEGACY_ACTION_DEVICE_SCANNED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_SCANNED";
 
@@ -317,46 +318,51 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     BroadcastReceiver bluetoothCommandReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (intent.getAction()){
+            if (!allowBluetoothIntentApi){
+                GB.log("Connection API not allowed in settings", GB.ERROR, null);
+                return;
+            }
+            Bundle extras = intent.getExtras();
+            if (extras == null) {
+                GB.log("no extras provided in Intent", GB.ERROR, null);
+                return;
+            }
+            final String action = intent.getAction();
+            if (action == null) {
+                GB.log("Action for bluetooth command is null", GB.ERROR, null);
+                return;
+            }
+            String address = extras.getString("EXTRA_DEVICE_ADDRESS", "");
+            if (address.isEmpty()){
+                GB.log("no bluetooth address provided in Intent", GB.ERROR, null);
+                return;
+            }
+            GBDevice targetDevice = GBApplication.app()
+                    .getDeviceManager()
+                    .getDeviceByAddress(address);
+
+            if (targetDevice == null){
+                GB.log(String.format("device %s not registered", address), GB.ERROR, null);
+                return;
+            }
+
+            switch (action) {
                 case API_LEGACY_COMMAND_BLUETOOTH_CONNECT:
-                    if(!allowBluetoothIntentApi){
-                        GB.log("Connection API not allowed in settings", GB.ERROR, null);
-                        return;
-                    }
-                    Bundle extras = intent.getExtras();
-                    if(extras == null){
-                        GB.log("no extras provided in Intent", GB.ERROR, null);
-                        return;
-                    }
-                    String address = extras.getString("EXTRA_DEVICE_ADDRESS", "");
-                    if(address.isEmpty()){
-                        GB.log("no bluetooth address provided in Intent", GB.ERROR, null);
-                        return;
-                    }
-                    if(isDeviceConnected(address)){
+                    if (isDeviceConnected(address)){
                         GB.log(String.format("device %s already connected", address), GB.INFO, null);
                         sendDeviceConnectedBroadcast(address);
 
                         return;
                     }
 
-                    List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
-                    GBDevice targetDevice = GBApplication
-                            .app()
-                            .getDeviceManager()
-                            .getDeviceByAddress(address);
-
-                    if(targetDevice == null){
-                        GB.log(String.format("device %s not registered", address), GB.ERROR, null);
-                        return;
-                    }
-
                     GB.log(String.format("connecting to %s", address), GB.INFO, null);
 
-                    GBApplication
-                            .deviceService(targetDevice)
-                            .connect();
+                    GBApplication.deviceService(targetDevice).connect();
+                    break;
+                case API_LEGACY_COMMAND_BLUETOOTH_DISCONNECT:
+                    GB.log(String.format("disconnecting from %s", address), GB.INFO, null);
 
+                    GBApplication.deviceService(targetDevice).disconnect();
                     break;
             }
         }
@@ -512,6 +518,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         IntentFilter bluetoothCommandFilter = new IntentFilter();
         bluetoothCommandFilter.addAction(API_LEGACY_COMMAND_BLUETOOTH_CONNECT);
+        bluetoothCommandFilter.addAction(API_LEGACY_COMMAND_BLUETOOTH_DISCONNECT);
         ContextCompat.registerReceiver(this, bluetoothCommandReceiver, bluetoothCommandFilter, ContextCompat.RECEIVER_EXPORTED);
 
         final IntentFilter deviceSettingsIntentFilter = new IntentFilter();
