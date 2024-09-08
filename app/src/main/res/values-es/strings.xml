@@ -3396,4 +3396,6 @@
     <string name="pref_description_automations">Exportación automática, recuperación automática</string>
     <string name="pref_description_about_you">Fecha de nacimiento, género, altura, peso, objetivos</string>
     <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">Medición continua de la temperatura de la piel</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">Actualmente no se admite la recuperación de temperatura. Esta configuración solo permite la medición continua en el dispositivo</string>
 </resources>
