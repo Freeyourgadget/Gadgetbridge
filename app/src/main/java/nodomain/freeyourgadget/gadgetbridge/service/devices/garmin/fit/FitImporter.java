@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
@@ -299,9 +300,11 @@ public class FitImporter {
         // This ensures idempotency when re-processing
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             final DaoSession session = dbHandler.getDaoSession();
-            final Device device = DBHelper.getDevice(gbDevice, session);
-            final User user = DBHelper.getUser(session);
-            summary = findOrCreateBaseActivitySummary(session, device, user, Objects.requireNonNull(fileId.getTimeCreated()).intValue());
+            summary = ActivitySummaryParser.findOrCreateBaseActivitySummary(
+                    session,
+                    gbDevice,
+                    Objects.requireNonNull(fileId.getTimeCreated()).intValue()
+            );
         } catch (final Exception e) {
             GB.toast(context, "Error finding base summary", Toast.LENGTH_LONG, GB.ERROR, e);
             return;
@@ -323,34 +326,6 @@ public class FitImporter {
         } catch (final Exception e) {
             GB.toast(context, "Error saving workout", Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    protected static BaseActivitySummary findOrCreateBaseActivitySummary(final DaoSession session,
-                                                                         final Device device,
-                                                                         final User user,
-                                                                         final int timestampSeconds) {
-        final BaseActivitySummaryDao summaryDao = session.getBaseActivitySummaryDao();
-        final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
-        qb.where(BaseActivitySummaryDao.Properties.StartTime.eq(new Date(timestampSeconds * 1000L)));
-        qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(device.getId()));
-        qb.where(BaseActivitySummaryDao.Properties.UserId.eq(user.getId()));
-        final List<BaseActivitySummary> summaries = qb.build().list();
-        if (summaries.isEmpty()) {
-            final BaseActivitySummary summary = new BaseActivitySummary();
-            summary.setStartTime(new Date(timestampSeconds * 1000L));
-            summary.setDevice(device);
-            summary.setUser(user);
-
-            // These will be set later, once we parse the summary
-            summary.setEndTime(new Date(timestampSeconds * 1000L));
-            summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
-
-            return summary;
-        }
-        if (summaries.size() > 1) {
-            LOG.warn("Found multiple summaries for {}", timestampSeconds);
-        }
-        return summaries.get(0);
     }
 
     private void reset() {

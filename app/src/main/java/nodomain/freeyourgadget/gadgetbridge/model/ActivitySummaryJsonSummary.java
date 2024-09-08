@@ -90,12 +90,10 @@ public class ActivitySummaryJsonSummary {
     }
 
     private String getCorrectSummary(BaseActivitySummary item, final boolean forDetails){
-        if (item.getRawSummaryData() != null || item.getRawDetailsPath() != null) {
-            try {
-                item = summaryParser.parseBinaryData(item, forDetails);
-            } catch (final Exception e) {
-                LOG.error("Failed to re-parse corrected summary", e);
-            }
+        try {
+            item = summaryParser.parseBinaryData(item, forDetails);
+        } catch (final Exception e) {
+            LOG.error("Failed to re-parse corrected summary", e);
         }
         return item.getSummaryData();
     }

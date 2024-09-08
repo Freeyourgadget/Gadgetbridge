@@ -16,7 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.util.Date;
+import java.util.List;
+
+import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public interface ActivitySummaryParser {
     /**
@@ -30,4 +40,31 @@ public interface ActivitySummaryParser {
      * @return the update {@link BaseActivitySummary}
      */
     BaseActivitySummary parseBinaryData(BaseActivitySummary summary, final boolean forDetails);
+
+    static BaseActivitySummary findOrCreateBaseActivitySummary(final DaoSession session,
+                                                               final GBDevice gbDevice,
+                                                               final int timestampSeconds) {
+        final Device device = DBHelper.getDevice(gbDevice, session);
+        final User user = DBHelper.getUser(session);
+        final BaseActivitySummaryDao summaryDao = session.getBaseActivitySummaryDao();
+        final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
+        qb.where(BaseActivitySummaryDao.Properties.StartTime.eq(new Date(timestampSeconds * 1000L)));
+        qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(device.getId()));
+        qb.where(BaseActivitySummaryDao.Properties.UserId.eq(user.getId()));
+        final List<BaseActivitySummary> summaries = qb.build().list();
+        if (summaries.isEmpty()) {
+            final BaseActivitySummary summary = new BaseActivitySummary();
+            summary.setStartTime(new Date(timestampSeconds * 1000L));
+            summary.setDevice(device);
+            summary.setUser(user);
+
+            // These will be set later, once we parse the summary
+            summary.setEndTime(new Date(timestampSeconds * 1000L));
+            summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
+
+            return summary;
+        }
+
+        return summaries.get(0);
+    }
 }

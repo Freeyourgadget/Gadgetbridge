@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -32,18 +33,23 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
-import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -52,10 +58,48 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
  * It also re-parses the unknown data from the workout tables
  * It is a separate class so it can easily be used to re-parse the data without database migrations
  */
-public class HuaweiWorkoutGbParser {
+public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiWorkoutGbParser.class);
-    
+
     // TODO: Might be nicer to propagate the exceptions, so they can be handled upstream
+
+    private final GBDevice gbDevice;
+    private final Context context;
+
+    public HuaweiWorkoutGbParser(final GBDevice gbDevice, final Context context) {
+        this.gbDevice = gbDevice;
+        this.context = context;
+    }
+
+    @Override
+    public BaseActivitySummary parseBinaryData(final BaseActivitySummary summary, final boolean forDetails) {
+        if (!forDetails) {
+            // Our parsing is too slow, especially without a RecyclerView
+            return summary;
+        }
+
+        // Find the existing HuaweiWorkoutSummarySample
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession session = db.getDaoSession();
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            QueryBuilder<HuaweiWorkoutSummarySample> qb = session.getHuaweiWorkoutSummarySampleDao().queryBuilder();
+            qb.where(HuaweiWorkoutSummarySampleDao.Properties.StartTimestamp.eq(summary.getStartTime().getTime() / 1000));
+            qb.where(HuaweiWorkoutSummarySampleDao.Properties.DeviceId.eq(device.getId()));
+            qb.where(HuaweiWorkoutSummarySampleDao.Properties.UserId.eq(user.getId()));
+            final List<HuaweiWorkoutSummarySample> huaweiSummaries = qb.build().list();
+            if (huaweiSummaries.isEmpty()) {
+                LOG.warn("Failed to find huawei summary for {}", summary.getStartTime());
+                return summary;
+            }
+            updateBaseSummary(db, huaweiSummaries.get(0), summary);
+        } catch (Exception e) {
+            LOG.error("Failed to update summary");
+        }
+
+        return summary;
+    }
 
     public enum HuaweiActivityType {
         // Based on nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.enums.GarminSport
@@ -159,7 +203,7 @@ public class HuaweiWorkoutGbParser {
         MOTOR_AUTO_RACING(216, ActivityKind.AUTO_RACING),
         ESPORTS(223, ActivityKind.ESPORTS),
         PADEL(224, ActivityKind.PADEL),
-        OTHER(255, ActivityKind.EXERCISE)
+        OTHER(255, ActivityKind.EXERCISE),
         ;
 
         private final byte type;
@@ -187,7 +231,7 @@ public class HuaweiWorkoutGbParser {
         }
     }
 
-    public static void parseAllWorkouts() {
+    public void parseAllWorkouts() {
         parseUnknownWorkoutData();
 
         try (DBHandler db = GBApplication.acquireDB()) {
@@ -261,7 +305,7 @@ public class HuaweiWorkoutGbParser {
             return ActivityKind.UNKNOWN;
     }
 
-    public static void parseWorkout(Long workoutId) {
+    public void parseWorkout(Long workoutId) {
         if (workoutId == null)
             return;
 
@@ -274,31 +318,33 @@ public class HuaweiWorkoutGbParser {
                 return;
             HuaweiWorkoutSummarySample summary = summarySamples.get(0);
 
+            final BaseActivitySummary baseSummary = ActivitySummaryParser.findOrCreateBaseActivitySummary(
+                    db.getDaoSession(),
+                    gbDevice,
+                    summary.getStartTimestamp()
+            );
+
+            updateBaseSummary(db, summary, baseSummary);
+
+            db.getDaoSession().getBaseActivitySummaryDao().insertOrReplace(baseSummary);
+        } catch (Exception e) {
+            GB.toast("Exception parsing workout data", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Exception parsing workout data", e);
+        }
+    }
+
+    public void updateBaseSummary(final DBHandler db,
+                                  final HuaweiWorkoutSummarySample summary,
+                                  final BaseActivitySummary baseSummary) {
+        try {
             QueryBuilder<HuaweiWorkoutDataSample> qbData = db.getDaoSession().getHuaweiWorkoutDataSampleDao().queryBuilder().where(
-                    HuaweiWorkoutDataSampleDao.Properties.WorkoutId.eq(workoutId)
+                    HuaweiWorkoutDataSampleDao.Properties.WorkoutId.eq(summary.getWorkoutId())
             );
             List<HuaweiWorkoutDataSample> dataSamples = qbData.build().list();
 
             QueryBuilder<HuaweiWorkoutPaceSample> qbPace = db.getDaoSession().getHuaweiWorkoutPaceSampleDao().queryBuilder().where(
-                    HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(workoutId)
+                    HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(summary.getWorkoutId())
             );
-
-            long userId = summary.getUserId();
-            long deviceId = summary.getDeviceId();
-            Date start = new Date(summary.getStartTimestamp() * 1000L);
-            Date end = new Date(summary.getEndTimestamp() * 1000L);
-
-            // Avoid duplicates
-            QueryBuilder<BaseActivitySummary> qb = db.getDaoSession().getBaseActivitySummaryDao().queryBuilder().where(
-                    BaseActivitySummaryDao.Properties.UserId.eq(userId),
-                    BaseActivitySummaryDao.Properties.DeviceId.eq(deviceId),
-                    BaseActivitySummaryDao.Properties.StartTime.eq(start),
-                    BaseActivitySummaryDao.Properties.EndTime.eq(end)
-            );
-            List<BaseActivitySummary> duplicates = qb.build().list();
-            BaseActivitySummary previous = null;
-            if (!duplicates.isEmpty())
-                previous = duplicates.get(0);
 
             ActivityKind type = huaweiTypeToGbType(summary.getType());
 
@@ -665,43 +711,13 @@ public class HuaweiWorkoutGbParser {
                 );
             }
 
-            BaseActivitySummary baseSummary;
-            if (previous == null) {
-                baseSummary = new BaseActivitySummary(
-                        null,
-                        "Workout " + summary.getWorkoutNumber(),
-                        start,
-                        end,
-                        type.getCode(),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        deviceId,
-                        userId,
-                        summaryData.toString(),
-                        null
-                );
-            } else {
-                baseSummary = new BaseActivitySummary(
-                        previous.getId(),
-                        previous.getName(),
-                        start,
-                        end,
-                        type.getCode(),
-                        previous.getBaseLongitude(),
-                        previous.getBaseLatitude(),
-                        previous.getBaseAltitude(),
-                        previous.getGpxTrack(),
-                        previous.getRawDetailsPath(),
-                        deviceId,
-                        userId,
-                        summaryData.toString(),
-                        null
-                );
+            if (baseSummary.getName() == null) {
+                baseSummary.setName("Workout " + summary.getWorkoutNumber());
             }
-            db.getDaoSession().getBaseActivitySummaryDao().insertOrReplace(baseSummary);
+            // start time never changes
+            baseSummary.setEndTime(new Date(summary.getEndTimestamp() * 1000L));
+            baseSummary.setActivityKind(type.getCode());
+            baseSummary.setSummaryData(summaryData.toString());
         } catch (Exception e) {
             GB.toast("Exception parsing workout data", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Exception parsing workout data", e);
