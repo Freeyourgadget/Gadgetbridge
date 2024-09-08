@@ -3396,4 +3396,5 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_stress_segmented">Stress (segmenté)</string>
     <string name="pref_header_main_screen">Écran principal</string>
     <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
+    <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
 </resources>
