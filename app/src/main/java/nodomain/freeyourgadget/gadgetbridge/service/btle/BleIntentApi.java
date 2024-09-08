@@ -109,7 +109,7 @@ public class BleIntentApi {
     };
 
     public static boolean isEnabled(GBDevice device) {
-        Prefs devicePrefs = GBApplication.getDevicePrefs(device.getAddress());
+        Prefs devicePrefs = GBApplication.getDevicePrefs(device);
 
         boolean intentApiEnabledReadWrite = devicePrefs.getBoolean(PREFS_KEY_DEVICE_BLE_API_DEVICE_READ_WRITE, false);
         boolean intentApiEnabledNotifications = devicePrefs.getBoolean(PREFS_KEY_DEVICE_BLE_API_DEVICE_NOTIFY, false);
@@ -200,7 +200,7 @@ public class BleIntentApi {
     }
 
     public void handleBLEApiPrefs(){
-        Prefs devicePrefs = GBApplication.getDevicePrefs(getDevice().getAddress());
+        Prefs devicePrefs = GBApplication.getDevicePrefs(getDevice());
         this.intentApiEnabledReadWrite = devicePrefs.getBoolean(PREFS_KEY_DEVICE_BLE_API_DEVICE_READ_WRITE, false);
         this.intentApiEnabledNotifications = devicePrefs.getBoolean(PREFS_KEY_DEVICE_BLE_API_DEVICE_NOTIFY, false);
         this.intentApiEnabledDeviceState = devicePrefs.getBoolean(PREFS_KEY_DEVICE_BLE_API_DEVICE_STATE, false);
