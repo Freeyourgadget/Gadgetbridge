@@ -3404,4 +3404,5 @@
     <string name="pref_description_user_interface">Tema, ana ekran</string>
     <string name="pref_description_dashboard">Widget\'lar, dahil edilecek aygıtlar</string>
     <string name="activity_prefs_date_birth">Doğum tarihi</string>
+    <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
 </resources>
