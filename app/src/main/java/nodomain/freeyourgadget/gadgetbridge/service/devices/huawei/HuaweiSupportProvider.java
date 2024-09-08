@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -178,7 +179,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 public class HuaweiSupportProvider {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiSupportProvider.class);
 
-    private final int initTimeout = 1000;
+    private final int initTimeout = 2500;
 
     private HuaweiBRSupport brSupport;
     private HuaweiLESupport leSupport;
@@ -584,16 +585,17 @@ public class HuaweiSupportProvider {
             initRequestQueue.add(new SetTimeRequest(this, true));
             initRequestQueue.add(batteryLevelReq);
             initRequestQueue.add(new SendFitnessUserInfoRequest(this));
-            initRequestQueue.add(new GetSupportedServicesRequest(this)); // MUST BE LAST - it indirectly kicks off initializeDynamicServices
 
             // Queue all the requests
-            for (int i = 1; i < initRequestQueue.size(); i++) {
-                initRequestQueue.get(i - 1).setupTimeoutUntilNext(initTimeout);
-                initRequestQueue.get(i - 1).nextRequest(initRequestQueue.get(i));
-            }
-            initRequestQueue.get(initRequestQueue.size() - 1).setupTimeoutUntilNext(initTimeout);
-
-            initRequestQueue.get(0).doPerform();
+            parallelize(initRequestQueue, initRequestQueue.size(), () -> {
+                try {
+                    // MUST BE LAST - it indirectly kicks off initializeDynamicServices
+                    new GetSupportedServicesRequest(this).doPerform();
+                } catch (final IOException e) {
+                    // Should we disconnect?
+                    LOG.error("Failed to get supported services", e);
+                }
+            });
         } catch (IOException e) {
             // TODO: Use translatable string
             GB.toast(context, "Final initialization of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR, e);
@@ -747,25 +749,53 @@ public class HuaweiSupportProvider {
                 initializeAlarms();
 
             // Queue all the requests
-            for (int i = 1; i < initRequestQueue.size(); i++) {
-                initRequestQueue.get(i - 1).setupTimeoutUntilNext(initTimeout);
-                initRequestQueue.get(i - 1).nextRequest(initRequestQueue.get(i));
-            }
-
-            initRequestQueue.get(initRequestQueue.size() - 1).setupTimeoutUntilNext(initTimeout);
-            initRequestQueue.get(initRequestQueue.size() - 1).setFinalizeReq(new RequestCallback() {
-                @Override
-                public void call() {
-                    gbDevice.setState(GBDevice.State.INITIALIZED);
-                    gbDevice.sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUpdateSubject.DEVICE_STATE);
-                }
+            parallelize(initRequestQueue, 5, () -> {
+                gbDevice.setState(GBDevice.State.INITIALIZED);
+                gbDevice.sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUpdateSubject.DEVICE_STATE);
             });
-
-            initRequestQueue.get(0).doPerform();
         } catch (IOException e) {
             // TODO: Translatable string
             GB.toast("Initialize dynamic services of Huawei device failed", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Initializing dynamic services failed", e);
+        }
+    }
+
+    /**
+     * Takes a list of requests and parallelizes multiple chains. Executes a runnable at the end,
+     * once all chains finish.
+     * @param requests       the list of requests to parallelize
+     * @param parallelChains the maximum number of chains that can run in parallel
+     * @param callback       the callback to execute when all chains finish
+     * @throws IOException   if any of the first requests in each chain fails
+     */
+    private void parallelize(final List<Request> requests,
+                             final int parallelChains,
+                             final Runnable callback) throws IOException {
+        final AtomicInteger missingChains = new AtomicInteger(0);
+        final int partitionSize = Math.round(requests.size() / (float) parallelChains);
+        for (int i = 0; i < requests.size(); i += partitionSize) {
+            final List<Request> chain = requests.subList(i, Math.min(i + partitionSize, requests.size() - 1));
+
+            for (int j = 1; j < chain.size(); j++) {
+                chain.get(i - 1).setupTimeoutUntilNext(initTimeout);
+                chain.get(i - 1).nextRequest(chain.get(i));
+            }
+
+            chain.get(chain.size() - 1).setupTimeoutUntilNext(initTimeout);
+            chain.get(chain.size() - 1).setFinalizeReq(new RequestCallback() {
+                @Override
+                public void call() {
+                    if (missingChains.decrementAndGet() == 0) {
+                        callback.run();
+                    }
+                }
+            });
+
+            missingChains.incrementAndGet();
+        }
+
+        for (int i = 0; i < requests.size(); i += partitionSize) {
+            requests.get(0).doPerform();
         }
     }
 
@@ -1980,7 +2010,7 @@ public class HuaweiSupportProvider {
         huaweiWatchfaceManager.requestWatchfaceList();
         huaweiAppManager.requestAppList();
     }
-    
+
     public void onAppStart(final UUID uuid, boolean start) {
         if (start) {
             //NOTE: to prevent exception in watchfaces code
