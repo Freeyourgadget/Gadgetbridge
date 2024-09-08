@@ -36,6 +36,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.Am
 
 public class AmazfitGTS2Coordinator extends HuamiCoordinator {
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Amazfit";
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("Amazfit GTS 2", Pattern.CASE_INSENSITIVE);
     }

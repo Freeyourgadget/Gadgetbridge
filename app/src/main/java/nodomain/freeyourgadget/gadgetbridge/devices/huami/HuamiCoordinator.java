@@ -26,9 +26,6 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -63,8 +60,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibration
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(HuamiCoordinator.class);
-
     @Override
     public Class<? extends Activity> getPairingActivity() {
         return MiBandPairingActivity.class;
@@ -96,11 +91,6 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement(final GBDevice device) {
-        return false;
-    }
-
-    @Override
     public boolean supportsFlashing() {
         return true;
     }
@@ -108,11 +98,6 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
         return null;
-    }
-
-    @Override
-    public boolean supportsCalendarEvents() {
-        return false;
     }
 
     @Override
@@ -523,11 +508,6 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND, false);
-    }
-
-    @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
     }
 
     @Override

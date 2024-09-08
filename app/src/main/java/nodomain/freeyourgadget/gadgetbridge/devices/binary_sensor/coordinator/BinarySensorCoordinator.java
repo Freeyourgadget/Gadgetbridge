@@ -125,7 +125,7 @@ public class BinarySensorCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "DIY";
+        return "Generic";
     }
 
     @Override

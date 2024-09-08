@@ -22,9 +22,6 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -34,12 +31,16 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitcor.AmazfitCorSupport;
 
 public class AmazfitCorCoordinator extends HuamiCoordinator {
+    @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Amazfit";
+    }
+
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("Amazfit Band|Amazfit Cor", Pattern.CASE_INSENSITIVE);

@@ -37,6 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.A
 
 public class AmazfitBand5Coordinator extends HuamiCoordinator {
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Amazfit";
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_BAND5_NAME, Pattern.CASE_INSENSITIVE);
     }

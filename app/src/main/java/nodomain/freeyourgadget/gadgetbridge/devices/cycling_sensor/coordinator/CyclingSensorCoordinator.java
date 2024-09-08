@@ -75,7 +75,7 @@ public class CyclingSensorCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "Unknown";
+        return "Generic";
     }
 
     @Override

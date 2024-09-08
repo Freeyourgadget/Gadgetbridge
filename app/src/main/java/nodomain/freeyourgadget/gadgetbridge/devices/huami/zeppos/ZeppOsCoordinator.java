@@ -85,6 +85,12 @@ public abstract class ZeppOsCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Amazfit";
+    }
+
+    @Override
     protected final Pattern getSupportedDeviceName() {
         // Most devices use the exact bluetooth name
         // Some devices have a " XXXX" suffix with the last 4 digits of mac address (eg. Mi Band 7)

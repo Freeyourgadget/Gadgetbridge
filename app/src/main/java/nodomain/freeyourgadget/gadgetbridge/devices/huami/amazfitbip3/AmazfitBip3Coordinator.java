@@ -35,6 +35,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip3.Am
 
 public class AmazfitBip3Coordinator extends HuamiCoordinator {
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Amazfit";
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Amazfit Bip 3$", Pattern.CASE_INSENSITIVE);
     }

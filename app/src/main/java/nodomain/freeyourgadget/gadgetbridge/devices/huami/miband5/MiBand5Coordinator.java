@@ -39,6 +39,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand
 
 public class MiBand5Coordinator extends HuamiCoordinator {
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Xiaomi";
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.MI_BAND5_NAME, Pattern.CASE_INSENSITIVE);
     }

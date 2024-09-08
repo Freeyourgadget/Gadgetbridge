@@ -92,7 +92,7 @@ public class FlipperZeroCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "Flipper devices";
+        return "Flipper Devices";
     }
 
     @Override

@@ -37,6 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.Amazf
 
 public class AmazfitXCoordinator extends HuamiCoordinator {
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Amazfit";
+    }
+
+    @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.AMAZFIT_X, Pattern.CASE_INSENSITIVE);
     }

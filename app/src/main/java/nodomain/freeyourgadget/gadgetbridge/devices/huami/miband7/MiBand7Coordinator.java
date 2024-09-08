@@ -29,6 +29,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class MiBand7Coordinator extends ZeppOsCoordinator {
     @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Xiaomi";
+    }
+
+    @Override
     public String getDeviceBluetoothName() {
         return HuamiConst.XIAOMI_SMART_BAND7_NAME;
     }

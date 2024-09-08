@@ -22,9 +22,6 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -42,7 +39,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband6.MiBand6Support;
 
 public class MiBand6Coordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBand6Coordinator.class);
+    @Override
+    public String getManufacturer() {
+        // Actual manufacturer is Huami
+        return "Xiaomi";
+    }
 
     @Override
     protected Pattern getSupportedDeviceName() {

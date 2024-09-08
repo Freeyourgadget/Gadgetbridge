@@ -39,7 +39,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.femometer.FemometerV
 public class FemometerVinca2DeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public String getManufacturer() {
-        return "Joytech Healthcare";
+        // Actual manufacturer is Joytech Healthcare
+        return "Femometer";
     }
 
     @NonNull

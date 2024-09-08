@@ -37,7 +37,7 @@ public class ScannableDeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "unknown";
+        return "Generic";
     }
 
     @NonNull

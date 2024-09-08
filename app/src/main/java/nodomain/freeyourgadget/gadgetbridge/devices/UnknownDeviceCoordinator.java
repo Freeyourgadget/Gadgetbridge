@@ -43,7 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.unknown.UnknownDevic
 public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     private final UnknownSampleProvider sampleProvider;
 
-    private static final class UnknownSampleProvider implements SampleProvider {
+    private static final class UnknownSampleProvider implements SampleProvider<AbstractActivitySample> {
         @Override
         public ActivityKind normalizeType(int rawType) {
             return ActivityKind.UNKNOWN;
@@ -60,12 +60,12 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         }
 
         @Override
-        public List getAllActivitySamples(int timestamp_from, int timestamp_to) {
+        public List<AbstractActivitySample> getAllActivitySamples(int timestamp_from, int timestamp_to) {
             return null;
         }
 
         @Override
-        public List getActivitySamples(int timestamp_from, int timestamp_to) {
+        public List<AbstractActivitySample> getActivitySamples(int timestamp_from, int timestamp_to) {
             return null;
         }
 
@@ -100,7 +100,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         sampleProvider = new UnknownSampleProvider();
     }
 
-    @NonNull
     @Override
     public boolean supports(GBDeviceCandidate candidate) {
         return false;
@@ -126,79 +125,13 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsActivityDataFetching() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsActivityTracking() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsScreenshots(final GBDevice device) {
-        return false;
-    }
-
-    @Override
-    public int getAlarmSlotCount(GBDevice device) {
-        return 0;
-    }
-
-    @Override
-    public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
-    }
-
-    @Override
     public String getManufacturer() {
-        return "unknown";
-    }
-
-    @Override
-    public boolean supportsAppsManagement(final GBDevice device) {
-        return false;
+        return "Generic";
     }
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
         return null;
-    }
-
-    @Override
-    public boolean supportsCalendarEvents() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRealtimeData() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsWeather() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsLedColor() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsRgbLedColor() {
-        return false;
-    }
-
-    @NonNull
-    @Override
-    public int[] getColorPresets() {
-        return new int[0];
     }
 
     @NonNull
@@ -212,7 +145,6 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_unknown;
     }
-
 
     @Override
     @DrawableRes

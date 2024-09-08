@@ -86,7 +86,7 @@ public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public String getManufacturer() {
-        return "SoFlow AG";
+        return "SoFlow";
     }
 
     @Override

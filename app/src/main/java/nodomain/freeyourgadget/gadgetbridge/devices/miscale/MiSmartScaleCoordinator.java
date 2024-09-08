@@ -37,7 +37,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale.MiSmartScale
 public class MiSmartScaleCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public String getManufacturer() {
-        return "Huami";
+        // Actual manufacturer is Huami
+        return "Xiaomi";
     }
 
     @Override
