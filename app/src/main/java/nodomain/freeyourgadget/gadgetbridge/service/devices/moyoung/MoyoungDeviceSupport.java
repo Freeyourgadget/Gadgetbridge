@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.format.DateFormat;
@@ -77,6 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungEnum
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSetting;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingEnum;
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingRemindersToMove;
+import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingTimeRange;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -90,6 +92,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -455,6 +458,23 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
 
+        if (packetType == MoyoungConstants.CMD_QUERY_QUICK_VIEW)
+        {
+            LOG.info("AOD or Lift Wrist toggle changed to: {}", payload[0] == 0x00 ? "enabled" : "disabled");
+            onReadConfigurationDone(getSetting("QUICK_VIEW"), payload[0], null);
+            return true;
+        }
+
+        if (packetType == MoyoungConstants.CMD_QUERY_DO_NOT_DISTURB_TIME)
+        {
+            LOG.info("DND setting changed to: {}", payload[0]);
+            if (payload.length > 4)
+                onReadConfigurationDone(getSetting("DO_NOT_DISTURB_TIME"), payload, null);
+            else
+                onReadConfigurationDone(getSetting("DO_NOT_DISTURB_ONOFF"), payload, null);
+            return true;
+        }
+
         if (packetType == MoyoungConstants.CMD_ADVANCED_QUERY && payload[0] == MoyoungConstants.ARG_ADVANCED_QUERY_STOCKS)
         {
             LOG.info("Stocks queried from watch");
@@ -508,6 +528,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleBatteryInfo(BatteryInfo info) {
         LOG.warn("Battery info: " + info);
         batteryCmd.level = (short) info.getPercentCharged();
+        if (batteryCmd.state == BatteryState.UNKNOWN) batteryCmd.state = BatteryState.BATTERY_NORMAL;
         handleGBDeviceEvent(batteryCmd);
     }
 
@@ -1433,7 +1454,10 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 else if (timeSystemPref.equals(getContext().getString(R.string.p_timeformat_am_pm)))
                     timeSystem = MoyoungEnumTimeSystem.TIME_SYSTEM_12;
                 else
-                    throw new IllegalArgumentException();
+                    if (DateFormat.is24HourFormat(GBApplication.getContext()))
+                        timeSystem = MoyoungEnumTimeSystem.TIME_SYSTEM_24;
+                    else
+                        timeSystem = MoyoungEnumTimeSystem.TIME_SYSTEM_12;
 
                 sendSetting(getSetting("TIME_SYSTEM"), timeSystem);
                 break;
@@ -1515,47 +1539,52 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(versionSetting, versionSetting.findByValue(versionNum));
                 break;
 
-//            case MiBandConst.PREF_DO_NOT_DISTURB:
-//            case MiBandConst.PREF_DO_NOT_DISTURB_START:
-//            case MiBandConst.PREF_DO_NOT_DISTURB_END:
-//                String doNotDisturbPref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
-//                boolean doNotDisturbEnabled = !MiBandConst.PREF_DO_NOT_DISTURB_OFF.equals(doNotDisturbPref);
-//
-//                Calendar doNotDisturbStart = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00");
-//                Calendar doNotDisturbEnd = getTimePref(prefs, MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00");
-//
-//                MoyoungSettingTimeRange.TimeRange doNotDisturb;
-//                if (doNotDisturbEnabled)
-//                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange(
-//                        (byte) doNotDisturbStart.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbStart.get(Calendar.MINUTE),
-//                        (byte) doNotDisturbEnd.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbEnd.get(Calendar.MINUTE));
-//                else
-//                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
-//
-//                sendSetting(getSetting("DO_NOT_DISTURB_TIME"), doNotDisturb);
-//                break;
+            case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_BOOL:
+                boolean dndEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_BOOL, false);
+                sendSetting(getSetting("DO_NOT_DISTURB_ONOFF"), dndEnabled);
+                break;
 
-//            case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
-//            case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
-//            case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
-//                String quickViewPref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
-//                boolean quickViewEnabled = !quickViewPref.equals(getContext().getString(R.string.p_off));
-//                boolean quickViewScheduled = quickViewPref.equals(getContext().getString(R.string.p_scheduled));
-//
-//                Calendar quickViewStart = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
-//                Calendar quickViewEnd = getTimePref(prefs, HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
-//
-//                MoyoungSettingTimeRange.TimeRange quickViewTime;
-//                if (quickViewEnabled && quickViewScheduled)
-//                    quickViewTime = new MoyoungSettingTimeRange.TimeRange(
-//                        (byte) quickViewStart.get(Calendar.HOUR_OF_DAY), (byte) quickViewStart.get(Calendar.MINUTE),
-//                        (byte) quickViewEnd.get(Calendar.HOUR_OF_DAY), (byte) quickViewEnd.get(Calendar.MINUTE));
-//                else
-//                    quickViewTime = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
-//
-//                sendSetting(getSetting("QUICK_VIEW"), quickViewEnabled);
-//                sendSetting(getSetting("QUICK_VIEW_TIME"), quickViewTime);
-//                break;
+            case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB:
+            case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START:
+            case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END:
+                String doNotDisturbPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF);
+                boolean doNotDisturbEnabled = !DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF.equals(doNotDisturbPref);
+
+                Calendar doNotDisturbStart = getTimePref(prefs, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, "01:00");
+                Calendar doNotDisturbEnd = getTimePref(prefs, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, "06:00");
+
+                MoyoungSettingTimeRange.TimeRange doNotDisturb;
+                if (doNotDisturbEnabled)
+                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange(
+                        (byte) doNotDisturbStart.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbStart.get(Calendar.MINUTE),
+                        (byte) doNotDisturbEnd.get(Calendar.HOUR_OF_DAY), (byte) doNotDisturbEnd.get(Calendar.MINUTE));
+                else
+                    doNotDisturb = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
+
+                sendSetting(getSetting("DO_NOT_DISTURB_TIME"), doNotDisturb);
+                break;
+
+            case DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
+            case DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_START:
+            case DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END:
+                String quickViewPref = prefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF);
+                boolean quickViewEnabled = !quickViewPref.equals(getContext().getString(R.string.p_off));
+                boolean quickViewScheduled = quickViewPref.equals(getContext().getString(R.string.p_scheduled));
+
+                Calendar quickViewStart = getTimePref(prefs, DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+                Calendar quickViewEnd = getTimePref(prefs, DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+
+                MoyoungSettingTimeRange.TimeRange quickViewTime;
+                if (quickViewEnabled && quickViewScheduled)
+                    quickViewTime = new MoyoungSettingTimeRange.TimeRange(
+                        (byte) quickViewStart.get(Calendar.HOUR_OF_DAY), (byte) quickViewStart.get(Calendar.MINUTE),
+                        (byte) quickViewEnd.get(Calendar.HOUR_OF_DAY), (byte) quickViewEnd.get(Calendar.MINUTE));
+                else
+                    quickViewTime = new MoyoungSettingTimeRange.TimeRange((byte)0, (byte)0, (byte)0, (byte)0);
+
+                sendSetting(getSetting("QUICK_VIEW"), quickViewEnabled);
+                sendSetting(getSetting("QUICK_VIEW_TIME"), quickViewTime);
+                break;
 
             case MoyoungConstants.PREF_SEDENTARY_REMINDER:
                 String sedentaryReminderPref = prefs.getString(MoyoungConstants.PREF_SEDENTARY_REMINDER, "off");
@@ -1662,10 +1691,8 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onReadConfigurationDone(MoyoungSetting setting, Object value, byte[] data)
     {
         LOG.info("CONFIG " + setting.name + " = " + value);
+        Prefs prefs = getDevicePrefs();
         final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences();
-//        Prefs prefs = getDevicePrefs();
-//        Map<String, String> changedProperties = new ArrayMap<>();
-//        SharedPreferences.Editor prefsEditor = prefs.getPreferences().edit();
         switch (setting.name) {
             case "TIME_SYSTEM":
                 MoyoungEnumTimeSystem timeSystem = (MoyoungEnumTimeSystem) value;
@@ -1688,13 +1715,10 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                break;
 
             case "DISPLAY_WATCH_FACE":
-//                byte watchFace = (Byte) value;
-//                changedProperties.put(MoyoungConstants.PREF_MOYOUNG_WATCH_FACE, String.valueOf(watchFace));
                 eventUpdatePreferences.withPreference(
                         MoyoungConstants.PREF_MOYOUNG_WATCH_FACE,
                         String.valueOf((byte) value)
                 );
-                evaluateGBDeviceEvent(eventUpdatePreferences);
                 break;
 
             case "DEVICE_LANGUAGE":
@@ -1712,37 +1736,71 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                changedProperties.put(MoyoungConstants.PREF_MOYOUNG_DEVICE_VERSION, String.valueOf(deviceVersion.value()));
                 break;
 
-//            case "DO_NOT_DISTURB_TIME":
-//                MoyoungSettingTimeRange.TimeRange doNotDisturb = (MoyoungSettingTimeRange.TimeRange) value;
-//                if (doNotDisturb.start_h == 0 && doNotDisturb.start_m == 0 &&
-//                    doNotDisturb.end_h == 0 && doNotDisturb.end_m == 0)
-//                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
-//                else
-//                    changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED);
-//                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_START, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.start_h, doNotDisturb.start_m));
-//                changedProperties.put(MiBandConst.PREF_DO_NOT_DISTURB_END, String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.end_h, doNotDisturb.end_m));
-//                break;
+            case "DO_NOT_DISTURB_ONOFF":
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_BOOL,
+                        BLETypeConversions.toUint24((byte[]) value) != 0
+                );
+                break;
 
-//            case "QUICK_VIEW":
-//                boolean quickViewEnabled = (Boolean) value;
-//                boolean quickViewScheduled = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_scheduled));
-//                changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, quickViewEnabled ? (quickViewScheduled ? getContext().getString(R.string.p_scheduled) : getContext().getString(R.string.p_on)) : getContext().getString(R.string.p_off));
-//                break;
+            case "DO_NOT_DISTURB_TIME":
+                MoyoungSettingTimeRange.TimeRange doNotDisturb = (MoyoungSettingTimeRange.TimeRange) value;
+                if (doNotDisturb.start_h == 0 && doNotDisturb.start_m == 0 &&
+                    doNotDisturb.end_h == 0 && doNotDisturb.end_m == 0)
+                    eventUpdatePreferences.withPreference(
+                            DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB,
+                            DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF
+                    );
+                else
+                    eventUpdatePreferences.withPreference(
+                            DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB,
+                            DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_SCHEDULED
+                    );
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START,
+                        String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.start_h, doNotDisturb.start_m)
+                );
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END,
+                        String.format(Locale.ROOT, "%02d:%02d", doNotDisturb.end_h, doNotDisturb.end_m)
+                );
+                break;
 
-//            case "QUICK_VIEW_TIME":
-//                boolean quickViewEnabled2 = !prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_off));
-//                MoyoungSettingTimeRange.TimeRange quickViewTime = (MoyoungSettingTimeRange.TimeRange) value;
-//                if (quickViewEnabled2)
-//                {
-//                    if (quickViewTime.start_h == 0 && quickViewTime.start_m == 0 &&
-//                        quickViewTime.end_h == 0 && quickViewTime.end_m == 0)
-//                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_on));
-//                    else
-//                        changedProperties.put(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_scheduled));
-//                }
-//                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_START, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.start_h, quickViewTime.start_m));
-//                changedProperties.put(HuamiConst.PREF_DISPLAY_ON_LIFT_END, String.format(Locale.ROOT, "%02d:%02d", quickViewTime.end_h, quickViewTime.end_m));
-//                break;
+            case "QUICK_VIEW":
+                boolean quickViewEnabled = (Boolean) value;
+                boolean quickViewScheduled = prefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_scheduled));
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT,
+                        quickViewEnabled ? (quickViewScheduled ? getContext().getString(R.string.p_scheduled) : getContext().getString(R.string.p_on)) : getContext().getString(R.string.p_off)
+                );
+                break;
+
+            case "QUICK_VIEW_TIME":
+                boolean quickViewEnabled2 = !prefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_off)).equals(getContext().getString(R.string.p_off));
+                MoyoungSettingTimeRange.TimeRange quickViewTime = (MoyoungSettingTimeRange.TimeRange) value;
+                if (quickViewEnabled2)
+                {
+                    if (quickViewTime.start_h == 0 && quickViewTime.start_m == 0 &&
+                        quickViewTime.end_h == 0 && quickViewTime.end_m == 0)
+                        eventUpdatePreferences.withPreference(
+                                DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT,
+                                getContext().getString(R.string.p_on)
+                        );
+                    else
+                        eventUpdatePreferences.withPreference(
+                                DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT,
+                                getContext().getString(R.string.p_scheduled)
+                        );
+                }
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_START,
+                        String.format(Locale.ROOT, "%02d:%02d", quickViewTime.start_h, quickViewTime.start_m)
+                );
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END,
+                        String.format(Locale.ROOT, "%02d:%02d", quickViewTime.end_h, quickViewTime.end_m)
+                );
+                break;
 
             case "SEDENTARY_REMINDER":
                 boolean sedentaryReminderEnabled = (Boolean) value;
@@ -1757,16 +1815,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                changedProperties.put(MoyoungConstants.PREF_SEDENTARY_REMINDER_END, String.valueOf(remindersToMove.end_h));
                 break;
         }
-//        for (Map.Entry<String, String> property : changedProperties.entrySet())
-//            prefsEditor.putString(property.getKey(), property.getValue());
-//        prefsEditor.apply();
-//        for (Map.Entry<String, String> property : changedProperties.entrySet())
-//        {
-//            GBDeviceEventConfigurationRead configReadEvent = new GBDeviceEventConfigurationRead();
-//            configReadEvent.config = property.getKey();
-//            configReadEvent.event = GBDeviceEventConfigurationRead.Event.SUCCESS;
-//            evaluateGBDeviceEvent(configReadEvent);
-//        }
+        evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
     @Override

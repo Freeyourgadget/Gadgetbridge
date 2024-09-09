@@ -572,6 +572,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_SU);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_LIFT_WRIST);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOT_WEAR);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_BOOL);
         addPreferenceHandlerFor(PREF_FIND_PHONE);
         addPreferenceHandlerFor(PREF_FIND_PHONE_DURATION);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);

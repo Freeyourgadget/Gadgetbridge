@@ -225,6 +225,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_end";
     public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
     public static final String PREF_DO_NOT_DISTURB_NOT_WEAR = "do_not_disturb_not_wear";
+    public static final String PREF_DO_NOT_DISTURB_BOOL = "do_not_disturb_on_off";
     public static final String PREF_DO_NOT_DISTURB_OFF = "off";
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
     public static final String PREF_DO_NOT_DISTURB_ALWAYS = "always";

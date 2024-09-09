@@ -188,6 +188,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         new MoyoungSettingBool("SEDENTARY_REMINDER", MoyoungConstants.CMD_QUERY_SEDENTARY_REMINDER, MoyoungConstants.CMD_SET_SEDENTARY_REMINDER),
         new MoyoungSettingRemindersToMove("REMINDERS_TO_MOVE_PERIOD", MoyoungConstants.CMD_QUERY_REMINDERS_TO_MOVE_PERIOD, MoyoungConstants.CMD_SET_REMINDERS_TO_MOVE_PERIOD),
         new MoyoungSettingTimeRange("DO_NOT_DISTURB_TIME", MoyoungConstants.CMD_QUERY_DO_NOT_DISTURB_TIME, MoyoungConstants.CMD_SET_DO_NOT_DISTURB_TIME),
+        new MoyoungSettingBool("DO_NOT_DISTURB_ONOFF", MoyoungConstants.CMD_QUERY_DO_NOT_DISTURB_TIME, MoyoungConstants.CMD_SET_DO_NOT_DISTURB_TIME),
         // (*) new MoyoungSetting("PSYCHOLOGICAL_PERIOD", MoyoungConstants.CMD_QUERY_PSYCHOLOGICAL_PERIOD, MoyoungConstants.CMD_SET_PSYCHOLOGICAL_PERIOD),
 
         new MoyoungSettingBool("BREATHING_LIGHT", MoyoungConstants.CMD_QUERY_BREATHING_LIGHT, MoyoungConstants.CMD_SET_BREATHING_LIGHT)
@@ -199,14 +200,16 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
         final List<Integer> generic = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.GENERIC);
         generic.add(R.xml.devicesettings_moyoung_device_version);
-        generic.add(R.xml.devicesettings_heartrate_interval);
         generic.add(R.xml.devicesettings_timeformat);
         generic.add(R.xml.devicesettings_moyoung_watchface);
         generic.add(R.xml.devicesettings_liftwrist_display);
-        generic.add(R.xml.devicesettings_moyoung_sedentary_reminder);
-        generic.add(R.xml.devicesettings_donotdisturb_no_auto);
+//        generic.add(R.xml.devicesettings_donotdisturb_no_auto);  // not supported by Colmi i28 Ultra
+        generic.add(R.xml.devicesettings_donotdisturb_on_off);
         generic.add(R.xml.devicesettings_world_clocks);
         generic.add(R.xml.devicesettings_sync_calendar);
+        final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);
+        health.add(R.xml.devicesettings_heartrate_interval);
+        health.add(R.xml.devicesettings_moyoung_sedentary_reminder);
         return deviceSpecificSettings;
     }
 
