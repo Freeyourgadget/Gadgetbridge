@@ -3405,4 +3405,15 @@
     <string name="pref_description_dashboard">Widget\'lar, dahil edilecek aygıtlar</string>
     <string name="activity_prefs_date_birth">Doğum tarihi</string>
     <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
+    <string name="prefs_title_gatt_client_allow_gatt_interactions">BLE Amaç API\'si aracılığıyla GATT etkileşimine izin ver</string>
+    <string name="prefs_summary_gatt_client_device_state_updates">Amaçlar aracılığıyla BLE bağlantı durumu değişikliklerini al</string>
+    <string name="prefs_title_gatt_client_api_package">BLE API paketi</string>
+    <string name="prefs_title_ble_intent_api">BLE Amaç API</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">Sıcaklık alımı şu anda desteklenmiyor. Bu ayar yalnızca aygıtta sürekli ölçümü etkinleştirir</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">Sürekli cilt sıcaklığı ölçümü</string>
+    <string name="devicetype_ble_gatt_client">Genel BLE GATT İstemcisi</string>
+    <string name="prefs_title_gatt_client_notification_intents">BLE Amaç API\'si aracılığıyla GATT bildirim amaçlarını yayınla</string>
+    <string name="prefs_summary_gatt_client_allow_gatt_interactions">BLE özellik okuma/yazma ve bağlanma komutlarının gönderilmesine izin ver</string>
+    <string name="prefs_summary_gatt_client_api_package">BLE Amaç API iletişimini bu paketle kısıtla</string>
+    <string name="prefs_summary_gatt_client_notification_intents">Amaçlar aracılığıyla BLE özellik değişikliklerini al</string>
 </resources>
