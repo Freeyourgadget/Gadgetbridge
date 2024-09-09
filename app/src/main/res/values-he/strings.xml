@@ -3012,4 +3012,7 @@
     <string name="pref_title_user_interface">מנשק משתמש</string>
     <string name="user_feedback_set_settings_ok">ההגדרות נשלחו להתקן.</string>
     <string name="minutes_255">255 דקות</string>
+    <string name="pref_header_deprecated_functionalities">יכולות עבר</string>
+    <string name="pref_header_deprecated_functionalities_warning">היכולות הבאות יצאו מכלל שימוש והן תוסרנה בקרוב מהתוכנה.
+\nאם צריך להפעיל את אחת מההגדרות הבאות כדאי ליצור קשר עם צוות המיזם.</string>
 </resources>
