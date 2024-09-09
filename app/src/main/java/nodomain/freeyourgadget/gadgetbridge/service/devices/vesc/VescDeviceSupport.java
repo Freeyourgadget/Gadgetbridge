@@ -73,7 +73,6 @@ public class VescDeviceSupport extends VescBaseDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-        super.onFetchRecordedData(dataTypes);
         getValues();
     }
 

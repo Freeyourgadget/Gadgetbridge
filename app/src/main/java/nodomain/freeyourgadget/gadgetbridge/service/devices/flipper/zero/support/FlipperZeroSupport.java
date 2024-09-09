@@ -244,8 +244,6 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-        super.onFetchRecordedData(dataTypes);
-
         onTestNewFunction();
     }
 }

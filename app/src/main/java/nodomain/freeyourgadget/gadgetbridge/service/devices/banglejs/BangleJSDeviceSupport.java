@@ -1623,15 +1623,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
+        // FIXME: The fetches are currently mutually exclusive, otherwise the operations will
+        // interrupt one-another
         if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0)  {
             fetchActivityData(getLastSuccessfulSyncTime());
-        }
-
-        if ((dataTypes & RecordedDataTypes.TYPE_GPS_TRACKS) !=0) {
+        } else if ((dataTypes & RecordedDataTypes.TYPE_GPS_TRACKS) !=0) {
             JSONObject requestTracksListObj = BangleJSActivityTrack.compileTracksListRequest(getDevice(), getContext());
             uartTxJSON("requestActivityTracksList", requestTracksListObj);
-        }
-        if ((dataTypes & RecordedDataTypes.TYPE_DEBUGLOGS) !=0) {
+        } else if ((dataTypes & RecordedDataTypes.TYPE_DEBUGLOGS) !=0) {
             File dir;
             try {
                 dir = FileUtils.getExternalFilesDir();
