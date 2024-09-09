@@ -545,7 +545,9 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                 return;
             }
 
-            // Keep the device marked as busy while we process the files asynchronously
+            // Keep the device marked as busy while we process the files asynchronously, but unset
+            // isBusyFetching so we do not start multiple processors
+            isBusyFetching = false;
 
             final FitAsyncProcessor fitAsyncProcessor = new FitAsyncProcessor(getContext(), getDevice());
             final long[] lastNotificationUpdateTs = new long[]{System.currentTimeMillis()};
@@ -569,7 +571,6 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
                     GB.signalActivityDataFinish(getDevice());
                     GB.updateTransferNotification(null, "", false, 100, getContext());
                     getDevice().sendDeviceUpdateIntent(getContext());
-                    isBusyFetching = false;
                 }
             });
         }

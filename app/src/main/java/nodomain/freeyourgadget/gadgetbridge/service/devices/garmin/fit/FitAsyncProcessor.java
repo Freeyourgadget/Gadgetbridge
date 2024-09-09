@@ -2,7 +2,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
 import android.content.Context;
 import android.os.Handler;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.PendingFileProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.deviceevents.FileDownloadedDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FitAsyncProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(FitAsyncProcessor.class);
