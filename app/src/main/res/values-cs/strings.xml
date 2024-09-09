@@ -3392,4 +3392,15 @@
     <string name="pref_header_main_screen">Hlavní obrazovka</string>
     <string name="activity_prefs_date_birth">Datum narození</string>
     <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
+    <string name="prefs_title_gatt_client_allow_gatt_interactions">Povolit interakci GATT skrze BLE Intent API</string>
+    <string name="prefs_summary_gatt_client_notification_intents">Získávat změny charakteristiky BLE skrze Intenty</string>
+    <string name="prefs_summary_gatt_client_allow_gatt_interactions">Povolit posílání charakteristiky čtení/zapisování BLE a příkazů připojování</string>
+    <string name="prefs_summary_gatt_client_device_state_updates">Získávat změny stavu připojení BLE skrze Intenty</string>
+    <string name="prefs_title_gatt_client_api_package">Balíček API BLE</string>
+    <string name="prefs_summary_gatt_client_api_package">Omezit komunikaci BLE Intent API na tento balíček</string>
+    <string name="prefs_title_ble_intent_api">BLE Intent API</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">Průběžné měření teploty pokožky</string>
+    <string name="devicetype_ble_gatt_client">Generický klient BLE GATT</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">Získávání teploty momentálně není podporováno. Toto nastavení pouze povolí průběžné měření na zařízení</string>
+    <string name="prefs_title_gatt_client_notification_intents">Vysílat oznamovací IntentyGATT skrze BLE Intent API</string>
 </resources>
