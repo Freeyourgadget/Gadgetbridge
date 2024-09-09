@@ -21,6 +21,8 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.content.SharedPreferences;
 import android.util.Xml;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
 
@@ -35,8 +37,14 @@ import java.util.Map;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.test.TestDeviceConst;
 
+@Deprecated // use JsonBackupPreferences
 public class ImportExportSharedPreferences {
+    private static final Logger LOG = LoggerFactory.getLogger(ImportExportSharedPreferences.class);
 
     private static final String BOOLEAN = Boolean.class.getSimpleName();
     private static final String FLOAT = Float.class.getSimpleName();
@@ -114,26 +122,46 @@ public class ImportExportSharedPreferences {
                     } else if (STRING.equals(name)) {
                         editor.putString(key, text);
                     } else if (HASHSET.equals(name)) {
+                        // FIXME: We can only deserialize values that are guaranteed to not contain commas,
+                        // spaces at the end or start, square brackets
                         switch (key) {
                             case GBPrefs.PACKAGE_BLACKLIST:
-                                Set<String> apps_blacklist = new HashSet<>();
-                                text = text.replace("[", "").replace("]", "");
-                                for (int z = 0; z < text.split(",").length; z++) {
-                                    apps_blacklist.add(text.split(",")[z].trim());
-                                }
-                                GBApplication.setAppsNotifBlackList(apps_blacklist, editor);
+                                GBApplication.setAppsNotifBlackList(stringToSet(text), editor);
                                 break;
                             case GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST:
-                                Set<String> apps_pebble_blacklist = new HashSet<>();
-                                text = text.replace("[", "").replace("]", "");
-                                for (int z = 0; z < text.split(",").length; z++) {
-                                    apps_pebble_blacklist.add(text.split(",")[z].trim());
-                                }
-                                GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist, editor);
+                                GBApplication.setAppsPebbleBlackList(stringToSet(text), editor);
                                 break;
+                            // @array/device_action_values
+                            case DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTIONS:
+                            case DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTIONS:
+                            case DeviceSettingsPreferenceConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTIONS:
+                            // GarminCapability enum
+                            case GarminPreferences.PREF_GARMIN_CAPABILITIES:
+                            // mac addresses
+                            case "dashboard_devices_multiselect":
+                            case GBPrefs.LAST_DEVICE_ADDRESSES:
+                            // display items
+                            case "bip_display_items":
+                            case "cor_display_items":
+                            case "mi2_display_items":
+                            case "miband3_display_items":
+                            case HuamiConst.PREF_DISPLAY_ITEMS:
+                            // @array/pref_amazfitneo_sounds_values
+                            case DeviceSettingsPreferenceConst.PREF_SOUNDS:
+                            // TestFeature enum
+                            case TestDeviceConst.PREF_TEST_FEATURES:
+                            // Ignored due to unsafe values
+                            //case GBPrefs.CALENDAR_BLACKLIST: // user-controlled names
+                            //case LoyaltyCardsSettingsConst.LOYALTY_CARDS_SYNC_GROUPS: // user-controlled names
+                            //case MiBandConst.PREF_MIBAND_ALARMS: // unknown potential values
+                            //case "casio_features_current_values": // unknown potential values
+                                editor.putStringSet(key, stringToSet(text));
+                                break;
+                            default:
+                                LOG.warn("Unknown hashset preference {}, will not import", key);
                         }
                     } else if (!PREFERENCES.equals(name)) {
-                        throw new Exception("Unknown type " + name);
+                        throw new Exception("Unknown type " + name + " for pref " + key);
                     }
                     break;
                 case XmlPullParser.END_TAG:
@@ -143,5 +171,16 @@ public class ImportExportSharedPreferences {
             eventType = parser.next();
         }
         return editor.commit();
+    }
+
+    private static Set<String> stringToSet(final String text) {
+        final Set<String> ret = new HashSet<>();
+        final String[] split = text.replace("[", "")
+                .replace("]", "")
+                .split(",");
+        for (final String s : split) {
+            ret.add(s.trim());
+        }
+        return ret;
     }
 }

@@ -183,9 +183,9 @@ public class GBApplication extends Application {
         final Intent startActivity = new Intent(context, ControlCenterv2.class);
         final PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 1337, startActivity, PendingIntent.FLAG_CANCEL_CURRENT, false);
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, pendingIntent);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1500, pendingIntent);
 
-        System.exit(0);
+        Runtime.getRuntime().exit(0);
     }
 
     public GBApplication() {
