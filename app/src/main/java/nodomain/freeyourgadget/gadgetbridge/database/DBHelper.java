@@ -30,7 +30,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -148,10 +150,14 @@ public class DBHelper {
     }
 
     public void importDB(DBHandler dbHandler, File fromFile) throws IllegalStateException, IOException {
+        importDB(dbHandler, new FileInputStream(fromFile));
+    }
+
+    public void importDB(DBHandler dbHandler, InputStream inputStream) throws IllegalStateException, IOException {
         String dbPath = getClosedDBPath(dbHandler);
         try {
             File toFile = new File(dbPath);
-            FileUtils.copyFile(fromFile, toFile);
+            FileUtils.copyStreamToFile(inputStream, toFile);
         } finally {
             dbHandler.openDb();
         }

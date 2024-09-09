@@ -520,6 +520,7 @@ public class GB {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(percentage > 0 && percentage < 100)
                 .setOngoing(ongoing);
 
         if (ongoing) {

@@ -48,15 +48,13 @@ public class ImportExportSharedPreferences {
     private static final String NAME = "name";
     private static final String PREFERENCES = "preferences";
 
-    public static void exportToFile(SharedPreferences sharedPreferences, File outFile,
-                                    Set<String> doNotExport) throws IOException {
+    public static void exportToFile(SharedPreferences sharedPreferences, File outFile) throws IOException {
         try (FileWriter outputWriter = new FileWriter(outFile)) {
-            export(sharedPreferences, outputWriter, doNotExport);
+            export(sharedPreferences, outputWriter);
         }
     }
 
-    private static void export(SharedPreferences sharedPreferences, Writer writer,
-                              Set<String> doNotExport) throws IOException {
+    public static void export(SharedPreferences sharedPreferences, Writer writer) throws IOException {
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setOutput(writer);
         serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
@@ -64,7 +62,6 @@ public class ImportExportSharedPreferences {
         serializer.startTag("", PREFERENCES);
         for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
             String key = entry.getKey();
-            if (doNotExport != null && doNotExport.contains(key)) continue;
 
             Object valueObject = entry.getValue();
             // Skip this entry if the value is null;
@@ -86,7 +83,7 @@ public class ImportExportSharedPreferences {
         return importFromReader(sharedPreferences, new FileReader(inFile));
     }
 
-    private static boolean importFromReader(SharedPreferences sharedPreferences, Reader in)
+    public static boolean importFromReader(SharedPreferences sharedPreferences, Reader in)
             throws Exception {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

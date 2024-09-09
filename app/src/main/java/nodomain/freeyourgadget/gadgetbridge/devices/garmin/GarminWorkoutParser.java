@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitTimeInZone;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GarminWorkoutParser implements ActivitySummaryParser {
     private static final Logger LOG = LoggerFactory.getLogger(GarminWorkoutParser.class);
@@ -65,9 +66,9 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
             LOG.warn("No rawDetailsPath");
             return summary;
         }
-        final File file = new File(rawDetailsPath);
-        if (!file.isFile() || !file.canRead()) {
-            LOG.warn("Unable to read {}", file);
+        final File file = FileUtils.tryFixPath(new File(rawDetailsPath));
+        if (file == null || !file.isFile() || !file.canRead()) {
+            LOG.warn("Unable to read {}", rawDetailsPath);
             return summary;
         }
 

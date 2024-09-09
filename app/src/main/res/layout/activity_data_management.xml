@@ -1,14 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:grid="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2">
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.DataManagementActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+            <TextView
+                android:id="@+id/backupRestoreLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_db_management_backup_restore_label"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/accent" />
+
+            <TextView
+                android:id="@+id/backup_restore_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_db_management_backup_restore_explanation"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/backupToZipButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/activity_db_management_export_to_zip" />
+
+                <Button
+                    android:id="@+id/restoreFromZipButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="2dp"
+                    android:text="@string/activity_db_management_import_from_zip" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,6 +98,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <Button
@@ -193,6 +247,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

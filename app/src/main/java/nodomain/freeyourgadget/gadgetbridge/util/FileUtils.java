@@ -25,6 +25,7 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -43,6 +44,7 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,6 +54,14 @@ import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 public class FileUtils {
     // Don't use slf4j here -- would be a bootstrapping problem
     private static final String TAG = "FileUtils";
+
+    private static final List<String> KNOWN_PACKAGES = Arrays.asList(
+            "nodomain.freeyourgadget.gadgetbridge",
+            "nodomain.freeyourgadget.gadgetbridge.nightly",
+            "nodomain.freeyourgadget.gadgetbridge.nightly_nopebble",
+            "com.espruino.gadgetbridge.banglejs",
+            "com.espruino.gadgetbridge.banglejs.nightly"
+    );
 
     /**
      * Copies the the given sourceFile to destFile, overwriting it, in case it exists.
@@ -391,5 +401,45 @@ public class FileUtils {
         }
         fos.close();
         return Uri.fromFile(tempFile);
+    }
+
+    /**
+     * When migrating the database between Gadgetbridge versions or phones, we may end up with the
+     * wrong path persisted in the database. Attempt to find the file in the current external data.
+     *
+     * @return the fixed file path, if it exists, null otherwise
+     */
+    @Nullable
+    public static File tryFixPath(final File file) {
+        if (file == null || (file.isFile() && file.canRead())) {
+            return file;
+        }
+
+        File externalFilesDir;
+        try {
+            externalFilesDir = getExternalFilesDir();
+        } catch (final IOException e) {
+            return null;
+        }
+
+        final String absolutePath = file.getAbsolutePath();
+        for (final String knownPackage : KNOWN_PACKAGES) {
+            final int i = absolutePath.indexOf(knownPackage);
+            if (i < 0) {
+                continue;
+            }
+
+            // We found the gadgetbridge package in the path!
+            String relativePath = absolutePath.substring(i + knownPackage.length() + 1);
+            if (relativePath.startsWith("files/")) {
+                relativePath = relativePath.substring(6);
+            }
+            final File fixedFile = new File(externalFilesDir, relativePath);
+            if (fixedFile.exists()) {
+                return fixedFile;
+            }
+        }
+
+        return null;
     }
 }

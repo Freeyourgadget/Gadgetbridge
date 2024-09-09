@@ -762,7 +762,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private boolean itemHasGps() {
         if (currentItem.getGpxTrack() != null) {
-            return new File(currentItem.getGpxTrack()).canRead();
+            final File existing = FileUtils.tryFixPath(new File(currentItem.getGpxTrack()));
+            if (existing != null && existing.canRead()) {
+                return true;
+            }
         }
         final String summaryData = currentItem.getSummaryData();
         if (summaryData.contains(INTERNAL_HAS_GPS)) {
@@ -783,21 +786,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private File getTrackFile() {
         final String gpxTrack = currentItem.getGpxTrack();
         if (gpxTrack != null) {
-            File file = new File(gpxTrack);
-            if (file.exists()) {
-                return file;
-            } else {
-                return null;
-            }
+            return FileUtils.tryFixPath(new File(gpxTrack));
         }
         final String rawDetails = currentItem.getRawDetailsPath();
         if (rawDetails != null && rawDetails.endsWith(".fit")) {
-            File file = new File(rawDetails);
-            if (file.exists()) {
-                return file;
-            } else {
-                return null;
-            }
+            return FileUtils.tryFixPath(new File(rawDetails));
         }
         return null;
     }

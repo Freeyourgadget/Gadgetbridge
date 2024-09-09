@@ -175,6 +175,10 @@
             android:label="@string/activity_data_management_directory_content_title"
             android:parentActivityName=".activities.DataManagementActivity" />
         <activity
+            android:name=".activities.BackupRestoreProgressActivity"
+            android:label="@string/activity_db_management_backup_restore_label"
+            android:parentActivityName=".activities.DataManagementActivity" />
+        <activity
             android:name=".activities.discovery.DiscoveryPairingPreferenceActivity"
             android:label="@string/activity_prefs_discovery_pairing"
             android:parentActivityName=".activities.SettingsActivity" />

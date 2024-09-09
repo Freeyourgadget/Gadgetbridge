@@ -21,9 +21,11 @@
 package nodomain.freeyourgadget.gadgetbridge;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -62,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -86,6 +89,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
@@ -167,6 +171,20 @@ public class GBApplication extends Application {
         Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
         LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
         GBApplication.deviceService().quit();
+        System.exit(0);
+    }
+
+    public static void restart() {
+        GB.log("Restarting Gadgetbridge...", GB.INFO, null);
+        final Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
+        GBApplication.deviceService().quit();
+
+        final Intent startActivity = new Intent(context, ControlCenterv2.class);
+        final PendingIntent pendingIntent = PendingIntentUtils.getActivity(context, 1337, startActivity, PendingIntent.FLAG_CANCEL_CURRENT, false);
+        final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, pendingIntent);
+
         System.exit(0);
     }
 
