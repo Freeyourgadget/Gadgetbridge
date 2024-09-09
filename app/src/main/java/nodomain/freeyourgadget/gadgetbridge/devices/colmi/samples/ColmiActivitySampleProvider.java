@@ -146,12 +146,21 @@ public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiAct
         final ColmiSleepStageSampleProvider sleepStageSampleProvider = new ColmiSleepStageSampleProvider(getDevice(), getSession());
         final List<ColmiSleepStageSample> sleepStageSamples = sleepStageSampleProvider.getAllSamples(timestamp_from * 1000L, timestamp_to * 1000L);
 
+        // Retrieve the last stage before this time range, as the user could have been asleep during
+        // the range transition
+        final ColmiSleepStageSample lastSleepStageBeforeRange = sleepStageSampleProvider.getLastSampleBefore(timestamp_from * 1000L);
+        if (lastSleepStageBeforeRange != null && (lastSleepStageBeforeRange.getTimestamp() + lastSleepStageBeforeRange.getDuration() * 1000L > timestamp_from)) {
+            LOG.debug("Last sleep stage before range: ts={}, stage={}", lastSleepStageBeforeRange.getTimestamp(), lastSleepStageBeforeRange.getStage());
+            sleepStageSamples.add(0, lastSleepStageBeforeRange);
+        }
+
         for (final ColmiSleepStageSample sleepStageSample : sleepStageSamples) {
             final ActivityKind sleepRawKind = sleepStageToActivityKind(sleepStageSample.getStage());
             if (sleepRawKind == ActivityKind.AWAKE_SLEEP) continue;
             // round to the nearest minute, we don't need per-second granularity
             final int tsSeconds = (int) ((sleepStageSample.getTimestamp() / 1000) / 60) * 60;
             for (int i = tsSeconds; i < tsSeconds + sleepStageSample.getDuration() * 60; i += 60) {
+                if (i < timestamp_from) continue;
                 ColmiActivitySample sample = sampleByTs.get(i);
                 if (sample == null) {
                     sample = new ColmiActivitySample();
