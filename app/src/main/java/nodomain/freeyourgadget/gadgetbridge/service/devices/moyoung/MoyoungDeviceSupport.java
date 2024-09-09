@@ -20,6 +20,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -1781,6 +1784,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             WeatherSpec weatherSpec = weatherSpecs.get(0);
             TransactionBuilder builder = performInitialized("onSendWeather");
 
+            // Weather today packet
             MoyoungWeatherToday weatherToday = new MoyoungWeatherToday(weatherSpec);
             ByteBuffer packetWeatherToday = ByteBuffer.allocate(weatherToday.pm25 != null ? 21 : 19);
             packetWeatherToday.put(weatherToday.pm25 != null ? (byte)1 : (byte)0);
@@ -1792,6 +1796,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             packetWeatherToday.put(weatherToday.city.getBytes("unicodebigunmarked"));
             sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_WEATHER_TODAY, packetWeatherToday.array()));
 
+            // Weather forecast packet
             ByteBuffer packetWeatherForecast = ByteBuffer.allocate(8 * 3);
             packetWeatherForecast.put(weatherToday.conditionId);
             packetWeatherForecast.put(weatherToday.currentTemp);
@@ -1808,6 +1813,26 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 packetWeatherForecast.put(forecast.maxTemp);
             }
             sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_WEATHER_FUTURE, packetWeatherForecast.array()));
+
+            // Weather location packet. Prepend the update time to the location, since the watch can't display it separately
+            Calendar updateTime = Calendar.getInstance();
+            updateTime.setTimeInMillis(weatherSpec.timestamp * 1000L);
+            String location = String.format(Locale.getDefault(), "%02d:%02d %s", updateTime.get(Calendar.HOUR_OF_DAY), updateTime.get(Calendar.MINUTE), weatherSpec.location);
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_WEATHER_LOCATION, location.getBytes(StandardCharsets.UTF_8)));
+
+            // Sunrise/sunset packet
+            Calendar sunrise = Calendar.getInstance();
+            sunrise.setTimeInMillis(weatherSpec.sunRise * 1000L);
+            Calendar sunset = Calendar.getInstance();
+            sunset.setTimeInMillis(weatherSpec.sunSet * 1000L);
+            ByteBuffer packetSunriseSunset = ByteBuffer.allocate(9 + weatherSpec.location.getBytes(StandardCharsets.UTF_8).length);
+            packetSunriseSunset.put(new byte[]{0x00, 0x00, 0x00, 0x00, 0x00});
+            packetSunriseSunset.put((byte) sunrise.get(Calendar.HOUR_OF_DAY));
+            packetSunriseSunset.put((byte) sunrise.get(Calendar.MINUTE));
+            packetSunriseSunset.put((byte) sunset.get(Calendar.HOUR_OF_DAY));
+            packetSunriseSunset.put((byte) sunset.get(Calendar.MINUTE));
+            packetSunriseSunset.put(weatherSpec.location.getBytes(StandardCharsets.UTF_8));
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_SUNRISE_SUNSET, packetSunriseSunset.array()));
 
             builder.queue(getQueue());
         } catch (IOException e) {

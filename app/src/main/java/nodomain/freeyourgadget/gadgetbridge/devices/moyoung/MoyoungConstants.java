@@ -181,6 +181,8 @@ public class MoyoungConstants {
 
     public static final byte CMD_SET_WEATHER_FUTURE = 66;                           //     {weatherId, low_temp, high_temp} * 7
     public static final byte CMD_SET_WEATHER_TODAY = 67;                            //     {have_pm25 ? 1 : 0, weatherId, temp[, pm25 >> 8, pm25], lunar_or_festival[8], city[8]}, names are UTF-16BE encoded (4 characters each!)
+    public static final byte CMD_SET_WEATHER_LOCATION = 69;                         //     {string utf8}
+    public static final byte CMD_SET_SUNRISE_SUNSET = -75;                          //     {5 bytes unknown, sunrise hour, sunrise min, sunset hour, sunset min, string (location utf8)}
 
     public static final byte CMD_SET_MUSIC_INFO = 68;                               //     {artist=1/track=0, string}
     public static final byte CMD_SET_MUSIC_STATE = 123;                             //     {is_playing ? 1 : 0}
