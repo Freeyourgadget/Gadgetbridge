@@ -3392,4 +3392,15 @@
     <string name="pref_description_deprecated_functionalities">将在未来版本中删除的设置</string>
     <string name="activity_prefs_date_birth">生日</string>
     <string name="devicetype_garmin_forerunner_165">佳明 Forerunner 165</string>
+    <string name="prefs_summary_gatt_client_notification_intents">通过低功耗蓝牙接收意图特性变化</string>
+    <string name="prefs_title_gatt_client_allow_gatt_interactions">允许通过低功耗蓝牙意图 API 进行 GATT 交互</string>
+    <string name="prefs_summary_gatt_client_allow_gatt_interactions">允许发送低功耗蓝牙特性读/写和连接命令</string>
+    <string name="prefs_summary_gatt_client_device_state_updates">通过低功耗蓝牙接收意图连接状态变化</string>
+    <string name="prefs_summary_gatt_client_api_package">限制低功耗蓝牙意图 API 通信至此包</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">连续皮肤温度测量</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">目前不支持温度检索。此设置仅启用设备上的连续测量</string>
+    <string name="devicetype_ble_gatt_client">通用低功耗蓝牙 GATT 客户端</string>
+    <string name="prefs_title_gatt_client_notification_intents">通过低功耗蓝牙内部 API 广播 GATT 通知意图</string>
+    <string name="prefs_title_gatt_client_api_package">低功耗蓝牙 API 包</string>
+    <string name="prefs_title_ble_intent_api">低功耗蓝牙意图API</string>
 </resources>
