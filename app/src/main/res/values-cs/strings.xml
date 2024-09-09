@@ -1248,7 +1248,7 @@
     <string name="pref_theme_black_background">Ve tmavém motivu použít černé pozadí</string>
     <string name="gpx_receiver_overwrite_some_files">Některé soubory již existují. Přepsat\?</string>
     <string name="gpx_receiver_files_received">GPX soubor(ů) přijato:</string>
-    <string name="gpx_receiver_activity_title">GPX Přijímač Gadgetbridge</string>
+    <string name="gpx_receiver_activity_title">GPX přijímač Gadgetbridge</string>
     <string name="activity_summary_detail_editing_gpx_track">Úprava propojené trasy GPX</string>
     <string name="activity_summary_detail_clear_gpx_track">Vymazat trasu GPX</string>
     <string name="activity_summary_detail_select_gpx_track">Vybrat trasu GPX</string>
