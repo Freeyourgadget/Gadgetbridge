@@ -80,7 +80,7 @@ public class BleIntentApi {
             }
 
             String hexData = intent.getStringExtra("EXTRA_PAYLOAD");
-            if (hexData == null) {
+            if (isWrite && (hexData == null)) {
                 logger.error("BLE API: missing EXTRA_PAYLOAD");
                 return;
             }
