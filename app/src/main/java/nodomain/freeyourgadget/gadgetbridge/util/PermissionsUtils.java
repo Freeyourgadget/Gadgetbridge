@@ -20,11 +20,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
 
@@ -44,6 +47,7 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 
 public class PermissionsUtils {
     private static final Logger LOG = LoggerFactory.getLogger(PermissionsUtils.class);
@@ -244,9 +248,22 @@ public class PermissionsUtils {
                         activity.getString(R.string.app_name),
                         activity.getString(R.string.ok)))
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-                            activity.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                            Intent intent;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_DETAIL_SETTINGS);
+                                intent.putExtra(Settings.EXTRA_NOTIFICATION_LISTENER_COMPONENT_NAME, new ComponentName(BuildConfig.APPLICATION_ID, NotificationListener.class.getName()).flattenToString());
+                            } else {
+                                intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                            }
+                            String showArgs = BuildConfig.APPLICATION_ID + "/" + NotificationListener.class.getName();
+                            intent.putExtra(":settings:fragment_args_key", showArgs);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(":settings:fragment_args_key", showArgs);
+                            intent.putExtra(":settings:show_fragment_args", bundle);
+                            activity.startActivity(intent);
                         } catch (ActivityNotFoundException e) {
                             GB.toast(activity, "'Notification Listener Settings' activity not found", Toast.LENGTH_LONG, GB.ERROR);
                             LOG.error("'Notification Listener Settings' activity not found");
@@ -283,7 +300,10 @@ public class PermissionsUtils {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent enableIntent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                        Intent enableIntent = new Intent(
+                                android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+                        );
                         activity.startActivity(enableIntent);
                     }
                 })
