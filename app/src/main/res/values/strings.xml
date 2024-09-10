@@ -3296,4 +3296,9 @@
     <string name="backup_restore_abort_import_confirmation">Abort the import? This may lead to a corrupted or inconsistent database.</string>
     <string name="backup_restore_restart_title">Restart</string>
     <string name="backup_restore_restart_summary">%1s will now restart.</string>
+    <string name="label_distance_trip">Trip: %.1f km</string>
+    <string name="label_distance_total">Total: %.1f km</string>
+    <string name="label_distance_trip_mph">Trip: %.1f mi</string>
+    <string name="label_distance_total_mph">Total: %.1f mi</string>
+    <string name="error_no_cycling_sensor_found">no cycling sensor found</string>
 </resources>

@@ -1,7 +1,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.cycling_sensor.support;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityKind.CYCLING;
-
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
@@ -93,7 +91,7 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
     private long persistenceInterval;
     private long nextPersistenceTimestamp = 0;
 
-    private float wheelCircumference;
+    private float wheelCircumferenceMeters;
 
     private CyclingSpeedCadenceMeasurement lastReportedMeasurement = null;
     private long lastMeasurementTime = 0;
@@ -125,7 +123,7 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
         nextPersistenceTimestamp = 0;
         
         float wheelDiameter = deviceSpecificPrefs.getFloat(DeviceSettingsPreferenceConst.PREF_CYCLING_SENSOR_WHEEL_DIAMETER, 29);
-        wheelCircumference = (float)(wheelDiameter * 2.54 * Math.PI) / 100;
+        wheelCircumferenceMeters = (float)(wheelDiameter * 2.54 * Math.PI) / 100;
     }
 
     @Override
@@ -196,12 +194,29 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
 
                 float revolutionsPerSecond = revolutionsDelta * (1000f / millisDelta);
 
-                speed = revolutionsPerSecond * wheelCircumference;
+                speed = revolutionsPerSecond * wheelCircumferenceMeters;
             }
         }
 
         lastReportedMeasurement = currentMeasurement;
         lastMeasurementTime = now;
+
+        CyclingSample sample = new CyclingSample();
+
+        if (currentMeasurement.revolutionDataPresent) {
+            sample.setRevolutionCount(currentMeasurement.revolutionCount);
+            sample.setSpeed(speed);
+            sample.setDistance(currentMeasurement.revolutionCount * wheelCircumferenceMeters);
+        }
+
+        sample.setTimestamp(now);
+
+        Intent liveIntent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES);
+        liveIntent.putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+        liveIntent.putExtra("EXTRA_DEVICE_ADDRESS", getDevice().getAddress());
+        LocalBroadcastManager.getInstance(getContext())
+                .sendBroadcast(liveIntent);
+
 
         if(now < nextPersistenceTimestamp){
             // too early
@@ -209,21 +224,6 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
         }
 
         nextPersistenceTimestamp = now + persistenceInterval;
-
-        CyclingSample sample = new CyclingSample();
-
-        if (currentMeasurement.revolutionDataPresent) {
-            sample.setRevolutionCount(currentMeasurement.revolutionCount);
-            sample.setSpeed(speed);
-            sample.setDistance(currentMeasurement.revolutionCount * wheelCircumference);
-        }
-
-        sample.setTimestamp(now);
-
-        Intent liveIntent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES);
-        liveIntent.putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
-        LocalBroadcastManager.getInstance(getContext())
-                .sendBroadcast(liveIntent);
 
         try(DBHandler handler = GBApplication.acquireDB()) {
             DaoSession session = handler.getDaoSession();

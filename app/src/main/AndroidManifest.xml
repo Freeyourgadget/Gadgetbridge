@@ -901,6 +901,11 @@
             android:name=".activities.CameraActivity"
             android:launchMode="singleInstance"
             android:exported="false" />
+
+        <activity
+            android:name=".devices.cycling_sensor.activity.CyclingLiveDataActivity"
+            android:launchMode="singleInstance"
+            android:exported="true" />
     </application>
 
 </manifest>
