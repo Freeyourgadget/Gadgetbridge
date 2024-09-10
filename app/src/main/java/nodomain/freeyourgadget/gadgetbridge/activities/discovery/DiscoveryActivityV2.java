@@ -70,10 +70,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -282,6 +284,26 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
         deviceFoundProcessor.start();
 
         refreshDeviceList(false);
+
+        // Pre-add currently connected devices, as those will not trigger discovery events
+        // Paired devices that are not connected do not need to be added, as those will be discovered
+        try {
+            final Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
+            for (final BluetoothDevice device : pairedDevices) {
+                try {
+                    final Method isConnectedMethod = device.getClass().getMethod("isConnected");
+                    final Boolean isConnected = (Boolean) isConnectedMethod.invoke(device);
+                    if (isConnected!= null && isConnected) {
+                        LOG.debug("Pre-adding already bonded device {}", device.getAddress());
+                        deviceFoundProcessor.scheduleProcessing(new GBScanEvent(device, (short) -1, null));
+                    }
+                } catch (final Exception e) {
+                    LOG.error("Failed to check whether {} is connected", device.getAddress());
+                }
+            }
+        } catch (final SecurityException e) {
+            LOG.error("Failed to pre-add paired devices", e);
+        }
 
         try {
             if (!ensureBluetoothReady()) {
