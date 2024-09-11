@@ -550,7 +550,7 @@
     <string name="user_feedback_miband_set_alarms_ok">Alarm dikirim ke perangkat.</string>
     <string name="live_activity_current_steps_per_minute">Langkah/mnt saat ini</string>
     <string name="lefun_prefs_antilost_summary">Gelang akan bergetar ketika ponsel Anda terputus dari gelang</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Benar-benar timpa data saat ini\? Semua data aktivitas dan preferensi saat ini (jika ada) akan ditimpa.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Benar-benar timpa data saat ini? Semua data aktivitas dan preferensi saat ini (jika ada) akan ditimpa.</string>
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Data aktivitas lawas dihapus.</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="activity_type_biking">Bersepeda</string>
