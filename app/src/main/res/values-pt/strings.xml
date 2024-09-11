@@ -369,7 +369,7 @@
     <string name="dbmanagementactivity_exported_to">Exportado para: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Erro ao exportar a Base de Dados: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importar dados?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Realmente sobrescrever os dados atuais\? Todos os seus dados atuais de atividade (se houver) e preferências serão substituídos.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Realmente sobrescrever os dados atuais? Todos os seus dados atuais de atividade (se houver) e preferências serão substituídos.</string>
     <string name="dbmanagementactivity_import_successful">Importado.</string>
     <string name="dbmanagementactivity_error_importing_db">Erro ao importar a Base de Dados: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Apagar os dados de atividade?</string>
