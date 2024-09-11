@@ -375,7 +375,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Feil ved eksport av DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Feil ved eksport av innstilling: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importer data?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Vil du virkelig overskrive gjeldende data\? All nåværende aktivitetsdata (hvis noen) vil bli overskrevet.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Vil du virkelig overskrive gjeldende data? All nåværende aktivitetsdata (hvis noen) vil bli overskrevet.</string>
     <string name="dbmanagementactivity_import_successful">Importert.</string>
     <string name="dbmanagementactivity_error_importing_db">Feil ved import av DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Feil ved import av innstilling: %1$s</string>
