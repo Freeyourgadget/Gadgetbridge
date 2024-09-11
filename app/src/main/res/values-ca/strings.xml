@@ -455,7 +455,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Hi ha hagut un error en esborrar la base de dades: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Hi ha hagut un error en exportar la preferència: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Voleu importar les dades\?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">De debò voleu sobreescriure les dades actuals\? Totes les vostres dades actuals d\'activitats (si en teniu) i les preferències es sobreescriuran.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">De debò voleu sobreescriure les dades actuals? Totes les vostres dades actuals d\'activitats (si en teniu) i les preferències es sobreescriuran.</string>
     <string name="dbmanagementactivity_import_successful">S\'ha importat.</string>
     <string name="dbmanagementactivity_error_importing_db">Hi ha hagut un error en importar la base de dades: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Hi ha hagut un error en importar la preferència: %1$s</string>
