@@ -363,7 +363,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Errore esportando il DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">"Errore nell\'esportazione delle preferenze: %1$s"</string>
     <string name="dbmanagementactivity_import_data_title">Importare i dati?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Vuoi davvero sovrascrivere i dati attuali\? Tutti i dati delle tue attività e delle preferenze saranno sovrascritti.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Vuoi davvero sovrascrivere i dati attuali? Tutti i dati delle tue attività e delle preferenze saranno sovrascritti.</string>
     <string name="dbmanagementactivity_import_successful">Importazione avvenuta con successo.</string>
     <string name="dbmanagementactivity_error_importing_db">Errore importando il DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">"Errore nell\'importazione della preferenza: %1$s"</string>
