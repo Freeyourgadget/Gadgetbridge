@@ -366,7 +366,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Fehler beim Exportieren der DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Fehler beim Exportieren der Einstellungen: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Die aktuellen Daten wirklich überschreiben\? Alle aktuellen Aktivitätsdaten (falls vorhanden) und Einstellungen werden überschrieben.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Die aktuellen Daten wirklich überschreiben? Alle aktuellen Aktivitätsdaten (falls vorhanden) und Einstellungen werden überschrieben.</string>
     <string name="dbmanagementactivity_import_successful">Importiert.</string>
     <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fehler beim Importieren der Einstellungen: %1$s</string>
