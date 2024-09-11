@@ -364,7 +364,7 @@ Temps de sommeil préféré en heures</string>
     <string name="dbmanagementactivity_error_exporting_db">Erreur d\'exportation de la base de données : %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Erreur d\'exportation des préférences : %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importer des données ?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez-vous vraiment écraser les données actuelles \? Toutes vos données actuelles d\'activité (s\'il y en a) et de préférences seront écrasées.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez-vous vraiment écraser les données actuelles ? Toutes vos données actuelles d\'activité (s\'il y en a) et de préférences seront écrasées.</string>
     <string name="dbmanagementactivity_import_successful">Importé.</string>
     <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation de la base de données : %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Erreur d\'importation des préférences : %1$s</string>
