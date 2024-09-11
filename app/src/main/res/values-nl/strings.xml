@@ -413,7 +413,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Fout bij het exporteren DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Fout bij het exporteren voorkeur: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Data importeren?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige gegevens wilt overschrijven\? Al uw huidige activiteitsgegevens (indien aanwezig) zullen verloren gaan.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige gegevens wilt overschrijven? Al uw huidige activiteitsgegevens (indien aanwezig) zullen verloren gaan.</string>
     <string name="dbmanagementactivity_import_successful">Geïmporteerd.</string>
     <string name="dbmanagementactivity_error_importing_db">Fout bij het importeren DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fout bij het importeren voorkeur: %1$s</string>
