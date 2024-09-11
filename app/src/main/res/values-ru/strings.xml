@@ -347,7 +347,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Ошибка экспорта базы данных: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Ошибка экспорта настроек: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Импортировать данные?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущие данные\? Все текущая активность (если она есть) будет перезаписаны.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущие данные? Все текущая активность (если она есть) будет перезаписаны.</string>
     <string name="dbmanagementactivity_import_successful">Импортировано.</string>
     <string name="dbmanagementactivity_error_importing_db">Ошибка импорта базы данных: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Ошибка импорта настроек: %1$s</string>
