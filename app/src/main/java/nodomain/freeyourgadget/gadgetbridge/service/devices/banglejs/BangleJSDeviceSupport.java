@@ -414,6 +414,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 else if (ch==10) json.append("\\n");
                 else if (ch==11) json.append("\\v");
                 else if (ch==12) json.append("\\f");
+                else if (ch==16) json.append("\\20"); // DLE - not entirely safe to use
                 else if (ch==34) json.append("\\\""); // quote
                 else if (ch==92) json.append("\\\\"); // slash
                 else if (ch<32 || ch==127 || ch==173 ||
