@@ -258,7 +258,7 @@
     <string name="dbmanagementactivity_exported_to">Wyeksportowano do: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Błąd eksportu bazy: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Zaimportować?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Czy naprawdę nadpisać bieżące dane\? Wszystkie Twoje dane dotyczące aktywności (jeśli istnieją) i preferencje zostaną nadpisane.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Czy naprawdę nadpisać bieżące dane? Wszystkie Twoje dane dotyczące aktywności (jeśli istnieją) i preferencje zostaną nadpisane.</string>
     <string name="dbmanagementactivity_error_importing_db">Błąd importu bazy: %1$s</string>
     <string name="dbmanagementactivity_overwrite">Nadpisz</string>
     <string name="Cancel">Anuluj</string>
