@@ -954,7 +954,7 @@
     <string name="activity_prefs_calories_burnt">Dnevni cilj: potrošene kalorije</string>
     <string name="action_db_management">Upravljanje podacima</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Ne mogu pristupiti putu izvoza. Molimo kontaktirajte programere.</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Stvarno prebrisati trenutne podatke\? Svi vaši podaci o trenutačnoj aktivnosti (ako ih ima) i postavke bit će prebrisani.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Stvarno prebrisati trenutne podatke? Svi vaši podaci o trenutačnoj aktivnosti (ako ih ima) i postavke bit će prebrisani.</string>
     <string name="dbmanagementactivity_import_successful">Uvezeno.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Brisanje baze podataka nije uspjelo.</string>
     <string name="activity_db_management_autoexport_explanation">Lokacija automatskog izvoza baze podataka postavljena je na:</string>
