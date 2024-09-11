@@ -336,7 +336,7 @@
     <string name="dbmanagementactivity_exported_to">Exportováno do: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Chyba při exportu DB: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importovat data?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální data\? Všechna uložená data aktivit a nastavení budou přepsána.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální data? Všechna uložená data aktivit a nastavení budou přepsána.</string>
     <string name="dbmanagementactivity_import_successful">Importováno.</string>
     <string name="dbmanagementactivity_error_importing_db">Chyba při importu DB: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Smazat data o aktivitách?</string>
