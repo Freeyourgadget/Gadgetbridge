@@ -170,7 +170,7 @@
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Eski etkinlik veri tabanının silinmesi başarısız oldu.</string>
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Eski etkinlik verileri silindi.</string>
     <string name="dbmanagementactivity_overwrite">Üzerine Yaz</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Geçerli verilerin gerçekten üzerine yazılsın mı\? Tüm etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Geçerli verilerin gerçekten üzerine yazılsın mı? Tüm etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Veri tabanının tamamı gerçekten silinsin mi\? Tüm etkinlik verileriniz ve aygıtlarınızla ilgili bilgileriniz kaybolacak.</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Dışa aktarma yoluna erişilemiyor. Lütfen geliştiricilerle iletişime geçin.</string>
     <string name="debugactivity_really_factoryreset">Fabrika ayarlarına sıfırlama yapılması bağlı aygıttaki tüm verileri (destekleniyorsa) silecektir. Xiaomi/Huami aygıtları ayrıca Bluetooth MAC adresini değiştirir, bu nedenle Gadgetbridge tarafından yeni bir aygıt olarak görülürler.</string>
