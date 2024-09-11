@@ -362,7 +362,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Hiba az adatbázis exportálása során: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Hiba a beállítások exportálása során: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Adatok importálása?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Biztosan felül akarja írni a jelenlegi adatokat\? Az összes jelenlegi aktivitásadata (ha van) el fog veszni.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Biztosan felül akarja írni a jelenlegi adatokat? Az összes jelenlegi aktivitásadata (ha van) el fog veszni.</string>
     <string name="dbmanagementactivity_import_successful">Importálva.</string>
     <string name="dbmanagementactivity_error_importing_db">Hiba az adatbázis importálása során: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Hiba a beállítások importálása során: %1$s</string>
