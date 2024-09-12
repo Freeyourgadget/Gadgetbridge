@@ -387,7 +387,7 @@
     <string name="dbmanagementactivity_error_exporting_db">导出数据库时出错:%1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">导出首选项时出错:%1$s</string>
     <string name="dbmanagementactivity_import_data_title">是否导入数据？</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">是否真的覆盖当前数据？您当前的所有活动数据 (如果有) 和您的首选项都将丢失。</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">真的覆盖当前数据吗？您当前的所有活动数据（如果有）、设备和首选项都将被覆盖。</string>
     <string name="dbmanagementactivity_import_successful">导入成功。</string>
     <string name="dbmanagementactivity_error_importing_db">导入数据库时出错:%1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">导入首选项时出错:%1$s</string>
@@ -3403,4 +3403,34 @@
     <string name="prefs_title_gatt_client_notification_intents">通过低功耗蓝牙内部 API 广播 GATT 通知意图</string>
     <string name="prefs_title_gatt_client_api_package">低功耗蓝牙 API 包</string>
     <string name="prefs_title_ble_intent_api">低功耗蓝牙意图API</string>
+    <string name="activity_db_management_backup_restore_label">备份与恢复</string>
+    <string name="activity_db_management_backup_restore_explanation">导入/导出操作允许你导出或备份所有 Gadgetbridge 设置、设备和数据到 zip 文件（或从 zip 文件恢复）。
+\n
+\n导入一个文件会移除所有现有数据、设备和首选项，完全替换它们为备份的数据。</string>
+    <string name="backup_restore_exporting">正在导出为 zip …</string>
+    <string name="backup_restore_exporting_preferences">正在导出首选项…</string>
+    <string name="backup_restore_exporting_database">正在导出数据库…</string>
+    <string name="backup_restore_exporting_files">正在导出文件…</string>
+    <string name="backup_restore_exporting_files_i_of_n">正在导出文件… %1d 的 %2d</string>
+    <string name="backup_restore_exporting_finishing">正在完成导出…</string>
+    <string name="backup_restore_importing">正在导入 zip …</string>
+    <string name="backup_restore_do_not_exit">%s 请确保屏幕一直开启直至操作结束。</string>
+    <string name="backup_restore_importing_loading">读取文件…</string>
+    <string name="backup_restore_warning_files">%1d 个文件恢复失败：
+\n%2s</string>
+    <string name="backup_restore_import_complete">导入完成</string>
+    <string name="backup_restore_error_import">导入 zip 失败</string>
+    <string name="backup_restore_abort_title">放弃</string>
+    <string name="backup_restore_abort_export_confirmation">放弃导出？未完成的 zip 文件将被删除。</string>
+    <string name="backup_restore_restart_title">重启</string>
+    <string name="backup_restore_restart_summary">%1s 将会重启。</string>
+    <string name="activity_db_management_export_to_zip">导出 zip</string>
+    <string name="activity_db_management_import_from_zip">导入 zip</string>
+    <string name="backup_restore_importing_preferences">正在导入首选项…</string>
+    <string name="backup_restore_importing_validating">验证文件…</string>
+    <string name="backup_restore_importing_files_i_of_n">导入文件… %1d 的 %2d</string>
+    <string name="backup_restore_importing_database">正在导入数据库…</string>
+    <string name="backup_restore_error_export">导出到 zip 失败</string>
+    <string name="backup_restore_export_complete">导出完成</string>
+    <string name="backup_restore_abort_import_confirmation">放弃导入？这可能会导致损坏或不完整的数据库。</string>
 </resources>
