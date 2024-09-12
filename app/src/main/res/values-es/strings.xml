@@ -3437,4 +3437,5 @@
 \n%2s</string>
     <string name="backup_restore_import_complete">Importación finalizada</string>
     <string name="backup_restore_error_export">Falló la exportación a un zip</string>
+    <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
 </resources>
