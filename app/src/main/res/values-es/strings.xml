@@ -366,7 +366,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Error de exportación de la base de datos: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Error de exportación de las preferencias: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">¿Importar Datos?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">¿Realmente quieres sobrescribir los datos actuales? Todos tus datos de actividad actuales (si los hay) y las preferencias se sobrescribirán.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">¿Realmente se sobrescriben los datos actuales? Se sobrescribirán todos tus datos de actividad actuales (si los tienes), dispositivos y preferencias.</string>
     <string name="dbmanagementactivity_import_successful">Importado.</string>
     <string name="dbmanagementactivity_error_importing_db">Error de importación de la base de datos: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Error de importación de las preferencias: %1$s</string>
@@ -3407,4 +3407,34 @@
     <string name="prefs_title_gatt_client_notification_intents">Transmitir la intención de notificación del GATT a través de la API interna de Bluetooth Low Energy</string>
     <string name="prefs_summary_gatt_client_allow_gatt_interactions">Permite enviar comandos de lectura/escritura y conexión característicos de BLE</string>
     <string name="prefs_summary_gatt_client_api_package">Restringir la comunicación de la API BLE Intent a este paquete</string>
+    <string name="activity_db_management_export_to_zip">Exportar a un .zip</string>
+    <string name="activity_db_management_import_from_zip">Importar desde un zip</string>
+    <string name="backup_restore_exporting">Exportando a un zip…</string>
+    <string name="backup_restore_exporting_preferences">Exportando preferencias…</string>
+    <string name="backup_restore_exporting_database">Exportar base de datos…</string>
+    <string name="backup_restore_exporting_files">Exportar archivos…</string>
+    <string name="backup_restore_exporting_files_i_of_n">Exportando archivos... %1d de %2d</string>
+    <string name="backup_restore_error_import">Error al importar desde el zip</string>
+    <string name="backup_restore_abort_title">Abortar</string>
+    <string name="backup_restore_abort_export_confirmation">¿Abortar la exportación? Se eliminará el archivo zip parcial.</string>
+    <string name="backup_restore_abort_import_confirmation">¿Abortar la importación? Esto puede dar lugar a una base de datos corrupta o incoherente.</string>
+    <string name="backup_restore_restart_title">Reiniciar</string>
+    <string name="backup_restore_restart_summary">%1s se reiniciará ahora.</string>
+    <string name="activity_db_management_backup_restore_label">Copia de seguridad y restauración</string>
+    <string name="activity_db_management_backup_restore_explanation">Las operaciones de importación/exportación te permiten migrar o hacer una copia de seguridad de todos los ajustes, dispositivos y datos de Gadgetbridge a y desde un archivo zip.
+\n
+\nAl importar un archivo se eliminarán todos los datos, dispositivos y preferencias existentes, sustituyéndolos completamente por la copia de seguridad.</string>
+    <string name="backup_restore_exporting_finishing">Terminando la exportación…</string>
+    <string name="backup_restore_importing_validating">Validando el archivo…</string>
+    <string name="backup_restore_importing">Importando desde un zip…</string>
+    <string name="backup_restore_do_not_exit">%s por favor, mantén esta pantalla abierta hasta que finalice la operación.</string>
+    <string name="backup_restore_importing_loading">Cargando el archivo…</string>
+    <string name="backup_restore_importing_files_i_of_n">Importando archivos... %1d de %2d</string>
+    <string name="backup_restore_export_complete">Exportación finalizada</string>
+    <string name="backup_restore_importing_database">Importando base de datos…</string>
+    <string name="backup_restore_importing_preferences">Importando ajustes…</string>
+    <string name="backup_restore_warning_files">%1d archivos no pudieron ser restaurados:
+\n%2s</string>
+    <string name="backup_restore_import_complete">Importación finalizada</string>
+    <string name="backup_restore_error_export">Falló la exportación a un zip</string>
 </resources>
