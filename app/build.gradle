@@ -2,6 +2,7 @@ import java.nio.file.Files
 
 apply plugin: "com.android.application"
 apply plugin: 'com.google.protobuf'
+apply plugin: 'name.valery1707.kaitai'
 
 tasks.withType(Test) {
     systemProperty "MiFirmwareDir", System.getProperty("MiFirmwareDir", null)
@@ -261,6 +262,8 @@ dependencies {
 
     // Needed for Armenian transliteration
     implementation 'org.ahocorasick:ahocorasick:0.6.3'
+
+    implementation 'io.kaitai:kaitai-struct-runtime:0.10'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")
@@ -298,4 +301,8 @@ protobuf {
             }
         }
     }
+}
+
+kaitai {
+    version 'hgjghjhgj'
 }
