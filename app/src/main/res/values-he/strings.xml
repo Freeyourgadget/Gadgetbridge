@@ -327,7 +327,7 @@
     <string name="dbmanagementactivity_exported_to">ייוצא אל: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">שגיאה בייצוא מסד הנתונים: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">לייבא נתונים?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">באמת לשכתב על הנתונים הנוכחיים? כל נתוני הפעילות הנוכחיים (אם יש כאלה) וההעדפות שלך יידרסו.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">באמת לשכתב על הנתונים הנוכחיים? כל נתוני הפעילות הנוכחיים (אם יש כאלה), ההתקנים וההעדפות שלך יידרסו.</string>
     <string name="dbmanagementactivity_import_successful">הייבוא הצליח.</string>
     <string name="dbmanagementactivity_error_importing_db">שגיאה בייבוא מסד הנתונים: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">למחוק את נתוני הפעילות?</string>
