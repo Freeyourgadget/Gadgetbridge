@@ -126,9 +126,12 @@ public class App {
                     this.params.unknown1 = subTlv.getByte(0x03);
                     this.params.unknown2 = subTlv.getInteger(0x04);
                     this.params.osVersion = subTlv.getString(0x05);
-                    this.params.screenShape = subTlv.getString(0x06);
-                    this.params.width = subTlv.getShort(0x07);
-                    this.params.height = subTlv.getShort(0x08);
+                    if (subTlv.contains(0x06))
+                        this.params.screenShape = subTlv.getString(0x06);
+                    if (subTlv.contains(0x07))
+                        this.params.width = subTlv.getShort(0x07);
+                    if (subTlv.contains(0x08))
+                        this.params.height = subTlv.getShort(0x08);
                     if (subTlv.contains(0x09))
                         this.params.unknown3 = subTlv.getInteger(0x09);
                     if(subTlv.contains(0x0a))
