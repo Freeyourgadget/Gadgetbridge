@@ -170,7 +170,7 @@
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Eski etkinlik veri tabanının silinmesi başarısız oldu.</string>
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Eski etkinlik verileri silindi.</string>
     <string name="dbmanagementactivity_overwrite">Üzerine Yaz</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Geçerli verilerin gerçekten üzerine yazılsın mı? Tüm etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Geçerli verilerin gerçekten üzerine yazılsın mı? Tüm etkinlik verilerinizin (varsa), aygıtlarınızın ve tercihlerinizin üzerine yazılacak.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Veri tabanının tamamı gerçekten silinsin mi\? Tüm etkinlik verileriniz ve aygıtlarınızla ilgili bilgileriniz kaybolacak.</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Dışa aktarma yoluna erişilemiyor. Lütfen geliştiricilerle iletişime geçin.</string>
     <string name="debugactivity_really_factoryreset">Fabrika ayarlarına sıfırlama yapılması bağlı aygıttaki tüm verileri (destekleniyorsa) silecektir. Xiaomi/Huami aygıtları ayrıca Bluetooth MAC adresini değiştirir, bu nedenle Gadgetbridge tarafından yeni bir aygıt olarak görülürler.</string>
@@ -3416,4 +3416,34 @@
     <string name="prefs_summary_gatt_client_allow_gatt_interactions">BLE özellik okuma/yazma ve bağlanma komutlarının gönderilmesine izin ver</string>
     <string name="prefs_summary_gatt_client_api_package">BLE Amaç API iletişimini bu paketle kısıtla</string>
     <string name="prefs_summary_gatt_client_notification_intents">Amaçlar aracılığıyla BLE özellik değişikliklerini al</string>
+    <string name="backup_restore_exporting">Zip olarak dışa aktarılıyor…</string>
+    <string name="backup_restore_exporting_preferences">Tercihler dışa aktarılıyor…</string>
+    <string name="backup_restore_exporting_database">Veri tabanı dışa aktarılıyor…</string>
+    <string name="backup_restore_exporting_files">Dosyalar dışa aktarılıyor…</string>
+    <string name="backup_restore_exporting_files_i_of_n">Dosyalar dışa aktarılıyor… %1d / %2d</string>
+    <string name="backup_restore_exporting_finishing">Dışa aktarma tamamlanıyor…</string>
+    <string name="backup_restore_importing">Zip dosyasından içe aktarılıyor…</string>
+    <string name="backup_restore_do_not_exit">%s Lütfen işlem bitene kadar bu ekranı açık tutun.</string>
+    <string name="backup_restore_importing_loading">Dosya yükleniyor…</string>
+    <string name="backup_restore_importing_validating">Dosya doğrulanıyor…</string>
+    <string name="backup_restore_warning_files">%1d dosya geri yüklenemedi:
+\n%2s</string>
+    <string name="backup_restore_restart_title">Yeniden başlat</string>
+    <string name="activity_db_management_backup_restore_label">Yedekle ve Geri Yükle</string>
+    <string name="activity_db_management_export_to_zip">Zip olarak dışa aktar</string>
+    <string name="activity_db_management_import_from_zip">Zip dosyasından içe aktar</string>
+    <string name="activity_db_management_backup_restore_explanation">İçe/dışa aktarma işlemleri, tüm Gadgetbridge ayarlarını, aygıtlarını ve verilerini bir zip dosyasına taşımanıza veya bu dosyadan yedeklemenize olanak tanır.
+\n
+\nBir dosyayı içe aktarmak, var olan tüm verileri, aygıtları ve tercihleri kaldıracak ve bunları tamamen yedekle değiştirecektir.</string>
+    <string name="backup_restore_importing_files_i_of_n">Dosyalar içe aktarılıyor… %1d / %2d</string>
+    <string name="backup_restore_importing_database">Veri tabanı içe aktarılıyor…</string>
+    <string name="backup_restore_importing_preferences">Tercihler içe aktarılıyor…</string>
+    <string name="backup_restore_export_complete">Dışa aktarma tamamlandı</string>
+    <string name="backup_restore_import_complete">İçe aktarma tamamlandı</string>
+    <string name="backup_restore_abort_import_confirmation">İçe aktarma iptal edilsin mi? Bu, bozuk veya tutarsız bir veri tabanına yol açabilir.</string>
+    <string name="backup_restore_error_export">Zip olarak dışa aktarılamadı</string>
+    <string name="backup_restore_error_import">Zip dosyasından içe aktarılamadı</string>
+    <string name="backup_restore_abort_title">İptal et</string>
+    <string name="backup_restore_abort_export_confirmation">Dışa aktarma iptal edilsin mi? Kısmi zip dosyası silinecek.</string>
+    <string name="backup_restore_restart_summary">%1s şimdi yeniden başlatılacak.</string>
 </resources>
