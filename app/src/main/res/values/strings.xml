@@ -1808,6 +1808,7 @@
     <string name="devicetype_honor_band7">Honor Band 7</string>
     <string name="devicetype_honor_magicwatch2">Honor MagicWatch 2</string>
     <string name="devicetype_honor_watchgs3">Honor Watch GS 3</string>
+    <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
     <string name="devicetype_huawei_band_aw70">Huawei Band (AW70)</string>
     <string name="devicetype_huawei_band6">Huawei Band 6</string>
     <string name="devicetype_huawei_band7">Huawei Band 7</string>
