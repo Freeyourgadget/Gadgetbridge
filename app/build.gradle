@@ -275,6 +275,7 @@ gradle.beforeProject {
 sourceSets {
     main {
         java.srcDirs += "${protobuf.generatedFilesBaseDir}"
+        java.srcDirs += "${kaitai.output}"
         java.srcDirs += "build/generated/source/buildConfig"
     }
 }
@@ -304,5 +305,6 @@ protobuf {
 }
 
 kaitai {
-    version 'hgjghjhgj'
+    url = new URL('https://github.com/kaitai-io/kaitai_struct_compiler/releases/download/0.10/kaitai-struct-compiler-0.10.zip')
+    output = file('build/generated/source/kaitai')
 }
