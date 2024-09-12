@@ -413,7 +413,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Fout bij het exporteren DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Fout bij het exporteren voorkeur: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Data importeren?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige gegevens wilt overschrijven? Al uw huidige activiteitsgegevens (indien aanwezig) zullen verloren gaan.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige gegevens wilt overschrijven? Al uw huidige activiteitsgegevens (indien aanwezig), apparaten en instellingen zullen verloren gaan.</string>
     <string name="dbmanagementactivity_import_successful">Geïmporteerd.</string>
     <string name="dbmanagementactivity_error_importing_db">Fout bij het importeren DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fout bij het importeren voorkeur: %1$s</string>
@@ -3403,4 +3403,34 @@
     <string name="activity_prefs_date_birth">Geboortedatum</string>
     <string name="workoutSets">Combinaties</string>
     <string name="workout_set_i">Combinatie %1d</string>
+    <string name="activity_db_management_import_from_zip">Importeer zip-bestand</string>
+    <string name="backup_restore_exporting">Exporteren naar zip-bestand…</string>
+    <string name="backup_restore_exporting_preferences">Exporteren van instellingen…</string>
+    <string name="backup_restore_exporting_database">Exporteren van database…</string>
+    <string name="backup_restore_exporting_files">Exporteren van bestanden…</string>
+    <string name="backup_restore_exporting_files_i_of_n">Exporteren van bestanden… %1d van %2d</string>
+    <string name="backup_restore_exporting_finishing">Export afronden…</string>
+    <string name="backup_restore_importing">Importeren van zip-bestand…</string>
+    <string name="backup_restore_do_not_exit">%s Houd alstublieft dit scherm open totdat de bewerking is voltooid.</string>
+    <string name="backup_restore_importing_loading">Bestand laden…</string>
+    <string name="backup_restore_importing_validating">Bestand verifiëren…</string>
+    <string name="backup_restore_importing_files_i_of_n">Importeren van bestanden… %1d van %2d</string>
+    <string name="backup_restore_importing_database">Importeren van database…</string>
+    <string name="backup_restore_importing_preferences">Importeren van instellingen…</string>
+    <string name="backup_restore_warning_files">%1d bestanden konden niet hersteld worden:
+\n%2s</string>
+    <string name="backup_restore_export_complete">Export afgerond</string>
+    <string name="backup_restore_import_complete">Import afgerond</string>
+    <string name="backup_restore_error_export">Export naar zip-bestand mislukt</string>
+    <string name="backup_restore_error_import">Import van zip-bestand mislukt</string>
+    <string name="backup_restore_abort_title">Afbreken</string>
+    <string name="backup_restore_abort_export_confirmation">De export afbreken? Het gedeeltelijke zip-bestand zal worden verwijderd.</string>
+    <string name="backup_restore_abort_import_confirmation">De import afbreken? Dit kan leiden tot een beschadigde of inconsistente database.</string>
+    <string name="backup_restore_restart_summary">%1s zal nu herstarten.</string>
+    <string name="activity_db_management_backup_restore_label">Back-up en herstel</string>
+    <string name="activity_db_management_export_to_zip">Exporteer zip-bestand</string>
+    <string name="activity_db_management_backup_restore_explanation">De export- en import-functies maken het mogelijk om alle Gadgetbridge-instellingen, apparaten en data te back-uppen of te migreren via een zip-bestand.
+\n
+\nHet importeren van een zip-bestand zal alle bestaande data, apparaten en instellingen verwijderen, en volledig vervangen met de back-up.</string>
+    <string name="backup_restore_restart_title">Herstart</string>
 </resources>
