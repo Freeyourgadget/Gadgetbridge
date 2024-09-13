@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.asteroidos;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
@@ -67,7 +68,7 @@ public class AsteroidOSWeather {
     /**
      * The days of the weather
      */
-    public Day[] days = new Day[5];
+    public ArrayList<Day> days = new ArrayList<>();
     /**
      * The city name of the weather
      */
@@ -80,9 +81,9 @@ public class AsteroidOSWeather {
      */
     public AsteroidOSWeather(WeatherSpec spec) {
         cityName = spec.location;
-        days[0] = new Day(spec);
-        for (int i = 1; i < 5 && i < spec.forecasts.size(); i++) {
-            days[i] = new Day(spec.forecasts.get(i));
+        days.add(new Day(spec));
+        for (int i = 1; i < spec.forecasts.size(); i++) {
+            days.add(new Day(spec.forecasts.get(i - 1)));
         }
     }
 
