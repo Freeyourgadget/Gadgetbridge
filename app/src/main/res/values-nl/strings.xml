@@ -3433,4 +3433,5 @@
 \n
 \nHet importeren van een zip-bestand zal alle bestaande data, apparaten en instellingen verwijderen, en volledig vervangen met de back-up.</string>
     <string name="backup_restore_restart_title">Herstart</string>
+    <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
 </resources>
