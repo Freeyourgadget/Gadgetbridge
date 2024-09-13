@@ -3446,4 +3446,5 @@
     <string name="backup_restore_abort_title">İptal et</string>
     <string name="backup_restore_abort_export_confirmation">Dışa aktarma iptal edilsin mi? Kısmi zip dosyası silinecek.</string>
     <string name="backup_restore_restart_summary">%1s şimdi yeniden başlatılacak.</string>
+    <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
 </resources>
