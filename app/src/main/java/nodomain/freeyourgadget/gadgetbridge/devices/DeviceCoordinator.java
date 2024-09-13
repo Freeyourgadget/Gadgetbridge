@@ -218,11 +218,11 @@ public interface DeviceCoordinator {
     boolean supportsStressMeasurement();
 
     boolean supportsBodyEnergy();
-
     boolean supportsHrvMeasurement();
-
-    boolean supportsVo2Max();
-
+    boolean supportsVO2Max();
+    boolean supportsVO2MaxCycling();
+    boolean supportsVO2MaxGeneral();
+    boolean supportsVO2MaxRunning();
     boolean supportsSleepMeasurement();
     boolean supportsStepCounter();
     boolean supportsSpeedzones();

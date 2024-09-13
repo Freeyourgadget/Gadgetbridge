@@ -47,6 +47,7 @@ import com.github.mikephil.charting.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -465,7 +466,7 @@ public class LiveActivityFragment extends AbstractActivityChartFragment<ChartsDa
         x.setDrawGridLines(false);
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
-        x.setValueFormatter(new SampleXLabelFormatter(tsTranslation));
+        x.setValueFormatter(new SampleXLabelFormatter(tsTranslation, "HH:mm"));
         x.setDrawLimitLinesBehindData(true);
 
         YAxis y = chart.getAxisLeft();

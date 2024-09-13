@@ -1623,6 +1623,9 @@
     <string name="hrv_status_unit">%1$d ms</string>
     <string name="hrv_status_baseline">%1$d-%2$d ms</string>
     <string name="hrv_status_baseline_label">Baseline</string>
+    <string name="vo2_max_running">VO2Max Running</string>
+    <string name="vo2_max_cycling">VO2Max Cycling</string>
+    <string name="vo2_max_general">VO2Max General</string>
     <string name="bpm_value_unit">%1$d bpm</string>
     <string name="steps_distance_unit">%1$,.2f km</string>
     <string name="body_energy_gained">Gained</string>
@@ -1990,6 +1993,9 @@
     <string name="warning">Warning!</string>
     <string name="note">Note</string>
     <string name="no_data">No data</string>
+    <string name="vo2max_general_gauge_label">VO2Max</string>
+    <string name="vo2max_running_gauge_label">Running VO2Max</string>
+    <string name="vo2max_cycling_gauge_label">Cycling VO2Max</string>
     <!-- LED Color -->
     <string name="preferences_led_color">LED Color</string>
     <!-- FM transmitters -->
@@ -2530,6 +2536,8 @@
     <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_hrv_status">HRV Status</string>
     <string name="body_energy">Body Energy</string>
+    <string name="vo2max">VO2 Max</string>
+    <string name="thirty_days_timeline">30 Days Timeline</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
     <string name="pref_header_sony_sound_control">Sound Control</string>
     <string name="pref_header_sony_device_info">Device Information</string>

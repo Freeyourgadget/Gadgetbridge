@@ -476,7 +476,22 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsVo2Max() {
+    public boolean supportsVO2Max() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsVO2MaxCycling() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsVO2MaxRunning() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsVO2MaxGeneral() {
         return false;
     }
 

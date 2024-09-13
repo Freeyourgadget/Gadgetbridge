@@ -484,7 +484,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
             final PieData pieData = new PieData(pieDataSet);
 
             final LineData lineData = new LineData(lineDataSets);
-            final ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+            final ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation, "HH:mm");
             final DefaultChartsData<LineData> chartsData = new DefaultChartsData<>(lineData, xValueFormatter);
             return new StressChartsData(pieData, chartsData, Math.round((float) averageSum / averageNumSamples), stressZoneTimes);
         }

@@ -130,6 +130,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsBodyEnergy()) {
             tabList.remove("bodyenergy");
         }
+        if (!coordinator.supportsVO2Max()) {
+            tabList.remove("vo2max");
+        }
         return tabList;
     }
 
@@ -164,6 +167,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new HRVStatusFragment();
                 case "bodyenergy":
                     return new BodyEnergyFragment();
+                case "vo2max":
+                    return new VO2MaxFragment();
                 case "stress":
                     return new StressChartFragment();
                 case "pai":
@@ -207,6 +212,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.pref_header_hrv_status);
                 case "bodyenergy":
                     return getString(R.string.body_energy);
+                case "vo2max":
+                    return getString(R.string.vo2max);
                 case "stress":
                     return getString(R.string.menuitem_stress);
                 case "pai":

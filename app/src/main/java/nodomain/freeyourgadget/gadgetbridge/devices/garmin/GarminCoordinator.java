@@ -218,7 +218,17 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsVo2Max() {
+    public boolean supportsVO2Max() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsVO2MaxCycling() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsVO2MaxRunning() {
         return true;
     }
 

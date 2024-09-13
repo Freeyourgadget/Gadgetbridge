@@ -28,12 +28,13 @@ import java.util.GregorianCalendar;
 class SampleXLabelFormatter extends ValueFormatter {
     private final TimestampTranslation tsTranslation;
     @SuppressLint("SimpleDateFormat")
-    private final SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
+    private final SimpleDateFormat annotationDateFormat;
     //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
     private final Calendar cal = GregorianCalendar.getInstance();
 
-    public SampleXLabelFormatter(final TimestampTranslation tsTranslation) {
+    public SampleXLabelFormatter(final TimestampTranslation tsTranslation, String simpleDateFormatPattern) {
         this.tsTranslation = tsTranslation;
+        this.annotationDateFormat = new SimpleDateFormat(simpleDateFormatPattern);
     }
 
     // TODO: this does not work. Cannot use precomputed labels

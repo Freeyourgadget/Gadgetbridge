@@ -1,0 +1,157 @@
+   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.VO2Max">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/vo2max_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            />
+
+        <GridLayout
+            android:id="@+id/tiles_grid_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            >
+            <RelativeLayout
+                android:id="@+id/vo2max_general_card_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                tools:ignore="UselessParent"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                >
+                <ImageView
+                    android:id="@+id/vo2max_general_gauge"
+                    android:layout_width="150dp"
+                    android:layout_height="75dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitStart" />
+
+                <TextView
+                    android:id="@+id/vo2max_general_gauge_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/vo2max_general_gauge_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vo2max_general_gauge_value"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/vo2max_general_gauge_label" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/vo2max_running_card_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                tools:ignore="UselessParent"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/vo2max_running_gauge"
+                    android:layout_width="150dp"
+                    android:layout_height="75dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitStart" />
+
+                <TextView
+                    android:id="@+id/vo2max_running_gauge_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/vo2max_running_gauge_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vo2max_running_gauge_value"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/vo2max_running_gauge_label" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/vo2max_cycling_card_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                tools:ignore="UselessParent"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/vo2max_cycling_gauge"
+                    android:layout_width="150dp"
+                    android:layout_height="75dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitStart" />
+
+                <TextView
+                    android:id="@+id/vo2max_cycling_gauge_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/vo2max_cycling_gauge_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vo2max_cycling_gauge_value"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/vo2max_cycling_gauge_label" />
+
+            </RelativeLayout>
+
+        </GridLayout>
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textSize="20sp"
+            android:text="@string/thirty_days_timeline"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250sp"
+            >
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/vo2max_chart"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

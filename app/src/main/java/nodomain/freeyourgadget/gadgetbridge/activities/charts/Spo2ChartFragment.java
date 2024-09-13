@@ -41,6 +41,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -256,7 +257,7 @@ public class Spo2ChartFragment extends AbstractChartFragment<Spo2ChartFragment.S
             lineDataSets.add(createDataSet(lineEntries));
 
             final LineData lineData = new LineData(lineDataSets);
-            final ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+            final ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation, "HH:mm");
             final DefaultChartsData<LineData> chartsData = new DefaultChartsData<>(lineData, xValueFormatter);
             return new Spo2ChartsData(chartsData, Math.round((float) averageSum / averageNumSamples));
         }

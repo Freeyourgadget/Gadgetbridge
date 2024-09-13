@@ -111,13 +111,13 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
             valueText = getString(R.string.hrv_status_unit, hrvData.weeklyAverage);
 
             if (hrvData.weeklyAverage < hrvData.baselineLowUpper) {
-                value = 0.125f * (float) normalize(hrvData.weeklyAverage, 0f, hrvData.baselineLowUpper);
+                value = 0.125f * (float) GaugeDrawer.normalize(hrvData.weeklyAverage, 0f, hrvData.baselineLowUpper);
             } else if (hrvData.weeklyAverage < hrvData.baselineBalancedLower) {
-                value = 0.125f + 0.125f * (float) normalize((float) hrvData.weeklyAverage, hrvData.baselineLowUpper, hrvData.baselineBalancedLower);
+                value = 0.125f + 0.125f * (float) GaugeDrawer.normalize((float) hrvData.weeklyAverage, hrvData.baselineLowUpper, hrvData.baselineBalancedLower);
             } else if (hrvData.weeklyAverage < hrvData.baselineBalancedUpper) {
-                value = 0.125f + 0.125f + 0.5f * (float) normalize((float) hrvData.weeklyAverage, hrvData.baselineBalancedLower, hrvData.baselineBalancedUpper);
+                value = 0.125f + 0.125f + 0.5f * (float) GaugeDrawer.normalize((float) hrvData.weeklyAverage, hrvData.baselineBalancedLower, hrvData.baselineBalancedUpper);
             } else {
-                value = 0.125f + 0.125f + 0.5f + 0.125f * (float) normalize((float) hrvData.weeklyAverage, hrvData.baselineBalancedUpper, 2 * hrvData.baselineBalancedUpper);
+                value = 0.125f + 0.125f + 0.5f + 0.125f * (float) GaugeDrawer.normalize((float) hrvData.weeklyAverage, hrvData.baselineBalancedUpper, 2 * hrvData.baselineBalancedUpper);
             }
         } else {
             value = -1;

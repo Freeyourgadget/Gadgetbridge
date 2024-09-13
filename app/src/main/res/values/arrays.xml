@@ -3041,6 +3041,7 @@
         <item>@string/weekstepschart_steps_a_week_or_month</item>
         <item>@string/pref_header_hrv_status</item>
         <item>@string/body_energy</item>
+        <item>@string/vo2max</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_pai</item>
         <item>@string/stats_title</item>
@@ -3057,6 +3058,7 @@
         <item>@string/p_steps_week</item>
         <item>@string/p_hrv_status</item>
         <item>@string/p_body_energy</item>
+        <item>@string/p_vo2max</item>
         <item>@string/p_stress</item>
         <item>@string/p_pai</item>
         <item>@string/p_speed_zones</item>
@@ -3073,6 +3075,7 @@
         <item>@string/p_sleep</item>
         <item>@string/p_hrv_status</item>
         <item>@string/p_body_energy</item>
+        <item>@string/p_vo2max</item>
         <item>@string/p_steps_week</item>
         <item>@string/p_stress</item>
         <item>@string/p_pai</item>
@@ -4174,6 +4177,7 @@
         <item>@string/active_time</item>
         <item>@string/menuitem_sleep</item>
         <item>@string/body_energy</item>
+        <item>@string/vo2max</item>
         <item>@string/menuitem_stress_simple</item>
         <item>@string/menuitem_stress_segmented</item>
         <item>@string/menuitem_stress_breakdown</item>
@@ -4188,6 +4192,7 @@
         <item>activetime</item>
         <item>sleep</item>
         <item>bodyenergy</item>
+        <item>vo2max</item>
         <item>stress_simple</item>
         <item>stress_segmented</item>
         <item>stress_breakdown</item>

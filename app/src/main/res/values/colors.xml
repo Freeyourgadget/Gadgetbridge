@@ -51,6 +51,14 @@
     <color name="hrv_status_low" type="color">#fc5203</color>
     <color name="hrv_status_poor" type="color">#be03fc</color>
     <color name="hrv_status_char_line_color" type="color">#d12a2a</color>
+    <color name="vo2max_running_char_line_color" type="color">#46acea</color>
+    <color name="vo2max_cycling_char_line_color" type="color">#59b22c</color>
+    <color name="vo2max_general_char_line_color" type="color">#824be3</color>
+    <color name="vo2max_value_poor_color" type="color">#d93832</color>
+    <color name="vo2max_value_fair_color" type="color">#ffa703</color>
+    <color name="vo2max_value_good_color" type="color">#04c79c</color>
+    <color name="vo2max_value_excellent_color" type="color">#02a8e6</color>
+    <color name="vo2max_value_superior_color" type="color">#824be3</color>
     <color name="body_energy_level_color" type="color">#5ac234</color>
     <color name="body_energy_lost_color" type="color">#ff6c43</color>
     <color name="steps_color" type="color">#00c9bf</color>

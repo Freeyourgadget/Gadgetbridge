@@ -30,6 +30,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -186,7 +187,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
         if (samples.isEmpty()) {
             lineData = new LineData();
-            ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+            ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation, "HH:mm");
             return new DefaultChartsData<>(lineData, xValueFormatter);
         }
 
@@ -198,7 +199,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         for (int i = 0; i < 6; i++) {
             entries.add(new ArrayList<>());
         }
-        
+
         boolean hr = supportsHeartrate(gbDevice);
         List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
 
@@ -270,7 +271,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
         lineData = new LineData(lineDataSets);
 
-        ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+        ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation, "HH:mm");
         return new DefaultChartsData<>(lineData, xValueFormatter);
     }
 

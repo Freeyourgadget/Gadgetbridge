@@ -153,7 +153,7 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
             lineEntries.add(new Entry(tsTranslation.shorten(sample.getTimestamp()), sum));
         }
 
-        stepsChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation));
+        stepsChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation, "HH:mm"));
 
         if (sum < STEPS_GOAL) {
             stepsChart.getAxisLeft().setAxisMaximum(STEPS_GOAL);
