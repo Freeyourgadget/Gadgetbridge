@@ -122,7 +122,8 @@ public class Watchface {
                     this.params.height = this.tlv.getShort(0x03);
                 this.params.supportFileType = this.tlv.getByte(0x04);
                 this.params.sort = this.tlv.getByte(0x05);
-                this.params.otherWatchfaceVersions = this.tlv.getString(0x06);
+                if (this.tlv.contains(0x06))
+                    this.params.otherWatchfaceVersions = this.tlv.getString(0x06);
             }
         }
     }
