@@ -1876,6 +1876,8 @@
     <string name="menuitem_body_composition">Body composition</string>
     <string name="menuitem_workout_shortcuts">Workout shortcuts</string>
     <string name="menuitem_apps_shortcuts">Apps shortcuts</string>
+    <string name="menuitem_map">Map</string>
+    <string name="menuitem_heart_rate_push">Heart Rate Push</string>
     <string name="menuitem_breathing">Breathing</string>
     <string name="menuitem_cycles">Cycle Tracking</string>
     <string name="menuitem_alarm">Alarm</string>
@@ -1941,6 +1943,7 @@
     <string name='menuitem_eject_water'>Eject Water</string>
     <string name='menuitem_headphone'>Headphone</string>
     <string name='menuitem_buzzer_intensity'>Buzzer Intensity</string>
+    <string name='menuitem_night_display'>Night Display</string>
     <string name="menuitem_unknown_app">Unknown (%s)</string>
     <string name="menuitem_unsupported">[UNSUPPORTED] %s</string>
     <string name="zepp_os_watchface_red_fantasy">Red Fantasy</string>

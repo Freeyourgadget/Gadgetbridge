@@ -68,7 +68,9 @@ public class ZeppOsMenuType {
         put("00000047", "membership_cards");
         put("00000049", "body_composition");
         put("0000004A", "readiness");
+        put("0000004B", "map");
         put("0000004C", "zepp_pay");
+        put("0000004D", "heart_rate_push");
         put("00000100", "alexa");
         put("00000101", "offline_voice");
         put("00000102", "flashlight");
@@ -135,5 +137,6 @@ public class ZeppOsMenuType {
         put("00000018", "stopwatch");
         put("00000019", "eject_water");
         put("0000001A", "headphone");
+        put("0000001B", "night_display");
     }};
 }
