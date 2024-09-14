@@ -85,8 +85,8 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(action)) {
-                device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                if (device != null) {
+                final GBDevice changedDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                if (changedDevice != null && changedDevice.equals(device)) {
                     refreshBusyState(device);
                     if (!device.isInitialized()) {
                         setInstallEnabled(false);

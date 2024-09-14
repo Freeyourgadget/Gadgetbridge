@@ -491,13 +491,13 @@ public class GBDevice implements Parcelable {
         if (obj == this) {
             return true;
         }
+        if (obj == null) {
+            return false;
+        }
         if (!(obj instanceof GBDevice)) {
             return false;
         }
-        if (((GBDevice) obj).getAddress().equals(this.mAddress)) {
-            return true;
-        }
-        return false;
+        return ((GBDevice) obj).getAddress().equals(this.mAddress);
     }
 
     @Override
