@@ -3447,4 +3447,5 @@
     <string name="backup_restore_abort_export_confirmation">Dışa aktarma iptal edilsin mi? Kısmi zip dosyası silinecek.</string>
     <string name="backup_restore_restart_summary">%1s şimdi yeniden başlatılacak.</string>
     <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
+    <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
 </resources>
