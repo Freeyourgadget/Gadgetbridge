@@ -3448,4 +3448,7 @@
     <string name="backup_restore_restart_summary">%1s şimdi yeniden başlatılacak.</string>
     <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
     <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
+    <string name="menuitem_map">Harita</string>
+    <string name="menuitem_heart_rate_push">Kalp Ritmi İtme</string>
+    <string name="menuitem_night_display">Gece Ekranı</string>
 </resources>
