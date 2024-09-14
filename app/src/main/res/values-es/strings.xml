@@ -3439,4 +3439,7 @@
     <string name="backup_restore_error_export">Falló la exportación a un zip</string>
     <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
     <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
+    <string name="menuitem_map">Mapa</string>
+    <string name="menuitem_heart_rate_push">Pulsómetro</string>
+    <string name="menuitem_night_display">Pantalla nocturna</string>
 </resources>
