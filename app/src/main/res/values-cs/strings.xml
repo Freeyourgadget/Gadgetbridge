@@ -598,7 +598,7 @@
     <string name="pref_summary_contextual_arabic">Zapnout podporu pro kontextuální arabštinu</string>
     <string name="preferences_rtl_settings">Podpora jazyků zprava doleva</string>
     <string name="share_log">Sdílet protokol</string>
-    <string name="share_log_warning">Prosím nezapomeňte, že ladící záznamy Gadgetbridge mohou obsahovat osobní informace, zahrnující například zdravotní data, identifikátory (MAC adresu), hudební preference a podobně. Tyto informace můžete vymazat před odesláním souboru do veřejného reportu.</string>
+    <string name="share_log_warning">Nezapomeňte prosím, že ladicí záznamy Gadgetbridge mohou obsahovat osobní informace, zahrnující například zdravotní data, identifikátory (například adresu MAC), hudební preference a podobně. Tyto informace můžete vymazat před odesláním souboru do veřejného hlášení o chybě.</string>
     <string name="warning">Upozornění!</string>
     <string name="no_data">Žádná data</string>
     <string name="preferences_led_color">Barva LED</string>
@@ -611,7 +611,7 @@
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="activity_type_exercise">Cvičení</string>
     <string name="title_activity_notification_filter">Filtr oznámení</string>
-    <string name="edittext_notification_filter_words_hint">Vložte požadovaná slova, jedno na řádek</string>
+    <string name="edittext_notification_filter_words_hint">Zadejte požadovaná slova, jedno na řádek</string>
     <string name="toast_notification_filter_saved_successfully">Filtr oznámení uložen</string>
     <string name="filter_mode_none">Nefiltrovat</string>
     <string name="filter_mode_whitelist">Zobrazit při výskytu slov</string>
@@ -2216,7 +2216,7 @@
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
     <string name="menuitem_todo">Úkoly</string>
     <string name="zepp_os_watchface_minimalist">Minimalista</string>
-    <string name="zepp_os_watchface_simplicity_data">Jednoduchá Data</string>
+    <string name="zepp_os_watchface_simplicity_data">Simplicity Data</string>
     <string name="sports_activity_confirm_delete_description">Opravdu chcete odstranit %d aktivit?</string>
     <string name="watchface_widget_type_uv_index">UV Index</string>
     <string name="pref_switch_controls_anc_ambient_off">Potlačení Hluku ←→ Zvuky Okolí ←→ Vypnuto</string>
@@ -2249,7 +2249,7 @@
     <string name="loyalty_cards_syncing">Synchronizace %d věrnostních karet do hodinek</string>
     <string name="prefs_always_on_display_follow_watchface">Styl podle ciferníku</string>
     <string name="menuitem_screen_always_lit">Obrazovka Vždy Rozsvícena</string>
-    <string name="menuitem_eject_water">Odstranit Vodu</string>
+    <string name="menuitem_eject_water">Odstranit vodu</string>
     <string name="stress_moderate">Střední</string>
     <string name="loyalty_cards_sync_summary">Klepněte pro synchronizaci karet do hodinek</string>
     <string name="pref_title_lower_button_short_press_action">Akce stisku Dolního Tlačítka</string>
@@ -2262,7 +2262,7 @@
     <string name="croatian">Chorvatština</string>
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (pouze s Galaxy Wearable aplikací)</string>
     <string name="supercars_lights_blinking_label">Blikání</string>
-    <string name="zepp_os_watchface_superposition">superpozice</string>
+    <string name="zepp_os_watchface_superposition">superposition</string>
     <string name="intent_api_allow_debug_commands_title">Povolit příkazy ladění</string>
     <string name="intent_api_allow_debug_commands_summary">Povolit vyvolání příkazů menu Ladění prostřednictvím Intent API</string>
     <string name="ftp_server_stop_summary">Zastavit FTP server na hodinkách</string>
@@ -2357,7 +2357,7 @@
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
     <string name="menuitem_zepp_coach">Zepp Coach</string>
-    <string name="zepp_os_watchface_business_style">Business Styl</string>
+    <string name="zepp_os_watchface_business_style">Business Style</string>
     <string name="device_experimental">EXPERIMENTÁLNÍ</string>
     <string name="zepp_os_watchface_emerald_moonlight">Emerald Moonlight</string>
     <string name="menuitem_offline_voice">Hlasové ovládání offline</string>
@@ -2410,7 +2410,7 @@
     <string name="femometer_measurement_mode_precise">Precizní režim (3 min)</string>
     <string name="femometer_measurement_mode_title">Režim měření</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
-    <string name="zepp_os_watchface_free_combination">Volná kombinace</string>
+    <string name="zepp_os_watchface_free_combination">Free combination</string>
     <string name="pref_device_action_dnd_priority">Nerušit - pouze prioritní</string>
     <string name="devicetype_redmi_smart_band_pro">Redmi Smart Band Pro</string>
     <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
@@ -2440,7 +2440,7 @@
     <string name="devicetype_honor_band4">Honor Band 4</string>
     <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
     <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>
-    <string name="zepp_os_watchface_pure_white">Čistě bílá</string>
+    <string name="zepp_os_watchface_pure_white">Pure white</string>
     <string name="devicetype_nothing_cmf_watch_pro">CMF Watch Pro</string>
     <string name="prefs_active_noise_cancelling_light">Lehké aktivní potlačení hluku</string>
     <string name="prefs_active_noise_cancelling_transparency">Průhledné</string>
@@ -2513,7 +2513,7 @@
     <string name="devicetype_redmi_watch_2_lite">Redmi Watch 2 Lite</string>
     <string name="menuitem_zepp_pay">Zepp Pay</string>
     <string name="menuitem_apps_shortcuts">Zkratky aplikací</string>
-    <string name="zepp_os_watchface_city_of_speed">Město rychlosti</string>
+    <string name="zepp_os_watchface_city_of_speed">City of speed</string>
     <string name="yard">stopy</string>
     <string name="sony_protocol_v1">Verze 1</string>
     <string name="sony_protocol_v2">Verze 2</string>
@@ -3434,4 +3434,8 @@
     <string name="backup_restore_importing_database">Importování databáze…</string>
     <string name="backup_restore_warning_files">Nepodařilo se obnovit %1d souborů:
 \n%2s</string>
+    <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
+    <string name="menuitem_map">Mapa</string>
+    <string name="menuitem_night_display">Noční zobrazení</string>
+    <string name="menuitem_heart_rate_push">Odeslat srdeční tep</string>
 </resources>
