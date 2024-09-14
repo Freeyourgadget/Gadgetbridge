@@ -336,7 +336,7 @@
     <string name="dbmanagementactivity_exported_to">Exportováno do: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Chyba při exportu DB: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importovat data?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální data? Všechna uložená data aktivit a nastavení budou přepsána.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální data? Všechna data aktivit (pokud existují), zařízení a nastavení budou přepsána.</string>
     <string name="dbmanagementactivity_import_successful">Importováno.</string>
     <string name="dbmanagementactivity_error_importing_db">Chyba při importu DB: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Smazat data o aktivitách?</string>
@@ -3403,4 +3403,35 @@
     <string name="devicetype_ble_gatt_client">Generický klient BLE GATT</string>
     <string name="pref_continuous_skin_temperature_measurement_description">Získávání teploty momentálně není podporováno. Toto nastavení pouze povolí průběžné měření na zařízení</string>
     <string name="prefs_title_gatt_client_notification_intents">Vysílat oznamovací IntentyGATT skrze BLE Intent API</string>
+    <string name="activity_db_management_backup_restore_label">Záloha a obnovení</string>
+    <string name="activity_db_management_export_to_zip">Exportovat zip</string>
+    <string name="backup_restore_exporting_finishing">Dokončování exportu…</string>
+    <string name="backup_restore_importing">Importování ze souboru zip…</string>
+    <string name="backup_restore_importing_files_i_of_n">Importování souborů… %1d z %2d</string>
+    <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
+    <string name="activity_db_management_import_from_zip">Importovat zip</string>
+    <string name="activity_db_management_backup_restore_explanation">Operace importu/exportu umožňují migrovat nebo zálohovat všechna nastavení Gadgetbridge, zařízení a data do a ze souboru zip.
+\n
+\nImportováním souboru odstraníte všechna existující data, zařízení a předvolby a kompletně je nahradíte zálohou.</string>
+    <string name="backup_restore_exporting">Exportování do souboru zip…</string>
+    <string name="backup_restore_exporting_preferences">Exportování předvoleb…</string>
+    <string name="backup_restore_exporting_database">Exportování databáze…</string>
+    <string name="backup_restore_exporting_files">Exportování souborů…</string>
+    <string name="backup_restore_exporting_files_i_of_n">Exportování souborů… %1d z %2d</string>
+    <string name="backup_restore_do_not_exit">%s Ponechte tuto obrazovku otevřenou až do dokončení operace.</string>
+    <string name="backup_restore_importing_loading">Načítání souboru…</string>
+    <string name="backup_restore_export_complete">Export dokončen</string>
+    <string name="backup_restore_import_complete">Import dokončen</string>
+    <string name="backup_restore_error_export">Export do zip selhal</string>
+    <string name="backup_restore_error_import">Import ze zip selhal</string>
+    <string name="backup_restore_abort_title">Přerušit</string>
+    <string name="backup_restore_abort_export_confirmation">Přerušit export? Částečný soubor zip bude odstraněn.</string>
+    <string name="backup_restore_abort_import_confirmation">Přerušit import? Může to způsobit poškozenou nebo nekonzistentní databázi.</string>
+    <string name="backup_restore_restart_summary">%1s se nyní restartuje.</string>
+    <string name="backup_restore_importing_validating">Ověřování souboru…</string>
+    <string name="backup_restore_importing_preferences">Importování předvoleb…</string>
+    <string name="backup_restore_restart_title">Restartovat</string>
+    <string name="backup_restore_importing_database">Importování databáze…</string>
+    <string name="backup_restore_warning_files">Nepodařilo se obnovit %1d souborů:
+\n%2s</string>
 </resources>
