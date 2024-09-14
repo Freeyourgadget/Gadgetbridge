@@ -141,6 +141,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitpop.AmazfitPopC
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitpoppro.AmazfitPopProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex.AmazfitTRexCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex2.AmazfitTRex2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex3.AmazfitTRex3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexpro.AmazfitTRexProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexultra.AmazfitTRexUltraCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitvergel.AmazfitVergeLCoordinator;
@@ -333,6 +334,7 @@ public enum DeviceType {
     AMAZFITGTS4(AmazfitGTS4Coordinator.class),
     AMAZFITGTS4MINI(AmazfitGTS4MiniCoordinator.class),
     AMAZFITTREX2(AmazfitTRex2Coordinator.class),
+    AMAZFITTREX3(AmazfitTRex3Coordinator.class),
     AMAZFITGTR3PRO(AmazfitGTR3ProCoordinator.class),
     AMAZFITBIP3(AmazfitBip3Coordinator.class),
     AMAZFITBIP3PRO(AmazfitBip3ProCoordinator.class),

@@ -1677,6 +1677,7 @@
     <string name="devicetype_amazfit_bip5_unity">Amazfit Bip 5 Unity</string>
     <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
     <string name="devicetype_amazfit_trex_ultra">Amazfit T-Rex Ultra</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
