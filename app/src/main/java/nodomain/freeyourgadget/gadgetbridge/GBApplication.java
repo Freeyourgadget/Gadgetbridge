@@ -127,7 +127,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 43;
+    private static final int CURRENT_PREFS_VERSION = 44;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -1865,6 +1865,20 @@ public class GBApplication extends Application {
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Failed to migrate prefs to version 43", e);
+            }
+        }
+
+        if (oldVersion < 44) {
+            // Users upgrading to this version don't need to see the welcome screen
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                if (!activeDevices.isEmpty()) {
+                    editor.putBoolean("first_run", false);
+                }
+            } catch (final Exception e) {
+                Log.e(TAG, "Failed to migrate prefs to version 44", e);
             }
         }
 
