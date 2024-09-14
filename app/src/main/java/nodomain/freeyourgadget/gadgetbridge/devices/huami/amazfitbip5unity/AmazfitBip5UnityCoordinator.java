@@ -39,7 +39,11 @@ public class AmazfitBip5UnityCoordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(8782081, 8782088, 8782089));
+        return new HashSet<>(Arrays.asList(
+                8782081,
+                8782088,
+                8782089
+        ));
     }
 
     @Override

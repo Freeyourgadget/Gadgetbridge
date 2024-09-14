@@ -16,9 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,7 +35,11 @@ public class AmazfitGTR4Coordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(7930112, 7930113, 7864577));
+        return new HashSet<>(Arrays.asList(
+                7930112, // chinese mainland version
+                7930113,
+                7864577
+        ));
     }
 
     @Override

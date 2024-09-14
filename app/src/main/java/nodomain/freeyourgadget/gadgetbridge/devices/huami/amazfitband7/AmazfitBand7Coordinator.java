@@ -33,7 +33,11 @@ public class AmazfitBand7Coordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(252, 253, 254));
+        return new HashSet<>(Arrays.asList(
+                252,
+                253,
+                254
+        ));
     }
 
     @Override

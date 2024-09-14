@@ -33,7 +33,10 @@ public class AmazfitGTRMiniCoordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(250, 251));
+        return new HashSet<>(Arrays.asList(
+                250,
+                251
+        ));
     }
 
     @Override

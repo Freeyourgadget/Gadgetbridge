@@ -38,7 +38,9 @@ public class AmazfitCheetahSquareCoordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Collections.singletonList(8257793));
+        return new HashSet<>(Collections.singletonList(
+                8257793
+        ));
     }
 
     @Override

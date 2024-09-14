@@ -33,7 +33,10 @@ public class AmazfitTRexUltraCoordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(6553856, 6553857));
+        return new HashSet<>(Arrays.asList(
+                6553856, // chinese mainland version
+                6553857
+        ));
     }
 
     @Override

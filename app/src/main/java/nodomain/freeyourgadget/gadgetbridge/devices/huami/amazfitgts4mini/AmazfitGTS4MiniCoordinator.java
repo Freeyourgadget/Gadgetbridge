@@ -33,7 +33,10 @@ public class AmazfitGTS4MiniCoordinator extends ZeppOsCoordinator {
 
     @Override
     public Set<Integer> getDeviceSources() {
-        return new HashSet<>(Arrays.asList(246, 247));
+        return new HashSet<>(Arrays.asList(
+                246, // chinese mainland version
+                247
+        ));
     }
 
     @Override
