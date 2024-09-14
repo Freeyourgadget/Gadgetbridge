@@ -3435,4 +3435,7 @@
     <string name="backup_restore_abort_import_confirmation">放弃导入？这可能会导致损坏或不完整的数据库。</string>
     <string name="devicetype_honor_watchgspro">荣耀 Watch GS Pro</string>
     <string name="devicetype_amazfit_trex_3">华米 T-Rex 3</string>
+    <string name="menuitem_heart_rate_push">心率推送</string>
+    <string name="menuitem_map">地图</string>
+    <string name="menuitem_night_display">夜间显示</string>
 </resources>
