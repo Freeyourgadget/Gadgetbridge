@@ -27,6 +27,9 @@ proguard/
 
 .idea/*
 !.idea/icon.svg
+!.idea/dictionaries
+.idea/dictionaries/*
+!.idea/dictionaries/t.xml
 *.iml
 
 MPChartLib

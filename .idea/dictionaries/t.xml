@@ -17,10 +17,12 @@
       <w>autocrlf</w>
       <w>avamander</w>
       <w>baerts</w>
+      <w>baos</w>
       <w>barraca</w>
       <w>bedscastle</w>
       <w>bloß</w>
       <w>boun</w>
+      <w>breathwork</w>
       <w>böhler</w>
       <w>carsten</w>
       <w>chamorro</w>
@@ -31,6 +33,7 @@
       <w>dantas</w>
       <w>dikay</w>
       <w>diorite</w>
+      <w>dodgeball</w>
       <w>dougal</w>
       <w>dreamwalker</w>
       <w>drobnič</w>
@@ -43,8 +46,10 @@
       <w>françois</w>
       <w>freeyourgadget</w>
       <w>gadgetbridge</w>
+      <w>gateball</w>
       <w>gbapplication</w>
       <w>getpebble</w>
+      <w>gfdi</w>
       <w>gideão</w>
       <w>girolamo</w>
       <w>gobbetti</w>
@@ -52,11 +57,14 @@
       <w>greenrobot</w>
       <w>greffier</w>
       <w>guedes</w>
+      <w>handcycling</w>
       <w>hasants</w>
       <w>hauck</w>
+      <w>hiit</w>
       <w>hplus</w>
       <w>huami</w>
       <w>ieee</w>
+      <w>infini</w>
       <w>inkscape</w>
       <w>irul</w>
       <w>itag</w>
@@ -68,15 +76,19 @@
       <w>josé</w>
       <w>joão</w>
       <w>julien</w>
+      <w>jumpmaster</w>
       <w>junginger</w>
       <w>jyou</w>
+      <w>kabaddi</w>
       <w>kasha</w>
       <w>kaushan</w>
       <w>keeshii</w>
+      <w>kitesurfing</w>
       <w>kompact</w>
       <w>kranz</w>
       <w>kromke</w>
       <w>kronoz</w>
+      <w>lacross</w>
       <w>ladbsoft</w>
       <w>ladera</w>
       <w>lenovo</w>
@@ -94,14 +106,18 @@
       <w>mijia</w>
       <w>morpheuz</w>
       <w>mosenkovs</w>
+      <w>multisport</w>
       <w>nephiel</w>
       <w>nodomain</w>
       <w>nordhøy</w>
       <w>normano</w>
       <w>novotny</w>
       <w>oraclejdk</w>
+      <w>paddleboarding</w>
+      <w>padel</w>
       <w>pebblekit</w>
       <w>pfeiffer</w>
+      <w>pickleball</w>
       <w>pinetime</w>
       <w>pivotto</w>
       <w>postsorino</w>
@@ -114,6 +130,7 @@
       <w>rssi</w>
       <w>sami</w>
       <w>schrecker</w>
+      <w>sepak</w>
       <w>sergey</w>
       <w>sevostyanova</w>
       <w>shahrabani</w>
@@ -125,9 +142,12 @@
       <w>spotify</w>
       <w>stacktraces</w>
       <w>stefanek</w>
+      <w>stringset</w>
+      <w>subsport</w>
       <w>szymon</w>
       <w>taavi</w>
       <w>tablename</w>
+      <w>takraw</w>
       <w>teclast</w>
       <w>tiparega</w>
       <w>toleda</w>
@@ -146,6 +166,8 @@
       <w>vebryn</w>
       <w>veneziano</w>
       <w>vibratissimo</w>
+      <w>wakeboarding</w>
+      <w>wakesurfing</w>
       <w>walkjivefly</w>
       <w>watchapp</w>
       <w>watchapps</w>
@@ -158,6 +180,7 @@
       <w>xwatch</w>
       <w>yaron</w>
       <w>zalewszczak</w>
+      <w>zepp</w>
       <w>zetime</w>
       <w>zhong</w>
     </words>

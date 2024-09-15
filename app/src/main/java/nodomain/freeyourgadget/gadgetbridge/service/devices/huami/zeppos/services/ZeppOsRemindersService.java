@@ -24,7 +24,13 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
@@ -59,6 +65,8 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
     private static final int FLAG_REPEAT_YEAR = 0x2000;
 
     private static final String PREF_CAPABILITY = "huami_2021_capability_reminders";
+
+    private final Map<ZeppOsReminder, Integer> deviceReminders = new HashMap<>();
 
     public ZeppOsRemindersService(final ZeppOsSupport support) {
         super(support, false);
@@ -99,6 +107,9 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
             case CMD_RESPONSE:
                 LOG.info("Got reminders from band");
                 decodeAndUpdateReminders(payload);
+                final TransactionBuilder builder = getSupport().createTransactionBuilder("send reminders");
+                sendReminders(builder);
+                builder.queue(getSupport().getQueue());
                 return;
             default:
                 LOG.warn("Unexpected reminders payload byte {}", String.format("0x%02x", payload[0]));
@@ -108,8 +119,7 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
     @Override
     public void initialize(final TransactionBuilder builder) {
         requestCapabilities(builder);
-        //requestReminders(builder);
-        sendReminders(builder);
+        requestReminders(builder);
     }
 
     private void requestCapabilities(final TransactionBuilder builder) {
@@ -134,22 +144,72 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
             return;
         }
 
-        // Send the reminders
-        for (int i = 0; i < reminders.size(); i++) {
-            LOG.debug("Sending reminder at position {}", i);
+        final Date currentDate = new Date();
+        final Set<ZeppOsReminder> allReminders = new HashSet<>();
+        final LinkedList<ZeppOsReminder> toDelete = new LinkedList<>();
+        final LinkedList<ZeppOsReminder> toSend = new LinkedList<>();
 
-            sendReminderToDevice(builder, i, reminders.get(i));
+        for (final Reminder reminder : reminders) {
+            if (currentDate.after(reminder.getDate())) {
+                // Disregard reminders from the past, device ignores them anyway (does not even send
+                // them back when requesting).
+                continue;
+            }
+
+            final ZeppOsReminder newReminder = new ZeppOsReminder(reminder);
+            allReminders.add(newReminder);
+
+            if (deviceReminders.containsKey(newReminder)) {
+                // Reminder exists and is up-to-date
+                continue;
+            }
+            toSend.push(newReminder);
         }
 
-        // Delete the remaining slots, skipping the sent reminders
-        for (int i = reminders.size(); i < reminderSlotCount; i++) {
-            LOG.debug("Deleting reminder at position {}", i);
+        for (final ZeppOsReminder reminder : deviceReminders.keySet()) {
+            if (!allReminders.contains(reminder)) {
+                toDelete.add(reminder);
+            }
+        }
 
-            sendReminderToDevice(builder, i, null);
+        for (final ZeppOsReminder reminder : toSend) {
+            if (!toDelete.isEmpty()) {
+                // If we have reminders to delete, replace them with the ones we want to send
+                final ZeppOsReminder reminderToReplace = toDelete.pop();
+                final Integer position = deviceReminders.get(reminderToReplace);
+                if (position == null) {
+                    LOG.error("Failed to find position for {} - this should never happen", reminderToReplace);
+                    // We somehow got out of sync - request all reminders again
+                    requestReminders(builder);
+                    return;
+                }
+                LOG.debug("Updating reminder at position {}", position);
+                sendReminderToDevice(builder, position, true, reminder);
+                deviceReminders.remove(reminderToReplace);
+                deviceReminders.put(reminder, position);
+            } else {
+                // Find the next available position
+                for (int position = 0; position < reminderSlotCount; position++) {
+                    if (!deviceReminders.containsValue(position)) {
+                        LOG.debug("Creating reminder at position {}", position);
+                        sendReminderToDevice(builder, position, false, reminder);
+                        deviceReminders.put(reminder, position);
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (final ZeppOsReminder reminder : toDelete) {
+            final Integer position = deviceReminders.remove(reminder);
+            if (position != null) {
+                LOG.debug("Deleting reminder at position {}", position);
+                sendReminderToDevice(builder, position, true, null);
+            }
         }
     }
 
-    protected void sendReminderToDevice(final TransactionBuilder builder, int position, final Reminder reminder) {
+    private void sendReminderToDevice(final TransactionBuilder builder, int position, final boolean update, final ZeppOsReminder reminder) {
         final DeviceCoordinator coordinator = getCoordinator();
         final int reminderSlotCount = coordinator.getReminderSlotCount(getSupport().getDevice());
         if (position + 1 > reminderSlotCount) {
@@ -164,56 +224,18 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
             return;
         }
 
-        final String message;
-        if (reminder.getMessage().length() > coordinator.getMaximumReminderMessageLength()) {
-            LOG.warn("The reminder message length {} is longer than {}, will be truncated",
-                    reminder.getMessage().length(),
-                    coordinator.getMaximumReminderMessageLength()
-            );
-            message = StringUtils.truncate(reminder.getMessage(), coordinator.getMaximumReminderMessageLength());
-        } else {
-            message = reminder.getMessage();
-        }
-
-        final ByteBuffer buf = ByteBuffer.allocate(1 + 10 + message.getBytes(StandardCharsets.UTF_8).length + 1);
+        final ByteBuffer buf = ByteBuffer.allocate(1 + 10 + reminder.getText().getBytes(StandardCharsets.UTF_8).length + 1);
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         // Update does an upsert, so let's use it. If we call create twice on the same ID, it becomes weird
-        buf.put(CMD_UPDATE);
+        buf.put(update ? CMD_UPDATE : CMD_CREATE);
         buf.put((byte) (position & 0xFF));
 
-        final Calendar cal = BLETypeConversions.createCalendar();
-        cal.setTime(reminder.getDate());
-
-        int reminderFlags = FLAG_ENABLED | FLAG_TEXT;
-
-        switch (reminder.getRepetition()) {
-            case Reminder.ONCE:
-                // Default is once, nothing to do
-                break;
-            case Reminder.EVERY_DAY:
-                reminderFlags |= 0x0fe0; // all week day bits set
-                break;
-            case Reminder.EVERY_WEEK:
-                int dayOfWeek = BLETypeConversions.dayOfWeekToRawBytes(cal) - 1; // Monday = 0
-                reminderFlags |= 0x20 << dayOfWeek;
-                break;
-            case Reminder.EVERY_MONTH:
-                reminderFlags |= FLAG_REPEAT_MONTH;
-                break;
-            case Reminder.EVERY_YEAR:
-                reminderFlags |= FLAG_REPEAT_YEAR;
-                break;
-            default:
-                LOG.warn("Unknown repetition for reminder in position {}, defaulting to once", position);
-        }
-
-        buf.putInt(reminderFlags);
-
-        buf.putInt((int) (cal.getTimeInMillis() / 1000L));
+        buf.putInt(reminder.getFlags());
+        buf.putInt(reminder.getTimestamp());
         buf.put((byte) 0x00);
 
-        buf.put(message.getBytes(StandardCharsets.UTF_8));
+        buf.put(reminder.getText().getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
 
         write(builder, buf.array());
@@ -228,6 +250,8 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
         }
 
         LOG.debug("Got {} reminders from band", numReminders);
+
+        deviceReminders.clear();
 
         int i = 3;
         while (i < payload.length) {
@@ -249,6 +273,14 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
                 return;
             }
 
+            final ZeppOsReminder zeppOsReminder = new ZeppOsReminder(
+                    reminderFlags,
+                    reminderTimestamp,
+                    reminderText
+            );
+
+            deviceReminders.put(zeppOsReminder, reminderPosition);
+
             i += reminderText.length() + 1;
 
             LOG.info("Reminder[{}]: {}, {}, {}", reminderPosition, String.format("0x%04x", reminderFlags), reminderDate, reminderText);
@@ -262,5 +294,86 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
 
     public static int getSlotCount(final Prefs devicePrefs) {
         return devicePrefs.getInt(PREF_CAPABILITY, 0);
+    }
+
+    private class ZeppOsReminder {
+        final int flags;
+        final int timestamp;
+        final String text;
+
+        private ZeppOsReminder(final int flags, final int timestamp, final String text) {
+            this.flags = flags;
+            this.timestamp = timestamp;
+            this.text = text;
+        }
+
+        private ZeppOsReminder(final Reminder reminder) {
+            this.flags = getReminderFlags(reminder);
+            this.timestamp = (int) (reminder.getDate().getTime() / 1000L);
+            if (reminder.getMessage().length() > getCoordinator().getMaximumReminderMessageLength()) {
+                LOG.warn("The reminder message length {} is longer than {}, will be truncated",
+                        reminder.getMessage().length(),
+                        getCoordinator().getMaximumReminderMessageLength()
+                );
+                text = StringUtils.truncate(reminder.getMessage(), getCoordinator().getMaximumReminderMessageLength());
+            } else {
+                text = reminder.getMessage();
+            }
+        }
+
+        public int getFlags() {
+            return flags;
+        }
+
+        public int getTimestamp() {
+            return timestamp;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        private int getReminderFlags(final Reminder reminder) {
+            final Calendar cal = BLETypeConversions.createCalendar();
+            cal.setTime(reminder.getDate());
+
+            int reminderFlags = FLAG_ENABLED | FLAG_TEXT;
+
+            switch (reminder.getRepetition()) {
+                case Reminder.ONCE:
+                    // Default is once, nothing to do
+                    break;
+                case Reminder.EVERY_DAY:
+                    reminderFlags |= 0x0fe0; // all week day bits set
+                    break;
+                case Reminder.EVERY_WEEK:
+                    int dayOfWeek = BLETypeConversions.dayOfWeekToRawBytes(cal) - 1; // Monday = 0
+                    reminderFlags |= 0x20 << dayOfWeek;
+                    break;
+                case Reminder.EVERY_MONTH:
+                    reminderFlags |= FLAG_REPEAT_MONTH;
+                    break;
+                case Reminder.EVERY_YEAR:
+                    reminderFlags |= FLAG_REPEAT_YEAR;
+                    break;
+                default:
+                    LOG.warn("Unknown repetition for reminder {}, defaulting to once", reminder.getReminderId());
+            }
+
+            return reminderFlags;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ZeppOsReminder)) return false;
+            final ZeppOsReminder that = (ZeppOsReminder) o;
+            return flags == that.flags && timestamp == that.timestamp && Objects.equals(text, that.text);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(flags, timestamp, text);
+        }
     }
 }
