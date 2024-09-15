@@ -3438,4 +3438,9 @@
     <string name="menuitem_map">Mapa</string>
     <string name="menuitem_night_display">Noční zobrazení</string>
     <string name="menuitem_heart_rate_push">Odeslat srdeční tep</string>
+    <string name="label_distance_trip">Výlet: %.1f km</string>
+    <string name="label_distance_total">Celkem: %.1f km</string>
+    <string name="label_distance_trip_mph">Výlet: %.1f mi</string>
+    <string name="error_no_cycling_sensor_found">nebyl nalezen žádný cyklistický senzor</string>
+    <string name="label_distance_total_mph">Celkem: %.1f mi</string>
 </resources>
