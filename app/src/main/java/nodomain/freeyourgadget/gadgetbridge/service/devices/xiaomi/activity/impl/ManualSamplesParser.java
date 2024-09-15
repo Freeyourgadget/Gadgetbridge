@@ -51,6 +51,7 @@ public class ManualSamplesParser extends XiaomiActivityParser {
         }
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.limit(buf.limit() - 4); // discard crc at the end
         buf.get(new byte[7]); // skip fileId bytes
         final byte fileIdPadding = buf.get();
         if (fileIdPadding != 0) {
@@ -67,7 +68,7 @@ public class ManualSamplesParser extends XiaomiActivityParser {
 
         final List<XiaomiManualSample> samples = new ArrayList<>();
 
-        while (buf.position() < buf.limit() - 4 /* crc at the end */) {
+        while (buf.position() < buf.limit()) {
             final int timestamp = buf.getInt();
             final int type = buf.get() & 0xff;
 

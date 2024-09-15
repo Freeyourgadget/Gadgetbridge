@@ -68,12 +68,12 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
         }
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.limit(buf.limit() - 4); // discard crc at the end
         buf.get(new byte[7]); // skip fileId bytes
         final byte fileIdPadding = buf.get();
         if (fileIdPadding != 0) {
             LOG.warn("Expected 0 padding after fileId, got {} - parsing might fail", fileIdPadding);
         }
-
         final byte[] header = new byte[headerSize];
         buf.get(header);
 
@@ -81,12 +81,11 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
 
         if ((buf.limit() - buf.position()) % sampleSize != 0) {
             LOG.warn("Remaining data in the buffer is not a multiple of {}", sampleSize);
-            return false;
         }
 
         final ActivityTrack activityTrack = new ActivityTrack();
 
-        while (buf.position() < buf.limit() - 4 /* crc at the end */) {
+        while (buf.position() < buf.limit()) {
             final int ts = buf.getInt();
             final float longitude = buf.getFloat();
             final float latitude = buf.getFloat();

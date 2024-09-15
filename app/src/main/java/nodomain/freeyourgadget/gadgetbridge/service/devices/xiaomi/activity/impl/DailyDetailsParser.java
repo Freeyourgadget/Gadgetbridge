@@ -63,6 +63,7 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         }
 
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+        buf.limit(buf.limit() - 4); // discard crc at the end
         buf.get(new byte[7]); // skip fileId bytes
         final byte fileIdPadding = buf.get();
         if (fileIdPadding != 0) {
@@ -80,7 +81,7 @@ public class DailyDetailsParser extends XiaomiActivityParser {
         timestamp.setTime(fileId.getTimestamp());
 
         final List<XiaomiActivitySample> samples = new ArrayList<>();
-        while (buf.position() < buf.limit() - 4 /* crc at the end */) {
+        while (buf.position() < buf.limit()) {
             complexParser.reset();
 
             final XiaomiActivitySample sample = new XiaomiActivitySample();
