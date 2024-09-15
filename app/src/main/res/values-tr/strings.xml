@@ -3451,4 +3451,9 @@
     <string name="menuitem_map">Harita</string>
     <string name="menuitem_heart_rate_push">Kalp Ritmi İtme</string>
     <string name="menuitem_night_display">Gece Ekranı</string>
+    <string name="label_distance_trip">Yolculuk: %.1f km</string>
+    <string name="label_distance_total">Toplam: %.1f km</string>
+    <string name="label_distance_total_mph">Toplam: %.1f mil</string>
+    <string name="error_no_cycling_sensor_found">döngü sensörü bulunamadı</string>
+    <string name="label_distance_trip_mph">Yolculuk: %.1f mil</string>
 </resources>
