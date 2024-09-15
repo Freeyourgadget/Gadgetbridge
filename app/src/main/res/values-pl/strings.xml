@@ -220,7 +220,7 @@
     <string name="weeksteps_today_steps_description">Kroków dziś, cel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Nie przesyłaj danych aktywności ACK</string>
     <string name="pref_summary_dont_ack_transfers">Jeśli transmisja danych nie zostanie potwierdzona przez opaskę, dane dotyczące aktywności nie zostaną wyczyszczone. Przydatne, jeśli GB jest używany razem z innymi aplikacjami.</string>
-    <string name="pref_summary_keep_data_on_device">Dane aktywności będą zachowane na urządzeniu nawet po synchronizacji. Jest to przydatne, gdy Urządzenia na ciele jest używany razem z innymi aplikacjami.</string>
+    <string name="pref_summary_keep_data_on_device">Dane o aktywnościach będą zachowane na urządzeniu nawet po synchronizacji. Jest to przydatne, gdy Gadgetbridge jest używany razem z innymi aplikacjami. Może to spowodować, że zabraknie miejsca na urządzeniu i/lub synchronizacja przestanie działać poprawnie.</string>
     <string name="pref_summary_low_latency_fw_update">Może pomóc na urządzeniach gdzie aktualizacja kończy się błędem.</string>
     <string name="live_activity_steps_history">Historia kroków</string>
     <string name="live_activity_current_steps_per_minute">Aktualnie kroków/min</string>
@@ -258,7 +258,7 @@
     <string name="dbmanagementactivity_exported_to">Wyeksportowano do: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Błąd eksportu bazy: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Zaimportować?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Czy naprawdę nadpisać bieżące dane? Wszystkie Twoje dane dotyczące aktywności (jeśli istnieją) i preferencje zostaną nadpisane.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Czy naprawdę nadpisać bieżące dane? Wszystkie Twoje dane dotyczące aktywności (jeśli istnieją), urządzenia i preferencje zostaną nadpisane.</string>
     <string name="dbmanagementactivity_error_importing_db">Błąd importu bazy: %1$s</string>
     <string name="dbmanagementactivity_overwrite">Nadpisz</string>
     <string name="Cancel">Anuluj</string>
@@ -308,7 +308,7 @@
     <string name="pairing_unable_to_pair_with">Nie można sparować z %1$s (%2$s)</string>
     <string name="pairing_in_progress">Trwa tworzenie powiązania: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Już związano z %1$s (%2$s), łączenie …</string>
-    <string name="pref_write_logfiles">Zapisz logi</string>
+    <string name="pref_write_logfiles">Zapisuj logi</string>
     <string name="vibration_try">Wypróbuj</string>
     <string name="pref_screen_notification_profile_generic_chat">Czat</string>
     <string name="stats_title">Strefy prędkości</string>
@@ -425,7 +425,7 @@
     <string name="lack_of_step">Pozostało kroków: %1$d</string>
     <string name="pref_title_low_latency_fw_update">Użyj trybu o niskiej latencji przy aktualizacji firmware</string>
     <string name="live_activity_max_heart_rate">Aktualny / Maks. tętno: %1$d / %2$d</string>
-    <string name="you_slept">Sen trwał od %1$s do %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="miband_prefs_device_time_offset_hours">Offset snu w godzinach (do detekcji snu pracowników zmianowych)</string>
     <string name="mi2_prefs_button_action_summary">Włącz akcję po naciśnięciu przycisku określoną ilość razy</string>
     <string name="mi2_prefs_button_action_vibrate_summary">Włącz wibrację zegarka (opaski) przy uruchomieniu akcji przycisku</string>
@@ -1672,7 +1672,7 @@
     <string name="prefs_hourly_chime_summary">Zegarek zabrzęczy raz na godzinę</string>
     <string name="prefs_stress_monitoring_title">Monitorowanie stresu</string>
     <string name="quick_alarm">Szybki alarm</string>
-    <string name="info_no_devices_connected">brak połączonych urządzeń</string>
+    <string name="info_no_devices_connected">Brak połączonych urządzeń</string>
     <string name="watchface_dialog_widget_background">Tło</string>
     <string name="steps_streaks_since_date">Od %s</string>
     <string name="spo2_off">Wył.</string>
@@ -3254,7 +3254,7 @@
     <string name="menuitem_weight">Waga</string>
     <string name="activity_type_mind_and_body">Body &amp; Mind</string>
     <string name="weight_kg">%1$.2f kg</string>
-    <string name="battery_polling_failed_start">Nie udało się zacząć sondować baterię</string>
+    <string name="battery_polling_failed_start">Nie udało się zacząć sondażu baterii</string>
     <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
     <string name="steps_distance_unit">%1$,.2f km</string>
     <string name="weight_lbs">%1$.2f lbs</string>
@@ -3284,4 +3284,47 @@
     <string name="activity_db_management_backup_restore_label">Kopia zapasowa i przywracanie</string>
     <string name="activity_db_management_export_to_zip">Eksportuj zip</string>
     <string name="activity_db_management_import_from_zip">Importuj zip</string>
+    <string name="soundcore_equalizer_custom_title">Personalizuj…</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">Ciągły pomiar temperatury skóry</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">Pobieranie temperatury jest obecnie niewspierane. Ta opcja jedynie włącza ciągły pomiar na urządzeniu</string>
+    <string name="devicesetting_scannable_debounce_summary">Po zeskanowaniu urządzenie będzie uznawane za zeskanowane i ignorowane przez określoną długość czasu</string>
+    <string name="devicesetting_scannable_rssi_summary">Minimalny próg RSSI dla wykrycia</string>
+    <string name="devicesetting_scannable_rssi">Minimalny próg RSSI</string>
+    <string name="backup_restore_exporting_preferences">Eksportowanie preferencji…</string>
+    <string name="backup_restore_exporting_database">Eksportowanie bazy danych…</string>
+    <string name="backup_restore_do_not_exit">%s Nie wyłączaj tego ekranu dopóki operacja nie dobiegnie końca.</string>
+    <string name="backup_restore_importing_loading">Ładowanie pliku…</string>
+    <string name="backup_restore_importing_validating">Sprawdzanie pliku…</string>
+    <string name="backup_restore_importing_files_i_of_n">Importowanie plików… %1d z %2d</string>
+    <string name="pref_battery_polling_summary">Daliśmy z siebie wszystko, dane mogą być opóźnione z wielu powodów</string>
+    <string name="error_showing_changelog">Błąd w wyświetlaniu listy zmian</string>
+    <string name="prefs_title_gatt_client_notification_intents">Rozgłaszaj powiadomienia GATT poprzez API intencji BLE</string>
+    <string name="backup_restore_exporting_finishing">Kończenie eksportu…</string>
+    <string name="backup_restore_exporting_files_i_of_n">Eksportowanie plików... %1d z %2d</string>
+    <string name="backup_restore_import_complete">Import zakończony</string>
+    <string name="backup_restore_abort_import_confirmation">Przerwać import? Może to spowodować uszkodzenie danych lub nieprawidłowości w bazie danych.</string>
+    <string name="activity_db_management_backup_restore_explanation">Operacje importu/eksportu pozwalają ci na zapisanie kopii zapasowej ustawień Gadgetbridge, urządzeń oraz danych w pliku zip, lub przywrócenie ich z takiego pliku.
+\n
+\nImport z pliku skasuje wszystkie dane, urządzenia i preferencje, zastępując je całkowicie danymi z kopii zapasowej.</string>
+    <string name="backup_restore_exporting">Eksportowanie do zip…</string>
+    <string name="backup_restore_exporting_files">Eksportowanie plików…</string>
+    <string name="backup_restore_importing">Importowanie z zip…</string>
+    <string name="backup_restore_importing_database">Importowanie bazy danych…</string>
+    <string name="backup_restore_importing_preferences">Importowanie preferencji…</string>
+    <string name="backup_restore_warning_files">Nie udało się przywrócić %1d plików:
+\n%2s</string>
+    <string name="backup_restore_export_complete">Eksport zakończony</string>
+    <string name="backup_restore_error_export">Eksport do zip nie powiódł się</string>
+    <string name="backup_restore_error_import">Import z zip nie powiódł się</string>
+    <string name="prefs_title_ble_intent_api">API intencji BLE</string>
+    <string name="backup_restore_restart_title">Restart</string>
+    <string name="backup_restore_restart_summary">%1s się zrestartuje.</string>
+    <string name="backup_restore_abort_title">Przerwij</string>
+    <string name="backup_restore_abort_export_confirmation">Przerwać operację? Częściowy plik zip zostanie usunięty.</string>
+    <string name="pref_touch_tone_summary">Gra dźwięk przy dotknięciu słuchawki</string>
+    <string name="pref_wearing_tone_summary">Gra dźwięk podczas zakładania słuchawki</string>
+    <string name="pref_app_connection_duration">Czas połączenia aplikacji</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">Błąd pomiaru. Czy czujniki pierścienia są prawidłowo ustawione?</string>
+    <string name="miscale_small_objects_summary">Zapisuj wagę przedmiotów lżejszych niż 10 kg</string>
+    <string name="miscale_small_objects_title">Małe przedmioty</string>
 </resources>
