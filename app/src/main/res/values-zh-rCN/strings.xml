@@ -3438,4 +3438,9 @@
     <string name="menuitem_heart_rate_push">心率推送</string>
     <string name="menuitem_map">地图</string>
     <string name="menuitem_night_display">夜间显示</string>
+    <string name="label_distance_trip_mph">旅途： %.1f 尺</string>
+    <string name="label_distance_total_mph">总计：%.1f 尺</string>
+    <string name="error_no_cycling_sensor_found">未找到骑行传感器</string>
+    <string name="label_distance_trip">旅途：%.1f 千米</string>
+    <string name="label_distance_total">总计：%.1f 千米</string>
 </resources>
