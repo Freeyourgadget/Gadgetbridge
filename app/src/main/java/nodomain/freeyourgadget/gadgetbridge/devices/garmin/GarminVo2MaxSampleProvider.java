@@ -96,7 +96,7 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
 
     @Nullable
     @Override
-    public Vo2MaxSample getLatestSample(final Vo2MaxSample.Type type) {
+    public Vo2MaxSample getLatestSample(final Vo2MaxSample.Type type, final long until) {
         final BaseActivitySummaryDao summaryDao = session.getBaseActivitySummaryDao();
         final Device dbDevice = DBHelper.findDevice(device, session);
         if (dbDevice == null) {
@@ -129,6 +129,10 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
                 break;
         }
 
+        if (until != 0) {
+            qb.where(BaseActivitySummaryDao.Properties.EndTime.le(new Date(until)));
+        }
+
         qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId()))
                 .orderDesc(BaseActivitySummaryDao.Properties.StartTime)
                 .limit(1);
@@ -142,7 +146,7 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
     @Nullable
     @Override
     public Vo2MaxSample getLatestSample() {
-        return getLatestSample(Vo2MaxSample.Type.GENERAL);
+        return getLatestSample(Vo2MaxSample.Type.GENERAL, 0);
     }
 
     @Nullable

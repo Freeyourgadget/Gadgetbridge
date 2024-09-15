@@ -289,7 +289,7 @@ public class VO2MaxFragment extends AbstractChartFragment<VO2MaxFragment.VO2MaxD
     public Vo2MaxSample getLatestVo2MaxSample(final DBHandler db, final GBDevice device, Vo2MaxSample.Type type) {
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final Vo2MaxSampleProvider sampleProvider = (Vo2MaxSampleProvider) coordinator.getVo2MaxSampleProvider(device, db.getDaoSession());
-        return  sampleProvider.getLatestSample(type);
+        return  sampleProvider.getLatestSample(type, getTSEnd() * 1000L);
     }
 
     private void setupVO2MaxChart() {
