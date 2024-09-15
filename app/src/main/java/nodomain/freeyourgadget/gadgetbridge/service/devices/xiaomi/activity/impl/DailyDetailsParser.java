@@ -57,6 +57,9 @@ public class DailyDetailsParser extends XiaomiActivityParser {
             case 3:
                 headerSize = 5;
                 break;
+            case 4:
+                headerSize = 6;
+                break;
             default:
                 LOG.warn("Unable to parse daily details version {}", fileId.getVersion());
                 return false;
@@ -153,6 +156,14 @@ public class DailyDetailsParser extends XiaomiActivityParser {
                 if (complexParser.nextGroup(8)) {
                     // TODO
                 }
+            }
+
+            if (version >= 4) {
+                // TODO: light value (short)
+                complexParser.nextGroup(16);
+
+                // TODO: body momentum (short)
+                complexParser.nextGroup(16);
             }
 
             samples.add(sample);
