@@ -2,6 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -12,7 +16,18 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
@@ -21,19 +36,29 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class CommunicatorV2 implements ICommunicator {
-    public static final String BASE_UUID = "6A4E%04X-667B-11E3-949A-0800200C9A66";
+    private static final Logger LOG = LoggerFactory.getLogger(CommunicatorV2.class);
 
+    public static final String BASE_UUID = "6A4E%04X-667B-11E3-949A-0800200C9A66";
     public static final UUID UUID_SERVICE_GARMIN_ML_GFDI = UUID.fromString(String.format(BASE_UUID, 0x2800));
+
+    private static final long GADGETBRIDGE_CLIENT_ID = 2L;
 
     private BluetoothGattCharacteristic characteristicSend;
     private BluetoothGattCharacteristic characteristicReceive;
 
-    public int maxWriteSize = 20;
-    private static final Logger LOG = LoggerFactory.getLogger(CommunicatorV2.class);
-    public final CobsCoDec cobsCoDec;
     private final GarminSupport mSupport;
-    private final long gadgetBridgeClientID = 2L;
+
     private int gfdiHandle = 0;
+    public int maxWriteSize = 20;
+    public final CobsCoDec cobsCoDec;
+
+    private int realtimeHrHandle = 0;
+    private boolean realtimeHrOneShot = false;
+
+    private int realtimeStepsHandle = 0;
+    private int previousSteps = -1;
+
+    private int realtimeAccelHandle = 0;
 
     public CommunicatorV2(final GarminSupport garminSupport) {
         this.mSupport = garminSupport;
@@ -101,85 +126,266 @@ public class CommunicatorV2 implements ICommunicator {
             return false;
         }
 
-        ByteBuffer message = ByteBuffer.wrap(characteristic.getValue()).order(ByteOrder.LITTLE_ENDIAN);
-//        LOG.debug("RECEIVED: {}", GB.hexdump(message.array()));
+        final ByteBuffer message = ByteBuffer.wrap(characteristic.getValue()).order(ByteOrder.LITTLE_ENDIAN);
         final byte handle = message.get();
-        if (0x00 == handle) { //handle management message
 
-            final byte type = message.get();
-            final long incomingClientID = message.getLong();
-
-            if (incomingClientID != this.gadgetBridgeClientID) {
-                LOG.debug("Ignoring incoming message, client ID is not ours. Message: {}", GB.hexdump(message.array()));
-            }
-            RequestType requestType = RequestType.fromCode(type);
-            if (null == requestType) {
-                LOG.error("Unknown request type. Message: {}", message.array());
-                return true;
-            }
-            switch (requestType) {
-                case REGISTER_ML_REQ: //register service request
-                case CLOSE_HANDLE_REQ: //close handle request
-                case CLOSE_ALL_REQ: //close all handles request
-                case UNK_REQ: //unknown request
-                    LOG.warn("Received handle request, expecting responses. Message: {}", message.array());
-                case REGISTER_ML_RESP: //register service response
-                    LOG.debug("Received register response. Message: {}", message.array());
-                    final short registeredService = message.getShort();
-                    final byte status = message.get();
-                    if (0 == status && 1 == registeredService) { //success
-                        this.gfdiHandle = message.get();
-                    }
-                    break;
-                case CLOSE_HANDLE_RESP: //close handle response
-                    LOG.debug("Received close handle response. Message: {}", message.array());
-                    break;
-                case CLOSE_ALL_RESP: //close all handles response
-                    LOG.debug("Received close all handles response. Message: {}", message.array());
-                    new TransactionBuilder("open GFDI")
-                            .write(characteristicSend, registerGFDI())
-                            .queue(this.mSupport.getQueue());
-                    break;
-                case UNK_RESP: //unknown response
-                    LOG.debug("Received unknown. Message: {}", message.array());
-                    break;
-            }
-
-            return true;
+        if (0x00 == handle) {
+            processHandleManagement(message);
         } else if (this.gfdiHandle == handle) {
+            processGfdi(message);
+        } else if (this.realtimeHrHandle == handle) {
+            processRealtimeHeartRate(message);
+        } else if (this.realtimeStepsHandle == handle) {
+            processRealtimeSteps(message);
+        } else if (this.realtimeAccelHandle == handle) {
+            processRealtimeAccelerometer(message);
+        } else {
+            LOG.warn("Got message for unknown handle {}: {}", handle, GB.hexdump(characteristic.getValue()));
+        }
 
-            byte[] partial = new byte[message.remaining()];
-            message.get(partial);
-            this.cobsCoDec.receivedBytes(partial);
+        return true;
+    }
 
-            this.mSupport.onMessage(this.cobsCoDec.retrieveMessage());
+    @Override
+    public void onHeartRateTest() {
+        realtimeHrOneShot = true;
+        if (realtimeHrHandle == 0) {
+            new TransactionBuilder("heart rate test")
+                    .write(characteristicSend, registerService(Service.REALTIME_HR, false))
+                    .queue(this.mSupport.getQueue());
+        }
+    }
 
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(final boolean enable) {
+        toggleService(Service.REALTIME_HR, realtimeHrHandle, enable);
+    }
+
+    @Override
+    public void onEnableRealtimeSteps(final boolean enable) {
+        if (toggleService(Service.REALTIME_STEPS, realtimeStepsHandle, enable)) {
+            previousSteps = -1;
+        }
+    }
+
+    private boolean toggleService(final Service service, final int currentHandle, final boolean enable) {
+        if (enable && currentHandle == 0) {
+            new TransactionBuilder(service + " = true")
+                    .write(characteristicSend, registerService(service, false))
+                    .queue(this.mSupport.getQueue());
+            return true;
+        } else if (!enable && currentHandle != 0) {
+            new TransactionBuilder(service + " = false")
+                    .write(characteristicSend, closeService(service, currentHandle))
+                    .queue(this.mSupport.getQueue());
             return true;
         }
+
         return false;
     }
 
-    protected byte[] closeAllServices() {
-        ByteBuffer toSend = ByteBuffer.allocate(13);
-        toSend.order(ByteOrder.BIG_ENDIAN);
-        toSend.putShort((short) RequestType.CLOSE_ALL_REQ.ordinal()); //close all services
-        toSend.order(ByteOrder.LITTLE_ENDIAN);
-        toSend.putLong(this.gadgetBridgeClientID);
+    private void processHandleManagement(final ByteBuffer message) {
+        final byte type = message.get();
+        final long incomingClientID = message.getLong();
+
+        if (incomingClientID != GADGETBRIDGE_CLIENT_ID) {
+            LOG.warn("Ignoring incoming message, client ID {} is not ours. Message: {}", incomingClientID, GB.hexdump(message.array()));
+            return;
+        }
+
+        final RequestType requestType = RequestType.fromCode(type);
+        if (null == requestType) {
+            LOG.error("Unknown request type {}. Message: {}", type, message.array());
+            return;
+        }
+
+        switch (requestType) {
+            case REGISTER_ML_REQ:
+            case CLOSE_HANDLE_REQ:
+            case CLOSE_ALL_REQ:
+            case UNK_REQ:
+                LOG.warn("Received handle request, expecting responses. Message: {}", message.array());
+                return;
+            case REGISTER_ML_RESP: {
+                final short registeredServiceCode = message.getShort();
+                final Service registeredService = Service.fromCode(registeredServiceCode);
+                final byte status = message.get();
+                if (registeredService == null) {
+                    LOG.error("Got register response status={} for unknown service {}", status, registeredServiceCode);
+                    return;
+                }
+                if (status != 0) {
+                    LOG.warn("Failed to register {}, status={}", registeredService, status);
+                    return;
+                }
+                final int handle = message.get();
+                final int reliable = message.get();
+                LOG.debug("Got register response for {}, reliable={}", registeredService, reliable);
+
+                switch (registeredService) {
+                    case GFDI:
+                        this.gfdiHandle = handle;
+                        break;
+                    case REALTIME_HR:
+                        this.realtimeHrHandle = handle;
+                        break;
+                    case REALTIME_STEPS:
+                        this.realtimeStepsHandle = handle;
+                        break;
+                    case REALTIME_ACCELEROMETER:
+                        this.realtimeAccelHandle = handle;
+                        new TransactionBuilder("start realtime accel")
+                                .write(characteristicSend, new byte[]{(byte) handle, 0x01})
+                                .queue(this.mSupport.getQueue());
+                        break;
+                }
+                break;
+            }
+            case CLOSE_HANDLE_RESP: {
+                final short serviceCode = message.getShort();
+                final Service service = Service.fromCode(serviceCode);
+                final int handle = message.get();
+                final byte status = message.get();
+                LOG.debug("Received close handle response: service={}, handle={}, status={}", service, handle, status);
+                if (service != null) {
+                    switch (service) {
+                        case GFDI:
+                            this.gfdiHandle = 0;
+                            break;
+                        case REALTIME_HR:
+                            this.realtimeHrHandle = 0;
+                            break;
+                        case REALTIME_STEPS:
+                            this.realtimeStepsHandle = 0;
+                            break;
+                        case REALTIME_ACCELEROMETER:
+                            this.realtimeAccelHandle = 0;
+                            break;
+                    }
+                }
+                break;
+            }
+            case CLOSE_ALL_RESP:
+                LOG.debug("Received close all handles response. Message: {}", message.array());
+                this.gfdiHandle = 0;
+                this.realtimeHrHandle = 0;
+                this.realtimeStepsHandle = 0;
+                this.realtimeAccelHandle = 0;
+                new TransactionBuilder("open GFDI")
+                        .write(characteristicSend, registerService(Service.GFDI, false))
+                        .queue(this.mSupport.getQueue());
+                break;
+            case UNK_RESP:
+                LOG.debug("Received unknown. Message: {}", message.array());
+                break;
+        }
+    }
+
+    private void processGfdi(final ByteBuffer message) {
+        final byte[] partial = new byte[message.remaining()];
+        message.get(partial);
+        this.cobsCoDec.receivedBytes(partial);
+
+        this.mSupport.onMessage(this.cobsCoDec.retrieveMessage());
+    }
+
+    private void processRealtimeHeartRate(final ByteBuffer buf) {
+        final byte type = buf.get(); // 0/2/3? 3 == realtime?
+        final int hr = buf.get();
+        final int resting = buf.get();
+        // ff ff after
+        LOG.debug("Got realtime HR: type={} hr={} resting={}", type, hr, resting);
+
+        if (hr > 0) {
+            broadcastRealtimeActivity(hr, -1);
+
+            if (realtimeHrOneShot && realtimeHrHandle != 0) {
+                onEnableRealtimeHeartRateMeasurement(false);
+            }
+        }
+    }
+
+    private void processRealtimeSteps(final ByteBuffer buf) {
+        final int steps = buf.getInt();
+        final int goal = buf.getInt();
+        LOG.debug("Got realtime steps: steps={} goal={}", steps, goal);
+
+        if (previousSteps == -1) {
+            previousSteps = steps;
+        }
+
+        broadcastRealtimeActivity(-1, steps - previousSteps);
+
+        previousSteps = steps;
+    }
+
+    private void processRealtimeAccelerometer(final ByteBuffer message) {
+        final byte[] partial = new byte[message.remaining()];
+        message.get(partial);
+
+        LOG.debug("Got realtime accel: {}", GB.hexdump(partial));
+    }
+
+    private byte[] closeAllServices() {
+        final ByteBuffer toSend = ByteBuffer.allocate(13).order(ByteOrder.LITTLE_ENDIAN);
+        toSend.put((byte) 0); // handle
+        toSend.put((byte) RequestType.CLOSE_ALL_REQ.ordinal());
+        toSend.putLong(GADGETBRIDGE_CLIENT_ID);
         toSend.putShort((short) 0);
         return toSend.array();
     }
 
-    protected byte[] registerGFDI() {
-        ByteBuffer toSend = ByteBuffer.allocate(13);
-        toSend.order(ByteOrder.BIG_ENDIAN);
-        toSend.putShort((short) RequestType.REGISTER_ML_REQ.ordinal()); //register service request
-        toSend.order(ByteOrder.LITTLE_ENDIAN);
-        toSend.putLong(this.gadgetBridgeClientID);
-        toSend.putShort((short) 1); //service GFDI
+    private byte[] registerService(final Service service, final boolean reliable) {
+        final ByteBuffer toSend = ByteBuffer.allocate(13).order(ByteOrder.LITTLE_ENDIAN);
+        toSend.put((byte) 0);
+        toSend.put((byte) RequestType.REGISTER_ML_REQ.ordinal());
+        toSend.putLong(GADGETBRIDGE_CLIENT_ID);
+        toSend.putShort(service.getCode());
+        toSend.put((byte) (reliable ? 2 : 0));
         return toSend.array();
     }
 
-    enum RequestType {
+    private byte[] closeService(final Service service, final int handle) {
+        final ByteBuffer toSend = ByteBuffer.allocate(13).order(ByteOrder.LITTLE_ENDIAN);
+        toSend.put((byte) 0);
+        toSend.put((byte) RequestType.CLOSE_HANDLE_REQ.ordinal());
+        toSend.putLong(GADGETBRIDGE_CLIENT_ID);
+        toSend.putShort(service.getCode());
+        toSend.put((byte) handle);
+        return toSend.array();
+    }
+
+    private void broadcastRealtimeActivity(final int hr, final int steps) {
+        final GarminActivitySample sample;
+        try (final DBHandler dbHandler = GBApplication.acquireDB()) {
+            final DaoSession session = dbHandler.getDaoSession();
+
+            final GBDevice gbDevice = mSupport.getDevice();
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+            final GarminActivitySampleProvider provider = new GarminActivitySampleProvider(gbDevice, session);
+            sample = provider.createActivitySample();
+
+            sample.setDeviceId(device.getId());
+            sample.setUserId(user.getId());
+            sample.setTimestamp((int) (System.currentTimeMillis() / 1000));
+            sample.setHeartRate(hr);
+            sample.setSteps(steps);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
+            sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
+        } catch (final Exception e) {
+            LOG.error("Error creating activity sample", e);
+            return;
+        }
+
+        final Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(GBDevice.EXTRA_DEVICE, mSupport.getDevice())
+                .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+        LocalBroadcastManager.getInstance(mSupport.getContext()).sendBroadcast(intent);
+    }
+
+    private enum RequestType {
         REGISTER_ML_REQ,
         REGISTER_ML_RESP,
         CLOSE_HANDLE_REQ,
@@ -190,10 +396,48 @@ public class CommunicatorV2 implements ICommunicator {
         UNK_REQ,
         UNK_RESP;
 
+        @Nullable
         public static RequestType fromCode(final int code) {
             for (final RequestType requestType : RequestType.values()) {
                 if (requestType.ordinal() == code) {
                     return requestType;
+                }
+            }
+
+            return null;
+        }
+    }
+
+    private enum Service {
+        GFDI(1),
+        REGISTRATION(4),
+        REALTIME_HR(6),
+        REALTIME_STEPS(7),
+        REALTIME_CALORIES(8),
+        REALTIME_INTENSITY(10),
+        REALTIME_HRV(12),
+        REALTIME_STRESS(13),
+        REALTIME_ACCELEROMETER(16),
+        REALTIME_SPO2(19),
+        REALTIME_BODY_BATTERY(20),
+        REALTIME_RESPIRATION(21),
+        ;
+
+        private final short code;
+
+        Service(final int code) {
+            this.code = (short) code;
+        }
+
+        public short getCode() {
+            return code;
+        }
+
+        @Nullable
+        public static Service fromCode(final int code) {
+            for (final Service service : Service.values()) {
+                if (service.code == code) {
+                    return service;
                 }
             }
 

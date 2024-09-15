@@ -31,9 +31,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -933,9 +931,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
             sample.setHeartRate(realTimeStats.getHeartRate());
             sample.setSteps(realTimeStats.getSteps() - previousSteps);
             sample.setRawKind(ActivityKind.UNKNOWN.getCode());
-            sample.setHeartRate(realTimeStats.getHeartRate());
             sample.setRawIntensity(ActivitySample.NOT_MEASURED);
-            sample.setRawKind(ActivityKind.UNKNOWN.getCode());
         } catch (final Exception e) {
             LOG.error("Error creating activity sample", e);
             return;

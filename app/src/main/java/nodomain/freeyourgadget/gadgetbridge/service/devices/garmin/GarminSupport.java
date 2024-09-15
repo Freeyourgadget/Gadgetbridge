@@ -828,6 +828,21 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     @Override
+    public void onHeartRateTest() {
+        communicator.onHeartRateTest();
+    }
+
+    @Override
+    public void onEnableRealtimeHeartRateMeasurement(final boolean enable) {
+        communicator.onEnableRealtimeHeartRateMeasurement(enable);
+    }
+
+    @Override
+    public void onEnableRealtimeSteps(final boolean enable) {
+        communicator.onEnableRealtimeSteps(enable);
+    }
+
+    @Override
     public void onTestNewFunction() {
         parseAllFitFilesFromStorage();
     }

@@ -225,9 +225,8 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsManualHeartRateMeasurement(final GBDevice device) {
-        // TODO: It should be supported, but not yet implemented
-        return false;
+    public boolean supportsRealtimeData() {
+        return true;
     }
 
     @Override
