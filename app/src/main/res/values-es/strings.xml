@@ -3442,4 +3442,9 @@
     <string name="menuitem_map">Mapa</string>
     <string name="menuitem_heart_rate_push">Pulsómetro</string>
     <string name="menuitem_night_display">Pantalla nocturna</string>
+    <string name="label_distance_trip">Viaje: %.1f kilómetros</string>
+    <string name="label_distance_trip_mph">Viaje: %.1f mi</string>
+    <string name="label_distance_total_mph">Total: %.1f mi</string>
+    <string name="error_no_cycling_sensor_found">Sensor de ciclismo no encontrado</string>
+    <string name="label_distance_total">Total: %.1f km</string>
 </resources>
