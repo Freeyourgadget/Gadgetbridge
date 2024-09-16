@@ -718,8 +718,8 @@ message CannedMessages {
 }
 
 message NotificationIconRequest {
-  optional uint32 unknown1 = 1; // 0 probably format
-  optional uint32 unknown2 = 2; // 3 probably format
+  optional uint32 status = 1; // 0
+  optional uint32 pixelFormat = 2; // see XiaomiBitmapUtils
   optional uint32 size = 3;
 }
 
