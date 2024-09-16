@@ -315,7 +315,7 @@
     <string name="mi2_prefs_display_items">Éléments à afficher</string>
     <string name="mi2_prefs_display_items_summary">Choisissez les éléments à afficher sur le bracelet</string>
     <string name="mi2_prefs_activate_display_on_lift">Allumer l\'écran lors d\'un mouvement</string>
-    <string name="mi2_prefs_rotate_wrist_to_switch_info">Tournez votre poignet pour changer d\'élément</string>
+    <string name="mi2_prefs_rotate_wrist_to_switch_info">Tourner votre poignet pour changer d\'élément</string>
     <string name="mi2_prefs_do_not_disturb">Ne Pas Déranger</string>
     <string name="mi2_prefs_do_not_disturb_summary">Le bracelet ne recevra pas de notifications si activé</string>
     <string name="mi2_prefs_inactivity_warnings">Alertes d\'inactivité</string>
@@ -2857,7 +2857,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_header_sony_sound_control">Contrôle audio</string>
     <string name="companion_pairing_request_title">Appareil compagnon</string>
     <string name="pref_force_enable_heartrate_support_summary">Forcer la prise en charge du rythme cardiaque
-\nA VOS RISQUES ET PÉRILS</string>
+\nUTILISER À VOS RISQUES ET PÉRILS</string>
     <string name="pref_force_enable_spo2_support">Forcer la prise en charge du SpO2</string>
     <string name="device_state_waiting_scan">En attente du scan des appareils</string>
     <string name="devicetype_amazfit_bip3">Amazfit Bip 3</string>
@@ -2884,7 +2884,7 @@ Temps de sommeil préféré en heures</string>
     <string name="huawei_trusleep_warning">Avertissement : activer cette option fera apparaitre tous les sommeils comme sommeil léger dans GadgetBridge ! Cliquer ici pour plus de détails.</string>
     <string name="pref_force_enable_heartrate_support">Forcer la prise en charge du rythme cardiaque</string>
     <string name="pref_force_enable_spo2_support_summary">Forcer la prise en charge du SpO2
-\nA VOS RISQUES ET PÉRILS</string>
+\nUTILISER À VOS RISQUES ET PÉRILS</string>
     <string name="widget_name_colored_tile">%1$s (tuile colorée)</string>
     <string name="scan_scanning_single_device">Scan d\'un appareil</string>
     <string name="companion_pairing_request_description">Pairer cet appareil comme compagnon ?
@@ -3397,4 +3397,52 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_header_main_screen">Écran principal</string>
     <string name="devicetype_soundcore_liberty4_nc">Soundcore Liberty 4 NC</string>
     <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
+    <string name="pref_continuous_skin_temperature_measurement_title">Mesure continue de la température de la peau</string>
+    <string name="prefs_title_gatt_client_api_package">Paquet API de BLE</string>
+    <string name="backup_restore_abort_title">Abandonner</string>
+    <string name="backup_restore_abort_export_confirmation">Abandonner l’exportation ? Le fichier Zip partiel sera supprimé.</string>
+    <string name="backup_restore_restart_title">Redémarrage</string>
+    <string name="devicetype_ble_gatt_client">Client générique BLE GATT</string>
+    <string name="prefs_summary_gatt_client_notification_intents">Recevoir les changements de caractéristiques BLE par l’intermédiaire des Intents</string>
+    <string name="prefs_summary_gatt_client_device_state_updates">Recevoir les changements d’état de connexion BLE via Intents</string>
+    <string name="backup_restore_exporting_preferences">Exportation des préférences…</string>
+    <string name="backup_restore_exporting_database">Exportation de la base de données…</string>
+    <string name="backup_restore_exporting_files">Exportation de fichiers…</string>
+    <string name="backup_restore_exporting_files_i_of_n">Exportation des fichiers... %1d de %2d</string>
+    <string name="backup_restore_do_not_exit">%s Veuillez garder cet écran ouvert jusqu’à ce que l’opération soit terminée.</string>
+    <string name="backup_restore_importing_database">Importation de la base de données…</string>
+    <string name="backup_restore_restart_summary">%1s va redémarrer.</string>
+    <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
+    <string name="prefs_title_ble_intent_api">API Intent BLE</string>
+    <string name="activity_db_management_backup_restore_label">Sauvegarder et restaurer</string>
+    <string name="activity_db_management_export_to_zip">Exporter Zip</string>
+    <string name="activity_db_management_import_from_zip">Importer Zip</string>
+    <string name="backup_restore_exporting">Exportation vers Zip…</string>
+    <string name="backup_restore_error_export">Exportation vers Zip échouée</string>
+    <string name="backup_restore_error_import">Importation depuis Zip échouée</string>
+    <string name="backup_restore_abort_import_confirmation">Abandonner l’importation ? Cela peut entraîner une base de données corrompue ou incohérente.</string>
+    <string name="menuitem_night_display">Affichage de nuit</string>
+    <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
+    <string name="menuitem_map">Carte</string>
+    <string name="pref_continuous_skin_temperature_measurement_description">La récupération de température n’est pas prise en charge actuellement. Ce paramètre permet uniquement une mesure continue sur l’appareil</string>
+    <string name="prefs_title_gatt_client_notification_intents">Diffuser les intentions de notification GATT par l’intermédiaire de l’API Intent BLE</string>
+    <string name="prefs_title_gatt_client_allow_gatt_interactions">Permettre l’interaction GATT par l’intermédiaire de l’API Intent BLE</string>
+    <string name="prefs_summary_gatt_client_allow_gatt_interactions">Autoriser l’envoi de commandes de lecture/écriture et de connexion des caractéristiques BLE</string>
+    <string name="prefs_summary_gatt_client_api_package">Restreindre la communication API d’intention BLE à ce paquet</string>
+    <string name="backup_restore_importing_files_i_of_n">Importation de fichiers... %1d de %2d</string>
+    <string name="activity_db_management_backup_restore_explanation">Les opérations d’importation/exportation vous permettent de migrer ou de sauvegarder tous les paramètres, périphériques et données de Gadgetbridge vers et à partir d’un fichier Zip.
+\n
+\nImporter un fichier supprimera toutes les données, les périphériques et les préférences existants, en les remplaçant complètement par la sauvegarde.</string>
+    <string name="backup_restore_importing_loading">Chargement du fichier…</string>
+    <string name="backup_restore_importing_preferences">Importation des préférences…</string>
+    <string name="backup_restore_exporting_finishing">Finition exportation…</string>
+    <string name="backup_restore_importing">Importation à partir de Zip…</string>
+    <string name="backup_restore_importing_validating">Validation du fichier…</string>
+    <string name="backup_restore_export_complete">Exportation accomplie</string>
+    <string name="backup_restore_warning_files">%1d fichiers échoués à être restaurés :
+\n %2s</string>
+    <string name="backup_restore_import_complete">Importation accomplie</string>
+    <string name="label_distance_trip">Distance parcourue : %.1f km</string>
+    <string name="label_distance_total">Total: %.1f km</string>
+    <string name="error_no_cycling_sensor_found">aucun capteur de cyclisme trouvé</string>
 </resources>
