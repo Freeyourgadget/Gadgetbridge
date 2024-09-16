@@ -180,205 +180,109 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     }
 
     public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
-//        Calendar cal = GregorianCalendar.getInstance();
-//        cal.clear();
         TimestampTranslation tsTranslation = new TimestampTranslation();
-//        Date date;
-//        String dateStringFrom = "";
-//        String dateStringTo = "";
-//        ArrayList<String> xLabels = null;
-
         LOG.info("" + getTitle() + ": number of samples:" + samples.size());
         LineData lineData;
-        if (samples.size() > 1) {
-            boolean annotate = true;
-            boolean use_steps_as_movement;
 
-            ActivityKind last_type = ActivityKind.UNKNOWN;
-
-            int numEntries = samples.size();
-            List<Entry> activityEntries = new ArrayList<>(numEntries);
-            List<Entry> deepSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> lightSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> remSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> awakeSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> notWornEntries = new ArrayList<>(numEntries);
-            boolean hr = supportsHeartrate(gbDevice);
-            List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
-            List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
-            int lastHrSampleIndex = -1;
-            HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
-
-            for (int i = 0; i < numEntries; i++) {
-                ActivitySample sample = samples.get(i);
-                ActivityKind type = sample.getKind();
-                int ts = tsTranslation.shorten(sample.getTimestamp());
-
-//                System.out.println(ts);
-//                ts = i;
-                // determine start and end dates
-//                if (i == 0) {
-//                    cal.setTimeInMillis(ts * 1000L); // make sure it's converted to long
-//                    date = cal.getTime();
-//                    dateStringFrom = dateFormat.format(date);
-//                } else if (i == samples.size() - 1) {
-//                    cal.setTimeInMillis(ts * 1000L); // same here
-//                    date = cal.getTime();
-//                    dateStringTo = dateFormat.format(date);
-//                }
-
-                float movement = sample.getIntensity();
-
-                float value = movement;
-                switch (type) {
-                    case DEEP_SLEEP:
-                        if (last_type != type) { //FIXME: this is ugly but it works (repeated in each case)
-                            deepSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                            awakeSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        deepSleepEntries.add(createLineEntry(value + Y_VALUE_DEEP_SLEEP, ts));
-                        break;
-                    case LIGHT_SLEEP:
-                        if (last_type != type) {
-                            lightSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                            awakeSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        lightSleepEntries.add(createLineEntry(value, ts));
-                        break;
-                    case REM_SLEEP:
-                        if (last_type != type) {
-                            remSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                            awakeSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        remSleepEntries.add(createLineEntry(value, ts));
-                        break;
-                    case AWAKE_SLEEP:
-                        if (last_type != type) {
-                            awakeSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        awakeSleepEntries.add(createLineEntry(value, ts));
-                        break;
-                    case NOT_WORN:
-                        if (last_type != type) {
-                            notWornEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                            awakeSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        notWornEntries.add(createLineEntry(Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
-                        break;
-                    default:
-//                        short steps = sample.getSteps();
-//                        if (use_steps_as_movement && steps != 0) {
-//                            // I'm not sure using steps for this is actually a good idea
-//                            movement = steps;
-//                        }
-//                        value = ((float) movement) / movement_divisor;
-                        if (last_type != type) {
-                            activityEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        activityEntries.add(createLineEntry(value, ts));
-                }
-                if (hr && sample.getKind() != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
-                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
-                        heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
-                        heartrateEntries.add(createLineEntry(0, ts - 1));
-                    }
-
-                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
-                    lastHrSampleIndex = ts;
-                }
-
-                String xLabel = "";
-                if (annotate) {
-//                    cal.setTimeInMillis((ts + tsOffset) * 1000L);
-//                    date = cal.getTime();
-//                    String dateString = annotationDateFormat.format(date);
-//                    xLabel = dateString;
-//                    if (last_type != type) {
-//                        if (isSleep(last_type) && !isSleep(type)) {
-//                            // woken up
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextColor(Color.WHITE);
-//                            line.setTextSize(15);
-//                            chart.getXAxis().addLimitLine(line);
-//                        } else if (!isSleep(last_type) && isSleep(type)) {
-//                            // fallen asleep
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextSize(15);
-//                            line.setTextColor(Color.WHITE);
-//                            chart.getXAxis().addLimitLine(line);
-//                        }
-//                    }
-                }
-                last_type = type;
-            }
-
-
-            List<ILineDataSet> lineDataSets = new ArrayList<>();
-            LineDataSet activitySet = createDataSet(activityEntries, akActivity.color, "Activity");
-            lineDataSets.add(activitySet);
-            LineDataSet deepSleepSet = createDataSet(deepSleepEntries, akDeepSleep.color, "Deep Sleep");
-            lineDataSets.add(deepSleepSet);
-            LineDataSet lightSleepSet = createDataSet(lightSleepEntries, akLightSleep.color, "Light Sleep");
-            lineDataSets.add(lightSleepSet);
-            if (supportsRemSleep(gbDevice)) {
-                LineDataSet remSleepSet = createDataSet(remSleepEntries, akRemSleep.color, "REM Sleep");
-                lineDataSets.add(remSleepSet);
-            }
-            if (supportsAwakeSleep(gbDevice)) {
-                LineDataSet awakeSleepSet = createDataSet(awakeSleepEntries, akAwakeSleep.color, "Awake Sleep");
-                lineDataSets.add(awakeSleepSet);
-            }
-            LineDataSet notWornSet = createDataSet(notWornEntries, akNotWorn.color, "Not worn");
-            lineDataSets.add(notWornSet);
-
-            if (hr && heartrateEntries.size() > 0) {
-                LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-
-                lineDataSets.add(heartrateSet);
-            }
-            lineData = new LineData(lineDataSets);
-
-//            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
-//            chart.setDescriptionPosition(?, ?);
-        } else {
+        if (samples.size() == 0) {
             lineData = new LineData();
+            ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
+            return new DefaultChartsData(lineData, xValueFormatter);
         }
+
+        ActivityKind last_type = ActivityKind.UNKNOWN;
+        float last_value = 0;
+
+        int numEntries = samples.size();
+        List<List<Entry>> entries = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            entries.add(new ArrayList<>());
+        }
+        
+        boolean hr = supportsHeartrate(gbDevice);
+        List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
+
+        int lastHrSampleIndex = -1;
+        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
+
+        for (int i = 0; i < numEntries; i++) {
+            ActivitySample sample = samples.get(i);
+            ActivityKind type = sample.getKind();
+            int ts = tsTranslation.shorten(sample.getTimestamp());
+            float value = type != ActivityKind.NOT_WORN ? sample.getIntensity() : Y_VALUE_DEEP_SLEEP;
+            // do not interpolate NOT_WORN on any side
+            boolean interpolate = !(last_type == ActivityKind.NOT_WORN || type == ActivityKind.NOT_WORN);
+            float interpolation_value = interpolate ? value : last_value;
+
+            // filled charts
+            int index = getIndexOfActivity(type);
+            int last_index = getIndexOfActivity(last_type);
+            if (last_type != type) {
+                entries.get(index).add(createLineEntry(0, ts));
+                entries.get(last_index).add(createLineEntry(interpolation_value, ts));
+                entries.get(last_index).add(createLineEntry(0, ts));
+            }
+            entries.get(index).add(createLineEntry(value, ts));
+
+            // heart rate line graph
+            if (hr && type != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                    heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
+                    heartrateEntries.add(createLineEntry(0, ts - 1));
+                }
+                heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
+                lastHrSampleIndex = ts;
+            }
+            last_type = type;
+            last_value = value;
+        }
+
+        // convert Entry Lists to Datasets
+        List<ILineDataSet> lineDataSets = new ArrayList<>();
+
+        lineDataSets.add(createDataSet(
+            entries.get(getIndexOfActivity(ActivityKind.ACTIVITY)), akActivity.color, "Activity"
+        ));
+        lineDataSets.add(createDataSet(
+            entries.get(getIndexOfActivity(ActivityKind.DEEP_SLEEP)), akDeepSleep.color, "Deep Sleep"
+        ));
+        lineDataSets.add(createDataSet(
+            entries.get(getIndexOfActivity(ActivityKind.LIGHT_SLEEP)), akLightSleep.color, "Light Sleep"
+        ));
+        lineDataSets.add(createDataSet(
+            entries.get(getIndexOfActivity(ActivityKind.NOT_WORN)), akNotWorn.color, "Not worn"
+        ));
+
+        if (supportsRemSleep(gbDevice)) {
+            lineDataSets.add(createDataSet(
+                entries.get(getIndexOfActivity(ActivityKind.REM_SLEEP)), akRemSleep.color, "REM Sleep"
+            ));
+        }
+        if (supportsAwakeSleep(gbDevice)) {
+            lineDataSets.add(createDataSet(
+                entries.get(getIndexOfActivity(ActivityKind.AWAKE_SLEEP)), akActivity.color, "Awake Sleep"
+            ));
+        }
+        if (hr && heartrateEntries.size() > 0) {
+            LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
+            lineDataSets.add(heartrateSet);
+        }
+
+        lineData = new LineData(lineDataSets);
 
         ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
         return new DefaultChartsData(lineData, xValueFormatter);
+    }
+
+    protected int getIndexOfActivity(ActivityKind kind) {
+        switch (kind) {
+            case DEEP_SLEEP: return 0;
+            case LIGHT_SLEEP: return 1;
+            case REM_SLEEP: return 2;
+            case AWAKE_SLEEP: return 3;
+            case NOT_WORN: return 4;
+            default: return 5; // treated as ActivityKind.ACTIVITY
+        }
     }
 
     protected Entry createLineEntry(float value, int xValue) {
@@ -501,3 +405,4 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         return sample;
     }
 }
+
