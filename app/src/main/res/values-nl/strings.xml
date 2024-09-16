@@ -3434,4 +3434,13 @@
 \nHet importeren van een zip-bestand zal alle bestaande data, apparaten en instellingen verwijderen, en volledig vervangen met de back-up.</string>
     <string name="backup_restore_restart_title">Herstart</string>
     <string name="devicetype_honor_watchgspro">Honor Watch GS Pro</string>
+    <string name="devicetype_amazfit_trex_3">Amazfit T-Rex 3</string>
+    <string name="menuitem_map">Kaart</string>
+    <string name="menuitem_night_display">Nachtstand</string>
+    <string name="menuitem_heart_rate_push">Hartslag rapporteren</string>
+    <string name="label_distance_trip">Trip: %.1f km</string>
+    <string name="label_distance_total">Totaal: %.1f km</string>
+    <string name="error_no_cycling_sensor_found">geen fietssensor gevonden</string>
+    <string name="label_distance_total_mph">Totaal: %.1f mi</string>
+    <string name="label_distance_trip_mph">Trip: %.1f mi</string>
 </resources>
