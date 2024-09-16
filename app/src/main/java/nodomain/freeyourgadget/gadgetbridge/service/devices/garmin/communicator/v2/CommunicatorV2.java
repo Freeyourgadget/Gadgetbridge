@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -31,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.GarminTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.CobsCoDec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.ICommunicator;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -59,6 +61,10 @@ public class CommunicatorV2 implements ICommunicator {
     private int previousSteps = -1;
 
     private int realtimeAccelHandle = 0;
+
+    private int realtimeSpo2Handle = 0;
+    private int realtimeRespirationHandle = 0;
+    private int realtimeHrvHandle = 0;
 
     public CommunicatorV2(final GarminSupport garminSupport) {
         this.mSupport = garminSupport;
@@ -139,6 +145,12 @@ public class CommunicatorV2 implements ICommunicator {
             processRealtimeSteps(message);
         } else if (this.realtimeAccelHandle == handle) {
             processRealtimeAccelerometer(message);
+        } else if (this.realtimeSpo2Handle == handle) {
+            processRealtimeSpo2(message);
+        } else if (this.realtimeRespirationHandle == handle) {
+            processRealtimeRespiration(message);
+        } else if (this.realtimeHrvHandle == handle) {
+            processRealtimeHrv(message);
         } else {
             LOG.warn("Got message for unknown handle {}: {}", handle, GB.hexdump(characteristic.getValue()));
         }
@@ -220,7 +232,7 @@ public class CommunicatorV2 implements ICommunicator {
                 }
                 final int handle = message.get();
                 final int reliable = message.get();
-                LOG.debug("Got register response for {}, reliable={}", registeredService, reliable);
+                LOG.debug("Got register response for {}, handle={}, reliable={}", registeredService, handle, reliable);
 
                 switch (registeredService) {
                     case GFDI:
@@ -237,6 +249,15 @@ public class CommunicatorV2 implements ICommunicator {
                         new TransactionBuilder("start realtime accel")
                                 .write(characteristicSend, new byte[]{(byte) handle, 0x01})
                                 .queue(this.mSupport.getQueue());
+                        break;
+                    case REALTIME_SPO2:
+                        this.realtimeSpo2Handle = handle;
+                        break;
+                    case REALTIME_RESPIRATION:
+                        this.realtimeRespirationHandle = handle;
+                        break;
+                    case REALTIME_HRV:
+                        this.realtimeHrvHandle = handle;
                         break;
                 }
                 break;
@@ -261,6 +282,15 @@ public class CommunicatorV2 implements ICommunicator {
                         case REALTIME_ACCELEROMETER:
                             this.realtimeAccelHandle = 0;
                             break;
+                        case REALTIME_SPO2:
+                            this.realtimeSpo2Handle = 0;
+                            break;
+                        case REALTIME_RESPIRATION:
+                            this.realtimeRespirationHandle = 0;
+                            break;
+                        case REALTIME_HRV:
+                            this.realtimeHrvHandle = 0;
+                            break;
                     }
                 }
                 break;
@@ -271,6 +301,9 @@ public class CommunicatorV2 implements ICommunicator {
                 this.realtimeHrHandle = 0;
                 this.realtimeStepsHandle = 0;
                 this.realtimeAccelHandle = 0;
+                this.realtimeSpo2Handle = 0;
+                this.realtimeRespirationHandle = 0;
+                this.realtimeHrvHandle = 0;
                 new TransactionBuilder("open GFDI")
                         .write(characteristicSend, registerService(Service.GFDI, false))
                         .queue(this.mSupport.getQueue());
@@ -324,6 +357,26 @@ public class CommunicatorV2 implements ICommunicator {
         message.get(partial);
 
         LOG.debug("Got realtime accel: {}", GB.hexdump(partial));
+    }
+
+    private void processRealtimeSpo2(final ByteBuffer message) {
+        final int spo2 = message.get(); // -1 when unknown, and the ts is not valid in that case
+        final int garminTs = message.getInt();
+
+        LOG.debug("Got realtime SpO2 at {}: {}", new Date(GarminTimeUtils.garminTimestampToJavaMillis(garminTs)), spo2);
+    }
+
+    private void processRealtimeRespiration(final ByteBuffer message) {
+        final int breathsPerMinute = message.get(); // can be negative if unknown, usually -2
+
+        LOG.debug("Got realtime respiration: {}", breathsPerMinute);
+    }
+
+    private void processRealtimeHrv(final ByteBuffer message) {
+        final short rr = message.getShort();
+        final int unk = message.getInt();
+
+        LOG.debug("Got realtime HRV: rr={}, unk={}", rr, unk);
     }
 
     private byte[] closeAllServices() {
