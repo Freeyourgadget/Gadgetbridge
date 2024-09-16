@@ -2664,7 +2664,7 @@ Temps de sommeil préféré en heures</string>
     <string name="wearmode_band">Bracelet (poignet)</string>
     <string name="alarm_smart_wakeup_interval_default">5 minutes</string>
     <string name="prefs_heartrate_alert_active_high_threshold">Seuil d\'alerte pour fréquence cardiaque élevée</string>
-    <string name="updatefirmwareoperation_updateproblem_low_battery">La batterie de l\'appareil est en train de mourir</string>
+    <string name="updatefirmwareoperation_updateproblem_low_battery">La batterie de l\'appareil est trop faible</string>
     <string name="hydration_dnd_summary">Désactiver les alertes d\'hydratation durant un moment</string>
     <string name="silent_mode_vibrate_silent">Vibreur / Silencieux</string>
     <string name="do_not_disturb_lift_wrist_summary">Uniquement si l\'activation de l\'écran sur mouvement est activé</string>
