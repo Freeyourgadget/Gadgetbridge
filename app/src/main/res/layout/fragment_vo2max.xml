@@ -24,41 +24,6 @@
             android:columnCount="2"
             >
             <RelativeLayout
-                android:id="@+id/vo2max_general_card_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="vertical"
-                tools:ignore="UselessParent"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                >
-                <ImageView
-                    android:id="@+id/vo2max_general_gauge"
-                    android:layout_width="150dp"
-                    android:layout_height="75dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="fitStart" />
-
-                <TextView
-                    android:id="@+id/vo2max_general_gauge_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="28dp"
-                    android:text="@string/stats_empty_value"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/vo2max_general_gauge_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/vo2max_general_gauge_value"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/vo2max_general_gauge_label" />
-
-            </RelativeLayout>
-            <RelativeLayout
                 android:id="@+id/vo2max_running_card_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/vo2max_running_gauge_value"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/vo2max_running_gauge_label" />
+                    android:text="@string/running" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -127,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/vo2max_cycling_gauge_value"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/vo2max_cycling_gauge_label" />
+                    android:text="@string/cycling" />
 
             </RelativeLayout>
 

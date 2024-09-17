@@ -75,6 +75,9 @@ import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStress
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStressSegmentedWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStressSimpleWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardTodayWidget;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxCyclingWidget;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxAnyWidget;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxRunningWidget;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DashboardUtils;
@@ -297,6 +300,15 @@ public class DashboardFragment extends Fragment implements MenuProvider {
                         break;
                     case "hrv":
                         widget = DashboardHrvWidget.newInstance(dashboardData);
+                        break;
+                    case "vo2max_running":
+                        widget = DashboardVO2MaxRunningWidget.newInstance(dashboardData);
+                        break;
+                    case "vo2max_cycling":
+                        widget = DashboardVO2MaxCyclingWidget.newInstance(dashboardData);
+                        break;
+                    case "vo2max":
+                        widget = DashboardVO2MaxAnyWidget.newInstance(dashboardData);
                         break;
                     default:
                         LOG.error("Unknown dashboard widget {}", widgetName);

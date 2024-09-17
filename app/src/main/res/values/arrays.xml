@@ -4177,11 +4177,13 @@
         <item>@string/active_time</item>
         <item>@string/menuitem_sleep</item>
         <item>@string/body_energy</item>
-        <item>@string/vo2max</item>
         <item>@string/menuitem_stress_simple</item>
         <item>@string/menuitem_stress_segmented</item>
         <item>@string/menuitem_stress_breakdown</item>
         <item>@string/hrv</item>
+        <item>@string/vo2max</item>
+        <item>@string/vo2max_running</item>
+        <item>@string/vo2max_cycling</item>
     </string-array>
 
     <string-array name="pref_dashboard_widgets_order_values">
@@ -4192,11 +4194,13 @@
         <item>activetime</item>
         <item>sleep</item>
         <item>bodyenergy</item>
-        <item>vo2max</item>
         <item>stress_simple</item>
         <item>stress_segmented</item>
         <item>stress_breakdown</item>
         <item>hrv</item>
+        <item>vo2max</item>
+        <item>vo2max_running</item>
+        <item>vo2max_cycling</item>
     </string-array>
 
     <string-array name="pref_dashboard_widgets_order_default">
@@ -4209,5 +4213,6 @@
         <item>bodyenergy</item>
         <item>stress_segmented</item>
         <item>hrv</item>
+        <item>vo2max</item>
     </string-array>
 </resources>

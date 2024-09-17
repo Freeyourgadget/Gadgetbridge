@@ -18,7 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 public interface Vo2MaxSample extends TimeSample {
     enum Type {
-        GENERAL,
+        ANY,
         RUNNING,
         CYCLING
     }

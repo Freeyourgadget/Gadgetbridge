@@ -491,11 +491,6 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public boolean supportsVO2MaxGeneral() {
-        return false;
-    }
-
-    @Override
     public boolean supportsActivityTabs() {
         return supportsActivityTracking();
     }

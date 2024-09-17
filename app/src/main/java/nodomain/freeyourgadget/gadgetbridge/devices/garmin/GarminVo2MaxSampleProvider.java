@@ -146,7 +146,7 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
     @Nullable
     @Override
     public Vo2MaxSample getLatestSample() {
-        return getLatestSample(Vo2MaxSample.Type.GENERAL, 0);
+        return getLatestSample(Vo2MaxSample.Type.ANY, 0);
     }
 
     @Nullable
@@ -231,7 +231,7 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
                         type = Vo2MaxSample.Type.CYCLING;
                         break;
                     default:
-                        type = Vo2MaxSample.Type.GENERAL;
+                        type = Vo2MaxSample.Type.ANY;
                 }
                 return new GarminVo2maxSample(summary.getStartTime().getTime(), type, (float) value);
             } catch (final JSONException e) {

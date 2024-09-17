@@ -246,7 +246,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
             hrLineChart.getAxisRight().setAxisMaximum(maximum + 30);
         }
 
-        hrLineChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation));
+        hrLineChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation, "HH:mm"));
         hrLineChart.setData(new LineData(dataSet));
     }
 
