@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -38,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiPrefere
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.services.XiaomiHealthService;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
-import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class XiaomiActivityFileFetcher {
@@ -119,7 +117,7 @@ public class XiaomiActivityFileFetcher {
                     LOG.warn("Failed to parse {}", fileId);
                 }
             } catch (final Exception ex) {
-                LOG.error("Exception while parsing " + fileId, ex);
+                LOG.error("Exception while parsing {}", fileId, ex);
             }
 
             triggerNextFetch();
