@@ -3455,4 +3455,5 @@
     <string name="devicetype_garmin_enduro_3">Garmin Enduro 3</string>
     <string name="bpm_value_unit">%1$d bpm</string>
     <string name="hr_average">Promedio</string>
+    <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
 </resources>
