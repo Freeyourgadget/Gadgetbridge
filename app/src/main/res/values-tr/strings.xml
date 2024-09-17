@@ -3456,4 +3456,5 @@
     <string name="label_distance_total_mph">Toplam: %.1f mil</string>
     <string name="error_no_cycling_sensor_found">döngü sensörü bulunamadı</string>
     <string name="label_distance_trip_mph">Yolculuk: %.1f mil</string>
+    <string name="devicetype_garmin_forerunner_245_music">Garmin Forerunner 245 Music</string>
 </resources>
