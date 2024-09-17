@@ -923,6 +923,10 @@
     <string name="distance">Distance</string>
     <string name="clock">Clock</string>
     <string name="heart_rate">Heart rate</string>
+    <string name="hr_resting">Resting</string>
+    <string name="hr_maximum">Maximum</string>
+    <string name="hr_minimum">Minimum</string>
+    <string name="hr_average">Average</string>
     <string name="blood_pressure">Blood pressure</string>
     <string name="getting_heart_rate">Measuring</string>
     <string name="heart_rate_result">Measurement results</string>
@@ -1619,6 +1623,7 @@
     <string name="hrv_status_unit">%1$d ms</string>
     <string name="hrv_status_baseline">%1$d-%2$d ms</string>
     <string name="hrv_status_baseline_label">Baseline</string>
+    <string name="bpm_value_unit">%1$d bpm</string>
     <string name="steps_distance_unit">%1$,.2f km</string>
     <string name="body_energy_gained">Gained</string>
     <string name="body_energy_lost">Lost</string>

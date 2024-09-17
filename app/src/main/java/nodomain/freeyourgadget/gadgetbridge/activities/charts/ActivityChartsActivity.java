@@ -124,6 +124,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsHrvMeasurement()) {
             tabList.remove("hrvstatus");
         }
+        if (!coordinator.supportsHeartRateMeasurement(device)) {
+            tabList.remove("heartrate");
+        }
         if (!coordinator.supportsBodyEnergy()) {
             tabList.remove("bodyenergy");
         }
@@ -155,6 +158,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new ActivityListingChartFragment();
                 case "sleep":
                     return SleepCollectionFragment.newInstance(enabledTabsList.size() == 1);
+                case "heartrate":
+                    return new HeartRateDailyFragment();
                 case "hrvstatus":
                     return new HRVStatusFragment();
                 case "bodyenergy":
@@ -196,6 +201,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.charts_activity_list);
                 case "sleep":
                     return getString(R.string.sleepchart_your_sleep);
+                case "heartrate":
+                    return getString(R.string.menuitem_hr);
                 case "hrvstatus":
                     return getString(R.string.pref_header_hrv_status);
                 case "bodyenergy":

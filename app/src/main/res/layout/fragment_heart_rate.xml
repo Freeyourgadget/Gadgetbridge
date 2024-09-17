@@ -1,0 +1,189 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hr_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300sp">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/heart_rate_line_chart"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2" />
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="3"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dip"
+                    android:paddingTop="20dip"
+                    android:paddingRight="20dip">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="5px"
+                        android:background="@color/value_line_color" />
+
+                    <TextView
+                        android:id="@+id/hr_minimum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="20dip"
+                        android:text="0"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="@string/hr_minimum"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dip"
+                    android:paddingTop="20dip"
+                    android:paddingRight="20dip">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="5px"
+                        android:background="@color/value_line_color" />
+
+                    <TextView
+                        android:id="@+id/hr_maximum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="20dip"
+                        android:text="0"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="@string/hr_maximum"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dip"
+                    android:paddingTop="20dip"
+                    android:paddingRight="20dip">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="5px"
+                        android:background="@color/value_line_color" />
+
+                    <TextView
+                        android:id="@+id/hr_average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="20dip"
+                        android:text="0"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="@string/hr_average"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/hr_resting_wrapper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dip"
+                    android:paddingTop="20dip"
+                    android:paddingRight="20dip">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="5px"
+                        android:background="@color/value_line_color" />
+
+                    <TextView
+                        android:id="@+id/hr_resting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="20dip"
+                        android:text="0"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="@string/hr_resting"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/steps_chart_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingLeft="20dip"
+            android:text=""
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</ScrollView>

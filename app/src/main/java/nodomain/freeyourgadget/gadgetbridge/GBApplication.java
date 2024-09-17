@@ -127,7 +127,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 38;
+    private static final int CURRENT_PREFS_VERSION = 39;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -1758,6 +1758,38 @@ public class GBApplication extends Application {
                 }
             } catch (final Exception e) {
                 Log.e(TAG, "Failed to migrate year of birth to date of birth in version 38", e);
+            }
+        }
+
+        if (oldVersion < 39) {
+            // Add the new Heart Rate tab to all devices
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (final Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+
+                    final String chartsTabsValue = deviceSharedPrefs.getString("charts_tabs", null);
+                    if (chartsTabsValue == null) {
+                        continue;
+                    }
+
+                    String newPrefValue = chartsTabsValue;
+                    if (!StringUtils.isBlank(chartsTabsValue)) {
+                        if (!chartsTabsValue.contains("heartrate")) {
+                            newPrefValue = newPrefValue + ",heartrate";
+                        }
+                    } else {
+                        newPrefValue = "heartrate";
+                    }
+
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    deviceSharedPrefsEdit.putString("charts_tabs", newPrefValue);
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to migrate prefs to version 39", e);
             }
         }
 
