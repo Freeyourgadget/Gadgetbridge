@@ -3448,4 +3448,11 @@
     <string name="error_no_cycling_sensor_found">Sensor de ciclismo no encontrado</string>
     <string name="label_distance_total">Total: %.1f km</string>
     <string name="devicetype_garmin_forerunner_245_music">Garmin Forerunner 245 Music</string>
+    <string name="hr_resting">Descansando</string>
+    <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
+    <string name="hr_maximum">Máximo</string>
+    <string name="hr_minimum">Mínimo</string>
+    <string name="devicetype_garmin_enduro_3">Garmin Enduro 3</string>
+    <string name="bpm_value_unit">%1$d bpm</string>
+    <string name="hr_average">Promedio</string>
 </resources>
