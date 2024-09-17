@@ -3443,4 +3443,5 @@
     <string name="error_no_cycling_sensor_found">未找到骑行传感器</string>
     <string name="label_distance_trip">旅途：%.1f 千米</string>
     <string name="label_distance_total">总计：%.1f 千米</string>
+    <string name="devicetype_garmin_forerunner_245_music">佳明 Forerunner 245 Music</string>
 </resources>
