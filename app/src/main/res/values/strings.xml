@@ -1743,6 +1743,7 @@
     <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
     <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
     <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
+    <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
     <string name="devicetype_garmin_swim_2">Garmin Swim 2</string>
     <string name="devicetype_garmin_vivoactive_3">Garmin Vívoactive 3</string>

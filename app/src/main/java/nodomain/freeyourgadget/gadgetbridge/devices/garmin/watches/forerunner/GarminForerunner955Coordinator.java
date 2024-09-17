@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
 
-public class GarminForerunner965Coordinator extends GarminCoordinator {
+public class GarminForerunner955Coordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("^Forerunner 965|UAT-4315$");
+        return Pattern.compile("^Forerunner 955$");
     }
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_garmin_forerunner_965;
+        return R.string.devicetype_garmin_forerunner_955;
     }
 }
