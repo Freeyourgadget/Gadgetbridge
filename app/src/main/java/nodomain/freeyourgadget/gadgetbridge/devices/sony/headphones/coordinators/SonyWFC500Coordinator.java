@@ -43,7 +43,7 @@ public class SonyWFC500Coordinator extends SonyHeadphonesCoordinator {
     @Override
     public List<SonyHeadphonesCapabilities> getCapabilities() {
         return Arrays.asList(
-                SonyHeadphonesCapabilities.BatteryDual_2,
+                SonyHeadphonesCapabilities.BatteryDual_NoCase,
                 SonyHeadphonesCapabilities.EqualizerSimple,
                 SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.AudioUpsampling,

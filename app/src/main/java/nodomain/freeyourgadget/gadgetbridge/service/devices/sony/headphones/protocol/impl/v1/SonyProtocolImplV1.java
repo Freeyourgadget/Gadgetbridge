@@ -638,7 +638,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         final Map<SonyHeadphonesCapabilities, Request> capabilityRequestMap = new LinkedHashMap<SonyHeadphonesCapabilities, Request>() {{
             put(SonyHeadphonesCapabilities.BatterySingle, getBattery(BatteryType.SINGLE));
             put(SonyHeadphonesCapabilities.BatteryDual, getBattery(BatteryType.DUAL));
-            put(SonyHeadphonesCapabilities.BatteryDual_2, getBattery(BatteryType.DUAL_2));
+            put(SonyHeadphonesCapabilities.BatteryDual_NoCase, getBattery(BatteryType.DUAL_NO_CASE));
             put(SonyHeadphonesCapabilities.BatteryCase, getBattery(BatteryType.CASE));
             put(SonyHeadphonesCapabilities.AmbientSoundControl, getAmbientSoundControl());
             put(SonyHeadphonesCapabilities.AncOptimizer, getNoiseCancellingOptimizerState());
@@ -963,7 +963,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
                 batteryEvents.add(gbDeviceEventBatteryInfoRight);
             }
-        } else if (BatteryType.DUAL_2.equals(batteryType)) {
+        } else if (BatteryType.DUAL_NO_CASE.equals(batteryType)) {
             // Dual Battery (L / R)
             LOG.debug("Battery Level: L: {}, R: {}", payload[2], payload[4]);
 

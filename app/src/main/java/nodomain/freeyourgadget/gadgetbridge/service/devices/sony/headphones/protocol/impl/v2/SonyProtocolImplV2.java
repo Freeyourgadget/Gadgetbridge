@@ -1028,7 +1028,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
             case 0x00:
                 return BatteryType.SINGLE;
             case 0x01:
-                return BatteryType.DUAL_2;
+                return BatteryType.DUAL_NO_CASE;
             case 0x09:
                 return BatteryType.DUAL;
             case 0x0a:
@@ -1043,7 +1043,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
         switch (batteryType) {
             case SINGLE:
                 return 0x00;
-            case DUAL_2:
+            case DUAL_NO_CASE:
                 return 0x01;
             case DUAL:
                 return 0x09;
