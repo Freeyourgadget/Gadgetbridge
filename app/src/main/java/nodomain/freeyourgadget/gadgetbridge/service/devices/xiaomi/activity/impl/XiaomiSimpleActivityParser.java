@@ -101,6 +101,9 @@ public class XiaomiSimpleActivityParser {
             } else if (dataEntry.getKey().equals(XIAOMI_WORKOUT_TYPE)) {
                 // TODO use XiaomiWorkoutType
                 switch (value.intValue()) {
+                    case 1:
+                        summary.setActivityKind(ActivityKind.OUTDOOR_WALKING.getCode());
+                        break;
                     case 2:
                         summary.setActivityKind(ActivityKind.WALKING.getCode());
                         break;

@@ -17,9 +17,14 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ACTIVE_SECONDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ALTITUDE_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ALTITUDE_MAX;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ALTITUDE_MIN;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.CADENCE_AVG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.CALORIES_BURNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.DISTANCE_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ELEVATION_GAIN;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.ELEVATION_LOSS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_AVG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_MIN;
@@ -30,6 +35,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.HR_ZONE_WARM_UP;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LAPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.LAP_PACE_AVERAGE;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_AVG_SECONDS_KM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.PACE_MIN;
@@ -51,6 +57,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KMPH;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_LAPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_ML_KG_MIN;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_NONE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS_PER_KM;
@@ -441,6 +448,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int headerSize;
         switch (version) {
             case 4:
+            case 5:
                 headerSize = 6;
                 break;
             default:
@@ -460,10 +468,32 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addShort(CALORIES_BURNT, UNIT_KCAL);
         builder.addUnknown(4);
         builder.addUnknown(4);
+        if (version >= 5) {
+            builder.addFloat(SPEED_AVG, UNIT_KMPH);
+        }
         builder.addFloat(SPEED_MAX, UNIT_KMPH);
         builder.addByte(HR_AVG, UNIT_BPM);
         builder.addByte(HR_MAX, UNIT_BPM);
         builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addFloat(ELEVATION_GAIN, UNIT_METERS);
+        builder.addFloat(ELEVATION_LOSS, UNIT_METERS);
+        builder.addFloat(ALTITUDE_AVG, UNIT_METERS);
+        builder.addFloat(ALTITUDE_MAX, UNIT_METERS);
+        builder.addFloat(ALTITUDE_MIN, UNIT_METERS);
+        builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
+        builder.addUnknown(1);
+        builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
+        builder.addUnknown(1);
+        builder.addByte(MAXIMUM_OXYGEN_UPTAKE, UNIT_ML_KG_MIN);
+        builder.addUnknown(1);
+        builder.addUnknown(1);
+        builder.addShort(RECOVERY_TIME, UNIT_HOURS);
+        builder.addUnknown(1);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
 
         return builder.build();
     }
