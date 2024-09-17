@@ -638,6 +638,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         final Map<SonyHeadphonesCapabilities, Request> capabilityRequestMap = new LinkedHashMap<SonyHeadphonesCapabilities, Request>() {{
             put(SonyHeadphonesCapabilities.BatterySingle, getBattery(BatteryType.SINGLE));
             put(SonyHeadphonesCapabilities.BatteryDual, getBattery(BatteryType.DUAL));
+            put(SonyHeadphonesCapabilities.BatteryDual_2, getBattery(BatteryType.DUAL_2));
             put(SonyHeadphonesCapabilities.BatteryCase, getBattery(BatteryType.CASE));
             put(SonyHeadphonesCapabilities.AmbientSoundControl, getAmbientSoundControl());
             put(SonyHeadphonesCapabilities.AncOptimizer, getNoiseCancellingOptimizerState());
@@ -957,6 +958,29 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 final GBDeviceEventBatteryInfo gbDeviceEventBatteryInfoRight = new GBDeviceEventBatteryInfo();
 
                 gbDeviceEventBatteryInfoRight.batteryIndex = 2;
+                gbDeviceEventBatteryInfoRight.level = payload[4];
+                gbDeviceEventBatteryInfoRight.state = payload[5] == 1 ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+
+                batteryEvents.add(gbDeviceEventBatteryInfoRight);
+            }
+        } else if (BatteryType.DUAL_2.equals(batteryType)) {
+            // Dual Battery (L / R)
+            LOG.debug("Battery Level: L: {}, R: {}", payload[2], payload[4]);
+
+            if (payload[2] != 0) {
+                final GBDeviceEventBatteryInfo gbDeviceEventBatteryInfoLeft = new GBDeviceEventBatteryInfo();
+
+                gbDeviceEventBatteryInfoLeft.batteryIndex = 0;
+                gbDeviceEventBatteryInfoLeft.level = payload[2];
+                gbDeviceEventBatteryInfoLeft.state = payload[3] == 1 ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+
+                batteryEvents.add(gbDeviceEventBatteryInfoLeft);
+            }
+
+            if (payload[4] != 0) {
+                final GBDeviceEventBatteryInfo gbDeviceEventBatteryInfoRight = new GBDeviceEventBatteryInfo();
+
+                gbDeviceEventBatteryInfoRight.batteryIndex = 1;
                 gbDeviceEventBatteryInfoRight.level = payload[4];
                 gbDeviceEventBatteryInfoRight.state = payload[5] == 1 ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
 

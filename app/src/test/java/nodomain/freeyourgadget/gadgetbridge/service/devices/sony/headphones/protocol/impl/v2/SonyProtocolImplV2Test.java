@@ -104,6 +104,7 @@ public class SonyProtocolImplV2Test {
         final Map<BatteryType, String> commands = new LinkedHashMap<BatteryType, String>() {{
             put(BatteryType.SINGLE, "22:00");
             put(BatteryType.DUAL, "22:09");
+            put(BatteryType.DUAL_2, "22:01");
             put(BatteryType.CASE, "22:0a");
         }};
 

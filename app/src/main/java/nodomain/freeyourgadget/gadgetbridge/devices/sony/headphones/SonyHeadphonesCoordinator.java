@@ -70,7 +70,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     @Override
     public int getBatteryCount() {
         if (supports(SonyHeadphonesCapabilities.BatterySingle)) {
-            if (supports(SonyHeadphonesCapabilities.BatteryDual)) {
+            if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual_2)) {
                 throw new IllegalStateException("A device can't have both single and dual battery");
             } else if (supports(SonyHeadphonesCapabilities.BatteryCase)) {
                 throw new IllegalStateException("Devices with single battery + case are not supported by the protocol");
@@ -87,7 +87,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             batteryCount += 1;
         }
 
-        if (supports(SonyHeadphonesCapabilities.BatteryDual)) {
+        if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual_2)) {
             batteryCount += 2;
         }
 
@@ -106,7 +106,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             batteries.add(new BatteryConfig(batteries.size(), R.drawable.ic_tws_case, R.string.battery_case));
         }
 
-        if (supports(SonyHeadphonesCapabilities.BatteryDual)) {
+        if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual_2)) {
             batteries.add(new BatteryConfig(batteries.size(), R.drawable.ic_galaxy_buds_l, R.string.left_earbud));
             batteries.add(new BatteryConfig(batteries.size(), R.drawable.ic_galaxy_buds_r, R.string.right_earbud));
         }
