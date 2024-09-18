@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -106,31 +107,10 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
 
         final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
 
-        switch (type) {
-            case RUNNING:
-                qb.where(BaseActivitySummaryDao.Properties.ActivityKind.in(Arrays.asList(
-                        ActivityKind.INDOOR_RUNNING.getCode(),
-                        ActivityKind.OUTDOOR_RUNNING.getCode(),
-                        ActivityKind.CROSS_COUNTRY_RUNNING.getCode(),
-                        ActivityKind.RUNNING.getCode()
-                )));
-                break;
-            case CYCLING:
-                qb.where(BaseActivitySummaryDao.Properties.ActivityKind.in(Arrays.asList(
-                        ActivityKind.CYCLING.getCode(),
-                        ActivityKind.INDOOR_CYCLING.getCode(),
-                        ActivityKind.HANDCYCLING.getCode(),
-                        ActivityKind.HANDCYCLING_INDOOR.getCode(),
-                        ActivityKind.MOTORCYCLING.getCode(),
-                        ActivityKind.OUTDOOR_CYCLING.getCode()
-                )));
-                break;
-            default:
-                break;
-        }
+        addWhereFilter(qb, type);
 
         if (until != 0) {
-            qb.where(BaseActivitySummaryDao.Properties.EndTime.le(new Date(until)));
+            qb.where(BaseActivitySummaryDao.Properties.StartTime.le(new Date(until)));
         }
 
         qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId()))
@@ -141,6 +121,31 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
         summaryDao.detachAll();
 
         return !samples.isEmpty() ? GarminVo2maxSample.fromActivitySummary(samples.get(0)) : null;
+    }
+
+    private static void addWhereFilter(final QueryBuilder<BaseActivitySummary> qb, final Vo2MaxSample.Type type) {
+        final List<Integer> codes = new ArrayList<>();
+
+        if (type == Vo2MaxSample.Type.ANY || type == Vo2MaxSample.Type.RUNNING) {
+            codes.addAll(Arrays.asList(
+                    ActivityKind.INDOOR_RUNNING.getCode(),
+                    ActivityKind.OUTDOOR_RUNNING.getCode(),
+                    ActivityKind.CROSS_COUNTRY_RUNNING.getCode(),
+                    ActivityKind.RUNNING.getCode()
+            ));
+        }
+        if (type == Vo2MaxSample.Type.ANY || type == Vo2MaxSample.Type.CYCLING) {
+            codes.addAll(Arrays.asList(
+                    ActivityKind.CYCLING.getCode(),
+                    ActivityKind.INDOOR_CYCLING.getCode(),
+                    ActivityKind.HANDCYCLING.getCode(),
+                    ActivityKind.HANDCYCLING_INDOOR.getCode(),
+                    ActivityKind.MOTORCYCLING.getCode(),
+                    ActivityKind.OUTDOOR_CYCLING.getCode()
+            ));
+        }
+
+        qb.where(BaseActivitySummaryDao.Properties.ActivityKind.in(codes));
     }
 
     @Nullable
@@ -169,6 +174,7 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
 
         return !samples.isEmpty() ? GarminVo2maxSample.fromActivitySummary(samples.get(0)) : null;
     }
+
 
     public static class GarminVo2maxSample implements Vo2MaxSample {
         private final long timestamp;
