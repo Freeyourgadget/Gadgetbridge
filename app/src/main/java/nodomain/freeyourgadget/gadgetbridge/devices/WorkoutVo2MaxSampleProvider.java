@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.garmin;
+package nodomain.freeyourgadget.gadgetbridge.devices;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -33,8 +34,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.Vo2MaxSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -42,15 +43,20 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
 
-public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSample> {
-    private static final Logger LOG = LoggerFactory.getLogger(GarminVo2MaxSampleProvider.class);
+/**
+ * An implementation of {@link Vo2MaxSampleProvider} that extracts VO2 Max values from
+ * workouts, for devices that provide them as part of the workout data.
+ */
+public class WorkoutVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSample> {
+    private static final Logger LOG = LoggerFactory.getLogger(WorkoutVo2MaxSampleProvider.class);
 
     private final GBDevice device;
     private final DaoSession session;
 
-    public GarminVo2MaxSampleProvider(final GBDevice device, final DaoSession session) {
+    public WorkoutVo2MaxSampleProvider(final GBDevice device, final DaoSession session) {
         this.device = device;
         this.session = session;
     }
@@ -65,6 +71,8 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
             return Collections.emptyList();
         }
 
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
+
         final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
         qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(dbDevice.getId()))
                 .where(BaseActivitySummaryDao.Properties.StartTime.gt(new Date(timestampFrom)))
@@ -73,6 +81,7 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
 
         final List<BaseActivitySummary> samples = qb.build().list();
         summaryDao.detachAll();
+        fillSummaryData(coordinator, samples);
 
         return samples.stream()
                 .map(GarminVo2maxSample::fromActivitySummary)
@@ -105,9 +114,10 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
             return null;
         }
 
+        final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
 
-        addWhereFilter(qb, type);
+        addWhereFilter(coordinator, qb, type);
 
         if (until != 0) {
             qb.where(BaseActivitySummaryDao.Properties.StartTime.le(new Date(until)));
@@ -119,33 +129,50 @@ public class GarminVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxSa
 
         final List<BaseActivitySummary> samples = qb.build().list();
         summaryDao.detachAll();
+        fillSummaryData(coordinator, samples);
 
         return !samples.isEmpty() ? GarminVo2maxSample.fromActivitySummary(samples.get(0)) : null;
     }
 
-    private static void addWhereFilter(final QueryBuilder<BaseActivitySummary> qb, final Vo2MaxSample.Type type) {
+    private static void addWhereFilter(final DeviceCoordinator coordinator,
+                                       final QueryBuilder<BaseActivitySummary> qb,
+                                       final Vo2MaxSample.Type type) {
         final List<Integer> codes = new ArrayList<>();
 
-        if (type == Vo2MaxSample.Type.ANY || type == Vo2MaxSample.Type.RUNNING) {
-            codes.addAll(Arrays.asList(
-                    ActivityKind.INDOOR_RUNNING.getCode(),
-                    ActivityKind.OUTDOOR_RUNNING.getCode(),
-                    ActivityKind.CROSS_COUNTRY_RUNNING.getCode(),
-                    ActivityKind.RUNNING.getCode()
-            ));
+        if (coordinator.supportsVO2MaxRunning()) {
+            if (type == Vo2MaxSample.Type.ANY || type == Vo2MaxSample.Type.RUNNING) {
+                codes.addAll(Arrays.asList(
+                        ActivityKind.INDOOR_RUNNING.getCode(),
+                        ActivityKind.OUTDOOR_RUNNING.getCode(),
+                        ActivityKind.CROSS_COUNTRY_RUNNING.getCode(),
+                        ActivityKind.RUNNING.getCode()
+                ));
+            }
         }
-        if (type == Vo2MaxSample.Type.ANY || type == Vo2MaxSample.Type.CYCLING) {
-            codes.addAll(Arrays.asList(
-                    ActivityKind.CYCLING.getCode(),
-                    ActivityKind.INDOOR_CYCLING.getCode(),
-                    ActivityKind.HANDCYCLING.getCode(),
-                    ActivityKind.HANDCYCLING_INDOOR.getCode(),
-                    ActivityKind.MOTORCYCLING.getCode(),
-                    ActivityKind.OUTDOOR_CYCLING.getCode()
-            ));
+        if (coordinator.supportsVO2MaxCycling()) {
+            if (type == Vo2MaxSample.Type.ANY || type == Vo2MaxSample.Type.CYCLING) {
+                codes.addAll(Arrays.asList(
+                        ActivityKind.CYCLING.getCode(),
+                        ActivityKind.INDOOR_CYCLING.getCode(),
+                        ActivityKind.HANDCYCLING.getCode(),
+                        ActivityKind.HANDCYCLING_INDOOR.getCode(),
+                        ActivityKind.MOTORCYCLING.getCode(),
+                        ActivityKind.OUTDOOR_CYCLING.getCode()
+                ));
+            }
         }
 
         qb.where(BaseActivitySummaryDao.Properties.ActivityKind.in(codes));
+    }
+
+    private void fillSummaryData(final DeviceCoordinator coordinator,
+                                        final Collection<BaseActivitySummary> summaries) {
+        ActivitySummaryParser activitySummaryParser = coordinator.getActivitySummaryParser(device, GBApplication.getContext());
+        for (final BaseActivitySummary summary : summaries) {
+            if (summary.getSummaryData() == null) {
+                activitySummaryParser.parseBinaryData(summary, true);
+            }
+        }
     }
 
     @Nullable
