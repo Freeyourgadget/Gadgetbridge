@@ -37,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.JYouActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -178,6 +179,7 @@ public class Y5Support extends JYouSupport {
                         }
 
                         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                                .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
                         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 

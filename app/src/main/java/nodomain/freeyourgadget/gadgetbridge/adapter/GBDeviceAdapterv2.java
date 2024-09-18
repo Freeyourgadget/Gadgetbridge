@@ -411,7 +411,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         }
         holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsRealtimeData() && coordinator.supportsManualHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
         if (parent.getContext() instanceof ControlCenterv2) {
-            ActivitySample sample = ((ControlCenterv2) parent.getContext()).getCurrentHRSample();
+            ActivitySample sample = ((ControlCenterv2) parent.getContext()).getCurrentHRSample(device);
             if (sample != null) {
                 holder.heartRateStatusLabel.setText(String.valueOf(sample.getHeartRate()));
             } else {
@@ -430,7 +430,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                          @Override
                                                          public void onClick(View v) {
                                                              GBApplication.deviceService(device).onHeartRateTest();
-                                                             HeartRateDialog dialog = new HeartRateDialog(context);
+                                                             HeartRateDialog dialog = new HeartRateDialog(device, context);
                                                              dialog.show();
                                                          }
                                                      }

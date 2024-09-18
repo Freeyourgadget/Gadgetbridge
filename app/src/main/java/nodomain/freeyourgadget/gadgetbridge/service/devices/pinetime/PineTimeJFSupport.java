@@ -1131,6 +1131,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             this.addGBActivitySample(sample);
 
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
@@ -1157,6 +1158,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             this.addGBActivitySample(sample);
 
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

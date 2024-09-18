@@ -38,11 +38,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 
 public class HeartRateDialog extends Dialog {
+    private final GBDevice device;
+
     protected static final Logger LOG = LoggerFactory.getLogger(HeartRateDialog.class);
     LinearLayout heart_rate_dialog_results_layout;
     RelativeLayout heart_rate_dialog_loading_layout;
@@ -62,7 +65,10 @@ public class HeartRateDialog extends Dialog {
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {
                 case DeviceService.ACTION_REALTIME_SAMPLES:
-                    setMeasurementResults(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    final GBDevice incomingDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                    if (device.equals(incomingDevice)) {
+                        setMeasurementResults(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    }
                     break;
                 default:
                     LOG.info("ignoring intent action {}", intent.getAction());
@@ -71,8 +77,9 @@ public class HeartRateDialog extends Dialog {
         }
     };
 
-    public HeartRateDialog(@NonNull Context context) {
+    public HeartRateDialog(final GBDevice device, @NonNull Context context) {
         super(context);
+        this.device = device;
     }
 
     private void setMeasurementResults(Serializable result) {

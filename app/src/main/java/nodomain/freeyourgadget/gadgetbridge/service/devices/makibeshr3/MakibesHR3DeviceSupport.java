@@ -557,6 +557,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
      */
     private void broadcastSample(MakibesHR3ActivitySample sample) {
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                 .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

@@ -2616,6 +2616,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                         }
 
                         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                                .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
                         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 

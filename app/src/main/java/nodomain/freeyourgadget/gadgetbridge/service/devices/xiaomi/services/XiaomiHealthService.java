@@ -940,6 +940,7 @@ public class XiaomiHealthService extends AbstractXiaomiService {
         previousSteps = realTimeStats.getSteps();
 
         final Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(GBDevice.EXTRA_DEVICE, getSupport().getDevice())
                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
         LocalBroadcastManager.getInstance(getSupport().getContext()).sendBroadcast(intent);
     }

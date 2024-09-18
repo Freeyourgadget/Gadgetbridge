@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.withingssteelhr.WithingsSteelHRSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.WithingsSteelHRActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.WithingsSteelHRDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.activity.SleepActivitySampleHelper;
@@ -82,6 +83,7 @@ public class LiveHeartrateHandler implements IncomingMessageHandler {
             logger.warn("Error saving current heart rate: " + ex.getLocalizedMessage());
         }
         Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                .putExtra(GBDevice.EXTRA_DEVICE, support.getDevice())
                 .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
         LocalBroadcastManager.getInstance(support.getContext()).sendBroadcast(intent);
     }

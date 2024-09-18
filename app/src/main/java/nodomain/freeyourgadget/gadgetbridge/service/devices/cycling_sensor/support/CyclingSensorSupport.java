@@ -212,6 +212,7 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
         sample.setTimestamp(now);
 
         Intent liveIntent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES);
+        liveIntent.putExtra(GBDevice.EXTRA_DEVICE, getDevice());
         liveIntent.putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
         liveIntent.putExtra("EXTRA_DEVICE_ADDRESS", getDevice().getAddress());
         LocalBroadcastManager.getInstance(getContext())

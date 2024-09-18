@@ -138,6 +138,7 @@ public class ColmiR0xPacketHandler {
                 sampleProvider.addSample(gbSample);
                 // Send local intent with sample for listeners like the heart rate dialog
                 Intent liveIntent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES);
+                liveIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                 liveIntent.putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, gbSample);
                 LocalBroadcastManager.getInstance(context)
                         .sendBroadcast(liveIntent);

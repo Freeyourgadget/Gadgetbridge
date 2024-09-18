@@ -72,10 +72,10 @@ public class DevicesFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            final GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
             switch (Objects.requireNonNull(action)) {
                 case DeviceManager.ACTION_DEVICES_CHANGED:
                 case GBApplication.ACTION_NEW_DATA:
-                    final GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     if (action.equals(GBApplication.ACTION_NEW_DATA)) {
                         createRefreshTask("get activity data", requireContext(), device).execute();
                     }
@@ -88,17 +88,21 @@ public class DevicesFragment extends Fragment {
 
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
-                    handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    handleRealtimeSample(device, intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
                     break;
             }
         }
     };
 
-    private void handleRealtimeSample(Serializable extra) {
+    private void handleRealtimeSample(GBDevice device, Serializable extra) {
         if (extra instanceof ActivitySample) {
             ActivitySample sample = (ActivitySample) extra;
             if (HeartRateUtils.getInstance().isValidHeartRateValue(sample.getHeartRate())) {
-                refreshPairedDevices();
+                if (device != null) {
+                    refreshSingleDevice(device);
+                } else {
+                    refreshPairedDevices();
+                }
             }
         }
     }

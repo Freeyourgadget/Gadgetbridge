@@ -71,6 +71,7 @@ public class SonySWR12HandlerThread extends GBDeviceIoThread {
             provider.addGBActivitySample(sample);
             GBApplication.releaseDB();
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, timestamp);
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

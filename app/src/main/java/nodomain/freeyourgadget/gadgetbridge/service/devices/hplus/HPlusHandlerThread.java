@@ -446,6 +446,7 @@ class HPlusHandlerThread extends GBDeviceIoThread {
             sample.setSteps(sample.getSteps() - prevRealTimeRecord.steps);
 
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, System.currentTimeMillis());
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);

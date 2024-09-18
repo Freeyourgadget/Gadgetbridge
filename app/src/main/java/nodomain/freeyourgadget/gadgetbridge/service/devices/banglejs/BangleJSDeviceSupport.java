@@ -858,6 +858,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         // push realtime data
         if (realtime && (realtimeHRM || realtimeStep)) {
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(GBDevice.EXTRA_DEVICE, getDevice())
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
         }

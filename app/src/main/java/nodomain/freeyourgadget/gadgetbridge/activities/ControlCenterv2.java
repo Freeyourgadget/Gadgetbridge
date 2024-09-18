@@ -77,9 +77,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -88,11 +90,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
-import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -135,7 +135,8 @@ public class ControlCenterv2 extends AppCompatActivity
                     finish();
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
-                    handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
+                    final GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                    handleRealtimeSample(device, intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
                     break;
                 case ACTION_REQUEST_PERMISSIONS:
                     checkAndRequestPermissions();
@@ -153,22 +154,22 @@ public class ControlCenterv2 extends AppCompatActivity
         }
     };
     private boolean pesterWithPermissions = true;
-    private ActivitySample currentHRSample;
+    private final Map<GBDevice, ActivitySample> currentHRSample = new HashMap<>();
 
-    public ActivitySample getCurrentHRSample() {
-        return currentHRSample;
+    public ActivitySample getCurrentHRSample(final GBDevice device) {
+        return currentHRSample.get(device);
     }
 
-    private void setCurrentHRSample(ActivitySample sample) {
+    private void setCurrentHRSample(final GBDevice device, ActivitySample sample) {
         if (HeartRateUtils.getInstance().isValidHeartRateValue(sample.getHeartRate())) {
-            currentHRSample = sample;
+            currentHRSample.put(device, sample);
         }
     }
 
-    private void handleRealtimeSample(Serializable extra) {
+    private void handleRealtimeSample(final GBDevice device, Serializable extra) {
         if (extra instanceof ActivitySample) {
             ActivitySample sample = (ActivitySample) extra;
-            setCurrentHRSample(sample);
+            setCurrentHRSample(device, sample);
         }
     }
 
