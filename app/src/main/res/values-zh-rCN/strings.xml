@@ -3444,4 +3444,12 @@
     <string name="label_distance_trip">旅途：%.1f 千米</string>
     <string name="label_distance_total">总计：%.1f 千米</string>
     <string name="devicetype_garmin_forerunner_245_music">佳明 Forerunner 245 Music</string>
+    <string name="hr_resting">休息中</string>
+    <string name="hr_maximum">最大</string>
+    <string name="hr_minimum">最小</string>
+    <string name="hr_average">平均</string>
+    <string name="devicetype_garmin_forerunner_955">佳明 Forerunner 955</string>
+    <string name="devicetype_sony_wf_c500">索尼 WF-C500</string>
+    <string name="bpm_value_unit">%1$d 次/分</string>
+    <string name="devicetype_garmin_enduro_3">佳明 Enduro 3</string>
 </resources>
