@@ -181,13 +181,13 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
     public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
         TimestampTranslation tsTranslation = new TimestampTranslation();
-        LOG.info("" + getTitle() + ": number of samples:" + samples.size());
+        LOG.info("{}: number of samples: {}", getTitle(), samples.size());
         LineData lineData;
 
-        if (samples.size() == 0) {
+        if (samples.isEmpty()) {
             lineData = new LineData();
             ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
-            return new DefaultChartsData(lineData, xValueFormatter);
+            return new DefaultChartsData<>(lineData, xValueFormatter);
         }
 
         ActivityKind last_type = ActivityKind.UNKNOWN;
@@ -260,10 +260,10 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         }
         if (supportsAwakeSleep(gbDevice)) {
             lineDataSets.add(createDataSet(
-                entries.get(getIndexOfActivity(ActivityKind.AWAKE_SLEEP)), akActivity.color, "Awake Sleep"
+                entries.get(getIndexOfActivity(ActivityKind.AWAKE_SLEEP)), akAwakeSleep.color, "Awake Sleep"
             ));
         }
-        if (hr && heartrateEntries.size() > 0) {
+        if (hr && !heartrateEntries.isEmpty()) {
             LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
             lineDataSets.add(heartrateSet);
         }
@@ -271,7 +271,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         lineData = new LineData(lineDataSets);
 
         ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
-        return new DefaultChartsData(lineData, xValueFormatter);
+        return new DefaultChartsData<>(lineData, xValueFormatter);
     }
 
     protected int getIndexOfActivity(ActivityKind kind) {
