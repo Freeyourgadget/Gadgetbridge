@@ -3041,7 +3041,7 @@
         <item>@string/weekstepschart_steps_a_week_or_month</item>
         <item>@string/pref_header_hrv_status</item>
         <item>@string/body_energy</item>
-        <item>@string/vo2max</item>
+        <item>@string/menuitem_vo2_max</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_pai</item>
         <item>@string/stats_title</item>
@@ -4181,7 +4181,7 @@
         <item>@string/menuitem_stress_segmented</item>
         <item>@string/menuitem_stress_breakdown</item>
         <item>@string/hrv</item>
-        <item>@string/vo2max</item>
+        <item>@string/menuitem_vo2_max</item>
         <item>@string/vo2max_running</item>
         <item>@string/vo2max_cycling</item>
     </string-array>

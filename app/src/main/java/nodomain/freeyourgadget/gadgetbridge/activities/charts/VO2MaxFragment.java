@@ -106,7 +106,7 @@ public class VO2MaxFragment extends AbstractChartFragment<VO2MaxFragment.VO2MaxD
 
     @Override
     public String getTitle() {
-        return getString(R.string.vo2max);
+        return getString(R.string.menuitem_vo2_max);
     }
 
     @Override

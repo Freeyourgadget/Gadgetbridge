@@ -213,7 +213,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "bodyenergy":
                     return getString(R.string.body_energy);
                 case "vo2max":
-                    return getString(R.string.vo2max);
+                    return getString(R.string.menuitem_vo2_max);
                 case "stress":
                     return getString(R.string.menuitem_stress);
                 case "pai":

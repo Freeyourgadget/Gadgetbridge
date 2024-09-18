@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/vo2max_running_gauge_value"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/running" />
+                    android:text="@string/activity_type_running" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/vo2max_cycling_gauge_value"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/cycling" />
+                    android:text="@string/title_cycling" />
 
             </RelativeLayout>
 

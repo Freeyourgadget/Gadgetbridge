@@ -10,7 +10,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
 public class DashboardVO2MaxAnyWidget extends AbstractDashboardVO2MaxWidget {
 
     public DashboardVO2MaxAnyWidget() {
-        super(R.string.vo2max, "vo2max");
+        super(R.string.menuitem_vo2_max, "vo2max");
     }
 
     public static DashboardVO2MaxAnyWidget newInstance(final DashboardFragment.DashboardData dashboardData) {

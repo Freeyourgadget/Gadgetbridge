@@ -1623,8 +1623,6 @@
     <string name="hrv_status_unit">%1$d ms</string>
     <string name="hrv_status_baseline">%1$d-%2$d ms</string>
     <string name="hrv_status_baseline_label">Baseline</string>
-    <string name="running">Running</string>
-    <string name="cycling">Cycling</string>
     <string name="bpm_value_unit">%1$d bpm</string>
     <string name="steps_distance_unit">%1$,.2f km</string>
     <string name="body_energy_gained">Gained</string>
@@ -2532,9 +2530,8 @@
     <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_hrv_status">HRV Status</string>
     <string name="body_energy">Body Energy</string>
-    <string name="vo2max">VO2 Max</string>
-    <string name="vo2max_running">VO2 Max (Running)</string>
-    <string name="vo2max_cycling">VO2 Max (Cycling)</string>
+    <string name="vo2max_running">Running VO₂ Max</string>
+    <string name="vo2max_cycling">Cycling VO₂ Max</string>
     <string name="thirty_days_timeline">30 Days Timeline</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
     <string name="pref_header_sony_sound_control">Sound Control</string>
