@@ -3457,4 +3457,12 @@
     <string name="error_no_cycling_sensor_found">döngü sensörü bulunamadı</string>
     <string name="label_distance_trip_mph">Yolculuk: %.1f mil</string>
     <string name="devicetype_garmin_forerunner_245_music">Garmin Forerunner 245 Music</string>
+    <string name="hr_resting">Dinlenirken</string>
+    <string name="hr_maximum">En yüksek</string>
+    <string name="hr_minimum">En düşük</string>
+    <string name="hr_average">Ortalama</string>
+    <string name="devicetype_garmin_enduro_3">Garmin Enduro 3</string>
+    <string name="bpm_value_unit">%1$d kalp atışı/dakika</string>
+    <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
+    <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
 </resources>
