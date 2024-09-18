@@ -156,7 +156,6 @@ public class WorkoutVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxS
                         ActivityKind.INDOOR_CYCLING.getCode(),
                         ActivityKind.HANDCYCLING.getCode(),
                         ActivityKind.HANDCYCLING_INDOOR.getCode(),
-                        ActivityKind.MOTORCYCLING.getCode(),
                         ActivityKind.OUTDOOR_CYCLING.getCode()
                 ));
             }
