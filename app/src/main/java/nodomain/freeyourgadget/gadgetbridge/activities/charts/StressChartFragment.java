@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -103,11 +104,19 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
 
     @Override
     protected StressChartsData refreshInBackground(final ChartsHost chartsHost, final DBHandler db, final GBDevice device) {
-        final List<? extends StressSample> samples = getSamples(db, device);
+        int tsEnd = getTSEnd();
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(tsEnd * 1000L);
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        final int tsStart = (int) (day.getTimeInMillis() / 1000);
+        tsEnd = tsStart + 24 * 60 * 60 - 1;
+        final List<? extends StressSample> samples = getSamples(db, device, tsStart, tsEnd);
 
         LOG.info("Got {} stress samples", samples.size());
 
-        ensureStartAndEndSamples((List<StressSample>) samples);
+        ensureStartAndEndSamples((List<StressSample>) samples, tsStart, tsEnd);
 
         return new StressChartsDataBuilder(samples, device.getDeviceCoordinator().getStressRanges()).build();
     }
@@ -247,6 +256,8 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
         x.setDrawLimitLinesBehindData(true);
+        x.setAxisMinimum(0f);
+        x.setAxisMaximum(86400f);
 
         final YAxis yAxisLeft = mStressChart.getAxisLeft();
         yAxisLeft.setDrawGridLines(true);
@@ -294,21 +305,19 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         mStressLevelsPieChart.invalidate();
     }
 
-    private List<? extends StressSample> getSamples(final DBHandler db, final GBDevice device) {
-        final int tsStart = getTSStart();
-        final int tsEnd = getTSEnd();
+    private List<? extends StressSample> getSamples(final DBHandler db, final GBDevice device, int tsStart, int tsEnd) {
         final DeviceCoordinator coordinator = device.getDeviceCoordinator();
         final TimeSampleProvider<? extends StressSample> sampleProvider = coordinator.getStressSampleProvider(device, db.getDaoSession());
         return sampleProvider.getAllSamples(tsStart * 1000L, tsEnd * 1000L);
     }
 
-    protected void ensureStartAndEndSamples(final List<StressSample> samples) {
+    protected void ensureStartAndEndSamples(final List<StressSample> samples, int tsStart, int tsEnd) {
         if (samples == null || samples.isEmpty()) {
             return;
         }
 
-        final long tsEndMillis = getTSEnd() * 1000L;
-        final long tsStartMillis = getTSStart() * 1000L;
+        final long tsEndMillis = tsEnd * 1000L;
+        final long tsStartMillis = tsStart * 1000L;
 
         final StressSample lastSample = samples.get(samples.size() - 1);
         if (lastSample.getTimestamp() < tsEndMillis) {
