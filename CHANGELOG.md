@@ -4,28 +4,29 @@
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
 * Initial support for Colmi R02/R03/R06 smart rings
-* Initial support for Garmin Fenix 5/5 Plus/5X Plus/6, Forerunner 165/255/255S Music/245 Music/965, Venu/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
+* Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6, Forerunner 165/255/255S Music/245 Music/955/965, Venu/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
 * Initial support for Huawei Watch 3 / 3 Pro / GT Runner
 * Initial support for Honor Watch GS 3 / Watch GS Pro
 * Initial support for Moondrop Space Travel
 * Initial support for Mijia XMWSDJ04MMC
 * Initial support for Mi Smart Scale 2
+* Initial support for Sony WF-C500
 * Initial support for Soundcore Motion 300
 * Initial support for Vivitar HR & BP Monitor Activity Tracker
 * Experimental support for Amazfit T-Rex 3
-
 * Add BLE intent API
 * Add month and day to date of birth
 * Add more activity types (CMF, Garmin, Huawei, Zepp OS)
 * Allow configuration of notification times
+* AsteroidOS: Fix missing weather day and set-time on connection
 * Bangle.js: Fix calendar sync setting
 * Bluetooth Intent API: Add disconnect action
 * Casio GW-B5600: Alarms, find phone, reminders, watch settings
 * Casio: Fix notifications on long messages
 * Change device icons to use theme colors
 * Charts: Add button to pick date
-* Charts: Add charts for HRV, body energy, steps, weight
-* Charts: Fix HR charts when min is set to 0
+* Charts: Add charts for HRV, body energy, heart rate, steps, weight
+* Charts: Fix heart rate charts when min is set to 0
 * Charts: Sleep and stress tabs re-design
 * CMF Watch Pro 2: Negotiate authentication key
 * CMF Watch Pro: Fix activity transfer
@@ -37,6 +38,7 @@
 * Data Management: Allow browse folders, open and share files
 * Data Management: Allow full backup/restore from a zip file
 * Data Management: Fix import of some preference from a backup
+* Fix activity charts generation for devices that do not report intensity
 * Fix crash when companion pairing
 * Fix discovery of connected devices
 * Fix emoji when some connected device does not support them
@@ -88,8 +90,8 @@
 * UM25C: Fix some disconnection issues
 * Use default system TTS language
 * Xiaomi Protobuf: Fix deleting first widget screen
-* Xiaomi Protobuf: Fix speed unit and walk workout parsing for some devices
-* Xiaomi Protobuf: Parse freestyle and HIIT workouts
+* Xiaomi Protobuf: Improve workout parsing for some devices
+* Xiaomi Protobuf: Allow re-parse activity from storage
 * Zepp OS 3: Fix file transfer (notification icons, gpx upload, agps updates)
 * Zepp OS 3.5 / 4: Fix shortcuts, shortcut cards, menu items
 * Zepp OS: Fix reminder creation in some cases
