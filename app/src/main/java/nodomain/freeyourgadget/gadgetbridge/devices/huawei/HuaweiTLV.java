@@ -231,6 +231,14 @@ public class HuaweiTLV {
         return ByteBuffer.wrap(getBytes(tag)).getInt();
     }
 
+    public Integer getInteger(int tag, Integer defaultResult) {
+        try {
+            return getInteger(tag);
+        } catch (HuaweiPacket.MissingTagException e) {
+            return defaultResult;
+        }
+    }
+
     public Short getShort(int tag) throws HuaweiPacket.MissingTagException {
         return ByteBuffer.wrap(getBytes(tag)).getShort();
     }

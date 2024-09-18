@@ -29,6 +29,7 @@ public class SendWeatherDeviceRequest extends Request {
         super(support);
         this.serviceId = Weather.id;
         this.commandId = 0x04;
+        this.addToResponse = false; // Handled in async response
     }
 
     @Override

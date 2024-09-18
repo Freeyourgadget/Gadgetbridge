@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.MusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetPhoneInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadComplete;
@@ -523,15 +525,7 @@ public class AsynchronousResponse {
 
     private void handleWeatherCheck(HuaweiPacket response) {
         if (response.serviceId == Weather.id && response.commandId == 0x04) {
-            // Send back ok
-            try {
-                SendWeatherDeviceRequest sendWeatherDeviceRequest = new SendWeatherDeviceRequest(this.support);
-                sendWeatherDeviceRequest.doPerform();
-            } catch (IOException e) {
-                LOG.error("Could not send weather device request", e);
-            }
-
-            // TODO: send back weather?
+            support.huaweiWeatherManager.handleAsyncMessage(response);
         }
     }
 

@@ -16,8 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants.HUAWEI_MAGIC;
-
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,7 +30,6 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,20 +102,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Send
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendDeviceReportThreshold;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFitnessUserInfoRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendRunPaceConfigRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendSetContactsRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyRestHeartRateCapabilityRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherExtendedSupportRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherForecastRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherStartRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherSunMoonSupportRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherSupportRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherUnitRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetAutomaticHeartrateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetAutomaticSpoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetDisconnectNotification;
@@ -219,6 +208,8 @@ public class HuaweiSupportProvider {
     protected HuaweiFileDownloadManager huaweiFileDownloadManager = new HuaweiFileDownloadManager(this);
 
     protected HuaweiAppManager huaweiAppManager = new HuaweiAppManager(this);
+
+    protected HuaweiWeatherManager huaweiWeatherManager = new HuaweiWeatherManager(this);
 
     public HuaweiCoordinatorSupplier getCoordinator() {
         return ((HuaweiCoordinatorSupplier) this.gbDevice.getDeviceCoordinator());
@@ -1791,131 +1782,11 @@ public class HuaweiSupportProvider {
     }
 
     public Weather.WeatherIcon openWeatherMapConditionCodeToHuaweiIcon(int conditionCode) {
-        // More exact first, groups after
-        switch (conditionCode) {
-            case 500:
-                return Weather.WeatherIcon.LIGHT_RAIN;
-            case 501:
-                return Weather.WeatherIcon.RAIN;
-            case 502:
-                return Weather.WeatherIcon.HEAVY_RAIN;
-            case 503:
-                return Weather.WeatherIcon.RAIN_STORM;
-            case 504:
-                return Weather.WeatherIcon.SEVERE_RAIN_STORMS;
-            case 511:
-                return Weather.WeatherIcon.FREEZING_RAIN;
-            case 600:
-                return Weather.WeatherIcon.LIGHT_SNOW;
-            case 601:
-                return Weather.WeatherIcon.SNOW;
-            case 602:
-                return Weather.WeatherIcon.HEAVY_SNOW;
-            case 611:
-                return Weather.WeatherIcon.SLEET;
-            case 701:
-            case 741:
-                return Weather.WeatherIcon.FOG;
-            case 721:
-                return Weather.WeatherIcon.HAZY;
-            case 751:
-                return Weather.WeatherIcon.SAND;
-            case 761:
-                return Weather.WeatherIcon.DUST;
-            case 800:
-                return Weather.WeatherIcon.SUNNY;
-            case 801:
-            case 802:
-                return Weather.WeatherIcon.CLOUDY;
-            case 803:
-            case 804:
-                return Weather.WeatherIcon.OVERCAST;
-        }
-        if (conditionCode >= 200 && conditionCode < 300)
-            return Weather.WeatherIcon.THUNDERSTORMS;
-        if (conditionCode >= 300 && conditionCode < 400)
-            return Weather.WeatherIcon.LIGHT_RAIN;
-        if (conditionCode >= 500 && conditionCode < 600)
-            return Weather.WeatherIcon.RAIN;
-        if (conditionCode >= 600 && conditionCode < 700)
-            return Weather.WeatherIcon.SNOW;
-        return Weather.WeatherIcon.UNKNOWN;
+        return huaweiWeatherManager.openWeatherMapConditionCodeToHuaweiIcon(conditionCode);
     }
 
     public void onSendWeather(ArrayList<WeatherSpec> weatherSpecs) {
-        // Initialize weather settings and send weather
-        if (!getHuaweiCoordinator().supportsWeather()) {
-            LOG.error("onSendWeather called while weather is not supported.");
-            return;
-        }
-
-        WeatherSpec weatherSpec = weatherSpecs.get(0);
-
-        Weather.Settings weatherSettings = new Weather.Settings();
-        weatherSettings.uvIndexSupported = getHuaweiCoordinator().supportsWeatherUvIndex();
-
-        SendWeatherStartRequest weatherStartRequest = new SendWeatherStartRequest(this, weatherSettings);
-        try {
-            weatherStartRequest.doPerform();
-        } catch (IOException e) {
-            // TODO: Use translatable string
-            GB.toast(context, "Failed to send start weather", Toast.LENGTH_SHORT, GB.ERROR, e);
-            LOG.error("Failed to send start weather", e);
-        }
-
-        Request firstRequest = null;
-        Request lastRequest = null;
-
-        if (getHuaweiCoordinator().supportsWeatherUnit()) {
-            SendWeatherUnitRequest weatherUnitRequest = new SendWeatherUnitRequest(this);
-            firstRequest = weatherUnitRequest;
-            lastRequest = weatherUnitRequest;
-        }
-
-        SendWeatherSupportRequest weatherSupportRequest = new SendWeatherSupportRequest(this, weatherSettings);
-        if (firstRequest == null) {
-            firstRequest = weatherSupportRequest;
-        } else {
-            lastRequest.nextRequest(weatherSupportRequest);
-        }
-        lastRequest = weatherSupportRequest;
-
-
-        if (getHuaweiCoordinator().supportsWeatherExtended()) {
-            SendWeatherExtendedSupportRequest weatherExtendedSupportRequest = new SendWeatherExtendedSupportRequest(this, weatherSettings);
-            lastRequest.nextRequest(weatherExtendedSupportRequest);
-            lastRequest = weatherExtendedSupportRequest;
-        }
-
-        if (getHuaweiCoordinator().supportsWeatherMoonRiseSet()) {
-            SendWeatherSunMoonSupportRequest weatherSunMoonSupportRequest = new SendWeatherSunMoonSupportRequest(this, weatherSettings);
-            lastRequest.nextRequest(weatherSunMoonSupportRequest);
-            lastRequest = weatherSunMoonSupportRequest;
-        }
-
-        // End of initialization and start of actually sending weather
-
-        SendWeatherCurrentRequest sendWeatherCurrentRequest = new SendWeatherCurrentRequest(this, weatherSettings, weatherSpec);
-        lastRequest.nextRequest(sendWeatherCurrentRequest);
-        lastRequest = sendWeatherCurrentRequest;
-
-        SendGpsAndTimeToDeviceRequest sendGpsAndTimeToDeviceRequest = new SendGpsAndTimeToDeviceRequest(this);
-        lastRequest.nextRequest(sendGpsAndTimeToDeviceRequest);
-        lastRequest = sendGpsAndTimeToDeviceRequest;
-
-        if (getHuaweiCoordinator().supportsWeatherForecasts()) {
-            SendWeatherForecastRequest sendWeatherForecastRequest = new SendWeatherForecastRequest(this, weatherSettings, weatherSpec);
-            lastRequest.nextRequest(sendWeatherForecastRequest);
-            lastRequest = sendWeatherForecastRequest;
-        }
-
-        try {
-            firstRequest.doPerform();
-        } catch (IOException e) {
-            // TODO: Use translatable string
-            GB.toast(context, "Failed to send weather", Toast.LENGTH_SHORT, GB.ERROR, e);
-            LOG.error("Failed to send weather", e);
-        }
+        huaweiWeatherManager.sendWeather(weatherSpecs.get(0));
     }
 
     public void onSetGpsLocation(Location location) {
