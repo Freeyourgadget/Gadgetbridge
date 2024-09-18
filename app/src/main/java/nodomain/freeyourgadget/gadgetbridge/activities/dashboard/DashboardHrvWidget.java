@@ -89,41 +89,12 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
 
     @Override
     protected void draw(final DashboardFragment.DashboardData dashboardData) {
-        final int[] colors = new int[]{
-                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_low),
-                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_unbalanced),
-                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_balanced),
-                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_unbalanced),
-        };
-
-        final float[] segments = new float[]{
-                0.125f, // low
-                0.125f, // unbalanced
-                0.5f, // normal
-                0.25f, // unbalanced
-        };
-
+        final int[] colors = getColors();
+        final float[] segments = getSegments();
         final HrvData hrvData = (HrvData) dashboardData.get("hrv");
-
-        final float value;
+        final float value = hrvData != null ? calculateGaugeValue(hrvData.weeklyAverage, hrvData.baselineLowUpper, hrvData.baselineBalancedLower, hrvData.baselineBalancedUpper) : -1;
         final String valueText;
-        if (hrvData != null && hrvData.weeklyAverage != 0 && hrvData.hasBaselines()) {
-            valueText = getString(R.string.hrv_status_unit, hrvData.weeklyAverage);
-
-            if (hrvData.weeklyAverage < hrvData.baselineLowUpper) {
-                value = 0.125f * (float) GaugeDrawer.normalize(hrvData.weeklyAverage, 0f, hrvData.baselineLowUpper);
-            } else if (hrvData.weeklyAverage < hrvData.baselineBalancedLower) {
-                value = 0.125f + 0.125f * (float) GaugeDrawer.normalize((float) hrvData.weeklyAverage, hrvData.baselineLowUpper, hrvData.baselineBalancedLower);
-            } else if (hrvData.weeklyAverage < hrvData.baselineBalancedUpper) {
-                value = 0.125f + 0.125f + 0.5f * (float) GaugeDrawer.normalize((float) hrvData.weeklyAverage, hrvData.baselineBalancedLower, hrvData.baselineBalancedUpper);
-            } else {
-                value = 0.125f + 0.125f + 0.5f + 0.125f * (float) GaugeDrawer.normalize((float) hrvData.weeklyAverage, hrvData.baselineBalancedUpper, 2 * hrvData.baselineBalancedUpper);
-            }
-        } else {
-            value = -1;
-            valueText = getString(R.string.stats_empty_value);
-        }
-
+        valueText = value > 0 ? getString(R.string.hrv_status_unit, hrvData.weeklyAverage) : getString(R.string.stats_empty_value);
         setText(valueText);
         drawSegmentedGauge(
                 colors,
@@ -132,6 +103,42 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
                 false,
                 true
         );
+    }
+
+    public static int[] getColors() {
+        return new int[]{
+                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_low),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_unbalanced),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_balanced),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.hrv_status_unbalanced),
+        };
+    }
+
+    public static float[] getSegments() {
+        return new float[]{
+                0.125f, // low
+                0.125f, // unbalanced
+                0.5f, // normal
+                0.25f, // unbalanced
+        };
+    }
+
+    public static float calculateGaugeValue(int weeklyAverage, int baselineLowUpper, int baselineBalancedLower, int baselineBalancedUpper) {
+        final float value;
+        if (weeklyAverage != 0 && baselineLowUpper != 0 && baselineBalancedLower != 0 && baselineBalancedUpper != 0) {
+            if (weeklyAverage < baselineLowUpper) {
+                value = 0.125f * (float) GaugeDrawer.normalize(weeklyAverage, 0f, baselineLowUpper);
+            } else if (weeklyAverage < baselineBalancedLower) {
+                value = 0.125f + 0.125f * (float) GaugeDrawer.normalize((float) weeklyAverage, baselineLowUpper, baselineBalancedLower);
+            } else if (weeklyAverage < baselineBalancedUpper) {
+                value = 0.125f + 0.125f + 0.5f * (float) GaugeDrawer.normalize((float) weeklyAverage, baselineBalancedLower, baselineBalancedUpper);
+            } else {
+                value = 0.125f + 0.125f + 0.5f + 0.125f * (float) GaugeDrawer.normalize((float) weeklyAverage, baselineBalancedUpper, 2 * baselineBalancedUpper);
+            }
+        } else {
+            value = -1;
+        }
+        return value;
     }
 
     private static class HrvData implements Serializable {

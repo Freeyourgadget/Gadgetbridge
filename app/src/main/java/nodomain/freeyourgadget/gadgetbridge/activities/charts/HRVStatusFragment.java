@@ -18,10 +18,12 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import static java.util.stream.Collectors.toCollection;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.Chart;
@@ -47,6 +49,8 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardHrvWidget;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.GaugeDrawer;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
@@ -59,6 +63,8 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
     protected static final Logger LOG = LoggerFactory.getLogger(HRVStatusFragment.class);
     protected final int TOTAL_DAYS = 7;
 
+    protected GaugeDrawer gaugeDrawer;
+    private ImageView mHRVStatusGauge;
     private LineChart mWeeklyHRVStatusChart;
     private TextView mHRVStatusSevenDaysAvg;
     private TextView mHRVStatusSevenDaysAvgStatus; // Balanced, Unbalanced, Low
@@ -67,6 +73,8 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
     private TextView mHRVStatusDayAvg;
     private TextView mHRVStatusBaseline;
     private TextView mDateView;
+    private TextView mHRVGaugeValue;
+    private TextView mHRVGaugeStatus;
     protected int CHART_TEXT_COLOR;
     protected int LEGEND_TEXT_COLOR;
     protected int TEXT_COLOR;
@@ -74,6 +82,12 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_hrv_status, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rootView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                getChartsHost().enableSwipeRefresh(scrollY == 0);
+            });
+        }
 
         mWeeklyHRVStatusChart = rootView.findViewById(R.id.hrv_weekly_line_chart);
         mHRVStatusLastNight = rootView.findViewById(R.id.hrv_status_last_night);
@@ -83,7 +97,11 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
         mHRVStatusDayAvg = rootView.findViewById(R.id.hrv_status_day_avg);
         mHRVStatusBaseline = rootView.findViewById(R.id.hrv_status_baseline);
         mDateView = rootView.findViewById(R.id.hrv_status_date_view);
+        mHRVStatusGauge = rootView.findViewById(R.id.hrv_status_gauge_bar);
+        mHRVGaugeValue = rootView.findViewById(R.id.hrv_gauge_value);
+        mHRVGaugeStatus = rootView.findViewById(R.id.hrv_gauge_status);
 
+        gaugeDrawer = new GaugeDrawer();
         setupLineChart();
         refresh();
 
@@ -186,24 +204,38 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
             case NONE:
                 mHRVStatusSevenDaysAvgStatus.setText("-");
                 mHRVStatusSevenDaysAvgStatus.setTextColor(TEXT_COLOR);
+                mHRVGaugeStatus.setText("");
+                mHRVGaugeStatus.setTextColor(TEXT_COLOR);
                 break;
             case POOR:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_poor));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_poor));
+                mHRVGaugeStatus.setText(getString(R.string.hrv_status_poor));
+                mHRVGaugeStatus.setTextColor(getResources().getColor(R.color.hrv_status_poor));
                 break;
             case LOW:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_low));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_low));
+                mHRVGaugeStatus.setText(getString(R.string.hrv_status_low));
+                mHRVGaugeStatus.setTextColor(getResources().getColor(R.color.hrv_status_low));
                 break;
             case UNBALANCED:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_unbalanced));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_unbalanced));
+                mHRVGaugeStatus.setText(getString(R.string.hrv_status_unbalanced));
+                mHRVGaugeStatus.setTextColor(getResources().getColor(R.color.hrv_status_unbalanced));
                 break;
             case BALANCED:
                 mHRVStatusSevenDaysAvgStatus.setText(getString(R.string.hrv_status_balanced));
                 mHRVStatusSevenDaysAvgStatus.setTextColor(getResources().getColor(R.color.hrv_status_balanced));
+                mHRVGaugeStatus.setText(getString(R.string.hrv_status_balanced));
+                mHRVGaugeStatus.setTextColor(getResources().getColor(R.color.hrv_status_balanced));
                 break;
         }
+        float value = DashboardHrvWidget.calculateGaugeValue(today.weeklyAvg, today.baseLineLowUpper, today.baseLineBalancedLower, today.baseLineBalancedUpper);
+        final String valueText = value > 0 ? getString(R.string.hrv_status_unit, today.weeklyAvg) : getString(R.string.stats_empty_value);
+        mHRVGaugeValue.setText(valueText);
+        gaugeDrawer.drawSegmentedGauge(mHRVStatusGauge, DashboardHrvWidget.getColors(), DashboardHrvWidget.getSegments(), value, false, true);
     }
 
     private List<HRVStatusDayData> getWeeklyData(DBHandler db, Calendar day, GBDevice device) {
@@ -231,6 +263,7 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
                             sample.getWeeklyAverage() != null ? sample.getWeeklyAverage() : 0,
                             sample.getLastNightAverage() != null ? sample.getLastNightAverage() : 0,
                             sample.getLastNight5MinHigh() != null ? sample.getLastNight5MinHigh() : 0,
+                            sample.getBaselineLowUpper() != null ? sample.getBaselineLowUpper() : 0,
                             sample.getBaselineBalancedLower() != null ? sample.getBaselineBalancedLower() : 0,
                             sample.getBaselineBalancedUpper() != null ? sample.getBaselineBalancedUpper() : 0,
                             sample.getStatus() != null ? sample.getStatus() : HrvSummarySample.Status.NONE
@@ -242,6 +275,7 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
                         counter,
                         0,
                         avgHRV,
+                        0,
                         0,
                         0,
                         0,
@@ -346,6 +380,7 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
         public Integer dayAvg;
         public Integer baseLineBalancedLower;
         public Integer baseLineBalancedUpper;
+        public Integer baseLineLowUpper;
         public HrvSummarySample.Status status;
         public Calendar day;
 
@@ -355,6 +390,7 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
                                 Integer weeklyAvg,
                                 Integer lastNight,
                                 Integer lastNight5MinHigh,
+                                Integer baseLineLowUpper,
                                 Integer baseLineBalancedLower,
                                 Integer baseLineBalancedUpper,
                                 HrvSummarySample.Status status) {
@@ -366,6 +402,7 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
             this.status = status;
             this.day = day;
             this.dayAvg = dayAvg;
+            this.baseLineLowUpper = baseLineLowUpper;
             this.baseLineBalancedLower = baseLineBalancedLower;
             this.baseLineBalancedUpper = baseLineBalancedUpper;
         }

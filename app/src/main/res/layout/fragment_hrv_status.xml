@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -18,11 +18,44 @@
             android:layout_marginTop="15dp"
             />
 
+        <RelativeLayout
+            android:id="@+id/hrv_gauge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/hrv_status_gauge_bar"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitStart" />
+
+            <TextView
+                android:id="@+id/hrv_gauge_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:text="@string/stats_empty_value"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/hrv_gauge_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hrv_gauge_value"
+                android:layout_centerHorizontal="true"
+                android:text="" />
+
+        </RelativeLayout>
+
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="30dp"
             android:layout_weight="3"
             android:shrinkColumns="*"
             android:stretchColumns="*">
@@ -259,5 +292,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-</RelativeLayout>
+</ScrollView>
