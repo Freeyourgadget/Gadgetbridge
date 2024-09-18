@@ -364,7 +364,7 @@ Temps de sommeil préféré en heures</string>
     <string name="dbmanagementactivity_error_exporting_db">Erreur d\'exportation de la base de données : %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Erreur d\'exportation des préférences : %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importer des données ?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez-vous vraiment écraser les données actuelles ? Toutes vos données actuelles d\'activité (s\'il y en a) et de préférences seront écrasées.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Voulez-vous vraiment écraser les données actuelles ? Toutes vos données actuelles d\'activité (s\'il y en a), appareils et préférences seront écrasées.</string>
     <string name="dbmanagementactivity_import_successful">Importé.</string>
     <string name="dbmanagementactivity_error_importing_db">Erreur lors de l\'importation de la base de données : %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Erreur d\'importation des préférences : %1$s</string>
@@ -1316,7 +1316,7 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_autoheartrate_measurement">Mesures automatiques du rythme cardiaque</string>
     <string name="prefs_autoheartrate_summary">Mesures périodiques du rythme cardiaque durant la journée et également pendant le sommeil</string>
     <string name="prefs_autoheartrate">Rythme cardiaque automatique</string>
-    <string name="enable_notifications_summary">Notifications pour les appels, les messsages et autres</string>
+    <string name="enable_notifications_summary">Notifications pour les appels, les messages et autres</string>
     <string name="enable_vibrations_summary">Vibrant pour les appels, messages, notifications et autres</string>
     <string name="prefs_notifications_enable">Activer les notifications</string>
     <string name="prefs_vibration_enable">Activer le mode vibreur</string>
@@ -2684,7 +2684,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_physical_training">Entrainement physique</string>
     <string name="activity_type_taekwondo">Taekwondo</string>
     <string name="activity_type_cross_country_running">Course de cross-country</string>
-    <string name="activity_type_karate">Karate</string>
+    <string name="activity_type_karate">Karaté</string>
     <string name="activity_type_fencing">Escrime</string>
     <string name="activity_type_kendo">Kendo</string>
     <string name="activity_type_horizontal_bar">Barres horizontales</string>
@@ -3291,7 +3291,7 @@ Temps de sommeil préféré en heures</string>
     <string name="soundcore_adaptive_direction_title">Direction adaptative</string>
     <string name="soundcore_adaptive_direction_summary">Ajuster le préréglage de l’égaliseur automatiquement en fonction de la direction du périphérique</string>
     <string name="intent_api_broadcast_activity_sync_title">Transfert de la synchronisation des activités terminé</string>
-    <string name="pref_battery_polling_summary">C\'est le meilleur effort, et pourrait être retardé pour plusieurs raisons</string>
+    <string name="pref_battery_polling_summary">C\'est le meilleur effort, et risque d\'être retardé pour plusieurs raisons</string>
     <string name="moondrop_touch_action_call_start">Appeler</string>
     <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
     <string name="moondrop_touch_action_assistant">Déclencher l\'assistant vocal</string>
@@ -3443,6 +3443,18 @@ Temps de sommeil préféré en heures</string>
 \n %2s</string>
     <string name="backup_restore_import_complete">Importation accomplie</string>
     <string name="label_distance_trip">Distance parcourue : %.1f km</string>
-    <string name="label_distance_total">Total: %.1f km</string>
+    <string name="label_distance_total">Total : %.1f km</string>
     <string name="error_no_cycling_sensor_found">aucun capteur de cyclisme trouvé</string>
+    <string name="hr_resting">Au repos</string>
+    <string name="hr_maximum">Maximum</string>
+    <string name="hr_minimum">Minimum</string>
+    <string name="hr_average">Moyenne</string>
+    <string name="devicetype_garmin_forerunner_245_music">Garmin Forerunner 245 Music</string>
+    <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
+    <string name="menuitem_heart_rate_push">Pulsation fréquence cardiaque</string>
+    <string name="devicetype_garmin_enduro_3">Garmin Enduro 3</string>
+    <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
+    <string name="bpm_value_unit">%1$d bpm</string>
+    <string name="label_distance_trip_mph">Voyage : %.1f mi</string>
+    <string name="label_distance_total_mph">Total : %.1f mi</string>
 </resources>
