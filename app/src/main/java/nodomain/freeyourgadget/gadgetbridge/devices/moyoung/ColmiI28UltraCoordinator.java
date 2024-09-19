@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class ColmiI28UltraCoordinator extends AbstractMoyoungDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(ColmiI28UltraCoordinator.class);
@@ -37,7 +38,6 @@ public class ColmiI28UltraCoordinator extends AbstractMoyoungDeviceCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_colmi_i28_ultra;
     }
-
 
     @Override
     @DrawableRes
@@ -59,5 +59,10 @@ public class ColmiI28UltraCoordinator extends AbstractMoyoungDeviceCoordinator {
     @Override
     public int getMtu() {
         return 508;
+    }
+
+    @Override
+    public int getAlarmSlotCount(GBDevice device) {
+        return 8;
     }
 }

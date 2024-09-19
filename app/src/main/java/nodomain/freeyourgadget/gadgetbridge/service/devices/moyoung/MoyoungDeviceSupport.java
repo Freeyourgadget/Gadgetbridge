@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSett
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingTimeRange;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungBloodPressureSample;
@@ -445,7 +446,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
 
-        if (packetType == MoyoungConstants.CMD_QUERY_ALARM_CLOCK)
+        if (packetType == MoyoungConstants.CMD_QUERY_ALARM_CLOCK || (packetType == MoyoungConstants.CMD_ADVANCED_QUERY && payload[0] == MoyoungConstants.ARG_ADVANCED_QUERY_ALARMS))
         {
             handleGetAlarmsResponse(payload);
             return true;
@@ -621,21 +622,68 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void handleGetAlarmsResponse(byte[] payload)
     {
-        if (payload.length % 8 != 0)
-            throw new IllegalArgumentException();
+        boolean payloadV2 = false;
+        if (payload.length % 8 == 3) {
+            payloadV2 = true;
+        } else if (payload.length % 8 != 0) {
+            LOG.error("Received alarms packet with invalid size {}", payload.length);
+            return;
+        }
 
-        List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
-        int i = 0;
-        for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : alarms) {
-            ByteBuffer buffer = ByteBuffer.wrap(payload, 8 * i, 8);
-            buffer.order(ByteOrder.LITTLE_ENDIAN);
-            if (buffer.get() != i)
-                throw new IllegalArgumentException();
-            if (alarm.getPosition() != i)
-                throw new IllegalArgumentException();
-            alarm.setEnabled(buffer.get() != 0);
-            byte repetition = buffer.get();
-            alarm.setRepetition(AlarmUtils.createRepetitionMask(
+        ByteBuffer buffer = ByteBuffer.wrap(payload);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+        int alarmsInPacket;
+        if (payloadV2) {
+            byte packetSubtype = buffer.get();
+            if (packetSubtype != MoyoungConstants.ARG_ADVANCED_QUERY_ALARMS) {
+                LOG.error("Invalid packet subtype {}", packetSubtype);
+                return;
+            }
+            byte packetArgument = buffer.get();
+            if (packetArgument != MoyoungConstants.ARG_ALARM_FROM_WATCH) {
+                LOG.error("Invalid packet argument {}", packetArgument);
+                return;
+            }
+            alarmsInPacket = buffer.get();
+        } else {
+            alarmsInPacket = payload.length / 8;
+        }
+
+        for (int i=0; i<alarmsInPacket; i++) {
+            byte[] alarm = new byte[8];
+            buffer.get(alarm);
+            saveAlarmFromPayload(alarm);
+        }
+
+        AbstractMoyoungDeviceCoordinator coordinator = (AbstractMoyoungDeviceCoordinator) getDevice().getDeviceCoordinator();
+        for (int i=alarmsInPacket; i<=coordinator.getAlarmSlotCount(getDevice()); i++) {
+            nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm = new nodomain.freeyourgadget.gadgetbridge.entities.Alarm();
+            alarm.setUnused(true);
+            AlarmUtils.mergeOneshotToDeviceAlarms(getDevice(), alarm, i);
+        }
+
+        final Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+    }
+
+    private void saveAlarmFromPayload(byte[] payload) {
+        if (payload.length != 8) {
+            LOG.error("Invalid alarm format");
+            return;
+        }
+
+        ByteBuffer buffer = ByteBuffer.wrap(payload);
+        nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm = new nodomain.freeyourgadget.gadgetbridge.entities.Alarm();
+        int alarmNr = buffer.get();
+        alarm.setEnabled(buffer.get() != 0);
+        byte repetitionEnabled = buffer.get(); // not sure why they store the same info in two places
+        alarm.setHour(buffer.get());
+        alarm.setMinute(buffer.get());
+        byte singleShotYearAndMonth = buffer.get();
+        byte singleShotDay = buffer.get();
+        byte repetition = buffer.get();
+        alarm.setRepetition(AlarmUtils.createRepetitionMask(
                 (repetition & 2) != 0,
                 (repetition & 4) != 0,
                 (repetition & 8) != 0,
@@ -643,22 +691,22 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 (repetition & 32) != 0,
                 (repetition & 64) != 0,
                 (repetition & 1) != 0));
-            alarm.setHour(buffer.get());
-            alarm.setMinute(buffer.get());
-            byte singleShotYearAndMonth = buffer.get();
-            byte singleShotDay = buffer.get();
-            byte repetitionEnabled = buffer.get(); // not sure why they store the same info in two places
-            DBHelper.store(alarm);
-            i++;
-        }
+        AlarmUtils.mergeOneshotToDeviceAlarms(getDevice(), alarm, alarmNr);
     }
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+        LOG.info("Setting {} alarms on device", alarms.size());
+        AbstractMoyoungDeviceCoordinator coordinator = (AbstractMoyoungDeviceCoordinator) getDevice().getDeviceCoordinator();
         try {
             TransactionBuilder builder = performInitialized("onSetAlarms");
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < coordinator.getAlarmSlotCount(getDevice()); i++) {
                 Alarm alarm = alarms.get(i);
+                if (alarm.getUnused()) {
+                    byte[] packet = new byte[]{MoyoungConstants.ARG_ADVANCED_SET_ALARM, MoyoungConstants.ARG_ALARM_DELETE, (byte) i};
+                    sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, packet));
+                    continue;
+                }
 
                 ByteBuffer buffer = ByteBuffer.allocate(8);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -679,7 +727,14 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     repetition |= 32;
                 if (alarm.getRepetition(Alarm.ALARM_SAT))
                     repetition |= 64;
-                buffer.put(repetition);
+                byte repeat;
+                if (repetition == 0)
+                    repeat = 0;
+                else if (repetition == 127)
+                    repeat = 1;
+                else
+                    repeat = 2;
+                buffer.put(repeat);
                 buffer.put((byte)alarm.getHour());
                 buffer.put((byte)alarm.getMinute());
                 if (repetition == 0)
@@ -694,15 +749,16 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                     buffer.put((byte)0);
                     buffer.put((byte)0);
                 }
-                byte repeat;
-                if (repetition == 0)
-                    repeat = 0;
-                else if (repetition == 127)
-                    repeat = 1;
-                else
-                    repeat = 2;
-                buffer.put(repeat);
+                buffer.put(repetition);
+                // Older packet type
                 sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_ALARM_CLOCK, buffer.array()));
+                // Newer packet type
+                ByteBuffer bufferNewProtocol = ByteBuffer.allocate(10);
+                bufferNewProtocol.order(ByteOrder.LITTLE_ENDIAN);
+                bufferNewProtocol.put(MoyoungConstants.ARG_ADVANCED_SET_ALARM);
+                bufferNewProtocol.put(MoyoungConstants.ARG_ALARM_SET);
+                bufferNewProtocol.put(buffer.array(), 0, 8);
+                sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_ADVANCED_QUERY, bufferNewProtocol.array()));
             }
             builder.queue(getQueue());
         } catch (IOException e) {

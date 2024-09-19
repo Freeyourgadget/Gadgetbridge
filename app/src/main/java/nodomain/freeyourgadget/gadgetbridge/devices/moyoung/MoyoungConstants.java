@@ -213,8 +213,14 @@ public class MoyoungConstants {
     public static final byte CMD_ADVANCED_QUERY = (byte) 0xb9;
     public static final byte CMD_DAGPT = (byte) 0xbb;
 
+    public static final byte ARG_ADVANCED_SET_ALARM = 0x05;
     public static final byte ARG_ADVANCED_SET_CALENDAR = 0x08;
     public static final byte ARG_ADVANCED_QUERY_STOCKS = 0x0e;
+    public static final byte ARG_ADVANCED_QUERY_ALARMS = 0x15;
+
+    public static final byte ARG_ALARM_SET = 0x00;
+    public static final byte ARG_ALARM_DELETE = 0x02;
+    public static final byte ARG_ALARM_FROM_WATCH = 0x04;
 
     public static final byte ARG_CALENDAR_ADD_ITEM = 0x00;
     public static final byte ARG_CALENDAR_DISABLE = 0x04;
