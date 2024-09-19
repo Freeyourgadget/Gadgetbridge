@@ -3456,4 +3456,5 @@
     <string name="bpm_value_unit">%1$d bpm</string>
     <string name="hr_average">Promedio</string>
     <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
+    <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
 </resources>
