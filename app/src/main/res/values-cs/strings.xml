@@ -3444,4 +3444,15 @@
     <string name="error_no_cycling_sensor_found">nebyl nalezen žádný cyklistický senzor</string>
     <string name="label_distance_total_mph">Celkem: %.1f mi</string>
     <string name="devicetype_garmin_forerunner_245_music">Garmin Forerunner 245 Music</string>
+    <string name="devicetype_garmin_enduro_3">Garmin Enduro 3</string>
+    <string name="bpm_value_unit">%1$d tepů/min</string>
+    <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
+    <string name="hr_resting">Odpočinek</string>
+    <string name="hr_maximum">Maximum</string>
+    <string name="hr_minimum">Minimum</string>
+    <string name="hr_average">Průměr</string>
+    <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
+    <string name="vo2max_running">VO₂ Max při běhu</string>
+    <string name="vo2max_cycling">VO₂ Max při cyklistice</string>
+    <string name="thirty_days_timeline">30denní časová osa</string>
 </resources>
