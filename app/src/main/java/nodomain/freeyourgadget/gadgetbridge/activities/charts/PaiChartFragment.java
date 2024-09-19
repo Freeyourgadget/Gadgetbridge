@@ -138,6 +138,12 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         mTodayPieChart.setEntryLabelColor(DESCRIPTION_COLOR);
         mTodayPieChart.getDescription().setText("");
         mTodayPieChart.setNoDataText("");
+        mTodayPieChart.setTouchEnabled(false);
+        mTodayPieChart.setCenterTextColor(GBApplication.getTextColor(requireContext()));
+        mTodayPieChart.setCenterTextSize(18f);
+        mTodayPieChart.setHoleColor(requireContext().getResources().getColor(R.color.transparent));
+        mTodayPieChart.setHoleRadius(85);
+        mTodayPieChart.setDrawEntryLabels(false);
         mTodayPieChart.getLegend().setEnabled(false);
     }
 
