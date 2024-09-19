@@ -3465,4 +3465,7 @@
     <string name="bpm_value_unit">%1$d kalp atışı/dakika</string>
     <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
     <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
+    <string name="vo2max_running">En Yüksek Koşu VO₂ Değeri</string>
+    <string name="vo2max_cycling">En Yüksek Bisiklet Sürme VO₂ Değeri</string>
+    <string name="thirty_days_timeline">30 Günlük Zaman Çizelgesi</string>
 </resources>
