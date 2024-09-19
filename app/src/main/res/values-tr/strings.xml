@@ -3468,4 +3468,5 @@
     <string name="vo2max_running">En Yüksek Koşu VO₂ Değeri</string>
     <string name="vo2max_cycling">En Yüksek Bisiklet Sürme VO₂ Değeri</string>
     <string name="thirty_days_timeline">30 Günlük Zaman Çizelgesi</string>
+    <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
 </resources>
