@@ -539,6 +539,50 @@ public class FitnessData {
             }
         }
     }
+    public static class RunPaceConfig {
+        public static final byte id = 0x28;
+
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider,
+                           int easyPaceZoneMinValue,
+                           int marathonPaceZoneMinValue,
+                           int lactatePaceZoneMinValue,
+                           int anaerobicPaceZoneMinValue,
+                           int maxOxygenPaceZoneMinValue,
+                           int maxOxygenPaceZoneMaxValue) {
+                super(paramsProvider);
+
+                this.serviceId = FitnessData.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV()
+                        .put(0x01, (short)easyPaceZoneMinValue)
+                        .put(0x02, (short)marathonPaceZoneMinValue)
+                        .put(0x03, (short)lactatePaceZoneMinValue)
+                        .put(0x04, (short)anaerobicPaceZoneMinValue)
+                        .put(0x05, (short)maxOxygenPaceZoneMinValue)
+                        .put(0x06, (short)maxOxygenPaceZoneMaxValue);
+                this.complete = true;
+            }
+        }
+
+        public static class Response extends HuaweiPacket {
+
+            public boolean isOk;
+
+            public Response(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+                this.serviceId = FitnessData.id;
+                this.commandId = id;
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+                isOk = this.tlv.getInteger(0x7f) == 0x000186A0;
+            }
+        }
+
+    }
 
     public static class MediumToStrengthThreshold {
         public static final byte id = 0x29;

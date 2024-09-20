@@ -503,6 +503,8 @@ public class HuaweiPacket {
                         return new FitnessData.MessageCount.Response(paramsProvider).fromPacket(this);
                     case FitnessData.MessageData.sleepId:
                         return new FitnessData.MessageData.SleepResponse(paramsProvider).fromPacket(this);
+                    case FitnessData.RunPaceConfig.id:
+                        return new FitnessData.RunPaceConfig.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;

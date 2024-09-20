@@ -393,10 +393,16 @@ public class HuaweiCoordinator {
         return supportsSPo2() || getForceOption(gbDevice, PREF_FORCE_ENABLE_SPO2_SUPPORT);
     }
 
+    public boolean supportsRunPaceConfig() {
+        return supportsCommandForService(0x07, 0x28);
+    }
+
     public boolean supportsFitnessThresholdValue() {
         return supportsCommandForService(0x07, 0x29);
     }
     public boolean supportsFitnessThresholdValueV2() { return supportsExpandCapability(0x9a) || supportsExpandCapability(0x9c); }
+
+
 
     // 0x1d - SupportTemperature
     // 0xba - SupportTemperatureClassification
