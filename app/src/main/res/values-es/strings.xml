@@ -3457,4 +3457,9 @@
     <string name="hr_average">Promedio</string>
     <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
     <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
+    <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
+    <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
+    <string name="vo2max_running">VO₂ Máx. en carrera</string>
+    <string name="vo2max_cycling">VO₂ máx. en ciclismo</string>
+    <string name="thirty_days_timeline">Cronograma de 30 días</string>
 </resources>
