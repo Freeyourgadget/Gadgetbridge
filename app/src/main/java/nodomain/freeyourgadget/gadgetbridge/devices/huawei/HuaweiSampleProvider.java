@@ -47,7 +47,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
 
 public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivitySample> {
-
     /*
      * We save all data by saving a marker at the begin and end.
      * Meaning of fields that are not self-explanatory:
@@ -302,7 +301,7 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
      * that is necessary for proper displaying of data.
      *
      * This essentially boils down to four things:
-     *  - It adds in the workout heart rate data
+     *  - It adds in the workout heart rate data without activity data in between
      *  - It adds a sample with intensity zero before start markers (start of block)
      *  - It adds a sample with intensity zero after end markers (end of block)
      *  - It modifies some blocks so the sleep data gets handled correctly
@@ -314,10 +313,10 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
     @Override
     protected List<HuaweiActivitySample> getGBActivitySamples(int timestamp_from, int timestamp_to) {
         // Note that the result of this function has to be sorted by timestamp!
-
         List<HuaweiActivitySample> rawSamples = getRawOrderedActivitySamples(timestamp_from, timestamp_to);
         List<HuaweiWorkoutDataSample> workoutSamples = getRawOrderedWorkoutSamplesWithHeartRate(timestamp_from, timestamp_to);
 
+        List<int[]> workoutSpans = getWorkoutSpans(rawSamples, workoutSamples, 5);
         List<HuaweiActivitySample> processedSamples = new ArrayList<>();
 
         Iterator<HuaweiActivitySample> itRawSamples = rawSamples.iterator();
@@ -337,36 +336,81 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
         }
 
         while (nextRawSample != null || nextWorkoutSample != null) {
-            if (nextRawSample == null) {
+            if (nextRawSample == null || (nextWorkoutSample != null && nextWorkoutSample.getTimestamp() < nextRawSample.getTimestamp())) {
                 processWorkoutSample(processedSamples, state, nextWorkoutSample);
-
-                nextWorkoutSample = null;
-                if (itWorkoutSamples.hasNext())
-                    nextWorkoutSample = itWorkoutSamples.next();
-            } else if (nextWorkoutSample == null) {
-                processRawSample(processedSamples, state, nextRawSample);
-
-                nextRawSample = null;
-                if (itRawSamples.hasNext())
-                    nextRawSample = itRawSamples.next();
-            } else if (nextRawSample.getTimestamp() > nextWorkoutSample.getTimestamp()) {
-                processWorkoutSample(processedSamples, state, nextWorkoutSample);
-
-                nextWorkoutSample = null;
-                if (itWorkoutSamples.hasNext())
-                    nextWorkoutSample = itWorkoutSamples.next();
+                nextWorkoutSample = itWorkoutSamples.hasNext() ? itWorkoutSamples.next() : null;
             } else {
+                boolean sampleInWorkout = isInWorkout(workoutSpans, nextRawSample.getTimestamp());
+                if (sampleInWorkout) {
+                    nextRawSample.setHeartRate(ActivitySample.NOT_MEASURED);
+                    nextRawSample.setRawIntensity(0);
+                }
                 processRawSample(processedSamples, state, nextRawSample);
-
-                nextRawSample = null;
-                if (itRawSamples.hasNext())
-                    nextRawSample = itRawSamples.next();
+                nextRawSample = itRawSamples.hasNext() ? itRawSamples.next() : null;
             }
         }
-
         processedSamples = interpolate(processedSamples);
 
         return processedSamples;
+    }
+
+    /*
+    * Calculates the timespans: [start, end] of workouts
+    * Normal activities should not be processed when in middle of workout
+    **/
+    private List<int[]> getWorkoutSpans(List<HuaweiActivitySample> activity, List<HuaweiWorkoutDataSample> workout, int threshold) {
+        List<int[]> validActivitySpans = new ArrayList<>();
+
+        Iterator<HuaweiActivitySample> activityIterator = activity.iterator();
+        Iterator<HuaweiWorkoutDataSample> workoutIterator = workout.iterator();
+
+        HuaweiActivitySample currentActivity = activityIterator.hasNext() ? activityIterator.next() : null;
+        HuaweiWorkoutDataSample currentWorkout = workoutIterator.hasNext() ? workoutIterator.next() : null;
+
+        int consecutiveActivityCount = 0;
+        Integer spanStart = null;
+
+        int workoutEnd = 0;
+        while (currentActivity != null || currentWorkout != null) {
+            if (currentWorkout == null || (currentActivity != null && currentActivity.getTimestamp() < currentWorkout.getTimestamp())) {
+                // handle activity
+                if (spanStart != null) {
+                    // We're in workout, check for activity interruption
+                    consecutiveActivityCount++;
+                    if (consecutiveActivityCount > threshold) {
+                        // Enough activity samples to interrupt the workout
+                        validActivitySpans.add(new int[]{spanStart, workoutEnd});
+                        spanStart = null;
+                        consecutiveActivityCount = 0;
+                    }
+                }
+                currentActivity = activityIterator.hasNext() ? activityIterator.next() : null;
+            } else {
+                // handle workout
+                if (spanStart == null) {
+                    spanStart = currentWorkout.getTimestamp();
+                }
+                workoutEnd = currentWorkout.getTimestamp();
+                consecutiveActivityCount = 0;
+                currentWorkout = workoutIterator.hasNext() ? workoutIterator.next() : null;
+            }
+        }
+
+        // If there's an open valid span at the end, close it
+        if (spanStart != null) {
+            validActivitySpans.add(new int[]{spanStart, workoutEnd});
+        }
+
+        return validActivitySpans;
+    }
+
+    private boolean isInWorkout(List<int[]> validSpans, int timestamp) {
+        for (int[] span : validSpans) {
+            if (timestamp > span[0] && timestamp < span[1]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<HuaweiActivitySample> interpolate(List<HuaweiActivitySample> processedSamples) {
