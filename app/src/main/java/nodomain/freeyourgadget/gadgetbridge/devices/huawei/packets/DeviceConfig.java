@@ -798,19 +798,21 @@ public class DeviceConfig {
                 this.tlv = new HuaweiTLV();
                 for (byte b : phoneInfo) {
                     switch (b) {
+                        case 0x0:
+                            break;
                         case 0xf:
                             break;
                         case 0x11:
-                            this.tlv.put((int)b, "1200107310"); // Force AppVersion to 12.1.7.310
+                            this.tlv.put(b, 1400106310); // Force AppVersion to 14.1.6.310
                             break;
                         case 0x15:
-                            this.tlv.put((int)b, ""); // Force buildOSPlatformVersion to ""
+                            this.tlv.put(b); // Force buildOSPlatformVersion to ""
                             break;
                         case 0x10: // Force EmuiBuildVersion to 0x00
                         case 0x13: // Force buildOsEnable to 0x00
                         case 0x14: // Force buildOSApiVersion to 0x00
                         default:
-                            this.tlv.put((int)b, "00");
+                            this.tlv.put(b, (byte)00);
                     }
                 }
                 this.complete = true;
