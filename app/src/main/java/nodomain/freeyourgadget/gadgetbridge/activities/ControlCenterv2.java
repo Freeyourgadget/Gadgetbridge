@@ -53,6 +53,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -114,6 +115,7 @@ public class ControlCenterv2 extends AppCompatActivity
     private FragmentStateAdapter pagerAdapter;
     private SwipeRefreshLayout swipeLayout;
     private static PhoneStateListener fakeStateListener;
+    private AlertDialog clDialog;
 
     //needed for KK compatibility
     static {
@@ -190,6 +192,22 @@ public class ControlCenterv2 extends AppCompatActivity
                 break;
             }
         }
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean("cl")) {
+                GBChangeLog cl = GBChangeLog.createChangeLog(this);
+                try {
+                    if (cl.hasChanges(false)) {
+                        clDialog = cl.getMaterialLogDialog();
+                    } else {
+                        clDialog = cl.getMaterialFullLogDialog();
+                    }
+                    clDialog.show();
+                } catch (Exception ignored) {
+                    GB.toast(getBaseContext(), getString(R.string.error_showing_changelog), Toast.LENGTH_LONG, GB.ERROR);
+                }
+            }
+        }
+
 
         // Initialize drawer
         NavigationView drawerNavigationView = findViewById(R.id.nav_view);
@@ -379,6 +397,14 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+       if (clDialog != null){
+           outState.putBoolean("cl", clDialog.isShowing());
+       }
+       super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         handleShortcut(getIntent());
@@ -425,13 +451,14 @@ public class ControlCenterv2 extends AppCompatActivity
             startActivity(i);
             return false;
         } else if (itemId == R.id.external_changelog) {
-            final GBChangeLog cl = createChangeLog();
+            final GBChangeLog cl = GBChangeLog.createChangeLog(this);
             try {
                 if (cl.hasChanges(false)) {
-                    cl.getMaterialLogDialog().show();
+                    clDialog = cl.getMaterialLogDialog();
                 } else {
-                    cl.getMaterialFullLogDialog().show();
+                    clDialog = cl.getMaterialFullLogDialog();
                 }
+                clDialog.show();
             } catch (Exception ignored) {
                 GB.toast(getBaseContext(), getString(R.string.error_showing_changelog), Toast.LENGTH_LONG, GB.ERROR);
             }
@@ -445,13 +472,6 @@ public class ControlCenterv2 extends AppCompatActivity
         return false;  // we do not want the drawer menu item to get selected
     }
 
-    private GBChangeLog createChangeLog() {
-        String css = GBChangeLog.DEFAULT_CSS;
-        css += "body { "
-                + "color: " + AndroidUtils.getTextColorHex(getBaseContext()) + "; "
-                + "}";
-        return new GBChangeLog(this, css);
-    }
 
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivityV2.class));
