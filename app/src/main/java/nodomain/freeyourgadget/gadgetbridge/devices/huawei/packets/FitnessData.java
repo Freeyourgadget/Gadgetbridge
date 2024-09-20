@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiReportThreshold;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
 public class FitnessData {
@@ -461,6 +462,25 @@ public class FitnessData {
                                 .put(0x06, cycle)
                         );
 
+                this.complete = true;
+            }
+        }
+    }
+
+    public static class DeviceReportThreshold {
+        public static final byte id = 0xe;
+
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider, List<HuaweiReportThreshold> thresholds) {
+                super(paramsProvider);
+
+                this.serviceId = FitnessData.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV();
+                for(HuaweiReportThreshold th: thresholds) {
+                    this.tlv.put(0x02, th.getBytes());
+                }
                 this.complete = true;
             }
         }

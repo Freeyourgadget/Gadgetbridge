@@ -102,6 +102,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetN
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetWatchfaceParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendCameraRemoteSetupEvent;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendDeviceReportThreshold;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendExtendedAccountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFitnessUserInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
@@ -725,6 +726,7 @@ public class HuaweiSupportProvider {
             initRequestQueue.add(new SendNotifyHeartRateCapabilityRequest(this));
             initRequestQueue.add(new SendNotifyRestHeartRateCapabilityRequest(this));
             initRequestQueue.add(new SendRunPaceConfigRequest(this));
+            initRequestQueue.add(new SendDeviceReportThreshold(this));
             initRequestQueue.add(new SetMediumToStrengthThresholdRequest(this));
             initRequestQueue.add(new SendFitnessGoalRequest(this));
             initRequestQueue.add(new GetNotificationCapabilitiesRequest(this));

@@ -356,7 +356,6 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x02, 0x08);
     }
 
-
     public boolean supportsMotionGoal() {
         return supportsCommandForService(0x07, 0x01);
     }
@@ -367,6 +366,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsActivityReminder() {
         return supportsCommandForService(0x07, 0x07);
+    }
+
+    public boolean supportsDeviceReportThreshold() {
+        return supportsCommandForService(0x07, 0x0e);
     }
 
     public boolean supportsTruSleep() {
@@ -401,8 +404,6 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x07, 0x29);
     }
     public boolean supportsFitnessThresholdValueV2() { return supportsExpandCapability(0x9a) || supportsExpandCapability(0x9c); }
-
-
 
     // 0x1d - SupportTemperature
     // 0xba - SupportTemperatureClassification
