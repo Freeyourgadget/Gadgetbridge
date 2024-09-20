@@ -3042,6 +3042,7 @@
         <item>@string/pref_header_hrv_status</item>
         <item>@string/body_energy</item>
         <item>@string/menuitem_vo2_max</item>
+        <item>@string/menuitem_hr</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_pai</item>
         <item>@string/stats_title</item>
@@ -3059,6 +3060,7 @@
         <item>@string/p_hrv_status</item>
         <item>@string/p_body_energy</item>
         <item>@string/p_vo2max</item>
+        <item>@string/p_heartrate</item>
         <item>@string/p_stress</item>
         <item>@string/p_pai</item>
         <item>@string/p_speed_zones</item>
@@ -3076,6 +3078,7 @@
         <item>@string/p_hrv_status</item>
         <item>@string/p_body_energy</item>
         <item>@string/p_vo2max</item>
+        <item>@string/p_heartrate</item>
         <item>@string/p_steps_week</item>
         <item>@string/p_stress</item>
         <item>@string/p_pai</item>
