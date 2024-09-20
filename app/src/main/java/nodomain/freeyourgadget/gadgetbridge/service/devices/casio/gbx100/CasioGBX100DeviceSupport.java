@@ -203,8 +203,8 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
 
     public void stepCountDataFetched(int totalCount, int totalCalories, ArrayList<CasioGBX100ActivitySample> data) {
         LOG.info("Got the following step count data: ");
-        LOG.info("Total Count: " + totalCount);
-        LOG.info("Total Calories: " + totalCalories);
+        LOG.info("Total Count: {}", totalCount);
+        LOG.info("Total Calories: {}", totalCalories);
 
         addGBActivitySamples(data);
     }
