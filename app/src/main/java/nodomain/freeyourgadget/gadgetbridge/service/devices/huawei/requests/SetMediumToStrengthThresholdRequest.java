@@ -44,14 +44,29 @@ public class SetMediumToStrengthThresholdRequest extends Request {
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             //Hardcoded value till interface enable threshold values
-            return new MediumToStrengthThreshold.Request(paramsProvider,
-                    (byte)0x6E,
-                    (byte)0x3C,
-                    (byte)0x05,
-                    (byte)0x40,
-                    (byte)0x50,
-                    (byte)0x03
-            ).serialize();
+            if(supportProvider.getHuaweiCoordinator().supportsFitnessThresholdValueV2()) {
+                return new MediumToStrengthThreshold.Request(paramsProvider,
+                        (byte) 0x6E,
+                        (byte) 0x3C,
+                        (byte) 0x19,
+                        (byte) 0x58,
+                        (byte) 0x01,
+                        (byte) 0x01,
+                        0x28,
+                        0x28
+                ).serialize();
+            } else {
+                return new MediumToStrengthThreshold.Request(paramsProvider,
+                        (byte) 0x6E,
+                        (byte) 0x3C,
+                        (byte) 0x05,
+                        (byte) 0x40,
+                        (byte) 0x50,
+                        (byte) 0x03,
+                        -1,
+                        -1
+                ).serialize();
+            }
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }

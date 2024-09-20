@@ -550,7 +550,9 @@ public class FitnessData {
                            byte heartRate,
                            byte cycleSpeed,
                            byte sample,
-                           byte countLength) {
+                           byte countLength,
+                           int walkRunSpeed,
+                           int walkRunWithHeartRate) {
                 super(paramsProvider);
 
                 this.serviceId = FitnessData.id;
@@ -571,7 +573,12 @@ public class FitnessData {
                         .put(0x04, cycleSpeed)
                         .put(0x05, sample)
                         .put(0x06, countLength);
-
+                if(walkRunSpeed != -1) {
+                    this.tlv.put(0x07, (byte)walkRunSpeed);
+                }
+                if(walkRunWithHeartRate != -1) {
+                    this.tlv.put(0x08, (byte)walkRunWithHeartRate);
+                }
                 this.complete = true;
             }
         }

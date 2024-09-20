@@ -396,11 +396,13 @@ public class HuaweiCoordinator {
     public boolean supportsFitnessThresholdValue() {
         return supportsCommandForService(0x07, 0x29);
     }
+    public boolean supportsFitnessThresholdValueV2() { return supportsExpandCapability(0x9a) || supportsExpandCapability(0x9c); }
 
     // 0x1d - SupportTemperature
     // 0xba - SupportTemperatureClassification
     // 0x43 - SupportTemperatureStudy
     public boolean supportsTemperature() { return supportsExpandCapability(0x1d); }
+
 
     public boolean supportsEventAlarm() {
         return supportsCommandForService(0x08, 0x01);
