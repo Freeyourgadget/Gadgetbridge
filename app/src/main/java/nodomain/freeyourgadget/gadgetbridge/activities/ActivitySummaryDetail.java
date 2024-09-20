@@ -768,7 +768,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             }
         }
         final String summaryData = currentItem.getSummaryData();
-        if (summaryData.contains(INTERNAL_HAS_GPS)) {
+        if (summaryData != null && summaryData.contains(INTERNAL_HAS_GPS)) {
             try {
                 final JSONObject summaryDataObject = new JSONObject(summaryData);
                 final JSONObject internalHasGps = summaryDataObject.getJSONObject(INTERNAL_HAS_GPS);
