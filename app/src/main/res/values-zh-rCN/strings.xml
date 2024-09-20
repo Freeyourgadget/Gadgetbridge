@@ -3452,4 +3452,8 @@
     <string name="devicetype_sony_wf_c500">索尼 WF-C500</string>
     <string name="bpm_value_unit">%1$d 次/分</string>
     <string name="devicetype_garmin_enduro_3">佳明 Enduro 3</string>
+    <string name="vo2max_cycling">骑行最大摄氧量</string>
+    <string name="devicetype_garmin_forerunner_265s">佳明 Forerunner 265S</string>
+    <string name="vo2max_running">跑步最大摄氧量</string>
+    <string name="thirty_days_timeline">30 天时间线</string>
 </resources>
