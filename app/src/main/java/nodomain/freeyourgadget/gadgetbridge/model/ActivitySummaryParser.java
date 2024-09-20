@@ -45,17 +45,23 @@ public interface ActivitySummaryParser {
                                                                final GBDevice gbDevice,
                                                                final int timestampSeconds) {
         final Device device = DBHelper.getDevice(gbDevice, session);
+        return findOrCreateBaseActivitySummary(session, device.getId(), timestampSeconds);
+    }
+
+    static BaseActivitySummary findOrCreateBaseActivitySummary(final DaoSession session,
+                                                               final long deviceId,
+                                                               final int timestampSeconds) {
         final User user = DBHelper.getUser(session);
         final BaseActivitySummaryDao summaryDao = session.getBaseActivitySummaryDao();
         final QueryBuilder<BaseActivitySummary> qb = summaryDao.queryBuilder();
         qb.where(BaseActivitySummaryDao.Properties.StartTime.eq(new Date(timestampSeconds * 1000L)));
-        qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(device.getId()));
+        qb.where(BaseActivitySummaryDao.Properties.DeviceId.eq(deviceId));
         qb.where(BaseActivitySummaryDao.Properties.UserId.eq(user.getId()));
         final List<BaseActivitySummary> summaries = qb.build().list();
         if (summaries.isEmpty()) {
             final BaseActivitySummary summary = new BaseActivitySummary();
             summary.setStartTime(new Date(timestampSeconds * 1000L));
-            summary.setDevice(device);
+            summary.setDeviceId(deviceId);
             summary.setUser(user);
 
             // These will be set later, once we parse the summary

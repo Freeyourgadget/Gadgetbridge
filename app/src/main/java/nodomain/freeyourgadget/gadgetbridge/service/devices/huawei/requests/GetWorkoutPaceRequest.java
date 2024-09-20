@@ -89,7 +89,7 @@ public class GetWorkoutPaceRequest extends Request {
             nextRequest.setFinalizeReq(this.finalizeReq);
             this.nextRequest(nextRequest);
         } else {
-            new HuaweiWorkoutGbParser(getDevice(), getContext()).parseWorkout(this.databaseId);
+            new HuaweiWorkoutGbParser(getDevice()).parseWorkout(this.databaseId);
 
             if (!remainder.isEmpty()) {
                 GetWorkoutTotalsRequest nextRequest = new GetWorkoutTotalsRequest(
