@@ -16,18 +16,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband7pro;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class MiBand7ProCoordinator extends XiaomiCoordinator {
     @Override
@@ -38,13 +31,6 @@ public class MiBand7ProCoordinator extends XiaomiCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile(HuamiConst.XIAOMI_SMART_BAND7_PRO_NAME + ".*");
-    }
-
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
     }
 
     @Override

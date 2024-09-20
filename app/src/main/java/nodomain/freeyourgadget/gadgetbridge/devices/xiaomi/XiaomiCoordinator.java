@@ -21,6 +21,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.Xiaomi
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.net.Uri;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -95,6 +97,13 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
         // At this point we don't know if it's encrypted or not, so let's accept both:
         return authKeyBytes.length == 32 || (authKey.startsWith("0x") && authKeyBytes.length == 34)
                 || AUTH_KEY_PATTERN.matcher(authKey.trim()).matches();
+    }
+
+    @Nullable
+    @Override
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override

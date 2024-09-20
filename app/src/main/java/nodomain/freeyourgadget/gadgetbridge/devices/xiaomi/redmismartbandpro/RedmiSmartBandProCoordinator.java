@@ -16,18 +16,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmismartbandpro;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class RedmiSmartBandProCoordinator extends XiaomiCoordinator {
     @Override
@@ -38,13 +31,6 @@ public class RedmiSmartBandProCoordinator extends XiaomiCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Redmi Band Pro [A-Z0-9]{4}$");
-    }
-
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
     }
 
     @Override

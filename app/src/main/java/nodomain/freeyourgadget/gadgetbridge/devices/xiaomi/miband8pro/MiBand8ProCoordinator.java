@@ -16,17 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8pro;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class MiBand8ProCoordinator extends XiaomiCoordinator {
     @Override
@@ -49,12 +42,6 @@ public class MiBand8ProCoordinator extends XiaomiCoordinator {
         return ConnectionType.BT_CLASSIC;
     }
 
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
-    }
 
     @Override
     public int getDefaultIconResource() {

@@ -16,17 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miband8;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class MiBand8Coordinator extends XiaomiCoordinator {
     @Override
@@ -37,13 +30,6 @@ public class MiBand8Coordinator extends XiaomiCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
         return Pattern.compile("^Xiaomi Smart Band 8 [A-Z0-9]{4}$");
-    }
-
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
     }
 
     @Override
@@ -59,23 +45,5 @@ public class MiBand8Coordinator extends XiaomiCoordinator {
     @Override
     public int getDisabledIconResource() {
         return R.drawable.ic_device_miband6_disabled;
-    }
-
-    @Override
-    public boolean supportsActivityDataFetching() {
-        // FIXME still has some issues
-        return true;
-    }
-
-    @Override
-    public boolean supportsActivityTracking() {
-        // FIXME still has some issues
-        return true;
-    }
-
-    @Override
-    public boolean supportsActivityTracks() {
-        // FIXME still has some issues
-        return true;
     }
 }

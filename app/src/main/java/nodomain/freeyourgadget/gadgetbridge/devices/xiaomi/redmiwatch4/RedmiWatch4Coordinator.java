@@ -16,20 +16,12 @@
    along with this program. If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.redmiwatch4;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class RedmiWatch4Coordinator extends XiaomiCoordinator {
-
     @Override
     public int getDeviceNameResource() {
         return R.string.devicetype_redmi_watch_4;
@@ -50,14 +42,6 @@ public class RedmiWatch4Coordinator extends XiaomiCoordinator {
         // this device likely supports both connection types if we indicate
         // that we are an iOS device in the final auth step
         return ConnectionType.BT_CLASSIC;
-    }
-
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-
-        return handler.isValid() ? handler : null;
     }
 
     @Override

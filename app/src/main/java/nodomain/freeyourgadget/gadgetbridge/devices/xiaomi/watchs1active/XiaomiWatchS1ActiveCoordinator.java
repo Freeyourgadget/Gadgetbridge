@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class XiaomiWatchS1ActiveCoordinator extends XiaomiCoordinator {
 
@@ -53,14 +52,6 @@ public class XiaomiWatchS1ActiveCoordinator extends XiaomiCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
-    }
-
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-
-        return handler.isValid() ? handler : null;
     }
 
     @Override

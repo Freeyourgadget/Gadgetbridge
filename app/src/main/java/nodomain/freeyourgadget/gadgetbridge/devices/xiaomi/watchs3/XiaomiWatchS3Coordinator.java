@@ -52,9 +52,4 @@ public class XiaomiWatchS3Coordinator extends XiaomiCoordinator {
     public boolean isExperimental() {
         return true;
     }
-
-    @Override
-    public boolean supportsFindDevice() {
-        return false;
-    }
 }

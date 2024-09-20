@@ -16,17 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.miwatchcolorsport;
 
-import android.content.Context;
-import android.net.Uri;
-
-import androidx.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiInstallHandler;
 
 public class MiWatchColorSportCoordinator extends XiaomiCoordinator {
 
@@ -43,13 +36,6 @@ public class MiWatchColorSportCoordinator extends XiaomiCoordinator {
     @Override
     public boolean isExperimental() {
         return true;
-    }
-
-    @Nullable
-    @Override
-    public InstallHandler findInstallHandler(Uri uri, Context context) {
-        final XiaomiInstallHandler handler = new XiaomiInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
     }
 
     @Override
