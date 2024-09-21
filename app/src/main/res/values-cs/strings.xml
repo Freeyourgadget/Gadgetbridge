@@ -3456,4 +3456,6 @@
     <string name="vo2max_cycling">VO₂ Max při cyklistice</string>
     <string name="thirty_days_timeline">30denní časová osa</string>
     <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
+    <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
+    <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
 </resources>
