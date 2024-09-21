@@ -20,8 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,8 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvider.TestActivitySample> {
-    private static final Logger LOG = LoggerFactory.getLogger(TestSampleProvider.class);
-
     public TestSampleProvider(final GBDevice device, final DaoSession session) {
         super(device, session);
     }
@@ -59,12 +55,14 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
     @NonNull
     @Override
     protected Property getTimestampSampleProperty() {
+        //noinspection DataFlowIssue not database-backed
         return null;
     }
 
     @NonNull
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
+        //noinspection DataFlowIssue not database-backed
         return null;
     }
 
@@ -159,7 +157,7 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
                 }
             }
 
-            steps += TestDeviceRand.randInt(ts, -steps, 100 - steps) * dayActivityFactor;
+            steps += (int) (TestDeviceRand.randInt(ts, -steps, 100 - steps) * dayActivityFactor);
             intensity += TestDeviceRand.randInt(ts, -1, 1);
             hr += TestDeviceRand.randInt(ts, -2, 2);
         }
@@ -249,6 +247,16 @@ public class TestSampleProvider extends AbstractSampleProvider<TestSampleProvide
         @Override
         public int getSteps() {
             return steps;
+        }
+
+        @Override
+        public int getDistanceCm() {
+            return steps * 67;
+        }
+
+        @Override
+        public int getActiveCalories() {
+            return (int) Math.round(steps * 0.04);
         }
     }
 }

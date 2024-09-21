@@ -122,6 +122,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceFolder;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -143,10 +144,10 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     private String expandedDeviceAddress = "";
     private String expandedFolderName = "";
     private ViewGroup parent;
-    private HashMap<String, long[]> deviceActivityMap = new HashMap();
+    private HashMap<String, DailyTotals> deviceActivityMap = new HashMap<>();
     private final StableIdGenerator idGenerator = new StableIdGenerator();
 
-    public GBDeviceAdapterv2(Context context, List<GBDevice> deviceList, HashMap<String,long[]> deviceMap) {
+    public GBDeviceAdapterv2(Context context, List<GBDevice> deviceList, HashMap<String, DailyTotals> deviceMap) {
         super(new GBDeviceDiffUtil());
         this.context = context;
         this.deviceList = deviceList;
@@ -304,7 +305,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             holder.container.setVisibility(View.VISIBLE);
         }
 
-        long[] dailyTotals = new long[]{0, 0};
+        DailyTotals dailyTotals = new DailyTotals();
         if (deviceActivityMap.containsKey(device.getAddress())) {
             dailyTotals = deviceActivityMap.get(device.getAddress());
         }
@@ -1331,7 +1332,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         snackbar.show();
     }
 
-    private void setActivityCard(ViewHolder holder, final GBDevice device, long[] dailyTotals) {
+    private void setActivityCard(ViewHolder holder, final GBDevice device, DailyTotals dailyTotals) {
         boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
         holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
 
@@ -1339,15 +1340,16 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             return;
         }
 
-        int steps = (int) dailyTotals[0];
-        int sleep = (int) dailyTotals[1];
+        int steps = (int) dailyTotals.getSteps();
+        int sleep = (int) dailyTotals.getSleep();
+        int distanceCm = (int) dailyTotals.getDistance();
         ActivityUser activityUser = new ActivityUser();
         int stepGoal = activityUser.getStepsGoal();
         int sleepGoal = activityUser.getSleepDurationGoal();
         int sleepGoalMinutes = sleepGoal * 60;
         int distanceGoal = activityUser.getDistanceGoalMeters() * 100;
         int stepLength = activityUser.getStepLengthCm();
-        double distanceMeters = dailyTotals[0] * stepLength * 0.01;
+        double distanceMeters = (distanceCm > 0 ? distanceCm : steps * stepLength) * 0.01;
         String distanceFormatted = FormatUtils.getFormattedDistanceLabel(distanceMeters);
 
         setUpChart(holder.TotalStepsChart);

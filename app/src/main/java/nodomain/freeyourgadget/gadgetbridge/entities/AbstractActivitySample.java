@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.entities;
 
+import androidx.annotation.NonNull;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -29,7 +31,7 @@ public abstract class AbstractActivitySample implements ActivitySample {
         return mProvider;
     }
 
-    public void setProvider(SampleProvider provider) {
+    public void setProvider(SampleProvider<?> provider) {
         mProvider = provider;
     }
 
@@ -55,6 +57,12 @@ public abstract class AbstractActivitySample implements ActivitySample {
     }
 
     public void setSteps(int steps) {
+    }
+
+    public void setDistanceCm(int distance) {
+    }
+
+    public void setActiveCalories(int activeCalories) {
     }
 
     /**
@@ -90,6 +98,17 @@ public abstract class AbstractActivitySample implements ActivitySample {
     }
 
     @Override
+    public int getDistanceCm() {
+        return NOT_MEASURED;
+    }
+
+    @Override
+    public int getActiveCalories() {
+        return NOT_MEASURED;
+    }
+
+    @NonNull
+    @Override
     public String toString() {
         ActivityKind kind = getProvider() != null ? getKind() : ActivityKind.NOT_MEASURED;
         float intensity = getProvider() != null ? getIntensity() : ActivitySample.NOT_MEASURED;
@@ -97,7 +116,9 @@ public abstract class AbstractActivitySample implements ActivitySample {
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimeStamp(getTimestamp())) +
                 ", intensity=" + intensity +
                 ", steps=" + getSteps() +
-                ", heartrate=" + getHeartRate() +
+                ", distanceCm=" + getDistanceCm() +
+                ", activeCalories=" + getActiveCalories() +
+                ", heartRate=" + getHeartRate() +
                 ", type=" + kind +
                 ", userId=" + getUserId() +
                 ", deviceId=" + getDeviceId() +

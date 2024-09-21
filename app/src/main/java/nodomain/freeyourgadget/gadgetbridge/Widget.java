@@ -61,16 +61,14 @@ public class Widget extends AppWidgetProvider {
     static BroadcastReceiver broadcastReceiver = null;
 
 
-    private long[] getSteps(GBDevice gbDevice) {
+    private DailyTotals getSteps(GBDevice gbDevice) {
         Context context = GBApplication.getContext();
         Calendar day = GregorianCalendar.getInstance();
 
         if (!(context instanceof GBApplication)) {
-            return new long[]{0, 0, 0};
+            return new DailyTotals();
         }
-        DailyTotals ds = new DailyTotals();
-        return ds.getDailyTotalsForDevice(gbDevice, day);
-        //return ds.getDailyTotalsForAllDevices(day);
+        return DailyTotals.getDailyTotalsForDevice(gbDevice, day);
     }
 
     private String getHM(long value) {
@@ -117,16 +115,17 @@ public class Widget extends AppWidgetProvider {
         PendingIntent startChartsPIntent = PendingIntentUtils.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);
 
-        long[] dailyTotals = getSteps(deviceForWidget);
-        int steps = (int) dailyTotals[0];
-        int sleep = (int) dailyTotals[1];
+        DailyTotals dailyTotals = getSteps(deviceForWidget);
+        int steps = (int) dailyTotals.getSteps();
+        int sleep = (int) dailyTotals.getSleep();
+        int distanceCm = (int) dailyTotals.getDistance();
         ActivityUser activityUser = new ActivityUser();
         int stepGoal = activityUser.getStepsGoal();
         int sleepGoal = activityUser.getSleepDurationGoal();
         int sleepGoalMinutes = sleepGoal * 60;
         int distanceGoal = activityUser.getDistanceGoalMeters() * 100;
         int stepLength = activityUser.getStepLengthCm();
-        double distanceMeters = dailyTotals[0] * stepLength * 0.01;
+        double distanceMeters = (distanceCm > 0 ? distanceCm : steps * stepLength) * 0.01;
         String distanceFormatted = FormatUtils.getFormattedDistanceLabel(distanceMeters);
 
         if (sleep < 1) {

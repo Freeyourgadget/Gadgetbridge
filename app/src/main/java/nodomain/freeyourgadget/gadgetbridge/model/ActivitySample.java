@@ -73,6 +73,16 @@ public interface ActivitySample extends TimeStamped {
     int getSteps();
 
     /**
+     * Returns the distance moved during the period of this sample, in cm. -1 if unknown.
+     */
+    int getDistanceCm();
+
+    /**
+     * Returns the calories burned during the period of this sample, in kcal. -1 if unknown.
+     */
+    int getActiveCalories();
+
+    /**
      * Returns the heart rate measured at the corresponding timestamp.
      * The value is returned in heart beats per minute, in the range from
      * 0-255, where 255 is an illegal value (e.g. due to a bad measurement)

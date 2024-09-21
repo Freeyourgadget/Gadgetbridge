@@ -51,20 +51,25 @@ abstract class StepsFragment<T extends ChartsData> extends AbstractChartFragment
         List<StepsDay> daysData = new ArrayList<>();;
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             long totalSteps = 0;
+            long totalDistance = 0;
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
             for (ActivityAmount amount : amounts.getAmounts()) {
                 if (amount.getTotalSteps() > 0) {
                     totalSteps += amount.getTotalSteps();
                 }
+                if (amount.getTotalDistance() > 0) {
+                    totalDistance += amount.getTotalDistance();
+                }
             }
-            double distance = 0;
-            if (totalSteps > 0) {
+            double distance = totalDistance;
+            if (totalDistance == 0 && totalSteps > 0) {
+                // For gadgets that do not report distance, compute it from the steps
                 ActivityUser activityUser = new ActivityUser();
                 int stepLength = activityUser.getStepLengthCm();
-                distance = ((stepLength * 1.0 / 100) * totalSteps) / 1000;
+                distance = stepLength * totalSteps;
             }
             Calendar d = (Calendar) day.clone();
-            daysData.add(new StepsDay(d, totalSteps, distance));
+            daysData.add(new StepsDay(d, totalSteps, distance / 100_000));
             day.add(Calendar.DATE, 1);
         }
         return daysData;

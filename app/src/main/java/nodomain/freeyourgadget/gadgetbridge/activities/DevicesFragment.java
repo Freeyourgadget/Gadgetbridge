@@ -66,7 +66,7 @@ public class DevicesFragment extends Fragment {
     private RecyclerView deviceListView;
     private FloatingActionButton fab;
     List<GBDevice> deviceList;
-    private  HashMap<String,long[]> deviceActivityHashMap = new HashMap();
+    private  HashMap<String, DailyTotals> deviceActivityHashMap = new HashMap();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -219,11 +219,10 @@ public class DevicesFragment extends Fragment {
         super.onDestroy();
     }
 
-    private long[] getSteps(GBDevice device, DBHandler db) {
+    private DailyTotals getSteps(GBDevice device, DBHandler db) {
         Calendar day = GregorianCalendar.getInstance();
 
-        DailyTotals ds = new DailyTotals();
-        return ds.getDailyTotalsForDevice(device, day, db);
+        return DailyTotals.getDailyTotalsForDevice(device, day, db);
     }
 
     public void refreshPairedDevices() {
@@ -266,7 +265,7 @@ public class DevicesFragment extends Fragment {
             final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
             final boolean showActivityCard = GBApplication.getDevicePrefs(gbDevice).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
             if (coordinator.supportsActivityTracking() && showActivityCard) {
-                final long[] stepsAndSleepData = getSteps(gbDevice, db);
+                final DailyTotals stepsAndSleepData = getSteps(gbDevice, db);
                 deviceActivityHashMap.put(gbDevice.getAddress(), stepsAndSleepData);
             }
         }

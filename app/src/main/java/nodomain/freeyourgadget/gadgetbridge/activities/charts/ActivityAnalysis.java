@@ -75,6 +75,11 @@ public class ActivityAnalysis {
                 amount.addSteps(steps);
             }
 
+            final int distance = sample.getDistanceCm();
+            if (distance >= 0) {
+                amount.addDistance(distance);
+            }
+
             if (previousSample != null) {
                 long timeDifference = sample.getTimestamp() - previousSample.getTimestamp();
                 if (previousSample.getRawKind() == sample.getRawKind()) {

@@ -291,8 +291,7 @@ public class StepStreaksDashboard extends MaterialDialogFragment {
         int all_steps = 0;
         int firstDataTimestamp = 0;
 
-        DailyTotals dailyTotals = new DailyTotals();
-        ActivitySample firstSample = dailyTotals.getFirstSample(db, device);
+        ActivitySample firstSample = DailyTotals.getFirstSample(db, device);
         if (firstSample == null) { //no data at all
             return;
         }
@@ -306,8 +305,8 @@ public class StepStreaksDashboard extends MaterialDialogFragment {
                 break;
             }
 
-            long[] daily_data = dailyTotals.getDailyTotalsForDevice(device, day, db);
-            int steps_this_day = (int) daily_data[0];
+            DailyTotals daily_data = DailyTotals.getDailyTotalsForDevice(device, day, db);
+            int steps_this_day = (int) daily_data.getSteps();
 
             if (steps_this_day > 0) {
                 all_step_days++;
