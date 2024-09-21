@@ -3456,4 +3456,6 @@
     <string name="devicetype_garmin_forerunner_265s">佳明 Forerunner 265S</string>
     <string name="vo2max_running">跑步最大摄氧量</string>
     <string name="thirty_days_timeline">30 天时间线</string>
+    <string name="devicetype_miband9">小米智能手环 9</string>
+    <string name="devicetype_redmi_watch_5_active">红米手表 5 Active</string>
 </resources>
