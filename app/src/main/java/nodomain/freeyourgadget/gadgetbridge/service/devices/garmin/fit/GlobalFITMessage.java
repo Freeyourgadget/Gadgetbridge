@@ -98,9 +98,12 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(7, BaseType.UINT32, "total_elapsed_time"), // with pauses
             new FieldDefinitionPrimitive(8, BaseType.UINT32, "total_timer_time"), // no pauses
             new FieldDefinitionPrimitive(9, BaseType.UINT32, "total_distance"),
+            new FieldDefinitionPrimitive(10, BaseType.UINT32, "total_steps"),
             new FieldDefinitionPrimitive(11, BaseType.UINT16, "total_calories"),
             new FieldDefinitionPrimitive(16, BaseType.UINT8, "average_heart_rate"),
             new FieldDefinitionPrimitive(17, BaseType.UINT8, "max_heart_rate"),
+            new FieldDefinitionPrimitive(18, BaseType.UINT8, "average_cadence"),
+            new FieldDefinitionPrimitive(19, BaseType.UINT8, "max_cadence"),
             new FieldDefinitionPrimitive(22, BaseType.UINT16, "total_ascent"),
             new FieldDefinitionPrimitive(23, BaseType.UINT16, "total_descent"),
             new FieldDefinitionPrimitive(110, BaseType.STRING, 64, "sport_profile_name"),

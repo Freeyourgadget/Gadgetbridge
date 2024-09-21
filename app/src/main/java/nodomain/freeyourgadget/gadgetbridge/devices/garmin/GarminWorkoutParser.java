@@ -164,6 +164,9 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         if (session.getTotalDistance() != null) {
             summaryData.add(DISTANCE_METERS, session.getTotalDistance() / 100f, UNIT_METERS);
         }
+        if (session.getTotalSteps() != null) {
+            summaryData.add(STEPS, session.getTotalSteps(), UNIT_STEPS);
+        }
         if (session.getTotalCalories() != null) {
             summaryData.add(CALORIES_BURNT, session.getTotalCalories(), UNIT_KCAL);
         }
@@ -175,6 +178,12 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         }
         if (session.getMaxHeartRate() != null) {
             summaryData.add(HR_MAX, session.getMaxHeartRate(), UNIT_BPM);
+        }
+        if (session.getAverageCadence() != null) {
+            summaryData.add(CADENCE_AVG, session.getAverageCadence(), UNIT_SPM);
+        }
+        if (session.getMaxCadence() != null) {
+            summaryData.add(CADENCE_MAX, session.getMaxCadence(), UNIT_SPM);
         }
         if (session.getTotalAscent() != null) {
             summaryData.add(ASCENT_DISTANCE, session.getTotalAscent(), UNIT_METERS);

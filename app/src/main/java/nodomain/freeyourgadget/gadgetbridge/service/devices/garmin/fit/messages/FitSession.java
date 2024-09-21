@@ -71,6 +71,11 @@ public class FitSession extends RecordData {
     }
 
     @Nullable
+    public Long getTotalSteps() {
+        return (Long) getFieldByNumber(10);
+    }
+
+    @Nullable
     public Integer getTotalCalories() {
         return (Integer) getFieldByNumber(11);
     }
@@ -83,6 +88,16 @@ public class FitSession extends RecordData {
     @Nullable
     public Integer getMaxHeartRate() {
         return (Integer) getFieldByNumber(17);
+    }
+
+    @Nullable
+    public Integer getAverageCadence() {
+        return (Integer) getFieldByNumber(18);
+    }
+
+    @Nullable
+    public Integer getMaxCadence() {
+        return (Integer) getFieldByNumber(19);
     }
 
     @Nullable
