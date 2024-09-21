@@ -204,7 +204,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         generic.add(R.xml.devicesettings_moyoung_watchface);
         generic.add(R.xml.devicesettings_liftwrist_display);
 //        generic.add(R.xml.devicesettings_donotdisturb_no_auto);  // not supported by Colmi i28 Ultra
-        generic.add(R.xml.devicesettings_donotdisturb_on_off);
+        generic.add(R.xml.devicesettings_donotdisturb_on_off_follow);
         generic.add(R.xml.devicesettings_world_clocks);
         generic.add(R.xml.devicesettings_sync_calendar);
         final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);

@@ -18,8 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Pair;
@@ -81,7 +81,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSett
 import nodomain.freeyourgadget.gadgetbridge.devices.moyoung.settings.MoyoungSettingTimeRange;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MoyoungBloodPressureSample;
@@ -1407,6 +1406,24 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             onHeartRateTest();
         else
             onAbortHeartRateTest();
+    }
+
+    @Override
+    public void onChangePhoneSilentMode(int ringerMode) {
+        Prefs prefs = getDevicePrefs();
+        if (!prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_FOLLOW_PHONE, false)) {
+            return;
+        }
+        LOG.info("Phone ringer mode changed to {}, changing on device too", ringerMode);
+        switch (ringerMode) {
+            case AudioManager.RINGER_MODE_NORMAL:
+            case AudioManager.RINGER_MODE_VIBRATE:
+                sendSetting(getSetting("DO_NOT_DISTURB_ONOFF"), false);
+                break;
+            case AudioManager.RINGER_MODE_SILENT:
+                sendSetting(getSetting("DO_NOT_DISTURB_ONOFF"), true);
+                break;
+        }
     }
 
     @Override

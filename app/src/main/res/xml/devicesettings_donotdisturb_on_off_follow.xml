@@ -9,4 +9,12 @@
         android:title="@string/mi2_prefs_do_not_disturb"
         android:summary="@string/mi2_prefs_do_not_disturb_summary" />
 
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_action_find_lost_device"
+        android:key="do_not_disturb_follow_phone"
+        android:layout="@layout/preference_checkbox"
+        android:title="@string/pref_dnd_follow_phone_title"
+        android:summary="@string/pref_dnd_follow_phone_summary" />
+
 </androidx.preference.PreferenceScreen>
