@@ -35,6 +35,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -110,6 +111,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     String selectedGpxFile;
     File export_path = null;
 
+    private ActivitySummariesChartFragment activitySummariesChartFragment;
+    private ActivitySummariesGpsFragment activitySummariesGpsFragment;
+
     public static int getAlternateColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
@@ -171,8 +175,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 this,
                 R.anim.bounceright);
 
-        final ActivitySummariesChartFragment activitySummariesChartFragment = new ActivitySummariesChartFragment();
-        final ActivitySummariesGpsFragment activitySummariesGpsFragment = new ActivitySummariesGpsFragment();
+        activitySummariesChartFragment = new ActivitySummariesChartFragment();
+        activitySummariesGpsFragment = new ActivitySummariesGpsFragment();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -186,18 +190,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 BaseActivitySummary newItem = items.getNextItem();
                 if (newItem != null) {
                     currentItem = newItem;
-                    makeSummaryHeader(newItem);
-                    makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (itemHasGps()) {
-                        showGpsCanvas();
-                        activitySummariesGpsFragment.set_data(getTrackFile());
-                    } else {
-                        hideGpsCanvas();
-                    }
-
+                    refreshFromCurrentItem();
                     layout.startAnimation(animFadeRight);
-                    updateMenuItems();
                 } else {
                     layout.startAnimation(animBounceRight);
                 }
@@ -208,19 +202,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 BaseActivitySummary newItem = items.getPrevItem();
                 if (newItem != null) {
                     currentItem = newItem;
-                    makeSummaryHeader(newItem);
-                    makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-                    if (itemHasGps()) {
-                        showGpsCanvas();
-                        activitySummariesGpsFragment.set_data(getTrackFile());
-                    } else {
-                        hideGpsCanvas();
-                    }
-
-
+                    refreshFromCurrentItem();
                     layout.startAnimation(animFadeLeft);
-                    updateMenuItems();
                 } else {
                     layout.startAnimation(animBounceLeft);
                 }
@@ -229,17 +212,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         currentItem = items.getItem(position);
         if (currentItem != null) {
-            makeSummaryHeader(currentItem);
-            makeSummaryContent(currentItem);
-            activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
-            if (itemHasGps()) {
-                showGpsCanvas();
-                activitySummariesGpsFragment.set_data(getTrackFile());
-            } else {
-                hideGpsCanvas();
-            }
+            refreshFromCurrentItem();
         }
-
 
         //allows long-press.switch of data being in raw form or recalculated
         ImageView activity_icon = findViewById(R.id.item_image);
@@ -380,6 +354,27 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         TextView activity_duration = findViewById(R.id.duration);
         activity_duration.setText(durationhms);
 
+    }
+
+    private void refreshFromCurrentItem() {
+        makeSummaryHeader(currentItem);
+        makeSummaryContent(currentItem);
+
+        activitySummariesChartFragment.setDateAndGetData(
+                getTrackFile(),
+                getGBDevice(currentItem.getDevice()),
+                currentItem.getStartTime().getTime() / 1000,
+                currentItem.getEndTime().getTime() / 1000
+        );
+
+        if (itemHasGps()) {
+            showGpsCanvas();
+            activitySummariesGpsFragment.set_data(getTrackFile());
+        } else {
+            hideGpsCanvas();
+        }
+
+        updateMenuItems();
     }
 
     private File get_path() {
@@ -738,12 +733,18 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             }
         }
 
-        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_show_gpx).setVisible(hasGpx);
-        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(hasGpx);
-        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_dev_share_raw_summary).setVisible(hasRawSummary);
-        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_dev_share_raw_details).setVisible(hasRawDetails);
-        final MenuItem devToolsMenu = mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_dev_tools);
-        devToolsMenu.setVisible(devToolsMenu.getSubMenu().hasVisibleItems());
+        if (mOptionsMenu != null) {
+            final SubMenu overflowMenu = mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu();
+            if (overflowMenu != null) {
+                overflowMenu.findItem(R.id.activity_action_show_gpx).setVisible(hasGpx);
+                overflowMenu.findItem(R.id.activity_action_share_gpx).setVisible(hasGpx);
+                overflowMenu.findItem(R.id.activity_action_dev_share_raw_summary).setVisible(hasRawSummary);
+                overflowMenu.findItem(R.id.activity_action_dev_share_raw_details).setVisible(hasRawDetails);
+                final MenuItem devToolsMenu = overflowMenu.findItem(R.id.activity_action_dev_tools);
+                final SubMenu devToolsSubMenu = devToolsMenu.getSubMenu();
+                devToolsMenu.setVisible(devToolsSubMenu != null && devToolsSubMenu.hasVisibleItems());
+            }
+        }
     }
 
     private void showGpsCanvas() {

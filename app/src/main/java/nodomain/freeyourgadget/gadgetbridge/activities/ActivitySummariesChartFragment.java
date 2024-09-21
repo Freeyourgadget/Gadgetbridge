@@ -32,21 +32,30 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractActivityChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsData;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.DefaultChartsData;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.SampleXLabelFormatter;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.TimestampTranslation;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
@@ -54,17 +63,23 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesChartFragment.class);
 
     private LineChart mChart;
-    private int startTime;
-    private int endTime;
-    private GBDevice gbDevice;
     private View view;
 
-    public void setDateAndGetData(GBDevice gbDevice, long startTime, long endTime) {
+    // If a track file is being used (takes precedence over activity data)
+    private File trackFile;
+
+    // If activity data is being used
+    private GBDevice gbDevice;
+    private int startTime;
+    private int endTime;
+
+    public void setDateAndGetData(@Nullable File trackFile, GBDevice gbDevice, long startTime, long endTime) {
+        this.trackFile = trackFile;
         this.startTime = (int) startTime;
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
         if (this.view != null) {
-            createLocalRefreshTask("Visualizing data", getActivity()).execute();
+            createLocalRefreshTask("getting hr and activity", getActivity()).execute();
         }
     }
 
@@ -85,9 +100,9 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
         super.onViewCreated(view, savedInstanceState);
         init();
         this.view = view;
-        if (this.gbDevice != null) {
+        if (this.trackFile != null || this.gbDevice != null) {
             setupChart();
-            createLocalRefreshTask("Visualizing data", getActivity()).execute();
+            createLocalRefreshTask("getting hr and activity", getActivity()).execute();
         }
     }
 
@@ -184,14 +199,24 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
 
         @Override
         protected void doInBackground(DBHandler handler) {
-            List<? extends ActivitySample> samples = getAllSamples(handler, gbDevice, startTime, endTime);
+            final DefaultChartsData<?> dcd;
+            final DefaultChartsData<LineData> activitySamplesData = buildChartFromSamples(handler);
 
-            DefaultChartsData dcd = null;
-            try {
-                dcd = refresh(gbDevice, samples);
-            } catch (Exception e) {
-                LOG.debug("Unable to get charts data right now:", e);
+            if (trackFile != null) {
+                final List<ActivityPoint> activityPoints = ActivitySummariesGpsFragment.getActivityPoints(trackFile)
+                        .stream()
+                        .filter(ap -> ap.getHeartRate() > 0)
+                        .collect(Collectors.toList());
+
+                if (!activityPoints.isEmpty()) {
+                    dcd = buildHeartRateChart(activityPoints, activitySamplesData);
+                } else {
+                    dcd = activitySamplesData;
+                }
+            } else {
+                dcd = activitySamplesData;
             }
+
             if (dcd != null) {
                 mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
                 mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
@@ -202,6 +227,70 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
         @Override
         protected void onPostExecute(Object o) {
             mChart.invalidate();
+        }
+
+        private DefaultChartsData<LineData> buildChartFromSamples(DBHandler handler) {
+            final List<? extends ActivitySample> samples = getAllSamples(handler, gbDevice, startTime, endTime);
+
+            try {
+                return refresh(gbDevice, samples);
+            } catch (Exception e) {
+                LOG.error("Unable to get charts data right now", e);
+            }
+
+            return null;
+        }
+
+        private DefaultChartsData<LineData> buildHeartRateChart(final List<ActivityPoint> activityPoints,
+                                                                final DefaultChartsData<LineData> activitySamplesData) {
+            // If we have data from activity samples, we need to use the same TimestampTranslation so
+            // that the HR chart is aligned
+            // This is not ideal...
+            final TimestampTranslation tsTranslation;
+            if (activitySamplesData != null) {
+                final ValueFormatter xValueFormatter = activitySamplesData.getXValueFormatter();
+                if (xValueFormatter instanceof SampleXLabelFormatter) {
+                    tsTranslation = ((SampleXLabelFormatter) xValueFormatter).getTsTranslation();
+                } else {
+                    LOG.error("Unable to get TimestampTranslation from x value formatter - class changed?");
+                    tsTranslation = new TimestampTranslation();
+                }
+            } else {
+                tsTranslation = new TimestampTranslation();
+            }
+
+            final List<Entry> heartRateEntries = new ArrayList<>(activityPoints.size());
+            int lastHrSampleTs = -1;
+            for (final ActivityPoint activityPoint : activityPoints) {
+                int ts = tsTranslation.shorten((int) (activityPoint.getTime().getTime() / 1000));
+                if (lastHrSampleTs > -1 && ts - lastHrSampleTs > 1800 * HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                    heartRateEntries.add(createLineEntry(0, lastHrSampleTs + 1));
+                    heartRateEntries.add(createLineEntry(0, ts - 1));
+                }
+                heartRateEntries.add(createLineEntry(activityPoint.getHeartRate(), ts));
+                lastHrSampleTs = ts;
+            }
+            final LineDataSet heartRateSet = createHeartrateSet(heartRateEntries, "Heart Rate");
+
+            if (activitySamplesData != null) {
+                // if we have activity samples, replace the heart rate dataset
+                LineData data = activitySamplesData.getData();
+                List<ILineDataSet> dataSets = data.getDataSets();
+                for (final ILineDataSet dataSet : dataSets) {
+                    if ("Heart Rate".equals(dataSet.getLabel())) {
+                        dataSets.remove(dataSet);
+                        dataSets.add(heartRateSet);
+                        return activitySamplesData;
+                    }
+                }
+                // We failed to find a heart rate dataset, append ours
+                dataSets.add(heartRateSet);
+                return activitySamplesData;
+            } else {
+                final LineData lineData = new LineData(Collections.singletonList(heartRateSet));
+                final ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation, "HH:mm");
+                return new DefaultChartsData<>(lineData, xValueFormatter);
+            }
         }
     }
 }

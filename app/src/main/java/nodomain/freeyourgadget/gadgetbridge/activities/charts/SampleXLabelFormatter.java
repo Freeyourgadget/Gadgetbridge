@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-class SampleXLabelFormatter extends ValueFormatter {
+public class SampleXLabelFormatter extends ValueFormatter {
     private final TimestampTranslation tsTranslation;
     @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat annotationDateFormat;
@@ -45,5 +45,9 @@ class SampleXLabelFormatter extends ValueFormatter {
         cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
         final Date date = cal.getTime();
         return annotationDateFormat.format(date);
+    }
+
+    public TimestampTranslation getTsTranslation() {
+        return tsTranslation;
     }
 }

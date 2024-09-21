@@ -81,7 +81,7 @@ public class ActivityListingDetail extends DialogFragment {
                 .beginTransaction()
                 .replace(R.id.chartsFragmentHolder, activitySummariesChartFragment)
                 .commit();
-        activitySummariesChartFragment.setDateAndGetData(gbDevice, tsFrom, tsTo);
+        activitySummariesChartFragment.setDateAndGetData(null, gbDevice, tsFrom, tsTo);
 
         ActivityListingAdapter stepListAdapter = new ActivityListingAdapter(getContext());
         View activityItem = view.findViewById(R.id.activityItemHolder);

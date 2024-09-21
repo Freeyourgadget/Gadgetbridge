@@ -32,23 +32,22 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitImporter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.RecordData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParseException;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParser;
-import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
 
 import static android.graphics.Bitmap.createBitmap;
 
@@ -56,7 +55,7 @@ import static android.graphics.Bitmap.createBitmap;
 public class ActivitySummariesGpsFragment extends AbstractGBFragment {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesGpsFragment.class);
     private ImageView gpsView;
-    private int CANVAS_SIZE = 360;
+    private final int CANVAS_SIZE = 360;
     private File inputFile;
 
     @Override
@@ -79,49 +78,48 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
 
     private void processInBackgroundThread() {
         final Canvas canvas = createCanvas(gpsView);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final List<GPSCoordinate> points = new ArrayList<>();
-                if (inputFile.getName().endsWith(".gpx")) {
-                    try (FileInputStream inputStream = new FileInputStream(inputFile)) {
-                        final GpxParser gpxParser = new GpxParser(inputStream);
-                        points.addAll(gpxParser.getGpxFile().getPoints());
-                    } catch (final IOException e) {
-                        LOG.error("Failed to open {}", inputFile, e);
-                        return;
-                    } catch (final GpxParseException e) {
-                        LOG.error("Failed to parse gpx file", e);
-                        return;
-                    }
-                } else if (inputFile.getName().endsWith(".fit")) {
-                    try {
-                        FitFile fitFile = FitFile.parseIncoming(inputFile);
-                        for (final RecordData record : fitFile.getRecords()) {
-                            if (record instanceof FitRecord) {
-                                final ActivityPoint activityPoint = ((FitRecord) record).toActivityPoint();
-                                if (activityPoint.getLocation() != null) {
-                                    points.add(activityPoint.getLocation());
-                                }
-                            }
-                        }
-                    } catch (final IOException e) {
-                        LOG.error("Failed to open {}", inputFile, e);
-                        return;
-                    } catch (final Exception e) {
-                        LOG.error("Failed to parse fit file", e);
-                        return;
-                    }
-                } else {
-                    LOG.warn("Unknown file type {}", inputFile.getName());
-                    return;
-                }
+        new Thread(() -> {
+            final List<GPSCoordinate> points = getActivityPoints(inputFile)
+                    .stream()
+                    .map(ActivityPoint::getLocation)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
 
-                if (!points.isEmpty()) {
-                    drawTrack(canvas, points);
-                }
+            if (!points.isEmpty()) {
+                drawTrack(canvas, points);
             }
         }).start();
+    }
+
+    public static List<ActivityPoint> getActivityPoints(final File trackFile) {
+        final List<ActivityPoint> points = new ArrayList<>();
+        if (trackFile.getName().endsWith(".gpx")) {
+            try (FileInputStream inputStream = new FileInputStream(trackFile)) {
+                final GpxParser gpxParser = new GpxParser(inputStream);
+                points.addAll(gpxParser.getGpxFile().getActivityPoints());
+            } catch (final IOException e) {
+                LOG.error("Failed to open {}", trackFile, e);
+            } catch (final GpxParseException e) {
+                LOG.error("Failed to parse gpx file", e);
+            }
+        } else if (trackFile.getName().endsWith(".fit")) {
+            try {
+                FitFile fitFile = FitFile.parseIncoming(trackFile);
+                for (final RecordData record : fitFile.getRecords()) {
+                    if (record instanceof FitRecord) {
+                        points.add(((FitRecord) record).toActivityPoint());
+                    }
+                }
+            } catch (final IOException e) {
+                LOG.error("Failed to open {}", trackFile, e);
+            } catch (final Exception e) {
+                LOG.error("Failed to parse fit file", e);
+            }
+        } else {
+            LOG.warn("Unknown file type {}", trackFile.getName());
+        }
+
+        return points;
     }
 
     private void drawTrack(Canvas canvas, List<? extends GPSCoordinate> trackPoints) {
@@ -154,11 +152,10 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
         }
     }
 
-
     private Canvas createCanvas(ImageView imageView) {
         Bitmap bitmap = createBitmap(CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(GBApplication.getWindowBackgroundColor(getActivity()));
+        canvas.drawColor(GBApplication.getWindowBackgroundColor(requireActivity()));
         //frame around, but it doesn't look so nice
         /*
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
