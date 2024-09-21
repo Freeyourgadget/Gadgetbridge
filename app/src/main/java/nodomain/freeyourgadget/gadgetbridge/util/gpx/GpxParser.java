@@ -32,7 +32,6 @@ import java.io.InputStream;
 import java.text.ParsePosition;
 import java.util.Date;
 
-import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
 import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxTrack;
@@ -211,6 +210,9 @@ public class GpxParser {
                     case "time":
                         trackPointBuilder.withTime(parseTime());
                         continue;
+                    case "extensions":
+                        parseExtensions(trackPointBuilder);
+                        continue;
                 }
             } 
 
@@ -218,6 +220,34 @@ public class GpxParser {
         }
 
         return trackPointBuilder.build();
+    }
+
+    private void parseExtensions(final GpxTrackPoint.Builder trackPointBuilder) throws Exception {
+        while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("extensions")) {
+            if (parser.getEventType() == XmlPullParser.START_TAG) {
+                switch (parser.getName()) {
+                    case "gpxtpx:TrackPointExtension":
+                        parseTrackPointExtensions(trackPointBuilder);
+                        continue;
+                }
+            }
+
+            eventType = parser.next();
+        }
+    }
+
+    private void parseTrackPointExtensions(final GpxTrackPoint.Builder trackPointBuilder) throws Exception {
+        while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("gpxtpx:TrackPointExtension")) {
+            if (parser.getEventType() == XmlPullParser.START_TAG) {
+                switch (parser.getName()) {
+                    case "gpxtpx:hr":
+                        trackPointBuilder.withHeartRate(Integer.parseInt(parseStringContent("gpxtpx:hr")));
+                        continue;
+                }
+            }
+
+            eventType = parser.next();
+        }
     }
 
     private GpxWaypoint parseWaypoint() throws Exception {

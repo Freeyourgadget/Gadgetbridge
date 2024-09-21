@@ -18,6 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.util.gpx.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 
 public class GpxFile {
     private final String name;
@@ -59,6 +62,14 @@ public class GpxFile {
         }
 
         return allPoints;
+    }
+
+    public List<ActivityPoint> getActivityPoints() {
+        return tracks.stream()
+                .flatMap(t -> t.getTrackSegments().stream())
+                .flatMap(s -> s.getTrackPoints().stream())
+                .map(GpxTrackPoint::toActivityPoint)
+                .collect(Collectors.toList());
     }
 
     public static class Builder {
