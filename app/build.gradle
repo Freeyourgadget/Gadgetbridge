@@ -244,7 +244,7 @@ dependencies {
     implementation 'com.github.wax911.android-emojify:contract:1.9.3'
     implementation 'com.github.wax911.android-emojify:emojify:1.9.3'
     implementation 'com.github.wax911.android-emojify:gson:1.9.3'
-    implementation 'com.google.protobuf:protobuf-javalite:4.28.1'
+    implementation 'com.google.protobuf:protobuf-javalite:4.28.2'
     implementation 'com.android.volley:volley:1.2.1'
 
     // Bouncy Castle is included directly in GB, to avoid pulling the entire dependency
@@ -287,7 +287,7 @@ tasks.clean.dependsOn(tasks.cleanGenerated)
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:4.28.1'
+        artifact = 'com.google.protobuf:protoc:4.28.2'
     }
     generateProtoTasks {
         all().each { task ->
