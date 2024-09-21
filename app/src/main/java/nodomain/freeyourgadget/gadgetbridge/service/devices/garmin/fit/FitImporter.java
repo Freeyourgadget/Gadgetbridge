@@ -356,9 +356,11 @@ public class FitImporter {
 
         final List<GarminActivitySample> activitySamples = new ArrayList<>(activitySamplesPerTimestamp.size());
 
-        // Garmin reports the cumulative steps per activity, but not always, so we need to keep
-        // track of the number of steps for each activity, and set the sum of all on the sample
+        // Garmin reports the cumulative data per activity, but not always, so we need to keep
+        // track of the amounts for each activity, and set the sum of all on the sample
         final Map<Integer, Long> stepsPerActivity = new HashMap<>();
+        final Map<Integer, Long> distancePerActivity = new HashMap<>();
+        final Map<Integer, Integer> caloriesPerActivity = new HashMap<>();
 
         final int THRESHOLD_NOT_WORN = 10 * 60; // 10 min gap between samples = not-worn
         int prevActivityKind = ActivityKind.UNKNOWN.getCode();
@@ -374,6 +376,9 @@ public class FitImporter {
                     sample.setRawKind(ts - prevTs > THRESHOLD_NOT_WORN ? ActivityKind.NOT_WORN.getCode() : prevActivityKind);
                     sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                     sample.setSteps(ActivitySample.NOT_MEASURED);
+                    sample.setHeartRate(ActivitySample.NOT_MEASURED);
+                    sample.setDistanceCm(ActivitySample.NOT_MEASURED);
+                    sample.setActiveCalories(ActivitySample.NOT_MEASURED);
                     activitySamples.add(sample);
                 }
             }
@@ -386,8 +391,12 @@ public class FitImporter {
             sample.setRawIntensity(ActivitySample.NOT_MEASURED);
             sample.setSteps(ActivitySample.NOT_MEASURED);
             sample.setHeartRate(ActivitySample.NOT_MEASURED);
+            sample.setDistanceCm(ActivitySample.NOT_MEASURED);
+            sample.setActiveCalories(ActivitySample.NOT_MEASURED);
 
             boolean hasSteps = false;
+            boolean hasDistance = false;
+            boolean hasCalories = false;
             for (final FitMonitoring record : Objects.requireNonNull(records)) {
                 final Integer activityType = record.getComputedActivityType().orElse(ActivitySample.NOT_MEASURED);
 
@@ -402,6 +411,18 @@ public class FitImporter {
                     hasSteps = true;
                 }
 
+                final Long distance = record.getDistance();
+                if (distance != null) {
+                    distancePerActivity.put(activityType, distance);
+                    hasDistance = true;
+                }
+
+                final Integer calories = record.getActiveCalories();
+                if (calories != null) {
+                    caloriesPerActivity.put(activityType, calories);
+                    hasCalories = true;
+                }
+
                 final Integer intensity = record.getComputedIntensity();
                 if (intensity != null) {
                     sample.setRawIntensity(intensity);
@@ -413,6 +434,20 @@ public class FitImporter {
                     sumSteps += steps;
                 }
                 sample.setSteps(sumSteps);
+            }
+            if (hasDistance) {
+                int sumDistance = 0;
+                for (final Long distance : distancePerActivity.values()) {
+                    sumDistance += distance;
+                }
+                sample.setDistanceCm(sumDistance);
+            }
+            if (hasCalories) {
+                int sumCalories = 0;
+                for (final Integer calories : caloriesPerActivity.values()) {
+                    sumCalories += calories;
+                }
+                sample.setActiveCalories(sumCalories);
             }
 
             activitySamples.add(sample);
