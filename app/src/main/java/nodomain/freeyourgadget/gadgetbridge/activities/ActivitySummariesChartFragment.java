@@ -283,8 +283,8 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
                         return activitySamplesData;
                     }
                 }
-                // We failed to find a heart rate dataset, append ours
-                dataSets.add(heartRateSet);
+                // We failed to find a heart rate dataset. We can't append ours, or it will crash
+                //dataSets.add(heartRateSet);
                 return activitySamplesData;
             } else {
                 final LineData lineData = new LineData(Collections.singletonList(heartRateSet));
