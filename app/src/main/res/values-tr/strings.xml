@@ -3469,4 +3469,6 @@
     <string name="vo2max_cycling">En Yüksek Bisiklet Sürme VO₂ Değeri</string>
     <string name="thirty_days_timeline">30 Günlük Zaman Çizelgesi</string>
     <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
+    <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
+    <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
 </resources>
