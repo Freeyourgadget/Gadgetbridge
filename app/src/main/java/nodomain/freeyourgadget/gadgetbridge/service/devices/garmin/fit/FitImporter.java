@@ -362,7 +362,8 @@ public class FitImporter {
         for (final int ts : activitySamplesPerTimestamp.keySet()) {
             if (prevTs > 0 && ts - prevTs > 60) {
                 // Fill gaps between samples
-                for (int i = prevTs; i < ts; i += 60) {
+                LOG.debug("Filling gap between {} and {}", prevTs, ts);
+                for (int i = prevTs + 60; i < ts; i += 60) {
                     final GarminActivitySample sample = new GarminActivitySample();
                     sample.setTimestamp(i);
                     sample.setRawKind(ts - prevTs > THRESHOLD_NOT_WORN ? ActivityKind.NOT_WORN.getCode() : prevActivityKind);
