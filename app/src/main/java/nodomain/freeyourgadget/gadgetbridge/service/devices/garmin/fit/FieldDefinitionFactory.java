@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes.BaseType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionAlarm;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionArray;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionDayOfWeek;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionFileType;
@@ -26,6 +27,8 @@ public class FieldDefinitionFactory {
         switch (field) {
             case ALARM:
                 return new FieldDefinitionAlarm(localNumber, size, baseType, name);
+            case ARRAY:
+                return new FieldDefinitionArray(localNumber, size, baseType, name, scale, offset);
             case DAY_OF_WEEK:
                 return new FieldDefinitionDayOfWeek(localNumber, size, baseType, name);
             case FILE_TYPE:
@@ -63,6 +66,7 @@ public class FieldDefinitionFactory {
 
     public enum FIELD {
         ALARM,
+        ARRAY,
         DAY_OF_WEEK,
         FILE_TYPE,
         GOAL_SOURCE,

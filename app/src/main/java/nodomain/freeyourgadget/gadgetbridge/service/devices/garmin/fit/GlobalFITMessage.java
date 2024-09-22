@@ -177,6 +177,15 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
+    public static GlobalFITMessage MONITORING_INFO = new GlobalFITMessage(103, "MONITORING_INFO", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT32, "timestamp_in_tz"), // garmin timestamp, but in user timezone
+            new FieldDefinitionPrimitive(1, BaseType.ENUM, "activity_type", FieldDefinitionFactory.FIELD.ARRAY), // 6 walking, 1 running, 13 ?
+            new FieldDefinitionPrimitive(3, BaseType.UINT16, "steps_to_distance", FieldDefinitionFactory.FIELD.ARRAY, 5000, 0), // same size as activity_type?
+            new FieldDefinitionPrimitive(4, BaseType.UINT16, "steps_to_calories", FieldDefinitionFactory.FIELD.ARRAY, 5000, 0), // same size as activity_type?
+            new FieldDefinitionPrimitive(5, BaseType.UINT16, "resting_metabolic_rate"), // kcal/day
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
     public static GlobalFITMessage CONNECTIVITY = new GlobalFITMessage(127, "CONNECTIVITY", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.ENUM, "bluetooth_enabled"),
             new FieldDefinitionPrimitive(3, BaseType.STRING, 20, "name"),
@@ -342,6 +351,7 @@ public class GlobalFITMessage {
         put(31, COURSE);
         put(49, FILE_CREATOR);
         put(55, MONITORING);
+        put(103, MONITORING_INFO);
         put(127, CONNECTIVITY);
         put(128, WEATHER);
         put(140, PHYSIOLOGICAL_METRICS);
@@ -456,6 +466,10 @@ public class GlobalFITMessage {
             this.type = type;
             this.scale = scale;
             this.offset = offset;
+        }
+
+        public FieldDefinitionPrimitive(int number, BaseType baseType, String name, FieldDefinitionFactory.FIELD type, int scale, int offset) {
+            this(number, baseType, baseType.getSize(), name, type, scale, offset);
         }
 
         public FieldDefinitionPrimitive(int number, BaseType baseType, String name, FieldDefinitionFactory.FIELD type) {

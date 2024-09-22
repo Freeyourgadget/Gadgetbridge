@@ -43,6 +43,8 @@ public class FitRecordDataFactory {
                 return new FitFileCreator(recordDefinition, recordHeader);
             case 55:
                 return new FitMonitoring(recordDefinition, recordHeader);
+            case 103:
+                return new FitMonitoringInfo(recordDefinition, recordHeader);
             case 127:
                 return new FitConnectivity(recordDefinition, recordHeader);
             case 128:

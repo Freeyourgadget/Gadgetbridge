@@ -240,6 +240,8 @@ public class FitCodeGen {
             switch (primitive.getType()) {
                 case ALARM:
                     return Calendar.class;
+                case ARRAY:
+                    return Number[].class;
                 case DAY_OF_WEEK:
                     return DayOfWeek.class;
                 case FILE_TYPE:
