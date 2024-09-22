@@ -1857,8 +1857,16 @@ public class GBApplication extends Application {
     public static void setLanguage(String lang) {
         if (lang.equals("default")) {
             language = Resources.getSystem().getConfiguration().locale;
-        } else {
+        } else if (lang.length() == 2) {
             language = new Locale(lang);
+        } else {
+            final String[] split = lang.split("_");
+            if (split.length == 2) {
+                language = new Locale(split[0], split[1]);
+            } else {
+                // Unexpected format, fallback to system default
+                language = Resources.getSystem().getConfiguration().locale;
+            }
         }
         updateLanguage(language);
     }

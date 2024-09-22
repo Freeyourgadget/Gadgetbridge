@@ -17,44 +17,107 @@
         <item>@string/pref_theme_value_dynamic</item>
     </string-array>
 
+    <!-- https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code -->
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
+        <item name="id">Bahasa Indonesia</item>
         <item name="ca">Català</item>
         <item name="cs">Čeština</item>
         <item name="de">Deutsch</item>
+        <item name="et">Eesti</item>
         <item name="en">English</item>
+        <item name="en_GB">English (United Kingdom)</item>
         <item name="es">Español</item>
+        <item name="eu">Euskara</item>
         <item name="fr">Français</item>
+        <item name="fr_CA">Français (Canadien)</item>
+        <item name="gl">Galego</item>
+        <item name="hr">Hrvatski</item>
+        <item name="ia">Interlingua</item>
+        <item name="it">Italiano</item>
+        <item name="lv">Latviešu</item>
+        <item name="lt">Lietuvių</item>
+        <item name="hu">Magyar</item>
+        <item name="my">Myanmasa</item>
+        <item name="nl">Nederlands</item>
+        <item name="nb_NO">Norsk (bokmål)</item>
         <item name="pl">Polski</item>
         <item name="pt">Português</item>
-        <item name="ru">Русский</item>
+        <item name="pt_BR">Português (Brasil)</item>
+        <item name="ro">Română</item>
+        <item name="sk">Slovenčina</item>
+        <item name="fi">Suomi</item>
+        <item name="sv">Svenska</item>
         <item name="vi">Tiếng Việt</item>
         <item name="tr">Türkçe</item>
+        <item name="el">Ελληνικά</item>
+        <item name="bg">Български</item>
+        <item name="ru">Русский</item>
+        <item name="sr">Српски</item>
         <item name="uk">Українська</item>
+        <item name="ka">ქართული</item>
+        <item name="he">עברית</item>
+        <item name="ar">العربية</item>
+        <item name="fa">فارسی</item>
+        <item name="hi">हिन्दी</item>
+        <item name="ta">தமிழ்</item>
+        <item name="ml">മലയാളം</item>
+        <item name="th">ไทย / Phasa Thai</item>
         <item name="ko">한국어</item>
         <item name="ja">日本語</item>
-        <item name="hu">Magyar</item>
-        <item name="sk">Slovenčina</item>
+        <item name="zh_CN">简体中文</item>
+        <item name="zh_TW">繁體中文</item>
     </string-array>
 
     <string-array name="pref_language_values">
         <item>default</item>
+        <item>id</item>
         <item>ca</item>
         <item>cs</item>
         <item>de</item>
+        <item>et</item>
         <item>en</item>
+        <item>en_GB</item>
         <item>es</item>
+        <item>eu</item>
         <item>fr</item>
+        <item>fr_CA</item>
+        <item>gl</item>
+        <item>hr</item>
+        <item>ia</item>
+        <item>it</item>
+        <item>lv</item>
+        <item>lt</item>
+        <item>hu</item>
+        <item>my</item>
+        <item>nl</item>
+        <item>nb_NO</item>
         <item>pl</item>
         <item>pt</item>
-        <item>ru</item>
+        <item>pt_BR</item>
+        <item>ro</item>
+        <item>sk</item>
+        <item>fi</item>
+        <item>sv</item>
         <item>vi</item>
         <item>tr</item>
+        <item>el</item>
+        <item>bg</item>
+        <item>ru</item>
+        <item>sr</item>
         <item>uk</item>
+        <item>ka</item>
+        <item>he</item>
+        <item>ar</item>
+        <item>fa</item>
+        <item>hi</item>
+        <item>ta</item>
+        <item>ml</item>
+        <item>th</item>
         <item>ko</item>
         <item>ja</item>
-        <item>hu</item>
-        <item>sk</item>
+        <item>zh_CN</item>
+        <item>zh_TW</item>
     </string-array>
 
     <string-array name="pref_fitpro_language_options">
