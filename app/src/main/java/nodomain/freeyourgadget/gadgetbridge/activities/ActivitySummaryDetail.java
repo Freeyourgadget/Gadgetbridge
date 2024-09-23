@@ -579,7 +579,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         linearLayout.setLayoutParams(layoutParams);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setPadding(dpToPx(20), dpToPx(20),dpToPx(20), dpToPx(20));
+        linearLayout.setPadding(dpToPx(15), dpToPx(15),dpToPx(15), dpToPx(15));
         linearLayout.setBackgroundColor(GBApplication.getWindowBackgroundColor(ActivitySummaryDetail.this));
         int marginLeft = 0;
         int marginTop = 0;

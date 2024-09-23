@@ -41,7 +41,6 @@
                     />
 
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/stress_chart_relaxed_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,7 +68,6 @@
                     />
 
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/stress_chart_mild_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +93,6 @@
                     />
 
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/stress_chart_moderate_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -124,7 +121,6 @@
                     />
 
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/stress_chart_high_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,6 +141,7 @@
             android:id="@+id/stress_line_chart"
             android:layout_width="fill_parent"
             android:layout_height="300dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="25dp"
             android:layout_weight="2" />
     </LinearLayout>

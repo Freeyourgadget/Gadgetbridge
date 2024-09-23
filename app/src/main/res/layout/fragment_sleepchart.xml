@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="-"
+            android:text="@string/stats_empty_value"
             android:textSize="12sp" />
 
         <com.github.mikephil.charting.charts.PieChart
@@ -28,7 +28,9 @@
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="2" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -53,7 +55,6 @@
                         android:id="@+id/sleep_chart_legend_deep_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="@string/stats_empty_value"
                         android:textSize="20sp" />
 
@@ -79,7 +80,6 @@
                         android:id="@+id/sleep_chart_legend_light_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="@string/stats_empty_value"
                         android:textSize="20sp" />
 
@@ -98,7 +98,6 @@
                         android:id="@+id/sleep_chart_legend_rem_time_wrapper"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:orientation="vertical"
                         >
@@ -148,7 +147,6 @@
                             android:id="@+id/sleep_chart_legend_awake_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:text="@string/stats_empty_value"
                             android:textSize="20sp" />
 
@@ -167,6 +165,7 @@
             android:id="@+id/sleepchart"
             android:layout_width="fill_parent"
             android:layout_height="300dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="25dp"
             android:layout_weight="4" />
 

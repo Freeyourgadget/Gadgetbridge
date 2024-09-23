@@ -16,6 +16,7 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
         />
 
         <GridLayout
@@ -35,10 +36,9 @@
                     android:layout_marginBottom="10dp"
                     />
                 <TextView
-                    android:layout_marginTop="20dip"
                     android:id="@+id/sleep_chart_legend_deep_time"
                     android:text="@string/stats_empty_value"
-                    android:textSize="10dp"
+                    android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
@@ -61,7 +61,6 @@
                     android:layout_marginBottom="10dp"
                     />
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/sleep_chart_legend_light_time"
                     android:text="@string/stats_empty_value"
                     android:textSize="20sp"
@@ -88,7 +87,6 @@
                     android:layout_marginBottom="10dp"
                     />
                 <TextView
-                    android:layout_marginTop="10dp"
                     android:id="@+id/sleep_chart_legend_rem_time"
                     android:text="@string/stats_empty_value"
                     android:textSize="20sp"
@@ -121,7 +119,6 @@
                         android:layout_marginBottom="10dp"
                         />
                     <TextView
-                        android:layout_marginTop="10dp"
                         android:id="@+id/sleep_chart_legend_awake_time"
                         android:text="@string/stats_empty_value"
                         android:textSize="20sp"
