@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.moyoung;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Handler;
@@ -801,6 +802,7 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSetMusicInfo(MusicSpec musicSpec) {
         try {
             TransactionBuilder builder = performInitialized("sendMusicInfo");
+
             byte[] artistBytes = musicSpec.artist.getBytes();
             byte[] artistPayload = new byte[artistBytes.length + 1];
             artistPayload[0] = 1;
@@ -811,6 +813,16 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             trackPayload[0] = 0;
             System.arraycopy(trackBytes, 0, trackPayload, 1, trackBytes.length);
             sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_SET_MUSIC_INFO, trackPayload));
+
+            AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+            int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            int volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            float volumeFraction = (float) volumeLevel / volumeMax;
+            sendPacket(builder, MoyoungPacketOut.buildPacket(mtu, MoyoungConstants.CMD_NOTIFY_PHONE_OPERATION, new byte[]{
+                    MoyoungConstants.ARG_OPERATION_SEND_CURRENT_VOLUME,
+                    (byte) (16 * volumeFraction)
+            }));
+
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.error("Error sending music info: ", e);
