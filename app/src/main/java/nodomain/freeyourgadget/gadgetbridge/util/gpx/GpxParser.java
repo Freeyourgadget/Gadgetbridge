@@ -226,7 +226,7 @@ public class GpxParser {
         while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("extensions")) {
             if (parser.getEventType() == XmlPullParser.START_TAG) {
                 switch (parser.getName()) {
-                    case "gpxtpx:TrackPointExtension":
+                    case "TrackPointExtension":
                         parseTrackPointExtensions(trackPointBuilder);
                         continue;
                 }
@@ -237,11 +237,11 @@ public class GpxParser {
     }
 
     private void parseTrackPointExtensions(final GpxTrackPoint.Builder trackPointBuilder) throws Exception {
-        while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("gpxtpx:TrackPointExtension")) {
+        while (eventType != XmlPullParser.END_TAG || !parser.getName().equals("TrackPointExtension")) {
             if (parser.getEventType() == XmlPullParser.START_TAG) {
                 switch (parser.getName()) {
-                    case "gpxtpx:hr":
-                        trackPointBuilder.withHeartRate(Integer.parseInt(parseStringContent("gpxtpx:hr")));
+                    case "hr":
+                        trackPointBuilder.withHeartRate(Integer.parseInt(parseStringContent("hr")));
                         continue;
                 }
             }

@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.gpx.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -59,6 +61,12 @@ public class GpxTrackPoint extends GPSCoordinate {
         return Objects.hash(super.hashCode(), time, heartRate);
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "ts: " + time.getTime() + ", " + super.toString() + ", heartRate: " + heartRate;
+    }
+
     public ActivityPoint toActivityPoint() {
         final ActivityPoint activityPoint = new ActivityPoint();
         activityPoint.setTime(time);
@@ -73,7 +81,7 @@ public class GpxTrackPoint extends GPSCoordinate {
         private double latitude;
         private double altitude;
         private Date time;
-        private int heartRate;
+        private int heartRate = -1;
 
         public Builder withLongitude(final double longitude) {
             this.longitude = longitude;

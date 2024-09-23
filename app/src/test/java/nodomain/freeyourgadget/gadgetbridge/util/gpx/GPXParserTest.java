@@ -33,6 +33,10 @@ public class GPXParserTest extends TestBase {
                 Assert.assertEquals(df.format(tp.getLatitude()), "44.15");
                 Assert.assertThat(df.format(tp.getAltitude()), anyOf(is("40"), is("46")));
             }
+            Assert.assertEquals(
+                    new GpxTrackPoint(-68.200293, 44.152462, 40, new Date(1546300800000L)),
+                    trackPoints.get(0)
+            );
         }
     }
 
@@ -45,13 +49,13 @@ public class GPXParserTest extends TestBase {
             Assert.assertEquals(2, gpxFile.getTracks().get(0).getTrackSegments().size());
 
             final List<GpxTrackPoint> segment1 = new ArrayList<GpxTrackPoint>() {{
-                add(new GpxTrackPoint(-8.2695876, -70.6666343, 790.0, new Date(1680969788000L)));
-                add(new GpxTrackPoint(-8.2653274, -70.6670617, 296.0, new Date(1680970639000L)));
+                add(new GpxTrackPoint(-8.2695876, -70.6666343, 790.0, new Date(1680969788000L), 123));
+                add(new GpxTrackPoint(-8.2653274, -70.6670617, 296.0, new Date(1680970639000L), 56));
             }};
 
             final List<GpxTrackPoint> segment2 = new ArrayList<GpxTrackPoint>() {{
-                add(new GpxTrackPoint(-8.2653274, -70.6670617, 205.0, new Date(1680971684000L)));
-                add(new GpxTrackPoint(-8.2695876, -70.6666343, 209.0, new Date(1680973017000L)));
+                add(new GpxTrackPoint(-8.2653274, -70.6670617, 205.0, new Date(1680971684000L), 85));
+                add(new GpxTrackPoint(-8.2695876, -70.6666343, 209.0, new Date(1680973017000L), 150));
             }};
 
             Assert.assertEquals(gpxFile.getTracks().get(0).getTrackSegments().get(0).getTrackPoints(), segment1);
@@ -68,8 +72,8 @@ public class GPXParserTest extends TestBase {
             Assert.assertEquals(1, gpxFile.getTracks().get(0).getTrackSegments().size());
 
             final List<GpxTrackPoint> segment1 = new ArrayList<GpxTrackPoint>() {{
-                add(new GpxTrackPoint(-8.2695876, -70.6666343, 790.0, new Date(1680969788000L)));
-                add(new GpxTrackPoint(-8.2653274, -70.6670617, 296.0, new Date(1680970639000L)));
+                add(new GpxTrackPoint(-8.2695876, -70.6666343, 790.0, new Date(1680969788000L), 123));
+                add(new GpxTrackPoint(-8.2653274, -70.6670617, 296.0, new Date(1680970639000L), 56));
             }};
 
             Assert.assertEquals(gpxFile.getTracks().get(0).getTrackSegments().get(0).getTrackPoints(), segment1);

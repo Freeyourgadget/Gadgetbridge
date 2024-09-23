@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.location.Location;
 
+import androidx.annotation.NonNull;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
@@ -111,6 +113,7 @@ public class GPSCoordinate {
         return new BigDecimal(value).setScale(8, RoundingMode.HALF_UP).toPlainString();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "lon: " + formatLocation(longitude) + ", lat: " + formatLocation(latitude) + ", alt: " + formatLocation(altitude) + "m";
