@@ -704,6 +704,22 @@
 \n過程中的風險請自負！</string>
     <string name="about_activity_title_banglejs_main">關於Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js正在執行</string>
-    <string name="about_activity_title_banglejs_nightly">關於Bangle.js Gadgetbridge（每晚）</string>
+    <string name="about_activity_title_banglejs_nightly">關於Bangle.js Gadgetbridge（先行版）</string>
     <string name="supercars_lights_blinking_label">閃爍</string>
+    <string name="mi2_prefs_button_actions">按鈕動作</string>
+    <string name="prefs_disconnect_notification_summary">當與藍芽斷線時，裝置上會發出通知。</string>
+    <string name="mi2_prefs_button_actions_summary">指定按下按鍵的動作</string>
+    <string name="accuracy">準確</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge 先行版</string>
+    <string name="application_name_main_nightly">Gadgetbridge (先行版)</string>
+    <string name="about_activity_title_main_nightly">關於 Gadgetbridge 先行版</string>
+    <string name="controlcenter_get_heartrate_measurement">取得心率測量</string>
+    <string name="action_changelog">更新日誌</string>
+    <string name="search">搜尋</string>
+    <string name="balanced">平衡</string>
+    <string name="power_saving">省電</string>
+    <string name="custom">自訂</string>
+    <string name="speed_first">速度優先</string>
+    <string name="accuracy_first">準確優先</string>
+    <string name="prefs_disconnect_notification">中斷通知</string>
 </resources>
