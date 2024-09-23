@@ -2970,7 +2970,7 @@
     <string name="pref_adaptive_noise_cancelling_summary">根据环境声级自动设置自动降噪强度</string>
     <string name="devicetype_huawei_watchfit3">华为健身手表 3</string>
     <string name="devicetype_huawei_band9">华为手环 9</string>
-    <string name="devicetype_huawei_watch4pro">华为手表4 Pro</string>
+    <string name="devicetype_huawei_watch4pro">华为 Watch 4 (Pro)</string>
     <string name="preferences_qhybrid_settings_summary">Q Hybrid 手表的旧设置</string>
     <string name="device_name_cycling_sensor">骑行传感器</string>
     <string name="devicetype_cycling_sensor">骑行速度传感器</string>
