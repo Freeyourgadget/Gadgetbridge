@@ -2657,7 +2657,7 @@
     <string name="widget_missing_parts">Vyberte prosím všechny widgety</string>
     <string name="warning_missing_notification_permission">Nepodařilo se odeslat trvalé oznámení z důvodu chybějícího oprávnění</string>
     <string name="devicetype_garmin_forerunner_255s">Garmin Forerunner 255S</string>
-    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 (Pro)</string>
     <string name="notification_channel_full_battery_name">Plná baterie</string>
     <string name="devicetype_hama_fit6900">Hama Fit6900</string>
     <string name="menuitem_workout_shortcuts">Zkratky cvičení</string>
@@ -3458,4 +3458,5 @@
     <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
     <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
     <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
+    <string name="devicetype_huawei_watchgt5">Huawei Watch GT 5 (Pro)</string>
 </resources>
