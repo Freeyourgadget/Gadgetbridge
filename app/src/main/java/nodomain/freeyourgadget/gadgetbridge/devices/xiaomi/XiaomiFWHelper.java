@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -140,9 +141,7 @@ public class XiaomiFWHelper {
             return false;
         }
 
-        try {
-            Integer.parseInt(id);
-        } catch (final Exception e) {
+        if (!Pattern.matches("^\\d+$", id)) {
             LOG.warn("Id {} not a number", id);
             return false;
         }
