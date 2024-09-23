@@ -3458,4 +3458,5 @@
     <string name="thirty_days_timeline">30 天时间线</string>
     <string name="devicetype_miband9">小米智能手环 9</string>
     <string name="devicetype_redmi_watch_5_active">红米手表 5 Active</string>
+    <string name="devicetype_huawei_watchgt5">华为 Watch GT 5 (Pro)</string>
 </resources>
