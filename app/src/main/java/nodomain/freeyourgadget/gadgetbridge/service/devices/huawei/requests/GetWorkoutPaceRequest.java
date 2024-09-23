@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,17 +91,27 @@ public class GetWorkoutPaceRequest extends Request {
             this.nextRequest(nextRequest);
         } else {
             new HuaweiWorkoutGbParser(getDevice()).parseWorkout(this.databaseId);
-            supportProvider.downloadWorkoutGpsFiles(this.workoutNumbers.workoutNumber, this.databaseId);
-
-            if (!remainder.isEmpty()) {
-                GetWorkoutTotalsRequest nextRequest = new GetWorkoutTotalsRequest(
-                        this.supportProvider,
-                        remainder.remove(0),
-                        remainder
-                );
-                nextRequest.setFinalizeReq(this.finalizeReq);
-                this.nextRequest(nextRequest);
-            }
+            supportProvider.downloadWorkoutGpsFiles(this.workoutNumbers.workoutNumber, this.databaseId, new Runnable() {
+                @Override
+                public void run() {
+                    if (!remainder.isEmpty()) {
+                        GetWorkoutTotalsRequest nextRequest = new GetWorkoutTotalsRequest(
+                                GetWorkoutPaceRequest.this.supportProvider,
+                                remainder.remove(0),
+                                remainder
+                        );
+                        nextRequest.setFinalizeReq(GetWorkoutPaceRequest.this.finalizeReq);
+                        // Cannot do this with nextRequest because it's in a callback
+                        try {
+                            nextRequest.doPerform();
+                        } catch (IOException e) {
+                            finalizeReq.handleException(new ResponseParseException("Cannot send next request", e));
+                        }
+                    } else {
+                        supportProvider.endOfWorkoutSync();
+                    }
+                }
+            });
         }
     }
 }

@@ -1315,22 +1315,20 @@ public class HuaweiSupportProvider {
 
         getWorkoutCountRequest.setFinalizeReq(new RequestCallback() {
             @Override
-            public void call() {
-                syncState.setWorkoutSync(false);
-            }
-
-            @Override
             public void handleException(Request.ResponseParseException e) {
-                LOG.error("Workout parsing exception", e);
-                syncState.setWorkoutSync(false);
+                // This is propagated through the workout requests, hence the slightly generic error message
+                GB.toast(context, "Exception synchronizing workout", Toast.LENGTH_SHORT, GB.ERROR);
+                LOG.error("Exception synchronizing workout", e);
+                endOfWorkoutSync();
             }
         });
 
         try {
             getWorkoutCountRequest.doPerform();
         } catch (IOException e) {
-            LOG.error("Exception on starting workout count request", e);
-            syncState.setWorkoutSync(false);
+            GB.toast(context, "Exception synchronizing workout", Toast.LENGTH_SHORT, GB.ERROR);
+            LOG.error("Error sending workout count - showing user that the workout sync failed", e);
+            endOfWorkoutSync();
         }
     }
 
@@ -2148,7 +2146,11 @@ public class HuaweiSupportProvider {
         return true;
     }
 
-    public void downloadWorkoutGpsFiles(short workoutId, Long databaseId) {
+    public void endOfWorkoutSync() {
+        this.syncState.setWorkoutSync(false);
+    }
+
+    public void downloadWorkoutGpsFiles(short workoutId, Long databaseId, Runnable extraCallbackAction) {
         syncState.startWorkoutGpsDownload();
 
         huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.workoutGpsFileRequest(
@@ -2159,6 +2161,7 @@ public class HuaweiSupportProvider {
                     @Override
                     public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
                         syncState.stopWorkoutGpsDownload();
+                        extraCallbackAction.run();
 
                         if (fileRequest.getData().length == 0) {
                             LOG.debug("GPS file empty");
@@ -2256,6 +2259,8 @@ public class HuaweiSupportProvider {
                     public void downloadException(HuaweiFileDownloadManager.HuaweiFileDownloadException e) {
                         super.downloadException(e);
                         syncState.stopWorkoutGpsDownload();
+
+                        extraCallbackAction.run();
                     }
                 }
         ), true);
