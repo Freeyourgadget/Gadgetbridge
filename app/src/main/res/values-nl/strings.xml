@@ -2956,7 +2956,7 @@
     <string name="pref_summary_huawei_account">Huawei-account dat gebruikt is tijdens het bindingsproces. Het hier instellen staat toe dat het apparaat gebonden kan worden zonder reset naar fabrieksinstellingen.</string>
     <string name="watchface_resolution_doesnt_match">Resolutie van wijzerplaat komt niet overeen met het scherm van het apparaat. Wijzerplaat is %1$s en scherm is %2$s</string>
     <string name="devicetype_garmin_vivosmart_5">Garmin Vívosmart 5</string>
-    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 (Pro)</string>
     <string name="huawei_trusleep_warning">Waarschuwing: wanneer u dit inschakelt zal alle slaap getoond worden als lichte slaap in Gadgetbridge. Klik hier om dit te accepteren.</string>
     <string name="pref_summary_garmin_default_reply_suffix">Wordt toegevoegd aanvullend aan de bestaande toevoegingen in Gadgetbridge</string>
     <string name="pref_title_garmin_default_reply_suffix">Vaste toevoeging aan antwoord</string>
@@ -3456,4 +3456,7 @@
     <string name="hr_average">Gemiddeld</string>
     <string name="devicetype_garmin_forerunner_245_music">Garmin Forerunner 245 Music</string>
     <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
+    <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
+    <string name="devicetype_huawei_watchgt5">Huawei Watch GT 5 (Pro)</string>
+    <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
 </resources>
