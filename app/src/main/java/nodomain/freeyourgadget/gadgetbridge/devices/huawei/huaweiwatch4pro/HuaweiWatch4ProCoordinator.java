@@ -36,7 +36,7 @@ public class HuaweiWatch4ProCoordinator extends HuaweiBRCoordinator {
 
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("(" + HuaweiConstants.HU_WATCH4PRO_NAME + ").*", Pattern.CASE_INSENSITIVE);
+        return Pattern.compile("(" + HuaweiConstants.HU_WATCH4_NAME + "|" + HuaweiConstants.HU_WATCH4PRO_NAME + ").*", Pattern.CASE_INSENSITIVE);
     }
 
     @Override
