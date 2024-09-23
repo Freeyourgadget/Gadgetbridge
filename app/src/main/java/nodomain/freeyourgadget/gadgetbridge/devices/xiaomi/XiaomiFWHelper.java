@@ -25,14 +25,55 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 public class XiaomiFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(XiaomiFWHelper.class);
+    // TODO use to determine translatable face name displayed in UI
+    private static final String[] FACE_LOCALE_BITMAP_LIST = new String[]{
+            "en_US",
+            "zh_CN",
+            "zh_TW",
+            "ja_JP",
+            "es_ES",
+            "fr_FR",
+            "de_DE",
+            "ru_RU",
+            "pt_BR",
+            "pt_PT",
+            "it_IT",
+            "ko_KR",
+            "tr_TR",
+            "nl_NL",
+            "th_TH",
+            "sv_SE",
+            "da_DK",
+            "vi_VN",
+            "nb_NO",
+            "pl_PL",
+            "fi_FI",
+            "in_ID", // old ISO-639
+            "el_GR",
+            "ro_RO",
+            "cs_CZ",
+            "uk_UA",
+            "hu_HU",
+            "sk_SK",
+            "ar_EG",
+            "iw_IL", // old ISO-639
+            "zh_HK",
+    };
 
     private final Uri uri;
     private byte[] fw;
@@ -122,6 +163,101 @@ public class XiaomiFWHelper {
         }
     }
 
+    private int findBestI18n(final long availableLocales) {
+        // try to find a locale matching the user's preferences amongst locales available
+        final Locale userLocale = GBApplication.getLanguage();
+        int found = -1, fallbackLocale = -1;
+        for (int i = 0; i < FACE_LOCALE_BITMAP_LIST.length; i++) {
+            if ((availableLocales & (1L << i)) != 0) {
+                final String[] localeParts = FACE_LOCALE_BITMAP_LIST[i].split("_");
+                final Locale locale = new Locale(localeParts[0], localeParts[1]);
+
+                if (locale.getLanguage().equals(userLocale.getLanguage())) {
+                    // return for this entry if locale matches on language and country
+                    if (locale.getCountry().equals(userLocale.getCountry())) {
+                        LOG.debug("Found locale match: {}", FACE_LOCALE_BITMAP_LIST[i]);
+                        return i;
+                    }
+
+                    // keep scanning as a better locale might exist (Portuguese)
+                    LOG.debug("Found language match for {}_{}: {}",
+                            userLocale.getLanguage(),
+                            userLocale.getCountry(),
+                            FACE_LOCALE_BITMAP_LIST[i]);
+                    found = i;
+                }
+
+                // keep first found available locale as fallback
+                if (fallbackLocale == -1) {
+                    fallbackLocale = i;
+                }
+            }
+        }
+
+        if (found != -1) {
+            return found;
+        }
+
+        if (fallbackLocale != -1) {
+            LOG.debug("Using fallback locale {}", FACE_LOCALE_BITMAP_LIST[fallbackLocale]);
+            return fallbackLocale;
+        }
+
+        LOG.debug("No translation available");
+        return -1;
+    }
+
+    private String extractTranslatableString(final int tableOffset, final int tableSize) {
+        if (tableOffset < 0 || tableSize < 0 || tableOffset + tableSize > fw.length) {
+            LOG.error("i18n table out-of-bounds");
+            return null;
+        }
+
+        final ByteBuffer bb = ByteBuffer.wrap(fw, tableOffset, tableSize).order(ByteOrder.LITTLE_ENDIAN);
+        long availableLocalizations = bb.getLong();
+        final int localizationsCount = Long.bitCount(availableLocalizations);
+
+        if (tableSize < localizationsCount * 4 + 8) {
+            LOG.error("cannot decode i18n table (at least {} bytes required for length table, but localization block is only {} bytes)",
+                    localizationsCount * 4 + 8,
+                    tableSize);
+            return null;
+        }
+
+        final int targetLocale = findBestI18n(availableLocalizations);
+        if (targetLocale == -1) {
+            return null;
+        }
+
+        int targetOffset = 0, targetSize = 0;
+        for (int i = 0; availableLocalizations != 0; i++) {
+            if ((availableLocalizations & 1L) != 0) {
+                final int size = bb.getInt();
+
+                if (i < targetLocale) {
+                    targetOffset += size;
+                }
+
+                if (i == targetLocale) {
+                    targetSize = size;
+                }
+            }
+            availableLocalizations >>= 1;
+        }
+
+        if (bb.remaining() < targetOffset + targetSize) {
+            LOG.error("cannot extract localization (at least {} bytes required, but only {} bytes remaining)",
+                    targetOffset + targetSize,
+                    bb.remaining());
+            return null;
+        }
+
+        bb.position(bb.position() + targetOffset);
+        final byte[] localizationBytes = new byte[targetSize];
+        bb.get(localizationBytes);
+        return new String(localizationBytes, StandardCharsets.UTF_8);
+    }
+
     private boolean parseAsWatchface() {
         if (fw[0] != (byte) 0x5A || fw[1] != (byte) 0xA5) {
             LOG.warn("File header not a watchface");
@@ -129,21 +265,38 @@ public class XiaomiFWHelper {
         }
 
         id = StringUtils.untilNullTerminator(fw, 0x28);
-        name = StringUtils.untilNullTerminator(fw, 0x68);
 
         if (id == null) {
             LOG.warn("id not found in {}", uri);
             return false;
         }
 
-        if (name == null) {
-            LOG.warn("name not found in {}", uri);
-            return false;
-        }
-
         if (!Pattern.matches("^\\d+$", id)) {
             LOG.warn("Id {} not a number", id);
             return false;
+        }
+
+        if (ArrayUtils.equals(fw, new byte[]{(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, 0x68)) {
+            // name is localized
+            LOG.debug("detected translatable face name");
+            name = ""; // default value in case localization fails
+            final int tableOffset = BLETypeConversions.toUint32(fw, 0x74);
+            final int tableSize = BLETypeConversions.toUint32(fw, 0x78);
+
+            if (tableSize > 8) {
+                final String localized = extractTranslatableString(tableOffset, tableSize);
+
+                if (localized != null) {
+                    name = localized;
+                }
+            }
+        } else {
+            name = StringUtils.untilNullTerminator(fw, 0x68);
+
+            if (name == null) {
+                LOG.warn("name not found in {}", uri);
+                return false;
+            }
         }
 
         return true;
