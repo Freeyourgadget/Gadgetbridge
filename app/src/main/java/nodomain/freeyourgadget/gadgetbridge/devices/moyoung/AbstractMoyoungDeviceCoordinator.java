@@ -211,7 +211,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         generic.add(R.xml.devicesettings_sync_calendar);
         final List<Integer> health = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.HEALTH);
         health.add(R.xml.devicesettings_heartrate_interval);
-        health.add(R.xml.devicesettings_moyoung_sedentary_reminder);
+        health.add(R.xml.devicesettings_inactivity_with_steps);
         return deviceSpecificSettings;
     }
 

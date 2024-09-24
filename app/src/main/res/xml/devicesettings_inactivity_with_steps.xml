@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_chair"
+        android:key="screen_inactivity"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+        android:title="@string/mi2_prefs_inactivity_warnings">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="inactivity_warnings_enable"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/mi2_prefs_inactivity_warnings"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary" />
+        <EditTextPreference
+            android:defaultValue="60"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_threshold"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+            android:title="@string/mi2_prefs_inactivity_warnings_threshold"/>
+        <EditTextPreference
+            android:defaultValue="60"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_steps"
+            android:title="@string/inactivity_warnings_minimum_steps_title"
+            android:summary="@string/inactivity_warnings_minimum_steps_summary"/>
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="23:00"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+
+</androidx.preference.PreferenceScreen>

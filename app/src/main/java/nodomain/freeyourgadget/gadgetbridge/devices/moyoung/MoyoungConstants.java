@@ -432,9 +432,4 @@ public class MoyoungConstants {
     public static final String PREF_LANGUAGE = "moyoung_language";
     public static final String PREF_LANGUAGE_SUPPORT = "moyoung_language_supported";
     public static final String PREF_MOYOUNG_DEVICE_VERSION = "moyoung_device_version";
-    public static final String PREF_SEDENTARY_REMINDER = "sedentary_reminder";
-    public static final String PREF_SEDENTARY_REMINDER_PERIOD = "sedentary_reminder_period";
-    public static final String PREF_SEDENTARY_REMINDER_STEPS = "sedentary_reminder_steps";
-    public static final String PREF_SEDENTARY_REMINDER_START = "sedentary_reminder_start";
-    public static final String PREF_SEDENTARY_REMINDER_END = "sedentary_reminder_end";
 }

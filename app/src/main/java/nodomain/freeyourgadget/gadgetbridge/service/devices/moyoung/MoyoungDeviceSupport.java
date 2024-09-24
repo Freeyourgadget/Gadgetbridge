@@ -1683,20 +1683,19 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(getSetting("POWER_SAVING"), powerSavingPref);
                 break;
 
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER:
-                String sedentaryReminderPref = prefs.getString(MoyoungConstants.PREF_SEDENTARY_REMINDER, "off");
-                boolean sedentaryReminderEnabled = !sedentaryReminderPref.equals("off");
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
+                boolean sedentaryReminderEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
                 sendSetting(getSetting("SEDENTARY_REMINDER"), sedentaryReminderEnabled);
                 break;
 
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_PERIOD:
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_STEPS:
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_START:
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_END:
-                byte sedentaryPeriod = (byte) prefs.getInt(MoyoungConstants.PREF_SEDENTARY_REMINDER_PERIOD, 30);
-                byte sedentarySteps = (byte) prefs.getInt(MoyoungConstants.PREF_SEDENTARY_REMINDER_STEPS, 100);
-                byte sedentaryStart = (byte) prefs.getInt(MoyoungConstants.PREF_SEDENTARY_REMINDER_START, 10);
-                byte sedentaryEnd = (byte) prefs.getInt(MoyoungConstants.PREF_SEDENTARY_REMINDER_END, 22);
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_STEPS:
+                byte sedentaryPeriod = (byte) prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 30);
+                byte sedentarySteps = (byte) prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_STEPS, 100);
+                byte sedentaryStart = (byte) prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, 10);
+                byte sedentaryEnd = (byte) prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, 22);
                 sendSetting(getSetting("REMINDERS_TO_MOVE_PERIOD"),
                     new MoyoungSettingRemindersToMove.RemindersToMove(sedentaryPeriod, sedentarySteps, sedentaryStart, sedentaryEnd));
                 break;
@@ -1765,14 +1764,14 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
 //                querySetting(getSetting("QUICK_VIEW_TIME"));
 //                break;
 
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
                 querySetting(getSetting("SEDENTARY_REMINDER"));
                 break;
 
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_PERIOD:
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_STEPS:
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_START:
-            case MoyoungConstants.PREF_SEDENTARY_REMINDER_END:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD_EXTENDED:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
                 querySetting(getSetting("REMINDERS_TO_MOVE_PERIOD"));
                 break;
             default:

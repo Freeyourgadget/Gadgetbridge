@@ -192,6 +192,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_INACTIVITY_DND = "inactivity_warnings_dnd";
     public static final String PREF_INACTIVITY_DND_START = "inactivity_warnings_dnd_start";
     public static final String PREF_INACTIVITY_DND_END = "inactivity_warnings_dnd_end";
+    public static final String PREF_INACTIVITY_STEPS = "inactivity_warnings_steps";
 
     public static final String PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION = "heartrate_sleep_detection";
     public static final String PREF_HEARTRATE_MEASUREMENT_INTERVAL = "heartrate_measurement_interval";
