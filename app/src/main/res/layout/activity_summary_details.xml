@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_summary_detail_scroll_layout"
@@ -11,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        >
 
 
         <LinearLayout
@@ -19,7 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="?attr/sports_activity_summary_background"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="8dp"
+            >
 
             <ImageView
                 android:id="@+id/item_image"
@@ -164,10 +165,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TableLayout
+            <LinearLayout
                 android:id="@+id/summaryDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
             <FrameLayout
                 android:id="@+id/chartsFragmentHolder"

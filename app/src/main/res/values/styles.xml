@@ -199,4 +199,14 @@
     <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
+    <style name="GridTile">
+        <item name="android:background">?android:attr/windowBackground</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_rowWeight">1</item>
+    </style>
 </resources>

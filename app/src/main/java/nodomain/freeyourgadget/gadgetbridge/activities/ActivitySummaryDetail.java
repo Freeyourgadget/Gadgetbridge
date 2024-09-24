@@ -43,9 +43,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import androidx.gridlayout.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -428,7 +429,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
         String UNIT_IMPERIAL = GBApplication.getContext().getString(R.string.p_unit_imperial);
 
-        TableLayout fieldLayout = findViewById(R.id.summaryDetails);
+        LinearLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
         ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, item);
         JSONObject data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
@@ -444,22 +445,38 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
                 TableRow label_row = new TableRow(ActivitySummaryDetail.this);
                 TextView label_field = new TextView(ActivitySummaryDetail.this);
-                label_field.setTextSize(16);
-                label_field.setPadding(0, 10, 0, 0);
+                label_field.setId(View.generateViewId());
+                label_field.setTextSize(18);
+                label_field.setPadding(dpToPx(8), dpToPx(20), 0, dpToPx(20));
                 label_field.setTypeface(null, Typeface.BOLD);
                 label_field.setText(String.format("%s", getStringResourceByName(key)));
                 label_row.addView(label_field);
                 fieldLayout.addView(label_row);
 
-                for (int i = 0; i < innerList.length(); i++) {
-                    TextView name_field = new TextView(ActivitySummaryDetail.this);
-                    TextView value_field = new TextView(ActivitySummaryDetail.this);
-                    name_field.setGravity(Gravity.START);
-                    value_field.setGravity(Gravity.END);
+                GridLayout gridLayout = new GridLayout(ActivitySummaryDetail.this);
+                gridLayout.setBackgroundColor(getResources().getColor(R.color.gauge_line_color));
+                gridLayout.setColumnCount(2);
+                gridLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                int lastRow = (int) Math.floor((innerList.length() - 1) / 2);
+                int i;
+                for (i = 0; i < innerList.length(); i++) {
+                    LinearLayout linearLayout = generateLinearLayout(i, lastRow);
+
+                    // Value
+                    TextView valueTextView = new TextView(ActivitySummaryDetail.this);
+                    valueTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    valueTextView.setText(String.format("%s", "-"));
+                    valueTextView.setTextSize(20);
+
+                    // Label
+                    TextView labelTextView = new TextView(ActivitySummaryDetail.this);
+                    labelTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    labelTextView.setTextSize(12);
 
                     JSONObject innerData = innerList.getJSONObject(i);
                     String unit = innerData.getString("unit");
                     String name = innerData.getString("name");
+                    labelTextView.setText(getStringResourceByName(name));
                     if (!unit.equals("string")) {
                         double value = innerData.getDouble("value");
 
@@ -518,37 +535,75 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         }
 
                         if (unit.equals("seconds") && !show_raw_data) { //rather then plain seconds, show formatted duration
-                            value_field.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
+                            valueTextView.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
                         } else if (unit.equals("minutes_km") || unit.equals("minutes_mi")) {
                             // Format pace
-                            value_field.setText(String.format(
+                            valueTextView.setText(String.format(
                                     Locale.getDefault(),
                                     "%d:%02d %s",
                                     (int) Math.floor(value), (int) Math.round(60 * (value - (int) Math.floor(value))),
                                     getStringResourceByName(unit)
                             ));
                         } else {
-                            value_field.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
+                            valueTextView.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
                         }
                     } else {
-                        value_field.setText(getStringResourceByName(innerData.getString("value"))); //we could optimize here a bit and only do this for particular activities (swim at the moment...)
+                        valueTextView.setText(getStringResourceByName(innerData.getString("value"))); //we could optimize here a bit and only do this for particular activities (swim at the moment...)
                     }
 
-                    TableRow field_row = new TableRow(ActivitySummaryDetail.this);
-                    if (i % 2 == 0) field_row.setBackgroundColor(alternateColor);
-
-                    name_field.setText(getStringResourceByName(name));
-                    TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
-                    value_field.setLayoutParams(params);
-
-                    field_row.addView(name_field);
-                    field_row.addView(value_field);
-                    fieldLayout.addView(field_row);
+                    linearLayout.addView(valueTextView);
+                    linearLayout.addView(labelTextView);
+                    gridLayout.addView(linearLayout);
+                }
+                if (gridLayout.getChildCount() > 0) {
+                    if (gridLayout.getChildCount() % 2 != 0) {
+                        gridLayout.addView(generateLinearLayout(i, lastRow));
+                    }
+                    fieldLayout.addView(gridLayout);
                 }
             } catch (JSONException e) {
                 LOG.error("SportsActivity", e);
             }
         }
+    }
+
+    public LinearLayout generateLinearLayout(int i, int lastRow) {
+        LinearLayout linearLayout = new LinearLayout(ActivitySummaryDetail.this);
+        GridLayout.LayoutParams columnParams = new GridLayout.LayoutParams();
+        columnParams.columnSpec = GridLayout.spec(i % 2 == 0 ? 0 : 1, 1);
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(
+                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
+                GridLayout.spec(GridLayout.UNDEFINED, 1, GridLayout.FILL,1f)
+        );
+        layoutParams.width = 0;
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setPadding(dpToPx(20), dpToPx(20),dpToPx(20), dpToPx(20));
+        linearLayout.setBackgroundColor(GBApplication.getWindowBackgroundColor(ActivitySummaryDetail.this));
+        int marginLeft = 0;
+        int marginTop = 0;
+        int marginBottom = 0;
+        int marginRight = 0;
+        if (i % 2 == 0) {
+            marginTop = 2;
+            marginRight = 1;
+        }
+        if (i % 2 == 1) {
+            marginTop = 2;
+            marginLeft = 1;
+        }
+        if (i / 2 >= lastRow) {
+            marginBottom = 2;
+        }
+        layoutParams.setMargins(dpToPx(marginLeft), dpToPx(marginTop), dpToPx(marginRight), dpToPx(marginBottom));
+
+        return linearLayout;
+    }
+
+    public int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
     }
 
     private String getStringResourceByName(String aString) {

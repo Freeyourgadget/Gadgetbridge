@@ -31,151 +31,89 @@
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/steps_chart"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="2" />
 
         </LinearLayout>
 
-        <TableLayout
-            android:layout_width="fill_parent"
+        <GridLayout
+            android:background="@color/gauge_line_color"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="3"
-            android:shrinkColumns="*"
-            android:stretchColumns="*">
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2">
-                <LinearLayout
-                    android:layout_width="0dp"
+            android:columnCount="2"
+            android:layout_marginTop="15dp"
+            >
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginEnd="1dp"
+                android:layout_marginTop="2dp"
+                >
+                <TextView
+                    android:id="@+id/steps_avg"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dip"
-                    android:paddingTop="20dip"
-                    android:paddingRight="20dip">
+                    android:text="0"
+                    android:textSize="20sp" />
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5px"
-                        android:background="@color/value_line_color" />
-
-                    <TextView
-                        android:id="@+id/steps_avg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="20dip"
-                        android:text="0"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="@string/steps_avg"
-                        android:textSize="12sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dip"
-                    android:paddingTop="20dip"
-                    android:paddingRight="20dip">
+                    android:text="@string/steps_avg"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginEnd="1dp"
+                android:layout_marginTop="2dp"
+                >
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5px"
-                        android:background="@color/value_line_color" />
-
-                    <TextView
-                        android:id="@+id/steps_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="20dip"
-                        android:text="0"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="@string/steps_total"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2">
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/steps_total"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dip"
-                    android:paddingTop="20dip"
-                    android:paddingRight="20dip">
+                    android:text="0"
+                    android:textSize="20sp" />
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5px"
-                        android:background="@color/value_line_color" />
-
-                    <TextView
-                        android:id="@+id/distance_avg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="20dip"
-                        android:text="0"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="@string/distance_avg"
-                        android:textSize="12sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dip"
-                    android:paddingTop="20dip"
-                    android:paddingRight="20dip">
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5px"
-                        android:background="@color/value_line_color" />
-
-                    <TextView
-                        android:id="@+id/distance_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="20dip"
-                        android:text="0"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="@string/distance_total"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </TableRow>
-        </TableLayout>
+                    android:text="@string/steps_total"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginEnd="1dp"
+                >
+                <TextView
+                    android:id="@+id/distance_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distance_avg"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginStart="1dp"
+                >
+                <TextView
+                    android:id="@+id/distance_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="20sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distance_total"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </GridLayout>
 
     </LinearLayout>
 
