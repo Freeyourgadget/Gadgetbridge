@@ -3360,7 +3360,7 @@
     <string name="activity_type_floor_climbing">Wspinaczka po piętrach</string>
     <string name="activity_type_racket">Rakieta</string>
     <string name="activity_type_ultimate_disc">Ultimate</string>
-    <string name="soundcore_equalizer_direction">Kierunek urządzenia</string>
+    <string name="soundcore_equalizer_direction">Pozycja urządzenia</string>
     <string name="soundcore_equalizer_direction_hanging">Wisi</string>
     <string name="notification_channel_scan_service_name">Usługa skanowania</string>
     <string name="soundcore_equalizer_band9">Pasmo 9</string>
@@ -3416,4 +3416,16 @@
     <string name="label_distance_trip_mph">Podróż: %.1f mi</string>
     <string name="label_distance_total_mph">Całkowicie: %.1f mi</string>
     <string name="none">Żadne</string>
+    <string name="devicesetting_scannable_minimum_unseen_summary">Po zeskanowaniu, urządzenie nie może być kontaktowane przez tą określoną długość czasu przed ponownym zarejestrowaniem</string>
+    <string name="pref_summary_cycling_persistence_interval">Interwał w sekundach, jak często obecne dane o jeździe powinny być zapisywane w bazy danych</string>
+    <string name="pref_deprecated_media_control_summary">Wysyła polecenia kontroli mediów w postaci zdarzeń kluczowych, zamiast kontrolera mediów.</string>
+    <string name="prefs_title_gatt_client_allow_gatt_interactions">Zezwól na interakcję GATT poprzez API intencji BLE</string>
+    <string name="prefs_summary_gatt_client_device_state_updates">Otrzymuj informacje o zmianach stanu połączenia BLE poprzez intencje</string>
+    <string name="soundcore_equalizer_custom_summary">Konfiguruj parametryczne ustawienia korektora</string>
+    <string name="devicetype_ble_gatt_client">Ogólny klient BLE GATT</string>
+    <string name="moondrop_touch_action_anc_mode">Włącz aktywną redukcję szumów</string>
+    <string name="devicesetting_scannable_minimum_unseen">Minimalny czas bez kontaktu (sekundy)</string>
+    <string name="device_name_bicycle_sensor">Czujnik rowerowy</string>
+    <string name="devicetype_cycling_sensor">Czujnik prędkości do roweru</string>
+    <string name="title_cycling">Kolarstwo</string>
 </resources>
