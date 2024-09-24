@@ -73,7 +73,7 @@ public class FitImporter {
     private final Context context;
     private final GBDevice gbDevice;
 
-    private final SortedMap<Integer, List<FitMonitoring>> activitySamplesPerTimestamp = new TreeMap<>();
+    private final SortedMap<Long, List<FitMonitoring>> activitySamplesPerTimestamp = new TreeMap<>();
     private final List<GarminStressSample> stressSamples = new ArrayList<>();
     private final List<GarminBodyEnergySample> bodyEnergySamples = new ArrayList<>();
     private final List<GarminSpo2Sample> spo2samples = new ArrayList<>();
@@ -99,6 +99,8 @@ public class FitImporter {
         reset();
 
         final FitFile fitFile = FitFile.parseIncoming(file);
+
+        Long lastMonitoringTimestamp = null;
 
         for (final RecordData record : fitFile.getRecords()) {
             if (fileId != null && fileId.getType() == FileType.FILETYPE.ACTIVITY) {
@@ -160,10 +162,13 @@ public class FitImporter {
                 sleepStageSamples.add(sample);
             } else if (record instanceof FitMonitoring) {
                 LOG.trace("Monitoring at {}: {}", ts, record);
-                if (!activitySamplesPerTimestamp.containsKey(ts.intValue())) {
-                    activitySamplesPerTimestamp.put(ts.intValue(), new ArrayList<>());
+                final FitMonitoring monitoringRecord = (FitMonitoring) record;
+                final Long currentMonitoringTimestamp = monitoringRecord.computeTimestamp(lastMonitoringTimestamp);
+                if (!activitySamplesPerTimestamp.containsKey(currentMonitoringTimestamp)) {
+                    activitySamplesPerTimestamp.put(currentMonitoringTimestamp, new ArrayList<>());
                 }
-                Objects.requireNonNull(activitySamplesPerTimestamp.get(ts.intValue())).add((FitMonitoring) record);
+                Objects.requireNonNull(activitySamplesPerTimestamp.get(currentMonitoringTimestamp)).add(monitoringRecord);
+                lastMonitoringTimestamp = currentMonitoringTimestamp;
             } else if (record instanceof FitSpo2) {
                 final Integer spo2 = ((FitSpo2) record).getReadingSpo2();
                 if (spo2 == null || spo2 <= 0) {
@@ -359,7 +364,7 @@ public class FitImporter {
         int prevActivityKind = ActivityKind.UNKNOWN.getCode();
         int prevTs = -1;
 
-        for (final int ts : activitySamplesPerTimestamp.keySet()) {
+        for (final long ts : activitySamplesPerTimestamp.keySet()) {
             if (prevTs > 0 && ts - prevTs > 60) {
                 // Fill gaps between samples
                 LOG.debug("Filling gap between {} and {}", prevTs, ts);
@@ -376,7 +381,7 @@ public class FitImporter {
             final List<FitMonitoring> records = activitySamplesPerTimestamp.get(ts);
 
             final GarminActivitySample sample = new GarminActivitySample();
-            sample.setTimestamp(ts);
+            sample.setTimestamp((int) ts);
             sample.setRawKind(ActivityKind.ACTIVITY.getCode());
             sample.setRawIntensity(ActivitySample.NOT_MEASURED);
             sample.setSteps(ActivitySample.NOT_MEASURED);
@@ -413,7 +418,7 @@ public class FitImporter {
             activitySamples.add(sample);
 
             prevActivityKind = sample.getRawKind();
-            prevTs = ts;
+            prevTs = (int) ts;
         }
 
         LOG.debug("Will persist {} activity samples", activitySamples.size());

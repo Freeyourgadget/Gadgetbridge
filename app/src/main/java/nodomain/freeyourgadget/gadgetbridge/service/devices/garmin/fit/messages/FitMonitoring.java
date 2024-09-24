@@ -75,16 +75,15 @@ public class FitMonitoring extends RecordData {
 
     // manual changes below
 
-    @Override
-    public Long getComputedTimestamp() {
+    public Long computeTimestamp(final Long lastMonitoringTimestamp) {
         final Integer timestamp16 = getTimestamp16();
-        final Long computedTimestamp = super.getComputedTimestamp();
-        if (timestamp16 != null && computedTimestamp != null) {
-            return (long) GarminTimeUtils.garminTimestampToUnixTime(
-                    (GarminTimeUtils.unixTimeToGarminTimestamp(computedTimestamp.intValue()) & ~0xFFFF) | (timestamp16 & 0xFFFF)
-            );
+
+        if (timestamp16 != null && lastMonitoringTimestamp != null) {
+            final int referenceGarminTs = GarminTimeUtils.unixTimeToGarminTimestamp(lastMonitoringTimestamp.intValue());
+            return (long) (lastMonitoringTimestamp.intValue() + ((timestamp16 - (referenceGarminTs & 0xffff)) & 0xffff));
         }
-        return computedTimestamp;
+
+        return getComputedTimestamp();
     }
 
     public Optional<Integer> getComputedActivityType() {

@@ -26,7 +26,13 @@ public class RecordData {
     private final List<FieldData> fieldDataList;
     protected ByteBuffer valueHolder;
 
-    private Long computedTimestamp = null;
+    /**
+     * The computed timestamp consists of the running timestamp for this record, which may come from
+     *  a timestamp field 253, or from a compressed timestamp, or simply be the same timestamp as the
+     *  previously seen sample. This does not take into account sample-specific timestamps such as
+     *  timestamp16.
+     */
+    public Long computedTimestamp = null;
 
     public RecordData(final RecordDefinition recordDefinition, final RecordHeader recordHeader) {
         if (null == recordDefinition.getFieldDefinitions())
