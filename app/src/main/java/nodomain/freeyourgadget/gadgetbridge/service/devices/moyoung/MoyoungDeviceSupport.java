@@ -452,6 +452,13 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             return true;
         }
 
+        if (packetType == MoyoungConstants.CMD_QUERY_POWER_SAVING)
+        {
+            LOG.info("Power saving set to: {}", payload[0] == 0x01);
+            onReadConfigurationDone(getSetting("POWER_SAVING"), payload[0], null);
+            return true;
+        }
+
         if (packetType == MoyoungConstants.CMD_QUERY_DISPLAY_WATCH_FACE)
         {
             LOG.info("Watchface changed on watch to nr {}", payload[0]);
@@ -1671,6 +1678,11 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendSetting(getSetting("QUICK_VIEW_TIME"), quickViewTime);
                 break;
 
+            case DeviceSettingsPreferenceConst.PREF_POWER_SAVING:
+                boolean powerSavingPref = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_POWER_SAVING, false);
+                sendSetting(getSetting("POWER_SAVING"), powerSavingPref);
+                break;
+
             case MoyoungConstants.PREF_SEDENTARY_REMINDER:
                 String sedentaryReminderPref = prefs.getString(MoyoungConstants.PREF_SEDENTARY_REMINDER, "off");
                 boolean sedentaryReminderEnabled = !sedentaryReminderPref.equals("off");
@@ -1819,6 +1831,13 @@ public class MoyoungDeviceSupport extends AbstractBTLEDeviceSupport {
             case "DEVICE_VERSION":
                 MoyoungEnumDeviceVersion deviceVersion = (MoyoungEnumDeviceVersion) value;
 //                changedProperties.put(MoyoungConstants.PREF_MOYOUNG_DEVICE_VERSION, String.valueOf(deviceVersion.value()));
+                break;
+
+            case "POWER_SAVING":
+                eventUpdatePreferences.withPreference(
+                        DeviceSettingsPreferenceConst.PREF_POWER_SAVING,
+                        (byte) value == 0x01
+                );
                 break;
 
             case "DO_NOT_DISTURB_ONOFF":

@@ -191,7 +191,8 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         new MoyoungSettingBool("DO_NOT_DISTURB_ONOFF", MoyoungConstants.CMD_QUERY_DO_NOT_DISTURB_TIME, MoyoungConstants.CMD_SET_DO_NOT_DISTURB_TIME),
         // (*) new MoyoungSetting("PSYCHOLOGICAL_PERIOD", MoyoungConstants.CMD_QUERY_PSYCHOLOGICAL_PERIOD, MoyoungConstants.CMD_SET_PSYCHOLOGICAL_PERIOD),
 
-        new MoyoungSettingBool("BREATHING_LIGHT", MoyoungConstants.CMD_QUERY_BREATHING_LIGHT, MoyoungConstants.CMD_SET_BREATHING_LIGHT)
+        new MoyoungSettingBool("BREATHING_LIGHT", MoyoungConstants.CMD_QUERY_BREATHING_LIGHT, MoyoungConstants.CMD_SET_BREATHING_LIGHT),
+        new MoyoungSettingBool("POWER_SAVING", MoyoungConstants.CMD_QUERY_POWER_SAVING, MoyoungConstants.CMD_SET_POWER_SAVING)
     };
 
 
@@ -202,6 +203,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
         generic.add(R.xml.devicesettings_moyoung_device_version);
         generic.add(R.xml.devicesettings_timeformat);
         generic.add(R.xml.devicesettings_moyoung_watchface);
+        generic.add(R.xml.devicesettings_power_saving);
         generic.add(R.xml.devicesettings_liftwrist_display);
 //        generic.add(R.xml.devicesettings_donotdisturb_no_auto);  // not supported by Colmi i28 Ultra
         generic.add(R.xml.devicesettings_donotdisturb_on_off_follow);

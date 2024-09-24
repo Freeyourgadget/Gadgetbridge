@@ -214,6 +214,9 @@ public class MoyoungConstants {
     public static final byte CMD_ADVANCED_QUERY = (byte) 0xb9;
     public static final byte CMD_DAGPT = (byte) 0xbb;
 
+    public static final byte CMD_QUERY_POWER_SAVING = (byte) 0xa4;
+    public static final byte CMD_SET_POWER_SAVING = (byte) 0x94;
+
     public static final byte ARG_ADVANCED_SET_ALARM = 0x05;
     public static final byte ARG_ADVANCED_SET_CALENDAR = 0x08;
     public static final byte ARG_ADVANCED_QUERY_STOCKS = 0x0e;
