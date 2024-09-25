@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 import nodomain.freeyourgadget.gadgetbridge.util.DashboardUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
@@ -139,9 +140,11 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     private void draw() {
         Prefs prefs = GBApplication.getPrefs();
         boolean upsideDown24h = prefs.getBoolean("dashboard_widget_today_24h_upside_down", false);
+        boolean showYesterday = prefs.getBoolean("dashboard_widget_today_show_yesterday", false);
 
         // Prepare circular chart
-        long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
+        long currentDayStart = dashboardData.timeTo - 86400;
+        long midDaySecond = currentDayStart + (12 * 60 * 60);
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
         int height = width;
         int barWidth = Math.round(width * 0.08f);
@@ -161,12 +164,12 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         paint.setStyle(Paint.Style.STROKE);
 
         // Draw clock stripes
-        float clockMargin = outerCircleMargin + (mode_24h ? barWidth : barWidth*2.3f);
+        float clockMargin = outerCircleMargin + (mode_24h ? barWidth : barWidth * 2.3f);
         int clockStripesInterval = mode_24h ? 15 : 30;
         float clockStripesWidth = barWidth / 3f;
         paint.setStrokeWidth(clockStripesWidth);
         paint.setColor(color_worn);
-        for (int i=0; i<360; i+=clockStripesInterval) {
+        for (int i = 0; i < 360; i += clockStripesInterval) {
             canvas.drawArc(clockMargin, clockMargin, width - clockMargin, height - clockMargin, i, 1, false, paint);
         }
 
@@ -231,11 +234,24 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         // Draw generalized activities on circular chart
         long secondIndex = dashboardData.timeFrom;
         long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
+        boolean dayIsToday = !(dashboardData.timeTo < currentTime);
         int startAngle = mode_24h && upsideDown24h ? 90 : 270;
         synchronized (dashboardData.generalizedActivities) {
             for (DashboardFragment.DashboardData.GeneralizedActivity activity : dashboardData.generalizedActivities) {
-                // Determine margin depending on 24h/12h mode
-                float margin = (mode_24h || activity.timeFrom >= midDaySecond) ? outerCircleMargin : innerCircleMargin;
+                // Determine margin
+                float margin = innerCircleMargin;
+                if (mode_24h || activity.timeFrom >= midDaySecond) {
+                    margin = outerCircleMargin;
+                }
+                if (!mode_24h && showYesterday && dayIsToday) {
+                    if (activity.timeFrom < currentDayStart && activity.timeFrom > midDaySecond - 86400) {
+                        margin = outerCircleMargin;
+                    }
+                }
+                // Skip activities from before 24h ago (to prevent double drawing the same position)
+                if (showYesterday && dayIsToday && (activity.timeTo < currentTime - 86400)) {
+                    continue;
+                }
                 // Draw inactive slices
                 if (!mode_24h && secondIndex < midDaySecond && activity.timeFrom >= midDaySecond) {
                     paint.setStrokeWidth(barWidth / 3f);
@@ -253,38 +269,69 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                 if (activity.activityKind == ActivityKind.NOT_MEASURED) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_worn);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.NOT_WORN) {
                     paint.setStrokeWidth(barWidth / 3f);
                     paint.setColor(color_not_worn);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.LIGHT_SLEEP || activity.activityKind == ActivityKind.SLEEP_ANY) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_light_sleep);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.REM_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_rem_sleep);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.DEEP_SLEEP) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_deep_sleep);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.AWAKE_SLEEP) {
-                        paint.setStrokeWidth(barWidth);
-                        paint.setColor(color_awake_sleep);
-                        canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
+                    paint.setStrokeWidth(barWidth);
+                    paint.setColor(color_awake_sleep);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
+                    canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else if (activity.activityKind == ActivityKind.EXERCISE) {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_exercise);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 } else {
                     paint.setStrokeWidth(barWidth);
                     paint.setColor(color_activity);
+                    if (showYesterday && dayIsToday && activity.timeFrom < currentDayStart) {
+                        paint.setAlpha(64);
+                    }
                     canvas.drawArc(margin, margin, width - margin, height - margin, start_angle, sweep_angle, false, paint);
                 }
                 secondIndex = activity.timeTo;
             }
+        }
+        // Draw indicator for current time
+        if (prefs.getBoolean("dashboard_widget_today_time_indicator", false) && currentTime < dashboardData.timeTo) {
+            float margin = (mode_24h || currentTime >= midDaySecond) ? outerCircleMargin : innerCircleMargin;
+            paint.setStrokeWidth(barWidth);
+            paint.setColor(GBApplication.getTextColor(requireContext()));
+            canvas.drawArc(margin, margin, width - margin, height - margin, startAngle + (currentTime - dashboardData.timeFrom) / degreeFactor, 300 / degreeFactor, false, paint);
         }
         // Fill remaining time until current time in 12h mode before midday
         if (!mode_24h && currentTime < midDaySecond) {
@@ -332,6 +379,17 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
 
     protected void fillData() {
         if (todayView == null) return;
+
+        Prefs prefs = GBApplication.getPrefs();
+        if (prefs.getBoolean("dashboard_widget_today_show_yesterday", false)) {
+            Calendar today = Calendar.getInstance();
+            Calendar dashboardDate = Calendar.getInstance();
+            dashboardDate.setTimeInMillis((dashboardData.timeFrom + 1) * 1000L);
+            if (DateTimeUtils.isSameDay(today, dashboardDate)) {
+                dashboardData.timeFrom -= 86400;
+            }
+        }
+
         todayView.post(new Runnable() {
             @Override
             public void run() {
@@ -344,8 +402,11 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     private class FillDataAsyncTask extends AsyncTask<Void, Void, Void> {
         private final TreeMap<Long, ActivityKind> activityTimestamps = new TreeMap<>();
 
+        /**
+         * Add per-second activities to `activityTimestamps`
+         */
         private void addActivity(long timeFrom, long timeTo, ActivityKind activityKind) {
-            for (long i = timeFrom; i<=timeTo; i++) {
+            for (long i = timeFrom; i <= timeTo; i++) {
                 // If the current timestamp isn't saved yet, do so immediately
                 if (activityTimestamps.get(i) == null) {
                     activityTimestamps.put(i, activityKind);
@@ -403,6 +464,9 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             }
         }
 
+        /**
+         * Add NOT_MEASURED (worn) activities for every successful heart rate measurement
+         */
         private void calculateWornSessions(List<ActivitySample> samples) {
             int firstTimestamp = 0;
             int lastTimestamp = 0;
@@ -435,13 +499,25 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             }
         }
 
+        /**
+         * Merge per-second activities from `activityTimestamps` into generalized activity ranges
+         * with minute-based resolution
+         */
         private void createGeneralizedActivities() {
+            long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
+            long midDaySecond = dashboardData.timeTo - (12 * 60 * 60);
             DashboardFragment.DashboardData.GeneralizedActivity previous = null;
-            long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
             for (Map.Entry<Long, ActivityKind> activity : activityTimestamps.entrySet()) {
                 long timestamp = activity.getKey();
                 ActivityKind activityKind = activity.getValue();
-                if (previous == null || previous.activityKind != activityKind || (!mode_24h && timestamp == midDaySecond) || previous.timeTo < timestamp - 60) {
+                // Start a new merged activity on certain conditions
+                if (previous == null ||
+                        previous.activityKind != activityKind ||
+                        (!mode_24h && timestamp == midDaySecond) ||
+                        (!mode_24h && timestamp == midDaySecond - 86400) ||
+                        timestamp == dashboardData.timeTo - 86400 ||
+                        timestamp == currentTime - 86400 ||
+                        previous.timeTo < timestamp - 60) {
                     previous = new DashboardFragment.DashboardData.GeneralizedActivity(activityKind, timestamp, timestamp);
                     dashboardData.generalizedActivities.add(previous);
                 } else {
@@ -494,6 +570,8 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             for (ActivitySession session : stepSessions) {
                 addActivity(session.getStartTime().getTime() / 1000, session.getEndTime().getTime() / 1000, ActivityKind.ACTIVITY);
             }
+
+            // Merge per-second activities
             createGeneralizedActivities();
 
             final long nanoEnd = System.nanoTime();

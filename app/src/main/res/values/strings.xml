@@ -3326,4 +3326,8 @@
     <string name="error_no_cycling_sensor_found">no cycling sensor found</string>
     <string name="contact_birthday">%1s\'s birthday</string>
     <string name="birthdays">Birthdays</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_title">Data from yesterday</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_summary">Show data from yesterday dimmed between the current time and midnight</string>
+    <string name="pref_dashboard_widget_today_time_indicator_title">Current time indicator</string>
+    <string name="pref_dashboard_widget_today_time_indicator_summary">Show an indicator at the current time, to visually separate data from yesterday and today</string>
 </resources>

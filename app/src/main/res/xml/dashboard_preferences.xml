@@ -55,6 +55,20 @@
                 android:summary="@string/pref_dashboard_widget_today_upside_down_summary"
                 app:iconSpaceReserved="false" />
             <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="dashboard_widget_today_show_yesterday"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_today_yesterday_data_title"
+                android:summary="@string/pref_dashboard_widget_today_yesterday_data_summary"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="dashboard_widget_today_time_indicator"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_dashboard_widget_today_time_indicator_title"
+                android:summary="@string/pref_dashboard_widget_today_time_indicator_summary"
+                app:iconSpaceReserved="false" />
+            <SwitchPreferenceCompat
                 android:defaultValue="true"
                 android:key="dashboard_widget_today_2columns"
                 android:layout="@layout/preference_checkbox"
