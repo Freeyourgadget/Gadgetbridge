@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Zahnstocher
+/*  Copyright (C) 2024 Marcel
 
     This file is part of Gadgetbridge.
 
@@ -24,26 +24,34 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 
-public class SonyWFC500Coordinator extends SonyHeadphonesCoordinator {
+public class SonyWFC700NCoordinator extends SonyHeadphonesCoordinator {
+
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile(".*WF-C500.*");
+        return Pattern.compile(".*WF-C700N.*");
     }
 
     @Override
     public List<SonyHeadphonesCapabilities> getCapabilities() {
         return Arrays.asList(
                 SonyHeadphonesCapabilities.BatteryDual2,
+                SonyHeadphonesCapabilities.BatteryCase,
+                SonyHeadphonesCapabilities.AmbientSoundControl2,
                 SonyHeadphonesCapabilities.EqualizerSimple,
                 SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.AudioUpsampling,
-                SonyHeadphonesCapabilities.PowerOffFromPhone
+                SonyHeadphonesCapabilities.ButtonModesLeftRight,
+                SonyHeadphonesCapabilities.PowerOffFromPhone,
+                SonyHeadphonesCapabilities.AmbientSoundControlButtonMode
+                // AutoOff is supported, but current Payload is incorrect.
+                // Available options in Sony App: 15min, 30min, 1h, 3h, off
+                // TODO: SonyHeadphonesCapabilities.AutomaticPowerOffByTime
         );
     }
 
     @Override
     public int getDeviceNameResource() {
-        return R.string.devicetype_sony_wf_c500;
+        return R.string.devicetype_sony_wf_c700n;
     }
 
     @Override

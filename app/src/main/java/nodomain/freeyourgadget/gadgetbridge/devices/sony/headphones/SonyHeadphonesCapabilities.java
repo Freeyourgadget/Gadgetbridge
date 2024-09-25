@@ -19,10 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 public enum SonyHeadphonesCapabilities {
     BatterySingle,
     BatteryDual,
-    BatteryDual_NoCase,
+    BatteryDual2,
     BatteryCase,
     PowerOffFromPhone,
     AmbientSoundControl,
+    AmbientSoundControl2,
     WindNoiseReduction,
     SpeakToChatEnabled,
     SpeakToChatConfig,

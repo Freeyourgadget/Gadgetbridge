@@ -19,8 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 
 import androidx.annotation.NonNull;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -70,7 +68,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     @Override
     public int getBatteryCount() {
         if (supports(SonyHeadphonesCapabilities.BatterySingle)) {
-            if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual_NoCase)) {
+            if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual2)) {
                 throw new IllegalStateException("A device can't have both single and dual battery");
             } else if (supports(SonyHeadphonesCapabilities.BatteryCase)) {
                 throw new IllegalStateException("Devices with single battery + case are not supported by the protocol");
@@ -87,7 +85,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             batteryCount += 1;
         }
 
-        if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual_NoCase)) {
+        if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual2)) {
             batteryCount += 2;
         }
 
@@ -106,7 +104,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
             batteries.add(new BatteryConfig(batteries.size(), R.drawable.ic_tws_case, R.string.battery_case));
         }
 
-        if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual_NoCase)) {
+        if (supports(SonyHeadphonesCapabilities.BatteryDual) || supports(SonyHeadphonesCapabilities.BatteryDual2)) {
             batteries.add(new BatteryConfig(batteries.size(), R.drawable.ic_galaxy_buds_l, R.string.left_earbud));
             batteries.add(new BatteryConfig(batteries.size(), R.drawable.ic_galaxy_buds_r, R.string.right_earbud));
         }
@@ -118,7 +116,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
-        if (supports(SonyHeadphonesCapabilities.AmbientSoundControl)) {
+        if (supports(SonyHeadphonesCapabilities.AmbientSoundControl) || supports(SonyHeadphonesCapabilities.AmbientSoundControl2)) {
             if (supports(SonyHeadphonesCapabilities.WindNoiseReduction)) {
                 deviceSpecificSettings.addRootScreen(R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction);
             } else {

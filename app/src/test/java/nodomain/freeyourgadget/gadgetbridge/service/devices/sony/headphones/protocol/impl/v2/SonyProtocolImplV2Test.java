@@ -37,7 +37,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWF1000XM4Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
@@ -104,7 +103,7 @@ public class SonyProtocolImplV2Test {
         final Map<BatteryType, String> commands = new LinkedHashMap<BatteryType, String>() {{
             put(BatteryType.SINGLE, "22:00");
             put(BatteryType.DUAL, "22:09");
-            put(BatteryType.DUAL_NO_CASE, "22:01");
+            put(BatteryType.DUAL2, "22:01");
             put(BatteryType.CASE, "22:0a");
         }};
 

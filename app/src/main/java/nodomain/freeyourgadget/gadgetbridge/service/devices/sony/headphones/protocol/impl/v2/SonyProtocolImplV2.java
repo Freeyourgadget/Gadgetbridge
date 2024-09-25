@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AdaptiveVolumeControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
@@ -68,7 +69,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
                 PayloadTypeV1.AMBIENT_SOUND_CONTROL_GET.getMessageType(),
                 new byte[]{
                         PayloadTypeV1.AMBIENT_SOUND_CONTROL_GET.getCode(),
-                        (byte) (supportsWindNoiseCancelling() ? 0x17 : 0x15)
+                        (byte) (supportsWindNoiseCancelling() || getCoordinator().supports(SonyHeadphonesCapabilities.AmbientSoundControl2) ? 0x17 : 0x15)
                 }
         );
     }
@@ -78,7 +79,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
         final ByteBuffer buf = ByteBuffer.allocate(supportsWindNoiseCancelling() ? 8 : 7);
 
         buf.put(PayloadTypeV1.AMBIENT_SOUND_CONTROL_SET.getCode());
-        buf.put((byte) (supportsWindNoiseCancelling() ? 0x17 : 0x15));
+        buf.put((byte) (supportsWindNoiseCancelling() || getCoordinator().supports(SonyHeadphonesCapabilities.AmbientSoundControl2) ? 0x17 : 0x15));
         buf.put((byte) 0x01); // 0x00 while dragging the slider?
 
         if (AmbientSoundControl.Mode.OFF.equals(ambientSoundControl.getMode())) {
@@ -351,7 +352,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
                         PayloadTypeV2.AMBIENT_SOUND_CONTROL_BUTTON_MODE_SET.getCode(),
                         (byte) 0x03,
                         (byte) 0x01,
-                        (byte) 0x35,
+                        (byte) (getCoordinator().supports(SonyHeadphonesCapabilities.AmbientSoundControl2) ? 0x00 : 0x35),
                         (byte) 0x01,
                         (byte) 0x00,
                         ambientSoundControlButtonMode.getCode()
@@ -554,7 +555,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
             return Collections.emptyList();
         }
 
-        final boolean includesWindNoiseReduction = payload[1] == 0x17;
+        final boolean includesWindNoiseReduction = payload[1] == 0x17 && payload.length > 7;
 
         AmbientSoundControl.Mode mode = null;
 
@@ -798,7 +799,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
             return Collections.emptyList();
         }
 
-        if (payload[1] != 0x03 || payload[2] != 0x01 || payload[3] != 0x35 || payload[4] != 0x01 || payload[5] != 0x00) {
+        if (payload[1] != 0x03 || payload[2] != 0x01 || (payload[3] != 0x00 && payload[3] != 0x35) || payload[4] != 0x01 || payload[5] != 0x00) {
             LOG.warn(
                     "Unexpected ambient sound control button mode payload bytes {}",
                     String.format("%02x %02x %02x %02x %02x", payload[1], payload[2], payload[3], payload[4], payload[5])
@@ -812,7 +813,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
             return Collections.emptyList();
         }
 
-        LOG.debug("Ambient Sound Control Buton Mode: {}", mode);
+        LOG.debug("Ambient Sound Control Button Mode: {}", mode);
 
         final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
                 .withPreferences(mode.toPreferences());
@@ -1028,7 +1029,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
             case 0x00:
                 return BatteryType.SINGLE;
             case 0x01:
-                return BatteryType.DUAL_NO_CASE;
+                return BatteryType.DUAL2;
             case 0x09:
                 return BatteryType.DUAL;
             case 0x0a:
@@ -1043,7 +1044,7 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
         switch (batteryType) {
             case SINGLE:
                 return 0x00;
-            case DUAL_NO_CASE:
+            case DUAL2:
                 return 0x01;
             case DUAL:
                 return 0x09;
