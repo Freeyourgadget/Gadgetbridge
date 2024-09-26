@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -65,6 +66,11 @@ public class XiaomiInstallHandler implements InstallHandler {
         if (helper.isWatchface()) {
             installItem.setIcon(R.drawable.ic_watchface);
             installItem.setName(mContext.getString(R.string.kind_watchface));
+
+            final Bitmap preview = helper.getWatchfacePreview();
+            if (preview != null) {
+                installItem.setPreview(preview);
+            }
         } else if (helper.isFirmware()) {
             installItem.setIcon(R.drawable.ic_firmware);
             installItem.setName(mContext.getString(R.string.kind_firmware));

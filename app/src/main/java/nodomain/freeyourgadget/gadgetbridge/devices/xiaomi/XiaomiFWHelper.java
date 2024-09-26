@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.xiaomi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.XiaomiBitmapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -256,6 +258,63 @@ public class XiaomiFWHelper {
         final byte[] localizationBytes = new byte[targetSize];
         bb.get(localizationBytes);
         return new String(localizationBytes, StandardCharsets.UTF_8);
+    }
+
+    public Bitmap getWatchfacePreview() {
+        if (!isWatchface() || fw == null) {
+            return null;
+        }
+
+        final ByteBuffer bb = ByteBuffer.wrap(fw).order(ByteOrder.LITTLE_ENDIAN);
+        final int previewOffset = bb.getInt(0x20);
+        if (previewOffset == 0) {
+            LOG.debug("No preview available (at offset 0)");
+            return null;
+        }
+
+        if (previewOffset + 12 > fw.length) {
+            LOG.debug("No preview available (header out-of-bounds)");
+            return null;
+        }
+
+        bb.position(previewOffset);
+        final int bitmapType = bb.get() & 0xff;
+        final int compressionType = bb.get() & 0xff;
+        bb.getShort(); // ignore
+        final int width = bb.getShort() & 0xffff;
+        final int height = bb.getShort() & 0xffff;
+        final int bitmapSize = bb.getInt();
+
+        byte[] bitmapData = new byte[bitmapSize];
+        bb.get(bitmapData);
+
+        if (compressionType != 0) {
+            LOG.debug("Preview image compression type: {}", compressionType);
+            switch (compressionType) {
+                case 4:
+                    bitmapData = XiaomiBitmapUtils.decompressLvglRleV2(bitmapData);
+                    break;
+                case 8:
+                    bitmapData = XiaomiBitmapUtils.decompressLvglRleV1(bitmapData);
+                    break;
+                default:
+                    LOG.error("unknown compression type {}", compressionType);
+                    return null;
+            }
+
+            if (bitmapData == null) {
+                LOG.error("decompression returned null");
+                return null;
+            }
+        }
+
+        return XiaomiBitmapUtils.decodeWatchfaceImage(
+                bitmapData,
+                bitmapType,
+                compressionType == 8,
+                width,
+                height
+        );
     }
 
     private boolean parseAsWatchface() {
