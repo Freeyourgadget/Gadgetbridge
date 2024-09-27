@@ -224,6 +224,9 @@ public class CalendarManager {
                         mContext.getString(R.string.pref_contacts_title),
                         0,
                         true,
+                        null,
+                        null,
+                        null,
                         null
                 ));
             }
