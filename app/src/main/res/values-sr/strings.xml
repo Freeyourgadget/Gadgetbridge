@@ -1781,4 +1781,45 @@
     <string name="pref_message_privacy_mode_bodyonly">Сакриј само тело</string>
     <string name="pref_show_changelog_summary">Приказуј дневник измена почевши од последњег издања након надградње Геџетбрвна</string>
     <string name="pref_show_changelog">Приказуј дневник измена при покретању</string>
+    <string name="pref_sleep_mode_schedule_summary">Шаљи подсетник и уђи у начин рада спавања у време легања. На заказаном времену устајања, ларма буђења ће звонити.</string>
+    <string name="bottom_nav_dashboard">Управљачка полица</string>
+    <string name="pref_header_deprecated_functionalities_warning">Следеће могућности су застареле и биће уклоњене ускоро из мекотворина.
+\nУколико треба да омогућите неку од следећих могућности повежите се са неким из дружине развијача програма.</string>
+    <string name="pref_deprecated_media_control_title">Застарело управљање медијима</string>
+    <string name="dashboard_settings">Поставке управљачке полице</string>
+    <string name="pref_deprecated_media_control_summary">Пошаљи наредбе управљања медијима као кључне догађаје уместо управљача медијима.</string>
+    <string name="pref_dashboard_cards_title">Приказуј справице на картицама</string>
+    <string name="pref_dashboard_cards_summary">Исцртавај картице около справица управљачке полице</string>
+    <string name="pref_dashboard_widget_today_title">Цртеж дејстава</string>
+    <string name="pref_dashboard_widget_today_24h_title">24-рочасовно</string>
+    <string name="pref_dashboard_widget_double_size_title">Двострука величина</string>
+    <string name="pref_dashboard_widget_show_legend_title">Приказуј легенду</string>
+    <string name="pref_dashboard_widget_goals_chart_title">Цртеж циљева</string>
+    <string name="pref_dashboard_devices_to_include">Уређаји за обухват</string>
+    <string name="pref_dashboard_all_devices_summary">Сједињуј дејствене податке из свих додатих уређаја укупно на управљачкој полици</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Међувреме откуцаја срца</string>
+    <string name="dashboard_calendar_month_goals_reached_title">% успешности до циљног броја корака</string>
+    <string name="pref_dashboard_widget_today_hr_interval_summary">Количина минута на цртежу приказује „ношено“ након сваког успешног мерења срчаних откуцаја</string>
+    <string name="pref_title_navigation_forward">Шаљи навођење на сат</string>
+    <string name="pref_dashboard_first_title">Прво прикажи управљачку полицу</string>
+    <string name="pref_dashboard_first_summary">Приказуј управљачку полицу приликом покретања Геџетбрвна, уместо заслона уређаја</string>
+    <string name="pref_dashboard_widget_today_24h_summary">Приказуј дејства у једном 24-рочасовном кругу уместо у два 12-часовном кругу</string>
+    <string name="pref_dashboard_all_devices_title">Сви уређаји</string>
+    <string name="pref_dashboard_select_devices_title">Означите уређаје...</string>
+    <string name="pref_dashboard_widget_double_size_summary">Омогући справици да заузима два стубца на управљачкој полици</string>
+    <string name="pref_dashboard_widget_show_legend_summary">Приказуј легенду испод справице која објашњава боје</string>
+    <string name="pref_dashboard_widget_today_upside_down_title">Поноћ на дну</string>
+    <string name="pref_dashboard_widget_today_upside_down_summary">У 24-рочасовном приказу, исцртавај поноћ на дну, пладне на врху цртежа</string>
+    <string name="pref_title_send_app_notifications">Шаљи обавештења</string>
+    <string name="pref_summary_send_app_notifications">Шаљи обавештења програма на уређај</string>
+    <string name="pref_dashboard_widgets_order_summary">Означите које справице су омогућене и у којем редоследу да се приказују на управљачкој полици</string>
+    <string name="pref_dashboard_widget_settings">Поставке справице</string>
+    <string name="text_receiver_activity_title">Пошаљи писмо на уређај</string>
+    <string name="permission_request">%1$s омогућава слање порука и осталих података са Андроида на уређај. Ради тога је потребно дозволити приступ подацима без којих можда неће радити ваљано.
+\n
+\nПредставиће Вам се неколико прозорчића Андроида са захтевом за дозвољавање.
+\n
+\nМолим, тапните „%2$s“ ради наставка.</string>
+    <string name="pref_summary_debug">Шаљи захтев за исправку грешака на уређај Хуавеј</string>
+    <string name="pref_dashboard_select_devices_summary">Сједињуј дејствене податке из нарочитих уређаја укупно на уређивачкој полици</string>
 </resources>
