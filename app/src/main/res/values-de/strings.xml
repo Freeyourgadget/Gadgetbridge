@@ -366,7 +366,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Fehler beim Exportieren der DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Fehler beim Exportieren der Einstellungen: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Die aktuellen Daten wirklich überschreiben? Alle aktuellen Aktivitätsdaten (falls vorhanden) und Einstellungen werden überschrieben.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Die aktuellen Daten wirklich überschreiben? Alle aktuellen Aktivitätsdaten (falls vorhanden), Geräte und Einstellungen werden überschrieben.</string>
     <string name="dbmanagementactivity_import_successful">Importiert.</string>
     <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fehler beim Importieren der Einstellungen: %1$s</string>
@@ -3118,7 +3118,7 @@
     <string name="find_my_phone_companion_warning">Kopplung mit der Begleit-App ist für das Suchhandy erforderlich. Klicke hier für weitere Informationen.</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
     <string name="hrv_status">HRV-Status</string>
-    <string name="abstract_chart_fragment_kind_awake_sleep">Wachsamer Schlaf</string>
+    <string name="abstract_chart_fragment_kind_awake_sleep">Wach</string>
     <string name="sleep_colored_stats_deep">Tief</string>
     <string name="sleep_colored_stats_light">Leicht</string>
     <string name="sleep_colored_stats_rem">REM</string>
@@ -3208,11 +3208,11 @@
     <string name="activity_type_bouldering">Bouldern</string>
     <string name="activity_type_water_skiing">Wasserskifahren</string>
     <string name="activity_type_kayaking">Kajakfahren</string>
-    <string name="activity_type_rafting"></string>
+    <string name="activity_type_rafting"/>
     <string name="activity_type_navigate">Navigieren</string>
     <string name="activity_type_indoor_track">Indoor Strecke</string>
     <string name="activity_type_handcycling">Handbikefahren</string>
-    <string name="activity_type_e_bike"></string>
+    <string name="activity_type_e_bike"/>
     <string name="activity_type_bike_commute">Pendeln zur Arbeit mit dem Fahrrad</string>
     <string name="activity_type_platform_tennis">Plattformtennis</string>
     <string name="activity_type_training">Training</string>
@@ -3225,7 +3225,7 @@
     <string name="activity_type_sail_expedition">Segeltörn</string>
     <string name="activity_type_floor_climbing">Treppensteigen</string>
     <string name="activity_type_breathwork">Atemübungen</string>
-    <string name="activity_type_inline_skating"></string>
+    <string name="activity_type_inline_skating">Inlineskating</string>
     <string name="pref_time_sync">Automatische Zeitsynchronisation</string>
     <string name="dateformat_day_month">Tag, Monat</string>
     <string name="dateformat_month_day">Monat, Tag</string>
@@ -3271,4 +3271,8 @@
     <string name="pref_title_user_interface">Benutzeroberfläche</string>
     <string name="user_feedback_set_settings_ok">Einstellungen wurden an das Gerät gesendet.</string>
     <string name="activity_prefs_date_birth">Geburtsdatum</string>
+    <string name="activity_type_shooting">Schießen</string>
+    <string name="hrv">HFV</string>
+    <string name="activity_type_winter_sport">Wintersport</string>
+    <string name="activity_type_video_gaming">Videospiel</string>
 </resources>
