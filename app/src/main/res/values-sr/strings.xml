@@ -1100,7 +1100,7 @@
     <string name="menuitem_activity">Повест вежбања</string>
     <string name="menuitem_weather">Време</string>
     <string name="menuitem_breathing">Дисање</string>
-    <string name="menuitem_cycles">Бележење путање точка</string>
+    <string name="menuitem_cycles">Бележење месечнице</string>
     <string name="menuitem_timer">Бројање истека времена</string>
     <string name="menuitem_compass">Компас</string>
     <string name="menuitem_settings">Поставке</string>
@@ -1826,4 +1826,5 @@
     <string name="sony_anc_optimize_confirmation_description">Користите слушалице као што би и обично. Уколико услови ношења или притисак ваздуха одступе, покрените прилагођавање поново.</string>
     <string name="silent_mode_normal_vibrate">Обично / трешња</string>
     <string name="femometer_measurement_mode_normal">Обичан начин (60s-90s)</string>
+    <string name="device_name_bicycle_sensor">Пријемник бицикла</string>
 </resources>
