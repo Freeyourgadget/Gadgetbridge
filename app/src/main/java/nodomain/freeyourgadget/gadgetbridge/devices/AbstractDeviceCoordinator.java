@@ -568,6 +568,26 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmSounds(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public boolean supportsAlarmBacklight(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public boolean supportsAlarmTitlePresets(GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public List<String> getAlarmTitlePresets(GBDevice device) {
+        return Collections.emptyList();
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return false;
     }

@@ -78,7 +78,9 @@ public class GetEventAlarmList extends Request {
                     eventAlarm.startMinute,
                     false,
                     eventAlarm.name,
-                    ""
+                    "",
+                    0,
+                    true
             ));
             usedBitmap |= 1 << eventAlarm.index;
         }
@@ -99,7 +101,9 @@ public class GetEventAlarmList extends Request {
                         0,
                         true,
                         "",
-                        ""
+                        "",
+                        0,
+                        true
                 ));
             }
         }

@@ -46,7 +46,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(78, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(79, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -1015,6 +1015,8 @@ public class GBDaoGenerator {
         alarm.addBooleanProperty("unused").notNull();
         alarm.addStringProperty("title");
         alarm.addStringProperty("description");
+        alarm.addIntProperty("soundCode").notNull();
+        alarm.addBooleanProperty("backlight").notNull();
         alarm.addToOne(user, userId);
         alarm.addToOne(device, deviceId);
     }

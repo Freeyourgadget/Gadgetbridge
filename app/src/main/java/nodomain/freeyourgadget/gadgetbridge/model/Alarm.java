@@ -36,6 +36,14 @@ public interface Alarm extends Serializable {
 
     byte ALARM_DAILY = Alarm.ALARM_MON | Alarm.ALARM_TUE | Alarm.ALARM_WED | Alarm.ALARM_THU | Alarm.ALARM_FRI | Alarm.ALARM_SAT | Alarm.ALARM_SUN;
 
+    enum ALARM_SOUND {
+        UNSET,
+        OFF,
+        TONE,
+        VIBRATION,
+        TONE_AND_VIBRATION,
+    }
+
     int getPosition();
 
     boolean getEnabled();
@@ -61,4 +69,8 @@ public interface Alarm extends Serializable {
     String getTitle();
 
     String getDescription();
+
+    int getSoundCode();
+
+    boolean getBacklight();
 }

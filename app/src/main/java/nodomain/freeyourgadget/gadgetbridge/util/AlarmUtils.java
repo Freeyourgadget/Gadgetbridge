@@ -52,7 +52,7 @@ public class AlarmUtils {
      */
     public static nodomain.freeyourgadget.gadgetbridge.model.Alarm createSingleShot(int index, boolean smartWakeup, boolean snooze, Calendar calendar) {
         // TODO: add interval setting?
-        return new Alarm(-1, -1, index, true, smartWakeup, null, snooze, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false, GBApplication.getContext().getString(R.string.quick_alarm), GBApplication.getContext().getString(R.string.quick_alarm_description));
+        return new Alarm(-1, -1, index, true, smartWakeup, null, snooze, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false, GBApplication.getContext().getString(R.string.quick_alarm), GBApplication.getContext().getString(R.string.quick_alarm_description), 0, true);
     }
 
     /**
@@ -78,7 +78,7 @@ public class AlarmUtils {
     public static Alarm createDefaultAlarm(DaoSession daoSession, GBDevice gbDevice, int position) {
         Device device = DBHelper.getDevice(gbDevice, daoSession);
         User user = DBHelper.getUser(daoSession);
-        return new Alarm(device.getId(), user.getId(), position, false, false, null, false, 0, 6, 30, false, null, null);
+        return new Alarm(device.getId(), user.getId(), position, false, false, null, false, 0, 6, 30, false, null, null, 0, true);
     }
 
     /**
@@ -157,7 +157,7 @@ public class AlarmUtils {
         int hour = Integer.parseInt(tokens[4]);
         int minute = Integer.parseInt(tokens[5]);
 
-        return new Alarm(device.getId(), user.getId(), index, enabled, smartWakeup, null, false, repetition, hour, minute, false, null, null);
+        return new Alarm(device.getId(), user.getId(), index, enabled, smartWakeup, null, false, repetition, hour, minute, false, null, null, 0, true);
     }
 
     private static Comparator<Alarm> createComparator() {

@@ -69,7 +69,9 @@ public class GetSmartAlarmList extends Request {
                             smartAlarm.startMinute,
                             false,
                             "Smart alarm",
-                            ""
+                            "",
+                            0,
+                            true
                     )
             });
         } else {
@@ -88,7 +90,9 @@ public class GetSmartAlarmList extends Request {
                             0,
                             true,
                             "Smart alarm",
-                            ""
+                            "",
+                            0,
+                            true
                     )
             });
         }

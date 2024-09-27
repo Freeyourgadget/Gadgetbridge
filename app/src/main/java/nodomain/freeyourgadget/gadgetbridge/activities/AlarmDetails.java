@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -257,6 +259,38 @@ public class AlarmDetails extends AbstractGBActivity {
             return coordinator.supportsAlarmSnoozing();
         }
         return false;
+    }
+
+    private boolean supportsAlarmSounds() {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.supportsAlarmSounds(device);
+        }
+        return false;
+    }
+
+    private boolean supportsAlarmBacklight() {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.supportsAlarmBacklight(device);
+        }
+        return false;
+    }
+
+    private boolean supportsAlarmTitlePresets() {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.supportsAlarmTitlePresets(device);
+        }
+        return false;
+    }
+
+    private List<String> getAlarmTitlePresets() {
+        if (device != null) {
+            DeviceCoordinator coordinator = device.getDeviceCoordinator();
+            return coordinator.getAlarmTitlePresets(device);
+        }
+        return Collections.emptyList();
     }
 
     @Override

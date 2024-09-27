@@ -451,6 +451,11 @@ public interface DeviceCoordinator {
      */
     boolean supportsAlarmDescription(GBDevice device);
 
+    boolean supportsAlarmSounds(GBDevice device);
+    boolean supportsAlarmBacklight(GBDevice device);
+    boolean supportsAlarmTitlePresets(GBDevice device);
+    List<String> getAlarmTitlePresets(GBDevice device);
+
     /**
      * Returns true if the given device supports heart rate measurements.
      * @return
