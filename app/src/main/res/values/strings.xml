@@ -422,6 +422,8 @@
     <string name="pref_summary_device_intents">Allow Bangle.js watch apps to send Android Intents, and allow other apps on Android (like Tasker) to send data to Bangle.js with the com.banglejs.uart.tx Intent. Needs permission to display over other apps to work in the background.</string>
     <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
     <string name="pref_title_sync_caldendar">Sync calendar events</string>
+    <string name="pref_summary_sync_birthdays">Sync contact birthdays alongside calendar events</string>
+    <string name="pref_title_sync_birthdays">Sync birthdays</string>
     <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>
     <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for your device (at your own risk)</string>
     <string name="pref_title_vibration_strength">Vibration strength</string>
@@ -3317,4 +3319,6 @@
     <string name="label_distance_trip_mph">Trip: %.1f mi</string>
     <string name="label_distance_total_mph">Total: %.1f mi</string>
     <string name="error_no_cycling_sensor_found">no cycling sensor found</string>
+    <string name="contact_birthday">%1s\'s birthday</string>
+    <string name="birthdays">Birthdays</string>
 </resources>

@@ -7,6 +7,14 @@
         android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_sync_calendar"
         android:title="@string/pref_title_sync_caldendar" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:dependency="sync_calendar"
+        android:icon="@drawable/ic_person"
+        android:key="sync_birthdays"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_summary_sync_birthdays"
+        android:title="@string/pref_title_sync_birthdays" />
     <Preference
         android:dependency="sync_calendar"
         android:icon="@drawable/ic_block"

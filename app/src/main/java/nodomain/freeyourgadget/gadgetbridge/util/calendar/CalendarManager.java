@@ -23,19 +23,27 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Instances;
+import android.provider.ContactsContract;
 import android.text.format.Time;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -82,7 +90,18 @@ public class CalendarManager {
     public List<CalendarEvent> getCalendarEventList() {
         loadCalendarsBlackList();
 
-        final List<CalendarEvent> calendarEventList = new ArrayList<CalendarEvent>();
+        final SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        final List<CalendarEvent> calendarEventList = getCalendarEvents();
+        if (sharedPrefs.getBoolean("sync_birthdays", false)) {
+            calendarEventList.addAll(getBirthdays());
+            calendarEventList.sort(Comparator.comparingInt(CalendarEvent::getBeginSeconds));
+        }
+        return calendarEventList;
+    }
+
+    public List<CalendarEvent> getCalendarEvents() {
+        final List<CalendarEvent> calendarEventList = new ArrayList<>();
 
         Calendar cal = GregorianCalendar.getInstance();
         long dtStart = cal.getTimeInMillis();
@@ -160,6 +179,78 @@ public class CalendarManager {
         }
     }
 
+    public List<CalendarEvent> getBirthdays() {
+        final String[] projection = new String[]{
+                ContactsContract.CommonDataKinds.Event.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Event.START_DATE,
+                ContactsContract.CommonDataKinds.Event.DISPLAY_NAME
+        };
+        final String selection = ContactsContract.Data.MIMETYPE + " = ? AND " +
+                ContactsContract.CommonDataKinds.Event.TYPE + " = ?";
+        final String[] selectionArgs = new String[]{
+                ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
+                String.valueOf(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
+        };
+        final List<CalendarEvent> birthdays = new LinkedList<>();
+        final LocalDate maxDate = LocalDate.now().plusDays(30);
+
+        try (Cursor birthdayCursor = mContext.getContentResolver().query(ContactsContract.Data.CONTENT_URI, projection, selection, selectionArgs, ContactsContract.CommonDataKinds.Event.START_DATE + " ASC")) {
+            if (birthdayCursor == null || birthdayCursor.getCount() == 0) {
+                return birthdays;
+            }
+            while (birthdayCursor.moveToNext()) {
+                final String contactId = birthdayCursor.getString(birthdayCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Event.CONTACT_ID));
+                final String birthdayStr = birthdayCursor.getString(birthdayCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Event.START_DATE));
+                final String displayName = birthdayCursor.getString(birthdayCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Event.DISPLAY_NAME));
+                final LocalDate birthday = parseBirthday(birthdayStr);
+                if (birthday == null || birthday.isAfter(maxDate)) {
+                    continue;
+                }
+
+                birthdays.add(new CalendarEvent(
+                        DateTimeUtils.dayStart(birthday).getTime(),
+                        DateTimeUtils.dayStart(birthday).getTime() + 86400000L - 1L,
+                        contactId.hashCode(),
+                        mContext.getString(R.string.contact_birthday, displayName),
+                        null,
+                        null,
+                        mContext.getString(R.string.birthdays),
+                        mContext.getString(R.string.pref_contacts_title),
+                        0,
+                        true,
+                        null
+                ));
+            }
+        } catch (final Exception e) {
+            LOG.error("could not query birthdays, permission denied?", e);
+        }
+        return birthdays;
+    }
+
+    private LocalDate parseBirthday(final String birthdayStr) {
+        final LocalDate birthday;
+        final LocalDate now = LocalDate.now();
+
+        try {
+            if (birthdayStr.startsWith("--")) {
+                // MM-DD
+                final String monthDay = birthdayStr.substring(2);
+                birthday = LocalDate.parse(now.getYear() + "-" + monthDay, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            } else {
+                birthday = LocalDate.parse(birthdayStr, DateTimeFormatter.ISO_LOCAL_DATE).withYear(now.getYear());
+            }
+        } catch (final DateTimeParseException e) {
+            LOG.error("Failed to parse birthday {}", birthdayStr, e);
+            return null;
+        }
+
+        if (birthday.isAfter(now)) {
+            return birthday;
+        }
+
+        return birthday.plusYears(1);
+    }
+
     private static HashSet<String> calendars_blacklist = null;
 
     public boolean calendarIsBlacklisted(String calendarUniqueName) {
@@ -182,7 +273,7 @@ public class CalendarManager {
 
     public void addCalendarToBlacklist(String calendarUniqueName) {
         if (calendars_blacklist.add(calendarUniqueName)) {
-            LOG.info("Blacklisted calendar " + calendarUniqueName);
+            LOG.info("Blacklisted calendar {}", calendarUniqueName);
             saveCalendarsBlackList();
         } else {
             LOG.warn("Calendar {} already blacklisted!", calendarUniqueName);
@@ -191,7 +282,7 @@ public class CalendarManager {
 
     public void removeFromCalendarBlacklist(String calendarUniqueName) {
         calendars_blacklist.remove(calendarUniqueName);
-        LOG.info("Unblacklisted calendar " + calendarUniqueName);
+        LOG.info("Unblacklisted calendar {}", calendarUniqueName);
         saveCalendarsBlackList();
     }
 
