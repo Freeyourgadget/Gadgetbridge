@@ -82,7 +82,7 @@ public abstract class AbstractMoyoungDeviceCoordinator extends AbstractBLEDevice
 
     @Override
     public int getBondingStyle() {
-        return BONDING_STYLE_NONE;
+        return BONDING_STYLE_LAZY;
     }
 
     @Override
