@@ -1779,4 +1779,6 @@
     <string name="pref_title_user_interface">Корисничко сучеље</string>
     <string name="pref_title_notifications_ignore_work_profile">Занемари обавештења о радном налогу</string>
     <string name="pref_message_privacy_mode_bodyonly">Сакриј само тело</string>
+    <string name="pref_show_changelog_summary">Приказуј дневник измена почевши од последњег издања након надградње Геџетбрвна</string>
+    <string name="pref_show_changelog">Приказуј дневник измена при покретању</string>
 </resources>
