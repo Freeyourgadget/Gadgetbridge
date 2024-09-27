@@ -300,19 +300,23 @@ public class HuaweiTLV {
         return msg.substring(0, msg.length() - 3);
     }
 
-    public HuaweiTLV encrypt(ParamsProvider paramsProvider) throws CryptoException {
-        byte[] serializedTLV = serialize();
+    public static HuaweiTLV encryptRaw(ParamsProvider paramsProvider, byte[] data) throws CryptoException {
         byte[] key = paramsProvider.getSecretKey();
         byte[] nonce = paramsProvider.getIv();
         byte[] encryptedTLV = HuaweiCrypto.encrypt(
                 paramsProvider.getEncryptMethod() == 0x01 || paramsProvider.getDeviceSupportType() == 0x04,
-                serializedTLV,
+                data,
                 key,
                 nonce);
         return new HuaweiTLV()
                 .put(CryptoTags.encryption, (byte) 0x01)
                 .put(CryptoTags.initVector, nonce)
                 .put(CryptoTags.cipherText, encryptedTLV);
+    }
+
+    public HuaweiTLV encrypt(ParamsProvider paramsProvider) throws CryptoException {
+        byte[] serializedTLV = serialize();
+        return encryptRaw(paramsProvider, serializedTLV);
     }
 
     public byte[] decryptRaw(ParamsProvider paramsProvider) throws CryptoException, HuaweiPacket.MissingTagException {

@@ -88,11 +88,9 @@ public class HuaweiCoordinator {
                     )));
                 if (key.equals("maxContactsCount"))
                     this.maxContactsCount = getCapabilitiesSharedPreferences().getInt(key, 0);
-
             }
         }
     }
-
 
     private SharedPreferences getCapabilitiesSharedPreferences() {
         return GBApplication.getContext().getSharedPreferences("huawei_coordinator_capatilities" + parent.getDeviceType().name(), Context.MODE_PRIVATE);
@@ -257,6 +255,11 @@ public class HuaweiCoordinator {
             dateTime.add(R.xml.devicesettings_timeformat);
         }
 
+        //Calendar
+        if( supportsP2PService() && supportsCalendar()) {
+            deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.CALENDAR, R.xml.devicesettings_sync_calendar);
+        }
+
         // Display
         if (supportsWearLocation(device))
             deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DISPLAY, R.xml.devicesettings_wearlocation);
@@ -322,6 +325,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsContacts() {
         return supportsCommandForService(0x03, 0x1);
+    }
+
+    public boolean supportsCalendarEvents() {
+        return supportsP2PService() && supportsCalendar();
     }
 
     public boolean supportsAcceptAgreement() {
@@ -518,6 +525,22 @@ public class HuaweiCoordinator {
 
     public boolean supportsMenstrual() {
         return supportsCommandForService(0x32, 0x01);
+    }
+
+    public boolean supportsP2PService() {
+        return supportsCommandForService(0x34, 0x1);
+    }
+
+    public boolean supportsExternalCalendarService() {
+        if (supportsExpandCapability())
+            return supportsExpandCapability(184);
+        return false;
+    }
+
+    public boolean supportsCalendar() {
+        if (supportsExpandCapability())
+            return supportsExpandCapability(171) || supportsExpandCapability(184);
+        return false;
     }
 
     public boolean supportsMultiDevice() {

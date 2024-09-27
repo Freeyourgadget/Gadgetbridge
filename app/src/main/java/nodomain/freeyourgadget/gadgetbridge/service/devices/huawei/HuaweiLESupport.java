@@ -33,6 +33,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -182,6 +183,16 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSetContacts(ArrayList<? extends Contact> contacts) {
         supportProvider.onSetContacts(contacts);
+    }
+
+    @Override
+    public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
+        supportProvider.onAddCalendarEvent(calendarEventSpec);
+    }
+
+    @Override
+    public void onDeleteCalendarEvent(final byte type, long id) {
+        supportProvider.onDeleteCalendarEvent(type, id);
     }
 
     @Override

@@ -183,6 +183,11 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
+    public boolean supportsCalendarEvents() {
+        return huaweiCoordinator.supportsCalendarEvents();
+    }
+
+    @Override
     public boolean supportsActivityDataFetching() {
         return true;
     }

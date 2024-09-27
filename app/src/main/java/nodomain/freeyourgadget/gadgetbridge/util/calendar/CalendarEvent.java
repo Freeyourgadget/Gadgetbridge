@@ -29,12 +29,15 @@ public class CalendarEvent {
     private final String location;
     private final String calName;
     private final String calAccountName;
+    private final String calAccountType;
+    private final String calendarId;
     private final String organizer;
     private final int color;
     private final boolean allDay;
+    private final String rrule;
     private List<Long> remindersAbsoluteTs = new ArrayList<>();
 
-    public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, String calAccountName, int color, boolean allDay, String organizer) {
+    public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, String calAccountName, int color, boolean allDay, String organizer, String calAccountType, String calendarId, String rrule) {
         this.begin = begin;
         this.end = end;
         this.id = id;
@@ -46,6 +49,9 @@ public class CalendarEvent {
         this.color = color;
         this.allDay = allDay;
         this.organizer = organizer;
+        this.calAccountType = calAccountType;
+        this.calendarId = calendarId;
+        this.rrule = rrule;
     }
 
     public List<Long> getRemindersAbsoluteTs() {
@@ -125,6 +131,18 @@ public class CalendarEvent {
         return allDay;
     }
 
+    public String getCalAccountType() {
+        return calAccountType;
+    }
+
+    public String getCalendarId() {
+        return calendarId;
+    }
+
+    public String getRrule() {
+        return rrule;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof CalendarEvent) {
@@ -140,7 +158,10 @@ public class CalendarEvent {
                     (this.getColor() == e.getColor()) &&
                     (this.isAllDay() == e.isAllDay()) &&
                     Objects.equals(this.getOrganizer(), e.getOrganizer()) &&
-                    Objects.equals(this.getRemindersAbsoluteTs(), e.getRemindersAbsoluteTs());
+                    Objects.equals(this.getRemindersAbsoluteTs(), e.getRemindersAbsoluteTs()) &&
+                    Objects.equals(this.getCalAccountType(), e.getCalAccountType()) &&
+                    Objects.equals(this.getCalendarId(), e.getCalendarId()) &&
+                    Objects.equals(this.getRrule(), e.getRrule());
         } else {
             return false;
         }
@@ -160,6 +181,9 @@ public class CalendarEvent {
         result = 31 * result + Boolean.valueOf(allDay).hashCode();
         result = 31 * result + Objects.hash(organizer);
         result = 31 * result + Objects.hash(remindersAbsoluteTs);
+        result = 31 * result + Objects.hash(calAccountType);
+        result = 31 * result + Objects.hash(calendarId);
+        result = 31 * result + Objects.hash(rrule);
         return result;
     }
 }

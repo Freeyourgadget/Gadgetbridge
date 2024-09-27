@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Contacts;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService2C;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.P2P;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
@@ -231,6 +232,9 @@ public class HuaweiPacket {
     }
 
     public static class SerializeException extends Exception {
+        public SerializeException(String message) {
+            super(message);
+        }
         public SerializeException(String message, Exception e) {
             super(message, e);
         }
@@ -652,6 +656,14 @@ public class HuaweiPacket {
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
                 }
+            case P2P.id:
+                    switch (this.commandId) {
+                        case P2P.P2PCommand.id:
+                            return new P2P.P2PCommand.Response(paramsProvider).fromPacket(this);
+                        default:
+                            this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                            return this;
+                    }
             default:
                 this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                 return this;
@@ -777,14 +789,14 @@ public class HuaweiPacket {
         return retv;
     }
 
-    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, short unitSize, byte fileId) {
+    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, short unitSize, byte fileId, boolean isEncrypted) throws SerializeException {
         List<byte[]> retv = new ArrayList<>();
         int headerLength = 5; // Magic + (short)(bodyLength + 1) + 0x00
-        int sliceHeaderLenght =7;
+        int sliceHeaderLength = 6;
 
         int footerLength = 2; //CRC16
 
-        int packetCount = (int) Math.ceil(((double) fileChunk.length ) / (double) unitSize);
+        int packetCount = (int) Math.ceil(((double) fileChunk.length) / (double) unitSize);
 
         ByteBuffer buffer = ByteBuffer.wrap(fileChunk);
 
@@ -793,7 +805,34 @@ public class HuaweiPacket {
         for (int i = 0; i < packetCount; i++) {
 
             short contentSize = (short) Math.min(unitSize, buffer.remaining());
-            short packetSize = (short)(contentSize + headerLength + sliceHeaderLenght + footerLength);
+
+            ByteBuffer payload = ByteBuffer.allocate(contentSize + sliceHeaderLength);
+            payload.put(fileId);                                      // Slice
+            payload.put((byte)i);                                       // Flag
+            payload.putInt(sliceStart);
+
+            byte[] packetContent = new byte[contentSize];
+            buffer.get(packetContent);
+            payload.put(packetContent);                              // Packet databyte[] packetContent = new byte[contentSize];
+
+
+            byte[] new_payload = null;
+            if(isEncrypted) {
+                try {
+                    HuaweiTLV encryptedTlv = HuaweiTLV.encryptRaw(this.paramsProvider, payload.array());
+                    new_payload = encryptedTlv.serialize();
+                } catch (HuaweiCrypto.CryptoException e) {
+                    throw new HuaweiPacket.SerializeException("Error to encrypt TLV");
+                }
+            } else {
+                new_payload = payload.array();
+            }
+
+            if (new_payload == null) {
+                throw new HuaweiPacket.SerializeException("new payload is null");
+            }
+
+            short packetSize = (short)(new_payload.length + sliceHeaderLength + footerLength);
             ByteBuffer packet = ByteBuffer.allocate(packetSize);
 
             int start = packet.position();
@@ -804,18 +843,11 @@ public class HuaweiPacket {
             packet.put(this.serviceId);
             packet.put(this.commandId);
 
-            packet.put(fileId);                                      // Slice
-            packet.put((byte)i);                                       // Flag
-            packet.putInt(sliceStart);
-
-            byte[] packetContent = new byte[contentSize];
-            buffer.get(packetContent);
-            packet.put(packetContent);                              // Packet databyte[] packetContent = new byte[contentSize];
+            packet.put(new_payload);
 
             int length = packet.position() - start;
             if (length != packetSize - footerLength) {
-                // TODO: exception?
-                LOG.error(String.format(GBApplication.getLanguage(), "Packet lengths don't match! %d != %d", length, packetSize + headerLength));
+                throw new HuaweiPacket.SerializeException(String.format(GBApplication.getLanguage(), "Packet lengths don't match! %d != %d", length, packetSize + headerLength));
             }
 
             byte[] complete = new byte[length];

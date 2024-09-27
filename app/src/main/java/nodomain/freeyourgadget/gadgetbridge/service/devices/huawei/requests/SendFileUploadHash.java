@@ -26,12 +26,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiUploadM
 
 public class SendFileUploadHash extends Request{
     HuaweiUploadManager huaweiUploadManager;
-    private byte fileId;
     public SendFileUploadHash(HuaweiSupportProvider support,
                               HuaweiUploadManager huaweiUploadManager) {
         super(support);
         this.huaweiUploadManager = huaweiUploadManager;
-        this.fileId = fileId;
         this.serviceId = FileUpload.id;
         this.commandId = FileUpload.FileHashSend.id;
         this.addToResponse = false;
@@ -42,8 +40,8 @@ public class SendFileUploadHash extends Request{
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new FileUpload.FileHashSend.Request(this.paramsProvider,
-                    huaweiUploadManager.getFileSHA256(),
-                    huaweiUploadManager.getFileId()
+                    huaweiUploadManager.getFileUploadInfo().getFileSHA256(),
+                    huaweiUploadManager.getFileUploadInfo().getFileId()
             ).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);

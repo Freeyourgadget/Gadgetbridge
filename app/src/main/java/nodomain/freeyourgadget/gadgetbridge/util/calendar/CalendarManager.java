@@ -72,7 +72,10 @@ public class CalendarManager {
             CalendarContract.Calendars.ACCOUNT_NAME,
             Instances.CALENDAR_COLOR,
             Instances.ALL_DAY,
-            Instances.EVENT_ID //needed for reminders
+            Instances.EVENT_ID, //needed for reminders
+            CalendarContract.Calendars.ACCOUNT_TYPE,
+            Instances.CALENDAR_ID,
+            Instances.RRULE
     };
 
     private static final int lookahead_days = 7;
@@ -126,6 +129,7 @@ public class CalendarManager {
                     time.parse(evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.DURATION)));
                     end = start + time.toMillis(false);
                 }
+
                 CalendarEvent calEvent = new CalendarEvent(
                         start,
                         end,
@@ -137,9 +141,11 @@ public class CalendarManager {
                         evtCursor.getString(evtCursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_NAME)),
                         evtCursor.getInt(evtCursor.getColumnIndexOrThrow(Instances.CALENDAR_COLOR)),
                         !evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.ALL_DAY)).equals("0"),
-                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.ORGANIZER))
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.ORGANIZER)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_TYPE)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.CALENDAR_ID)),
+                        evtCursor.getString(evtCursor.getColumnIndexOrThrow(Instances.RRULE))
                 );
-
 
                 // Query reminders for this event
                 final Cursor reminderCursor = mContext.getContentResolver().query(

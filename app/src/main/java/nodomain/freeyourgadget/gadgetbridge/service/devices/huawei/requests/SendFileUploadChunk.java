@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiUploadManager;
@@ -36,11 +37,16 @@ public class SendFileUploadChunk extends Request {
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
-        return new FileUpload.FileNextChunkSend(this.paramsProvider).serializeFileChunk(
-                huaweiUploadManager.getCurrentChunk(),
-                huaweiUploadManager.getCurrentUploadPosition(),
-                huaweiUploadManager.getUnitSize(),
-                huaweiUploadManager.getFileId()
-        );
+        try {
+            return new FileUpload.FileNextChunkSend(this.paramsProvider).serializeFileChunk(
+                    huaweiUploadManager.getFileUploadInfo().getCurrentChunk(),
+                    huaweiUploadManager.getFileUploadInfo().getCurrentUploadPosition(),
+                    huaweiUploadManager.getFileUploadInfo().getUnitSize(),
+                    huaweiUploadManager.getFileUploadInfo().getFileId(),
+                    huaweiUploadManager.getFileUploadInfo().isEncrypted()
+            );
+        } catch(HuaweiPacket.SerializeException e) {
+            throw new RequestCreationException(e.getMessage());
+        }
     }
 }

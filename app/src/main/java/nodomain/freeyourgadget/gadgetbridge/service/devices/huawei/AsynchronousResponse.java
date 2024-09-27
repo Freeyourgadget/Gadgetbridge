@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Menstrual;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.MusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.P2P;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -121,6 +122,7 @@ public class AsynchronousResponse {
             handleWatchface(response);
             handleCameraRemote(response);
             handleApp(response);
+            handleP2p(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -423,64 +425,91 @@ public class AsynchronousResponse {
             if (response.commandId == FileUpload.FileInfoSend.id) {
                 if (!(response instanceof FileUpload.FileInfoSend.Response))
                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileInfoSend.Response.class);
-                FileUpload.FileInfoSend.Response resp = (FileUpload.FileInfoSend.Response) response;
-                if (resp.result == 140004) {
-                    LOG.error("Too many watchfaces installed");
-                    support.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(support.getContext().getString(R.string.cannot_upload_watchface_too_many_watchfaces_installed), Toast.LENGTH_LONG, GB.ERROR));
-                } else if (resp.result == 140009) {
-                    LOG.error("Insufficient space for upload");
-                    support.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(support.getContext().getString(R.string.insufficient_space_for_upload), Toast.LENGTH_LONG, GB.ERROR));
+                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                    LOG.error("Upload file info received but no file to upload");
+                } else {
+                    FileUpload.FileInfoSend.Response resp = (FileUpload.FileInfoSend.Response) response;
+                    if (resp.result != 100000) {
+                        if (support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback() != null) {
+                            support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback().onError(resp.result);
+                        } else {
+                            LOG.error("Upload file info error without callback: {}", resp.result);
+                        }
+                        //Cleanup
+                        support.huaweiUploadManager.setFileUploadInfo(null);
+                    }
                 }
             } else if (response.commandId == FileUpload.FileHashSend.id) {
                  if (!(response instanceof FileUpload.FileHashSend.Response))
                      throw new Request.ResponseTypeMismatchException(response, FileUpload.FileHashSend.Response.class);
-                 FileUpload.FileHashSend.Response resp = (FileUpload.FileHashSend.Response) response;
-                 support.huaweiUploadManager.setFileId(resp.fileId);
-                 try {
-                     SendFileUploadHash sendFileUploadHash = new SendFileUploadHash(support, support.huaweiUploadManager);
-                     sendFileUploadHash.doPerform();
-                 } catch (IOException e) {
-                     LOG.error("Could not send fileupload hash request", e);
+                 if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                     LOG.error("Upload file hash requested but no file to upload");
+                 } else {
+                     FileUpload.FileHashSend.Response resp = (FileUpload.FileHashSend.Response) response;
+                     support.huaweiUploadManager.getFileUploadInfo().setFileId(resp.fileId);
+                     try {
+                         SendFileUploadHash sendFileUploadHash = new SendFileUploadHash(support, support.huaweiUploadManager);
+                         sendFileUploadHash.doPerform();
+                     } catch (IOException e) {
+                         LOG.error("Could not send file upload hash request", e);
+                     }
                  }
              } else if (response.commandId == FileUpload.FileUploadConsultAck.id) {
                  if (!(response instanceof FileUpload.FileUploadConsultAck.Response))
                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileUploadConsultAck.Response.class);
-                 FileUpload.FileUploadConsultAck.Response resp = (FileUpload.FileUploadConsultAck.Response) response;
-
-                 support.huaweiUploadManager.setFileUploadParams(resp.fileUploadParams);
-
-                 try {
-                     support.huaweiUploadManager.setDeviceBusy();
-                     SendFileUploadAck sendFileUploadAck = new SendFileUploadAck(support,
-                             resp.fileUploadParams.no_encrypt, support.huaweiUploadManager.getFileId());
-                     sendFileUploadAck.doPerform();
-                 } catch (IOException e) {
-                     LOG.error("Could not send fileupload ack request", e);
-                 }
+                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                    LOG.error("Upload file ask requested but no file to upload");
+                } else {
+                    FileUpload.FileUploadConsultAck.Response resp = (FileUpload.FileUploadConsultAck.Response) response;
+                    support.huaweiUploadManager.getFileUploadInfo().setFileUploadParams(resp.fileUploadParams);
+                    try {
+                        if (support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback() != null) {
+                            support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback().onUploadStart();
+                        }
+                        SendFileUploadAck sendFileUploadAck = new SendFileUploadAck(support,
+                                resp.fileUploadParams.no_encrypt, support.huaweiUploadManager.getFileUploadInfo().getFileId());
+                        sendFileUploadAck.doPerform();
+                    } catch (IOException e) {
+                        LOG.error("Could not send file upload ack request", e);
+                    }
+                }
              } else if (response.commandId == FileUpload.FileNextChunkParams.id) {
                  if (!(response instanceof FileUpload.FileNextChunkParams))
                      throw new Request.ResponseTypeMismatchException(response, FileUpload.FileNextChunkParams.class);
-                 FileUpload.FileNextChunkParams resp = (FileUpload.FileNextChunkParams) response;
-                 support.huaweiUploadManager.setUploadChunkSize(resp.nextchunkSize);
-                 support.huaweiUploadManager.setCurrentUploadPosition(resp.bytesUploaded);
-                 int progress = Math.round(((float)resp.bytesUploaded / (float)support.huaweiUploadManager.getFileSize())* 100);
-                 support.onUploadProgress(R.string.updatefirmwareoperation_update_in_progress, progress, true);
-
-                 try {
-                     SendFileUploadChunk sendFileUploadChunk = new SendFileUploadChunk(support, support.huaweiUploadManager);
-                     sendFileUploadChunk.doPerform();
-                 } catch (IOException e) {
-                     LOG.error("Could not send fileupload next chunk request", e);
-                 }
+                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                    LOG.error("Upload file next chunk requested but no file to upload");
+                } else {
+                    FileUpload.FileNextChunkParams resp = (FileUpload.FileNextChunkParams) response;
+                    support.huaweiUploadManager.getFileUploadInfo().setUploadChunkSize(resp.nextchunkSize);
+                    support.huaweiUploadManager.getFileUploadInfo().setCurrentUploadPosition(resp.bytesUploaded);
+                    int progress = Math.round(((float) resp.bytesUploaded / (float) support.huaweiUploadManager.getFileUploadInfo().getFileSize()) * 100);
+                    try {
+                        if (support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback() != null) {
+                            support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback().onUploadProgress(progress);
+                        }
+                        SendFileUploadChunk sendFileUploadChunk = new SendFileUploadChunk(support, support.huaweiUploadManager);
+                        sendFileUploadChunk.doPerform();
+                    } catch (IOException e) {
+                        LOG.error("Could not send fileupload next chunk request", e);
+                    }
+                }
              } else if (response.commandId == FileUpload.FileUploadResult.id) {
-                 try {
-                     support.huaweiUploadManager.unsetDeviceBusy();
-                     support.onUploadProgress(R.string.updatefirmwareoperation_update_complete, 100, false);
-                     SendFileUploadComplete sendFileUploadComplete = new SendFileUploadComplete(this.support, support.huaweiUploadManager.getFileId());
-                     sendFileUploadComplete.doPerform();
-                 } catch (IOException e) {
-                     LOG.error("Could not send fileupload result request", e);
-                 }
+                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                    LOG.error("Upload file result requested but no file to upload");
+                } else {
+                    try {
+                        byte fileId = support.huaweiUploadManager.getFileUploadInfo().getFileId();
+                        if (support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback() != null) {
+                            support.huaweiUploadManager.getFileUploadInfo().getFileUploadCallback().onUploadComplete();
+                        }
+                        //Cleanup
+                        support.huaweiUploadManager.setFileUploadInfo(null);
+                        SendFileUploadComplete sendFileUploadComplete = new SendFileUploadComplete(this.support, fileId);
+                        sendFileUploadComplete.doPerform();
+                    } catch (IOException e) {
+                        LOG.error("Could not send file upload result request", e);
+                    }
+                }
              }
         }
     }
@@ -521,6 +550,18 @@ public class AsynchronousResponse {
 
             }
         }
+    }
+
+    private void handleP2p(HuaweiPacket response) throws Request.ResponseParseException {
+         if (response.serviceId == P2P.id && response.commandId == P2P.P2PCommand.id) {
+             if (!(response instanceof P2P.P2PCommand.Response))
+                 throw new Request.ResponseTypeMismatchException(response, P2P.P2PCommand.class);
+             try {
+                 this.support.getHuaweiP2PManager().handlePacket((P2P.P2PCommand.Response) response);
+             } catch (Exception e) {
+                 LOG.error("Error in P2P service", e);
+             }
+         }
     }
 
     private void handleWeatherCheck(HuaweiPacket response) {

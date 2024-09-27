@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -90,6 +91,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetAppInfoParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetContactsCount;
@@ -211,6 +213,9 @@ public class HuaweiSupportProvider {
 
     protected HuaweiWeatherManager huaweiWeatherManager = new HuaweiWeatherManager(this);
 
+    //TODO: we need only one instance of manager and all it services.
+    protected HuaweiP2PManager huaweiP2PManager = new HuaweiP2PManager(this);
+
     public HuaweiCoordinatorSupplier getCoordinator() {
         return ((HuaweiCoordinatorSupplier) this.gbDevice.getDeviceCoordinator());
     }
@@ -218,6 +223,11 @@ public class HuaweiSupportProvider {
     public HuaweiCoordinator getHuaweiCoordinator() {
         return getCoordinator().getHuaweiCoordinator();
     }
+
+    public HuaweiUploadManager getUploadManager() {
+        return huaweiUploadManager;
+    }
+
     public HuaweiWatchfaceManager getHuaweiWatchfaceManager() {
         return huaweiWatchfaceManager;
     }
@@ -225,6 +235,11 @@ public class HuaweiSupportProvider {
     public HuaweiAppManager getHuaweiAppManager() {
         return huaweiAppManager;
     }
+
+    public HuaweiP2PManager getHuaweiP2PManager() {
+        return huaweiP2PManager;
+    }
+
     public HuaweiSupportProvider(HuaweiBRSupport support) {
         this.brSupport = support;
     }
@@ -563,6 +578,7 @@ public class HuaweiSupportProvider {
                 editor.apply();
             }
 
+            huaweiP2PManager.unregisterAllService();
             stopBatteryRunnerDelayed();
             GetBatteryLevelRequest batteryLevelReq = new GetBatteryLevelRequest(this);
             batteryLevelReq.setFinalizeReq(new RequestCallback() {
@@ -755,6 +771,15 @@ public class HuaweiSupportProvider {
                 public void call() {
                     gbDevice.setState(GBDevice.State.INITIALIZED);
                     gbDevice.sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUpdateSubject.DEVICE_STATE);
+
+                    if(getHuaweiCoordinator().supportsP2PService()) {
+                        if(getHuaweiCoordinator().supportsCalendar()) {
+                            if (HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager) == null) {
+                                HuaweiP2PCalendarService calendarService = new HuaweiP2PCalendarService(huaweiP2PManager);
+                                calendarService.register();
+                            }
+                        }
+                    }
                 }
             });
 
@@ -1003,6 +1028,9 @@ public class HuaweiSupportProvider {
                 case ActivityUser.PREF_USER_GENDER:
                 case ActivityUser.PREF_USER_DATE_OF_BIRTH:
                     sendUserInfo();
+                    break;
+                case DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR:
+                    HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager).restartSynchronization();
                     break;
             }
         } catch (IOException e) {
@@ -1815,13 +1843,47 @@ public class HuaweiSupportProvider {
     public void onInstallApp(Uri uri) {
         LOG.info("enter onAppInstall uri: "+uri);
         HuaweiFwHelper huaweiFwHelper = new HuaweiFwHelper(uri, getContext());
-        huaweiUploadManager.setBytes(huaweiFwHelper.getBytes());
-        huaweiUploadManager.setFileType(huaweiFwHelper.getFileType());
+
+        HuaweiUploadManager.FileUploadInfo fileInfo = new HuaweiUploadManager.FileUploadInfo();
+
+        fileInfo.setFileType(huaweiFwHelper.getFileType());
         if (huaweiFwHelper.isWatchface()) {
-            huaweiUploadManager.setFileName(huaweiWatchfaceManager.getRandomName());
+            fileInfo.setFileName(huaweiWatchfaceManager.getRandomName());
         } else {
-            huaweiUploadManager.setFileName(huaweiFwHelper.getFileName());
+            fileInfo.setFileName(huaweiFwHelper.getFileName());
         }
+        fileInfo.setBytes(huaweiFwHelper.getBytes());
+
+        fileInfo.setFileUploadCallback(new HuaweiUploadManager.FileUploadCallback() {
+            @Override
+            public void onUploadStart() {
+                HuaweiSupportProvider.this.huaweiUploadManager.setDeviceBusy();
+            }
+
+            @Override
+            public void onUploadProgress(int progress) {
+                HuaweiSupportProvider.this.onUploadProgress(R.string.updatefirmwareoperation_update_in_progress, progress, true);
+            }
+
+            @Override
+            public void onUploadComplete() {
+                HuaweiSupportProvider.this.huaweiUploadManager.unsetDeviceBusy();
+                HuaweiSupportProvider.this.onUploadProgress(R.string.updatefirmwareoperation_update_complete, 100, false);
+            }
+
+            @Override
+            public void onError(int code) {
+                if (code == 140004) {
+                    LOG.error("Too many watchfaces installed");
+                    HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.cannot_upload_watchface_too_many_watchfaces_installed), Toast.LENGTH_LONG, GB.ERROR));
+                } else if (code == 140009) {
+                    LOG.error("Insufficient space for upload");
+                    HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.insufficient_space_for_upload), Toast.LENGTH_LONG, GB.ERROR));
+                }
+            }
+        });
+
+        huaweiUploadManager.setFileUploadInfo(fileInfo);
 
         try {
             SendFileUploadInfo sendFileUploadInfo = new SendFileUploadInfo(this, huaweiUploadManager);
@@ -1949,6 +2011,20 @@ public class HuaweiSupportProvider {
 
     }
 
+    public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
+        HuaweiP2PCalendarService service = HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager);
+        if(service != null) {
+            service.onAddCalendarEvent(calendarEventSpec);
+        }
+    }
+
+    public void onDeleteCalendarEvent(final byte type, long id) {
+        HuaweiP2PCalendarService service = HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager);
+        if(service != null) {
+            service.onDeleteCalendarEvent(type, id);
+        }
+    }
+
     public boolean startBatteryRunnerDelayed() {
         int interval_minutes = GBApplication.getDevicePrefs(gbDevice).getBatteryPollingIntervalMinutes();
         int interval = interval_minutes * 60 * 1000;
@@ -1965,6 +2041,7 @@ public class HuaweiSupportProvider {
     public void dispose() {
         stopBatteryRunnerDelayed();
         huaweiFileDownloadManager.dispose();
+        huaweiP2PManager.unregisterAllService();
     }
 
     public boolean downloadTruSleepData(int start, int end) {

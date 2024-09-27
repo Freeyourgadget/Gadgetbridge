@@ -33,16 +33,19 @@ public class SendFileUploadInfo extends Request{
         this.serviceId = FileUpload.id;
         this.commandId = FileUpload.FileInfoSend.id;
         this.addToResponse = false;
-
     }
 
     @Override
     protected List<byte[]> createRequest() throws RequestCreationException {
         try {
             return new FileUpload.FileInfoSend.Request(this.paramsProvider,
-                    huaweiUploadManager.getFileSize(),
-                    huaweiUploadManager.getFileName(),
-                    huaweiUploadManager.getFileType()
+                    huaweiUploadManager.getFileUploadInfo().getFileSize(),
+                    huaweiUploadManager.getFileUploadInfo().getFileName(),
+                    huaweiUploadManager.getFileUploadInfo().getFileType(),
+                    huaweiUploadManager.getFileUploadInfo().getSrcPackage(),
+                    huaweiUploadManager.getFileUploadInfo().getDstPackage(),
+                    huaweiUploadManager.getFileUploadInfo().getSrcFingerprint(),
+                    huaweiUploadManager.getFileUploadInfo().getDstFingerprint()
             ).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
