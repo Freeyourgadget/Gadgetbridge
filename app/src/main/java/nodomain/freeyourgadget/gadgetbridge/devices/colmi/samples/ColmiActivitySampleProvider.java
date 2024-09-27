@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiActivitySample> {
     private static final Logger LOG = LoggerFactory.getLogger(ColmiActivitySampleProvider.class);
@@ -169,15 +170,7 @@ public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiAct
                     sampleByTs.put(i, sample);
                 }
                 sample.setRawKind(sleepRawKind.getCode());
-
-                switch (sleepRawKind) {
-                    case LIGHT_SLEEP:
-                        sample.setRawIntensity(1400);
-                        break;
-                    case DEEP_SLEEP:
-                        sample.setRawIntensity(700);
-                        break;
-                }
+                sample.setRawIntensity(ActivitySample.NOT_MEASURED);
             }
         }
     }

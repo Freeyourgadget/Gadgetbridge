@@ -216,16 +216,16 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                     switch (type) {
                         case SLEEP_ANY:
                         case AWAKE_SLEEP:
-                            value = 0.50f;
+                            value = 0.25f;
                             break;
                         case DEEP_SLEEP:
-                            value = 0.20f;
+                            value = 0.10f;
                             break;
                         case LIGHT_SLEEP:
-                            value = 0.30f;
+                            value = 0.15f;
                             break;
                         case REM_SLEEP:
-                            value = 0.40f;
+                            value = 0.20f;
                             break;
                         default:
                             value = Y_VALUE_DEEP_SLEEP;
