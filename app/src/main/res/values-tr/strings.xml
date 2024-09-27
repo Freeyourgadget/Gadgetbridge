@@ -3472,4 +3472,8 @@
     <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
     <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
     <string name="devicetype_huawei_watchgt5">Huawei Watch GT 5 (Pro)</string>
+    <string name="contact_birthday">%1s doğum günü</string>
+    <string name="pref_summary_sync_birthdays">Kişi doğum günlerini takvim etkinlikleriyle birlikte eşzamanla</string>
+    <string name="pref_title_sync_birthdays">Doğum günlerini eşzamanla</string>
+    <string name="birthdays">Doğum günleri</string>
 </resources>
