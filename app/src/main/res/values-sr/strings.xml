@@ -471,7 +471,7 @@
     <string name="pref_title_auto_export_interval">Међувреме извоза</string>
     <string name="pref_header_auto_fetch">Самостално добави</string>
     <string name="pref_auto_fetch">Самостално добави податке дејстава</string>
-    <string name="not_connected">Није повазан</string>
+    <string name="not_connected">Није повезан</string>
     <string name="connecting">Повезивање</string>
     <string name="connected">Повезан</string>
     <string name="bluetooth_is_disabled_">Блутут је онемогућен.</string>
@@ -1062,7 +1062,7 @@
     <string name="activity_prefs_discovery_pairing">Могућности откривања и упаривања</string>
     <string name="activity_prefs_chart_max_heart_rate">Највиши број откуцаја срца</string>
     <string name="pref_chart_heartrate_color_orange">Поморанџаста</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">Подаци су избрисани</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Подаци су избрисани.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Нисам успео да избришем хранилиште података.</string>
     <string name="activity_db_management_autoexport_enabled_no">Самостални извоз није омогућен.</string>
     <string name="activity_db_management_autoexport_explanation">Место самосталног чувања хранилишта података је постављено на:</string>
@@ -1242,7 +1242,7 @@
     <string name="activity_filter_date_from">Од</string>
     <string name="activity_filter_date_to">До</string>
     <string name="prefs_autoremove_message">Самостално уклони обавештења СМС-а</string>
-    <string name="message_cannot_pair_no_mac">Није прослеђена МАЦ-а адреса, нисам успео да упарим</string>
+    <string name="message_cannot_pair_no_mac">Није прослеђена МАЦ-а адреса, нисам успео да упарим.</string>
     <string name="activity_db_management_autoexport_scheduled_yes">Самостални извоз је (изворно) заказан за %1$s</string>
     <string name="activity_data_management_directory_content_title">Садржај фасцикле извоза/увоза</string>
     <string name="activity_db_management_autoexport_location">Нисам успео да разумем положај. Највероватније је по среди новији склоп овлашћења Андроида. Највероватније, самостални извоз сада не ради.</string>
@@ -1676,7 +1676,7 @@
     <string name="devicetype_casiogbx100">Касио ГБИкс-100</string>
     <string name="devicetype_itag">иТаг</string>
     <string name="devicetype_mijia_lywsd02">Мијиа Смарт Клок</string>
-    <string name="pbwinstallhandler_incorrect_hw_revision">Издање тврдотворина се не слаже</string>
+    <string name="pbwinstallhandler_incorrect_hw_revision">Издање тврдотворина се не слаже!</string>
     <string name="pbwinstallhandler_correct_hw_revision">Тачно издање тврдотворина</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Узроковаће да поруке које нису послате програмима треће стране да буду одмах и увек примећене</string>
     <string name="pref_summary_pebble_gatt_clientonly">Ово је за Пебл 2 само и опитно је, покушајте ово ако имате потешкоћа са повезивањем</string>
