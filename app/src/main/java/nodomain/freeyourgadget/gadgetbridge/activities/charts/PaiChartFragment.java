@@ -367,12 +367,12 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         final int maxPai = Math.max(100, total);
         final String todayLabel = today != 0 ? requireContext().getString(R.string.pai_plus_num, today) : "";
 
-        entries.add(new PieEntry(today, todayLabel));
         entries.add(new PieEntry(total - today, ""));
+        entries.add(new PieEntry(today, todayLabel));
         entries.add(new PieEntry(maxPai - total, ""));
 
         final PieDataSet pieDataSet = new PieDataSet(entries, "");
-        pieDataSet.setColors(PAI_DAY_COLOR, PAI_TOTAL_COLOR, 0x0);
+        pieDataSet.setColors(PAI_TOTAL_COLOR, PAI_DAY_COLOR, 0x0);
         data.setDataSet(pieDataSet);
         data.setDrawValues(false);
 

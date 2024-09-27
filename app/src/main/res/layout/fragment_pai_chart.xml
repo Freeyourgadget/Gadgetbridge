@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textSize="20sp" />
 
@@ -26,242 +27,154 @@
             android:layout_marginBottom="0dp"
             android:layout_weight="1" />
 
-        <TableLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="3"
-            android:shrinkColumns="*"
-            android:stretchColumns="*">
-
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2">
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dip"
-                    android:paddingTop="20dip"
-                    android:paddingRight="20dip">
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/chart_activity_dark" />
-
-                    <TextView
-                        android:id="@+id/pai_line_today"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginTop="20dip"
-                        android:text="@string/stats_empty_value"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="@string/activity_summary_today"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dip"
-                    android:paddingTop="20dip"
-                    android:paddingRight="20dip">
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/chart_deep_sleep_light" />
-
-                    <TextView
-                        android:id="@+id/pai_line_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginTop="20dip"
-                        android:text="@string/stats_empty_value"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:text="@string/step_streak_total"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </TableRow>
-
-        </TableLayout>
-
-        <LinearLayout
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@color/gauge_line_color"
+            android:columnCount="2">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:orientation="vertical">
+                style="@style/GridTile"
+                android:layout_marginBottom="0dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/chart_activity_dark" />
+
+                <TextView
+                    android:id="@+id/pai_line_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
+                    android:text="@string/activity_summary_today"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginBottom="0dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/chart_deep_sleep_light" />
+
+                <TextView
+                    android:id="@+id/pai_line_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/step_streak_total"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </GridLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:background="@color/gauge_line_color"
+            android:columnCount="3"
+            android:rowCount="1">
+
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/sony_speak_to_chat_sensitivity_low"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/pai_line_low_inc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="5"
-                    android:textSize="24sp" />
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/pai_line_low_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="10 min"
-                    android:textSize="16sp" />
-
+                    android:text="@string/stats_empty_value"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
+                style="@style/GridTile"
                 android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:orientation="vertical">
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="1dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
                     android:text="@string/stress_moderate"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/pai_line_moderate_inc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="5"
-                    android:textSize="24sp" />
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/pai_line_moderate_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="10 min"
-                    android:textSize="16sp" />
-
+                    android:text="@string/stats_empty_value"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
+                android:id="@+id/sleep_chart_legend_movement_intensity_wrapper"
+                style="@style/GridTile"
                 android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:orientation="vertical">
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
                     android:text="@string/stress_high"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/pai_line_high_inc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="5"
-                    android:textSize="24sp" />
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/pai_line_high_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="10 min"
-                    android:textSize="16sp" />
-
+                    android:text="@string/stats_empty_value"
+                    android:textSize="12sp" />
             </LinearLayout>
-
-        </LinearLayout>
+        </GridLayout>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/pai_chart_week"
