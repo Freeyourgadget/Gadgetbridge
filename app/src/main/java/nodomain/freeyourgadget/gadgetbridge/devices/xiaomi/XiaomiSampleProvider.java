@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepTimeSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.RangeMap;
 
 public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivitySample> {
@@ -191,18 +192,7 @@ public class XiaomiSampleProvider extends AbstractSampleProvider<XiaomiActivityS
                 final ActivityKind sleepType = stagesMap.get(ts);
                 if (sleepType != null && !sleepType.equals(ActivityKind.UNKNOWN)) {
                     sample.setRawKind(sleepType.getCode());
-
-                    switch (sleepType) {
-                        case DEEP_SLEEP:
-                            sample.setRawIntensity(20);
-                            break;
-                        case LIGHT_SLEEP:
-                            sample.setRawIntensity(30);
-                            break;
-                        case REM_SLEEP:
-                            sample.setRawIntensity(40);
-                            break;
-                    }
+                    sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                 }
             }
         }

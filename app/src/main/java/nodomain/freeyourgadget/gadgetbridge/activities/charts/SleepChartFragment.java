@@ -75,6 +75,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
     private TextView lowestHrText;
     private TextView highestHrText;
     private TextView movementIntensityText;
+    private LinearLayout movementIntensityTextWrapper;
+    private LinearLayout dummyTile;
     private TextView sleepDateText;
     private int heartRateMin = 0;
     private int heartRateMax = 0;
@@ -254,7 +256,9 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         intensityTotal = mcd.getIntensityTotal();
         lowestHrText.setText(String.valueOf(heartRateMin != 0 ? heartRateMin : "-"));
         highestHrText.setText(String.valueOf(heartRateMax != 0 ? heartRateMax : "-"));
-        movementIntensityText.setText(intensityTotal != 0 ? new DecimalFormat("###.#").format(intensityTotal) : "-");
+        movementIntensityText.setText(intensityTotal > 0 ? new DecimalFormat("###.#").format(intensityTotal) : "-");
+        movementIntensityTextWrapper.setVisibility(intensityTotal > 0 ? View.VISIBLE : View.GONE);
+        dummyTile.setVisibility(intensityTotal > 0 ? View.VISIBLE : View.GONE);
 
         mSleepAmountChart.setHoleRadius(85);
         mSleepAmountChart.setDrawEntryLabels(false);
@@ -385,6 +389,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
         lowestHrText = rootView.findViewById(R.id.sleep_hr_lowest);
         highestHrText = rootView.findViewById(R.id.sleep_hr_highest);
         movementIntensityText = rootView.findViewById(R.id.sleep_movement_intensity);
+        movementIntensityTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_movement_intensity_wrapper);
+        dummyTile = rootView.findViewById(R.id.sleep_chart_legend_dummy_tile);
         sleepDateText = rootView.findViewById(R.id.sleep_date);
 
         mSleepchartInfo.setMaxLines(sleepLinesLimit);

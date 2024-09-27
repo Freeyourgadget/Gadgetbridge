@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
 import nodomain.freeyourgadget.gadgetbridge.util.RangeMap;
 
@@ -177,21 +178,7 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
                 final ActivityKind sleepType = stagesMap.get(ts);
                 if (sleepType != null && !sleepType.equals(ActivityKind.UNKNOWN)) {
                     sample.setRawKind(sleepType.getCode());
-
-                    switch (sleepType) {
-                        case AWAKE_SLEEP:
-                            sample.setRawIntensity(50);
-                            break;
-                        case DEEP_SLEEP:
-                            sample.setRawIntensity(20);
-                            break;
-                        case LIGHT_SLEEP:
-                            sample.setRawIntensity(30);
-                            break;
-                        case REM_SLEEP:
-                            sample.setRawIntensity(40);
-                            break;
-                    }
+                    sample.setRawIntensity(ActivitySample.NOT_MEASURED);
                 }
             }
         }

@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CmfSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class CmfActivitySampleProvider extends AbstractSampleProvider<CmfActivitySample> {
     private static final Logger LOG = LoggerFactory.getLogger(CmfActivitySampleProvider.class);
@@ -166,18 +167,7 @@ public class CmfActivitySampleProvider extends AbstractSampleProvider<CmfActivit
 
                 final ActivityKind sleepRawKind = sleepStageToActivityKind(sleepStageSample.getStage());
                 sample.setRawKind(sleepRawKind.getCode());
-
-                switch (sleepRawKind) {
-                    case DEEP_SLEEP:
-                        sample.setRawIntensity(20);
-                        break;
-                    case LIGHT_SLEEP:
-                        sample.setRawIntensity(30);
-                        break;
-                    case REM_SLEEP:
-                        sample.setRawIntensity(40);
-                        break;
-                }
+                sample.setRawIntensity(ActivitySample.NOT_MEASURED);
             }
         }
     }

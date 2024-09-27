@@ -210,7 +210,34 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             ActivitySample sample = samples.get(i);
             ActivityKind type = sample.getKind();
             int ts = tsTranslation.shorten(sample.getTimestamp());
-            float value = type != ActivityKind.NOT_WORN ? sample.getIntensity() : Y_VALUE_DEEP_SLEEP;
+            final float value;
+            if (type != ActivityKind.NOT_WORN) {
+                if (ActivityKind.isSleep(type) && sample.getIntensity() <= 0) {
+                    switch (type) {
+                        case SLEEP_ANY:
+                        case AWAKE_SLEEP:
+                            value = 0.50f;
+                            break;
+                        case DEEP_SLEEP:
+                            value = 0.20f;
+                            break;
+                        case LIGHT_SLEEP:
+                            value = 0.30f;
+                            break;
+                        case REM_SLEEP:
+                            value = 0.40f;
+                            break;
+                        default:
+                            value = Y_VALUE_DEEP_SLEEP;
+                            break;
+                    }
+                } else {
+                    value = sample.getIntensity();
+                }
+            } else {
+                value = Y_VALUE_DEEP_SLEEP;
+            }
+
             // do not interpolate NOT_WORN on any side
             boolean interpolate = !(last_type == ActivityKind.NOT_WORN || type == ActivityKind.NOT_WORN);
             float interpolation_value = interpolate ? value : last_value;

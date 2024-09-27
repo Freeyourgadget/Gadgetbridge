@@ -214,6 +214,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/sleep_chart_legend_movement_intensity_wrapper"
                 android:layout_marginBottom="2dp"
                 android:layout_marginEnd="1dp"
                 style="@style/GridTile"
@@ -233,6 +234,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/sleep_chart_legend_dummy_tile"
                 android:layout_marginBottom="2dp"
                 android:layout_marginStart="1dp"
                 style="@style/GridTile"
