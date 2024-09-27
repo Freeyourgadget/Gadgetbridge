@@ -3428,4 +3428,7 @@
     <string name="device_name_bicycle_sensor">Czujnik rowerowy</string>
     <string name="devicetype_cycling_sensor">Czujnik prędkości do roweru</string>
     <string name="title_cycling">Kolarstwo</string>
+    <string name="pref_title_sync_birthdays">Synchronizuj urodziny</string>
+    <string name="contact_birthday">Urodziny: %1s</string>
+    <string name="birthdays">Urodziny</string>
 </resources>
