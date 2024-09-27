@@ -596,7 +596,7 @@
     <string name="pref_header_cannned_messages">Похрањене поруке</string>
     <string name="pref_header_authentication">Пријава</string>
     <string name="power_mode_title">Начин распореда снаге часовника</string>
-    <string name="power_mode_normal">Обични</string>
+    <string name="power_mode_normal">Обично</string>
     <string name="pref_sensors_bp_calibration_low">Диастолни крвни притисак (низак)</string>
     <string name="pref_sensors_bp_calibration_high">Систолни крвни притисак (висок)</string>
     <string name="zetime_title_heartrate">Поставке срчаних мерења</string>
@@ -1822,4 +1822,8 @@
 \nМолим, тапните „%2$s“ ради наставка.</string>
     <string name="pref_summary_debug">Шаљи захтев за исправку грешака на уређај Хуавеј</string>
     <string name="pref_dashboard_select_devices_summary">Сједињуј дејствене податке из нарочитих уређаја укупно на уређивачкој полици</string>
+    <string name="silent_mode_normal_silent">Обично / тихо</string>
+    <string name="sony_anc_optimize_confirmation_description">Користите слушалице као што би и обично. Уколико услови ношења или притисак ваздуха одступе, покрените прилагођавање поново.</string>
+    <string name="silent_mode_normal_vibrate">Обично / трешња</string>
+    <string name="femometer_measurement_mode_normal">Обичан начин (60s-90s)</string>
 </resources>
