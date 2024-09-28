@@ -494,6 +494,26 @@ public class HuaweiSupportProvider {
         public void call() {
             initializeDeviceConfigure();
         }
+        @Override
+        public void timeout(Request request) {
+            LOG.error("Authentication timed out");
+            GB.toast(context, R.string.authentication_failed_negotiation, Toast.LENGTH_LONG, GB.ERROR);
+            // Disconnect as no communication can succeed after this point
+            final GBDevice device = getDevice();
+            if (device != null) {
+                GBApplication.deviceService(device).disconnect();
+            }
+        }
+        @Override
+        public void handleException(Request.ResponseParseException e) {
+            LOG.error("Authentication exception", e);
+            GB.toast(context, R.string.authentication_failed_negotiation, Toast.LENGTH_LONG, GB.ERROR);
+            // Disconnect as no communication can succeed after this point
+            final GBDevice device = getDevice();
+            if (device != null) {
+                GBApplication.deviceService(device).disconnect();
+            }
+        }
     };
 
     protected void initializeDeviceHiChainMode(int authType) {
