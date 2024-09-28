@@ -153,6 +153,9 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         long millis = System.currentTimeMillis();
         return String.format(Locale.ROOT, "calendar_data_%d.json", millis);
     }
+    static <T> T valueOrEmpty(T val, T def) {
+        return val != null ? val : def;
+    }
 
     private JsonObject calendarEventToJson(CalendarEvent calendarEvent) {
         JsonObject ret = new JsonObject();
@@ -175,7 +178,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         ret.addProperty("all_day", calendarEvent.isAllDay() ? 1 : 0);
         ret.addProperty("calendar_color", calendarEvent.getColor());
         ret.addProperty("calendar_displayName", truncateToHexBytes(calendarEvent.getCalName(), 64));
-        ret.addProperty("calendar_id", calendarEvent.getCalendarId());
+        ret.addProperty("calendar_id", valueOrEmpty(calendarEvent.getCalendarId(), ""));
         ret.addProperty("description", truncateToHexBytes(calendarEvent.getDescription(), 512));
         ret.addProperty("dtend", calendarEvent.getEnd());
         ret.addProperty("dtstart", calendarEvent.getBegin());
@@ -185,7 +188,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         ret.addProperty("has_alarm", (reminders.length() == 0) ? 0 : 1);
         ret.addProperty("minutes", reminders.toString());
         ret.addProperty("operation", 1); // 1 - add, 2 - delete
-        ret.addProperty("rrule", rrule);
+        ret.addProperty("rrule", valueOrEmpty(rrule,""));
         // TODO: Retrieve from CalendarContract.CalendarAlerts, field state
         // TODO: see handleData function command ID 3 for details
         ret.addProperty("state", -1);
