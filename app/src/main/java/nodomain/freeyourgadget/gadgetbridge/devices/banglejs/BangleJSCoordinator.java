@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -47,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
@@ -92,6 +94,12 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public Set<SleepAsAndroidFeature> getSleepAsAndroidFeatures() {
         return EnumSet.of(SleepAsAndroidFeature.ACCELEROMETER, SleepAsAndroidFeature.HEART_RATE, SleepAsAndroidFeature.NOTIFICATIONS, SleepAsAndroidFeature.ALARMS);
+    }
+
+    @Nullable
+    @Override
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device, final Context context) {
+        return new BangleJSWorkoutParser(context);
     }
 
     @Override

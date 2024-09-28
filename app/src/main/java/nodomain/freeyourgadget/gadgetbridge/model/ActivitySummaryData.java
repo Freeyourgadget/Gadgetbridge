@@ -34,11 +34,15 @@ public class ActivitySummaryData extends JSONObject {
         add(null, key, value, unit);
     }
 
+    public void add(final String key, final double value, final String unit) {
+        add(null, key, value, unit);
+    }
+
     public void add(final String key, final String value) {
         add(null, key, value);
     }
 
-    public void add(final String group, final String key, final float value, final String unit) {
+    public void add(final String group, final String key, final double value, final String unit) {
         if (value > 0) {
             try {
                 final JSONObject innerData = new JSONObject();
