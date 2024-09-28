@@ -238,6 +238,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
                 if (widget == null) {
                     continue;
                 }
+                widget.reloadPreferences();
                 if ("today".equals(widgetName) || "goals".equals(widgetName)) {
                     columnSpan = prefs.getBoolean("dashboard_widget_" + widgetName + "_2columns", true) ? 2 : 1;
                 }

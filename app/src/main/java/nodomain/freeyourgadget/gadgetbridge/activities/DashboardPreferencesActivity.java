@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.preferences.DashboardWidgetPreviewPreference;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class DashboardPreferencesActivity extends AbstractSettingsActivityV2 {
@@ -50,6 +52,9 @@ public class DashboardPreferencesActivity extends AbstractSettingsActivityV2 {
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.dashboard_preferences, rootKey);
+
+            final DashboardWidgetPreviewPreference previewToday = findPreference("dashboard_widget_preview_today");
+            final DashboardWidgetPreviewPreference previewGoals = findPreference("dashboard_widget_preview_goals");
 
             setInputTypeFor("dashboard_widget_today_hr_interval", InputType.TYPE_CLASS_NUMBER);
 
@@ -78,11 +83,21 @@ public class DashboardPreferencesActivity extends AbstractSettingsActivityV2 {
                     "dashboard_devices_multiselect"
             );
             Preference pref;
+            final Handler handler = new Handler(requireContext().getMainLooper());
             for (String dashboardPref : dashboardPrefs) {
                 pref = findPreference(dashboardPref);
                 if (pref != null) {
                     pref.setOnPreferenceChangeListener((preference, autoExportEnabled) -> {
                         sendDashboardConfigChangedIntent();
+                        // Delay so preferences are persisted
+                        handler.postDelayed(() -> {
+                            if (previewToday != null) {
+                                previewToday.refresh();
+                            }
+                            if (previewGoals != null) {
+                                previewGoals.refresh();
+                            }
+                        }, 500);
                         return true;
                     });
                 }

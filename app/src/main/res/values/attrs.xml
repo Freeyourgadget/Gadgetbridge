@@ -22,4 +22,8 @@
     <attr name="deviceIconOnPrimary" format="color" />
     <attr name="deviceIconLight" format="color" />
     <attr name="deviceIconDark" format="color" />
+    
+    <declare-styleable name="DashboardWidgetPreviewPreference">
+        <attr name="widgetName" format="string" />
+    </declare-styleable>
 </resources>

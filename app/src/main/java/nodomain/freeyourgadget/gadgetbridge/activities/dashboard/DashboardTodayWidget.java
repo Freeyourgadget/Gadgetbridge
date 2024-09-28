@@ -70,6 +70,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
 
     private View todayView;
     private ImageView todayChart;
+    private TextView legend;
 
     private boolean mode_24h;
 
@@ -93,17 +94,25 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     }
 
     @Override
+    public void reloadPreferences() {
+        super.reloadPreferences();
+
+        final Prefs prefs = GBApplication.getPrefs();
+
+        // Determine whether to draw a single or a double chart. In case 24h mode is selected,
+        // use just the outer chart (chart_12_24) for all data.
+        mode_24h = prefs.getBoolean("dashboard_widget_today_24h", false);
+
+        legend.setVisibility(prefs.getBoolean("dashboard_widget_today_legend", true) ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         todayView = inflater.inflate(R.layout.dashboard_widget_today, container, false);
         todayChart = todayView.findViewById(R.id.dashboard_today_chart);
 
-        // Determine whether to draw a single or a double chart. In case 24h mode is selected,
-        // use just the outer chart (chart_12_24) for all data.
-        Prefs prefs = GBApplication.getPrefs();
-        mode_24h = prefs.getBoolean("dashboard_widget_today_24h", false);
-
         // Initialize legend
-        TextView legend = todayView.findViewById(R.id.dashboard_piechart_legend);
+        legend = todayView.findViewById(R.id.dashboard_piechart_legend);
         SpannableString l_not_worn = new SpannableString("■ " + getString(R.string.abstract_chart_fragment_kind_not_worn));
         l_not_worn.setSpan(new ForegroundColorSpan(color_not_worn), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableString l_worn = new SpannableString("■ " + getString(R.string.activity_type_worn));
@@ -120,8 +129,6 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         l_rem_sleep.setSpan(new ForegroundColorSpan(color_rem_sleep), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableStringBuilder legendBuilder = new SpannableStringBuilder();
         legend.setText(legendBuilder.append(l_not_worn).append(" ").append(l_worn).append("\n").append(l_activity).append(" ").append(l_exercise).append("\n").append(l_light_sleep).append(" ").append(l_deep_sleep).append(" ").append(l_rem_sleep));
-
-        legend.setVisibility(prefs.getBoolean("dashboard_widget_today_legend", true) ? View.VISIBLE : View.GONE);
 
         if (!dashboardData.generalizedActivities.isEmpty()) {
             draw();

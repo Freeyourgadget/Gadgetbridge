@@ -49,6 +49,7 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
     private static final Logger LOG = LoggerFactory.getLogger(DashboardGoalsWidget.class);
     private View goalsView;
     private ImageView goalsChart;
+    private TextView legend;
 
     public DashboardGoalsWidget() {
         // Required empty public constructor
@@ -75,7 +76,7 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
         goalsChart = goalsView.findViewById(R.id.dashboard_goals_chart);
 
         // Initialize legend
-        TextView legend = goalsView.findViewById(R.id.dashboard_goals_legend);
+        legend = goalsView.findViewById(R.id.dashboard_goals_legend);
         SpannableString l_steps = new SpannableString("■ " + getString(R.string.steps));
         l_steps.setSpan(new ForegroundColorSpan(color_activity), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         SpannableString l_distance = new SpannableString("■ " + getString(R.string.distance));
@@ -87,9 +88,6 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
         SpannableStringBuilder legendBuilder = new SpannableStringBuilder();
         legend.setText(legendBuilder.append(l_steps).append(" ").append(l_distance).append("\n").append(l_active_time).append(" ").append(l_sleep));
 
-        Prefs prefs = GBApplication.getPrefs();
-        legend.setVisibility(prefs.getBoolean("dashboard_widget_goals_legend", true) ? View.VISIBLE : View.GONE);
-
         return goalsView;
     }
 
@@ -97,6 +95,14 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
     public void onResume() {
         super.onResume();
         if (goalsChart != null) fillData();
+    }
+
+    @Override
+    public void reloadPreferences() {
+        super.reloadPreferences();
+
+        final Prefs prefs = GBApplication.getPrefs();
+        legend.setVisibility(prefs.getBoolean("dashboard_widget_goals_legend", true) ? View.VISIBLE : View.GONE);
     }
 
     @Override

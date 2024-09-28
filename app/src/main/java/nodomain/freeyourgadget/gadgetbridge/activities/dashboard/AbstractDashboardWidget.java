@@ -28,9 +28,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -43,8 +40,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class AbstractDashboardWidget extends Fragment {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractDashboardWidget.class);
-
     protected static String ARG_DASHBOARD_DATA = "dashboard_widget_argument_data";
 
     protected DashboardData dashboardData;
@@ -70,7 +65,12 @@ public abstract class AbstractDashboardWidget extends Fragment {
     }
 
     public void update() {
+        reloadPreferences();
         fillData();
+    }
+
+    public void reloadPreferences() {
+
     }
 
     protected abstract void fillData();

@@ -2916,6 +2916,7 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="preview_image">Preview image</string>
+    <string name="preview">Preview</string>
     <string name="status_icon">Status icon</string>
     <string name="changelog_full_title">Changelog</string>
     <string name="changelog_show_full">More…</string>
