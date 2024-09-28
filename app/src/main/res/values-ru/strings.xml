@@ -3202,4 +3202,6 @@
     <string name="activity_type_beach_soccer">Пляжный футбол</string>
     <string name="activity_prefs_date_birth">Дата рождения</string>
     <string name="activity_type_luge">Санный спорт</string>
+    <string name="pref_title_sync_birthdays">Синхронизация дней рождения</string>
+    <string name="pref_summary_sync_birthdays">Синхронизировать дни рождения контактов вместе с событиями календаря</string>
 </resources>
