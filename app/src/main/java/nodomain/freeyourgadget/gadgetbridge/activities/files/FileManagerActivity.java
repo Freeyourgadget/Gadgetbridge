@@ -119,6 +119,7 @@ public class FileManagerActivity extends AbstractGBActivity implements MenuProvi
             searchView.requestFocus();
             searchView.setIconified(true);
             searchView.setIconified(false);
+            return true;
         }
         return false;
     }

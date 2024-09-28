@@ -47,6 +47,9 @@ import android.os.Parcelable;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -64,6 +67,7 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -100,7 +104,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterView.OnItemClickListener,
         AdapterView.OnItemLongClickListener,
         BondingInterface,
-        GBScanEventProcessor.Callback {
+        GBScanEventProcessor.Callback,
+        MenuProvider {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivityV2.class);
 
     private final Handler handler = new Handler();
@@ -112,7 +117,6 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
     private final ScanCallback bleScanCallback = new BleScanCallback();
 
     private ProgressBar bluetoothProgress;
-    private ProgressBar bluetoothLEProgress;
 
     private DeviceCandidateAdapter deviceCandidateAdapter;
     private GBDeviceCandidate deviceTarget;
@@ -160,24 +164,15 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
         setContentView(R.layout.activity_discovery);
 
+        addMenuProvider(this);
+
         startButton = findViewById(R.id.discovery_start);
         startButton.setOnClickListener(v -> toggleDiscovery());
-
-        final Button settingsButton = findViewById(R.id.discovery_preferences);
-        settingsButton.setOnClickListener(v -> {
-            final Intent enableIntent = new Intent(DiscoveryActivityV2.this, DiscoveryPairingPreferenceActivity.class);
-            startActivity(enableIntent);
-        });
 
         bluetoothProgress = findViewById(R.id.discovery_progressbar);
         bluetoothProgress.setProgress(0);
         bluetoothProgress.setIndeterminate(true);
         bluetoothProgress.setVisibility(View.GONE);
-
-        bluetoothLEProgress = findViewById(R.id.discovery_ble_progressbar);
-        bluetoothLEProgress.setProgress(0);
-        bluetoothLEProgress.setIndeterminate(true);
-        bluetoothLEProgress.setVisibility(View.GONE);
 
         deviceCandidateAdapter = new DeviceCandidateAdapter(this, deviceCandidates);
 
@@ -315,6 +310,8 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
                 startBTLEDiscovery();
             }
             startBTDiscovery();
+
+            bluetoothProgress.setVisibility(View.VISIBLE);
         } catch (final SecurityException e) {
             LOG.error("SecurityException on startDiscovery");
             deviceFoundProcessor.stop();
@@ -349,7 +346,6 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
         } else {
             startButton.setText(getString(R.string.discovery_start_scanning));
             bluetoothProgress.setVisibility(View.GONE);
-            bluetoothLEProgress.setVisibility(View.GONE);
         }
     }
 
@@ -366,7 +362,6 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
         adapter.getBluetoothLeScanner().startScan(null, getScanSettings(), bleScanCallback);
 
         LOG.debug("Bluetooth LE discovery started successfully");
-        bluetoothLEProgress.setVisibility(View.VISIBLE);
     }
 
     @RequiresPermission("android.permission.BLUETOOTH_SCAN")
@@ -413,7 +408,6 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
         if (adapter.startDiscovery()) {
             LOG.debug("Discovery started successfully");
-            bluetoothProgress.setVisibility(View.VISIBLE);
         } else {
             LOG.error("Discovery starting failed");
         }
@@ -434,7 +428,6 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
             this.adapter = null;
             startButton.setEnabled(false);
             bluetoothProgress.setVisibility(View.GONE);
-            bluetoothLEProgress.setVisibility(View.GONE);
         }
     }
 
@@ -834,6 +827,22 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
     @Override
     public void onDeviceChanged() {
         refreshDeviceList(true);
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull final Menu menu, @NonNull final MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_discovery, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull final MenuItem menuItem) {
+        final int itemId = menuItem.getItemId();
+        if (itemId == R.id.prefs_discovery_pairing) {
+            final Intent intent = new Intent(DiscoveryActivityV2.this, DiscoveryPairingPreferenceActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return false;
     }
 
     private final class BluetoothReceiver extends BroadcastReceiver {
