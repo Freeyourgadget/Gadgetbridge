@@ -3463,4 +3463,9 @@
     <string name="vo2max_cycling">VO₂ máx. en ciclismo</string>
     <string name="thirty_days_timeline">Cronograma de 30 días</string>
     <string name="devicetype_huawei_watchgt5">Huawei Watch GT 5 (Pro)</string>
+    <string name="pref_summary_sync_birthdays">Sincroniza los cumpleaños de los contactos con los eventos del calendario</string>
+    <string name="pref_title_sync_birthdays">Sincronizar los cumpleaños</string>
+    <string name="devicetype_sony_wf_c700n">Sony WF-C700N</string>
+    <string name="contact_birthday">El cumpleaños de %1s</string>
+    <string name="birthdays">Cumpleaños</string>
 </resources>
