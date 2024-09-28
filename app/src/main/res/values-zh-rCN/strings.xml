@@ -3459,4 +3459,8 @@
     <string name="devicetype_miband9">小米智能手环 9</string>
     <string name="devicetype_redmi_watch_5_active">红米手表 5 Active</string>
     <string name="devicetype_huawei_watchgt5">华为 Watch GT 5 (Pro)</string>
+    <string name="pref_title_sync_birthdays">同步生日</string>
+    <string name="birthdays">生日</string>
+    <string name="pref_summary_sync_birthdays">将联系人生日与日历事件同步</string>
+    <string name="contact_birthday">%1s 的生日</string>
 </resources>
