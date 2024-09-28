@@ -48,7 +48,7 @@ public class CalendarEventTest extends TestBase {
         GBDevice dummyGBDevice = createDummyGDevice("00:00:01:00:03");
         dummyGBDevice.setState(GBDevice.State.INITIALIZED);
 //        Device device = DBHelper.getDevice(dummyGBDevice, daoSession);
-        CalendarReceiver testCR = new CalendarReceiver(dummyGBDevice);
+        CalendarReceiver testCR = new CalendarReceiver(getContext(), dummyGBDevice);
 
         testCR.syncCalendar(eventList);
 

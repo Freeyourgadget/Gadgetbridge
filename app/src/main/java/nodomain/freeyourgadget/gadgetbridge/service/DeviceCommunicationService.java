@@ -1312,21 +1312,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             for (GBDevice deviceWithCalendar : devicesWithCalendar) {
                 if (!deviceHasCalendarReceiverRegistered(deviceWithCalendar)) {
                     if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
-                        IntentFilter calendarIntentFilter = new IntentFilter();
-                        calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
-                        calendarIntentFilter.addDataScheme("content");
-                        calendarIntentFilter.addDataAuthority("com.android.calendar", null);
-                        CalendarReceiver receiver = new CalendarReceiver(deviceWithCalendar);
-                        ContextCompat.registerReceiver(this, receiver, calendarIntentFilter, ContextCompat.RECEIVER_EXPORTED);
+                        CalendarReceiver receiver = new CalendarReceiver(this, deviceWithCalendar);
                         mCalendarReceiver.add(receiver);
-                        // Add a receiver to allow us to quickly force as calendar sync (without having to provide data)
-                        ContextCompat.registerReceiver(this, receiver, new IntentFilter("FORCE_CALENDAR_SYNC"), ContextCompat.RECEIVER_EXPORTED);
                     }
                 }
             }
         } else {
-            for (CalendarReceiver registeredReceiver: mCalendarReceiver){
-                unregisterReceiver(registeredReceiver);
+            for (CalendarReceiver registeredReceiver: mCalendarReceiver) {
+                registeredReceiver.dispose();
             }
             mCalendarReceiver.clear();
         }
