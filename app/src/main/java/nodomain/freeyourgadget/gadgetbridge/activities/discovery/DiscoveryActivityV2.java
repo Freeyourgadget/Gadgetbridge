@@ -65,6 +65,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
+import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuProvider;
@@ -516,6 +517,13 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
         return message;
     }
 
+    private void showWarnDialog(@StringRes final int message) {
+        new MaterialAlertDialogBuilder(getContext())
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, (dialog, whichButton) -> {})
+                .show();
+    }
+
     private void checkAndRequestLocationPermission() {
         /* This is more or less a copy of what's in ControlCenterv2, but
         we do this in case the permissions weren't requested since there
@@ -619,10 +627,10 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
 
             final String authKey = sharedPrefs.getString("authkey", null);
             if (authKey == null || authKey.isEmpty()) {
-                toast(DiscoveryActivityV2.this, getString(R.string.discovery_need_to_enter_authkey), Toast.LENGTH_LONG, GB.WARN);
+                showWarnDialog(R.string.discovery_need_to_enter_authkey);
                 return;
             } else if (!coordinator.validateAuthKey(authKey)) {
-                toast(DiscoveryActivityV2.this, getString(R.string.discovery_entered_invalid_authkey), Toast.LENGTH_LONG, GB.WARN);
+                showWarnDialog(R.string.discovery_entered_invalid_authkey);
                 return;
             }
         }
