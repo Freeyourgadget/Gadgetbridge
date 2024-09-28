@@ -55,22 +55,9 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.AbstractDashboardWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardActiveTimeWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardBodyEnergyWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardCalendarActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardDistanceWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardGoalsWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardHrvWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardSleepWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStepsWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStressBreakdownWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStressSegmentedWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardStressSimpleWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardTodayWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxCyclingWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxAnyWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxRunningWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.widgets.DashboardWidgetFactory;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -247,57 +234,15 @@ public class DashboardFragment extends Fragment implements MenuProvider {
             AbstractDashboardWidget widget = widgetMap.get(widgetName);
             if (widget == null) {
                 int columnSpan = 1;
-                switch (widgetName) {
-                    case "today":
-                        widget = DashboardTodayWidget.newInstance(dashboardData);
-                        columnSpan = prefs.getBoolean("dashboard_widget_today_2columns", true) ? 2 : 1;
-                        break;
-                    case "goals":
-                        widget = DashboardGoalsWidget.newInstance(dashboardData);
-                        columnSpan = prefs.getBoolean("dashboard_widget_goals_2columns", true) ? 2 : 1;
-                        break;
-                    case "steps":
-                        widget = DashboardStepsWidget.newInstance(dashboardData);
-                        break;
-                    case "distance":
-                        widget = DashboardDistanceWidget.newInstance(dashboardData);
-                        break;
-                    case "activetime":
-                        widget = DashboardActiveTimeWidget.newInstance(dashboardData);
-                        break;
-                    case "sleep":
-                        widget = DashboardSleepWidget.newInstance(dashboardData);
-                        break;
-                    case "stress_simple":
-                        widget = DashboardStressSimpleWidget.newInstance(dashboardData);
-                        break;
-                    case "stress_segmented":
-                        widget = DashboardStressSegmentedWidget.newInstance(dashboardData);
-                        break;
-                    case "stress_breakdown":
-                        widget = DashboardStressBreakdownWidget.newInstance(dashboardData);
-                        break;
-                    case "bodyenergy":
-                        widget = DashboardBodyEnergyWidget.newInstance(dashboardData);
-                        break;
-                    case "hrv":
-                        widget = DashboardHrvWidget.newInstance(dashboardData);
-                        break;
-                    case "vo2max_running":
-                        widget = DashboardVO2MaxRunningWidget.newInstance(dashboardData);
-                        break;
-                    case "vo2max_cycling":
-                        widget = DashboardVO2MaxCyclingWidget.newInstance(dashboardData);
-                        break;
-                    case "vo2max":
-                        widget = DashboardVO2MaxAnyWidget.newInstance(dashboardData);
-                        break;
-                    default:
-                        LOG.error("Unknown dashboard widget {}", widgetName);
-                        continue;
+                widget = DashboardWidgetFactory.createWidget(widgetName, dashboardData);
+                if (widget == null) {
+                    continue;
+                }
+                if ("today".equals(widgetName) || "goals".equals(widgetName)) {
+                    columnSpan = prefs.getBoolean("dashboard_widget_" + widgetName + "_2columns", true) ? 2 : 1;
                 }
 
-                createWidget(widget, cardsEnabled, columnSpan);
+                wrapWidgetFragment(widget, cardsEnabled, columnSpan);
 
                 widgetMap.put(widgetName, widget);
             } else {
@@ -306,7 +251,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         }
     }
 
-    private void createWidget(AbstractDashboardWidget widgetObj, boolean cardsEnabled, int columnSpan) {
+    private void wrapWidgetFragment(AbstractDashboardWidget widgetObj, boolean cardsEnabled, int columnSpan) {
         final float scale = requireContext().getResources().getDisplayMetrics().density;
         FragmentContainerView fragment = new FragmentContainerView(requireActivity());
         int fragmentId = View.generateViewId();
