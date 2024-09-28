@@ -11,7 +11,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.Vo2MaxSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -25,7 +25,7 @@ public abstract class AbstractDashboardVO2MaxWidget extends AbstractGaugeWidget 
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         final List<GBDevice> devices = getSupportedDevices(dashboardData);
         final VO2MaxData data = new VO2MaxData();
 
@@ -82,7 +82,7 @@ public abstract class AbstractDashboardVO2MaxWidget extends AbstractGaugeWidget 
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final VO2MaxData vo2MaxData = (VO2MaxData) dashboardData.get(getWidgetKey());
         if (vo2MaxData == null) {
             drawSimpleGauge(0, -1);

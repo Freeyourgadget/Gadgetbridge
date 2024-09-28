@@ -20,8 +20,8 @@ import android.os.Bundle;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.StressChartFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardStressData;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
@@ -30,7 +30,7 @@ public class DashboardStressSimpleWidget extends AbstractGaugeWidget {
         super(R.string.menuitem_stress, "stress");
     }
 
-    public static DashboardStressSimpleWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardStressSimpleWidget newInstance(final DashboardData dashboardData) {
         final DashboardStressSimpleWidget fragment = new DashboardStressSimpleWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -44,12 +44,12 @@ public class DashboardStressSimpleWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         dashboardData.computeIfAbsent("stress", () -> DashboardStressData.compute(dashboardData));
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final DashboardStressData stressData = (DashboardStressData) dashboardData.get("stress");
         if (stressData == null) {
             drawSimpleGauge(0, -1);

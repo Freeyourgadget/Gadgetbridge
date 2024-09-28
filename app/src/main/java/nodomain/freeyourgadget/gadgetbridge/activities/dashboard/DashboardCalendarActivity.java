@@ -54,7 +54,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.util.DashboardUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -228,7 +228,7 @@ public class DashboardCalendarActivity extends AbstractGBActivity {
         protected Void doInBackground(Void... params) {
             for (Calendar day : dayCells.keySet()) {
                 // Determine day color by the amount of the steps goal reached
-                DashboardFragment.DashboardData dashboardData = new DashboardFragment.DashboardData();
+                DashboardData dashboardData = new DashboardData();
                 dashboardData.showAllDevices = showAllDevices;
                 dashboardData.showDeviceList = showDeviceList;
                 dashboardData.timeTo = (int) (day.getTimeInMillis() / 1000);

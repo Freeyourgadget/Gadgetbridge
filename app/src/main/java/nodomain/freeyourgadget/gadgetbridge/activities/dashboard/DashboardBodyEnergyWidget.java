@@ -33,7 +33,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
@@ -45,7 +45,7 @@ public class DashboardBodyEnergyWidget extends AbstractGaugeWidget {
         super(R.string.body_energy, "bodyenergy");
     }
 
-    public static DashboardBodyEnergyWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardBodyEnergyWidget newInstance(final DashboardData dashboardData) {
         final DashboardBodyEnergyWidget fragment = new DashboardBodyEnergyWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -59,7 +59,7 @@ public class DashboardBodyEnergyWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         final List<GBDevice> devices = getSupportedDevices(dashboardData);
 
         final boolean isToday = DateUtils.isToday(dashboardData.timeTo * 1000L);
@@ -124,7 +124,7 @@ public class DashboardBodyEnergyWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final BodyEnergyData bodyEnergyData = (BodyEnergyData) dashboardData.get("bodyenergy");
         if (bodyEnergyData == null) {
             drawSimpleGauge(0, -1);

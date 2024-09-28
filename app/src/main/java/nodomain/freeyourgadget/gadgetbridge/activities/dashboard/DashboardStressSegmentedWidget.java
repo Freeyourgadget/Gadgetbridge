@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardStressData;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
@@ -31,7 +31,7 @@ public class DashboardStressSegmentedWidget extends AbstractGaugeWidget {
         super(R.string.menuitem_stress, "stress");
     }
 
-    public static DashboardStressSegmentedWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardStressSegmentedWidget newInstance(final DashboardData dashboardData) {
         final DashboardStressSegmentedWidget fragment = new DashboardStressSegmentedWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -45,12 +45,12 @@ public class DashboardStressSegmentedWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         dashboardData.computeIfAbsent("stress", () -> DashboardStressData.compute(dashboardData));
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final int[] colors = new int[]{
                 ContextCompat.getColor(GBApplication.getContext(), R.color.chart_stress_relaxed),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.chart_stress_mild),

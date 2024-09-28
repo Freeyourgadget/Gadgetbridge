@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.StressChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -36,7 +35,7 @@ public class DashboardStressData implements Serializable {
     public int[] ranges;
     public int[] totalTime;
 
-    public static DashboardStressData compute(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardStressData compute(final DashboardData dashboardData) {
         final List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
 
         GBDevice stressDevice = null;

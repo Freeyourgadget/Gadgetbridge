@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 
 public abstract class AbstractGaugeWidget extends AbstractDashboardWidget {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractGaugeWidget.class);
@@ -84,19 +84,19 @@ public abstract class AbstractGaugeWidget extends AbstractDashboardWidget {
 
     /**
      * This is called from the async task, outside of the UI thread. It's expected that
-     * {@link nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment.DashboardData} be
+     * {@link DashboardData} be
      * populated with the necessary data for display.
      *
      * @param dashboardData the DashboardData to populate
      */
-    protected abstract void populateData(DashboardFragment.DashboardData dashboardData);
+    protected abstract void populateData(DashboardData dashboardData);
 
     /**
      * This is called from the UI thread.
      *
      * @param dashboardData populated DashboardData
      */
-    protected abstract void draw(DashboardFragment.DashboardData dashboardData);
+    protected abstract void draw(DashboardData dashboardData);
 
     private class FillDataAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override

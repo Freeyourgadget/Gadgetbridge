@@ -28,7 +28,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
@@ -40,7 +40,7 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
         super(R.string.hrv, "hrvstatus");
     }
 
-    public static DashboardHrvWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardHrvWidget newInstance(final DashboardData dashboardData) {
         final DashboardHrvWidget fragment = new DashboardHrvWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -54,7 +54,7 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         final List<GBDevice> devices = getSupportedDevices(dashboardData);
 
         HrvSummarySample latestSummary = null;
@@ -88,7 +88,7 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final int[] colors = getColors();
         final float[] segments = getSegments();
         final HrvData hrvData = (HrvData) dashboardData.get("hrv");

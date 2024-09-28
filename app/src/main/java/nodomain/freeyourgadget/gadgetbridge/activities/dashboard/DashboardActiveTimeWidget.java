@@ -21,7 +21,7 @@ import android.os.Bundle;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 
 /**
  * A simple {@link AbstractDashboardWidget} subclass.
@@ -40,7 +40,7 @@ public class DashboardActiveTimeWidget extends AbstractGaugeWidget {
      * @param dashboardData An instance of DashboardFragment.DashboardData.
      * @return A new instance of fragment DashboardActiveTimeWidget.
      */
-    public static DashboardActiveTimeWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardActiveTimeWidget newInstance(final DashboardData dashboardData) {
         final DashboardActiveTimeWidget fragment = new DashboardActiveTimeWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -49,13 +49,13 @@ public class DashboardActiveTimeWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         dashboardData.getActiveMinutesTotal();
         dashboardData.getActiveMinutesGoalFactor();
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final long totalActiveMinutes = dashboardData.getActiveMinutesTotal();
         final String valueText = String.format(
                 Locale.ROOT,

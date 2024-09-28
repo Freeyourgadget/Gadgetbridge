@@ -47,18 +47,10 @@ import com.google.android.material.card.MaterialCardView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -78,9 +70,8 @@ import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardTodayW
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxCyclingWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxAnyWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardVO2MaxRunningWidget;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.util.DashboardUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -164,7 +155,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         if (savedInstanceState != null && savedInstanceState.containsKey("dashboard_data") && dashboardData.isEmpty()) {
             dashboardData = (DashboardData) savedInstanceState.getSerializable("dashboard_data");
         } else if (dashboardData.isEmpty()) {
-            reloadPreferences();
+            dashboardData.reloadPreferences(day);
         }
 
         IntentFilter filterLocal = new IntentFilter();
@@ -231,17 +222,8 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         day.set(Calendar.MINUTE, 59);
         day.set(Calendar.SECOND, 59);
         dashboardData.clear();
-        reloadPreferences();
+        dashboardData.reloadPreferences(day);
         draw();
-    }
-
-    private void reloadPreferences() {
-        Prefs prefs = GBApplication.getPrefs();
-        dashboardData.showAllDevices = prefs.getBoolean("dashboard_devices_all", true);
-        dashboardData.showDeviceList = prefs.getStringSet("dashboard_devices_multiselect", new HashSet<>());
-        dashboardData.hrIntervalSecs = prefs.getInt("dashboard_widget_today_hr_interval", 1) * 60;
-        dashboardData.timeTo = (int) (day.getTimeInMillis() / 1000);
-        dashboardData.timeFrom = DateTimeUtils.shiftDays(dashboardData.timeTo, -1);
     }
 
     private void draw() {
@@ -354,137 +336,6 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         } else {
             fragment.setLayoutParams(layoutParams);
             gridLayout.addView(fragment);
-        }
-    }
-
-    /**
-     * This class serves as a data collection object for all data points used by the various
-     * dashboard widgets. Since retrieving this data can be costly, this class makes sure it will
-     * only be done once. It will be passed to every widget, making sure they have the necessary
-     * data available.
-     */
-    public static class DashboardData implements Serializable {
-        public boolean showAllDevices;
-        public Set<String> showDeviceList;
-        public int hrIntervalSecs;
-        public int timeFrom;
-        public int timeTo;
-        public final List<GeneralizedActivity> generalizedActivities = Collections.synchronizedList(new ArrayList<>());
-        private int stepsTotal;
-        private float stepsGoalFactor;
-        private long sleepTotalMinutes;
-        private float sleepGoalFactor;
-        private float distanceTotalMeters;
-        private float distanceGoalFactor;
-        private long activeMinutesTotal;
-        private float activeMinutesGoalFactor;
-        private final Map<String, Serializable> genericData = new ConcurrentHashMap<>();
-
-        public void clear() {
-            stepsTotal = 0;
-            stepsGoalFactor = 0;
-            sleepTotalMinutes = 0;
-            sleepGoalFactor = 0;
-            distanceTotalMeters = 0;
-            distanceGoalFactor = 0;
-            activeMinutesTotal = 0;
-            activeMinutesGoalFactor = 0;
-            generalizedActivities.clear();
-            genericData.clear();
-        }
-
-        public boolean isEmpty() {
-            return (stepsTotal == 0 &&
-                    stepsGoalFactor == 0 &&
-                    sleepTotalMinutes == 0 &&
-                    sleepGoalFactor == 0 &&
-                    distanceTotalMeters == 0 &&
-                    distanceGoalFactor == 0 &&
-                    activeMinutesTotal == 0 &&
-                    activeMinutesGoalFactor == 0 &&
-                    genericData.isEmpty() &&
-                    generalizedActivities.isEmpty());
-        }
-
-        public synchronized int getStepsTotal() {
-            if (stepsTotal == 0)
-                stepsTotal = DashboardUtils.getStepsTotal(this);
-            return stepsTotal;
-        }
-
-        public synchronized float getStepsGoalFactor() {
-            if (stepsGoalFactor == 0)
-                stepsGoalFactor = DashboardUtils.getStepsGoalFactor(this);
-            return stepsGoalFactor;
-        }
-
-        public synchronized float getDistanceTotal() {
-            if (distanceTotalMeters == 0)
-                distanceTotalMeters = DashboardUtils.getDistanceTotal(this);
-            return distanceTotalMeters;
-        }
-
-        public synchronized float getDistanceGoalFactor() {
-            if (distanceGoalFactor == 0)
-                distanceGoalFactor = DashboardUtils.getDistanceGoalFactor(this);
-            return distanceGoalFactor;
-        }
-
-        public synchronized long getActiveMinutesTotal() {
-            if (activeMinutesTotal == 0)
-                activeMinutesTotal = DashboardUtils.getActiveMinutesTotal(this);
-            return activeMinutesTotal;
-        }
-
-        public synchronized float getActiveMinutesGoalFactor() {
-            if (activeMinutesGoalFactor == 0)
-                activeMinutesGoalFactor = DashboardUtils.getActiveMinutesGoalFactor(this);
-            return activeMinutesGoalFactor;
-        }
-
-        public synchronized long getSleepMinutesTotal() {
-            if (sleepTotalMinutes == 0)
-                sleepTotalMinutes = DashboardUtils.getSleepMinutesTotal(this);
-            return sleepTotalMinutes;
-        }
-
-        public synchronized float getSleepMinutesGoalFactor() {
-            if (sleepGoalFactor == 0)
-                sleepGoalFactor = DashboardUtils.getSleepMinutesGoalFactor(this);
-            return sleepGoalFactor;
-        }
-
-        public void put(final String key, final Serializable value) {
-            genericData.put(key, value);
-        }
-
-        public Serializable get(final String key) {
-            return genericData.get(key);
-        }
-
-        /**
-         * @noinspection UnusedReturnValue
-         */
-        public Serializable computeIfAbsent(final String key, final Supplier<Serializable> supplier) {
-            return genericData.computeIfAbsent(key, absent -> supplier.get());
-        }
-
-        public static class GeneralizedActivity implements Serializable {
-            public ActivityKind activityKind;
-            public long timeFrom;
-            public long timeTo;
-
-            public GeneralizedActivity(ActivityKind activityKind, long timeFrom, long timeTo) {
-                this.activityKind = activityKind;
-                this.timeFrom = timeFrom;
-                this.timeTo = timeTo;
-            }
-
-            @NonNull
-            @Override
-            public String toString() {
-                return "Generalized activity: timeFrom=" + timeFrom + ", timeTo=" + timeTo + ", activityKind=" + activityKind + ", calculated duration: " + (timeTo - timeFrom) + " seconds";
-            }
         }
     }
 }

@@ -21,7 +21,7 @@ import android.os.Bundle;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 /**
@@ -41,7 +41,7 @@ public class DashboardSleepWidget extends AbstractGaugeWidget {
      * @param dashboardData An instance of DashboardFragment.DashboardData.
      * @return A new instance of fragment DashboardSleepWidget.
      */
-    public static DashboardSleepWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardSleepWidget newInstance(final DashboardData dashboardData) {
         final DashboardSleepWidget fragment = new DashboardSleepWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -55,13 +55,13 @@ public class DashboardSleepWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         dashboardData.getSleepMinutesTotal();
         dashboardData.getSleepMinutesGoalFactor();
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         final long totalSleepMinutes = dashboardData.getSleepMinutesTotal();
         final String valueText = String.format(
                 Locale.ROOT,

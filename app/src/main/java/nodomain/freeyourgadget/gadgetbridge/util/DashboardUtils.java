@@ -25,8 +25,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.StepAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -49,7 +49,7 @@ public class DashboardUtils {
         return ds.getDailyTotalsForDevice(device, day, db)[0];
     }
 
-    public static int getStepsTotal(DashboardFragment.DashboardData dashboardData) {
+    public static int getStepsTotal(DashboardData dashboardData) {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         int totalSteps = 0;
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -64,7 +64,7 @@ public class DashboardUtils {
         return totalSteps;
     }
 
-    public static float getStepsGoalFactor(DashboardFragment.DashboardData dashboardData) {
+    public static float getStepsGoalFactor(DashboardData dashboardData) {
         ActivityUser activityUser = new ActivityUser();
         float stepsGoal = activityUser.getStepsGoal();
         float goalFactor = getStepsTotal(dashboardData) / stepsGoal;
@@ -80,7 +80,7 @@ public class DashboardUtils {
         return ds.getDailyTotalsForDevice(device, day, db)[1];
     }
 
-    public static long getSleepMinutesTotal(DashboardFragment.DashboardData dashboardData) {
+    public static long getSleepMinutesTotal(DashboardData dashboardData) {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         long totalSleepMinutes = 0;
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -95,7 +95,7 @@ public class DashboardUtils {
         return totalSleepMinutes;
     }
 
-    public static float getSleepMinutesGoalFactor(DashboardFragment.DashboardData dashboardData) {
+    public static float getSleepMinutesGoalFactor(DashboardData dashboardData) {
         ActivityUser activityUser = new ActivityUser();
         int sleepMinutesGoal = activityUser.getSleepDurationGoal() * 60;
         float goalFactor = (float) getSleepMinutesTotal(dashboardData) / sleepMinutesGoal;
@@ -104,7 +104,7 @@ public class DashboardUtils {
         return goalFactor;
     }
 
-    public static float getDistanceTotal(DashboardFragment.DashboardData dashboardData) {
+    public static float getDistanceTotal(DashboardData dashboardData) {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         long totalSteps = 0;
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -121,7 +121,7 @@ public class DashboardUtils {
         return totalSteps * stepLength * 0.01f;
     }
 
-    public static float getDistanceGoalFactor(DashboardFragment.DashboardData dashboardData) {
+    public static float getDistanceGoalFactor(DashboardData dashboardData) {
         ActivityUser activityUser = new ActivityUser();
         int distanceGoal = activityUser.getDistanceGoalMeters();
         float goalFactor = getDistanceTotal(dashboardData) / distanceGoal;
@@ -130,7 +130,7 @@ public class DashboardUtils {
         return goalFactor;
     }
 
-    public static long getActiveMinutesTotal(DashboardFragment.DashboardData dashboardData) {
+    public static long getActiveMinutesTotal(DashboardData dashboardData) {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         long totalActiveMinutes = 0;
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -145,7 +145,7 @@ public class DashboardUtils {
         return totalActiveMinutes;
     }
 
-    public static float getActiveMinutesGoalFactor(DashboardFragment.DashboardData dashboardData) {
+    public static float getActiveMinutesGoalFactor(DashboardData dashboardData) {
         ActivityUser activityUser = new ActivityUser();
         int activeTimeGoal = activityUser.getActiveTimeGoalMinutes();
         float goalFactor = (float) getActiveMinutesTotal(dashboardData) / activeTimeGoal;
@@ -154,7 +154,7 @@ public class DashboardUtils {
         return goalFactor;
     }
 
-    public static long getActiveMinutes(GBDevice gbDevice, DBHandler db, DashboardFragment.DashboardData dashboardData) {
+    public static long getActiveMinutes(GBDevice gbDevice, DBHandler db, DashboardData dashboardData) {
         ActivitySession stepSessionsSummary = new ActivitySession();
         List<ActivitySession> stepSessions;
         List<? extends ActivitySample> activitySamples = getAllSamples(db, gbDevice, dashboardData);
@@ -172,7 +172,7 @@ public class DashboardUtils {
         return duration / 1000 / 60;
     }
 
-    public static List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, DashboardFragment.DashboardData dashboardData) {
+    public static List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, DashboardData dashboardData) {
         SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
         return provider.getAllActivitySamples(dashboardData.timeFrom, dashboardData.timeTo);
     }
@@ -182,7 +182,7 @@ public class DashboardUtils {
         return coordinator.getSampleProvider(device, db.getDaoSession());
     }
 
-    public static List<BaseActivitySummary> getWorkoutSamples(DBHandler db, DashboardFragment.DashboardData dashboardData) {
+    public static List<BaseActivitySummary> getWorkoutSamples(DBHandler db, DashboardData dashboardData) {
         return db.getDaoSession().getBaseActivitySummaryDao().queryBuilder().where(
                 BaseActivitySummaryDao.Properties.StartTime.gt(new Date(dashboardData.timeFrom * 1000L)),
                 BaseActivitySummaryDao.Properties.EndTime.lt(new Date(dashboardData.timeTo * 1000L))

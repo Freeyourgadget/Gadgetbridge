@@ -19,7 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 import android.os.Bundle;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 
 /**
@@ -39,7 +39,7 @@ public class DashboardDistanceWidget extends AbstractGaugeWidget {
      * @param dashboardData An instance of DashboardFragment.DashboardData.
      * @return A new instance of fragment DashboardDistanceWidget.
      */
-    public static DashboardDistanceWidget newInstance(final DashboardFragment.DashboardData dashboardData) {
+    public static DashboardDistanceWidget newInstance(final DashboardData dashboardData) {
         final DashboardDistanceWidget fragment = new DashboardDistanceWidget();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -48,13 +48,13 @@ public class DashboardDistanceWidget extends AbstractGaugeWidget {
     }
 
     @Override
-    protected void populateData(final DashboardFragment.DashboardData dashboardData) {
+    protected void populateData(final DashboardData dashboardData) {
         dashboardData.getDistanceTotal();
         dashboardData.getDistanceGoalFactor();
     }
 
     @Override
-    protected void draw(final DashboardFragment.DashboardData dashboardData) {
+    protected void draw(final DashboardData dashboardData) {
         setText(FormatUtils.getFormattedDistanceLabel(dashboardData.getDistanceTotal()));
         drawSimpleGauge(
                 color_distance,

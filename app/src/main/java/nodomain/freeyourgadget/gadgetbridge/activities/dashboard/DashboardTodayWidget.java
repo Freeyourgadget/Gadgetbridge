@@ -48,9 +48,9 @@ import java.util.TreeMap;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.StepAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -84,7 +84,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
      * @param dashboardData An instance of DashboardFragment.DashboardData.
      * @return A new instance of fragment DashboardTodayWidget.
      */
-    public static DashboardTodayWidget newInstance(DashboardFragment.DashboardData dashboardData) {
+    public static DashboardTodayWidget newInstance(DashboardData dashboardData) {
         DashboardTodayWidget fragment = new DashboardTodayWidget();
         Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);
@@ -233,7 +233,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
         int startAngle = mode_24h && upsideDown24h ? 90 : 270;
         synchronized (dashboardData.generalizedActivities) {
-            for (DashboardFragment.DashboardData.GeneralizedActivity activity : dashboardData.generalizedActivities) {
+            for (DashboardData.GeneralizedActivity activity : dashboardData.generalizedActivities) {
                 // Determine margin depending on 24h/12h mode
                 float margin = (mode_24h || activity.timeFrom >= midDaySecond) ? outerCircleMargin : innerCircleMargin;
                 // Draw inactive slices
@@ -426,13 +426,13 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
         }
 
         private void createGeneralizedActivities() {
-            DashboardFragment.DashboardData.GeneralizedActivity previous = null;
+            DashboardData.GeneralizedActivity previous = null;
             long midDaySecond = dashboardData.timeFrom + (12 * 60 * 60);
             for (Map.Entry<Long, ActivityKind> activity : activityTimestamps.entrySet()) {
                 long timestamp = activity.getKey();
                 ActivityKind activityKind = activity.getValue();
                 if (previous == null || previous.activityKind != activityKind || (!mode_24h && timestamp == midDaySecond) || previous.timeTo < timestamp - 60) {
-                    previous = new DashboardFragment.DashboardData.GeneralizedActivity(activityKind, timestamp, timestamp);
+                    previous = new DashboardData.GeneralizedActivity(activityKind, timestamp, timestamp);
                     dashboardData.generalizedActivities.add(previous);
                 } else {
                     previous.timeTo = timestamp;

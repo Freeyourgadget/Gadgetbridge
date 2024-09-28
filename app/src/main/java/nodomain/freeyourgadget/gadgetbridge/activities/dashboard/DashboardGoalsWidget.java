@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
@@ -61,7 +61,7 @@ public class DashboardGoalsWidget extends AbstractDashboardWidget {
      * @param dashboardData An instance of DashboardFragment.DashboardData.
      * @return A new instance of fragment DashboardGoalsWidget.
      */
-    public static DashboardGoalsWidget newInstance(DashboardFragment.DashboardData dashboardData) {
+    public static DashboardGoalsWidget newInstance(DashboardData dashboardData) {
         DashboardGoalsWidget fragment = new DashboardGoalsWidget();
         Bundle args = new Bundle();
         args.putSerializable(ARG_DASHBOARD_DATA, dashboardData);

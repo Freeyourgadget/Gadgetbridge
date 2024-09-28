@@ -37,8 +37,8 @@ import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.DashboardFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.data.DashboardData;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -47,7 +47,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
 
     protected static String ARG_DASHBOARD_DATA = "dashboard_widget_argument_data";
 
-    protected DashboardFragment.DashboardData dashboardData;
+    protected DashboardData dashboardData;
 
     protected @ColorInt int color_unknown = Color.argb(25, 128, 128, 128);
     protected @ColorInt int color_not_worn = Color.BLACK;
@@ -65,7 +65,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            dashboardData = (DashboardFragment.DashboardData) getArguments().getSerializable(ARG_DASHBOARD_DATA);
+            dashboardData = (DashboardData) getArguments().getSerializable(ARG_DASHBOARD_DATA);
         }
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
         return device.getDeviceCoordinator().supportsActivityTracking();
     }
 
-    protected List<GBDevice> getSupportedDevices(final DashboardFragment.DashboardData dashboardData) {
+    protected List<GBDevice> getSupportedDevices(final DashboardData dashboardData) {
         return GBApplication.app().getDeviceManager().getDevices()
                 .stream()
                 .filter(dev -> dashboardData.showAllDevices || dashboardData.showDeviceList.contains(dev.getAddress()))
@@ -101,7 +101,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
         });
     }
 
-    protected void chooseDevice(final DashboardFragment.DashboardData dashboardData,
+    protected void chooseDevice(final DashboardData dashboardData,
                                 final Consumer<GBDevice> consumer) {
         final List<GBDevice> devices = getSupportedDevices(dashboardData);
 
