@@ -212,7 +212,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             int ts = tsTranslation.shorten(sample.getTimestamp());
             final float value;
             if (type != ActivityKind.NOT_WORN) {
-                if (ActivityKind.isSleep(type) && sample.getIntensity() <= 0) {
+                if (ActivityKind.isSleep(type) && sample.getIntensity() < 0) {
                     switch (type) {
                         case SLEEP_ANY:
                         case AWAKE_SLEEP:
