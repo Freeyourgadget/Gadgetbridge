@@ -11,12 +11,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryTableRowEntry;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryValue;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
@@ -31,7 +31,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSet;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitSport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitTimeInZone;
-import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class GarminWorkoutParser implements ActivitySummaryParser {
@@ -227,33 +226,53 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         }
 
         if (!sets.isEmpty()) {
-            final boolean isMetric = GBApplication.getPrefs().isMetricUnits();
+            final boolean anyReps = sets.stream().anyMatch(s -> s.getRepetitions() != null);
+            final boolean anyWeight = sets.stream().anyMatch(s -> s.getWeight() != null);
+
+            final List<ActivitySummaryValue> header = new LinkedList<>();
+            header.add(new ActivitySummaryValue("set"));
+            header.add(new ActivitySummaryValue("workout_set_reps"));
+            header.add(new ActivitySummaryValue("menuitem_weight"));
+            header.add(new ActivitySummaryValue("activity_detail_duration_label"));
+
+            summaryData.add(
+                    "sets_header",
+                    new ActivitySummaryTableRowEntry(
+                            SETS,
+                            header,
+                            true,
+                            true
+                    )
+            );
 
             int i = 1;
             for (final FitSet set : sets) {
                 if (set.getSetType() != null && set.getDuration() != null && set.getSetType() == 1) {
-                    final StringBuilder sb = new StringBuilder();
+                    final List<ActivitySummaryValue> columns = new LinkedList<>();
+                    columns.add(new ActivitySummaryValue(i, UNIT_NONE));
 
                     if (set.getRepetitions() != null) {
-                        if (set.getWeight() != null) {
-                            if (isMetric) {
-                                sb.append(context.getString(R.string.workout_set_repetitions_weight_kg, set.getRepetitions(), set.getWeight()));
-                            } else {
-                                sb.append(context.getString(R.string.workout_set_repetitions_weight_lbs, set.getRepetitions(), set.getWeight() * 2.2046226f));
-                            }
-                        } else {
-                            sb.append(context.getString(R.string.workout_set_repetitions, set.getRepetitions()));
-                        }
-
-                        sb.append(", ");
+                        columns.add(new ActivitySummaryValue(String.valueOf(set.getRepetitions())));
+                    } else {
+                        columns.add(new ActivitySummaryValue("stats_empty_value"));
                     }
 
-                    sb.append(DateTimeUtils.formatDurationHoursMinutes(set.getDuration().longValue(), TimeUnit.SECONDS));
+                    if (set.getWeight() != null) {
+                        columns.add(new ActivitySummaryValue(set.getWeight(), UNIT_KG));
+                    } else {
+                        columns.add(new ActivitySummaryValue("stats_empty_value"));
+                    }
+
+                    columns.add(new ActivitySummaryValue(set.getDuration().longValue(), UNIT_SECONDS));
 
                     summaryData.add(
-                            SETS,
-                            context.getString(R.string.workout_set_i, i),
-                            sb.toString()
+                            "set_" + i,
+                            new ActivitySummaryTableRowEntry(
+                                    SETS,
+                                    columns,
+                                    false,
+                                    true
+                            )
                     );
                     i++;
                 }
@@ -261,8 +280,8 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         }
 
         summaryData.add(
-            INTERNAL_HAS_GPS,
-            String.valueOf(activityPoints.stream().anyMatch(p -> p.getLocation() != null))
+                INTERNAL_HAS_GPS,
+                String.valueOf(activityPoints.stream().anyMatch(p -> p.getLocation() != null))
         );
 
         summary.setSummaryData(summaryData.toString());

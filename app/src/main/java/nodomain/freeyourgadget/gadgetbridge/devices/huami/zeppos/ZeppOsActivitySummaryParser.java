@@ -24,8 +24,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryProgressEntry;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.proto.HuamiProtos;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -121,12 +124,22 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
         if (summaryProto.hasHeartRateZones()) {
             // TODO hr zones bpm?
             if (summaryProto.getHeartRateZones().getZoneTimeCount() == 6) {
-                summaryData.add(HR_ZONE_NA, summaryProto.getHeartRateZones().getZoneTime(0), UNIT_SECONDS);
-                summaryData.add(HR_ZONE_WARM_UP, summaryProto.getHeartRateZones().getZoneTime(1), UNIT_SECONDS);
-                summaryData.add(HR_ZONE_FAT_BURN, summaryProto.getHeartRateZones().getZoneTime(2), UNIT_SECONDS);
-                summaryData.add(HR_ZONE_AEROBIC, summaryProto.getHeartRateZones().getZoneTime(3), UNIT_SECONDS);
-                summaryData.add(HR_ZONE_ANAEROBIC, summaryProto.getHeartRateZones().getZoneTime(4), UNIT_SECONDS);
-                summaryData.add(HR_ZONE_EXTREME, summaryProto.getHeartRateZones().getZoneTime(5), UNIT_SECONDS);
+                final double totalTime = summaryProto.getHeartRateZones().getZoneTimeList()
+                        .stream()
+                        .mapToInt(v -> v)
+                        .sum();
+
+                final List<String> zoneOrder = Arrays.asList(HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_FAT_BURN, HR_ZONE_AEROBIC, HR_ZONE_ANAEROBIC, HR_ZONE_EXTREME);
+                for (int i = 0; i < zoneOrder.size(); i++) {
+                    summaryData.add(
+                            zoneOrder.get(i),
+                            new ActivitySummaryProgressEntry(
+                                    summaryProto.getHeartRateZones().getZoneTime(i),
+                                    UNIT_SECONDS,
+                                    (int) ((100 * summaryProto.getHeartRateZones().getZoneTime(i)) / totalTime)
+                            )
+                    );
+                }
             } else {
                 LOG.warn("Unexpected number of HR zones {}", summaryProto.getHeartRateZones().getZoneTimeCount());
             }

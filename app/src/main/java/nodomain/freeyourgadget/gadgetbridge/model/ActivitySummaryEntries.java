@@ -138,8 +138,20 @@ public class ActivitySummaryEntries {
     public static final String UNIT_STROKES_PER_SECOND = "strokes_second";
     public static final String UNIT_YARD = "yard";
     public static final String UNIT_DEGREES = "degrees";
+    public static final String UNIT_STRING = "string";
+    public static final String UNIT_RAW_STRING = "raw_string";
+    public static final String UNIT_KG = "kg";
 
     public static final String GROUP_PACE = "Pace";
+    public static final String GROUP_ACTIVITY = "Activity";
+    public static final String GROUP_SPEED = "Speed";
+    public static final String GROUP_ELEVATION = "Elevation";
+    public static final String GROUP_HEART_RATE_ZONES = "HeartRateZones";
+    public static final String GROUP_STROKES = "Strokes";
+    public static final String GROUP_SWIMMING = "Swimming";
+    public static final String GROUP_TRAINING_EFFECT = "TrainingEffect";
+    public static final String GROUP_LAPS = "laps";
+    public static final String GROUP_RUNNING_FORM = "RunningForm";
 
     /**
      * Used to signal that this activity has a gps track. This is currently used by ActivitySummaryDetail

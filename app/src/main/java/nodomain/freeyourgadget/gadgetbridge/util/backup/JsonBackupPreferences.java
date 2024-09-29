@@ -197,6 +197,7 @@ public class JsonBackupPreferences {
                 .registerSubtype(IntegerPreferenceValue.class, INTEGER)
                 .registerSubtype(LongPreferenceValue.class, LONG)
                 .registerSubtype(StringPreferenceValue.class, STRING)
-                .registerSubtype(StringSetPreferenceValue.class, HASHSET);
+                .registerSubtype(StringSetPreferenceValue.class, HASHSET)
+                .recognizeSubtypes();
     }
 }

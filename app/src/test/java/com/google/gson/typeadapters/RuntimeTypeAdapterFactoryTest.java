@@ -7,6 +7,10 @@ import com.google.gson.GsonBuilder;
 
 import org.junit.Test;
 
+/**
+ * Test our changes to the RuntimeTypeAdapterFactory, which allow for serialization and deserialization
+ * of a null type label.
+ */
 public class RuntimeTypeAdapterFactoryTest {
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapterFactory(RuntimeTypeAdapterFactory

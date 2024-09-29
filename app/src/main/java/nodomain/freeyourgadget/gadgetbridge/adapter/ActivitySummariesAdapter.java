@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
@@ -205,21 +204,17 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
 
             final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(device, getContext());
             final ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, sportitem);
-            JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData(false);
+            ActivitySummaryData summarySubdata = activitySummaryJsonSummary.getSummaryData(false);
 
             if (summarySubdata != null) {
-                try {
-                    if (summarySubdata.has("caloriesBurnt")) {
-                        caloriesBurntSum += summarySubdata.getJSONObject("caloriesBurnt").getDouble("value");
-                    }
-                    if (summarySubdata.has("distanceMeters")) {
-                        distanceSum += summarySubdata.getJSONObject("distanceMeters").getDouble("value");
-                    }
-                    if (summarySubdata.has("activeSeconds")) {
-                        activeSecondsSum += summarySubdata.getJSONObject("activeSeconds").getDouble("value");
-                    }
-                } catch (JSONException e) {
-                    LOG.error("SportsActivity", e);
+                if (summarySubdata.has("caloriesBurnt")) {
+                    caloriesBurntSum += summarySubdata.getNumber("caloriesBurnt", 0).doubleValue();
+                }
+                if (summarySubdata.has("distanceMeters")) {
+                    distanceSum += summarySubdata.getNumber("distanceMeters", 0).doubleValue();
+                }
+                if (summarySubdata.has("activeSeconds")) {
+                    activeSecondsSum += summarySubdata.getNumber("activeSeconds", 0).doubleValue();
                 }
             }
         }

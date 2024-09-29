@@ -19,8 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
@@ -165,7 +164,7 @@ public class WorkoutVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxS
     }
 
     private void fillSummaryData(final DeviceCoordinator coordinator,
-                                        final Collection<BaseActivitySummary> summaries) {
+                                 final Collection<BaseActivitySummary> summaries) {
         ActivitySummaryParser activitySummaryParser = coordinator.getActivitySummaryParser(device, GBApplication.getContext());
         for (final BaseActivitySummary summary : summaries) {
             if (summary.getSummaryData() == null) {
@@ -230,46 +229,45 @@ public class WorkoutVo2MaxSampleProvider implements Vo2MaxSampleProvider<Vo2MaxS
 
         @Nullable
         public static GarminVo2maxSample fromActivitySummary(final BaseActivitySummary summary) {
-            if (summary.getSummaryData() == null) {
+            final String summaryDataJson = summary.getSummaryData();
+            if (summaryDataJson == null) {
                 return null;
             }
 
-            if (!summary.getSummaryData().contains(ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE)) {
+            if (!summaryDataJson.contains(ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE)) {
                 return null;
             }
 
-            try {
-                final JSONObject summaryDataObject = new JSONObject(summary.getSummaryData());
-                final JSONObject vo2jsonObj = summaryDataObject.getJSONObject(ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE);
-                final double value = vo2jsonObj.optDouble("value", 0);
-                if (value == 0) {
-                    return null;
-                }
-
-                final Vo2MaxSample.Type type;
-                switch (ActivityKind.fromCode(summary.getActivityKind())) {
-                    case INDOOR_RUNNING:
-                    case OUTDOOR_RUNNING:
-                    case CROSS_COUNTRY_RUNNING:
-                    case RUNNING:
-                        type = Vo2MaxSample.Type.RUNNING;
-                        break;
-                    case CYCLING:
-                    case INDOOR_CYCLING:
-                    case HANDCYCLING:
-                    case HANDCYCLING_INDOOR:
-                    case MOTORCYCLING:
-                    case OUTDOOR_CYCLING:
-                        type = Vo2MaxSample.Type.CYCLING;
-                        break;
-                    default:
-                        type = Vo2MaxSample.Type.ANY;
-                }
-                return new GarminVo2maxSample(summary.getStartTime().getTime(), type, (float) value);
-            } catch (final JSONException e) {
-                LOG.error("Failed to parse summary data json", e);
+            final ActivitySummaryData summaryData = ActivitySummaryData.fromJson(summaryDataJson);
+            if (summaryData == null) {
                 return null;
             }
+
+            final double value = summaryData.getNumber(ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE, 0).doubleValue();
+            if (value == 0) {
+                return null;
+            }
+
+            final Vo2MaxSample.Type type;
+            switch (ActivityKind.fromCode(summary.getActivityKind())) {
+                case INDOOR_RUNNING:
+                case OUTDOOR_RUNNING:
+                case CROSS_COUNTRY_RUNNING:
+                case RUNNING:
+                    type = Vo2MaxSample.Type.RUNNING;
+                    break;
+                case CYCLING:
+                case INDOOR_CYCLING:
+                case HANDCYCLING:
+                case HANDCYCLING_INDOOR:
+                case MOTORCYCLING:
+                case OUTDOOR_CYCLING:
+                    type = Vo2MaxSample.Type.CYCLING;
+                    break;
+                default:
+                    type = Vo2MaxSample.Type.ANY;
+            }
+            return new GarminVo2maxSample(summary.getStartTime().getTime(), type, (float) value);
         }
     }
 }

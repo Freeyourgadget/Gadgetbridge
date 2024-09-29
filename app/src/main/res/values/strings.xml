@@ -2231,6 +2231,7 @@
     <string name="cyclingPowerMax">Max cycling power</string>
     <string name="workoutSets">Sets</string>
     <string name="workout_set_i">Set %1d</string>
+    <string name="workout_set_reps">Repetitions</string>
     <string name="workout_set_repetitions">%1d x</string>
     <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
     <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f lbs</string>

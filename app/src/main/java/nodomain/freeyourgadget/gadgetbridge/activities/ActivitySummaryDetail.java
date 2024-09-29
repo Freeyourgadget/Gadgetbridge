@@ -43,7 +43,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 import androidx.gridlayout.widget.GridLayout;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -57,9 +59,8 @@ import androidx.core.content.FileProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,19 +68,20 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.WorkoutValueFormatter;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryEntry;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummarySimpleEntry;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -88,6 +90,7 @@ import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
@@ -104,7 +107,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
     BaseActivitySummary currentItem = null;
     private GBDevice gbDevice;
-    private boolean show_raw_data = false;
     private int alternateColor;
     private Menu mOptionsMenu;
     List<String> filesGpxList = new ArrayList<>();
@@ -114,6 +116,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private ActivitySummariesChartFragment activitySummariesChartFragment;
     private ActivitySummariesGpsFragment activitySummariesGpsFragment;
+
+    private final WorkoutValueFormatter workoutValueFormatter = new WorkoutValueFormatter();
 
     public static int getAlternateColor(Context context) {
         TypedValue typedValue = new TypedValue();
@@ -220,7 +224,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         ImageView activity_icon = findViewById(R.id.item_image);
         activity_icon.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
-                show_raw_data = !show_raw_data;
+                workoutValueFormatter.toggleRawData();
                 if (currentItem != null) {
                     makeSummaryHeader(currentItem);
                     makeSummaryContent(currentItem);
@@ -342,7 +346,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         TextView activity_name = findViewById(R.id.activityname);
         activity_name.setText(activityname);
 
-        if (activityname == null || (activityname != null && activityname.length() < 1)) {
+        if (StringUtils.isBlank(activityname)) {
             activity_name.setVisibility(View.GONE);
         } else {
             activity_name.setVisibility(View.VISIBLE);
@@ -426,160 +430,64 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice, this);
 
         //make view of data from summaryData of item
-        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
-        String UNIT_IMPERIAL = GBApplication.getContext().getString(R.string.p_unit_imperial);
-
         LinearLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
         ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, item);
-        JSONObject data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
+        Map<String, List<Pair<String, ActivitySummaryEntry>>> data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
         if (data == null) return;
 
-        Iterator<String> keys = data.keys();
-        DecimalFormat df = new DecimalFormat("#.##");
+        for (final Map.Entry<String, List<Pair<String, ActivitySummaryEntry>>> group : data.entrySet()) {
+            final String groupKey = group.getKey();
+            final List<Pair<String, ActivitySummaryEntry>> entries = group.getValue();
 
-        while (keys.hasNext()) {
-            String key = keys.next();
-            try {
-                JSONArray innerList = (JSONArray) data.get(key);
+            TableRow label_row = new TableRow(ActivitySummaryDetail.this);
+            TextView label_field = new TextView(ActivitySummaryDetail.this);
+            label_field.setId(View.generateViewId());
+            label_field.setTextSize(18);
+            label_field.setPadding(dpToPx(8), dpToPx(20), 0, dpToPx(20));
+            label_field.setTypeface(null, Typeface.BOLD);
+            label_field.setText(workoutValueFormatter.getStringResourceByName(groupKey));
+            label_row.addView(label_field);
+            fieldLayout.addView(label_row);
 
-                TableRow label_row = new TableRow(ActivitySummaryDetail.this);
-                TextView label_field = new TextView(ActivitySummaryDetail.this);
-                label_field.setId(View.generateViewId());
-                label_field.setTextSize(18);
-                label_field.setPadding(dpToPx(8), dpToPx(20), 0, dpToPx(20));
-                label_field.setTypeface(null, Typeface.BOLD);
-                label_field.setText(String.format("%s", getStringResourceByName(key)));
-                label_row.addView(label_field);
-                fieldLayout.addView(label_row);
-
-                GridLayout gridLayout = new GridLayout(ActivitySummaryDetail.this);
-                gridLayout.setBackgroundColor(getResources().getColor(R.color.gauge_line_color));
-                gridLayout.setColumnCount(2);
-                gridLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                int lastRow = (int) Math.floor((innerList.length() - 1) / 2);
-                int i;
-                for (i = 0; i < innerList.length(); i++) {
-                    LinearLayout linearLayout = generateLinearLayout(i, lastRow);
-
-                    // Value
-                    TextView valueTextView = new TextView(ActivitySummaryDetail.this);
-                    valueTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    valueTextView.setText(String.format("%s", "-"));
-                    valueTextView.setTextSize(20);
-
-                    // Label
-                    TextView labelTextView = new TextView(ActivitySummaryDetail.this);
-                    labelTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    labelTextView.setTextSize(12);
-
-                    JSONObject innerData = innerList.getJSONObject(i);
-                    String unit = innerData.getString("unit");
-                    String name = innerData.getString("name");
-                    labelTextView.setText(getStringResourceByName(name));
-                    if (!unit.equals("string")) {
-                        double value = innerData.getDouble("value");
-
-                        if (!show_raw_data) {
-                            //special casing here + imperial units handling
-                            switch (unit) {
-                                case UNIT_CM:
-                                    if (units.equals(UNIT_IMPERIAL)) {
-                                        value = value * 0.0328084;
-                                        unit = "ft";
-                                    }
-                                    break;
-                                case UNIT_METERS_PER_SECOND:
-                                    if (units.equals(UNIT_IMPERIAL)) {
-                                        value = value * 2.236936D;
-                                        unit = "mi_h";
-                                    } else { //metric
-                                        value = value * 3.6;
-                                        unit = "km_h";
-                                    }
-                                    break;
-                                case UNIT_SECONDS_PER_M:
-                                    if (units.equals(UNIT_IMPERIAL)) {
-                                        value = value * (1609.344 / 60D);
-                                        unit = "minutes_mi";
-                                    } else { //metric
-                                        value = value * (1000 / 60D);
-                                        unit = "minutes_km";
-                                    }
-                                    break;
-                                case UNIT_SECONDS_PER_KM:
-                                    if (units.equals(UNIT_IMPERIAL)) {
-                                        value = value / 60D * 1.609344;
-                                        unit = "minutes_mi";
-                                    } else { //metric
-                                        value = value / 60D;
-                                        unit = "minutes_km";
-                                    }
-                                    break;
-                                case UNIT_METERS:
-                                    if (units.equals(UNIT_IMPERIAL)) {
-                                        value = value * 3.28084D;
-                                        unit = "ft";
-                                        if (value > 6000) {
-                                            value = value * 0.0001893939D;
-                                            unit = "mi";
-                                        }
-                                    } else { //metric
-                                        if (value > 2000) {
-                                            value = value / 1000;
-                                            unit = "km";
-                                        }
-                                    }
-                                    break;
-                            }
-                        }
-
-                        if (unit.equals("seconds") && !show_raw_data) { //rather then plain seconds, show formatted duration
-                            valueTextView.setText(DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.SECONDS));
-                        } else if (unit.equals("minutes_km") || unit.equals("minutes_mi")) {
-                            // Format pace
-                            valueTextView.setText(String.format(
-                                    Locale.getDefault(),
-                                    "%d:%02d %s",
-                                    (int) Math.floor(value), (int) Math.round(60 * (value - (int) Math.floor(value))),
-                                    getStringResourceByName(unit)
-                            ));
-                        } else {
-                            valueTextView.setText(String.format("%s %s", df.format(value), getStringResourceByName(unit)));
-                        }
-                    } else {
-                        valueTextView.setText(getStringResourceByName(innerData.getString("value"))); //we could optimize here a bit and only do this for particular activities (swim at the moment...)
-                    }
-
-                    linearLayout.addView(valueTextView);
-                    linearLayout.addView(labelTextView);
-                    gridLayout.addView(linearLayout);
+            GridLayout gridLayout = new GridLayout(ActivitySummaryDetail.this);
+            gridLayout.setBackgroundColor(getResources().getColor(R.color.gauge_line_color));
+            gridLayout.setColumnCount(2);
+            gridLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            int totalCells = entries.stream().mapToInt(e -> e.getRight().getColumnSpan()).sum();
+            totalCells += totalCells & 1; // round up to nearest even number, since we have 2 columns
+            int cellNumber = 0;
+            for (final Pair<String, ActivitySummaryEntry> entry : entries) {
+                final int columnSpan = entry.getRight().getColumnSpan();
+                LinearLayout linearLayout = generateLinearLayout(cellNumber, cellNumber + 2 >= totalCells, columnSpan);
+                entry.getRight().populate(entry.getLeft(), linearLayout, workoutValueFormatter);
+                gridLayout.addView(linearLayout);
+                cellNumber += columnSpan;
+            }
+            if (gridLayout.getChildCount() > 0) {
+                if (cellNumber % 2 != 0) {
+                    final LinearLayout emptyLayout = generateLinearLayout(cellNumber, true, 1);
+                    new ActivitySummarySimpleEntry(null, "", "string").populate("", emptyLayout, workoutValueFormatter);
+                    gridLayout.addView(emptyLayout);
                 }
-                if (gridLayout.getChildCount() > 0) {
-                    if (gridLayout.getChildCount() % 2 != 0) {
-                        gridLayout.addView(generateLinearLayout(i, lastRow));
-                    }
-                    fieldLayout.addView(gridLayout);
-                }
-            } catch (JSONException e) {
-                LOG.error("SportsActivity", e);
+                fieldLayout.addView(gridLayout);
             }
         }
     }
 
-    public LinearLayout generateLinearLayout(int i, int lastRow) {
+    public LinearLayout generateLinearLayout(int i, boolean lastRow, int columnSize) {
         LinearLayout linearLayout = new LinearLayout(ActivitySummaryDetail.this);
         GridLayout.LayoutParams columnParams = new GridLayout.LayoutParams();
         columnParams.columnSpec = GridLayout.spec(i % 2 == 0 ? 0 : 1, 1);
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(
-                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
-                GridLayout.spec(GridLayout.UNDEFINED, 1, GridLayout.FILL,1f)
+                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
+                GridLayout.spec(GridLayout.UNDEFINED, columnSize, GridLayout.FILL, 1f)
         );
         layoutParams.width = 0;
         linearLayout.setLayoutParams(layoutParams);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setPadding(dpToPx(15), dpToPx(15),dpToPx(15), dpToPx(15));
+        linearLayout.setPadding(dpToPx(15), dpToPx(15), dpToPx(15), dpToPx(15));
         linearLayout.setBackgroundColor(GBApplication.getWindowBackgroundColor(ActivitySummaryDetail.this));
         int marginLeft = 0;
         int marginTop = 0;
@@ -593,7 +501,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             marginTop = 2;
             marginLeft = 1;
         }
-        if (i / 2 >= lastRow) {
+        if (lastRow) {
             marginBottom = 2;
         }
         layoutParams.setMargins(dpToPx(marginLeft), dpToPx(marginTop), dpToPx(marginRight), dpToPx(marginBottom));
@@ -604,17 +512,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     public int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
-    }
-
-    private String getStringResourceByName(String aString) {
-        String packageName = getPackageName();
-        int resId = getResources().getIdentifier(aString, "string", packageName);
-        if (resId == 0) {
-            //LOG.warn("SportsActivity " + "Missing string in strings:" + aString);
-            return aString;
-        } else {
-            return getString(resId);
-        }
     }
 
     @Override
@@ -631,7 +528,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             viewGpxTrack(ActivitySummaryDetail.this);
             return true;
         } else if (itemId == R.id.activity_action_share_gpx) {
-            shareGpxTrack(ActivitySummaryDetail.this, currentItem);
+            shareGpxTrack(ActivitySummaryDetail.this);
             return true;
         } else if (itemId == R.id.activity_action_dev_share_raw_summary) {
             shareRawSummary(ActivitySummaryDetail.this, currentItem);
@@ -701,7 +598,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
     }
 
-    private void shareGpxTrack(final Context context, final BaseActivitySummary summary) {
+    private void shareGpxTrack(final Context context) {
         final File trackFile = getTrackFile();
         if (trackFile == null) {
             GB.toast(getApplicationContext(), "No GPX track in this activity", Toast.LENGTH_LONG, GB.INFO);
@@ -736,6 +633,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
         final File cacheDir = getCacheDir();
         final File rawCacheDir = new File(cacheDir, "gpx");
+        //noinspection ResultOfMethodCallIgnored
         rawCacheDir.mkdir();
         final File gpxFile = new File(rawCacheDir, file.getName().replace(".fit", ".gpx"));
 
@@ -823,16 +721,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 return true;
             }
         }
-        final String summaryData = currentItem.getSummaryData();
-        if (summaryData != null && summaryData.contains(INTERNAL_HAS_GPS)) {
-            try {
-                final JSONObject summaryDataObject = new JSONObject(summaryData);
-                final JSONObject internalHasGps = summaryDataObject.getJSONObject(INTERNAL_HAS_GPS);
-                return "true".equals(internalHasGps.optString("value", "false"));
-            } catch (final JSONException e) {
-                LOG.error("Failed to parse summary data json", e);
-                return false;
-            }
+        final String summaryDataJson = currentItem.getSummaryData();
+        if (summaryDataJson != null && summaryDataJson.contains(INTERNAL_HAS_GPS)) {
+            final ActivitySummaryData summaryData = ActivitySummaryData.fromJson(summaryDataJson);
+            return summaryData != null && summaryData.getBoolean(INTERNAL_HAS_GPS, false);
         }
 
         return false;

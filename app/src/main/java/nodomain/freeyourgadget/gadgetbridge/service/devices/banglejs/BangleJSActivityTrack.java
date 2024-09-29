@@ -174,20 +174,13 @@ class BangleJSActivityTrack {
             ActivitySummaryData summaryData = BangleJSWorkoutParser.dataFromPoints(banglePoints);
             summary.setSummaryData(summaryData.toString());
             ActivityKind activityKind;
-            final JSONObject speedAvgObj = summaryData.optJSONObject(SPEED_AVG);
-            if (speedAvgObj != null) {
-                double speedAvg;
-                try {
-                    speedAvg = speedAvgObj.getDouble("value");
-                } catch (JSONException e) {
-                    LOG.error("Failed to get speed avg");
-                    speedAvg = -1;
-                }
-                if ((float) 3 > speedAvg) {
-                    activityKind = ActivityKind.WALKING;
-                } else {
-                    activityKind = ActivityKind.RUNNING;
-                }
+            final double speedAvg = summaryData.getNumber(SPEED_AVG, -1).doubleValue();
+            if (speedAvg >= 10) {
+                activityKind = ActivityKind.ACTIVITY;
+            } else if (speedAvg >= 3) {
+                activityKind = ActivityKind.RUNNING;
+            } else if (speedAvg >= 0) {
+                activityKind = ActivityKind.WALKING;
             } else {
                 activityKind = ActivityKind.ACTIVITY;
             }
