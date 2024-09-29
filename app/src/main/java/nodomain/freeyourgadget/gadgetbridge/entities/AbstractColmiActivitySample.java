@@ -28,7 +28,7 @@ public abstract class AbstractColmiActivitySample extends AbstractActivitySample
 
     @Override
     public int getRawIntensity() {
-        if (rawIntensity > 0) {
+        if (rawIntensity != 0) {
             return rawIntensity;
         } else {
             return getCalories();
