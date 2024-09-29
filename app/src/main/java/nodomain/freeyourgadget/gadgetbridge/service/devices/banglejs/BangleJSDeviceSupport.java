@@ -131,6 +131,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -1519,6 +1520,31 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch (Exception e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+    }
+
+    @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "canned_responses_sync");
+            JSONArray jsonMessages = new JSONArray();
+            o.put("d", jsonMessages);
+
+            for (String message : cannedMessagesSpec.cannedMessages) {
+                JSONObject jsonMessage = new JSONObject();
+                jsonMessages.put(jsonMessage);
+                // Render unicode (emojis etc.) as an image for BangleJS to display
+                String unicodeRenderedAsImage = renderUnicodeAsImage(message);
+                // If the initial and rendered messages are not the same, include the rendered message as "disp(lay)" text so unicode is rendered on device
+                if (!unicodeRenderedAsImage.equals(message)) {
+                    jsonMessage.put("disp", unicodeRenderedAsImage);
+                }
+                jsonMessage.put("text", message);
+            }
+            uartTxJSON("onSetCannedMessages", o);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
         }
     }
 

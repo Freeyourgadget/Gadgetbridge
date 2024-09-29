@@ -87,6 +87,11 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int getCannedRepliesSlotCount(final GBDevice device) {
+        return 16;
+    }
+
+    @Override
     public boolean supportsSleepAsAndroid() {
         return true;
     }
@@ -225,6 +230,7 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         settings.add(R.xml.devicesettings_notification_wake_on_open);
         settings.add(R.xml.devicesettings_text_bitmaps);
         settings.add(R.xml.devicesettings_transliteration);
+        settings.add(R.xml.devicesettings_canned_reply_16);
 
         settings.add(R.xml.devicesettings_header_calendar);
         settings.add(R.xml.devicesettings_sync_calendar);
