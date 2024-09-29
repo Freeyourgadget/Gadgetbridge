@@ -3464,4 +3464,8 @@
     <string name="birthdays">Narozeniny</string>
     <string name="pref_title_sync_birthdays">Synchronizovat narozeniny</string>
     <string name="devicetype_sony_wf_c700n">Sony WF-C700N</string>
+    <string name="pref_crash_notification_title">Oznámení při pádu</string>
+    <string name="pref_crash_notification_summary">Při pádu aplikace zobrazit oznámení s chybou</string>
+    <string name="app_crash_share_stacktrace">Sdílet chybu</string>
+    <string name="app_crash_notification_title">Aplikace %1s havarovala</string>
 </resources>
