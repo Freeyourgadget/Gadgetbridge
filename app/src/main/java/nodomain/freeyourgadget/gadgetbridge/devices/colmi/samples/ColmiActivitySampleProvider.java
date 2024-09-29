@@ -157,7 +157,6 @@ public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiAct
 
         for (final ColmiSleepStageSample sleepStageSample : sleepStageSamples) {
             final ActivityKind sleepRawKind = sleepStageToActivityKind(sleepStageSample.getStage());
-            if (sleepRawKind == ActivityKind.AWAKE_SLEEP) continue;
             // round to the nearest minute, we don't need per-second granularity
             final int tsSeconds = (int) ((sleepStageSample.getTimestamp() / 1000) / 60) * 60;
             for (int i = tsSeconds; i < tsSeconds + sleepStageSample.getDuration() * 60; i += 60) {
@@ -181,6 +180,8 @@ public class ColmiActivitySampleProvider extends AbstractSampleProvider<ColmiAct
                 return ActivityKind.LIGHT_SLEEP;
             case ColmiR0xConstants.SLEEP_TYPE_DEEP:
                 return ActivityKind.DEEP_SLEEP;
+            case ColmiR0xConstants.SLEEP_TYPE_REM:
+                return ActivityKind.REM_SLEEP;
             case ColmiR0xConstants.SLEEP_TYPE_AWAKE:
                 return ActivityKind.AWAKE_SLEEP;
             default:

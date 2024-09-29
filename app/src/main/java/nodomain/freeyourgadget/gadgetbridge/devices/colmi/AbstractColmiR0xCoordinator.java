@@ -150,6 +150,16 @@ public abstract class AbstractColmiR0xCoordinator extends AbstractBLEDeviceCoord
     }
 
     @Override
+    public boolean supportsRemSleep() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAwakeSleep() {
+        return true;
+    }
+
+    @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new ColmiActivitySampleProvider(device, session);
     }

@@ -59,5 +59,6 @@ public class ColmiR0xConstants {
 
     public static final byte SLEEP_TYPE_LIGHT = 0x02;
     public static final byte SLEEP_TYPE_DEEP = 0x03;
+    public static final byte SLEEP_TYPE_REM = 0x04;
     public static final byte SLEEP_TYPE_AWAKE = 0x05;
 }
