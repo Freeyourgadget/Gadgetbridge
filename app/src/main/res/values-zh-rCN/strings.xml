@@ -3464,4 +3464,8 @@
     <string name="pref_summary_sync_birthdays">将联系人生日与日历事件同步</string>
     <string name="contact_birthday">%1s 的生日</string>
     <string name="devicetype_sony_wf_c700n">索尼 WF-C700N</string>
+    <string name="pref_crash_notification_title">崩溃时通知</string>
+    <string name="pref_crash_notification_summary">当应用程序崩溃时，显示包含错误的通知</string>
+    <string name="app_crash_notification_title">%1s 已经崩溃</string>
+    <string name="app_crash_share_stacktrace">分享错误</string>
 </resources>
