@@ -173,7 +173,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 public class HuaweiSupportProvider {
     private static final Logger LOG = LoggerFactory.getLogger(HuaweiSupportProvider.class);
 
-    private final int initTimeout = 1000;
+    private final int initTimeout = 2000;
 
     private HuaweiBRSupport brSupport;
     private HuaweiLESupport leSupport;
@@ -614,7 +614,6 @@ public class HuaweiSupportProvider {
             initRequestQueue.add(new GetProductInformationRequest(this));
             initRequestQueue.add(new SetTimeRequest(this, true));
             initRequestQueue.add(batteryLevelReq);
-            initRequestQueue.add(new SendFitnessUserInfoRequest(this));
             initRequestQueue.add(new GetSupportedServicesRequest(this)); // MUST BE LAST - it indirectly kicks off initializeDynamicServices
 
             // Queue all the requests
@@ -752,6 +751,7 @@ public class HuaweiSupportProvider {
             initRequestQueue.add(new SendMenstrualCapabilityRequest(this));
             initRequestQueue.add(new SendNotifyHeartRateCapabilityRequest(this));
             initRequestQueue.add(new SendNotifyRestHeartRateCapabilityRequest(this));
+            initRequestQueue.add(new SendFitnessUserInfoRequest(this));
             initRequestQueue.add(new SendRunPaceConfigRequest(this));
             initRequestQueue.add(new SendDeviceReportThreshold(this));
             initRequestQueue.add(new SetMediumToStrengthThresholdRequest(this));
@@ -782,6 +782,10 @@ public class HuaweiSupportProvider {
             // Queue all the requests
             for (int i = 1; i < initRequestQueue.size(); i++) {
                 initRequestQueue.get(i - 1).setupTimeoutUntilNext(initTimeout);
+                if(initRequestQueue.get(i - 1) instanceof SendSetUpDeviceStatusRequest) {
+                    // NOTE: The watch is never answer to this command. To decrease init time timeout for it is 50 ms
+                    initRequestQueue.get(i - 1).setupTimeoutUntilNext(50);
+                }
                 initRequestQueue.get(i - 1).nextRequest(initRequestQueue.get(i));
             }
 

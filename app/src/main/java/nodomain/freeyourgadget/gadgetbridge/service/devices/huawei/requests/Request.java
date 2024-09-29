@@ -133,6 +133,16 @@ public class Request {
         }
     }
 
+    private Runnable getTimeoutRunnable() {
+        return () -> {
+            LOG.debug("Timeout on Service {} command {}", Integer.toHexString(this.serviceId & 0xff), Integer.toHexString(this.commandId & 0xff));
+            if (finalizeReq != null)
+                finalizeReq.timeout(this);
+            else
+                this.handleNext();
+        };
+    }
+
     public Request(HuaweiSupportProvider supportProvider, nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder builder) {
         this.supportProvider = supportProvider;
         this.paramsProvider = supportProvider.getParamsProvider();
@@ -142,13 +152,7 @@ public class Request {
         this.isSelfQueue = true;
 
         this.handler = new Handler(Looper.getMainLooper());
-        this.timeoutRunner = () -> {
-            LOG.debug("Timeout on Service {} command {}", this.serviceId, this.commandId);
-            if (finalizeReq != null)
-                finalizeReq.timeout(this);
-            else
-                this.handleNext();
-        };
+        this.timeoutRunner = getTimeoutRunnable();
     }
 
     public Request(HuaweiSupportProvider supportProvider, nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
@@ -160,13 +164,7 @@ public class Request {
         this.isSelfQueue = true;
 
         this.handler = new Handler(Looper.getMainLooper());
-        this.timeoutRunner = () -> {
-            LOG.debug("Timeout on Service {} command {}", this.serviceId, this.commandId);
-            if (finalizeReq != null)
-                finalizeReq.timeout(this);
-            else
-                this.handleNext();
-        };
+        this.timeoutRunner = getTimeoutRunnable();
     }
 
     public Request(HuaweiSupportProvider supportProvider) {
@@ -181,13 +179,7 @@ public class Request {
         this.isSelfQueue = true;
 
         this.handler = new Handler(Looper.getMainLooper());
-        this.timeoutRunner = () -> {
-            LOG.debug("Timeout on Service {} command {}", this.serviceId, this.commandId);
-            if (finalizeReq != null)
-                finalizeReq.timeout(this);
-            else
-                this.handleNext();
-        };
+        this.timeoutRunner = getTimeoutRunnable();
     }
 
     protected boolean requestSupported() {
@@ -275,6 +267,7 @@ public class Request {
                 finalizeReq.call(this);
             }
         }
+        nextRequest = null;
     }
 
     public void setSelfQueue() {
@@ -282,8 +275,10 @@ public class Request {
     }
 
     public Request nextRequest(Request req) {
-        nextRequest = req;
-        nextRequest.setSelfQueue();
+        if (req != null) {
+            nextRequest = req;
+            nextRequest.setSelfQueue();
+        }
         return this;
     }
 
