@@ -12,6 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * From 0eb681b, adapted for Gadgetbridge to support null labels.
  */
 
 package com.google.gson.typeadapters;
@@ -19,6 +21,7 @@ package com.google.gson.typeadapters;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
@@ -217,7 +220,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
      */
     @CanIgnoreReturnValue
     public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label) {
-        if (type == null || label == null) {
+        if (type == null) {
             throw new NullPointerException();
         }
         if (subtypeToLabel.containsKey(type) || labelToSubtype.containsKey(label)) {
@@ -272,14 +275,14 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
                     labelJsonElement = jsonElement.getAsJsonObject().remove(typeFieldName);
                 }
 
-                if (labelJsonElement == null) {
+                if (labelJsonElement == null && !labelToDelegate.containsKey(null)) {
                     throw new JsonParseException(
                             "cannot deserialize "
                                     + baseType
                                     + " because it does not define a field named "
                                     + typeFieldName);
                 }
-                String label = labelJsonElement.getAsString();
+                String label = labelJsonElement != null ? labelJsonElement.getAsString() : null;
                 @SuppressWarnings("unchecked") // registration requires that subtype extends T
                 TypeAdapter<R> delegate = (TypeAdapter<R>) labelToDelegate.get(label);
                 if (delegate == null) {
@@ -319,7 +322,11 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
                                     + " because it already defines a field named "
                                     + typeFieldName);
                 }
-                clone.add(typeFieldName, new JsonPrimitive(label));
+                if (label != null) {
+                    clone.add(typeFieldName, new JsonPrimitive(label));
+                } else {
+                    clone.add(typeFieldName, JsonNull.INSTANCE);
+                }
 
                 for (Map.Entry<String, JsonElement> e : jsonObject.entrySet()) {
                     clone.add(e.getKey(), e.getValue());
