@@ -127,7 +127,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 41;
+    private static final int CURRENT_PREFS_VERSION = 42;
 
     private static final LimitedQueue<Integer, String> mIDSenderLookup = new LimitedQueue<>(16);
     private static GBPrefs prefs;
@@ -245,7 +245,7 @@ public class GBApplication extends Application {
         // the devicetype.json file
         //migrateDeviceTypes();
 
-        setupExceptionHandler();
+        setupExceptionHandler(prefs.getBoolean("crash_notification", isDebug()));
 
         Weather.getInstance().setCacheFile(getCacheDir(), prefs.getBoolean("cache_weather", true));
 
@@ -275,7 +275,7 @@ public class GBApplication extends Application {
                 }
                 GB.notify(NOTIFICATION_ID_ERROR,
                         new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
-                                .setSmallIcon(R.drawable.gadgetbridge_img)
+                                .setSmallIcon(R.drawable.ic_notification)
                                 .setContentTitle(getString(R.string.error_background_service))
                                 .setContentText(getString(R.string.error_background_service_reason_truncated))
                                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -319,8 +319,8 @@ public class GBApplication extends Application {
         return logging.getLogPath();
     }
 
-    private void setupExceptionHandler() {
-        LoggingExceptionHandler handler = new LoggingExceptionHandler(Thread.getDefaultUncaughtExceptionHandler());
+    private void setupExceptionHandler(final boolean notifyOnCrash) {
+        final GBExceptionHandler handler = new GBExceptionHandler(Thread.getDefaultUncaughtExceptionHandler(), notifyOnCrash);
         Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
@@ -515,7 +515,7 @@ public class GBApplication extends Application {
     }
 
     private static void saveAppsNotifBlackList() {
-       saveAppsNotifBlackList(sharedPrefs.edit());
+        saveAppsNotifBlackList(sharedPrefs.edit());
     }
 
     private static void saveAppsNotifBlackList(SharedPreferences.Editor editor) {
@@ -574,7 +574,7 @@ public class GBApplication extends Application {
     }
 
     private static void saveAppsPebbleBlackList() {
-       saveAppsPebbleBlackList(sharedPrefs.edit());
+        saveAppsPebbleBlackList(sharedPrefs.edit());
     }
 
     private static void saveAppsPebbleBlackList(SharedPreferences.Editor editor) {
@@ -659,7 +659,7 @@ public class GBApplication extends Application {
                     DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceTypes.contains(deviceType)) {
-                        Log.i(TAG, "migrating global string preference " + globalPref + " for " + deviceType.name() + " " + dbDevice.getIdentifier() );
+                        Log.i(TAG, "migrating global string preference " + globalPref + " for " + deviceType.name() + " " + dbDevice.getIdentifier());
                         deviceSharedPrefsEdit.putString(perDevicePref, globalPrefValue);
                     }
                     deviceSharedPrefsEdit.apply();
@@ -685,7 +685,7 @@ public class GBApplication extends Application {
                     DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceTypes.contains(deviceType)) {
-                        Log.i(TAG, "migrating global boolean preference " + globalPref + " for " + deviceType.name() + " " + dbDevice.getIdentifier() );
+                        Log.i(TAG, "migrating global boolean preference " + globalPref + " for " + deviceType.name() + " " + dbDevice.getIdentifier());
                         deviceSharedPrefsEdit.putBoolean(perDevicePref, globalPrefValue);
                     }
                     deviceSharedPrefsEdit.apply();
@@ -712,7 +712,7 @@ public class GBApplication extends Application {
 
             for (Device dbDevice : activeDevices) {
                 String deviceTypeName = dbDevice.getTypeName();
-                if(deviceTypeName.isEmpty() || deviceTypeName.equals("UNKNOWN")){
+                if (deviceTypeName.isEmpty() || deviceTypeName.equals("UNKNOWN")) {
                     deviceTypeName = deviceIdNameMapping.optString(
                             String.valueOf(dbDevice.getType()),
                             "UNKNOWN"
@@ -730,7 +730,7 @@ public class GBApplication extends Application {
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         // this comes before all other migrations since the new column DeviceTypeName was added as non-null
-        if (oldVersion < 25){
+        if (oldVersion < 25) {
             migrateDeviceTypes();
         }
 
@@ -892,8 +892,8 @@ public class GBApplication extends Application {
                     DeviceType deviceType = DeviceType.fromName(dbDevice.getTypeName());
 
                     if (deviceType == MIBAND) {
-                        int deviceTimeOffsetHours = deviceSharedPrefs.getInt("device_time_offset_hours",0);
-                        deviceSharedPrefsEdit.putString("device_time_offset_hours", Integer.toString(deviceTimeOffsetHours) );
+                        int deviceTimeOffsetHours = deviceSharedPrefs.getInt("device_time_offset_hours", 0);
+                        deviceSharedPrefsEdit.putString("device_time_offset_hours", Integer.toString(deviceTimeOffsetHours));
                     }
 
                     deviceSharedPrefsEdit.apply();
@@ -996,7 +996,7 @@ public class GBApplication extends Application {
             try (DBHandler db = acquireDB()) {
                 DaoSession daoSession = db.getDaoSession();
                 List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
-                migrateBooleanPrefToPerDevicePref("transliteration", false, "pref_transliteration_enabled", (ArrayList)activeDevices);
+                migrateBooleanPrefToPerDevicePref("transliteration", false, "pref_transliteration_enabled", (ArrayList) activeDevices);
                 Log.w(TAG, "migrating transliteration settings");
             } catch (Exception e) {
                 Log.e(TAG, "Failed to migrate prefs to version 9", e);
@@ -1831,6 +1831,13 @@ public class GBApplication extends Application {
             }
         }
 
+        if (oldVersion < 42) {
+            // Enable crash notification by default on debug builds
+            if (!prefs.contains("crash_notification")) {
+                editor.putBoolean("crash_notification", isDebug());
+            }
+        }
+
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }
@@ -1953,6 +1960,7 @@ public class GBApplication extends Application {
     }
 
     public static boolean isNightly() {
+        //noinspection ConstantValue - false positive
         return BuildConfig.APPLICATION_ID.contains("nightly");
     }
 
