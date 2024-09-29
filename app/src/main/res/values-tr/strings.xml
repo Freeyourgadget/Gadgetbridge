@@ -3477,4 +3477,8 @@
     <string name="pref_title_sync_birthdays">Doğum günlerini eşzamanla</string>
     <string name="birthdays">Doğum günleri</string>
     <string name="devicetype_sony_wf_c700n">Sony WF-C700N</string>
+    <string name="pref_crash_notification_title">Çökme durumunda bildir</string>
+    <string name="pref_crash_notification_summary">Uygulama çöktüğünde, hatayı içeren bir bildirim görüntüle</string>
+    <string name="app_crash_notification_title">%1s çöktü</string>
+    <string name="app_crash_share_stacktrace">Hatayı paylaş</string>
 </resources>
