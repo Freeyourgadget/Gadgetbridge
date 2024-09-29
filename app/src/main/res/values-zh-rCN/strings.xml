@@ -3463,4 +3463,5 @@
     <string name="birthdays">生日</string>
     <string name="pref_summary_sync_birthdays">将联系人生日与日历事件同步</string>
     <string name="contact_birthday">%1s 的生日</string>
+    <string name="devicetype_sony_wf_c700n">索尼 WF-C700N</string>
 </resources>
