@@ -378,12 +378,22 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
                                 activityKind == ActivityKind.LIGHT_SLEEP)
                             activityTimestamps.put(i, activityKind);
                         break;
-                    case SLEEP_ANY:
+                    case AWAKE_SLEEP:
                         if (activityKind == ActivityKind.EXERCISE ||
                                 activityKind == ActivityKind.ACTIVITY ||
                                 activityKind == ActivityKind.DEEP_SLEEP ||
                                 activityKind == ActivityKind.LIGHT_SLEEP ||
                                 activityKind == ActivityKind.REM_SLEEP)
+                            activityTimestamps.put(i, activityKind);
+                        break;
+                    case SLEEP_ANY:
+                    case NOT_MEASURED:
+                        if (activityKind == ActivityKind.EXERCISE ||
+                                activityKind == ActivityKind.ACTIVITY ||
+                                activityKind == ActivityKind.DEEP_SLEEP ||
+                                activityKind == ActivityKind.LIGHT_SLEEP ||
+                                activityKind == ActivityKind.REM_SLEEP ||
+                                activityKind == ActivityKind.AWAKE_SLEEP)
                             activityTimestamps.put(i, activityKind);
                         break;
                     default:
