@@ -3468,4 +3468,8 @@
     <string name="pref_crash_notification_title">Melding van crash</string>
     <string name="pref_crash_notification_summary">Toon een melding met de fout wanneer de app crasht</string>
     <string name="birthdays">Verjaardagen</string>
+    <string name="pref_dashboard_widget_today_time_indicator_title">Indicator van huidige tijd</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_title">Gegevens van gisteren</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_summary">Toon gegevens van gisteren met gedimde kleuren tussen de huidige tijd en middernacht</string>
+    <string name="pref_dashboard_widget_today_time_indicator_summary">Toon een indicator op de huidige tijd, als visuele scheiding tussen de gegevens van gisteren en vandaag</string>
 </resources>
