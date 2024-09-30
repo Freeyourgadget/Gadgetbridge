@@ -3459,4 +3459,13 @@
     <string name="devicetype_miband9">Xiaomi Smart Band 9</string>
     <string name="devicetype_huawei_watchgt5">Huawei Watch GT 5 (Pro)</string>
     <string name="devicetype_redmi_watch_5_active">Redmi Watch 5 Active</string>
+    <string name="pref_summary_sync_birthdays">Synchroniseer verjaardagen van contactpersonen naast reguliere agenda-afspraken</string>
+    <string name="devicetype_sony_wf_c700n">Sony WF-C700N</string>
+    <string name="app_crash_notification_title">%1s is gecrasht</string>
+    <string name="app_crash_share_stacktrace">Deel foutmelding</string>
+    <string name="contact_birthday">Verjaardag van %1s</string>
+    <string name="pref_title_sync_birthdays">Synchroniseer verjaardagen</string>
+    <string name="pref_crash_notification_title">Melding van crash</string>
+    <string name="pref_crash_notification_summary">Toon een melding met de fout wanneer de app crasht</string>
+    <string name="birthdays">Verjaardagen</string>
 </resources>
