@@ -3481,4 +3481,8 @@
     <string name="pref_crash_notification_summary">Uygulama çöktüğünde, hatayı içeren bir bildirim görüntüle</string>
     <string name="app_crash_notification_title">%1s çöktü</string>
     <string name="app_crash_share_stacktrace">Hatayı paylaş</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_summary">Geçerli saat ile gece yarısı arasında düne ait verileri karartılmış olarak göster</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_title">Dünkü veriler</string>
+    <string name="pref_dashboard_widget_today_time_indicator_title">Geçerli zaman göstergesi</string>
+    <string name="pref_dashboard_widget_today_time_indicator_summary">Dün ve bugüne ait verileri görsel olarak ayırmak için geçerli zamanda bir gösterge göster</string>
 </resources>
