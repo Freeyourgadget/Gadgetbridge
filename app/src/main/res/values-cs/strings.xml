@@ -3468,4 +3468,8 @@
     <string name="pref_crash_notification_summary">Při pádu aplikace zobrazit oznámení s chybou</string>
     <string name="app_crash_share_stacktrace">Sdílet chybu</string>
     <string name="app_crash_notification_title">Aplikace %1s havarovala</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_summary">Zobrazit tmavě data ze včerejška mezi aktuálním časem a půlnocí</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_title">Údaje ze včerejška</string>
+    <string name="pref_dashboard_widget_today_time_indicator_title">Ukazatel aktuálního času</string>
+    <string name="pref_dashboard_widget_today_time_indicator_summary">Zobrazit ukazatel aktuálního času pro vizuální oddělení údajů ze včerejška a dneška</string>
 </resources>
