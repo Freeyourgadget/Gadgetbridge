@@ -40,6 +40,10 @@ public class WorkoutValueFormatter {
     }
 
     public String formatValue(final Object rawValue, String unit) {
+        if (rawValue == null) {
+            return GBApplication.getContext().getString(R.string.stats_empty_value);
+        }
+
         if (ActivitySummaryEntries.UNIT_RAW_STRING.equals(unit)) {
             return String.valueOf(rawValue);
         }
@@ -52,6 +56,10 @@ public class WorkoutValueFormatter {
                 LOG.error("Failed to get string resource by name for {}", rawValue);
                 return String.valueOf(rawValue);
             }
+        }
+
+        if (!(rawValue instanceof Number)) {
+            return String.valueOf(rawValue);
         }
 
         double value = ((Number) rawValue).doubleValue();
