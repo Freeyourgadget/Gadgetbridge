@@ -78,8 +78,6 @@ public class CalendarManager {
             Instances.RRULE
     };
 
-    private static final int lookahead_days = 7;
-
     private final String deviceAddress;
     private final Context mContext;
 
@@ -94,21 +92,22 @@ public class CalendarManager {
         loadCalendarsBlackList();
 
         final SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-
-        final List<CalendarEvent> calendarEventList = getCalendarEvents();
+        final Prefs prefs = new Prefs(sharedPrefs);
+        int lookaheadDays = Math.max(1, prefs.getInt("calendar_lookahead_days", 7));
+        final List<CalendarEvent> calendarEventList = getCalendarEvents(lookaheadDays);
         if (sharedPrefs.getBoolean("sync_birthdays", false)) {
-            calendarEventList.addAll(getBirthdays());
+            calendarEventList.addAll(getBirthdays(lookaheadDays));
             calendarEventList.sort(Comparator.comparingInt(CalendarEvent::getBeginSeconds));
         }
         return calendarEventList;
     }
 
-    public List<CalendarEvent> getCalendarEvents() {
+    public List<CalendarEvent> getCalendarEvents(final int lookaheadDays) {
         final List<CalendarEvent> calendarEventList = new ArrayList<>();
 
         Calendar cal = GregorianCalendar.getInstance();
         long dtStart = cal.getTimeInMillis();
-        cal.add(Calendar.DATE, lookahead_days);
+        cal.add(Calendar.DATE, lookaheadDays);
         long dtEnd = cal.getTimeInMillis();
 
         Uri.Builder eventsUriBuilder = Instances.CONTENT_URI.buildUpon();
@@ -185,7 +184,7 @@ public class CalendarManager {
         }
     }
 
-    public List<CalendarEvent> getBirthdays() {
+    public List<CalendarEvent> getBirthdays(final int lookaheadDays) {
         final String[] projection = new String[]{
                 ContactsContract.CommonDataKinds.Event.CONTACT_ID,
                 ContactsContract.CommonDataKinds.Event.START_DATE,
@@ -198,7 +197,7 @@ public class CalendarManager {
                 String.valueOf(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
         };
         final List<CalendarEvent> birthdays = new LinkedList<>();
-        final LocalDate maxDate = LocalDate.now().plusDays(30);
+        final LocalDate maxDate = LocalDate.now().plusDays(lookaheadDays);
 
         try (Cursor birthdayCursor = mContext.getContentResolver().query(ContactsContract.Data.CONTENT_URI, projection, selection, selectionArgs, ContactsContract.CommonDataKinds.Event.START_DATE + " ASC")) {
             if (birthdayCursor == null || birthdayCursor.getCount() == 0) {

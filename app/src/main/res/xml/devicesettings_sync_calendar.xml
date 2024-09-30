@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:icon="@drawable/ic_calendar_sync"
@@ -7,6 +8,15 @@
         android:layout="@layout/preference_checkbox"
         android:summary="@string/pref_summary_sync_calendar"
         android:title="@string/pref_title_sync_caldendar" />
+    <EditTextPreference
+        android:defaultValue="7"
+        android:dependency="sync_calendar"
+        android:icon="@drawable/ic_calendar_to"
+        android:inputType="number"
+        android:key="calendar_lookahead_days"
+        android:maxLength="3"
+        android:title="@string/pref_title_calendar_lookahead"
+        app:useSimpleSummaryProvider="true" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:dependency="sync_calendar"

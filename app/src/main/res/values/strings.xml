@@ -414,6 +414,8 @@
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
     <string name="pref_title_allow_high_mtu">Allow high MTU</string>
     <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
+    <string name="pref_title_calendar_lookahead">Number of days ahead</string>
+    <string name="pref_summary_calendar_lookahead">Sync up to %1s days of calendar events</string>
     <string name="pref_title_overwrite_settings_on_connection">Overwrite settings on connection</string>
     <string name="pref_summary_overwrite_settings_on_connection">When connecting to the band, overwrite all the settings on it.</string>
     <string name="pref_title_device_internet_access">Allow Internet Access</string>

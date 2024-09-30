@@ -595,6 +595,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_CAMERA_REMOTE);
         addPreferenceHandlerFor(PREF_SCREEN_LIFT_WRIST);
         addPreferenceHandlerFor(PREF_SYNC_CALENDAR);
+        addPreferenceHandlerFor(PREF_CALENDAR_LOOKAHEAD_DAYS);
 
         addPreferenceHandlerFor(PREF_BATTERY_POLLING_ENABLE);
         addPreferenceHandlerFor(PREF_BATTERY_POLLING_INTERVAL);
@@ -1119,6 +1120,15 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                     cannedReplyPref.setVisible(false);
                 }
             }
+        }
+
+        final EditTextPreference calendarLookahead = findPreference(DeviceSettingsPreferenceConst.PREF_CALENDAR_LOOKAHEAD_DAYS);
+        if (calendarLookahead != null) {
+            setInputTypeFor(DeviceSettingsPreferenceConst.PREF_CALENDAR_LOOKAHEAD_DAYS, InputType.TYPE_CLASS_NUMBER);
+            calendarLookahead.setSummaryProvider(new GBSimpleSummaryProvider(
+                    requireContext().getString(R.string.pref_summary_calendar_lookahead, "7"),
+                    R.string.pref_summary_calendar_lookahead
+            ));
         }
 
         setInputTypeFor(HuamiConst.PREF_BUTTON_ACTION_BROADCAST_DELAY, InputType.TYPE_CLASS_NUMBER);

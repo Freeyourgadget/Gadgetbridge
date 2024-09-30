@@ -82,6 +82,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_RESERVE_REMINDERS_CALENDAR = "reserve_reminders_calendar";
     public static final String PREF_ALLOW_HIGH_MTU = "allow_high_mtu";
     public static final String PREF_SYNC_CALENDAR = "sync_calendar";
+    public static final String PREF_CALENDAR_LOOKAHEAD_DAYS = "calendar_lookahead_days";
     public static final String PREF_TIME_SYNC = "time_sync";
     public static final String PREF_USE_CUSTOM_DEVICEICON = "use_custom_deviceicon";
     public static final String PREF_BUTTON_1_FUNCTION_SHORT = "button_1_function_short";
