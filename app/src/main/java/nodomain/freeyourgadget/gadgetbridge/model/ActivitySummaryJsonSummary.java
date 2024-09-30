@@ -177,8 +177,8 @@ public class ActivitySummaryJsonSummary {
                     DESCENT_DISTANCE, FLAT_DISTANCE, ELEVATION_GAIN, ELEVATION_LOSS
             ));
             put(GROUP_HEART_RATE_ZONES, Arrays.asList(
-                    HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_FAT_BURN, HR_ZONE_AEROBIC, HR_ZONE_ANAEROBIC,
-                    HR_ZONE_EXTREME
+                    HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_FAT_BURN, HR_ZONE_EASY, HR_ZONE_AEROBIC, HR_ZONE_ANAEROBIC,
+                    HR_ZONE_THRESHOLD, HR_ZONE_EXTREME, HR_ZONE_MAXIMUM
             ));
             put(GROUP_STROKES, Arrays.asList(
                     STROKE_DISTANCE_AVG, STROKE_AVG_PER_SECOND, STROKES,

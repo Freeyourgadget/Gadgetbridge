@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryProgressEntry;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryTableRowEntry;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryValue;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -194,14 +196,19 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
         for (final FitTimeInZone fitTimeInZone : timesInZone) {
             // Find the first time in zone for the session (assumes single-session)
             if (fitTimeInZone.getReferenceMessage() != null && fitTimeInZone.getReferenceMessage() == 18) {
-                final Double[] timeInZone = fitTimeInZone.getTimeInZone();
-                if (timeInZone != null && timeInZone.length == 6) {
-                    summaryData.add(HR_ZONE_NA, timeInZone[0].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_WARM_UP, timeInZone[1].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_FAT_BURN, timeInZone[2].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_AEROBIC, timeInZone[3].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_ANAEROBIC, timeInZone[4].floatValue(), UNIT_SECONDS);
-                    summaryData.add(HR_ZONE_EXTREME, timeInZone[5].floatValue(), UNIT_SECONDS);
+                final Double[] timeInZones = fitTimeInZone.getTimeInZone();
+                final double totalTime = Arrays.stream(timeInZones).mapToInt(Double::intValue).sum();
+                final List<String> zoneOrder = Arrays.asList(HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_EASY, HR_ZONE_AEROBIC, HR_ZONE_THRESHOLD, HR_ZONE_MAXIMUM);
+                for (int i = 1; i < zoneOrder.size(); i++) {
+                    double timeInZone = timeInZones[i] != null ? Math.rint(timeInZones[i]) : 0;
+                    summaryData.add(
+                            zoneOrder.get(i),
+                            new ActivitySummaryProgressEntry(
+                                    timeInZone,
+                                    UNIT_SECONDS,
+                                    (int) (100 * timeInZone / totalTime)
+                            )
+                    );
                 }
                 break;
             }

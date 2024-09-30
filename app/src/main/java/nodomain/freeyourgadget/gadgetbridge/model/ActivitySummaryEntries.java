@@ -69,10 +69,13 @@ public class ActivitySummaryEntries {
     public static final String HR_MIN = "minHR";
     public static final String HR_ZONE_NA = "hrZoneNa";
     public static final String HR_ZONE_WARM_UP = "hrZoneWarmUp";
+    public static final String HR_ZONE_EASY = "hrZoneEasy";
     public static final String HR_ZONE_FAT_BURN = "hrZoneFatBurn";
     public static final String HR_ZONE_AEROBIC = "hrZoneAerobic";
     public static final String HR_ZONE_ANAEROBIC = "hrZoneAnaerobic";
+    public static final String HR_ZONE_THRESHOLD = "hrZoneThreshold";
     public static final String HR_ZONE_EXTREME = "hrZoneExtreme";
+    public static final String HR_ZONE_MAXIMUM = "hrZoneMaximum";
 
     public static final String LANE_LENGTH = "laneLength";
     public static final String LAPS = "laps";

@@ -2173,9 +2173,12 @@
     <string name="hrZoneNa">N/A</string>
     <string name="hrZoneWarmUp">Warm-Up</string>
     <string name="hrZoneFatBurn">Fat Burn</string>
+    <string name="hrZoneEasy">Easy</string>
     <string name="hrZoneAerobic">Aerobic</string>
     <string name="hrZoneAnaerobic">Anaerobic</string>
+    <string name="hrZoneThreshold">Threshold</string>
     <string name="hrZoneExtreme">Extreme</string>
+    <string name="hrZoneMaximum">Maximum</string>
     <string name="TrainingEffect">Training Effect</string>
     <string name="aerobicTrainingEffect">Aerobic Effect</string>
     <string name="anaerobicTrainingEffect">Anaerobic Effect</string>
