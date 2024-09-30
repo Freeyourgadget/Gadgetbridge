@@ -22,9 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import de.greenrobot.dao.query.QueryBuilder;
+import de.greenrobot.dao.AbstractDao;
+import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
@@ -34,10 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHeartRateSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHrvValueSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepSessionSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepStageSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSpo2SampleDao;
@@ -46,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -56,21 +62,23 @@ public abstract class AbstractColmiR0xCoordinator extends AbstractBLEDeviceCoord
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-        Long deviceId = device.getId();
-        QueryBuilder<?> qb;
+        final Long deviceId = device.getId();
 
-        qb = session.getColmiActivitySampleDao().queryBuilder();
-        qb.where(ColmiActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-        qb = session.getColmiHeartRateSampleDao().queryBuilder();
-        qb.where(ColmiHeartRateSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-        qb = session.getColmiSpo2SampleDao().queryBuilder();
-        qb.where(ColmiSpo2SampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-        qb = session.getColmiStressSampleDao().queryBuilder();
-        qb.where(ColmiStressSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-        qb = session.getColmiSleepSessionSampleDao().queryBuilder();
-        qb.where(ColmiSleepSessionSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
-        qb = session.getColmiSleepStageSampleDao().queryBuilder();
-        qb.where(ColmiSleepStageSampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+        final Map<AbstractDao<?, ?>, Property> daoMap = new HashMap<AbstractDao<?, ?>, Property>() {{
+            put(session.getColmiActivitySampleDao(), ColmiActivitySampleDao.Properties.DeviceId);
+            put(session.getColmiHeartRateSampleDao(), ColmiHeartRateSampleDao.Properties.DeviceId);
+            put(session.getColmiSpo2SampleDao(), ColmiSpo2SampleDao.Properties.DeviceId);
+            put(session.getColmiStressSampleDao(), ColmiStressSampleDao.Properties.DeviceId);
+            put(session.getColmiSleepSessionSampleDao(), ColmiSleepSessionSampleDao.Properties.DeviceId);
+            put(session.getColmiSleepStageSampleDao(), ColmiSleepStageSampleDao.Properties.DeviceId);
+            put(session.getColmiHrvValueSampleDao(), ColmiHrvValueSampleDao.Properties.DeviceId);
+        }};
+
+        for (final Map.Entry<AbstractDao<?, ?>, Property> e : daoMap.entrySet()) {
+            e.getKey().queryBuilder()
+                    .where(e.getValue().eq(deviceId))
+                    .buildDelete().executeDeleteWithoutDetachingEntities();
+        }
     }
 
     @Override
@@ -160,6 +168,11 @@ public abstract class AbstractColmiR0xCoordinator extends AbstractBLEDeviceCoord
     }
 
     @Override
+    public boolean supportsHrvMeasurement() {
+        return true;
+    }
+
+    @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new ColmiActivitySampleProvider(device, session);
     }
@@ -172,6 +185,11 @@ public abstract class AbstractColmiR0xCoordinator extends AbstractBLEDeviceCoord
     @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session) {
         return new ColmiStressSampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends HrvValueSample> getHrvValueSampleProvider(final GBDevice device, final DaoSession session) {
+        return new ColmiHrvValueSampleProvider(device, session);
     }
 
     @Override

@@ -91,15 +91,6 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
-
-//        try (DBHandler db = GBApplication.acquireDB()) {
-//            db.getDatabase().execSQL("DROP TABLE IF EXISTS 'COLMI_ACTIVITY_SAMPLE'");
-//            db.getDatabase().execSQL("DROP TABLE IF EXISTS 'COLMI_HEART_RATE_SAMPLE'");
-//            db.getDatabase().execSQL("DROP TABLE IF EXISTS 'COLMI_SPO2_SAMPLE'");
-//            db.getDatabase().execSQL("DROP TABLE IF EXISTS 'COLMI_STRESS_SAMPLE'");
-//        } catch (Exception e) {
-//            LOG.error("Error acquiring database", e);
-//        }
     }
 
     @Override
@@ -277,6 +268,9 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ColmiR0xConstants.CMD_AUTO_STRESS_PREF:
                     ColmiR0xPacketHandler.stressSettings(this, value);
                     break;
+                case ColmiR0xConstants.CMD_AUTO_HRV_PREF:
+                    ColmiR0xPacketHandler.hrvSettings(this, value);
+                    break;
                 case ColmiR0xConstants.CMD_SYNC_STRESS:
                     ColmiR0xPacketHandler.historicalStress(getDevice(), getContext(), value);
                     if (!getDevice().isBusy()) {
@@ -294,6 +288,9 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                             fetchHistoryHR();
                         }
                     }
+                    break;
+                case ColmiR0xConstants.CMD_SYNC_HRV:
+                    ColmiR0xPacketHandler.historicalHRV(getDevice(), getContext(), value);
                     break;
                 case ColmiR0xConstants.CMD_FIND_DEVICE:
                     LOG.info("Received find device response: {}", StringUtils.bytesToHex(value));
@@ -367,6 +364,9 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                     switch (value[1]) {
                         case ColmiR0xConstants.BIG_DATA_TYPE_SLEEP:
                             ColmiR0xPacketHandler.historicalSleep(getDevice(), getContext(), value);
+                            fetchHistoryHRV();
+                            // Signal history sync finished at this point, since older firmwares
+                            // will not send anything back after requesting HRV history
                             fetchRecordedDataFinished();
                             break;
                         case ColmiR0xConstants.BIG_DATA_TYPE_SPO2:
@@ -478,6 +478,12 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("Stress preference request sent: {}", StringUtils.bytesToHex(stressPrefsPacket));
                 sendWrite("stressPreferenceRequest", stressPrefsPacket);
                 break;
+            case DeviceSettingsPreferenceConst.PREF_HRV_ALL_DAY_MONITORING:
+                final boolean hrvEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HRV_ALL_DAY_MONITORING, false);
+                byte[] hrvPrefsPacket = buildPacket(new byte[]{ColmiR0xConstants.CMD_AUTO_HRV_PREF, ColmiR0xConstants.PREF_WRITE, (byte) (hrvEnabled ? 0x01 : 0x00)});
+                LOG.info("HRV preference request sent: {}", StringUtils.bytesToHex(hrvPrefsPacket));
+                sendWrite("hrvPreferenceRequest", hrvPrefsPacket);
+                break;
         }
     }
 
@@ -538,6 +544,9 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
         request = buildPacket(new byte[]{ColmiR0xConstants.CMD_AUTO_SPO2_PREF, ColmiR0xConstants.PREF_READ});
         LOG.info("Request SpO2 measurement setting from ring: {}", StringUtils.bytesToHex(request));
         sendWrite("spo2SettingRequest", request);
+        request = buildPacket(new byte[]{ColmiR0xConstants.CMD_AUTO_HRV_PREF, ColmiR0xConstants.PREF_READ});
+        LOG.info("Request HRV measurement setting from ring: {}", StringUtils.bytesToHex(request));
+        sendWrite("hrvSettingRequest", request);
         request = buildPacket(new byte[]{ColmiR0xConstants.CMD_GOALS, ColmiR0xConstants.PREF_READ});
         LOG.info("Request goals from ring: {}", StringUtils.bytesToHex(request));
         sendWrite("goalsSettingRequest", request);
@@ -663,5 +672,14 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
         };
         LOG.info("Fetch historical sleep data request sent: {}", StringUtils.bytesToHex(sleepHistoryRequest));
         sendCommand("sleepHistoryRequest", sleepHistoryRequest);
+    }
+
+    private void fetchHistoryHRV() {
+        getDevice().setBusyTask(getContext().getString(R.string.busy_task_fetch_hrv_data));
+        getDevice().sendDeviceUpdateIntent(getContext());
+        syncingDay = Calendar.getInstance();
+        byte[] hrvHistoryRequest = buildPacket(new byte[]{ColmiR0xConstants.CMD_SYNC_HRV});
+        LOG.info("Fetch historical HRV data request sent: {}", StringUtils.bytesToHex(hrvHistoryRequest));
+        sendWrite("hrvHistoryRequest", hrvHistoryRequest);
     }
 }

@@ -199,6 +199,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING = "heartrate_sleep_breathing_quality_monitoring";
     public static final String PREF_SPO2_ALL_DAY_MONITORING = "spo2_all_day_monitoring_enabled";
     public static final String PREF_SPO2_LOW_ALERT_THRESHOLD = "spo2_low_alert_threshold";
+    public static final String PREF_HRV_ALL_DAY_MONITORING = "hrv_all_day_monitoring_enabled";
 
     public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
     public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";

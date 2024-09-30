@@ -135,6 +135,7 @@ public class GBDaoGenerator {
         addColmiStressSample(schema, user, device);
         addColmiSleepSessionSample(schema, user, device);
         addColmiSleepStageSample(schema, user, device);
+        addColmiHrvValueSample(schema, user, device);
 
         addHuaweiActivitySample(schema, user, device);
 
@@ -544,6 +545,13 @@ public class GBDaoGenerator {
         sleepStageSample.addIntProperty("duration").notNull();
         sleepStageSample.addIntProperty("stage").notNull();
         return sleepStageSample;
+    }
+
+    private static Entity addColmiHrvValueSample(Schema schema, Entity user, Entity device) {
+        Entity hrvValueSample = addEntity(schema, "ColmiHrvValueSample");
+        addCommonTimeSampleProperties("AbstractHrvValueSample", hrvValueSample, user, device);
+        hrvValueSample.addIntProperty("value").notNull().codeBeforeGetter(OVERRIDE);
+        return hrvValueSample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {

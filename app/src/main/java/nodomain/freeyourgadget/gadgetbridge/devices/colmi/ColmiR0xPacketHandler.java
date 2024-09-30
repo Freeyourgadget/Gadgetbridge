@@ -96,6 +96,17 @@ public class ColmiR0xPacketHandler {
         support.evaluateGBDeviceEvent(eventUpdatePreferences);
     }
 
+    public static void hrvSettings(ColmiR0xDeviceSupport support, byte[] value) {
+        boolean enabled = value[2] == 0x01;
+        LOG.info("Received HRV preference: {}", enabled ? "enabled" : "disabled");
+        GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences();
+        eventUpdatePreferences.withPreference(
+                DeviceSettingsPreferenceConst.PREF_HRV_ALL_DAY_MONITORING,
+                enabled
+        );
+        support.evaluateGBDeviceEvent(eventUpdatePreferences);
+    }
+
     public static void goalsSettings(byte[] value) {
         int steps = BLETypeConversions.toUint32(value[2], value[3], value[4], (byte) 0);
         int calories = BLETypeConversions.toUint32(value[5], value[6], value[7], (byte) 0);
@@ -409,5 +420,9 @@ public class ColmiR0xPacketHandler {
                 }
             }
         }
+    }
+
+    public static void historicalHRV(GBDevice device, Context context, byte[] value) {
+
     }
 }
