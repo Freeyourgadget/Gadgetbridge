@@ -3468,4 +3468,8 @@
     <string name="pref_crash_notification_summary">当应用程序崩溃时，显示包含错误的通知</string>
     <string name="app_crash_notification_title">%1s 已经崩溃</string>
     <string name="app_crash_share_stacktrace">分享错误</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_title">昨天的数据</string>
+    <string name="pref_dashboard_widget_today_yesterday_data_summary">显示昨天的数据在当前时间和午夜之间变暗</string>
+    <string name="pref_dashboard_widget_today_time_indicator_summary">显示当前时间的指标，以直观地区分昨天和今天的数据</string>
+    <string name="pref_dashboard_widget_today_time_indicator_title">当前时间指示器</string>
 </resources>
