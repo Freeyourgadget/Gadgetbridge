@@ -3472,4 +3472,6 @@
     <string name="pref_dashboard_widget_today_yesterday_data_title">Údaje ze včerejška</string>
     <string name="pref_dashboard_widget_today_time_indicator_title">Ukazatel aktuálního času</string>
     <string name="pref_dashboard_widget_today_time_indicator_summary">Zobrazit ukazatel aktuálního času pro vizuální oddělení údajů ze včerejška a dneška</string>
+    <string name="pref_title_calendar_lookahead">Počet dnů vpřed</string>
+    <string name="pref_summary_calendar_lookahead">Synchronizovat do %1s dní událostí v kalendáři</string>
 </resources>
