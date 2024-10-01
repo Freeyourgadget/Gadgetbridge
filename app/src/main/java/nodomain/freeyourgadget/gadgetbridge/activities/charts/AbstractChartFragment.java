@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import androidx.fragment.app.FragmentActivity;
@@ -381,10 +382,11 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
     }
 
     private void updateDateInfo(final Date from, final Date to) {
+        int dateFlags = DateUtils.FORMAT_SHOW_WEEKDAY;
         if (from.equals(to)) {
-            getChartsHost().setDateInfo(DateTimeUtils.formatDate(from));
+            getChartsHost().setDateInfo(DateTimeUtils.formatDate(from, dateFlags));
         } else {
-            getChartsHost().setDateInfo(DateTimeUtils.formatDateRange(from, to));
+            getChartsHost().setDateInfo(DateTimeUtils.formatDateRange(from, to, dateFlags));
         }
     }
 }

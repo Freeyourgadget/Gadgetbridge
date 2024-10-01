@@ -86,15 +86,11 @@ public class DateTimeUtils {
     }
 
     public static String formatDate(Date date) {
-        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE);
-//        long dateMillis = date.getTime();
-//        if (isToday(dateMillis)) {
-//            return "Today";
-//        }
-//        if (isYesterday(dateMillis)) {
-//            return "Yesterday";
-//        }
-//        DateFormat.getDateInstance(DateFormat.SHORT).format(date);
+        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL);
+    }
+
+    public static String formatDate(Date date, int extraFlags) {
+        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL|extraFlags);
     }
 
     public static String formatDurationHoursMinutes(long duration, TimeUnit unit) {
@@ -108,7 +104,11 @@ public class DateTimeUtils {
     }
 
     public static String formatDateRange(Date from, Date to) {
-        return DateUtils.formatDateRange(GBApplication.getContext(), from.getTime(), to.getTime(), DateUtils.FORMAT_SHOW_DATE);
+        return DateUtils.formatDateRange(GBApplication.getContext(), from.getTime(), to.getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL);
+    }
+
+    public static String formatDateRange(Date from, Date to, int extraFlags) {
+        return DateUtils.formatDateRange(GBApplication.getContext(), from.getTime(), to.getTime(), DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_ABBREV_ALL|extraFlags);
     }
 
     public static Date shiftByDays(Date date, int offset) {

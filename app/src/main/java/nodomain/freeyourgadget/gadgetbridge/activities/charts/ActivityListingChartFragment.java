@@ -151,7 +151,7 @@ public class ActivityListingChartFragment extends AbstractActivityChartFragment<
         }
 
         Date activityDate = new Date(tsDateTo * 1000L);
-        stepsDateView.setText(DateTimeUtils.formatDate(activityDate));
+        stepsDateView.setText(DateTimeUtils.formatDate(activityDate, DateUtils.FORMAT_SHOW_WEEKDAY));
 
         if (GBApplication.getPrefs().getBoolean("charts_show_ongoing_activity", true)) {
             if (mcd.getOngoingSession() != null && DateUtils.isToday(activityDate.getTime())) {
