@@ -3485,4 +3485,6 @@
     <string name="pref_dashboard_widget_today_yesterday_data_title">Dünkü veriler</string>
     <string name="pref_dashboard_widget_today_time_indicator_title">Geçerli zaman göstergesi</string>
     <string name="pref_dashboard_widget_today_time_indicator_summary">Dün ve bugüne ait verileri görsel olarak ayırmak için geçerli zamanda bir gösterge göster</string>
+    <string name="pref_summary_calendar_lookahead">%1s güne kadar takvim etkinliklerini eşzamanla</string>
+    <string name="pref_title_calendar_lookahead">Gelecek gün sayısı</string>
 </resources>
