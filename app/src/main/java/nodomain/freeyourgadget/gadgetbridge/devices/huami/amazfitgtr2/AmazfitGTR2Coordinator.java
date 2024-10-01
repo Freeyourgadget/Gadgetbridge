@@ -83,6 +83,11 @@ public class AmazfitGTR2Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsPai() {
+        return true;
+    }
+
+    @Override
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
