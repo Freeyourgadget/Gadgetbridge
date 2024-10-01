@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -31,16 +31,12 @@ import java.time.ZoneOffset;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneOffsetTransitionRule;
 import java.time.zone.ZoneRules;
-import java.util.Arrays;
-import java.util.List;
-
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
 
 
-public class CasioGWB5600TimeZone {
+public class CasioTimeZone {
 
 /*
-There are six clocks on the Casio GW-B5600
+There are six clocks on the Casio GW-B5600 / S100
 0 is the main clock
 1-5 are the world clocks
 
@@ -123,7 +119,7 @@ PONTA DELGADA      E4 00  FC  04     02
     final static byte DST_SETTING_ON   = 1;
     final static byte DST_SETTING_AUTO = 2;
 
-    private CasioGWB5600TimeZone(byte[] name, byte[] number, byte offset, byte dstOffset, byte dstRules, byte dstSetting) {
+    private CasioTimeZone(byte[] name, byte[] number, byte offset, byte dstOffset, byte dstRules, byte dstSetting) {
         this.name = name;
         this.number = number;
         this.offset = offset;
@@ -140,7 +136,7 @@ PONTA DELGADA      E4 00  FC  04     02
         return requests;
     }
 
-    static public byte[] dstWatchStateBytes(int slotA, CasioGWB5600TimeZone zoneA, int slotB, CasioGWB5600TimeZone zoneB) {
+    static public byte[] dstWatchStateBytes(int slotA, CasioTimeZone zoneA, int slotB, CasioTimeZone zoneB) {
         return new byte[] {
             Casio2C2DSupport.FEATURE_DST_WATCH_STATE,
             (byte) slotA,
@@ -174,7 +170,7 @@ PONTA DELGADA      E4 00  FC  04     02
         return bytes;
     }
 
-    static CasioGWB5600TimeZone fromWatchResponses(Map<Casio2C2DSupport.FeatureRequest, byte[]> responses, int slot) {
+    public static CasioTimeZone fromWatchResponses(Map<Casio2C2DSupport.FeatureRequest, byte[]> responses, int slot) {
         byte[] name = "unknown".getBytes(StandardCharsets.US_ASCII);
         byte[] number = {0,0};
         byte offset = 0;
@@ -208,10 +204,10 @@ PONTA DELGADA      E4 00  FC  04     02
             }
         }
 
-        return new CasioGWB5600TimeZone(name, number, offset, dstOffset, dstRules, dstSetting);
+        return new CasioTimeZone(name, number, offset, dstOffset, dstRules, dstSetting);
     }
 
-    static CasioGWB5600TimeZone fromZoneId(ZoneId zone, Instant time, String zoneName) {
+    public static CasioTimeZone fromZoneId(ZoneId zone, Instant time, String zoneName) {
         ZoneRules rules = zone.getRules();
 
         byte[] name = zoneName.getBytes(StandardCharsets.US_ASCII);
@@ -249,7 +245,7 @@ PONTA DELGADA      E4 00  FC  04     02
             }
         }
 
-        return new CasioGWB5600TimeZone(name, number, offset, dstOffset, dstRules, dstSetting);
+        return new CasioTimeZone(name, number, offset, dstOffset, dstRules, dstSetting);
     }
 
     // We are searching for watch DST rules which match the next two transitions.

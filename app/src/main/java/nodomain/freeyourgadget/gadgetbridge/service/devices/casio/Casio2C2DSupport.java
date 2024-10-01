@@ -110,7 +110,7 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     public static final byte FEATURE_SETTING_FOR_USER_PROFILE = 0x45;
     public static final byte FEATURE_SERVICE_DISCOVERY_MANAGER = 0x47;
 
-    private static Logger LOG;
+    protected static Logger LOG;
     LinkedList<RequestWithHandler> requests = new LinkedList<>();
 
     public Casio2C2DSupport(Logger logger) {

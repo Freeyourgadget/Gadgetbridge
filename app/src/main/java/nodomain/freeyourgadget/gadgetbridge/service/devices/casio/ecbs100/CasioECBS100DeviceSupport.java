@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Johannes Krude
+/*  Copyright (C) 2023-2024 Johannes Krude, Jisakiel
 
     This file is part of Gadgetbridge.
 
@@ -14,12 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600;
-
-import java.util.UUID;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Locale;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.ecbs100;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -31,20 +26,25 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
-
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.BasicCasio2C2DSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioTimeZone;
 
-public class CasioGWB5600DeviceSupport extends BasicCasio2C2DSupport {
-    private static final Logger LOG = LoggerFactory.getLogger(CasioGWB5600DeviceSupport.class);
+// TODO abstract methods from GWB5600
+public class CasioECBS100DeviceSupport extends BasicCasio2C2DSupport {
+    private static final Logger LOG = LoggerFactory.getLogger(CasioECBS100DeviceSupport.class);
 
-    public CasioGWB5600DeviceSupport() {
+    public CasioECBS100DeviceSupport() {
         super(LOG);
     }
 
@@ -76,4 +76,7 @@ public class CasioGWB5600DeviceSupport extends BasicCasio2C2DSupport {
         setAutoReconnect(true);
         return connect();
     }
+
+
+
 }

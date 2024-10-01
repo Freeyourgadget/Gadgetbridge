@@ -1807,6 +1807,7 @@
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="devicetype_y5">Y5</string>
+    <string name="devicetype_casioecbs100">Casio ECB-S100</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>

@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSDeviceC
 import nodomain.freeyourgadget.gadgetbridge.devices.bandwpseries.BandWPSeriesDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.binary_sensor.coordinator.BinarySensorCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.ecbs100.CasioECBS100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
@@ -405,6 +406,8 @@ public enum DeviceType {
     WATCHXPLUS(WatchXPlusDeviceCoordinator.class),
     ROIDMI(Roidmi1Coordinator.class),
     ROIDMI3(Roidmi3Coordinator.class),
+    CASIOECBS100(CasioECBS100DeviceCoordinator.class),
+
     CASIOGB6900(CasioGB6900DeviceCoordinator.class),
     CASIOGBX100(CasioGBX100DeviceCoordinator.class),
     CASIOGWB5600(CasioGWB5600DeviceCoordinator.class),
