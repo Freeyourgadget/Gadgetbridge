@@ -3476,4 +3476,6 @@
     <string name="pref_dashboard_widget_today_yesterday_data_summary">Mostrar datos de ayer atenuados entre la hora actual y la medianoche</string>
     <string name="pref_dashboard_widget_today_time_indicator_title">Indicador de la hora actual</string>
     <string name="pref_dashboard_widget_today_time_indicator_summary">Mostrar un indicador en la hora actual, para separar visualmente los datos de ayer y hoy</string>
+    <string name="pref_title_calendar_lookahead">Número de días de antelación</string>
+    <string name="pref_summary_calendar_lookahead">Sincronizar hasta %1s días de eventos del calendario</string>
 </resources>
