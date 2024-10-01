@@ -3478,4 +3478,8 @@
     <string name="pref_dashboard_widget_today_time_indicator_summary">Mostrar un indicador en la hora actual, para separar visualmente los datos de ayer y hoy</string>
     <string name="pref_title_calendar_lookahead">Número de días de antelación</string>
     <string name="pref_summary_calendar_lookahead">Sincronizar hasta %1s días de eventos del calendario</string>
+    <string name="hrZoneEasy">Fácil</string>
+    <string name="hrZoneThreshold">Umbral</string>
+    <string name="hrZoneMaximum">Máximo</string>
+    <string name="workout_set_reps">Repeticiones</string>
 </resources>
