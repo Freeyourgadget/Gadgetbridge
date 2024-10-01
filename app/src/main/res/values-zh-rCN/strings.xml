@@ -3472,4 +3472,6 @@
     <string name="pref_dashboard_widget_today_yesterday_data_summary">显示昨天的数据在当前时间和午夜之间变暗</string>
     <string name="pref_dashboard_widget_today_time_indicator_summary">显示当前时间的指标，以直观地区分昨天和今天的数据</string>
     <string name="pref_dashboard_widget_today_time_indicator_title">当前时间指示器</string>
+    <string name="pref_title_calendar_lookahead">提前天数</string>
+    <string name="pref_summary_calendar_lookahead">同步最多 %1s 天的日历事件</string>
 </resources>
