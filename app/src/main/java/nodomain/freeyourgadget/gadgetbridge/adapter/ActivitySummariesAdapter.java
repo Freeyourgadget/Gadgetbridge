@@ -265,7 +265,7 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
             } else if (DateTimeUtils.isYesterday(startTime)) {
                 activityDay = getContext().getString(R.string.activity_summary_yesterday);
             } else {
-                activityDay = DateTimeUtils.formatDate(startTime);
+                activityDay = DateTimeUtils.formatDate(startTime, DateUtils.FORMAT_SHOW_WEEKDAY);
             }
             String activityTime = DateTimeUtils.formatTime(startTime.getHours(), startTime.getMinutes());
             return String.format("%s%s %s", activityDay, separator, activityTime);
