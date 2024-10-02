@@ -3487,4 +3487,8 @@
     <string name="pref_dashboard_widget_today_time_indicator_summary">Dün ve bugüne ait verileri görsel olarak ayırmak için geçerli zamanda bir gösterge göster</string>
     <string name="pref_summary_calendar_lookahead">%1s güne kadar takvim etkinliklerini eşzamanla</string>
     <string name="pref_title_calendar_lookahead">Gelecek gün sayısı</string>
+    <string name="hrZoneEasy">Kolay</string>
+    <string name="hrZoneThreshold">Eşik</string>
+    <string name="hrZoneMaximum">En yüksek</string>
+    <string name="workout_set_reps">Tekrarlar</string>
 </resources>
