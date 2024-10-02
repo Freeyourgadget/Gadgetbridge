@@ -3474,4 +3474,8 @@
     <string name="pref_dashboard_widget_today_time_indicator_summary">Zobrazit ukazatel aktuálního času pro vizuální oddělení údajů ze včerejška a dneška</string>
     <string name="pref_title_calendar_lookahead">Počet dnů vpřed</string>
     <string name="pref_summary_calendar_lookahead">Synchronizovat do %1s dní událostí v kalendáři</string>
+    <string name="workout_set_reps">Opakování</string>
+    <string name="hrZoneEasy">Nízká</string>
+    <string name="hrZoneThreshold">Prahová hodnota</string>
+    <string name="hrZoneMaximum">Maximální</string>
 </resources>
