@@ -63,11 +63,19 @@ public class ActivitySummaryData {
     }
 
     public void add(final String key, final Number value, final String unit) {
-        add(null, key, value, unit);
+        add(null, key, value, unit, false);
+    }
+
+    public void add(final String key, final Number value, final String unit, boolean forceDisplay) {
+        add(null, key, value, unit, forceDisplay);
     }
 
     public void add(final String group, final String key, final Number value, final String unit) {
-        if (value.doubleValue() != 0) {
+        add(group, key, value, unit, false);
+    }
+
+    public void add(final String group, final String key, final Number value, final String unit, boolean forceDisplay) {
+        if (value.doubleValue() != 0 || forceDisplay) {
             entries.put(key, new ActivitySummarySimpleEntry(group, value, unit));
         }
     }

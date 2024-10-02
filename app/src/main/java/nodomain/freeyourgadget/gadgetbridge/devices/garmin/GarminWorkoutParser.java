@@ -216,10 +216,10 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
 
         if (physiologicalMetrics != null) {
             if (physiologicalMetrics.getAerobicEffect() != null) {
-                summaryData.add(TRAINING_EFFECT_AEROBIC, physiologicalMetrics.getAerobicEffect(), UNIT_NONE);
+                summaryData.add(TRAINING_EFFECT_AEROBIC, physiologicalMetrics.getAerobicEffect(), UNIT_NONE, true);
             }
             if (physiologicalMetrics.getAnaerobicEffect() != null) {
-                summaryData.add(TRAINING_EFFECT_ANAEROBIC, physiologicalMetrics.getAnaerobicEffect(), UNIT_NONE);
+                summaryData.add(TRAINING_EFFECT_ANAEROBIC, physiologicalMetrics.getAnaerobicEffect(), UNIT_NONE, true);
             }
             if (physiologicalMetrics.getMetMax() != null) {
                 summaryData.add(MAXIMUM_OXYGEN_UPTAKE, physiologicalMetrics.getMetMax().floatValue() * 3.5f, UNIT_ML_KG_MIN);
