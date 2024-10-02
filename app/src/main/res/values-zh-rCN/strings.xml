@@ -3474,4 +3474,8 @@
     <string name="pref_dashboard_widget_today_time_indicator_title">当前时间指示器</string>
     <string name="pref_title_calendar_lookahead">提前天数</string>
     <string name="pref_summary_calendar_lookahead">同步最多 %1s 天的日历事件</string>
+    <string name="workout_set_reps">重复次数</string>
+    <string name="hrZoneEasy">容易</string>
+    <string name="hrZoneThreshold">临界点</string>
+    <string name="hrZoneMaximum">最大</string>
 </resources>
