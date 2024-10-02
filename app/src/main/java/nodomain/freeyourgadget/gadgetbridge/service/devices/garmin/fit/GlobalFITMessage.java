@@ -106,8 +106,18 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(19, BaseType.UINT8, "max_cadence"),
             new FieldDefinitionPrimitive(22, BaseType.UINT16, "total_ascent"),
             new FieldDefinitionPrimitive(23, BaseType.UINT16, "total_descent"),
+            new FieldDefinitionPrimitive(25, BaseType.UINT16, "first_lap_index"),
+            new FieldDefinitionPrimitive(26, BaseType.UINT16, "num_laps"),
+            new FieldDefinitionPrimitive(29, BaseType.SINT32, "nec_latitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(30, BaseType.SINT32, "nec_longitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(31, BaseType.SINT32, "swc_latitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(32, BaseType.SINT32, "swc_longitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(38, BaseType.SINT32, "end_latitude", FieldDefinitionFactory.FIELD.COORDINATE),
+            new FieldDefinitionPrimitive(39, BaseType.SINT32, "end_longitude", FieldDefinitionFactory.FIELD.COORDINATE),
             new FieldDefinitionPrimitive(110, BaseType.STRING, 64, "sport_profile_name"),
-            new FieldDefinitionPrimitive(178, BaseType.UINT16, "estimated_sweat_loss"),
+            new FieldDefinitionPrimitive(124, BaseType.UINT32, "enhanced_avg_speed", 1000, 0), // m/s
+            new FieldDefinitionPrimitive(125, BaseType.UINT32, "enhanced_max_speed", 1000, 0), // m/s
+            new FieldDefinitionPrimitive(178, BaseType.UINT16, "estimated_sweat_loss"), // ml
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 

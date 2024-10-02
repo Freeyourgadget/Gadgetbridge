@@ -111,8 +111,58 @@ public class FitSession extends RecordData {
     }
 
     @Nullable
+    public Integer getFirstLapIndex() {
+        return (Integer) getFieldByNumber(25);
+    }
+
+    @Nullable
+    public Integer getNumLaps() {
+        return (Integer) getFieldByNumber(26);
+    }
+
+    @Nullable
+    public Double getNecLatitude() {
+        return (Double) getFieldByNumber(29);
+    }
+
+    @Nullable
+    public Double getNecLongitude() {
+        return (Double) getFieldByNumber(30);
+    }
+
+    @Nullable
+    public Double getSwcLatitude() {
+        return (Double) getFieldByNumber(31);
+    }
+
+    @Nullable
+    public Double getSwcLongitude() {
+        return (Double) getFieldByNumber(32);
+    }
+
+    @Nullable
+    public Double getEndLatitude() {
+        return (Double) getFieldByNumber(38);
+    }
+
+    @Nullable
+    public Double getEndLongitude() {
+        return (Double) getFieldByNumber(39);
+    }
+
+    @Nullable
     public String getSportProfileName() {
         return (String) getFieldByNumber(110);
+    }
+
+    @Nullable
+    public Double getEnhancedAvgSpeed() {
+        return (Double) getFieldByNumber(124);
+    }
+
+    @Nullable
+    public Double getEnhancedMaxSpeed() {
+        return (Double) getFieldByNumber(125);
     }
 
     @Nullable
