@@ -224,7 +224,7 @@ public class CalendarManager {
                         0,
                         true,
                         null,
-                        null,
+                        CalendarContract.ACCOUNT_TYPE_LOCAL,
                         null,
                         null
                 ));

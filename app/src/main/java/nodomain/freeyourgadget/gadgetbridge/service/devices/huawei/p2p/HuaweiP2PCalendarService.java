@@ -178,7 +178,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         ret.addProperty("all_day", calendarEvent.isAllDay() ? 1 : 0);
         ret.addProperty("calendar_color", calendarEvent.getColor());
         ret.addProperty("calendar_displayName", truncateToHexBytes(calendarEvent.getCalName(), 64));
-        ret.addProperty("calendar_id", valueOrEmpty(calendarEvent.getCalendarId(), ""));
+        ret.addProperty("calendar_id", valueOrEmpty(calendarEvent.getCalendarId(), "0"));
         ret.addProperty("description", truncateToHexBytes(calendarEvent.getDescription(), 512));
         ret.addProperty("dtend", calendarEvent.getEnd());
         ret.addProperty("dtstart", calendarEvent.getBegin());
