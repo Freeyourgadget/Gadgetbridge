@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,51 +14,52 @@
             android:id="@+id/body_energy_date_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="20dp"
-            />
+            android:gravity="center"
+            android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/body_energy_gauge"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:layout_gravity="center"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitStart"
-            android:id="@+id/body_energy_gauge" />
+            android:layout_gravity="center"
+            android:scaleType="fitStart" />
 
 
         <GridLayout
-            android:background="@color/gauge_line_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            >
+            android:background="@color/gauge_line_color"
+            android:columnCount="2">
+
             <LinearLayout
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="1dp"
                 style="@style/GridTile"
-                >
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="1dp">
+
                 <TextView
                     android:id="@+id/body_energy_gained"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="+ 0"
                     android:textSize="20sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/body_energy_gained"
                     android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="1dp"
                 style="@style/GridTile"
-                >
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="1dp">
+
                 <TextView
                     android:id="@+id/body_energy_lost"
                     android:layout_width="wrap_content"
@@ -77,8 +78,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250sp"
-            >
+            android:layout_height="250sp">
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/body_energy_chart"
                 android:layout_width="fill_parent"
@@ -88,4 +89,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>
