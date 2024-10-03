@@ -27,13 +27,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupport
 
 public class SendGpsDataRequest extends Request {
     Location location;
+    Location lastLocation;
     GpsAndTime.GpsParameters.Response gpsParametersResponse;
 
-    public SendGpsDataRequest(HuaweiSupportProvider support, Location location, GpsAndTime.GpsParameters.Response gpsParametersResponse) {
+    public SendGpsDataRequest(HuaweiSupportProvider support, Location location, Location lastLocation, GpsAndTime.GpsParameters.Response gpsParametersResponse) {
         super(support);
         this.serviceId = GpsAndTime.id;
         this.commandId = GpsAndTime.GpsData.id;
         this.location = location;
+        this.lastLocation = lastLocation;
         this.gpsParametersResponse = gpsParametersResponse;
     }
 
@@ -42,6 +44,12 @@ public class SendGpsDataRequest extends Request {
         ArrayList<GpsAndTime.GpsData.Request.GpsDataContainer> gpsList = new ArrayList<>();
         GpsAndTime.GpsData.Request.GpsDataContainer gpsData = new GpsAndTime.GpsData.Request.GpsDataContainer();
 
+        long timeOffset = 1000; // Default 1 second sample time
+        float distance = 0.0f;
+        if (lastLocation != null) {
+            timeOffset = location.getTime() - lastLocation.getTime();
+            distance = location.distanceTo(lastLocation);
+        }
         if (this.gpsParametersResponse.supportsSpeed && location.hasSpeed()) {
             gpsData.hasSpeed = true;
             gpsData.speed = (short) location.getSpeed();
@@ -63,6 +71,15 @@ public class SendGpsDataRequest extends Request {
             gpsData.hasAccuracy = true;
             gpsData.accuracy = location.getAccuracy();
         }
+        if (this.gpsParametersResponse.supportsDistance) {
+            gpsData.hasDistance = true;
+            gpsData.distance = (int)distance;
+        }
+        long currentTime = System.currentTimeMillis();
+        gpsData.hasStartTime = true;
+        gpsData.startTime = (int)((currentTime - timeOffset) / 1000);
+        gpsData.hasEndTime = true;
+        gpsData.endTime = (int)(currentTime / 1000);
 
         gpsList.add(gpsData);
         try {

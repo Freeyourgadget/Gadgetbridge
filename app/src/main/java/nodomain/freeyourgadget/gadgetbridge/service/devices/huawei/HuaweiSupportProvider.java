@@ -250,6 +250,7 @@ public class HuaweiSupportProvider {
 
     private GpsAndTime.GpsParameters.Response gpsParametersResponse = null;
     private boolean gpsEnabled = false;
+    private Location gpsLastLocation;
 
     private final HuaweiPacket.ParamsProvider paramsProvider = new HuaweiPacket.ParamsProvider();
 
@@ -379,6 +380,7 @@ public class HuaweiSupportProvider {
         } else {
             gpsEnabled = false;
             GBLocationService.stop(getContext(), getDevice());
+            gpsLastLocation = null;
         }
     }
 
@@ -1900,7 +1902,7 @@ public class HuaweiSupportProvider {
             return;
         }
 
-        SendGpsDataRequest sendGpsDataRequest = new SendGpsDataRequest(this, location, gpsParametersResponse);
+        SendGpsDataRequest sendGpsDataRequest = new SendGpsDataRequest(this, location, gpsLastLocation, gpsParametersResponse);
         try {
             sendGpsDataRequest.doPerform();
         } catch (IOException e) {
@@ -1908,6 +1910,7 @@ public class HuaweiSupportProvider {
             GB.toast(context, "Failed to send GPS data", Toast.LENGTH_SHORT, GB.ERROR, e);
             LOG.error("Failed to send GPS data", e);
         }
+        gpsLastLocation = location;
     }
 
     public void onInstallApp(Uri uri) {
