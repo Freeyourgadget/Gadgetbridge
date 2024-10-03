@@ -193,6 +193,22 @@ public class GarminWorkoutParser implements ActivitySummaryParser {
             summaryData.add(DESCENT_DISTANCE, session.getTotalDescent(), UNIT_METERS);
         }
 
+        if (session.getEnhancedAvgSpeed() != null) {
+            if (ActivityKind.isPaceActivity(activityKind)) {
+                summaryData.add(PACE_AVG_SECONDS_KM, Math.round((60 / (session.getEnhancedAvgSpeed() * 3.6)) * 60), UNIT_SECONDS);
+            } else {
+                summaryData.add(SPEED_AVG, Math.round((session.getEnhancedAvgSpeed() * 3600 / 1000) * 100.0) / 100.0, UNIT_KMPH);
+            }
+        }
+
+        if (session.getEnhancedMaxSpeed() != null) {
+            if (ActivityKind.isPaceActivity(activityKind)) {
+                summaryData.add(PACE_MAX, Math.round((60 / (session.getEnhancedMaxSpeed() * 3.6)) * 60), UNIT_SECONDS);
+            } else {
+                summaryData.add(SPEED_MAX, Math.round((session.getEnhancedMaxSpeed() * 3600 / 1000) * 100.0) / 100.0, UNIT_KMPH);
+            }
+        }
+
         for (final FitTimeInZone fitTimeInZone : timesInZone) {
             // Find the first time in zone for the session (assumes single-session)
             if (fitTimeInZone.getReferenceMessage() != null && fitTimeInZone.getReferenceMessage() == 18) {

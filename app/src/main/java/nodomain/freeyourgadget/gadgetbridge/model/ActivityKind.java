@@ -349,4 +349,10 @@ public enum ActivityKind {
                 || activityKind == ActivityKind.REM_SLEEP
                 || activityKind == ActivityKind.AWAKE_SLEEP;
     }
+
+    public static boolean isPaceActivity(final ActivityKind activityKind) {
+        return activityKind.name().contains("RUN") || activityKind.name().contains("SWIM") ||
+                activityKind.name().contains("TREADMILL") || activityKind.name().contains("WALK");
+    }
+
 }

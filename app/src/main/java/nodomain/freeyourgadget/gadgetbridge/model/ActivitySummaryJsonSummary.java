@@ -57,7 +57,7 @@ public class ActivitySummaryJsonSummary {
             summary.add("baseAltitude", item.getBaseAltitude(), UNIT_METERS);
         }
 
-        if (!summary.has("averageSpeed") && summary.has("distanceMeters") && summary.has("activeSeconds")) {
+        if (!summary.has("averageKMPaceSeconds") && !summary.has("averageSpeed") && summary.has("distanceMeters") && summary.has("activeSeconds")) {
             double distance = summary.getNumber("distanceMeters", 0).doubleValue();
             double duration = summary.getNumber("activeSeconds", 1).doubleValue();
             summary.add("averageSpeed", distance / duration, UNIT_METERS_PER_SECOND);
