@@ -46,6 +46,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.TimeZone;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -342,6 +343,7 @@ public class MisfitWatchAdapter extends WatchAdapter {
             logger.debug("Button press on button " + button);
 
             Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
+            i.setPackage(BuildConfig.APPLICATION_ID);
             i.putExtra("BUTTON", button);
 
             //ByteBuffer buffer = ByteBuffer.allocate(16);

@@ -257,14 +257,17 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 break;
             case VIBRATE:
                 final Intent intentVibrate = new Intent(FindPhoneActivity.ACTION_VIBRATE);
+                intentVibrate.setPackage(BuildConfig.APPLICATION_ID);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intentVibrate);
                 break;
             case RING:
                 final Intent intentRing = new Intent(FindPhoneActivity.ACTION_RING);
+                intentRing.setPackage(BuildConfig.APPLICATION_ID);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intentRing);
                 break;
             case STOP:
                 final Intent intentStop = new Intent(FindPhoneActivity.ACTION_FOUND);
+                intentStop.setPackage(BuildConfig.APPLICATION_ID);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intentStop);
                 break;
             default:

@@ -761,6 +761,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                     log("Button press on button " + button);
 
                     Intent i = new Intent(QHYBRID_EVENT_BUTTON_PRESS);
+                    i.setPackage(BuildConfig.APPLICATION_ID);
                     i.putExtra("BUTTON", button);
                     getContext().sendBroadcast(i);
                 }
