@@ -89,9 +89,8 @@ public class HuaweiGpsParser {
             point.longitude = (lon / 6383807.0d / Math.cos(lat_start) + lon_start) / 0.017453292519943d;
             point.altitudeSupported = alt_support;
             if (alt_support) {
-                // TODO: not sure about this
-                float alt_delta = buffer.getFloat();
-                alt = alt + alt_delta;
+                alt = buffer.getShort();
+                buffer.getShort(); // Unknown values
                 point.altitude = alt;
             }
             retv.add(point);
