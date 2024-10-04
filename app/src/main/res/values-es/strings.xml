@@ -3482,4 +3482,6 @@
     <string name="hrZoneThreshold">Umbral</string>
     <string name="hrZoneMaximum">Máximo</string>
     <string name="workout_set_reps">Repeticiones</string>
+    <string name="paceCorrection">Corrección</string>
+    <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
 </resources>
