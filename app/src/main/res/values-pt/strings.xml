@@ -51,14 +51,14 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Configurações</string>
     <string name="pref_header_general">Configurações gerais</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Ligar ao aparelho Gadgetbridge quando o Bluetooth estiver ligado</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Ligar aos aparelhos Gadgetbridge quando o Bluetooth estiver ligado</string>
     <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
     <string name="pref_title_general_autoreconnect">Religar automaticamente</string>
     <string name="pref_title_audio_player">Aplicação de música preferida</string>
     <string name="pref_default">Padrão</string>
     <string name="pref_header_datetime">Data e Hora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar a hora com o aparelho Gadgetbridge quando conecta e quando a hora ou fuso horário forem alterados no Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar a hora com os aparelhos Gadgetbridge quando conecta, quando a hora ou fuso horário forem alterados no Android, e periodicamente</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Claro</string>
     <string name="pref_theme_dark">Escuro</string>
@@ -2358,4 +2358,28 @@
 \n
 \nToque em \'%2$s\' para concordar.</string>
     <string name="moondrop_touch_action_anc_mode">Ativar o modo de cancelamento de ruído</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">Tamanho dos bitmaps de texto</string>
+    <string name="pref_title_notification_times_enabled">Horas de notificação</string>
+    <string name="pref_title_banglejs_text_bitmap">Texto como bitmaps</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Tamanho a usar para renderização de bitmaps de texto</string>
+    <string name="pref_summary_banglejs_text_bitmap">Se uma palavra não puder ser renderiszada com a fonte do relógio, será renderizada para um bitmap no Gadgetbridge e mostrada no relógio</string>
+    <string name="pref_message_privacy_mode_bodyonly">Esconder apenas o corpo</string>
+    <string name="pref_header_sound">Som</string>
+    <string name="search">Procurar</string>
+    <string name="single_band">Frequência Única</string>
+    <string name="dual_band">Frequência Dupla</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="pref_header_external_integrations">Integrações externas</string>
+    <string name="pref_header_automations">Automações</string>
+    <string name="pref_description_general">Arranque, idioma, região, localização</string>
+    <string name="pref_description_about_you">Ano de nascimento, género, altura, peso, metas</string>
+    <string name="pref_description_notifications">Notificações de apps, bloqueio/desbloqueio</string>
+    <string name="pref_description_user_interface">Tema, ecrã principal</string>
+    <string name="pref_description_dashboard">Widgets, dispositivos a incluir</string>
+    <string name="pref_description_automations">Exportação / coleta automática</string>
+    <string name="pref_description_developer_options">Logs, Intent API</string>
+    <string name="pref_description_deprecated_functionalities">Definições que serão removidas numa versão futura</string>
+    <string name="pref_header_main_screen">Ecrã principal</string>
+    <string name="pref_title_banglejs_webview_url">URL do app loader</string>
+    <string name="pref_summary_banglejs_webview_url">Para utilizar um app loader diferente, introduza a sua https://…/android.html URL aqui. Deixe em branco para https://banglejs.com/apps</string>
 </resources>
