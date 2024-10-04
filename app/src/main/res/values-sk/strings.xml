@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Nastavenia</string>
@@ -531,7 +531,7 @@
     <string name="devicestatus_upload_started">Nahrávanie začalo</string>
     <string name="devicestatus_upload_validating">Kontrola nahratých údajov</string>
     <string name="devicestatus_connected">Zariadenie je pripojené</string>
-    <plurals name="amount_of_days">
+    <plurals name="amount_of_days" tools:ignore="MissingQuantity">
         <item quantity="one">%d deň</item>
         <item quantity="few">%d dni</item>
         <item quantity="other">%d dní</item>
@@ -552,7 +552,7 @@
     <string name="calendar_three_months">3 mesiace</string>
     <string name="pref_header_calendar">Kalendár</string>
     <string name="activity_type_fitness_exercises">Fitness cvičenie</string>
-    <string name="dashboard_calendar_month_goals_reached_title">Dosaiahnuté % cieľa krokov</string>
+    <string name="dashboard_calendar_month_goals_reached_title">Dosaiahnuté %% cieľa krokov</string>
     <string name="maximum_duration">Dĺžka</string>
     <string name="calendar_week">Týždeň</string>
     <string name="calendar_day">Deň</string>

@@ -820,7 +820,6 @@
     <string name="devicetype_nut_mini">堅果迷你</string>
     <string name="qhybrid_calibration_align_hint">使用下面的按鈕將鐘錶指針對齊到12:00。</string>
     <string name="prefs_autolight">自動燈光</string>
-    <string name="prefs_light_duration_longer">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="prefs_key_vibration">關鍵振動</string>
     <string name="watchface_setting_title_wrist_flick">手腕輕彈</string>
     <string name="watchface_setting_desc_wrist_flick">(完全禁用，啟用相對運動並將所有值設置為0)</string>
@@ -886,7 +885,6 @@
     <string name="prefs_wena3_vibration_strength_item_strong">強烈</string>
     <string name="prefs_wena3_auto_power_off_hint">該設備將根據指定的時間表自動開關機</string>
     <string name="pref_vitality_score_title">活力分數</string>
-    <string name="pref_vitality_score_7_day_title">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="pref_vitality_score_daily_title">每日進展</string>
     <string name="pref_vitality_score_daily_summary">當您達到當天最大生命值點數時，獲得通知</string>
     <string name="device_state_waiting_scan">等待設備掃描</string>
@@ -1461,7 +1459,6 @@
     <string name="activity_type_pull_ups">引體向上</string>
     <string name="activity_type_plank">平板</string>
     <string name="activity_type_javelin">標槍</string>
-    <string name="activity_type_long_jump">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="activity_type_high_jump">跳高</string>
     <string name="activity_type_latin_dance">拉丁舞</string>
     <string name="activity_type_disc_sports">飛盤運動</string>
@@ -1556,7 +1553,6 @@
     <string name="activity_type_flowriding">流浪衝浪</string>
     <string name="activity_type_judo">柔道</string>
     <string name="activity_type_jujitsu">柔術</string>
-    <string name="activity_type_modern_dance">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="activity_type_pole_dance">鋼管舞</string>
     <string name="activity_type_race_walking">競走</string>
     <string name="activity_type_shuffleboard">滑板球</string>
@@ -1639,7 +1635,6 @@
     <string name="devicetype_micompositionscale">小米體脂秤 2</string>
     <string name="devicetype_itag">iTag</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="devicetype_mijia_lywsd02">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="devicetype_mijia_xmwsdj04">米家溫濕度傳感器 2 (電子墨水)</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
@@ -1722,7 +1717,6 @@
     <string name="zepp_os_watchface_free_combination">自由組合</string>
     <string name="share_log_not_enabled_message">您必須首先在設定中啟用日誌記錄 - 寫入日誌文件</string>
     <string name="note">注意</string>
-    <string name="pref_invalid_frequency_title">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="prefs_fm_preset_instructions">長按按鈕以存儲預設</string>
     <string name="toast_app_must_not_be_selected">應用程式不得被選擇進行配置</string>
     <string name="hr_widget_active_minutes">活躍分鐘</string>
@@ -1806,7 +1800,6 @@
     <string name="fossil_hr_warning_firmware_too_new">某些功能已被禁用，因為手錶的韌體太新</string>
     <string name="qhybrid_summary_file_management">上傳和下載檔案</string>
     <string name="pref_title_physical_buttons">實體按鈕</string>
-    <string name="pref_summary_physical_buttons">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="qhybrid_summary_calibration">校準手錶指針</string>
     <string name="pref_summary_canned_messages_dismisscall">用短信信息拒絕來自手錶的來電</string>
     <string name="fossil_hr_edit_action">編輯動作</string>
@@ -1866,7 +1859,6 @@
     <string name="prefs_dolby_mode">杜比模式</string>
     <string name="prefs_equalizer_summary">啟用或禁用均衡器</string>
     <string name="prefs_dolby_summary">杜比均衡器預設</string>
-    <string name="prefs_game_mode_summary">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="prefs_touch_lock">觸控鎖</string>
     <string name="prefs_touch_lock_buds2">觸控控制</string>
     <string name="prefs_galaxy_buds_experimental">實驗的</string>
@@ -1891,7 +1883,6 @@
     <string name="prefs_voice_detect_summary">啟用環境聲音，並在檢測到聲音後自動降低播放音量</string>
     <string name="prefs_double_tap_edge_summary">即使未在觸控板上點擊，也能檢測雙擊</string>
     <string name="pref_header_heartrate_sleep">睡覺</string>
-    <string name="pref_header_heartrate_allday">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="pref_header_heartrate_alerts">心率警報</string>
     <string name="pref_header_stress">壓力</string>
     <string name="pref_header_sony_sound_control">音量控制</string>
@@ -1918,7 +1909,6 @@
     <string name="sony_sound_position_front">前面</string>
     <string name="sony_sound_position_front_right">前右</string>
     <string name="sony_sound_position_rear_left">左後</string>
-    <string name="sony_surround_mode">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="sony_surround_mode_arena">競技場</string>
     <string name="sony_surround_mode_club">俱樂部</string>
     <string name="sony_surround_mode_outdoor_stage">戶外舞台</string>
@@ -1933,7 +1923,6 @@
     <string name="sony_equalizer_preset_custom_2">自訂 2</string>
     <string name="pref_header_sony_equalizer_bands">樂隊</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">自訂預設 2</string>
-    <string name="sony_equalizer_band_1000">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="sony_equalizer_band_2500">2.5千</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_clear_bass">清晰低音</string>
@@ -2004,13 +1993,11 @@
     <string name="watchface_widget_type_custom">自訂小工具</string>
     <string name="watchface_dialog_widget_timezone">時區</string>
     <string name="watchface_dialog_widget_timezone_duration">時鐘可見持續時間（以秒為單位）</string>
-    <string name="watchface_dialog_widget_update_timeout">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="watchface_dialog_widget_timeout_hide_text">在超時時隱藏文本</string>
     <string name="qhybrid_title_on_device_confirmation">啟用設備上的配對確認</string>
     <string name="watchface_dialog_widget_timeout_show_circle">超時顯示圓圈</string>
     <string name="qhybrid_summary_on_device_confirmation">設備上的配對確認可能會讓人感到煩惱。禁用它們可能會失去某些功能。</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
-    <string name="devicetype_sony_wena3">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="withings_steel_hr">Withings Steel HR</string>
     <string name="pref_button_action_disabled">殘疾</string>
     <string name="pref_media_play">媒體播放</string>
@@ -2123,7 +2110,6 @@
     <string name="prefs_wena3_button_action_item_double">雙擊</string>
     <string name="prefs_wena3_button_action_name_qrio_unlock">Qrio 解鎖</string>
     <string name="prefs_wena3_button_action_name_activity_screen">活動螢幕</string>
-    <string name="prefs_wena3_notification_settings_title">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="prefs_wena3_receive_calls_item">接收來電通知</string>
     <string name="prefs_wena3_receive_calls_hint">如果關閉，您將不會收到 Wena 上的來電通知</string>
     <string name="prefs_wena3_notification_default_vibration">通知震動</string>
@@ -2168,7 +2154,6 @@
     <string name="scan_scanning_single_device">掃描 1 個設備</string>
     <string name="scan_scanning_multiple_devices">掃描 %d 台設備</string>
     <string name="notification_channel_scan_service_name">掃描服務</string>
-    <string name="companion_pairing_request_description">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="state_scanned">掃描</string>
     <string name="devicesetting_scannable_debounce">可掃描的去彈跳超時（秒）</string>
     <string name="devicesetting_scannable_debounce_summary">在掃描後，該設備將在指定的時間內保持為掃描狀態並被忽略</string>
@@ -2577,7 +2562,6 @@
     <string name="show_ongoing_activity">顯示正在進行的活動彈出窗口</string>
     <string name="abstract_chart_fragment_kind_rem_sleep">快速眼動睡眠</string>
     <string name="romanian">羅馬尼亞語</string>
-    <string name="hebrew">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="pref_title_lower_button_function_long">長下按鈕</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="pref_continuous_skin_temperature_measurement_description">目前不支援溫度檢索。此設置僅啟用設備上的連續測量。</string>
@@ -2800,7 +2784,6 @@
     <string name="menuitem_forecast">預測</string>
     <string name="menuitem_thermometer">溫度計</string>
     <string name="menuitem_body_composition">身體組成</string>
-    <string name="menuitem_workout_shortcuts">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="menuitem_apps_shortcuts">應用程式快捷方式</string>
     <string name="menuitem_breathing">呼吸</string>
     <string name="menuitem_cycles">週期追蹤</string>
@@ -2810,14 +2793,12 @@
     <string name="menuitem_workout">運動</string>
     <string name="menuitem_unknown">未知</string>
     <string name="menuitem_goal">活動目標</string>
-    <string name="menuitem_workout_history">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="menuitem_female_health">女性健康</string>
     <string name="menuitem_calendar">日曆</string>
     <string name="menuitem_voice_memos">語音備忘錄</string>
     <string name="menuitem_sun_moon">日月</string>
     <string name="menuitem_offline_voice">離線語音</string>
     <string name="menuitem_membership_cards">會員卡</string>
-    <string name="menuitem_screen_always_lit">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="menuitem_brightness">亮度</string>
     <string name="menuitem_bluetooth">藍牙</string>
     <string name="menuitem_wifi">無線網路</string>
@@ -2853,7 +2834,6 @@
     <string name="pref_show_changelog">啟動時顯示變更日誌</string>
     <string name="error_setting_alias">設定別名時出錯：</string>
     <string name="distanceMeters">距離</string>
-    <string name="ascentDistance">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="elevationGain">高度增益</string>
     <string name="elevationLoss">高度損失</string>
     <string name="HeartRateZones">心率區間</string>
@@ -2864,7 +2844,6 @@
     <string name="averageStride">平均步幅</string>
     <string name="avgStrokeRate">平均中風率</string>
     <string name="maxStrokeRate">最大心率</string>
-    <string name="swimStyle">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="flatSeconds">平坦</string>
     <string name="Distance">距離</string>
     <string name="activity_detail_share_raw_summary">分享原始摘要</string>
@@ -2872,7 +2851,6 @@
     <string name="pref_header_statistics">運動活動統計</string>
     <string name="breaststroke">蛙泳</string>
     <string name="freestyle">自由式</string>
-    <string name="fossil_hr_auth_failed">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="qhybrid_title_watchface">表面配置</string>
     <string name="qhybrid_title_apps">應用程式</string>
     <string name="qhybrid_title_file_management">檔案管理</string>
@@ -2919,7 +2897,6 @@
     <string name="pref_voice_detect_duration_10">10秒</string>
     <string name="pref_voice_detect_duration_15">15秒</string>
     <string name="thirty_days_timeline">30天時間表</string>
-    <string name="sony_sound_position_front_left">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="sony_surround_mode_off">關</string>
     <string name="sony_anc_optimizer_status_wearing_condition">測量穿著狀況…</string>
     <string name="sony_equalizer_preset_off">關</string>
@@ -3086,7 +3063,6 @@
     <string name="activity_type_horizontal_bar">橫桿</string>
     <string name="description">描述</string>
     <string name="workoutSets">套件</string>
-    <string name="menuitem_alerts">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="pref_agps_status">AGPS 狀態</string>
     <string name="alarm_smart_wakeup_interval_default">5分鐘</string>
     <string name="chart_get_active_and_synchronize">進行一些活動並同步設備。</string>
@@ -3162,7 +3138,6 @@
     <string name="menuitem_dnd">DND</string>
     <string name="ft">ft</string>
     <string name="mi">我</string>
-    <string name="devicetype_super_cars">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="activity_info">活動資訊</string>
     <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
     <string name="devicetype_huawei_watch_gt">華為手錶 GT</string>
@@ -3305,7 +3280,6 @@
     <string name="error_invalid_menu_structure">無效的菜單結構 JSON</string>
     <string name="button_open_menu_companion">打開菜單伴侶應用程式</string>
     <string name="info_menu_structure_removed">菜單結構已移除</string>
-    <string name="info_menu_structure_contents">Quota exceeded. Please upgrade your plan: Extensions &gt; GPT for Docs, Sheets and Slides &gt; Settings &gt; Subscription</string>
     <string name="info_fossil_rebuild_watchface_custom_menu">請重新建構您的表面以便自訂菜單</string>
     <string name="prefs_home_icon_right_item">右</string>
     <string name="red">紅色</string>

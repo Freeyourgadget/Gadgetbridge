@@ -2886,7 +2886,7 @@
     <string name="pref_summary_debug">Poslat žádost o ladění do zařízení Huawei</string>
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
     <string name="folder_is_empty">Složka je prázdná</string>
-    <string name="dashboard_calendar_month_goals_reached_title">Dosažené % cíle kroků</string>
+    <string name="dashboard_calendar_month_goals_reached_title">Dosažené %% cíle kroků</string>
     <string name="alarm_slot_reset">Slot budíků byl nastaven na výchozí</string>
     <string name="pref_dashboard_widget_today_upside_down_summary">Ve 24h režimu vykreslit půlnoc dole a poledne na vrchu grafu</string>
     <string name="pref_sleepasandroid_feat_notifications">Oznámení</string>
