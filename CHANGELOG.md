@@ -5,7 +5,7 @@
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
 * Initial support for Colmi R02/R03/R06 smart rings
 * Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6, Forerunner 165/255/255S Music/245 Music/265S/955/965, Venu/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
-* Initial support for Huawei Watch 3 / 3 Pro / 4 Pro / GT 3 SE / GT 5 / GT 5 Pro / GT Runner
+* Initial support for Huawei Watch 3 / 3 Pro / 4 Pro / GT 3 SE / GT 5 / GT 5 Pro / GT Cyber / GT Runner
 * Initial support for Honor Watch GS 3 / Watch GS Pro
 * Initial support for Moondrop Space Travel
 * Initial support for Mijia XMWSDJ04MMC
@@ -19,11 +19,14 @@
 * Experimental support for Xiaomi Watch S3
 * Add all languages supported in weblate
 * Add BLE intent API
+* Add configuration for calendar lookahead
 * Add month and day to date of birth
 * Add more activity types (CMF, Garmin, Huawei, Zepp OS)
 * Allow configuration of notification times
 * Allow syncing birthdays with calendar events
+* Amazfit GTR 2: Enable PAI support
 * AsteroidOS: Fix missing weather day and set-time on connection
+* Bangle.js: Add canned responses
 * Bangle.js: Fix calendar sync setting
 * Bangle.js: Fix distance in activity details
 * Bluetooth Intent API: Add disconnect action
@@ -40,6 +43,7 @@
 * Cycling sensor: added live data view
 * Cycling sensor: Improve cycling data display
 * Dashboard: Add new widgets for stress, HRV, body energy
+* Dashboard: Add option to show yesterday's data in Today widget
 * Dashboard: Improve widget gauge resolution
 * Data Management: Add file manager
 * Data Management: Allow browse folders, open and share files
@@ -87,13 +91,16 @@
 * Huawei: Improve weather support
 * Huawei: Map more workout types
 * Huawei: Re-parse workout details when opening details
+* Huawei: Workout GPS synchronization
 * Huawei: Simple TruSleep support
+* Improve calendar change detection
 * Mi Band: Migrate global preferences to device-specific
 * Mi Composition Scale: Add alternative bluetooth name
 * Mi Composition Scale: Persist and display weight samples
 * Pebble: Migrate global preferences to device-specific
 * Redmi Smart Band Pro: Fix crash on connection and activity sync issues
 * Sony Headphones: Enable read aloud incoming notifications and auto call pickup
+* UI: Add activity sailing icon
 * UI: Fix changelog on device rotation
 * UI: Fix HR samples displayed on wrong device
 * UI: Fix pull-down to refresh for some devices
