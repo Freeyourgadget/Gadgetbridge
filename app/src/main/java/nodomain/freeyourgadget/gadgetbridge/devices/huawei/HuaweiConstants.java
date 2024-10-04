@@ -69,6 +69,7 @@ public final class HuaweiConstants {
     public static final String HU_WATCHGT3SE_NAME = "huawei watch gt 3 se-";
     public static final String HU_WATCHGT3PRO_NAME = "huawei watch gt 3 pro-";
     public static final String HU_WATCHGTRUNNER_NAME = "huawei watch gt runner-";
+    public static final String HU_WATCHGTCYBER_NAME = "huawei watch gt cyber-";
     public static final String HU_WATCH3_NAME = "huawei watch 3-";
     public static final String HU_WATCH3PRO_NAME = "huawei watch 3 pro-";
     public static final String HU_WATCHGT4_NAME = "huawei watch gt 4-";

@@ -1840,6 +1840,7 @@
     <string name="devicetype_huawei_watchgt4">Huawei Watch GT 4</string>
     <string name="devicetype_huawei_watchgt5">Huawei Watch GT 5 (Pro)</string>
     <string name="devicetype_huawei_watchgtrunner">Huawei Watch GT Runner</string>
+    <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
     <string name="devicetype_huawei_watchfit2">Huawei Watch Fit 2</string>
     <string name="devicetype_huawei_watchfit3">Huawei Watch Fit 3</string>
