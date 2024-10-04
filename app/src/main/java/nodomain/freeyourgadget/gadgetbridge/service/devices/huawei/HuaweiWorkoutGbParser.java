@@ -22,15 +22,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import de.greenrobot.dao.query.CloseableListIterator;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryTableRowEntry;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryValue;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
@@ -647,6 +653,23 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 }
             }
 
+            final LinkedHashMap<String, ActivitySummaryTableRowEntry> pacesTable = new LinkedHashMap<>();
+
+            pacesTable.put("paces_table",
+                    new ActivitySummaryTableRowEntry(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            Arrays.asList(
+                                    new ActivitySummaryValue("#", ActivitySummaryEntries.UNIT_RAW_STRING),
+                                    new ActivitySummaryValue("distance"),
+                                    new ActivitySummaryValue("watchface_dialog_widget_type"),
+                                    new ActivitySummaryValue("Pace"),
+                                    new ActivitySummaryValue("paceCorrection")
+                            ),
+                            true,
+                            true
+                    )
+            );
+
             try (CloseableListIterator<HuaweiWorkoutPaceSample> it = qbPace.build().listIterator()) {
                 HashMap<Byte, Integer> typeCount = new HashMap<>();
                 HashMap<Byte, Integer> typePace = new HashMap<>();
@@ -667,34 +690,31 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                     typeCount.put(sample.getType(), count);
                     typePace.put(sample.getType(), pace);
 
-                    summaryData.add(
-                            ActivitySummaryEntries.GROUP_PACE,
-                            GBApplication.getContext().getString(R.string.fmtPaceDistance, index),
-                            sample.getDistance(),
-                            ActivitySummaryEntries.UNIT_KILOMETERS
-                    );
-
-                    summaryData.add(
-                            ActivitySummaryEntries.GROUP_PACE,
-                            GBApplication.getContext().getString(R.string.fmtPaceType, index),
-                            sample.getType(),
-                            ActivitySummaryEntries.UNIT_NONE // TODO: find out types
-                    );
-
-                    summaryData.add(
-                            ActivitySummaryEntries.GROUP_PACE,
-                            GBApplication.getContext().getString(R.string.fmtPacePace, index),
-                            sample.getPace(),
-                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
-                    );
+                    final List<ActivitySummaryValue> columns = new LinkedList<>();
+                    columns.add(new ActivitySummaryValue(index, ActivitySummaryEntries.UNIT_NONE));
+                    columns.add(new ActivitySummaryValue(sample.getDistance(), ActivitySummaryEntries.UNIT_KILOMETERS));
+                    columns.add(new ActivitySummaryValue(sample.getType(), ActivitySummaryEntries.UNIT_NONE)); // TODO: find out types
+                    columns.add(new ActivitySummaryValue(sample.getPace(), ActivitySummaryEntries.UNIT_SECONDS_PER_KM));
 
                     if (sample.getCorrection() != 0) {
-                        summaryData.add(
-                                ActivitySummaryEntries.GROUP_PACE,
-                                GBApplication.getContext().getString(R.string.fmtPaceCorrection, index),
-                                sample.getCorrection() / 10f,
-                                ActivitySummaryEntries.UNIT_METERS
-                        );
+                        columns.add(new ActivitySummaryValue(sample.getCorrection() / 10f, ActivitySummaryEntries.UNIT_METERS));
+                    } else {
+                        columns.add(new ActivitySummaryValue("stats_empty_value"));
+                    }
+
+                    pacesTable.put("paces_table_" + index,
+                            new ActivitySummaryTableRowEntry(
+                                    ActivitySummaryEntries.GROUP_PACE,
+                                    columns,
+                                    false,
+                                    true
+                            )
+                    );
+                }
+
+                if (pacesTable.size() > 1) {
+                    for (final Map.Entry<String, ActivitySummaryTableRowEntry> e : pacesTable.entrySet()) {
+                        summaryData.add(e.getKey(), e.getValue());
                     }
                 }
 

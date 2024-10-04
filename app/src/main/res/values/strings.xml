@@ -2228,6 +2228,7 @@
     <string name="fmtPaceType">Pace %d type</string>
     <string name="fmtPacePace">Pace %d pace</string>
     <string name="fmtPaceCorrection">Pace %d correction</string>
+    <string name="paceCorrection">Correction</string>
     <string name="fmtPaceTypeAverage">Pace Type %d average</string>
     <string name="unknownDataEncountered">Unknown data encountered</string>
     <string name="cyclingPowerAverage">Average cycling power</string>
