@@ -252,7 +252,7 @@ public class CalendarManager {
             return null;
         }
 
-        if (birthday.isAfter(now)) {
+        if (birthday.isAfter(now) || birthday.isEqual(now)) {
             return birthday;
         }
 
