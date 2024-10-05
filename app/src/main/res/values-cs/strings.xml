@@ -3478,4 +3478,6 @@
     <string name="hrZoneEasy">Nízká</string>
     <string name="hrZoneThreshold">Prahová hodnota</string>
     <string name="hrZoneMaximum">Maximální</string>
+    <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
+    <string name="paceCorrection">Oprava</string>
 </resources>
