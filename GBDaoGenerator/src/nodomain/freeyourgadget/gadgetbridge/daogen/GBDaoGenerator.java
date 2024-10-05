@@ -1272,8 +1272,18 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
-        activitySample.addIntProperty("calories").notNull();
-        activitySample.addIntProperty("distance").notNull();
+        activitySample.addIntProperty("calories").notNull().codeBeforeGetter(
+                "@Override\n" +
+                "    public int getActiveCalories() {\n" +
+                "        return getCalories();\n" +
+                "    }\n"
+        );
+        activitySample.addIntProperty("distance").notNull().codeBeforeGetter(
+                "@Override\n" +
+                "    public int getDistanceCm() {\n" +
+                "        return getDistance() * 100;\n" +
+                "    }\n"
+        );
         activitySample.addIntProperty("spo").notNull();
         activitySample.addIntProperty("heartRate").notNull();
         return activitySample;
