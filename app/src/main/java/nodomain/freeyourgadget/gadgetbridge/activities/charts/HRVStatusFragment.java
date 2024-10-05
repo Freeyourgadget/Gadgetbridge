@@ -43,9 +43,11 @@ import org.slf4j.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -57,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 
 public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.HRVStatusWeeklyData> {
@@ -239,36 +242,35 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
     }
 
     private List<HRVStatusDayData> getWeeklyData(DBHandler db, Calendar day, GBDevice device) {
-        day = (Calendar) day.clone(); // do not modify the caller's argument
-        day.add(Calendar.DATE, -TOTAL_DAYS);
+        day = DateTimeUtils.dayStart(day);
+        day.add(Calendar.DATE, -TOTAL_DAYS + 1);
 
         List<HRVStatusDayData> weeklyData = new ArrayList<>();
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             int startTs = (int) (day.getTimeInMillis() / 1000);
             int endTs = startTs + 24 * 60 * 60 - 1;
-            day.add(Calendar.DATE, 1);
-            List<? extends HrvSummarySample> summarySamples = getSamples(db, device, startTs, endTs);
+            Optional<? extends HrvSummarySample> latestSummarySample = getSamples(db, device, startTs, endTs)
+                    .stream()
+                    .max(Comparator.comparingLong(HrvSummarySample::getTimestamp));
             List<? extends HrvValueSample> valueSamples = getHrvValueSamples(db, device, startTs, endTs);
 
             int avgHRV = (int) valueSamples.stream().mapToInt(HrvValueSample::getValue).average().orElse(0);
-            if (!summarySamples.isEmpty()) {
-                int finalCounter = counter;
+            if (latestSummarySample.isPresent()) {
+                final HrvSummarySample sample = latestSummarySample.get();
                 Calendar finalDay = (Calendar) day.clone();
-                summarySamples.forEach(sample -> {
-                    weeklyData.add(new HRVStatusDayData(
-                            finalDay,
-                            finalCounter,
-                            sample.getTimestamp(),
-                            avgHRV,
-                            sample.getWeeklyAverage() != null ? sample.getWeeklyAverage() : 0,
-                            sample.getLastNightAverage() != null ? sample.getLastNightAverage() : 0,
-                            sample.getLastNight5MinHigh() != null ? sample.getLastNight5MinHigh() : 0,
-                            sample.getBaselineLowUpper() != null ? sample.getBaselineLowUpper() : 0,
-                            sample.getBaselineBalancedLower() != null ? sample.getBaselineBalancedLower() : 0,
-                            sample.getBaselineBalancedUpper() != null ? sample.getBaselineBalancedUpper() : 0,
-                            sample.getStatus() != null ? sample.getStatus() : HrvSummarySample.Status.NONE
-                    ));
-                });
+                weeklyData.add(new HRVStatusDayData(
+                        finalDay,
+                        counter,
+                        sample.getTimestamp(),
+                        avgHRV,
+                        sample.getWeeklyAverage() != null ? sample.getWeeklyAverage() : 0,
+                        sample.getLastNightAverage() != null ? sample.getLastNightAverage() : 0,
+                        sample.getLastNight5MinHigh() != null ? sample.getLastNight5MinHigh() : 0,
+                        sample.getBaselineLowUpper() != null ? sample.getBaselineLowUpper() : 0,
+                        sample.getBaselineBalancedLower() != null ? sample.getBaselineBalancedLower() : 0,
+                        sample.getBaselineBalancedUpper() != null ? sample.getBaselineBalancedUpper() : 0,
+                        sample.getStatus() != null ? sample.getStatus() : HrvSummarySample.Status.NONE
+                ));
             } else {
                 HRVStatusDayData d = new HRVStatusDayData(
                         (Calendar) day.clone(),
@@ -285,6 +287,8 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
                 );
                 weeklyData.add(d);
             }
+
+            day.add(Calendar.DATE, 1);
         }
         return weeklyData;
     }

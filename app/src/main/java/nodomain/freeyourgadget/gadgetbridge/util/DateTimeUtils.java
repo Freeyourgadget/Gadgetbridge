@@ -129,6 +129,15 @@ public class DateTimeUtils {
         return calendar.getTime();
     }
 
+    public static Calendar dayStart(final Calendar calendar) {
+        final Calendar ret = (Calendar) calendar.clone();
+        ret.set(Calendar.HOUR_OF_DAY, 0);
+        ret.set(Calendar.MINUTE, 0);
+        ret.set(Calendar.SECOND, 0);
+        ret.set(Calendar.MILLISECOND, 0);
+        return ret;
+    }
+
     public static Date dayStart(final LocalDate date) {
         final Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, date.getYear());
