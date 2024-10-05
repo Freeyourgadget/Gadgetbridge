@@ -190,12 +190,22 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     protected abstract Property getDeviceIdentifierSampleProperty();
 
     public void convertCumulativeSteps(final List<T> samples, final Property stepsSampleProperty) {
+        // Fix over-counting at the turn of day
         final T lastSample = getLastSampleWithStepsBefore(samples.get(0).getTimestamp(), stepsSampleProperty);
-        if (lastSample != null && sameDay(lastSample, samples.get(0)) && samples.get(0).getSteps() > 0) {
-            samples.get(0).setSteps(samples.get(0).getSteps() - lastSample.getSteps());
+        if (lastSample != null && sameDay(lastSample, samples.get(0))) {
+            if (samples.get(0).getSteps() > 0) {
+                samples.get(0).setSteps(samples.get(0).getSteps() - lastSample.getSteps());
+            }
+
+            if (samples.get(0).getDistanceCm() > 0) {
+                samples.get(0).setDistanceCm(samples.get(0).getDistanceCm() - lastSample.getDistanceCm());
+            }
+
+            if (samples.get(0).getActiveCalories() > 0) {
+                samples.get(0).setActiveCalories(samples.get(0).getActiveCalories() - lastSample.getActiveCalories());
+            }
         }
 
-        // Steps on the Garmin Watch are reported cumulatively per day - convert them to
         // This slightly breaks activity recognition, because we don't have per-minute granularity...
         int prevSteps = samples.get(0).getSteps();
         int prevDistance = samples.get(0).getDistanceCm();
