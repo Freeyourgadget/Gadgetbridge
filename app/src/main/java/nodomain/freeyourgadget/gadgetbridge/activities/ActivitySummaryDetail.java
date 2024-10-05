@@ -98,7 +98,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
-import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
@@ -117,6 +116,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     int selectedGpxIndex;
     String selectedGpxFile;
     File export_path = null;
+    private DetailsAsyncTask refreshTask = null;
 
     private ActivitySummariesChartFragment activitySummariesChartFragment;
     private ActivitySummariesGpsFragment activitySummariesGpsFragment;
@@ -367,10 +367,17 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         // Update the summary header right away - but it will be refreshed once the item is reloaded
         makeSummaryHeader(currentItem);
 
-        DetailsAsyncTask detailsAsyncTask = new DetailsAsyncTask();
-        detailsAsyncTask.execute(currentItem);
+        if (refreshTask != null) {
+            refreshTask.cancel(true);
+            refreshTask = null;
+        }
+        refreshTask = new DetailsAsyncTask();
+        refreshTask.execute(currentItem);
 
-        ProgressBar loadingProgressbar = findViewById(R.id.loading_progressbar);
+        LinearLayout fieldLayout = findViewById(R.id.summaryDetails);
+        fieldLayout.setAlpha(0.3f);
+
+        final ProgressBar loadingProgressbar = findViewById(R.id.loading_progressbar);
         loadingProgressbar.setVisibility(View.VISIBLE);
 
         activitySummariesChartFragment.setDateAndGetData(
@@ -768,6 +775,11 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private class DetailsAsyncTask extends AsyncTask<BaseActivitySummary, Void, ActivitySummaryJsonSummary> {
         @Override
         protected ActivitySummaryJsonSummary doInBackground(final BaseActivitySummary... baseActivitySummaries) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
             final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice, ActivitySummaryDetail.this);
 
@@ -781,6 +793,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         protected void onPostExecute(final ActivitySummaryJsonSummary activitySummaryJsonSummary) {
             makeSummaryContent(activitySummaryJsonSummary);
             findViewById(R.id.loading_progressbar).setVisibility(View.GONE);
+            LinearLayout fieldLayout = findViewById(R.id.summaryDetails);
+            fieldLayout.setAlpha(1f);
         }
     }
 }
