@@ -190,8 +190,9 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
 
         if (stressData.getAverage() > 0) {
             final LimitLine averageLine = new LimitLine(stressData.getAverage());
-            averageLine.setLineColor(Color.RED);
-            averageLine.setLineWidth(0.1f);
+            averageLine.setLineColor(Color.GRAY);
+            averageLine.setLineWidth(1.5f);
+            averageLine.enableDashedLine(15f, 10f, 0f);
             mStressChart.getAxisRight().addLimitLine(averageLine);
         }
     }
@@ -291,7 +292,7 @@ public class StressChartFragment extends AbstractChartFragment<StressChartFragme
         if (!CHARTS_SLEEP_RANGE_24H && SHOW_CHARTS_AVERAGE) {
             final LegendEntry averageEntry = new LegendEntry();
             averageEntry.label = STRESS_AVERAGE_LABEL;
-            averageEntry.formColor = Color.RED;
+            averageEntry.formColor = Color.GRAY;
             legendEntries.add(averageEntry);
         }
 

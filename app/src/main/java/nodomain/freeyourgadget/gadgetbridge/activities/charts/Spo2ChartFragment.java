@@ -129,7 +129,8 @@ public class Spo2ChartFragment extends AbstractChartFragment<Spo2ChartFragment.S
         if (spo2Data.getAverage() > 0 && SHOW_CHARTS_AVERAGE) {
             final LimitLine averageLine = new LimitLine(spo2Data.getAverage());
             averageLine.setLineColor(Color.RED);
-            averageLine.setLineWidth(0.1f);
+            averageLine.setLineWidth(1.5f);
+            averageLine.enableDashedLine(15f, 10f, 0f);
             mSpo2Chart.getAxisLeft().addLimitLine(averageLine);
         }
 

@@ -273,7 +273,8 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
             }
             LimitLine hrAverage_line = new LimitLine(mcd.getHeartRateAverage());
             hrAverage_line.setLineColor(Color.RED);
-            hrAverage_line.setLineWidth(0.1f);
+            hrAverage_line.setLineWidth(1.5f);
+            hrAverage_line.enableDashedLine(15f, 10f, 0f);
             mActivityChart.getAxisRight().removeAllLimitLines();
             mActivityChart.getAxisRight().addLimitLine(hrAverage_line);
         }
