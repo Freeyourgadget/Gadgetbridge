@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -48,6 +49,7 @@ import androidx.gridlayout.widget.GridLayout;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -74,6 +76,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -95,6 +98,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
+import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
@@ -226,8 +230,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             public boolean onLongClick(View v) {
                 workoutValueFormatter.toggleRawData();
                 if (currentItem != null) {
-                    makeSummaryHeader(currentItem);
-                    makeSummaryContent(currentItem);
+                    refreshFromCurrentItem();
                 }
                 return false;
             }
@@ -256,11 +259,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String name = input.getText().toString();
-                                if (name.length() < 1) name = null;
+                                if (name.isEmpty()) name = null;
                                 currentItem.setName(name);
                                 currentItem.update();
-                                makeSummaryHeader(currentItem);
-                                makeSummaryContent(currentItem);
+                                refreshFromCurrentItem();
                             }
                         })
                         .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -362,8 +364,14 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private void refreshFromCurrentItem() {
+        // Update the summary header right away - but it will be refreshed once the item is reloaded
         makeSummaryHeader(currentItem);
-        makeSummaryContent(currentItem);
+
+        DetailsAsyncTask detailsAsyncTask = new DetailsAsyncTask();
+        detailsAsyncTask.execute(currentItem);
+
+        ProgressBar loadingProgressbar = findViewById(R.id.loading_progressbar);
+        loadingProgressbar.setVisibility(View.VISIBLE);
 
         activitySummariesChartFragment.setDateAndGetData(
                 getTrackFile(),
@@ -425,14 +433,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         return list;
     }
 
-    private void makeSummaryContent(BaseActivitySummary item) {
-        final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
-        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice, this);
-
+    private void makeSummaryContent(final ActivitySummaryJsonSummary activitySummaryJsonSummary) {
         //make view of data from summaryData of item
         LinearLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
-        ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, item);
         Map<String, List<Pair<String, ActivitySummaryEntry>>> data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
         if (data == null) return;
 
@@ -759,5 +763,24 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 .filter(d -> d.getAddress().equalsIgnoreCase(findDevice.getIdentifier()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private class DetailsAsyncTask extends AsyncTask<BaseActivitySummary, Void, ActivitySummaryJsonSummary> {
+        @Override
+        protected ActivitySummaryJsonSummary doInBackground(final BaseActivitySummary... baseActivitySummaries) {
+            final DeviceCoordinator coordinator = gbDevice.getDeviceCoordinator();
+            final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice, ActivitySummaryDetail.this);
+
+            final ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, baseActivitySummaries[0]);
+            activitySummaryJsonSummary.getSummaryGroupedList();
+
+            return activitySummaryJsonSummary;
+        }
+
+        @Override
+        protected void onPostExecute(final ActivitySummaryJsonSummary activitySummaryJsonSummary) {
+            makeSummaryContent(activitySummaryJsonSummary);
+            findViewById(R.id.loading_progressbar).setVisibility(View.GONE);
+        }
     }
 }

@@ -165,6 +165,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/loading_progressbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:indeterminateOnly="true" />
+
             <LinearLayout
                 android:id="@+id/summaryDetails"
                 android:layout_width="fill_parent"
@@ -174,12 +183,12 @@
             <FrameLayout
                 android:id="@+id/chartsFragmentHolder"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"></FrameLayout>
+                android:layout_height="300dp" />
 
             <FrameLayout
                 android:id="@+id/gpsFragmentHolder"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"></FrameLayout>
+                android:layout_height="300dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
