@@ -63,7 +63,8 @@ public class DailyTotals implements Serializable {
     }
 
     public long getSleep() {
-        return (long) Arrays.stream(sleep).asDoubleStream().sum();
+        // exclude awake sleep
+        return sleep[0] + sleep[1] + sleep[2];
     }
 
     public static DailyTotals getDailyTotalsForDevice(GBDevice device, Calendar day) {
