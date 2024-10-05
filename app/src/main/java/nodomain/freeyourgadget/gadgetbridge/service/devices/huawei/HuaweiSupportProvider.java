@@ -265,6 +265,8 @@ public class HuaweiSupportProvider {
 
     protected HuaweiWeatherManager huaweiWeatherManager = new HuaweiWeatherManager(this);
 
+    protected HuaweiEphemerisManager huaweiEphemerisManager = new HuaweiEphemerisManager(this);
+
     //TODO: we need only one instance of manager and all it services.
     protected HuaweiP2PManager huaweiP2PManager = new HuaweiP2PManager(this);
 
@@ -290,6 +292,10 @@ public class HuaweiSupportProvider {
 
     public HuaweiP2PManager getHuaweiP2PManager() {
         return huaweiP2PManager;
+    }
+
+    public HuaweiEphemerisManager getHuaweiEphemerisManager() {
+        return huaweiEphemerisManager;
     }
 
     public HuaweiSupportProvider(HuaweiBRSupport support) {

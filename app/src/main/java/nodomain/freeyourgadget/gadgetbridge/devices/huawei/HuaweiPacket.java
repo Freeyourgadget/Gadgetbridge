@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Contacts;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.EphemerisFileUpload;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService2C;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
@@ -48,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.MusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Notifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Ephemeris;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public class HuaweiPacket {
@@ -664,6 +666,36 @@ public class HuaweiPacket {
                             this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                             return this;
                     }
+            case Ephemeris.id:
+                switch (this.commandId) {
+                    case Ephemeris.OperatorData.id:
+                        return new Ephemeris.OperatorData.OperatorIncomingRequest(paramsProvider).fromPacket(this);
+                    case Ephemeris.ParameterConsult.id:
+                        return new Ephemeris.ParameterConsult.Response(paramsProvider).fromPacket(this);
+                    case Ephemeris.FileStatus.id:
+                        return new Ephemeris.FileStatus.Response(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
+            case EphemerisFileUpload.id:
+                switch (this.commandId) {
+                    case EphemerisFileUpload.FileList.id:
+                        return new EphemerisFileUpload.FileList.FileListIncomingRequest(paramsProvider).fromPacket(this);
+                    case EphemerisFileUpload.FileConsult.id:
+                        return new EphemerisFileUpload.FileConsult.FileConsultIncomingRequest(paramsProvider).fromPacket(this);
+                    case EphemerisFileUpload.QuerySingleFileInfo.id:
+                        return new EphemerisFileUpload.QuerySingleFileInfo.QuerySingleFileInfoIncomingRequest(paramsProvider).fromPacket(this);
+                    case EphemerisFileUpload.DataRequest.id:
+                        return new EphemerisFileUpload.DataRequest.DataRequestIncomingRequest(paramsProvider).fromPacket(this);
+                    case EphemerisFileUpload.UploadData.id:
+                        return new EphemerisFileUpload.UploadData.UploadDataResponse(paramsProvider).fromPacket(this);
+                    case EphemerisFileUpload.UploadDone.id:
+                        return new EphemerisFileUpload.UploadDone.UploadDoneIncomingRequest(paramsProvider).fromPacket(this);
+                    default:
+                        this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
+                        return this;
+                }
             default:
                 this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                 return this;
@@ -863,6 +895,63 @@ public class HuaweiPacket {
         }
         return retv;
     }
+
+    public List<byte[]> serializeFileChunk1c(byte[] fileChunk, short transferSize, int packetCount) throws SerializeException {
+        List<byte[]> retv = new ArrayList<>();
+        int headerLength = 4; // Magic + (short)(bodyLength + 1) + 0x00
+        int bodyHeaderLength = 2; // sID + cID
+        int footerLength = 2; //CRC16
+        int subHeaderLength = 1;
+
+
+        ByteBuffer buffer = ByteBuffer.wrap(fileChunk);
+
+        for (int i = 0; i < packetCount; i++) {
+
+            short contentSize = (short) Math.min(transferSize, buffer.remaining());
+
+            ByteBuffer payload = ByteBuffer.allocate(contentSize + subHeaderLength);
+            payload.put((byte)i);
+
+            byte[] packetContent = new byte[contentSize];
+            buffer.get(packetContent);
+            payload.put(packetContent);
+
+            byte[] new_payload = payload.array();
+
+            int bodyLength = bodyHeaderLength + new_payload.length;
+
+            short packetSize = (short)(headerLength + bodyLength + footerLength);
+            ByteBuffer packet = ByteBuffer.allocate(packetSize);
+
+            int start = packet.position();
+            packet.put((byte) 0x5a);                                // Magic byte
+            packet.putShort((short) (bodyLength + 1));   // Length
+
+            packet.put((byte) 0x00);
+            packet.put(this.serviceId);
+            packet.put(this.commandId);
+
+            packet.put(new_payload);
+
+            int length = packet.position() - start;
+            if (length != packetSize - footerLength) {
+                throw new HuaweiPacket.SerializeException(String.format(GBApplication.getLanguage(), "Packet lengths don't match! %d != %d", length, packetSize + headerLength));
+            }
+
+            byte[] complete = new byte[length];
+            packet.position(start);
+            packet.get(complete, 0, length);
+            int crc16 = CheckSums.getCRC16(complete, 0x0000);
+
+            packet.putShort((short) crc16);                         // CRC16
+
+            retv.add(packet.array());
+        }
+        return retv;
+    }
+
+
 
     public List<byte[]> serialize() throws CryptoException {
         // TODO: necessary for this to work:

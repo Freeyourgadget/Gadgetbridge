@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,7 +42,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
@@ -51,6 +49,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.DeviceConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Ephemeris;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.EphemerisFileUpload;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.GpsAndTime;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Menstrual;
@@ -59,7 +59,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.P2P;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
-import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetPhoneInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadComplete;
@@ -70,13 +69,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Send
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadHash;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWatchfaceConfirm;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWatchfaceOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SetMusicStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Handles responses that are not a reply to a request
- *
  */
 public class AsynchronousResponse {
     private static final Logger LOG = LoggerFactory.getLogger(AsynchronousResponse.class);
@@ -84,6 +81,7 @@ public class AsynchronousResponse {
     private final HuaweiSupportProvider support;
     private final Handler mFindPhoneHandler = new Handler();
     private final static HashMap<Integer, String> dayOfWeekMap = new HashMap<>();
+
     static {
         dayOfWeekMap.put(Calendar.MONDAY, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_MO);
         dayOfWeekMap.put(Calendar.TUESDAY, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_TU);
@@ -123,6 +121,8 @@ public class AsynchronousResponse {
             handleCameraRemote(response);
             handleApp(response);
             handleP2p(response);
+            handleEphemeris(response);
+            handleEphemerisUploadService(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -226,13 +226,14 @@ public class AsynchronousResponse {
 
     /**
      * Handles asynchronous music packet, for the following events:
-     *  - The app is opened on the band (sends back music info)
-     *  - A button is clicked
-     *    - Play
-     *    - Pause
-     *    - Previous
-     *    - Next
-     *  - The volume is adjusted
+     * - The app is opened on the band (sends back music info)
+     * - A button is clicked
+     * - Play
+     * - Pause
+     * - Previous
+     * - Next
+     * - The volume is adjusted
+     *
      * @param response Packet to be handled
      */
     private void handleMusicControls(HuaweiPacket response) throws Request.ResponseParseException {
@@ -420,12 +421,12 @@ public class AsynchronousResponse {
         }
     }
 
-    private void handleFileUpload(HuaweiPacket response) throws Request.ResponseParseException  {
+    private void handleFileUpload(HuaweiPacket response) throws Request.ResponseParseException {
         if (response.serviceId == FileUpload.id) {
             if (response.commandId == FileUpload.FileInfoSend.id) {
                 if (!(response instanceof FileUpload.FileInfoSend.Response))
                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileInfoSend.Response.class);
-                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                if (support.huaweiUploadManager.getFileUploadInfo() == null) {
                     LOG.error("Upload file info received but no file to upload");
                 } else {
                     FileUpload.FileInfoSend.Response resp = (FileUpload.FileInfoSend.Response) response;
@@ -440,24 +441,24 @@ public class AsynchronousResponse {
                     }
                 }
             } else if (response.commandId == FileUpload.FileHashSend.id) {
-                 if (!(response instanceof FileUpload.FileHashSend.Response))
-                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileHashSend.Response.class);
-                 if(support.huaweiUploadManager.getFileUploadInfo() == null) {
-                     LOG.error("Upload file hash requested but no file to upload");
-                 } else {
-                     FileUpload.FileHashSend.Response resp = (FileUpload.FileHashSend.Response) response;
-                     support.huaweiUploadManager.getFileUploadInfo().setFileId(resp.fileId);
-                     try {
-                         SendFileUploadHash sendFileUploadHash = new SendFileUploadHash(support, support.huaweiUploadManager);
-                         sendFileUploadHash.doPerform();
-                     } catch (IOException e) {
-                         LOG.error("Could not send file upload hash request", e);
-                     }
-                 }
-             } else if (response.commandId == FileUpload.FileUploadConsultAck.id) {
-                 if (!(response instanceof FileUpload.FileUploadConsultAck.Response))
+                if (!(response instanceof FileUpload.FileHashSend.Response))
+                    throw new Request.ResponseTypeMismatchException(response, FileUpload.FileHashSend.Response.class);
+                if (support.huaweiUploadManager.getFileUploadInfo() == null) {
+                    LOG.error("Upload file hash requested but no file to upload");
+                } else {
+                    FileUpload.FileHashSend.Response resp = (FileUpload.FileHashSend.Response) response;
+                    support.huaweiUploadManager.getFileUploadInfo().setFileId(resp.fileId);
+                    try {
+                        SendFileUploadHash sendFileUploadHash = new SendFileUploadHash(support, support.huaweiUploadManager);
+                        sendFileUploadHash.doPerform();
+                    } catch (IOException e) {
+                        LOG.error("Could not send file upload hash request", e);
+                    }
+                }
+            } else if (response.commandId == FileUpload.FileUploadConsultAck.id) {
+                if (!(response instanceof FileUpload.FileUploadConsultAck.Response))
                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileUploadConsultAck.Response.class);
-                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+                if (support.huaweiUploadManager.getFileUploadInfo() == null) {
                     LOG.error("Upload file ask requested but no file to upload");
                 } else {
                     FileUpload.FileUploadConsultAck.Response resp = (FileUpload.FileUploadConsultAck.Response) response;
@@ -473,10 +474,10 @@ public class AsynchronousResponse {
                         LOG.error("Could not send file upload ack request", e);
                     }
                 }
-             } else if (response.commandId == FileUpload.FileNextChunkParams.id) {
-                 if (!(response instanceof FileUpload.FileNextChunkParams))
-                     throw new Request.ResponseTypeMismatchException(response, FileUpload.FileNextChunkParams.class);
-                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+            } else if (response.commandId == FileUpload.FileNextChunkParams.id) {
+                if (!(response instanceof FileUpload.FileNextChunkParams))
+                    throw new Request.ResponseTypeMismatchException(response, FileUpload.FileNextChunkParams.class);
+                if (support.huaweiUploadManager.getFileUploadInfo() == null) {
                     LOG.error("Upload file next chunk requested but no file to upload");
                 } else {
                     FileUpload.FileNextChunkParams resp = (FileUpload.FileNextChunkParams) response;
@@ -493,8 +494,8 @@ public class AsynchronousResponse {
                         LOG.error("Could not send fileupload next chunk request", e);
                     }
                 }
-             } else if (response.commandId == FileUpload.FileUploadResult.id) {
-                if(support.huaweiUploadManager.getFileUploadInfo() == null) {
+            } else if (response.commandId == FileUpload.FileUploadResult.id) {
+                if (support.huaweiUploadManager.getFileUploadInfo() == null) {
                     LOG.error("Upload file result requested but no file to upload");
                 } else {
                     try {
@@ -510,7 +511,7 @@ public class AsynchronousResponse {
                         LOG.error("Could not send file upload result request", e);
                     }
                 }
-             }
+            }
         }
     }
 
@@ -541,7 +542,7 @@ public class AsynchronousResponse {
             if (response.commandId == 0x2) {
                 try {
                     byte status = response.getTlv().getByte(0x1);
-                    if(status == (byte)0x66 || status == (byte)0x69) {
+                    if (status == (byte) 0x66 || status == (byte) 0x69) {
                         this.support.getHuaweiAppManager().requestAppList();
                     }
                 } catch (HuaweiPacket.MissingTagException e) {
@@ -553,15 +554,15 @@ public class AsynchronousResponse {
     }
 
     private void handleP2p(HuaweiPacket response) throws Request.ResponseParseException {
-         if (response.serviceId == P2P.id && response.commandId == P2P.P2PCommand.id) {
-             if (!(response instanceof P2P.P2PCommand.Response))
-                 throw new Request.ResponseTypeMismatchException(response, P2P.P2PCommand.class);
-             try {
-                 this.support.getHuaweiP2PManager().handlePacket((P2P.P2PCommand.Response) response);
-             } catch (Exception e) {
-                 LOG.error("Error in P2P service", e);
-             }
-         }
+        if (response.serviceId == P2P.id && response.commandId == P2P.P2PCommand.id) {
+            if (!(response instanceof P2P.P2PCommand.Response))
+                throw new Request.ResponseTypeMismatchException(response, P2P.P2PCommand.class);
+            try {
+                this.support.getHuaweiP2PManager().handlePacket((P2P.P2PCommand.Response) response);
+            } catch (Exception e) {
+                LOG.error("Error in P2P service", e);
+            }
+        }
     }
 
     private void handleWeatherCheck(HuaweiPacket response) {
@@ -586,6 +587,57 @@ public class AsynchronousResponse {
             }
 
             support.setGps(((GpsAndTime.GpsStatus.Response) response).enableGps);
+        }
+    }
+
+    private void handleEphemeris(HuaweiPacket response) {
+        if (response.serviceId == Ephemeris.id && response.commandId == Ephemeris.OperatorData.id) {
+            if (!(response instanceof Ephemeris.OperatorData.OperatorIncomingRequest)) {
+                return;
+            }
+            byte operationInfo = ((Ephemeris.OperatorData.OperatorIncomingRequest) response).operationInfo;
+            int operationTime = ((Ephemeris.OperatorData.OperatorIncomingRequest) response).operationTime;
+            LOG.info("Ephemeris: operation: {} time: {}", operationInfo, operationTime);
+            support.getHuaweiEphemerisManager().handleOperatorRequest(operationInfo, operationTime);
+        }
+    }
+
+    private void handleEphemerisUploadService(HuaweiPacket response) {
+        if (response.serviceId == EphemerisFileUpload.id) {
+            if (response.commandId == EphemerisFileUpload.FileList.id) {
+                if (!(response instanceof EphemerisFileUpload.FileList.FileListIncomingRequest)) {
+                    return;
+                }
+                support.getHuaweiEphemerisManager().handleFileSendRequest(((EphemerisFileUpload.FileList.FileListIncomingRequest) response).fileType, ((EphemerisFileUpload.FileList.FileListIncomingRequest) response).productId);
+            } else if (response.commandId == EphemerisFileUpload.FileConsult.id) {
+                if (!(response instanceof EphemerisFileUpload.FileConsult.FileConsultIncomingRequest)) {
+                    return;
+                }
+                EphemerisFileUpload.FileConsult.FileConsultIncomingRequest res = (EphemerisFileUpload.FileConsult.FileConsultIncomingRequest) response;
+                support.getHuaweiEphemerisManager().handleFileConsultIncomingRequest(res.responseCode, res.protocolVersion, res.bitmapEnable, res.transferSize, res.maxDataSize, res.timeOut, res.fileType);
+            } else if (response.commandId == EphemerisFileUpload.QuerySingleFileInfo.id) {
+                if (!(response instanceof EphemerisFileUpload.QuerySingleFileInfo.QuerySingleFileInfoIncomingRequest)) {
+                    return;
+                }
+                support.getHuaweiEphemerisManager().handleSingleFileIncomingRequest(((EphemerisFileUpload.QuerySingleFileInfo.QuerySingleFileInfoIncomingRequest) response).fileName);
+            } else if (response.commandId == EphemerisFileUpload.DataRequest.id) {
+                if (!(response instanceof EphemerisFileUpload.DataRequest.DataRequestIncomingRequest)) {
+                    return;
+                }
+                EphemerisFileUpload.DataRequest.DataRequestIncomingRequest res = (EphemerisFileUpload.DataRequest.DataRequestIncomingRequest) response;
+                support.getHuaweiEphemerisManager().handleDataRequestIncomingRequest(res.responseCode, res.fileName, res.offset, res.len, res.bitmap);
+            } else if (response.commandId == EphemerisFileUpload.UploadData.id) {
+                if (!(response instanceof EphemerisFileUpload.UploadData.UploadDataResponse)) {
+                    return;
+                }
+                support.getHuaweiEphemerisManager().handleFileUploadResponse(((EphemerisFileUpload.UploadData.UploadDataResponse) response).responseCode);
+            } else if (response.commandId == EphemerisFileUpload.UploadDone.id) {
+                if (!(response instanceof EphemerisFileUpload.UploadDone.UploadDoneIncomingRequest)) {
+                    return;
+                }
+                support.getHuaweiEphemerisManager().handleFileDoneRequest(((EphemerisFileUpload.UploadDone.UploadDoneIncomingRequest) response).uploadResult);
+            }
+
         }
     }
 
