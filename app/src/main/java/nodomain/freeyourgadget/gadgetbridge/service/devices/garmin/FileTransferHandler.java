@@ -43,6 +43,7 @@ public class FileTransferHandler implements MessageHandler {
         add(FileType.FILETYPE.CHANGELOG);
         add(FileType.FILETYPE.HRV_STATUS);
         add(FileType.FILETYPE.SLEEP);
+        add(FileType.FILETYPE.SKIN_TEMP);
     }};
 
     public FileTransferHandler(GarminSupport deviceSupport) {
