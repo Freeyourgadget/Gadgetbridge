@@ -3478,4 +3478,6 @@
     <string name="hrZoneEasy">容易</string>
     <string name="hrZoneThreshold">临界点</string>
     <string name="hrZoneMaximum">最大</string>
+    <string name="devicetype_huawei_watchgtcyber">华为 Watch GT Cyber</string>
+    <string name="paceCorrection">修正</string>
 </resources>
