@@ -151,6 +151,11 @@ public class TemperatureChartFragment extends AbstractChartFragment<TemperatureC
     }
 
     @Override
+    protected boolean isSingleDay() {
+        return false;
+    }
+
+    @Override
     protected int getTSStart() {
         return getTSEnd() - TOTAL_DAYS*24*60*60;
     }

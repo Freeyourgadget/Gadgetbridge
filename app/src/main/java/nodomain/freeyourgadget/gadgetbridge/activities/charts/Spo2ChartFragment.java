@@ -34,14 +34,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -82,9 +80,9 @@ public class Spo2ChartFragment extends AbstractChartFragment<Spo2ChartFragment.S
         CHART_TEXT_COLOR = GBApplication.getSecondaryTextColor(requireContext());
 
         if (prefs.getBoolean("chart_heartrate_color", false)) {
-            CHART_LINE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_alternative);
+            CHART_LINE_COLOR = ContextCompat.getColor(requireContext(), R.color.chart_heartrate_alternative);
         } else {
-            CHART_LINE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate);
+            CHART_LINE_COLOR = ContextCompat.getColor(requireContext(), R.color.chart_heartrate);
         }
 
         SPO2_AVERAGE_LABEL = requireContext().getString(R.string.charts_legend_spo2_average);
@@ -124,7 +122,7 @@ public class Spo2ChartFragment extends AbstractChartFragment<Spo2ChartFragment.S
         mSpo2Chart.setData(chartsData.getData());
         mSpo2Chart.getAxisLeft().removeAllLimitLines();
 
-        LOG.info("SpO2 average: " + spo2Data.getAverage());
+        LOG.debug("SpO2 average: {}", spo2Data.getAverage());
 
         if (spo2Data.getAverage() > 0 && SHOW_CHARTS_AVERAGE) {
             final LimitLine averageLine = new LimitLine(spo2Data.getAverage());
@@ -140,6 +138,11 @@ public class Spo2ChartFragment extends AbstractChartFragment<Spo2ChartFragment.S
     @Override
     public String getTitle() {
         return requireContext().getString(R.string.pref_header_spo2);
+    }
+
+    @Override
+    public boolean isSingleDay() {
+        return false;
     }
 
     @Override

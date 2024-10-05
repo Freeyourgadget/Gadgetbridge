@@ -154,6 +154,7 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
     protected void onMadeVisibleInActivity() {
         super.onMadeVisibleInActivity();
         showDateBar(true);
+        updateDateInfo(getStartDate(), getEndDate());
         if (mChartDirty) {
             refresh();
         }
@@ -185,6 +186,14 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
 
     protected int getTSStart() {
         return toTimestamp(getStartDate());
+    }
+
+    /**
+     * Whether this chart shows data only for a single day. The day is expected to match
+     * the end timestamp.
+     */
+    protected boolean isSingleDay() {
+        return true;
     }
 
     protected int toTimestamp(Date date) {
@@ -236,6 +245,8 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
             if (!shiftDates(startDate, endDate, offset)) {
                 return;
             }
+
+            updateDateInfo(getStartDate(), getEndDate());
         }
         refreshIfVisible();
     }
@@ -316,7 +327,6 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
         if (chartsHost != null) {
             if (chartsHost.getDevice() != null) {
                 mChartDirty = false;
-                updateDateInfo(getStartDate(), getEndDate());
                 if (refreshTask != null && refreshTask.getStatus() != AsyncTask.Status.FINISHED) {
                     refreshTask.cancel(true);
                 }
@@ -383,8 +393,8 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
 
     private void updateDateInfo(final Date from, final Date to) {
         int dateFlags = DateUtils.FORMAT_SHOW_WEEKDAY;
-        if (from.equals(to)) {
-            getChartsHost().setDateInfo(DateTimeUtils.formatDate(from, dateFlags));
+        if (isSingleDay() || from.equals(to)) {
+            getChartsHost().setDateInfo(DateTimeUtils.formatDate(to, dateFlags));
         } else {
             getChartsHost().setDateInfo(DateTimeUtils.formatDateRange(from, to, dateFlags));
         }

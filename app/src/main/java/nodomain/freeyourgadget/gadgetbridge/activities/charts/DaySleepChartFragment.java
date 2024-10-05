@@ -60,7 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
-public class SleepChartFragment extends AbstractActivityChartFragment<SleepChartFragment.MyChartsData> {
+public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySleepChartFragment.MyChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private LineChart mActivityChart;
@@ -93,6 +93,10 @@ public class SleepChartFragment extends AbstractActivityChartFragment<SleepChart
     private boolean SHOW_CHARTS_AVERAGE = prefs.getBoolean("charts_show_average", true);
     private int sleepLinesLimit = prefs.getInt("chart_sleep_lines_limit", 6);
 
+    @Override
+    protected boolean isSingleDay() {
+        return true;
+    }
 
     @Override
     protected MyChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {

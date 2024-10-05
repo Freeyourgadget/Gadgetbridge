@@ -95,6 +95,11 @@ public class WeightChartFragment extends AbstractChartFragment<WeightChartFragme
     }
 
     @Override
+    protected boolean isSingleDay() {
+        return false;
+    }
+
+    @Override
     protected WeightChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         long tsStart = getTSStart() * 1000L;
         long tsEnd = getTSEnd() * 1000L;

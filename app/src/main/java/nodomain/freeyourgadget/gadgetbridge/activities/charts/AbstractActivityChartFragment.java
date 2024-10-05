@@ -141,6 +141,11 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         akNotWorn = new ActivityConfig(ActivityKind.NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
     }
 
+    @Override
+    protected boolean isSingleDay() {
+        return false;
+    }
+
     protected Integer getColorFor(ActivityKind activityKind) {
         switch (activityKind) {
             case DEEP_SLEEP:

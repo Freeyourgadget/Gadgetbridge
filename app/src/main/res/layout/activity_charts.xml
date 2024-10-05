@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_weight="1"
-            android:text="Today" />
+            android:text="@string/stats_empty_value" />
 
     </LinearLayout>
 
@@ -58,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:layout_marginHorizontal="2dp"
-                android:text="&lt;&lt;&lt;" />
+                android:text="&lt;&lt;&lt;"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/charts_previous_week"
@@ -67,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:layout_marginHorizontal="2dp"
-                android:text="&lt;&lt;" />
+                android:text="&lt;&lt;"
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/charts_previous_day"
@@ -76,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:layout_marginHorizontal="2dp"
-                android:text="&lt;" />
+                android:text="&lt;"
+                tools:ignore="HardcodedText"/>
             
             <Button
                 android:id="@+id/charts_next_day"
@@ -85,7 +88,8 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:layout_marginHorizontal="2dp"
-                android:text=">" />
+                android:text=">"
+                tools:ignore="HardcodedText"/>
             <Button
                 android:id="@+id/charts_next_week"
                 android:layout_width="wrap_content"
@@ -93,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:layout_marginHorizontal="2dp"
-                android:text=">>" />
+                android:text=">>"
+                tools:ignore="HardcodedText"/>
 
             <Button
                 android:id="@+id/charts_next_month"
@@ -102,7 +107,8 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:layout_marginHorizontal="2dp"
-                android:text=">>>" />
+                android:text=">>>"
+                tools:ignore="HardcodedText"/>
 
         </LinearLayout>
     </LinearLayout>
