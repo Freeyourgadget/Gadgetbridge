@@ -3491,4 +3491,6 @@
     <string name="hrZoneThreshold">Eşik</string>
     <string name="hrZoneMaximum">En yüksek</string>
     <string name="workout_set_reps">Tekrarlar</string>
+    <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
+    <string name="paceCorrection">Düzeltme</string>
 </resources>
