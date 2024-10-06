@@ -2019,4 +2019,6 @@
     <string name="minutes_210">210 минута</string>
     <string name="status">Стање</string>
     <string name="activity_prefs_date_birth">Дан рођења</string>
+    <string name="pref_title_calendar_lookahead">Број надолазећих дана</string>
+    <string name="pref_summary_calendar_lookahead">Усклади до %1s</string>
 </resources>
