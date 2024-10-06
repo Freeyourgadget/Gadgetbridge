@@ -34,13 +34,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -49,6 +49,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -66,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.util.ActivitySummaryUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 
@@ -80,7 +82,10 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
     List<Long> itemsFilter;
     String nameContainsFilter;
     private GBDevice mGBDevice;
+    private BitSet selectedItems;
     private SwipeRefreshLayout swipeLayout;
+    private ActionMode mActionMode;
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -160,7 +165,6 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         if (requestCode == ACTIVITY_DETAIL) {
             refresh();
         }
-
     }
 
     @Override
@@ -177,62 +181,96 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         super.onCreate(savedInstanceState);
+
         ActivitySummariesAdapter activitySummariesAdapter = new ActivitySummariesAdapter(this, mGBDevice, activityFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
-        int backgroundColor = getBackgroundColor(ActivitySummariesActivity.this);
-        activitySummariesAdapter.setBackgroundColor(backgroundColor);
-        activitySummariesAdapter.setShowTime(false);
-        setItemAdapter(activitySummariesAdapter);
+        selectedItems = activitySummariesAdapter.getSelectedItems();
 
-        getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) return; // item 0 is empty for dashboard
-                Object item = parent.getItemAtPosition(position);
-                if (item != null) {
-                    ActivitySummary summary = (ActivitySummary) item;
-                    try {
-                        showActivityDetail(position);
-                    } catch (Exception e) {
-                        GB.toast(getApplicationContext(), "Unable to display Activity Detail, maybe the activity is not available yet: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-                    }
-
+        activitySummariesAdapter.setOnItemClickListener(position -> {
+            if (!selectedItems.isEmpty()) {
+                selectedItems.set(position, !selectedItems.get(position));
+                activitySummariesAdapter.notifyItemChanged(position);
+                if (!selectedItems.isEmpty()) {
+                    startActionMode();
+                } else {
+                    stopActionMode();
+                }
+                return;
+            }
+            if (position == 0) return; // item 0 is empty for dashboard
+            ActivitySummary summary = activitySummariesAdapter.getItem(position);
+            if (summary != null) {
+                try {
+                    showActivityDetail(position);
+                } catch (Exception e) {
+                    GB.toast(getApplicationContext(), "Unable to display Activity Detail, maybe the activity is not available yet: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                 }
             }
         });
+        activitySummariesAdapter.setOnItemLongClickListener(position -> {
+            selectedItems.set(position, !selectedItems.get(position));
+            activitySummariesAdapter.notifyItemChanged(position);
 
-        getItemListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-
-        getItemListView().setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-            @Override
-            public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
-                if (position == 0 && checked) subtrackDashboard = 1;
-                if (position == 0 && !checked) subtrackDashboard = 0;
-                final int selectedItems = getItemListView().getCheckedItemCount() - subtrackDashboard;
-                actionMode.setTitle(selectedItems + " selected");
+            if (!selectedItems.isEmpty()) {
+                startActionMode();
+            } else {
+                stopActionMode();
             }
+        });
+        setItemAdapter(activitySummariesAdapter);
 
+        swipeLayout = findViewById(R.id.list_activity_swipe_layout);
+        swipeLayout.setOnRefreshListener(this::fetchTrackData);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> fetchTrackData());
+
+        activityKindMap = fillKindMap();
+    }
+
+    private void stopActionMode() {
+        if (mActionMode != null) {
+            mActionMode.finish();
+            mActionMode = null;
+        }
+    }
+
+    private void startActionMode() {
+        int[] numSelected = new int[]{0};
+        for (int i = 0; i < selectedItems.length(); i++) {
+            if (selectedItems.get(i)) {
+                numSelected[0]++;
+            }
+        }
+        if (mActionMode != null) {
+            // already in action mode
+            mActionMode.setTitle(getString(R.string.number_selected_items, numSelected[0]));
+            return;
+        }
+
+        mActionMode = startActionMode(new ActionMode.Callback() {
             @Override
-            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
+                mode.setTitle(getString(R.string.number_selected_items, numSelected[0]));
+
                 getMenuInflater().inflate(R.menu.activity_list_context_menu, menu);
                 findViewById(R.id.fab).setVisibility(View.INVISIBLE);
                 return true;
             }
 
             @Override
-            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            public boolean onPrepareActionMode(final ActionMode mode, final Menu menu) {
                 return false;
             }
 
             @Override
             public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
                 boolean processed = false;
-                final SparseBooleanArray checked = getItemListView().getCheckedItemPositions();
                 final int itemId = menuItem.getItemId();
                 if (itemId == R.id.activity_action_delete) {
                     final List<BaseActivitySummary> toDelete = new ArrayList<>();
-                    for (int i = 0; i < checked.size(); i++) {
-                        if (checked.valueAt(i)) {
-                            toDelete.add(getItemAdapter().getItem(checked.keyAt(i)));
+                    for (int i = 0; i < selectedItems.length(); i++) {
+                        if (selectedItems.get(i)) {
+                            toDelete.add(getItemAdapter().getItem(i));
                         }
                     }
 
@@ -252,16 +290,13 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 } else if (itemId == R.id.activity_action_export) {
                     final List<String> paths = new ArrayList<>();
 
-                    for (int i = 0; i < checked.size(); i++) {
-                        if (checked.valueAt(i)) {
-
-                            BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
-                            if (item != null) {
-                                ActivitySummary summary = item;
-
-                                String gpxTrack = summary.getGpxTrack();
+                    for (int i = 0; i < selectedItems.length(); i++) {
+                        if (selectedItems.get(i)) {
+                            BaseActivitySummary summary = getItemAdapter().getItem(i);
+                            if (summary != null) {
+                                File gpxTrack = ActivitySummaryUtils.getGpxFile(summary);
                                 if (gpxTrack != null) {
-                                    paths.add(gpxTrack);
+                                    paths.add(gpxTrack.getPath());
                                 }
                             }
                         }
@@ -269,17 +304,21 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                     shareMultiple(paths);
                     processed = true;
                 } else if (itemId == R.id.activity_action_select_all) {
-                    for (int i = 0; i < getItemListView().getCount(); i++) {
-                        getItemListView().setItemChecked(i, true);
+                    for (int i = 1; i < getItemAdapter().getItemCount() - 1; i++) {
+                        if (!selectedItems.get(i)) {
+                            numSelected[0]++;
+                            selectedItems.set(i, true);
+                            getItemAdapter().notifyItemChanged(i);
+                        }
                     }
-                    return true; //don't finish actionmode in this case!
+                    actionMode.setTitle(getString(R.string.number_selected_items, numSelected[0]));
+                    return true; //don't finish actionMode in this case!
                 } else if (itemId == R.id.activity_action_addto_filter) {
                     final List<Long> toFilter = new ArrayList<>();
-                    for (int i = 0; i < checked.size(); i++) {
-                        if (checked.valueAt(i)) {
-                            BaseActivitySummary item = getItemAdapter().getItem(checked.keyAt(i));
-                            if (item != null && item.getId() != null) {
-                                ActivitySummary summary = item;
+                    for (int i = 0; i < selectedItems.length(); i++) {
+                        if (selectedItems.get(i)) {
+                            BaseActivitySummary summary = getItemAdapter().getItem(i);
+                            if (summary != null && summary.getId() != null) {
                                 Long id = summary.getId();
                                 toFilter.add(id);
                             }
@@ -292,34 +331,22 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                     processed = true;
                 }
                 actionMode.finish();
+                mActionMode = null;
                 return processed;
             }
 
             @Override
-            public void onDestroyActionMode(ActionMode actionMode) {
+            public void onDestroyActionMode(final ActionMode mode) {
+                mActionMode = null;
+                for (int i = 0; i < selectedItems.length(); i++) {
+                    if (selectedItems.get(i)) {
+                        selectedItems.set(i, false);
+                        getItemAdapter().notifyItemChanged(i);
+                    }
+                }
                 findViewById(R.id.fab).setVisibility(View.VISIBLE);
             }
         });
-
-        swipeLayout = findViewById(R.id.list_activity_swipe_layout);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchTrackData();
-            }
-        });
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchTrackData();
-            }
-        });
-
-        activityKindMap = fillKindMap();
-
-
     }
 
     private LinkedHashMap<String, ActivityKind> fillKindMap() {
@@ -362,11 +389,11 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         for (BaseActivitySummary item : items) {
             try {
                 item.delete();
-                getItemAdapter().remove(item);
             } catch (Exception e) {
                 //pass delete error
             }
         }
+        // Adapter is fully reloaded after refresh
         refresh();
     }
 
@@ -398,7 +425,6 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         } else {
             GB.toast(this, "No selected activity contains a GPX track to share", Toast.LENGTH_SHORT, GB.ERROR);
         }
-
     }
 
     private void showActivityDetail(int position) {

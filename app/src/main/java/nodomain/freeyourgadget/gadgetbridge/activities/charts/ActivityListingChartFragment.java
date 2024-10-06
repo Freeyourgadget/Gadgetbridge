@@ -24,11 +24,11 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -48,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 
 public class ActivityListingChartFragment extends AbstractActivityChartFragment<ActivityListingChartFragment.MyChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingChartFragment.class);
@@ -62,19 +64,17 @@ public class ActivityListingChartFragment extends AbstractActivityChartFragment<
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_steps_list, container, false);
         getChartsHost().enableSwipeRefresh(false);
-        ListView stepsList = rootView.findViewById(R.id.itemListView);
+        RecyclerView stepsList = rootView.findViewById(R.id.itemListView);
         stepListAdapter = new ActivityListingAdapter(getContext());
         stepsList.setAdapter(stepListAdapter);
+        stepsList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        stepsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ActivitySession item = stepListAdapter.getItem(i);
-                if (item.getSessionType() != ActivitySession.SESSION_SUMMARY) {
-                    int tsFrom = (int) (item.getStartTime().getTime() / 1000);
-                    int tsTo = (int) (item.getEndTime().getTime() / 1000);
-                    showDetail(tsFrom, tsTo, item, getChartsHost().getDevice());
-                }
+        stepListAdapter.setOnItemClickListener(position -> {
+            ActivitySession item = stepListAdapter.getItem(position);
+            if (item.getSessionType() != ActivitySession.SESSION_SUMMARY) {
+                int tsFrom = (int) (item.getStartTime().getTime() / 1000);
+                int tsTo = (int) (item.getEndTime().getTime() / 1000);
+                showDetail(tsFrom, tsTo, item, getChartsHost().getDevice());
             }
         });
 
@@ -99,11 +99,15 @@ public class ActivityListingChartFragment extends AbstractActivityChartFragment<
         return "Steps list";
     }
 
+    @Override
+    protected boolean isSingleDay() {
+        return true;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (action.equals(ChartsHost.REFRESH)) {
+        if (ChartsHost.REFRESH.equals(action)) {
             // TODO: use LimitLines to visualize smart alarms?
             refresh();
         } else {
@@ -144,6 +148,7 @@ public class ActivityListingChartFragment extends AbstractActivityChartFragment<
             return;
         }
 
+        //noinspection RedundantIfStatement
         if (mcd.getStepSessions().toArray().length == 0) {
             getChartsHost().enableSwipeRefresh(true); //enable pull to refresh, might be needed
         } else {
@@ -184,15 +189,14 @@ public class ActivityListingChartFragment extends AbstractActivityChartFragment<
 
     private void showOngoingActivitySnackbar(ActivitySession ongoingSession) {
 
-        String distanceLabel = stepListAdapter.getDistanceLabel(ongoingSession);
-        String stepLabel = stepListAdapter.getStepLabel(ongoingSession);
-        String durationLabel = stepListAdapter.getDurationLabel(ongoingSession);
-        String hrLabel = stepListAdapter.getHrLabel(ongoingSession);
-        String activityName = stepListAdapter.getActivityName(ongoingSession);
-        int icon = stepListAdapter.getIcon(ongoingSession);
+        String distanceLabel = FormatUtils.getFormattedDistanceLabel(ongoingSession.getDistance());
+        String stepLabel = String.valueOf(ongoingSession.getActiveSteps());
+        String durationLabel = DateTimeUtils.formatDurationHoursMinutes(ongoingSession.getEndTime().getTime() - ongoingSession.getStartTime().getTime(), TimeUnit.MILLISECONDS);
+        String hrLabel = String.valueOf(ongoingSession.getHeartRateAverage());
+        String activityName = ongoingSession.getActivityKind().getLabel(requireContext());
+        int icon = ongoingSession.getActivityKind().getIcon();
 
         String text = String.format("%s:\u00A0%s, %s:\u00A0%s, %s:\u00A0%s, %s:\u00A0%s", activityName, durationLabel, getString(R.string.heart_rate), hrLabel, getString(R.string.steps), stepLabel, getString(R.string.distance), distanceLabel);
-
         final Snackbar snackbar = Snackbar.make(rootView, text, 1000 * 8);
 
         View snackbarView = snackbar.getView();

@@ -17,7 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
-import android.widget.ListView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractActivityListingAdapt
 
 public abstract class AbstractListActivity<T> extends AbstractGBActivity {
     private AbstractActivityListingAdapter<T> itemAdapter;
-    private ListView itemListView;
+    private RecyclerView itemListView;
 
     public void setItemAdapter(AbstractActivityListingAdapter<T> itemAdapter) {
         this.itemAdapter = itemAdapter;
@@ -37,23 +39,23 @@ public abstract class AbstractListActivity<T> extends AbstractGBActivity {
         this.itemAdapter.loadItems();
     }
 
-    public void setActivityKindFilter(int activityKind){
+    public void setActivityKindFilter(int activityKind) {
         this.itemAdapter.setActivityKindFilter(activityKind);
     }
 
-    public void setDateFromFilter(long date){
+    public void setDateFromFilter(long date) {
         this.itemAdapter.setDateFromFilter(date);
     }
 
-    public void setDateToFilter(long date){
+    public void setDateToFilter(long date) {
         this.itemAdapter.setDateToFilter(date);
     }
 
-    public void setNameContainsFilter(String name){
+    public void setNameContainsFilter(String name) {
         this.itemAdapter.setNameContainsFilter(name);
     }
 
-    public void setItemsFilter(List items) {
+    public void setItemsFilter(List<Long> items) {
         this.itemAdapter.setItemsFilter(items);
     }
 
@@ -65,15 +67,12 @@ public abstract class AbstractListActivity<T> extends AbstractGBActivity {
         return itemAdapter;
     }
 
-    public ListView getItemListView() {
-        return itemListView;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list);
         itemListView = findViewById(R.id.itemListView);
+        itemListView.setLayoutManager(new LinearLayoutManager(this));
     }
 }

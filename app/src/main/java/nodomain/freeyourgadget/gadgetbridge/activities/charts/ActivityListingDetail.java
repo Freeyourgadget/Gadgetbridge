@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityListItem;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 
 public class ActivityListingDetail extends DialogFragment {
@@ -85,6 +86,21 @@ public class ActivityListingDetail extends DialogFragment {
 
         ActivityListingAdapter stepListAdapter = new ActivityListingAdapter(getContext());
         View activityItem = view.findViewById(R.id.activityItemHolder);
-        stepListAdapter.fill_item(item, 0, activityItem, null);
+        ActivityListItem activityListItem = new ActivityListItem(activityItem);
+        activityListItem.update(
+                item.getStartTime(),
+                item.getEndTime(),
+                item.getActivityKind(),
+                null,
+                item.getActiveSteps(),
+                item.getDistance(),
+                item.getHeartRateAverage(),
+                item.getIntensity(),
+                item.getEndTime().getTime() - item.getStartTime().getTime(),
+                false,
+                null,
+                false,
+                false
+        );
     }
 }

@@ -44,7 +44,8 @@ public class ActivitySummaryItems {
     }
 
     public BaseActivitySummary getNextItem() {
-        if (current_position + 1 < itemsAdapter.getCount()) {
+        // last one is empty to avoid items behind fab
+        if (current_position + 2 < itemsAdapter.getItemCount()) {
             current_position += 1;
             return itemsAdapter.getItem(current_position);
         }

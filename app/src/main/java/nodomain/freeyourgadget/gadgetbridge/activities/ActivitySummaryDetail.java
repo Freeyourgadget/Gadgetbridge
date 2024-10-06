@@ -75,7 +75,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -85,18 +84,13 @@ import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.Activity
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
-import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
+import nodomain.freeyourgadget.gadgetbridge.util.ActivitySummaryUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -578,69 +572,31 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private void viewGpxTrack(Context context) {
-        final File trackFile = getTrackFile();
-        if (trackFile == null) {
+        final File gpxFile = ActivitySummaryUtils.getGpxFile(currentItem);
+        if (gpxFile == null) {
             GB.toast(getApplicationContext(), "No GPX track in this activity", Toast.LENGTH_LONG, GB.INFO);
             return;
         }
 
         try {
-            if (trackFile.getName().endsWith(".gpx")) {
-                AndroidUtils.viewFile(trackFile.getPath(), "application/gpx+xml", context);
-            } else if (trackFile.getName().endsWith(".fit")) {
-                final File gpxFile = convertFitToGpx(trackFile);
-                AndroidUtils.viewFile(gpxFile.getPath(), "application/gpx+xml", context);
-            } else {
-                GB.toast(getApplicationContext(), "Unknown track format", Toast.LENGTH_LONG, GB.INFO);
-            }
+            AndroidUtils.viewFile(gpxFile.getPath(), "application/gpx+xml", context);
         } catch (final Exception e) {
             GB.toast(getApplicationContext(), "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 
     private void shareGpxTrack(final Context context) {
-        final File trackFile = getTrackFile();
-        if (trackFile == null) {
+        final File gpxFile = ActivitySummaryUtils.getGpxFile(currentItem);
+        if (gpxFile == null) {
             GB.toast(getApplicationContext(), "No GPX track in this activity", Toast.LENGTH_LONG, GB.INFO);
             return;
         }
 
         try {
-            if (trackFile.getName().endsWith(".gpx")) {
-                AndroidUtils.shareFile(context, trackFile);
-            } else if (trackFile.getName().endsWith(".fit")) {
-                final File gpxFile = convertFitToGpx(trackFile);
-                AndroidUtils.shareFile(context, gpxFile);
-            } else {
-                GB.toast(getApplicationContext(), "Unknown track format", Toast.LENGTH_LONG, GB.INFO);
-            }
+            AndroidUtils.shareFile(context, gpxFile);
         } catch (final Exception e) {
             GB.toast(context, "Unable to share GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    private File convertFitToGpx(final File file) throws IOException, ActivityTrackExporter.GPXTrackEmptyException {
-        final FitFile fitFile = FitFile.parseIncoming(file);
-        final List<ActivityPoint> activityPoints = fitFile.getRecords().stream()
-                .filter(r -> r instanceof FitRecord)
-                .map(r -> ((FitRecord) r).toActivityPoint())
-                .filter(ap -> ap.getLocation() != null)
-                .collect(Collectors.toList());
-
-        final ActivityTrack activityTrack = new ActivityTrack();
-        activityTrack.setName(currentItem.getName());
-        activityTrack.addTrackPoints(activityPoints);
-
-        final File cacheDir = getCacheDir();
-        final File rawCacheDir = new File(cacheDir, "gpx");
-        //noinspection ResultOfMethodCallIgnored
-        rawCacheDir.mkdir();
-        final File gpxFile = new File(rawCacheDir, file.getName().replace(".fit", ".gpx"));
-
-        final GPXExporter gpxExporter = new GPXExporter();
-        gpxExporter.performExport(activityTrack, gpxFile);
-
-        return gpxFile;
     }
 
     private static void shareRawSummary(final Context context, final BaseActivitySummary summary) {
@@ -732,15 +688,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     @Nullable
     private File getTrackFile() {
-        final String gpxTrack = currentItem.getGpxTrack();
-        if (gpxTrack != null) {
-            return FileUtils.tryFixPath(new File(gpxTrack));
-        }
-        final String rawDetails = currentItem.getRawDetailsPath();
-        if (rawDetails != null && rawDetails.endsWith(".fit")) {
-            return FileUtils.tryFixPath(new File(rawDetails));
-        }
-        return null;
+        return ActivitySummaryUtils.getTrackFile(currentItem);
     }
 
     @Override

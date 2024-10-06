@@ -1011,6 +1011,7 @@
     <string name="sleep_colored_stats_rem_avg">REM AVG</string>
     <string name="sleep_colored_stats_awake_avg">Awake AVG</string>
     <string name="stats_empty_value">-</string>
+    <string name="time_empty_value" translatable="false">--:--</string>
     <string name="stats_lowest_hr">Lowest HR</string>
     <string name="stats_highest_hr">Highest HR</string>
     <string name="transition">Transition</string>
@@ -3264,6 +3265,7 @@
     <string name="folder_is_empty">Folder is empty</string>
     <string name="folder">Folder</string>
     <string name="url">URL</string>
+    <string name="number_selected_items">%1d selected</string>
     <string name="garmin_agps_local_file">Local file</string>
     <string name="pref_garmin_agps_help">The list below contains all URLs requested by the watch for AGPS updates. You can select a file from the phone\'s storage that will be sent to the watch when it requests an update.</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>

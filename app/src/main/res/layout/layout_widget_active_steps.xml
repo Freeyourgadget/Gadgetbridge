@@ -41,7 +41,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:scrollHorizontally="false"
-        android:text="15000"
+        android:text="@string/stats_empty_value"
         android:textSize="24sp" />
 
 </LinearLayout>

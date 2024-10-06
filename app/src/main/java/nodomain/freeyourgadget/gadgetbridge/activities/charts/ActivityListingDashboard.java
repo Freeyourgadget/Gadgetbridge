@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
@@ -37,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -49,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialDialogFragment;
 
 public class ActivityListingDashboard extends MaterialDialogFragment {
@@ -82,13 +84,11 @@ public class ActivityListingDashboard extends MaterialDialogFragment {
                              Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.activity_list_total_dashboard, container);
-
     }
 
     @Override
 
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         int time = getArguments().getInt("time", 1);
@@ -106,10 +106,10 @@ public class ActivityListingDashboard extends MaterialDialogFragment {
         }
         stepListAdapter = new ActivityListingAdapter(getContext());
 
-        final TextView battery_status_date_from_text = (TextView) getView().findViewById(R.id.battery_status_date_from_text);
-        final TextView battery_status_date_to_text = (TextView) getView().findViewById(R.id.battery_status_date_to_text);
-        LinearLayout battery_status_date_to_layout = (LinearLayout) getView().findViewById(R.id.battery_status_date_to_layout);
-        final SeekBar battery_status_time_span_seekbar = (SeekBar) getView().findViewById(R.id.battery_status_time_span_seekbar);
+        final TextView battery_status_date_from_text = getView().findViewById(R.id.battery_status_date_from_text);
+        final TextView battery_status_date_to_text = getView().findViewById(R.id.battery_status_date_to_text);
+        LinearLayout battery_status_date_to_layout = getView().findViewById(R.id.battery_status_date_to_layout);
+        final SeekBar battery_status_time_span_seekbar = getView().findViewById(R.id.battery_status_time_span_seekbar);
 
         boolean activity_list_debug_extra_time_range_value = GBApplication.getPrefs().getPreferences().getBoolean("activity_list_debug_extra_time_range", false);
 
@@ -161,7 +161,7 @@ public class ActivityListingDashboard extends MaterialDialogFragment {
                 battery_status_time_span_text.setText(text);
                 battery_status_date_from_text.setText(DateTimeUtils.formatDate(new Date(timeFrom * 1000L)));
                 battery_status_date_to_text.setText(DateTimeUtils.formatDate(new Date(timeTo * 1000L)));
-                createRefreshTask("Visualizing data", getActivity()).execute();
+                createRefreshTask("Visualizing step sessions", getActivity()).execute();
             }
 
             @Override
@@ -236,8 +236,12 @@ public class ActivityListingDashboard extends MaterialDialogFragment {
     }
 
     void indicate_progress(boolean inProgress) {
-        LinearLayout activity_list_dashboard_results_layout = getView().findViewById(R.id.activity_list_dashboard_results_layout);
-        RelativeLayout activity_list_dashboard_loading_layout = getView().findViewById(R.id.activity_list_dashboard_loading_layout);
+        View view = getView();
+        if (view == null) {
+            return;
+        }
+        LinearLayout activity_list_dashboard_results_layout = view.findViewById(R.id.activity_list_dashboard_results_layout);
+        RelativeLayout activity_list_dashboard_loading_layout = view.findViewById(R.id.activity_list_dashboard_loading_layout);
         if (inProgress) {
             activity_list_dashboard_results_layout.setVisibility(View.GONE);
             activity_list_dashboard_loading_layout.setVisibility(View.VISIBLE);
@@ -248,43 +252,49 @@ public class ActivityListingDashboard extends MaterialDialogFragment {
     }
 
     void populateData(ActivitySession item) {
-        TextView stepLabel = getView().findViewById(R.id.line_layout_step_label);
-        TextView stepTotalLabel = getView().findViewById(R.id.line_layout_total_step_label);
-        TextView distanceLabel = getView().findViewById(R.id.line_layout_distance_label);
-        TextView durationLabel = getView().findViewById(R.id.line_layout_duration_label);
-        TextView sessionCountLabel = getView().findViewById(R.id.line_layout_count_label);
-        LinearLayout durationLayout = getView().findViewById(R.id.line_layout_duration);
-        LinearLayout countLayout = getView().findViewById(R.id.line_layout_count);
-        LinearLayout stepsLayout = getView().findViewById(R.id.line_layout_step);
-        LinearLayout stepsTotalLayout = getView().findViewById(R.id.line_layout_total_step);
-        LinearLayout distanceLayout = getView().findViewById(R.id.line_layout_distance);
+        View view = getView();
+        if (view == null) {
+            return;
+        }
 
-        stepLabel.setText(stepListAdapter.getStepLabel(item));
-        stepTotalLabel.setText(stepListAdapter.getStepTotalLabel(item));
-        distanceLabel.setText(stepListAdapter.getDistanceLabel(item));
-        durationLabel.setText(stepListAdapter.getDurationLabel(item));
-        sessionCountLabel.setText(stepListAdapter.getSessionCountLabel(item));
+        TextView stepLabel = view.findViewById(R.id.line_layout_step_label);
+        TextView stepTotalLabel = view.findViewById(R.id.line_layout_total_step_label);
+        TextView distanceLabel = view.findViewById(R.id.line_layout_distance_label);
+        TextView durationLabel = view.findViewById(R.id.line_layout_duration_label);
+        TextView sessionCountLabel = view.findViewById(R.id.line_layout_count_label);
+        LinearLayout durationLayout = view.findViewById(R.id.line_layout_duration);
+        LinearLayout countLayout = view.findViewById(R.id.line_layout_count);
+        LinearLayout stepsLayout = view.findViewById(R.id.line_layout_step);
+        LinearLayout stepsTotalLayout = view.findViewById(R.id.line_layout_total_step);
+        LinearLayout distanceLayout = view.findViewById(R.id.line_layout_distance);
 
-        if (!stepListAdapter.hasDistance(item)) {
-            distanceLayout.setVisibility(View.GONE);
-        } else {
+        final long duration = item.getEndTime().getTime() - item.getStartTime().getTime();
+        durationLabel.setText(DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS));
+        sessionCountLabel.setText(String.valueOf(item.getSessionCount()));
+
+        if (item.getDistance() > 0) {
+            distanceLabel.setText(FormatUtils.getFormattedDistanceLabel(item.getDistance()));
             distanceLayout.setVisibility(View.VISIBLE);
+        } else {
+            distanceLayout.setVisibility(View.GONE);
         }
 
-        if (!stepListAdapter.hasSteps(item)) {
-            stepsLayout.setVisibility(View.GONE);
-        } else {
+        if (item.getActiveSteps() > 0) {
+            stepLabel.setText(String.valueOf(item.getActiveSteps()));
             stepsLayout.setVisibility(View.VISIBLE);
+        } else {
+            stepsLayout.setVisibility(View.GONE);
         }
 
-        if (!stepListAdapter.hasTotalSteps(item)) {
-            stepsTotalLayout.setVisibility(View.GONE);
-            countLayout.setVisibility(View.GONE);
-            durationLayout.setVisibility(View.GONE);
-        } else {
+        if (item.getTotalDaySteps() > 0) {
+            stepTotalLabel.setText(String.valueOf(item.getTotalDaySteps()));
             stepsTotalLayout.setVisibility(View.VISIBLE);
             countLayout.setVisibility(View.VISIBLE);
             durationLayout.setVisibility(View.VISIBLE);
+        } else {
+            stepsTotalLayout.setVisibility(View.GONE);
+            countLayout.setVisibility(View.GONE);
+            durationLayout.setVisibility(View.GONE);
         }
     }
 
