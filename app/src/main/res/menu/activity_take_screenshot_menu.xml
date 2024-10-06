@@ -43,6 +43,11 @@
                         android:id="@+id/activity_action_dev_share_raw_details"
                         android:title="@string/activity_detail_share_raw_details"
                         app:showAsAction="never" />
+
+                    <item
+                        android:id="@+id/activity_action_dev_share_json_details"
+                        android:title="@string/activity_detail_share_json_details"
+                        app:showAsAction="never" />
                 </menu>
             </item>
 

@@ -2286,6 +2286,7 @@
     <string name="activity_detail_share_gps_label">Share GPS Track</string>
     <string name="activity_detail_share_raw_summary">Share Raw Summary</string>
     <string name="activity_detail_share_raw_details">Share Raw Details</string>
+    <string name="activity_detail_share_json_details">Share JSON Details</string>
     <string name="gps_track">GPS track</string>
     <string name="dev_tools">Dev Tools</string>
     <!-- Device Actions Preferences -->

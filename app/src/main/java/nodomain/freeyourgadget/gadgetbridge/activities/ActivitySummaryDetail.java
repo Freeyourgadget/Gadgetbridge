@@ -68,6 +68,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -530,6 +531,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         } else if (itemId == R.id.activity_action_dev_share_raw_details) {
             shareRawDetails(ActivitySummaryDetail.this, currentItem);
             return true;
+        } else if (itemId == R.id.activity_action_dev_share_json_details) {
+            shareJsonDetails(ActivitySummaryDetail.this, currentItem);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -624,6 +628,21 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             AndroidUtils.shareFile(context, new File(summary.getRawDetailsPath()));
         } catch (final Exception e) {
             GB.toast(context, "Unable to share raw details: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private static void shareJsonDetails(final Context context, final BaseActivitySummary summary) {
+        if (summary.getSummaryData() == null) {
+            GB.toast(context, "No json details in this activity", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
+        final String jsonSummaryFilename = FileUtils.makeValidFileName(String.format("%s.json", DateTimeUtils.formatIso8601(summary.getStartTime())));
+
+        try {
+            AndroidUtils.shareBytesAsFile(context, jsonSummaryFilename, summary.getSummaryData().getBytes(StandardCharsets.UTF_8));
+        } catch (final Exception e) {
+            GB.toast(context, "Unable to share json details: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 
