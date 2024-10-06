@@ -195,7 +195,7 @@ public class GB {
         }else if(devices.size() == 1) {
             GBDevice device = devices.get(0);
             String deviceName = device.getAliasOrName();
-            String text = device.getStateString();
+            String text = device.getStateString(context);
 
             text += buildDeviceBatteryString(context, device);
 
@@ -242,7 +242,7 @@ public class GB {
                 anyDeviceSupportesActivityDataFetching |= device.getDeviceCoordinator().supportsActivityDataFetching();
 
                 String deviceName = device.getAliasOrName();
-                String text = device.getStateString();
+                String text = device.getStateString(context);
                 text += buildDeviceBatteryString(context, device);
                 contentText.append(deviceName).append(" (").append(text).append(")<br>");
             }

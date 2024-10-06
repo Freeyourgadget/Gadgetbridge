@@ -344,7 +344,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             holder.deviceStatusLabel.setText(device.getBusyTask());
             holder.busyIndicator.setVisibility(View.VISIBLE);
         } else {
-            holder.deviceStatusLabel.setText(device.getStateString());
+            holder.deviceStatusLabel.setText(device.getStateString(context));
             holder.busyIndicator.setVisibility(View.INVISIBLE);
         }
 

@@ -416,8 +416,8 @@ public class GBDevice implements Parcelable {
         }
     }
 
-    public String getStateString() {
-        return getStateString(true);
+    public String getStateString(final Context context) {
+        return getStateString(context, true);
     }
 
     /**
@@ -425,16 +425,16 @@ public class GBDevice implements Parcelable {
      * instead of connecting->connected->initializing->initialized
      * Set simple to true to get this behavior.
      */
-    private String getStateString(boolean simple) {
+    private String getStateString(Context context, boolean simple) {
         try{
             // TODO: not sure if this is really neccessary...
             if(simple){
-                return GBApplication.getContext().getString(mState.getSimpleStringId());
+                return context.getString(mState.getSimpleStringId());
             }
-            return GBApplication.getContext().getString(mState.getStringId());
+            return context.getString(mState.getStringId());
         }catch (Exception e){}
 
-        return GBApplication.getContext().getString(R.string.unknown_state);
+        return context.getString(R.string.unknown_state);
     }
 
     /**
@@ -629,9 +629,10 @@ public class GBDevice implements Parcelable {
                 getDeviceCoordinator().getDisabledIconResource();
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return "Device " + getName() + ", " + getAddress() + ", " + getStateString(false);
+        return "Device " + getName() + ", " + getAddress() + ", " + mState;
     }
 
     /**

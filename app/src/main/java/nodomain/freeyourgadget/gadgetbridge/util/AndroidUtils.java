@@ -111,6 +111,8 @@ public class AndroidUtils {
 
         // FIXME: I have no idea what I am doing
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+
+        Locale.setDefault(language);
     }
 
     /**

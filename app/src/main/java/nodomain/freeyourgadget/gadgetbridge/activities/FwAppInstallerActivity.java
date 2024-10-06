@@ -94,7 +94,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
                             GB.toast(FwAppInstallerActivity.this, getString(R.string.connecting), Toast.LENGTH_SHORT, GB.INFO);
                             connect();
                         } else {
-                            setInfoText(getString(R.string.fwappinstaller_connection_state, device.getStateString()));
+                            setInfoText(getString(R.string.fwappinstaller_connection_state, device.getStateString(context)));
                         }
                     } else {
                         validateInstallation();

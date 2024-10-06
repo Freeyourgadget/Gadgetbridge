@@ -142,7 +142,7 @@ public class Widget extends AppWidgetProvider {
         views.setProgressBar(R.id.todaywidget_distance_progress, distanceGoal, steps * stepLength, false);
         views.setViewVisibility(R.id.todaywidget_battery_icon, View.GONE);
         if (deviceForWidget != null) {
-            String status = String.format("%1s", deviceForWidget.getStateString());
+            String status = String.format("%1s", deviceForWidget.getStateString(context));
             if (deviceForWidget.isConnected()) {
                 if (deviceForWidget.getBatteryLevel() > 1) {
                     views.setViewVisibility(R.id.todaywidget_battery_icon, View.VISIBLE);

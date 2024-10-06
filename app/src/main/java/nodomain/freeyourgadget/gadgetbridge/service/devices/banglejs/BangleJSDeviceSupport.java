@@ -257,7 +257,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         String data = String.valueOf(intent.getExtras().get("DATA"));
                         BtLEQueue queue = getQueue();
                         if (queue==null) {
-                            LOG.warn("BANGLEJS_COMMAND_TX received, but getQueue()==null (state=" + gbDevice.getStateString() + ")");
+                            LOG.warn("BANGLEJS_COMMAND_TX received, but getQueue()==null (state=" + gbDevice.getStateString(context) + ")");
                         } else {
                             try {
                                 TransactionBuilder builder = performInitialized("TX");
@@ -270,7 +270,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         break;
                     }
                     case GBDevice.ACTION_DEVICE_CHANGED: {
-                        String stateString = (gbDevice!=null ? gbDevice.getStateString():"");
+                        String stateString = (gbDevice!=null ? gbDevice.getStateString(context):"");
                         if (!stateString.equals(lastStateString)) {
                           lastStateString = stateString;
                           LOG.info("ACTION_DEVICE_CHANGED " + stateString);
