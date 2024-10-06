@@ -63,11 +63,10 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 
 public class ActivitySummariesFilter extends AbstractGBActivity {
-    private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesActivity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesFilter.class);
     private static final String DATE_FILTER_FROM = "dateFromFilter";
     private static final String DATE_FILTER_TO = "dateToFilter";
     public static long ALL_DEVICES = 999;
@@ -125,6 +124,8 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             kindArray.add(new SpinnerWithIconItem(item.getKey(), (long) item.getValue().getCode(), item.getValue().getIcon()));
         }
 
+        kindArray.sort((o1, o2) -> o1.getText().compareToIgnoreCase(o2.getText()));
+
         //ensure that all items is always first in the list, this is an issue on old android
         SpinnerWithIconItem allActivities = new SpinnerWithIconItem(getString(R.string.activity_summaries_all_activities), (long) ActivityKind.UNKNOWN.getCode(), ActivityKind.UNKNOWN.getIcon());
         kindArray.add(0, allActivities);
@@ -142,10 +143,9 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
 
         //quick date filter selection
         final Spinner quick_filter_period_select = findViewById(R.id.quick_filter_period_select);
-        ArrayList<String> quickDateArray = new ArrayList<>(activityKindMap.keySet());
 
-        ArrayList activity_filter_quick_filter_period_items = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.activity_filter_quick_filter_period_items)));
-        ArrayAdapter<String> filterDateAdapter = new ArrayAdapter<String>(this,
+        ArrayList<String> activity_filter_quick_filter_period_items = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.activity_filter_quick_filter_period_items)));
+        ArrayAdapter<String> filterDateAdapter = new ArrayAdapter<>(this,
                 R.layout.simple_spinner_item_themed, activity_filter_quick_filter_period_items);
         quick_filter_period_select.setAdapter(filterDateAdapter);
         addListenerOnQuickFilterSelection();
@@ -197,7 +197,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 String text = nameContainsFilterdata.getText().toString();
-                if (text != null && text.length() > 0) {
+                if (!text.isEmpty()) {
                     nameContainsFilter = text;
                 }
                 Intent intent = new Intent();
@@ -381,12 +381,12 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         update_filter_fields();
     }
 
-    public LinkedHashMap getAllDevices(Context appContext) {
+    public LinkedHashMap<String, Pair<Long, Integer>> getAllDevices(Context appContext) {
         DaoSession daoSession;
         GBApplication gbApp = (GBApplication) appContext;
         LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
         List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
-        newMap.put(getString(R.string.activity_summaries_all_devices), new Pair(ALL_DEVICES, R.drawable.ic_device_default_disabled));
+        newMap.put(getString(R.string.activity_summaries_all_devices), new Pair<>(ALL_DEVICES, R.drawable.ic_device_default_disabled));
 
         try (DBHandler handler = GBApplication.acquireDB()) {
             daoSession = handler.getDaoSession();
@@ -397,7 +397,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
                 if (dbDevice != null && coordinator != null
                         && coordinator.supportsActivityTracks()
                         && !newMap.containsKey(device.getAliasOrName())) {
-                    newMap.put(device.getAliasOrName(), new Pair(dbDevice.getId(), icon));
+                    newMap.put(device.getAliasOrName(), new Pair<>(dbDevice.getId(), icon));
                 }
             }
 
@@ -463,11 +463,11 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     }
 
     public class CustomQuickFilterSelectionListener implements AdapterView.OnItemSelectedListener {
-        ArrayList activity_filter_quick_filter_period_values = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.activity_filter_quick_filter_period_values)));
+        ArrayList<String> activity_filter_quick_filter_period_values = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.activity_filter_quick_filter_period_values)));
         String selection;
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            selection = activity_filter_quick_filter_period_values.get(pos).toString();
+            selection = activity_filter_quick_filter_period_values.get(pos);
             setTimePeriodFilter(selection);
         }
 
