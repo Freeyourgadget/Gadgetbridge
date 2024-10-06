@@ -1,0 +1,33 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:tint="#7E7E7E"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!--
+        Licensed under public domain
+        https://www.svgrepo.com/svg/480564/dumbbell-8
+    -->
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M141.7,141.55H79.08c-8.49,0 -15.37,6.88 -15.37,15.36v198.18c0,8.48 6.88,15.36 15.37,15.36h62.62c8.49,0 15.37,-6.88 15.37,-15.36V156.91C157.07,148.43 150.19,141.55 141.7,141.55z" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M32.37,189.73H12.8C5.74,189.73 0,195.47 0,202.54v106.93c0,7.07 5.74,12.8 12.8,12.8h19.57c7.07,0 12.8,-5.74 12.8,-12.8V202.54C45.18,195.47 39.44,189.73 32.37,189.73z" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M177.69,228.89h156.62v54.21h-156.62z" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M432.92,141.55h-62.62c-8.49,0 -15.37,6.88 -15.37,15.36v198.18c0,8.48 6.88,15.36 15.37,15.36h62.62c8.49,0 15.37,-6.88 15.37,-15.36V156.91C448.29,148.43 441.41,141.55 432.92,141.55z" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M499.2,189.73h-19.57c-7.07,0 -12.8,5.74 -12.8,12.8v106.93c0,7.07 5.74,12.8 12.8,12.8h19.57c7.07,0 12.8,-5.74 12.8,-12.8V202.54C512,195.47 506.26,189.73 499.2,189.73z" />
+
+</vector>
