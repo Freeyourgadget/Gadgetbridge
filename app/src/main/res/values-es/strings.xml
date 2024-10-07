@@ -3484,4 +3484,6 @@
     <string name="workout_set_reps">Repeticiones</string>
     <string name="paceCorrection">Corrección</string>
     <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
+    <string name="activity_detail_share_json_details">Compartir detalles en JSON</string>
+    <string name="number_selected_items">%1d seleccionado</string>
 </resources>
