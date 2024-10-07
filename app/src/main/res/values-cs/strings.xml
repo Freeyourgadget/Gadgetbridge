@@ -1007,7 +1007,7 @@
     <string name="prefs_events_forwarding_wokeup">Při probuzení</string>
     <string name="prefs_events_forwarding_fellsleep">Při usnutí</string>
     <string name="prefs_events_forwarding_title">Akce zařízení</string>
-    <string name="prefs_events_forwarding_summary">Pomocí událostí náramkového zařízení spusťte akce a Android broadcast vysílání</string>
+    <string name="prefs_events_forwarding_summary">Použijte události zařízení pro spouštění akcí a vysílání systému Android</string>
     <string name="km">km</string>
     <string name="seconds_m">sec/m</string>
     <string name="activity_type_yoga">Jóga</string>
@@ -2180,7 +2180,7 @@
     <string name="pref_title_upper_button_long_press_action">Akce dlouhého držení Horního Tlačítka</string>
     <string name="elevationLoss">Ztráta nadmořské výšky</string>
     <string name="HeartRateZones">Zóny srdečního tepu</string>
-    <string name="activity_detail_share_gps_label">Sdílet GPS Trasu</string>
+    <string name="activity_detail_share_gps_label">Sdílet trasu GPS</string>
     <string name="intent_api_allow_trigger_export_title">Povolit export databáze</string>
     <string name="address">Adresa</string>
     <string name="fossil_hr_confirm_connection">Prosíme o potvrzení na hodinkách</string>
@@ -2226,8 +2226,8 @@
     <string name="changelog_show_full">Více…</string>
     <string name="pref_show_changelog">Zobrazit seznam změn při spuštění aplikace</string>
     <string name="pref_show_changelog_summary">Zobrazí seznam změn od poslední aktualizace Gadgetbridge</string>
-    <string name="activity_detail_share_raw_summary">Sdílet Souhrn Nezpracovaných Dat</string>
-    <string name="activity_detail_share_raw_details">Sdílet Detaily Nezpracovaných Dat</string>
+    <string name="activity_detail_share_raw_summary">Sdílet nezpracovaný souhrn dat</string>
+    <string name="activity_detail_share_raw_details">Sdílet nezpracované podrobnosti</string>
     <string name="stress_relaxed">Uvolněný</string>
     <string name="stress_mild">Mírný</string>
     <string name="ftp_server_root_dir">Kořenový adresář</string>
@@ -3480,4 +3480,6 @@
     <string name="hrZoneMaximum">Maximální</string>
     <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
     <string name="paceCorrection">Oprava</string>
+    <string name="activity_detail_share_json_details">Sdílet podrobnosti v JSON</string>
+    <string name="number_selected_items">Vybráno %1d</string>
 </resources>
