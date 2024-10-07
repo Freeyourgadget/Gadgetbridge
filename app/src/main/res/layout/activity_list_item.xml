@@ -4,11 +4,10 @@
     android:id="@+id/list_item_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <!--
-    android:background="?android:attr/activatedBackgroundIndicator"
-    -->
 
     <LinearLayout
+        android:gravity="start"
+        android:layout_gravity="start"
         android:id="@+id/list_item_subparent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,15 +48,15 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal|center_vertical"
+                >
 
                 <ImageView
                     android:id="@+id/line_layout_activity_icon"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:contentDescription="@string/candidate_item_device_image"
                     android:padding="8dp"
                     app:srcCompat="@drawable/ic_activity_unknown" />
@@ -67,53 +66,91 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/line_layout_activity_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="@string/unknown"
-                    android:textStyle="bold" />
+                android:orientation="vertical"
+                android:minHeight="50dp"
+                >
 
                 <LinearLayout
-                    android:id="@+id/line_layout_duration_gps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="start"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="top"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:id="@+id/line_layout_activity_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:layout_weight="0"
+                        android:scrollHorizontally="false"
+                        android:text="@string/unknown"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        />
+                    <TextView
+                        android:id="@+id/line_layout_activity_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:layout_weight="0"
+                        android:scrollHorizontally="false"
+                        />
 
                     <TextView
-                        android:id="@+id/line_layout_duration_label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:layout_weight="1"
                         android:gravity="end"
+                        android:id="@+id/line_layout_date_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:maxLines="1"
                         android:scrollHorizontally="false"
-                        android:text="@string/stats_empty_value" />
-
-                    <ImageView
-                        android:id="@+id/line_layout_gps_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="19dp"
-                        android:layout_gravity="end"
-                        android:contentDescription="@string/candidate_item_device_image"
-                        app:srcCompat="@android:drawable/ic_menu_mylocation" />
+                        android:text="@string/stats_empty_value"
+                        />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
                     android:gravity="bottom"
-                    android:orientation="horizontal">
+                    >
+                    <TextView
+                        android:id="@+id/line_layout_duration_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:scrollHorizontally="false"
+                        android:text="@string/stats_empty_value" />
+                    <LinearLayout
+                        android:id="@+id/line_layout_duration_gps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/line_layout_gps_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="19dp"
+                            android:contentDescription="@string/candidate_item_device_image"
+                            app:srcCompat="@android:drawable/ic_menu_mylocation" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    >
 
                     <LinearLayout
                         android:id="@+id/line_layout_step"
@@ -235,41 +272,14 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/line_layout_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="start"
-                        android:orientation="horizontal">
-                        <!--
-                        <ImageView
-                            android:id="@+id/line_layout_date_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="start"
-                            android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_calendar_today" />
-                        -->
-
-                        <TextView
-                            android:id="@+id/line_layout_date_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:maxLines="1"
-                            android:scrollHorizontally="false"
-                            android:text="@string/stats_empty_value" />
-
-                    </LinearLayout>
-
-
                 </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
-
+    <View
+        android:layout_below="@id/list_item_subparent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/value_line_color_transparent"
+        />
 </RelativeLayout>

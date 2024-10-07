@@ -28,6 +28,7 @@ public class ActivityListItem {
     private final TextView timeFromView;
     private final TextView timeToView;
     private final TextView activityName;
+    private final TextView activityLabelText;
     private final TextView stepLabel;
     private final TextView distanceLabel;
     private final TextView hrLabel;
@@ -39,7 +40,6 @@ public class ActivityListItem {
     private final LinearLayout stepsLayout;
     private final LinearLayout distanceLayout;
     private final LinearLayout intensityLayout;
-    private final LinearLayout dateLayout;
     private final RelativeLayout parentLayout;
     private final ImageView activityIcon;
     private final ImageView gpsIcon;
@@ -54,6 +54,7 @@ public class ActivityListItem {
         this.timeFromView = itemView.findViewById(R.id.line_layout_time_from);
         this.timeToView = itemView.findViewById(R.id.line_layout_time_to);
         this.activityName = itemView.findViewById(R.id.line_layout_activity_name);
+        this.activityLabelText = itemView.findViewById(R.id.line_layout_activity_label);
         this.stepLabel = itemView.findViewById(R.id.line_layout_step_label);
         this.distanceLabel = itemView.findViewById(R.id.line_layout_distance_label);
         this.hrLabel = itemView.findViewById(R.id.line_layout_hr_label);
@@ -66,7 +67,6 @@ public class ActivityListItem {
         this.stepsLayout = itemView.findViewById(R.id.line_layout_step);
         this.distanceLayout = itemView.findViewById(R.id.line_layout_distance);
         this.intensityLayout = itemView.findViewById(R.id.line_layout_intensity);
-        this.dateLayout = itemView.findViewById(R.id.line_layout_date);
 
         this.parentLayout = itemView.findViewById(R.id.list_item_parent_layout);
 
@@ -93,9 +93,10 @@ public class ActivityListItem {
                        final boolean selected) {
         final String activityKindLabel = activityKind.getLabel(activityName.getContext());
         if (StringUtils.isNotBlank(activityLabel)) {
-            activityName.setText(String.format("%s, %s", activityKindLabel, activityLabel));
+            activityLabelText.setText(String.format(" (%s)", activityKindLabel));
+            activityName.setText(String.format("%s", activityLabel));
         } else {
-            activityName.setText(activityKindLabel);
+            activityName.setText(String.format("%s", activityKindLabel));
         }
         durationLabel.setText(DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS));
 
@@ -130,9 +131,9 @@ public class ActivityListItem {
 
         if (date != null) {
             dateLabel.setText(formatDate(date));
-            dateLayout.setVisibility(View.VISIBLE);
+            dateLabel.setVisibility(View.VISIBLE);
         } else {
-            dateLayout.setVisibility(View.GONE);
+            dateLabel.setVisibility(View.GONE);
         }
 
         if (timeFrom != null && timeTo != null) {
@@ -154,10 +155,6 @@ public class ActivityListItem {
         if (parentLayout != null) {
             if (selected) {
                 parentLayout.setBackgroundColor(selectedColor);
-            } else if (zebraStripe) {
-                parentLayout.setBackgroundColor(alternateColor);
-            } else {
-                parentLayout.setBackgroundColor(backgroundColor);
             }
         }
     }

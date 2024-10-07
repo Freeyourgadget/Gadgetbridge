@@ -63,6 +63,7 @@
     <color name="steps_color" type="color">#00c9bf</color>
 
     <color name="value_line_color" type="color">#858585</color>
+    <color name="value_line_color_transparent" type="color">#70858585</color>
     <color name="gauge_line_color" type="color">#19808080</color>
 
     <color name="alternate_row_background_light">#FFEDEDED</color>

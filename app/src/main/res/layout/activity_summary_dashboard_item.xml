@@ -9,6 +9,7 @@
     -->
 
     <LinearLayout
+        android:id="@+id/summary_dashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -466,5 +467,10 @@
 
         </LinearLayout>
     </LinearLayout>
-
+    <View
+        android:layout_below="@id/summary_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/value_line_color_transparent"
+        />
 </RelativeLayout>
