@@ -18,24 +18,22 @@
     <string name="appmanager_health_deactivate">비활성화</string>
     <string name="app_configure">설정</string>
     <!--Strings related to FwAppInstaller-->
-    <string name="title_activity_fw_app_insaller">펌웨어/앱 설치</string>
-    <string name="fw_upgrade_notice">지금 기존의 Mi Band 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.</string>
-    <string name="fw_multi_upgrade_notice">지금 Mi Band의 기존 펌웨어 대신 %1$s와 %2$s 펌웨어를 설치하려고 합니다.</string>
-    <string name="miband_firmware_known">이 펌웨어는 테스트를 거쳤고 가젯브릿지와 호환됩니다.</string>
-    <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.
-\n
-\nMi Band에 설치하지 않는 것이 좋습니다!</string>
-    <string name="miband_firmware_suggest_whitelist">여전히 계속 진행하기를 원하고 이후에도 정상적으로 작동하기를 원한다면, %s 펌웨어가 정상적으로 동작한다고 가젯브릿지 개발자들에게 알려주세요.</string>
+    <string name="title_activity_fw_app_insaller">펌웨어/앱 설치관리자</string>
+    <string name="fw_upgrade_notice">%s을/를 설치합니다.</string>
+    <string name="fw_multi_upgrade_notice">지금 미밴드에 기존 펌웨어 대신 %1$s와 %2$s 펌웨어를 설치하려고 합니다.</string>
+    <string name="miband_firmware_known">이 펌웨어는 테스트를 거쳤고 가젯브릿지와 호환성이 확인되었습니다.</string>
+    <string name="miband_firmware_unknown_warning">이 펌웨어는 테스트를 거치지 않았고 가젯브릿지와 호환되지 않을 수 있습니다.\n\n미밴드에 설치하지 않는 것이 좋습니다!</string>
+    <string name="miband_firmware_suggest_whitelist">그래도 계속 진행하기를 원하고 이후에 문제없이 작동한다면, %s 펌웨어가 정상적으로 동작한다고 가젯브릿지 개발진에게 알려주세요.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">설정</string>
     <string name="pref_header_general">일반 설정</string>
-    <string name="pref_title_general_autoconnectonbluetooth">블루투스가 켜지면 가젯브릿지 기기에 접속하기</string>
-    <string name="pref_title_general_autoreconnect">자동으로 재연결</string>
-    <string name="pref_title_audio_player">선호하는 오디오 플레이어</string>
+    <string name="pref_title_general_autoconnectonbluetooth">블루투스를 켜면 가젯브릿지 기기에 연결</string>
+    <string name="pref_title_general_autoreconnect">자동 재연결</string>
+    <string name="pref_title_audio_player">선호 음악플레이어</string>
     <string name="pref_default">기본값</string>
     <string name="pref_header_datetime">날짜와 시간</string>
     <string name="pref_title_datetime_syctimeonconnect">시간 동기화</string>
-    <string name="pref_summary_datetime_syctimeonconnect">시간이 바뀌거나, 시간대가 바뀌거나, 접속을 할 때 가젯브릿지 기기와 시간을 동기화</string>
+    <string name="pref_summary_datetime_syctimeonconnect">연결시, 시간 또는 시간대 변경시, 또 주기적으로 가젯브릿지 기기와 시간 동기화</string>
     <string name="pref_title_theme">테마</string>
     <string name="pref_theme_light">밝음</string>
     <string name="pref_theme_dark">어두움</string>
@@ -43,9 +41,9 @@
     <string name="pref_title_notifications_repetitions">반복</string>
     <string name="pref_title_notifications_call">전화</string>
     <string name="pref_title_notifications_sms">SMS</string>
-    <string name="pref_title_notifications_pebblemsg">Pebble 메세지</string>
-    <string name="pref_title_notifications_generic">일반적인 알림 지원</string>
-    <string name="pref_title_whenscreenon">…화면이 켜져있을 때도</string>
+    <string name="pref_title_notifications_pebblemsg">페블 메세지</string>
+    <string name="pref_title_notifications_generic">일반 알림 지원</string>
+    <string name="pref_title_whenscreenon">…화면 켜진 상태 포함</string>
     <string name="always">항상</string>
     <string name="when_screen_off">화면이 꺼져 있을 때</string>
     <string name="never">하지 않음</string>
@@ -220,42 +218,36 @@
     <!--Strings related to Vibration Activity-->
     <!--Strings related to Pebble Pairing Activity-->
     <string name="action_donate">기부</string>
-    <string name="controlcenter_delete_device">기기 제거</string>
-    <string name="controlcenter_delete_device_name">%1$s 제거</string>
-    <string name="controlcenter_delete_device_dialogmessage">기기와 그와 관련된 모든 데이터를 삭제 할 것입니다!</string>
+    <string name="controlcenter_delete_device">기기 삭제</string>
+    <string name="controlcenter_delete_device_name">%1$s 삭제</string>
+    <string name="controlcenter_delete_device_dialogmessage">기기와 관련된 모든 데이터가 삭제됩니다.</string>
     <string name="controlcenter_navigation_drawer_open">탐색 서랍 열기</string>
     <string name="controlcenter_navigation_drawer_close">탐색 서랍 닫기</string>
     <string name="controlcenter_snackbar_need_longpress">카드를 길게 눌러 연결 해제</string>
     <string name="controlcenter_snackbar_disconnecting">연결 해제 중</string>
-    <string name="controlcenter_snackbar_connecting">연결 중</string>
+    <string name="controlcenter_snackbar_connecting">연결 중…</string>
     <string name="controlcenter_snackbar_requested_screenshot">기기의 스크린샷을 찍는 중</string>
     <string name="appmanager_cached_watchapps_watchfaces">캐시에 저장된 앱들</string>
     <string name="appmanager_installed_watchapps">설치된 앱들</string>
     <string name="appmanager_installed_watchfaces">설치된 워치페이스</string>
     <string name="appmananger_app_delete_cache">삭제하고 캐시에서 제거</string>
     <string name="appmanager_app_openinstore">페블 앱스토어에서 검색</string>
-    <string name="appmanager_hrm_activate">심장 박동수 모니터링 활성화</string>
-    <string name="appmanager_hrm_deactivate">심장 박동수 모니터링 비활성화</string>
+    <string name="appmanager_hrm_activate">심박수 모니터링 활성화</string>
+    <string name="appmanager_hrm_deactivate">심박수 모니터링 비활성화</string>
     <string name="appmanager_weather_activate">시스템 날씨 앱 활성화</string>
     <string name="appmanager_weather_deactivate">시스템 날씨 앱 비활성화</string>
     <string name="appmanager_weather_install_provider">날씨 알림 앱 설치</string>
-    <string name="app_move_to_top">가장 위로 이동</string>
-    <string name="title_activity_calblacklist">비활성화 된 캘린더들</string>
-    <string name="fw_upgrade_notice_amazfitbip">지금 당신의 Amazfit Bip에 %s 펌웨어를 설치하려고 합니다.
-\n
-\n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다.
-\n
-\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다.
-\n
-\n본인의 책임 하에 진행하세요!</string>
-    <string name="pref_title_general_autostartonboot">자동으로 시작</string>
+    <string name="app_move_to_top">맨 위로 이동</string>
+    <string name="title_activity_calblacklist">제외된 달력</string>
+    <string name="fw_upgrade_notice_amazfitbip">지금 어메이즈핏 빕에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일, .gps 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일과 .gps 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="pref_title_general_autostartonboot">자동 시작</string>
     <string name="pref_title_language">언어</string>
-    <string name="pref_title_minimize_priority">가젯브릿지 알림 숨김</string>
+    <string name="pref_title_minimize_priority">가젯브릿지 알림 숨기기</string>
     <string name="pref_summary_minimize_priority_off">상태 표시줄과 잠금 화면 알림에 아이콘이 표시됩니다</string>
-    <string name="pref_summary_minimize_priority_on">상태 표시줄과 잠금 화면 알림에 아이콘이 표시되지 않습니다</string>
+    <string name="pref_summary_minimize_priority_on">상태 표시줄과 잠금 화면 알림에 아이콘이 숨겨집니다</string>
     <string name="pref_summary_notifications_pebblemsg">PebbleKit를 사용하여 페블에 알림을 보내는 앱을 지원합니다.</string>
     <string name="pref_title_notification_filter">방해 금지 모드</string>
-    <string name="pref_summary_notification_filter">이 모드를 켜면 원하지 않는 알림이 울리지 않습니다</string>
+    <string name="pref_summary_notification_filter">방해금지 기능 활성화시 모든 알림 막기</string>
     <string name="pref_title_transliteration">표기법 변환</string>
     <string name="pref_summary_transliteration">만약 장치가 당신이 사용하는 언어의 폰트를 지원하지 않는다면 이 옵션을 활성화 하세요</string>
     <string name="pref_header_privacy">프라이버시</string>
@@ -305,13 +297,7 @@
     <string name="pref_title_unit_system">단위</string>
     <string name="pref_title_timeformat">시간 형식</string>
     <string name="controlcenter_connect">연결…</string>
-    <string name="fw_upgrade_notice_amazfitcor">지금 당신의 Amazfit Cor에 %s 펌웨어를 설치하려고 합니다.
-\n
-\n.fw 파일을 설치하고 .res 파일을 설치한 후 최종적으로 .gps 파일을 설치하세요. .fw 파일을 설치한 후 기기가 재시작 됩니다.
-\n
-\n비고: 만약 전에 설치되어 있던 .res 파일과 .gps 파일을 그대로 사용한다면 각 파일을 다시 설치 할 필요는 없습니다.
-\n
-\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitcor">지금 어메이즈핏 코어에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_charts_swipe">활동 차트에서 좌/우 밀어넘기기 사용</string>
     <string name="pref_title_weather_location">날씨 위치 (CM/리니지 OS)</string>
     <string name="pref_title_pebble_enable_bgjs">백그라운드 JS 사용하기</string>
@@ -506,15 +492,9 @@
     <string name="controlcenter_change_led_color">LED 색상 변경</string>
     <string name="controlcenter_change_fm_frequency">FM 주파수 변경</string>
     <string name="controlcenter_calibrate_device">디바이스 조정하기</string>
-    <string name="blacklist_all_for_notifications">모든 알람 블랙리스트</string>
-    <string name="whitelist_all_for_notifications">모든 알람을 위한 화이트리스트</string>
-    <string name="fw_upgrade_notice_miband3">%s 펌웨어를 Mi Band 3에 설치하려고 합니다.
-\n
-\n.res 파일을 먼저 설치하고 .fw 파일을 설치하십시오. .fw 파일이 설치된 이후에 기기가 재시작될 것입니다.
-\n
-\n기존의 .res 파일과 설치하려는 .res 파일이 동일하다면, .res 파일을 다시 설치할 필요는 없습니다.
-\n
-\n테스트되지 않은 기능입니다. 기기가 고장날 가능성이 있습니다. 본인의 책임 하에 진행하십시오!</string>
+    <string name="blacklist_all_for_notifications">모든 알림 블랙리스트</string>
+    <string name="whitelist_all_for_notifications">모든 알림 화이트리스트</string>
+    <string name="fw_upgrade_notice_miband3">지금 미밴드 3에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
     <string name="pref_title_notifications_timeout">알람간 최소 시간</string>
     <string name="pref_title_rtl">오른쪽에서 왼쪽으로</string>
     <string name="pref_summary_rtl">만약 당신의 디바이스에서 좌우 언어가 보이지 않는다면 이것을 활성화하세요</string>
@@ -581,7 +561,7 @@
     <string name="menuitem_notifications">알람</string>
     <string name="language_and_region_prefs">언어 및 지역 설정</string>
     <string name="debugactivity_really_factoryreset_title">정말로 공장 초기화를 실행할까요\?</string>
-    <string name="debugactivity_really_factoryreset">공장 초기화를 하면 (지원되는) 연결된 장치에서 데이터를 모두 삭제합니다. Xiaomi/Huami 장치들은 블루투스 MAC 주소도 변경하므로, Gadgetbridge에서 새 장치로 나타나게 됩니다.</string>
+    <string name="debugactivity_really_factoryreset">공장 초기화를 하면 연결된 장치에서 (지원시) 데이터를 모두 삭제합니다. 샤오미/Huami 장치의 경우 블루투스 MAC 주소도 변경되므로, 가젯브릿지에서 새 장치로 나타나게 됩니다.</string>
     <string name="devicetype_id115">ID115</string>
     <string name="menuitem_music">음악</string>
     <string name="menuitem_more">더 보기</string>
@@ -615,10 +595,10 @@
     <string name="calendar_day">일</string>
     <string name="calendar_two_weeks">2주</string>
     <string name="accuracy">정확도</string>
-    <string name="about_activity_title_generic">Gadgetbridge에 대하여</string>
-    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge에 대하여</string>
+    <string name="about_activity_title_generic">가젯브릿지 정보</string>
+    <string name="application_name_banglejs_main">Bangle.js 가젯브릿지</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js 가젯브릿지</string>
+    <string name="about_activity_title_banglejs_main">Bangle.js 가젯브릿지 정보</string>
     <string name="controlcenter_power_off_confirm_title">전원 끄기</string>
     <string name="controlcenter_power_off_confirm_description">기기의 전원을 끄고 싶은 것이 확실한가요?</string>
     <string name="battery_level">배터리 레벨</string>
@@ -640,8 +620,8 @@
     <string name="gps_bds">GPS + BDS</string>
     <string name="gps_gnolass">GPS + GNOLASS</string>
     <string name="gps_galileo">GPS + GALILEO</string>
-    <string name="prefs_activity_in_device_card_sleep_title_summary">수면 기간 표시</string>
-    <string name="prefs_activity_in_device_card_distance_title_summary">거리는 걸음과 보폭에서 계산됩니다 (설정에서 변경 가능)</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">수면 시간 표시</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">거리는 걸음과 보폭(설정 - 나의 정보에서 변경 가능)에서 계산됩니다</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">전체 걸음 수 표시</string>
     <string name="calendar_month">달</string>
     <string name="calendar_three_months">3달</string>
@@ -650,4 +630,139 @@
     <string name="appmanager_app_start">시작</string>
     <string name="activity_list_summary_active_time">활성 시간</string>
     <string name="activity_list_summary_activities">활동</string>
+    <string name="fw_upgrade_notice_amazfit_band7">지금 어메이즈핏 밴드 7에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="pref_pair_bluetooth_calls_summary">여기를 눌러 페어링 시작</string>
+    <string name="pref_title_notification_cache_while_disconnected">연결 두절시 캐싱</string>
+    <string name="pref_title_support_voip_calls">VoIP 앱 전화 활성화</string>
+    <string name="appmanager_downloaded_to_cache">%s을/를 캐시에 저장함</string>
+    <string name="appmanager_download_app_error">앱 다운로드 오류</string>
+    <string name="find_lost_device_message">%1$s을/를 찾을까요?</string>
+    <string name="pref_header_equalizer">이퀄라이저</string>
+    <string name="pref_header_other">기타</string>
+    <string name="pref_header_health">건강</string>
+    <string name="pref_header_time">시간</string>
+    <string name="about_description_banglejs_main">Bangle.js용 안드로이드 동반 앱은 가젯브릿지 프로젝트를 기반으로 인터넷 접근 권한을 추가합니다.\n\n구글 플레이 스토어 정책으로 인해 앱 내에 기부 링크를 표시할 수 없습니다. 하지만 이 앱이 마음에 드셨다면 아래 가젯브릿지 홈페이지를 통해 기부를 부탁드립니다.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js 실행중</string>
+    <string name="title_activity_notification_management">알림 설정</string>
+    <string name="appmanager_item_outdated">(구버전)</string>
+    <string name="fw_upgrade_notice_miband5">지금 미밴드 5에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitneo">지금 어메이즈핏 네오에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="application_name_banglejs_nightly">Bangle.js 가젯브릿지 (Nightly)</string>
+    <string name="pref_header_calendar">달력</string>
+    <string name="pref_summary_receive_calls_watch">시계에서 바로 전화를 걸고 받기</string>
+    <string name="pref_title_notification_wake_on_open">자동 깨움 및 잠금 해제</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">기기 설정을 지울까요?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">모든 연결 기기의 설정을 초기화합니다. 진행할까요?</string>
+    <string name="pref_theme_system">시스템</string>
+    <string name="pref_theme_dynamic">유동 컬러</string>
+    <string name="pref_title_notification_delay_calls">전화 알림 지연</string>
+    <string name="open_fw_installer_select_file">기기에 올릴 파일을 고르세요: %s</string>
+    <string name="pref_summary_general_reconnectonlytoconnected">모든 기기 대신 연결된 기기만 재연결</string>
+    <string name="open_fw_installer_connect_minimum_one_device">파일을 보낼 기기 하나 이상을 연결하세요.</string>
+    <string name="pref_title_general_reconnectonlytoconnected">연결된 기기만 재연결</string>
+    <string name="pref_summary_mb_intents">일부 어플리케이션에서 미디어 조절이 작동하지 않을 시 활성화</string>
+    <string name="bluetooth_calls">블루투스 전화</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">주의: 둘째 페어링을 하지 않고 블루투스 전화를 활성화할 경우, 전화 알림이 정상 작동하지 않을 수 있습니다.</string>
+    <string name="pref_title_notifications_ignore_work_profile">회사 프로필 알림 무시</string>
+    <string name="pref_summary_notifications_ignore_low_priority">저순위 및 최저순위 알림을 기기에 보내지 않음</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">글자 비트맵 크기</string>
+    <string name="fw_upgrade_notice_miband6">지금 미밴드 6에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">지금 어메이즈핏 GTS 4 미니에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="open_fw_installer_warning_title">경고</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. 아래 버튼을 눌러 페어링을 시작.</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">블루투스 전화를 수신하려면, 전화를 시계의 둘째 인스턴스와 페어링해야 합니다.</string>
+    <string name="pref_title_notifications_generic_settings">안드로이드 알림 설정</string>
+    <string name="pref_header_notification_application_settings">애플리케이션별 설정</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Bangle 기기의 GPS 정보를 폰 GPS 정보로 대체</string>
+    <string name="proprietary_app_warning">이 기능은 독점 앱을 설치해야 이용 가능합니다</string>
+    <string name="pref_header_audio">소리</string>
+    <string name="pref_header_connection">연결</string>
+    <string name="pref_summary_notification_delay_calls">기기로 전화 수신 알림을 보내기 전 지연, 초 단위.</string>
+    <string name="pref_summary_notification_wake_on_open">기기가 열림 응답을 보내면 안드로이드를 깨우고 잠금 해제하기. 신뢰하는 기기로 등록되어 있어야 됨.</string>
+    <string name="pref_pair_bluetooth_calls_title">블루투스 전화로 페어링</string>
+    <string name="pref_pair_bluetooth_calls_help_title">블루투스 전화 수신 방법</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. 전화기의 블루투스 설정으로 가서, 곧 뜨는 새 기기와 페어링하기 (시계 이름과 비슷하나 접미어가 붙음. 예: \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_summary_notification_cache_while_disconnected">연결범위 밖에 나갔다 재접속시 못 받은 알림 보내기</string>
+    <string name="pref_summary_notification_prefer_long_text">가능하면 긴 문장으로 알림 보내기</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">폰 GPS 정보 사용</string>
+    <string name="open_fw_installer_connect_maximum_one_device">파일을 보낼 기기 하나만 연결하세요.</string>
+    <string name="open_fw_installer_ensure_device_connected">%s 기기가 연결됐는지 확인하세요</string>
+    <string name="fw_upgrade_notice_amazfit_cheetah_pro">지금 어메이즈핏 치타 프로에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="open_fw_installer_pick_file">파일 선택</string>
+    <string name="pref_header_sound">소리</string>
+    <string name="bluetooth_calls_pairing">블루투스 전화 페어링</string>
+    <string name="pref_display_caller_summary">수신 전화의 전화번호 또는 이름 보이기</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. 아래 설정에서 블루투스 전화 활성화하기.</string>
+    <string name="pref_title_ping_tone">핑 소리</string>
+    <string name="about_description_generic">클로즈드 소스 안드로이드 주변기기용 앱을 대신하는 탈클라우드 카피레프트 리브레 대체제.</string>
+    <string name="search">찾기</string>
+    <string name="accuracy_first">정확도 우선</string>
+    <string name="check_all_applications">모든 앱 선택</string>
+    <string name="fw_upgrade_notice_amazfitbip3">지금 어메이즈핏 빕 3에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitbip3pro">지금 어메이즈핏 빕 3 프로에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">지금 어메이즈핏 빕 라이트에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">지금 어메이즈핏 코어 2에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!\n\n테스트되지 않음, 만약 기기명이 \"Amazfit Band 2\"일 경우 BEATS_W 펌웨어 설치가 필요할 수도 있음.</string>
+    <string name="fw_upgrade_notice_amazfitx">지금 어메이즈핏 X에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">지금 어메이즈핏 GTR 4에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_zepp_os">지금 %s 펌웨어를 %s에 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="open_fw_installer_getting_files_text">이 앱은 펌웨어 파일을 배포할 수 없으므로, 사용자가 직접 파일을 구비해야 합니다. 펌웨어 파일은 apk 파일, 인터넷, 포럼, Amazfitwatchfaces (미밴드/어메이즈핏) 등에서 찾아보세요.</string>
+    <string name="pref_header_offline_voice">오프라인 음성</string>
+    <string name="bluetooth_calls_settings">블루투스 전화 설정</string>
+    <string name="pref_display_caller_title">전화번호 정보 보이기</string>
+    <string name="pref_title_notification_times_enabled">알림 시간</string>
+    <string name="pref_summary_notification_times_enabled">알림을 보낼 수 있는 시간대 설정</string>
+    <string name="pref_title_notification_media_ignores_application_list">미디어 알림 무시 앱 목록</string>
+    <string name="pref_title_banglejs_text_bitmap">글자 비트맵 변환</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">비트맵 글자 변환 크기</string>
+    <string name="single_band">싱글 밴드</string>
+    <string name="dual_band">듀얼 밴드</string>
+    <string name="gps_glonass">GPS + 글로나스</string>
+    <string name="all_satellites">모든 위성</string>
+    <string name="speed_first">속도 우선</string>
+    <string name="device_card_activity_card_title">기기 카드에 활동기록 표시</string>
+    <string name="device_card_activity_card_title_summary">기기 카드에 어떤 활동내역을 표시할지 고릅니다</string>
+    <string name="prefs_activity_in_device_card_title">기기 카드에 활동기록 보이기</string>
+    <string name="prefs_activity_in_device_card_title_summary">현재 걸음수, 거리, 또는 수면 기록을 기기 카드에 보이기</string>
+    <string name="appmanager_watchface_activate">활성화</string>
+    <string name="appmanager_app_download">캐시로 다운로드</string>
+    <string name="appmanager_app_share">공유</string>
+    <string name="appmanager_download_started">앱 다운로드 시작</string>
+    <string name="uncheck_all_applications">모든 앱 선택 해제</string>
+    <string name="fw_upgrade_notice_amazfitgtr">지금 어메이즈핏 GTR에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일, .gps 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일과 .gps 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitgts">지금 어메이즈핏 GTS에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일, .gps 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일과 .gps 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">지금 어메이즈핏 티렉스에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일, .gps 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일과 .gps 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_miband4">지금 미밴드 4에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_miband7">지금 샤오미 스마트밴드 7에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">지금 어메이즈핏 GTS 3에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">지금 어메이즈핏 버지 라이트에 %s 펌웨어를 설치하려고 합니다.\n\n.fw 파일, .res 파일, .gps 파일 순서대로 설치하십시오. .fw 파일을 설치한 후 기기가 재시작 됩니다.\n\n비고: 만약 .res 파일과 .gps 파일이 이전과 완전 동일하다면 다시 설치할 필요 없습니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">지금 어메이즈핏 GTS 4에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">지금 어메이즈핏 GTR 3에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">지금 어메이즈핏 GTR 3 프로에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">지금 어메이즈핏 티렉스 2에 %s 펌웨어를 설치하려고 합니다.\n\n.zip 파일을 설치한 후 기기가 재시작됩니다.\n\n본인의 책임 하에 진행하세요!</string>
+    <string name="open_fw_installer_warning_text">이 기능은 기기를 사용 불가능한 상태로 만들 수 있습니다. 실제로 개발진이 이를 목격한 경우는 없으나, 오작동시 책임은 사용자에게 있음을 명심하세요.</string>
+    <string name="open_fw_installer_getting_files_title">펌웨어/앱 파일 받기</string>
+    <string name="open_fw_installer_info_text_title">파일 설치관리자</string>
+    <string name="pref_header_system">시스템</string>
+    <string name="pref_header_display">화면</string>
+    <string name="pref_header_sound_vibration">소리 및 진동</string>
+    <string name="pref_header_workout">운동</string>
+    <string name="pref_title_mb_intents">미디어 버튼 인텐트 직접 방송</string>
+    <string name="pref_title_nagivation_apps">길안내 앱</string>
+    <string name="pref_header_external_integrations">외부 내장기능</string>
+    <string name="pref_header_automations">자동화</string>
+    <string name="pref_description_general">시작, 언어, 지역, 위치</string>
+    <string name="pref_description_about_you">생년, 성별, 키, 무게, 목표</string>
+    <string name="pref_description_notifications">앱 알림, 포함/제외목록</string>
+    <string name="pref_description_user_interface">테마, 주화면</string>
+    <string name="pref_description_dashboard">포함할 위젯, 기기</string>
+    <string name="pref_description_automations">자동 내보내기, 자동 가져오기</string>
+    <string name="pref_description_developer_options">로그, 인텐트 API</string>
+    <string name="pref_description_deprecated_functionalities">추후 제거될 설정</string>
+    <string name="pref_header_main_screen">주화면</string>
+    <string name="pref_theme_black_background">어두운 테마에 검정 사용</string>
+    <string name="pref_title_user_interface">사용자 인터페이스</string>
+    <string name="pref_title_notifications_ignore_low_priority">낮은 순위 알림 무시</string>
+    <string name="pref_summary_notifications_ignore_work_profile">회사 프로필에서 오는 알림 기기에 보내지 않기</string>
+    <string name="pref_title_notification_prefer_long_text">긴 알림 선호</string>
+    <string name="pref_summary_banglejs_text_bitmap">시계의 폰트로 표시되지 않는 글자가 있을 경우, 가젯브릿지에서 비트맵으로 변환하여 시계에서 보이기</string>
 </resources>
