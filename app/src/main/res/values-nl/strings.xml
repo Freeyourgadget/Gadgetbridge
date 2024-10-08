@@ -3472,4 +3472,14 @@
     <string name="pref_dashboard_widget_today_yesterday_data_title">Gegevens van gisteren</string>
     <string name="pref_dashboard_widget_today_yesterday_data_summary">Toon gegevens van gisteren met gedimde kleuren tussen de huidige tijd en middernacht</string>
     <string name="pref_dashboard_widget_today_time_indicator_summary">Toon een indicator op de huidige tijd, als visuele scheiding tussen de gegevens van gisteren en vandaag</string>
+    <string name="pref_title_calendar_lookahead">Aantal toekomstige dagen</string>
+    <string name="pref_summary_calendar_lookahead">Synchroniseer %1s dagen aan kalenderevenementen</string>
+    <string name="workout_set_reps">Herhalingen</string>
+    <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
+    <string name="hrZoneEasy">Makkelijk</string>
+    <string name="hrZoneThreshold">Drempel</string>
+    <string name="hrZoneMaximum">Maximaal</string>
+    <string name="activity_detail_share_json_details">Deel JSON-details</string>
+    <string name="number_selected_items">%1d geselecteerd</string>
+    <string name="paceCorrection">Correctie</string>
 </resources>
