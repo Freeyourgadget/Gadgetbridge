@@ -3480,4 +3480,6 @@
     <string name="hrZoneMaximum">最大</string>
     <string name="devicetype_huawei_watchgtcyber">华为 Watch GT Cyber</string>
     <string name="paceCorrection">修正</string>
+    <string name="number_selected_items">已选择 %1d</string>
+    <string name="activity_detail_share_json_details">分享 JSON 详情</string>
 </resources>
