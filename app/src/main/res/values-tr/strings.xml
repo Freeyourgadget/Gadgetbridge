@@ -3493,4 +3493,6 @@
     <string name="workout_set_reps">Tekrarlar</string>
     <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
     <string name="paceCorrection">Düzeltme</string>
+    <string name="activity_detail_share_json_details">JSON Ayrıntılarını Paylaş</string>
+    <string name="number_selected_items">%1d seçildi</string>
 </resources>
