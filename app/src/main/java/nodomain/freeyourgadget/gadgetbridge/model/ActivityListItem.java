@@ -93,9 +93,10 @@ public class ActivityListItem {
                        final boolean selected) {
         final String activityKindLabel = activityKind.getLabel(activityName.getContext());
         if (StringUtils.isNotBlank(activityLabel)) {
-            activityLabelText.setText(String.format(" (%s)", activityKindLabel));
+            activityLabelText.setText(String.format("%s", activityKindLabel));
             activityName.setText(String.format("%s", activityLabel));
         } else {
+            activityLabelText.setVisibility(View.GONE);
             activityName.setText(String.format("%s", activityKindLabel));
         }
         durationLabel.setText(DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS));
@@ -155,6 +156,8 @@ public class ActivityListItem {
         if (parentLayout != null) {
             if (selected) {
                 parentLayout.setBackgroundColor(selectedColor);
+            } else {
+                parentLayout.setBackgroundColor(backgroundColor);
             }
         }
     }
