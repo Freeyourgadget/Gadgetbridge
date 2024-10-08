@@ -216,6 +216,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                         packetsTotalNr = value[2];
                         LOG.info("HR history packet {} out of total {}", hrPacketNr, packetsTotalNr);
                     } else {
+                        LOG.info("HR history packet {} out of total {} (data for {}:00-{}:00)", hrPacketNr, packetsTotalNr, hrPacketNr-1, hrPacketNr);
                         Calendar sampleCal = (Calendar) syncingDay.clone();
                         int startValue = hrPacketNr == 1 ? 6 : 2;  // packet 1 contains the sync-from timestamp in bytes 2-5
                         int minutesInPreviousPackets = 0;
@@ -246,7 +247,6 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                                 }
                             }
                         }
-                        LOG.info("HR history packet {}", hrPacketNr);
                         if (hrPacketNr == packetsTotalNr - 1) {
                             getDevice().unsetBusyTask();
                             getDevice().sendDeviceUpdateIntent(getContext());
@@ -595,6 +595,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
         syncingDay.set(Calendar.HOUR_OF_DAY, 0);
         syncingDay.set(Calendar.MINUTE, 0);
         syncingDay.set(Calendar.SECOND, 0);
+        syncingDay.set(Calendar.MILLISECOND, 0);
         byte[] activityHistoryRequest = buildPacket(new byte[]{ColmiR0xConstants.CMD_SYNC_ACTIVITY, (byte) daysAgo, 0x0f, 0x00, 0x5f, 0x01});
         LOG.info("Fetch historical activity data request sent: {}", StringUtils.bytesToHex(activityHistoryRequest));
         sendWrite("activityHistoryRequest", activityHistoryRequest);
@@ -608,8 +609,9 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
             syncingDay.add(Calendar.DAY_OF_MONTH, 0 - daysAgo);
             syncingDay.set(Calendar.HOUR_OF_DAY, 0);
             syncingDay.set(Calendar.MINUTE, 0);
-            syncingDay.set(Calendar.SECOND, 0);
         }
+        syncingDay.set(Calendar.SECOND, 0);
+        syncingDay.set(Calendar.MILLISECOND, 0);
         ByteBuffer hrHistoryRequestBB = ByteBuffer.allocate(5);
         hrHistoryRequestBB.order(ByteOrder.LITTLE_ENDIAN);
         hrHistoryRequestBB.put(0, ColmiR0xConstants.CMD_SYNC_HEART_RATE);

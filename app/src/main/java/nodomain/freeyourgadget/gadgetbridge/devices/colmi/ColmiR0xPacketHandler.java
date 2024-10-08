@@ -174,6 +174,7 @@ public class ColmiR0xPacketHandler {
             sampleCal.set(Calendar.HOUR_OF_DAY, value[4] / 4);  // And the hour is transmitted as nth quarter of the day...
             sampleCal.set(Calendar.MINUTE, 0);
             sampleCal.set(Calendar.SECOND, 0);
+            sampleCal.set(Calendar.MILLISECOND, 0);
             int calories = BLETypeConversions.toUint16(value[7], value[8]);
             int steps = BLETypeConversions.toUint16(value[9], value[10]);
             int distance = BLETypeConversions.toUint16(value[11], value[12]);
@@ -217,6 +218,8 @@ public class ColmiR0xPacketHandler {
             LOG.info("Received initial stress history response");
         } else {
             Calendar sampleCal = Calendar.getInstance();
+            sampleCal.set(Calendar.SECOND, 0);
+            sampleCal.set(Calendar.MILLISECOND, 0);
             int startValue = stressPacketNr == 1 ? 3 : 2;  // packet 1 data starts at byte 3, others at byte 2
             int minutesInPreviousPackets = 0;
             if (stressPacketNr > 1) {
@@ -271,6 +274,7 @@ public class ColmiR0xPacketHandler {
             syncingDay.add(Calendar.DAY_OF_MONTH, 0 - spo2_days_ago);
             syncingDay.set(Calendar.MINUTE, 0);
             syncingDay.set(Calendar.SECOND, 0);
+            syncingDay.set(Calendar.MILLISECOND, 0);
             index++;
             for (int hour=0; hour<=23; hour++) {
                 syncingDay.set(Calendar.HOUR_OF_DAY, hour);
@@ -331,6 +335,7 @@ public class ColmiR0xPacketHandler {
                 sessionStart.set(Calendar.HOUR_OF_DAY, 0);
                 sessionStart.set(Calendar.MINUTE, 0);
                 sessionStart.set(Calendar.SECOND, 0);
+                sessionStart.set(Calendar.MILLISECOND, 0);
                 if (sleepStart > sleepEnd) {
                     // Sleep started a day earlier, so before midnight
                     sessionStart.add(Calendar.DAY_OF_MONTH, -1);
@@ -345,6 +350,7 @@ public class ColmiR0xPacketHandler {
                 sessionEnd.set(Calendar.HOUR_OF_DAY, 0);
                 sessionEnd.set(Calendar.MINUTE, sleepEnd);
                 sessionEnd.set(Calendar.SECOND, 0);
+                sessionEnd.set(Calendar.MILLISECOND, 0);
                 LOG.info("Sleep session starts at {} and ends at {}", sessionStart.getTime(), sessionEnd.getTime());
                 // Build sample object to persist
                 final ColmiSleepSessionSample sessionSample = new ColmiSleepSessionSample();
