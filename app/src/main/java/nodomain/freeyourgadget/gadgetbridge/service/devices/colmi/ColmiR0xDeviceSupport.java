@@ -344,10 +344,12 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (bigDataPacket.limit() < bigDataPacketSize + 6) {
                     // If the received data is smaller than the expected packet size (+ 6 bytes header),
                     // wait for the next packet and append it
+                    LOG.debug("Big data packet is not complete yet, got {} bytes while expecting {}+6. Waiting for more...", bigDataPacket.limit(), bigDataPacketSize);
                     return true;
                 } else {
                     value = bigDataPacket.array();
                     bigDataPacket = null;
+                    LOG.debug("Big data packet complete, got {} bytes while expecting {}+6", value.length, bigDataPacketSize);
                 }
             }
             switch (value[0]) {
@@ -356,7 +358,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                     if (value.length < packetLength + 6) {
                         // If the received packet is smaller than the expected packet size (+ 6 bytes header),
                         // wait for the next packet and append it
-                        LOG.debug("Big data packet is not complete yet, got {} bytes while expecting {}. Waiting for more...", value.length, packetLength + 6);
+                        LOG.debug("Big data packet is not complete yet, got {} bytes while expecting {}+6. Waiting for more...", value.length, packetLength);
                         bigDataPacketSize = packetLength;
                         bigDataPacket = ByteBuffer.wrap(value);
                         return true;
@@ -376,7 +378,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                     break;
                 default:
-                    LOG.info("Received unrecognized big data packet: {}", StringUtils.bytesToHex(value));
+                    LOG.info("Received unrecognized notify v2 packet: {}", StringUtils.bytesToHex(value));
                     break;
             }
             return true;
