@@ -55,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -551,9 +552,11 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onReset(int flags) {
-        byte[] resetPacket = buildPacket(new byte[]{ColmiR0xConstants.CMD_FACTORY_RESET, 0x01});
-        LOG.info("Factory reset request sent: {}", StringUtils.bytesToHex(resetPacket));
-        sendWrite("resetRequest", resetPacket);
+        if ((flags & GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) != 0) {
+            byte[] resetPacket = buildPacket(new byte[]{ColmiR0xConstants.CMD_FACTORY_RESET, 0x01});
+            LOG.info("Factory reset request sent: {}", StringUtils.bytesToHex(resetPacket));
+            sendWrite("resetRequest", resetPacket);
+        }
     }
 
     @Override
