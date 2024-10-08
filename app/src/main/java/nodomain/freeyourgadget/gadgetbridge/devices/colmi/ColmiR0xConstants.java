@@ -43,6 +43,7 @@ public class ColmiR0xConstants {
     public static final byte CMD_MANUAL_HEART_RATE = 0x69;
     public static final byte CMD_NOTIFICATION = 0x73;
     public static final byte CMD_BIG_DATA_V2 = (byte) 0xbc;
+    public static final byte CMD_FACTORY_RESET = (byte) 0xff;
 
     public static final byte PREF_READ = 0x01;
     public static final byte PREF_WRITE = 0x02;

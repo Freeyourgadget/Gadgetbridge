@@ -548,6 +548,13 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onReset(int flags) {
+        byte[] resetPacket = buildPacket(new byte[]{ColmiR0xConstants.CMD_FACTORY_RESET, 0x01});
+        LOG.info("Factory reset request sent: {}", StringUtils.bytesToHex(resetPacket));
+        sendWrite("resetRequest", resetPacket);
+    }
+
+    @Override
     public void onFindDevice(boolean start) {
         if (!start) return;
 
