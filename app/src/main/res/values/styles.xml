@@ -31,6 +31,7 @@
         <item name="chart_activity">@color/chart_activity_light</item>
         <item name="chart_not_worn">@color/chart_not_worn_light</item>
         <item name="alternate_row_background">@color/alternate_row_background_light</item>
+        <item name="row_separator">@color/row_separator_light</item>
         <item name="sports_activity_summary_background">@color/chart_heartrate_fill</item>
 
         <item name="deviceIconPrimary">#2196f3</item>
@@ -73,6 +74,7 @@
         <item name="chart_activity">@color/chart_activity_dark</item>
         <item name="chart_not_worn">@color/chart_not_worn_dark</item>
         <item name="alternate_row_background">@color/alternate_row_background_dark</item>
+        <item name="row_separator">@color/row_separator_dark</item>
         <item name="sports_activity_summary_background">@color/alternate_row_background_dark</item>
 
         <item name="deviceIconPrimary">#2196f3</item>
@@ -101,6 +103,7 @@
         <item name="cardview_background_color">?attr/colorSurface</item>
         <item name="actionmenu_icon_color">?attr/colorOnSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
+        <item name="row_separator">@color/row_separator_light</item>
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
@@ -120,6 +123,7 @@
         <item name="cardview_background_color">?attr/colorSurface</item>
         <item name="actionmenu_icon_color">?attr/colorOnSurface</item>
         <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
+        <item name="row_separator">@color/row_separator_dark</item>
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>

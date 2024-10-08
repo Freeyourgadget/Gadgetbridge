@@ -11,10 +11,10 @@
         android:id="@+id/list_item_subparent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="5dp"
-        android:paddingBottom="5dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal">
 
@@ -57,6 +57,7 @@
                     android:id="@+id/line_layout_activity_icon"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_marginEnd="5dp"
                     android:contentDescription="@string/candidate_item_device_image"
                     android:padding="8dp"
                     app:srcCompat="@drawable/ic_activity_unknown" />
@@ -280,6 +281,6 @@
         android:layout_below="@id/list_item_subparent_layout"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/value_line_color_transparent"
+        android:background="?attr/row_separator"
         />
 </RelativeLayout>
