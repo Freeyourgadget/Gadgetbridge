@@ -290,7 +290,16 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                     break;
                 case ColmiR0xConstants.CMD_SYNC_HRV:
-                    ColmiR0xPacketHandler.historicalHRV(getDevice(), getContext(), value);
+                    getDevice().setBusyTask(getContext().getString(R.string.busy_task_fetch_hrv_data));
+                    ColmiR0xPacketHandler.historicalHRV(getDevice(), getContext(), value, daysAgo);
+                    if (!getDevice().isBusy()) {
+                        if (daysAgo < 6) {
+                            daysAgo++;
+                            fetchHistoryHRV();
+                        } else {
+                            fetchRecordedDataFinished();
+                        }
+                    }
                     break;
                 case ColmiR0xConstants.CMD_FIND_DEVICE:
                     LOG.info("Received find device response: {}", StringUtils.bytesToHex(value));
@@ -364,7 +373,10 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                     switch (value[1]) {
                         case ColmiR0xConstants.BIG_DATA_TYPE_SLEEP:
                             ColmiR0xPacketHandler.historicalSleep(getDevice(), getContext(), value);
+
+                            daysAgo = 0;
                             fetchHistoryHRV();
+
                             // Signal history sync finished at this point, since older firmwares
                             // will not send anything back after requesting HRV history
                             fetchRecordedDataFinished();
@@ -675,11 +687,21 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void fetchHistoryHRV() {
-        getDevice().setBusyTask(getContext().getString(R.string.busy_task_fetch_hrv_data));
         getDevice().sendDeviceUpdateIntent(getContext());
         syncingDay = Calendar.getInstance();
-        byte[] hrvHistoryRequest = buildPacket(new byte[]{ColmiR0xConstants.CMD_SYNC_HRV});
-        LOG.info("Fetch historical HRV data request sent: {}", StringUtils.bytesToHex(hrvHistoryRequest));
+        if (daysAgo != 0) {
+            syncingDay.add(Calendar.DAY_OF_MONTH, 0 - daysAgo);
+            syncingDay.set(Calendar.HOUR_OF_DAY, 0);
+            syncingDay.set(Calendar.MINUTE, 0);
+        }
+        syncingDay.set(Calendar.SECOND, 0);
+        syncingDay.set(Calendar.MILLISECOND, 0);
+        ByteBuffer hrvHistoryRequestBB = ByteBuffer.allocate(5);
+        hrvHistoryRequestBB.order(ByteOrder.LITTLE_ENDIAN);
+        hrvHistoryRequestBB.put(0, ColmiR0xConstants.CMD_SYNC_HRV);
+        hrvHistoryRequestBB.putInt(1, daysAgo);
+        byte[] hrvHistoryRequest = buildPacket(hrvHistoryRequestBB.array());
+        LOG.info("Fetch historical HRV data request sent ({}): {}", syncingDay.getTime(), StringUtils.bytesToHex(hrvHistoryRequest));
         sendWrite("hrvHistoryRequest", hrvHistoryRequest);
     }
 }

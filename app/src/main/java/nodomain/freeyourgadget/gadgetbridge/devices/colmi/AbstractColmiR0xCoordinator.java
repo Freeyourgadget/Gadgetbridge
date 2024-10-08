@@ -37,11 +37,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiHrvSummarySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHeartRateSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHrvSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHrvValueSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepSessionSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepStageSampleDao;
@@ -51,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
@@ -71,6 +74,7 @@ public abstract class AbstractColmiR0xCoordinator extends AbstractBLEDeviceCoord
             put(session.getColmiStressSampleDao(), ColmiStressSampleDao.Properties.DeviceId);
             put(session.getColmiSleepSessionSampleDao(), ColmiSleepSessionSampleDao.Properties.DeviceId);
             put(session.getColmiSleepStageSampleDao(), ColmiSleepStageSampleDao.Properties.DeviceId);
+            put(session.getColmiHrvSummarySampleDao(), ColmiHrvSummarySampleDao.Properties.DeviceId);
             put(session.getColmiHrvValueSampleDao(), ColmiHrvValueSampleDao.Properties.DeviceId);
         }};
 
@@ -185,6 +189,11 @@ public abstract class AbstractColmiR0xCoordinator extends AbstractBLEDeviceCoord
     @Override
     public TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session) {
         return new ColmiStressSampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends HrvSummarySample> getHrvSummarySampleProvider(GBDevice device, DaoSession session) {
+        return new ColmiHrvSummarySampleProvider(device, session);
     }
 
     @Override

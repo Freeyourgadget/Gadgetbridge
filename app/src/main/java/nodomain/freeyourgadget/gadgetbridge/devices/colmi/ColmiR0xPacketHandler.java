@@ -37,12 +37,14 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiHeartRateSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiSleepSessionSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiSleepStageSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.samples.ColmiStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHeartRateSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.ColmiHrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepSessionSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.ColmiSpo2Sample;
@@ -422,7 +424,59 @@ public class ColmiR0xPacketHandler {
         }
     }
 
-    public static void historicalHRV(GBDevice device, Context context, byte[] value) {
-
+    public static void historicalHRV(GBDevice device, Context context, byte[] value, int daysAgo) {
+        LOG.info("Received HRV history sync packet: {}", StringUtils.bytesToHex(value));
+        int hrvPacketNr = value[1] & 0xff;
+        if (hrvPacketNr == 0xff) {
+            LOG.info("Empty HRV history, sync aborted");
+            device.unsetBusyTask();
+            device.sendDeviceUpdateIntent(context);
+        } else if (hrvPacketNr == 0) {
+            int packetsTotalNr = value[2];
+            LOG.info("HRV history packet {} out of total {}", hrvPacketNr, packetsTotalNr);
+        } else {
+            LOG.info("HRV history packet {}", hrvPacketNr);
+            Calendar sampleCal = Calendar.getInstance();
+            if (daysAgo != 0) {
+                sampleCal.add(Calendar.DAY_OF_MONTH, 0 - daysAgo);
+                sampleCal.set(Calendar.HOUR_OF_DAY, 0);
+                sampleCal.set(Calendar.MINUTE, 0);
+            }
+            sampleCal.set(Calendar.SECOND, 0);
+            sampleCal.set(Calendar.MILLISECOND, 0);
+            int startValue = hrvPacketNr == 1 ? 3 : 2;  // packet 1 contains something in byte 2
+            int minutesInPreviousPackets = 0;
+            if (hrvPacketNr > 1) {
+                minutesInPreviousPackets = 12 * 30;  // packet 1
+                minutesInPreviousPackets += (hrvPacketNr - 2) * 13 * 30;
+            }
+            for (int i = startValue; i < value.length - 1; i++) {
+                if (value[i] != 0x00) {
+                    // Determine time of day
+                    int minuteOfDay = minutesInPreviousPackets + (i - startValue) * 30;
+                    sampleCal.set(Calendar.HOUR_OF_DAY, minuteOfDay / 60);
+                    sampleCal.set(Calendar.MINUTE, minuteOfDay % 60);
+                    LOG.info("Value {} is {} ms, time of day is {}", i, value[i] & 0xff, sampleCal.getTime());
+                    // Build sample object and save in database
+                    try (DBHandler db = GBApplication.acquireDB()) {
+                        ColmiHrvValueSampleProvider sampleProvider = new ColmiHrvValueSampleProvider(device, db.getDaoSession());
+                        Long userId = DBHelper.getUser(db.getDaoSession()).getId();
+                        Long deviceId = DBHelper.getDevice(device, db.getDaoSession()).getId();
+                        ColmiHrvValueSample gbSample = new ColmiHrvValueSample();
+                        gbSample.setDeviceId(deviceId);
+                        gbSample.setUserId(userId);
+                        gbSample.setTimestamp(sampleCal.getTimeInMillis());
+                        gbSample.setValue(value[i] & 0xff);
+                        sampleProvider.addSample(gbSample);
+                    } catch (Exception e) {
+                        LOG.error("Error acquiring database for recording HRV samples", e);
+                    }
+                }
+            }
+            if (hrvPacketNr == 4) {
+                device.unsetBusyTask();
+                device.sendDeviceUpdateIntent(context);
+            }
+        }
     }
 }

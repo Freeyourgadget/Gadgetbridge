@@ -38,6 +38,14 @@ public class GBDaoGenerator {
     private static final String SAMPLE_STEPS = "steps";
     private static final String SAMPLE_RAW_KIND = "rawKind";
     private static final String SAMPLE_HEART_RATE = "heartRate";
+    private static final String SAMPLE_HRV_WEEKLY_AVERAGE = "weeklyAverage";
+    private static final String SAMPLE_HRV_LAST_NIGHT_AVERAGE = "lastNightAverage";
+    private static final String SAMPLE_HRV_LAST_NIGHT_5MIN_HIGH = "lastNight5MinHigh";
+    private static final String SAMPLE_HRV_BASELINE_LOW_UPPER = "baselineLowUpper";
+    private static final String SAMPLE_HRV_BASELINE_BALANCED_LOWER = "baselineBalancedLower";
+    private static final String SAMPLE_HRV_BASELINE_BALANCED_UPPER = "baselineBalancedUpper";
+    private static final String SAMPLE_HRV_STATUS_NUM = "statusNum";
+    private static final String SAMPLE_HRV_VALUE = "value";
     private static final String SAMPLE_TEMPERATURE = "temperature";
     private static final String SAMPLE_TEMPERATURE_TYPE = "temperatureType";
     private static final String SAMPLE_WEIGHT_KG = "weightKg";
@@ -136,6 +144,7 @@ public class GBDaoGenerator {
         addColmiSleepSessionSample(schema, user, device);
         addColmiSleepStageSample(schema, user, device);
         addColmiHrvValueSample(schema, user, device);
+        addColmiHrvSummarySample(schema, user, device);
 
         addHuaweiActivitySample(schema, user, device);
 
@@ -550,8 +559,21 @@ public class GBDaoGenerator {
     private static Entity addColmiHrvValueSample(Schema schema, Entity user, Entity device) {
         Entity hrvValueSample = addEntity(schema, "ColmiHrvValueSample");
         addCommonTimeSampleProperties("AbstractHrvValueSample", hrvValueSample, user, device);
-        hrvValueSample.addIntProperty("value").notNull().codeBeforeGetter(OVERRIDE);
+        hrvValueSample.addIntProperty(SAMPLE_HRV_VALUE).notNull().codeBeforeGetter(OVERRIDE);
         return hrvValueSample;
+    }
+
+    private static Entity addColmiHrvSummarySample(Schema schema, Entity user, Entity device) {
+        Entity hrvSummarySample = addEntity(schema, "ColmiHrvSummarySample");
+        addCommonTimeSampleProperties("AbstractHrvSummarySample", hrvSummarySample, user, device);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_WEEKLY_AVERAGE).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_LAST_NIGHT_AVERAGE).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_LAST_NIGHT_5MIN_HIGH).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_BASELINE_LOW_UPPER).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_BASELINE_BALANCED_LOWER).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_BASELINE_BALANCED_UPPER).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_STATUS_NUM).codeBeforeGetter(OVERRIDE);
+        return hrvSummarySample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {
@@ -813,13 +835,13 @@ public class GBDaoGenerator {
     private static Entity addGarminHrvSummarySample(Schema schema, Entity user, Entity device) {
         Entity hrvSummarySample = addEntity(schema, "GarminHrvSummarySample");
         addCommonTimeSampleProperties("AbstractHrvSummarySample", hrvSummarySample, user, device);
-        hrvSummarySample.addIntProperty("weeklyAverage").codeBeforeGetter(OVERRIDE);
-        hrvSummarySample.addIntProperty("lastNightAverage").codeBeforeGetter(OVERRIDE);
-        hrvSummarySample.addIntProperty("lastNight5MinHigh").codeBeforeGetter(OVERRIDE);
-        hrvSummarySample.addIntProperty("baselineLowUpper").codeBeforeGetter(OVERRIDE);
-        hrvSummarySample.addIntProperty("baselineBalancedLower").codeBeforeGetter(OVERRIDE);
-        hrvSummarySample.addIntProperty("baselineBalancedUpper").codeBeforeGetter(OVERRIDE);
-        hrvSummarySample.addIntProperty("statusNum").codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_WEEKLY_AVERAGE).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_LAST_NIGHT_AVERAGE).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_LAST_NIGHT_5MIN_HIGH).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_BASELINE_LOW_UPPER).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_BASELINE_BALANCED_LOWER).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_BASELINE_BALANCED_UPPER).codeBeforeGetter(OVERRIDE);
+        hrvSummarySample.addIntProperty(SAMPLE_HRV_STATUS_NUM).codeBeforeGetter(OVERRIDE);
         return hrvSummarySample;
     }
 
