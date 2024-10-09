@@ -22,6 +22,7 @@
                 android:id="@+id/line_layout_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -95,11 +96,11 @@
                             android:ellipsize="end"
                             />
                         <TextView
-                            android:gravity="end|top"
+                            android:gravity="end|bottom"
                             android:layout_gravity="top"
                             android:id="@+id/line_layout_date_label"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:scrollHorizontally="false"
                             android:text="@string/stats_empty_value"
@@ -124,8 +125,6 @@
                         android:id="@+id/line_layout_duration_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
                         android:layout_weight="1"
                         android:gravity="start"
                         android:maxLines="1"
@@ -141,6 +140,7 @@
                         <ImageView
                             android:id="@+id/line_layout_gps_icon"
                             android:layout_width="20dp"
+                            android:layout_marginStart="2dp"
                             android:layout_height="19dp"
                             android:contentDescription="@string/candidate_item_device_image"
                             app:srcCompat="@android:drawable/ic_menu_mylocation" />
