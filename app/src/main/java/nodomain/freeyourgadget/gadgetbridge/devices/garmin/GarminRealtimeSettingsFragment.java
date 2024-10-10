@@ -22,12 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
@@ -411,6 +408,7 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                             case 2: // garmin pay
                             case 7: // text responses
                             case 8: // music providers
+                            case 17: // Solar Intensity
                             case 29: // Set Up ECG App
                             case 30: // ECG
                                 pref = new Preference(activity);
@@ -748,14 +746,25 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
         }
 
         // If no preferences after the last visible preference category are visible, hide it
+        boolean previousWasVisible = false;
+        PreferenceCategory lastSeenCategory = null;
         for (int i = prefScreen.getPreferenceCount() - 1; i >= 0; i--) {
-            final Preference lastVisiblePreference = prefScreen.getPreference(i);
-            if (lastVisiblePreference.isVisible() && !(lastVisiblePreference instanceof PreferenceCategory)) {
-                break;
+            final Preference pref = prefScreen.getPreference(i);
+            if (pref instanceof PreferenceCategory) {
+                lastSeenCategory = (PreferenceCategory) pref;
+
+                if (!previousWasVisible) {
+                    lastSeenCategory.setVisible(false);
+                }
+
+                previousWasVisible = false;
+            } else {
+                previousWasVisible |= pref.isVisible();
             }
-            if (lastVisiblePreference instanceof PreferenceCategory) {
-                lastVisiblePreference.setVisible(false);
-            }
+        }
+
+        if (!previousWasVisible && lastSeenCategory != null) {
+            lastSeenCategory.setVisible(false);
         }
     }
 
@@ -793,7 +802,12 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                 case 11: // Connectivity
                     return R.drawable.ic_bluetooth_searching;
                 case 13: // Audio Prompts
+                case 60: // Sound & Vibe
                     return R.drawable.ic_volume_up;
+                case 61: // Display & Brightness
+                    return R.drawable.ic_wb_sunny;
+                case 62: // Focus Modes
+                    return R.drawable.ic_focus;
                 case 14: // User Profile
                     return R.drawable.ic_person;
                 case 15: // Safety & Tracking
