@@ -35,6 +35,7 @@ import de.greenrobot.dao.query.CloseableListIterator;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryTableRowEntry;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryValue;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -661,25 +662,30 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                             Arrays.asList(
                                     new ActivitySummaryValue("#", ActivitySummaryEntries.UNIT_RAW_STRING),
                                     new ActivitySummaryValue("distance"),
-                                    new ActivitySummaryValue("watchface_dialog_widget_type"),
-                                    new ActivitySummaryValue("Pace"),
-                                    new ActivitySummaryValue("paceCorrection")
+                                    new ActivitySummaryValue("Pace")
                             ),
                             true,
                             true
                     )
             );
 
+            String measurementSystem = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, "metric");
+
+            byte unitType = (byte) (measurementSystem.equals("metric")?0:1);
             try (CloseableListIterator<HuaweiWorkoutPaceSample> it = qbPace.build().listIterator()) {
                 HashMap<Byte, Integer> typeCount = new HashMap<>();
                 HashMap<Byte, Integer> typePace = new HashMap<>();
 
+                int currentIndex = 1;
                 while (it.hasNext()) {
                     int index = it.nextIndex();
                     HuaweiWorkoutPaceSample sample = it.next();
 
-                    int count = 1;
+                    if(sample.getType() != unitType)
+                        continue;
+
                     int pace = sample.getPace();
+                    int count = 1;
 
                     Integer previousCount = typeCount.get(sample.getType());
                     Integer previousPace = typePace.get(sample.getType());
@@ -689,18 +695,17 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                         pace += previousPace;
                     typeCount.put(sample.getType(), count);
                     typePace.put(sample.getType(), pace);
+                    double distance = sample.getDistance();
+
+                    if(sample.getCorrection() != null) {
+                        distance += sample.getCorrection() / 10000d;
+                    }
 
                     final List<ActivitySummaryValue> columns = new LinkedList<>();
-                    columns.add(new ActivitySummaryValue(index, ActivitySummaryEntries.UNIT_NONE));
-                    columns.add(new ActivitySummaryValue(sample.getDistance(), ActivitySummaryEntries.UNIT_KILOMETERS));
-                    columns.add(new ActivitySummaryValue(sample.getType(), ActivitySummaryEntries.UNIT_NONE)); // TODO: find out types
+                    // TODO: add proper units for type == 1. MILES and SECONDS PER MILE
+                    columns.add(new ActivitySummaryValue(currentIndex++, ActivitySummaryEntries.UNIT_NONE));
+                    columns.add(new ActivitySummaryValue(distance, ActivitySummaryEntries.UNIT_KILOMETERS));
                     columns.add(new ActivitySummaryValue(sample.getPace(), ActivitySummaryEntries.UNIT_SECONDS_PER_KM));
-
-                    if (sample.getCorrection() != 0) {
-                        columns.add(new ActivitySummaryValue(sample.getCorrection() / 10f, ActivitySummaryEntries.UNIT_METERS));
-                    } else {
-                        columns.add(new ActivitySummaryValue("stats_empty_value"));
-                    }
 
                     pacesTable.put("paces_table_" + index,
                             new ActivitySummaryTableRowEntry(

@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(82, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(83, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -1418,10 +1418,12 @@ public class GBDaoGenerator {
         Property id = workoutPaceSample.addLongProperty("workoutId").primaryKey().notNull().getProperty();
         workoutPaceSample.addToOne(summaryEntity, id);
 
+        workoutPaceSample.addIntProperty("paceIndex").notNull().primaryKey();
         workoutPaceSample.addIntProperty("distance").notNull().primaryKey();
         workoutPaceSample.addByteProperty("type").notNull().primaryKey();
         workoutPaceSample.addIntProperty("pace").notNull();
-        workoutPaceSample.addIntProperty("correction").notNull();
+        workoutPaceSample.addIntProperty("pointIndex").notNull();
+        workoutPaceSample.addIntProperty("correction");
 
         return workoutPaceSample;
     }

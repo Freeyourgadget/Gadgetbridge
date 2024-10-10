@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -463,7 +464,7 @@ public class HuaweiSupportProvider {
             RequestCallback finalizeReq = new RequestCallback() {
                 @Override
                 public void call() {
-                    int status = (int)deviceStatusReq.status;
+                    int status = (int) deviceStatusReq.status;
                     if (status == -0x01 || status == 0x00 || status == 0x01) {
                         initializeDeviceDealHiChain(linkParamsReq);
                     } else {
@@ -477,7 +478,7 @@ public class HuaweiSupportProvider {
                 }
             };
             if (huaweiType == HuaweiDeviceType.BLE) { //Only BLE known, check later for AW and SMART
-               initializeDeviceDealHiChain(linkParamsReq);
+                initializeDeviceDealHiChain(linkParamsReq);
             } else {
                 deviceStatusReq.setFinalizeReq(finalizeReq);
                 deviceStatusReq.doPerform();
@@ -515,10 +516,10 @@ public class HuaweiSupportProvider {
         try {
             if (isHiChain()) {
 
-                if (paramsProvider.getDeviceSupportType() == 4 )
-                    paramsProvider.setAuthMode((byte)4);
+                if (paramsProvider.getDeviceSupportType() == 4)
+                    paramsProvider.setAuthMode((byte) 4);
                 else
-                    paramsProvider.setAuthMode((byte)2);
+                    paramsProvider.setAuthMode((byte) 2);
                 final GetSecurityNegotiationRequest securityNegoReq = new GetSecurityNegotiationRequest(this);
                 RequestCallback securityFinalizeReq = new RequestCallback(this) {
                     @Override
@@ -546,13 +547,15 @@ public class HuaweiSupportProvider {
         }
     }
 
-    protected void initializeDeviceNotify() {} //TODO
+    protected void initializeDeviceNotify() {
+    } //TODO
 
     RequestCallback configureReq = new RequestCallback() {
         @Override
         public void call() {
             initializeDeviceConfigure();
         }
+
         @Override
         public void timeout(Request request) {
             LOG.error("Authentication timed out");
@@ -563,6 +566,7 @@ public class HuaweiSupportProvider {
                 GBApplication.deviceService(device).disconnect();
             }
         }
+
         @Override
         public void handleException(Request.ResponseParseException e) {
             LOG.error("Authentication exception", e);
@@ -736,7 +740,7 @@ public class HuaweiSupportProvider {
     protected void createRandomMacAddress() {
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceMac);
 
-        macAddress =  sharedPrefs.getString(HuaweiConstants.PREF_HUAWEI_ADDRESS, null);
+        macAddress = sharedPrefs.getString(HuaweiConstants.PREF_HUAWEI_ADDRESS, null);
         if (macAddress == null || macAddress.isEmpty()) {
             StringBuilder mac = new StringBuilder("FF:FF:FF");
             Random r = new Random();
@@ -766,7 +770,7 @@ public class HuaweiSupportProvider {
     protected void createAndroidID() {
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceMac);
 
-        androidID =  sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FAKE_ANDROID_ID, null);
+        androidID = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FAKE_ANDROID_ID, null);
         if (androidID == null || androidID.isEmpty()) {
             androidID = StringUtils.bytesToHex(HuaweiCrypto.generateNonce());
             LOG.debug("Created androidID: " + androidID);
@@ -841,7 +845,7 @@ public class HuaweiSupportProvider {
             // Queue all the requests
             for (int i = 1; i < initRequestQueue.size(); i++) {
                 initRequestQueue.get(i - 1).setupTimeoutUntilNext(initTimeout);
-                if(initRequestQueue.get(i - 1) instanceof SendSetUpDeviceStatusRequest) {
+                if (initRequestQueue.get(i - 1) instanceof SendSetUpDeviceStatusRequest) {
                     // NOTE: The watch is never answer to this command. To decrease init time timeout for it is 50 ms
                     initRequestQueue.get(i - 1).setupTimeoutUntilNext(50);
                 }
@@ -855,8 +859,8 @@ public class HuaweiSupportProvider {
                     gbDevice.setState(GBDevice.State.INITIALIZED);
                     gbDevice.sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUpdateSubject.DEVICE_STATE);
 
-                    if(getHuaweiCoordinator().supportsP2PService()) {
-                        if(getHuaweiCoordinator().supportsCalendar()) {
+                    if (getHuaweiCoordinator().supportsP2PService()) {
+                        if (getHuaweiCoordinator().supportsCalendar()) {
                             if (HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager) == null) {
                                 HuaweiP2PCalendarService calendarService = new HuaweiP2PCalendarService(huaweiP2PManager);
                                 calendarService.register();
@@ -980,7 +984,7 @@ public class HuaweiSupportProvider {
     }
 
     public void onSocketRead(byte[] data) {
-            responseManager.handleData(data);
+        responseManager.handleData(data);
     }
 
     public void removeInProgressRequests(Request req) {
@@ -1342,7 +1346,7 @@ public class HuaweiSupportProvider {
 
     public void onReset(int flags) {
         try {
-            if(flags== GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) {
+            if (flags == GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) {
                 SendFactoryResetRequest sendFactoryResetReq = new SendFactoryResetRequest(this);
                 sendFactoryResetReq.doPerform();
             }
@@ -1453,9 +1457,9 @@ public class HuaweiSupportProvider {
             }
         } else if (
                 callSpec.command == CallSpec.CALL_ACCEPT ||
-                callSpec.command == CallSpec.CALL_START ||
-                callSpec.command == CallSpec.CALL_REJECT ||
-                callSpec.command == CallSpec.CALL_END
+                        callSpec.command == CallSpec.CALL_START ||
+                        callSpec.command == CallSpec.CALL_REJECT ||
+                        callSpec.command == CallSpec.CALL_END
         ) {
             StopNotificationRequest stopNotificationRequest = new StopNotificationRequest(this);
             try {
@@ -1675,13 +1679,23 @@ public class HuaweiSupportProvider {
         try (DBHandler db = GBApplication.acquireDB()) {
             HuaweiWorkoutPaceSampleDao dao = db.getDaoSession().getHuaweiWorkoutPaceSampleDao();
 
+            final DeleteQuery<HuaweiWorkoutPaceSample> tableDeleteQuery = dao.queryBuilder()
+                    .where(HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(workoutId))
+                    .buildDelete();
+            tableDeleteQuery.executeDeleteWithoutDetachingEntities();
+
+            int paceIndex = 0;
             for (Workout.WorkoutPace.Response.Block block : paceList) {
+
+                Integer correction = block.hasCorrection ? (int) block.correction : null;
                 HuaweiWorkoutPaceSample paceSample = new HuaweiWorkoutPaceSample(
                         workoutId,
+                        paceIndex++,
                         block.distance,
                         block.type,
                         block.pace,
-                        block.correction
+                        block.pointIndex,
+                        correction
                 );
                 dao.insertOrReplace(paceSample);
             }
@@ -1773,14 +1787,14 @@ public class HuaweiSupportProvider {
     }
 
     public void setTemperatureUnit() {
-            try {
-                SetTemperatureUnitSetting setTemperatureUnitSetting = new SetTemperatureUnitSetting(this);
-                setTemperatureUnitSetting.doPerform();
-            } catch (IOException e) {
-                // TODO: Use translatable string
-                GB.toast(context, "Failed to set temperature unit", Toast.LENGTH_SHORT, GB.ERROR, e);
-                LOG.error("Failed to configure TemperatureUnitSetting", e);
-            }
+        try {
+            SetTemperatureUnitSetting setTemperatureUnitSetting = new SetTemperatureUnitSetting(this);
+            setTemperatureUnitSetting.doPerform();
+        } catch (IOException e) {
+            // TODO: Use translatable string
+            GB.toast(context, "Failed to set temperature unit", Toast.LENGTH_SHORT, GB.ERROR, e);
+            LOG.error("Failed to configure TemperatureUnitSetting", e);
+        }
     }
 
     public void setContinuousSkinTemperatureMeasurement() {
@@ -1920,7 +1934,7 @@ public class HuaweiSupportProvider {
     }
 
     public void onInstallApp(Uri uri) {
-        LOG.info("enter onAppInstall uri: "+uri);
+        LOG.info("enter onAppInstall uri: " + uri);
         HuaweiFwHelper huaweiFwHelper = new HuaweiFwHelper(uri, getContext());
 
         HuaweiUploadManager.FileUploadInfo fileInfo = new HuaweiUploadManager.FileUploadInfo();
@@ -1999,6 +2013,7 @@ public class HuaweiSupportProvider {
             LOG.error("Failed to update progress notification", e);
         }
     }
+
     private List<GBDeviceApp> gbWatchFaces = null;
     private List<GBDeviceApp> gbWatchApps = null;
 
@@ -2011,11 +2026,12 @@ public class HuaweiSupportProvider {
         this.gbWatchApps = gbWatchApps;
         updateAppList();
     }
+
     private void updateAppList() {
-        ArrayList<GBDeviceApp> gbDeviceApps=new ArrayList<>();
-        if(this.gbWatchFaces != null)
+        ArrayList<GBDeviceApp> gbDeviceApps = new ArrayList<>();
+        if (this.gbWatchFaces != null)
             gbDeviceApps.addAll(this.gbWatchFaces);
-        if(this.gbWatchApps != null)
+        if (this.gbWatchApps != null)
             gbDeviceApps.addAll(this.gbWatchApps);
         final GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
         appInfoCmd.apps = gbDeviceApps.toArray(new GBDeviceApp[0]);
@@ -2028,11 +2044,11 @@ public class HuaweiSupportProvider {
         huaweiWatchfaceManager.requestWatchfaceList();
         huaweiAppManager.requestAppList();
     }
-    
+
     public void onAppStart(final UUID uuid, boolean start) {
         if (start) {
             //NOTE: to prevent exception in watchfaces code
-            if(!huaweiAppManager.startApp(uuid)) {
+            if (!huaweiAppManager.startApp(uuid)) {
                 huaweiWatchfaceManager.setWatchface(uuid);
             }
         }
@@ -2040,7 +2056,7 @@ public class HuaweiSupportProvider {
 
     public void onAppDelete(final UUID uuid) {
         //NOTE: to prevent exception in watchfaces code
-        if(!huaweiAppManager.deleteApp(uuid)){
+        if (!huaweiAppManager.deleteApp(uuid)) {
             huaweiWatchfaceManager.deleteWatchface(uuid);
         }
     }
@@ -2092,14 +2108,14 @@ public class HuaweiSupportProvider {
 
     public void onAddCalendarEvent(final CalendarEventSpec calendarEventSpec) {
         HuaweiP2PCalendarService service = HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager);
-        if(service != null) {
+        if (service != null) {
             service.onAddCalendarEvent(calendarEventSpec);
         }
     }
 
     public void onDeleteCalendarEvent(final byte type, long id) {
         HuaweiP2PCalendarService service = HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager);
-        if(service != null) {
+        if (service != null) {
             service.onDeleteCalendarEvent(type, id);
         }
     }

@@ -475,7 +475,9 @@ public class Workout {
                 public short distance = -1;
                 public byte type = -1;
                 public int pace = -1;
+                public short pointIndex = 0;
                 public short correction = 0;
+                public boolean hasCorrection = false;
 
                 @Override
                 public String toString() {
@@ -483,7 +485,9 @@ public class Workout {
                             "distance=" + distance +
                             ", type=" + type +
                             ", pace=" + pace +
+                            ", pointIndex=" + pointIndex +
                             ", correction=" + correction +
+                            ", hasCorrection=" + hasCorrection +
                             '}';
                 }
             }
@@ -509,8 +513,12 @@ public class Workout {
                     block.distance = blockTlv.getShort(0x04);
                     block.type = blockTlv.getByte(0x05);
                     block.pace = blockTlv.getInteger(0x06);
-                    if (blockTlv.contains(0x09))
+                    if (blockTlv.contains(0x07))
+                        block.pointIndex = blockTlv.getShort(0x07);
+                    if (blockTlv.contains(0x09)) {
+                        block.hasCorrection = true;
                         block.correction = blockTlv.getShort(0x09);
+                    }
                     blocks.add(block);
                 }
             }
