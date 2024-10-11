@@ -21,7 +21,7 @@ public class FitMonitoringInfo extends RecordData {
     }
 
     @Nullable
-    public Long getTimestampInTz() {
+    public Long getLocalTimestamp() {
         return (Long) getFieldByNumber(0);
     }
 

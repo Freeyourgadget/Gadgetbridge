@@ -55,6 +55,8 @@ public class FitRecordDataFactory {
                 return new FitWatchfaceSettings(recordDefinition, recordHeader);
             case 160:
                 return new FitGpsMetadata(recordDefinition, recordHeader);
+            case 162:
+                return new FitTimestampCorrelation(recordDefinition, recordHeader);
             case 206:
                 return new FitFieldDescription(recordDefinition, recordHeader);
             case 207:
@@ -83,6 +85,10 @@ public class FitRecordDataFactory {
                 return new FitHrvSummary(recordDefinition, recordHeader);
             case 371:
                 return new FitHrvValue(recordDefinition, recordHeader);
+            case 397:
+                return new FitSkinTempRaw(recordDefinition, recordHeader);
+            case 398:
+                return new FitSkinTempOvernight(recordDefinition, recordHeader);
         }
 
         return new RecordData(recordDefinition, recordHeader);

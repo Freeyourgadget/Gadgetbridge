@@ -8,7 +8,6 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.CobsCoDec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FieldDefinition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.FitFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.GlobalFITMessage;

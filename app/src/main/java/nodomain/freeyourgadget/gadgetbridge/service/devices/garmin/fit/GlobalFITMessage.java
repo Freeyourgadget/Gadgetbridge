@@ -188,7 +188,7 @@ public class GlobalFITMessage {
     ));
 
     public static GlobalFITMessage MONITORING_INFO = new GlobalFITMessage(103, "MONITORING_INFO", Arrays.asList(
-            new FieldDefinitionPrimitive(0, BaseType.UINT32, "timestamp_in_tz"), // garmin timestamp, but in user timezone
+            new FieldDefinitionPrimitive(0, BaseType.UINT32, "local_timestamp"), // garmin timestamp, but in user timezone
             new FieldDefinitionPrimitive(1, BaseType.ENUM, "activity_type", FieldDefinitionFactory.FIELD.ARRAY), // 6 walking, 1 running, 13 ?
             new FieldDefinitionPrimitive(3, BaseType.UINT16, "steps_to_distance", FieldDefinitionFactory.FIELD.ARRAY, 5000, 0), // same size as activity_type?
             new FieldDefinitionPrimitive(4, BaseType.UINT16, "steps_to_calories", FieldDefinitionFactory.FIELD.ARRAY, 5000, 0), // same size as activity_type?
@@ -251,6 +251,11 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(4, BaseType.UINT32, "enhanced_speed")
     ));
 
+    public static GlobalFITMessage TIMESTAMP_CORRELATION = new GlobalFITMessage(162, "TIMESTAMP_CORRELATION", Arrays.asList(
+            new FieldDefinitionPrimitive(3, BaseType.UINT32, "local_timestamp"), // garmin timestamp, but in user timezone
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
     public static GlobalFITMessage FIELD_DESCRIPTION = new GlobalFITMessage(206, "FIELD_DESCRIPTION", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT8, "developer_data_index"),
             new FieldDefinitionPrimitive(1, BaseType.UINT8, "field_definition_number"),
@@ -307,7 +312,7 @@ public class GlobalFITMessage {
     public static GlobalFITMessage SLEEP_DATA_INFO = new GlobalFITMessage(273, "SLEEP_DATA_INFO", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT8, "unk0"), // 2
             new FieldDefinitionPrimitive(1, BaseType.UINT16, "sample_length"), // 60, sample time?
-            new FieldDefinitionPrimitive(2, BaseType.UINT32, "timestamp_in_tz"), // garmin timestamp, but in user timezone
+            new FieldDefinitionPrimitive(2, BaseType.UINT32, "local_timestamp"), // garmin timestamp, but in user timezone
             new FieldDefinitionPrimitive(3, BaseType.ENUM, "unk3"), // 1
             new FieldDefinitionPrimitive(4, BaseType.STRING, "version"), // matches ETE in settings
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
@@ -346,6 +351,19 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
+    public static GlobalFITMessage SKIN_TEMP_RAW = new GlobalFITMessage(397, "SKIN_TEMP_RAW", Arrays.asList(
+            new FieldDefinitionPrimitive(1, BaseType.FLOAT32, "deviation"),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
+    public static GlobalFITMessage SKIN_TEMP_OVERNIGHT = new GlobalFITMessage(398, "SKIN_TEMP_OVERNIGHT", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT32, "local_timestamp"), // garmin timestamp, but in user timezone
+            new FieldDefinitionPrimitive(1, BaseType.FLOAT32, "average_deviation"),
+            new FieldDefinitionPrimitive(2, BaseType.FLOAT32, "average_7_day_deviation"),
+            new FieldDefinitionPrimitive(3, BaseType.UINT8, "unk3"),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
     public static Map<Integer, GlobalFITMessage> KNOWN_MESSAGES = new HashMap<Integer, GlobalFITMessage>() {{
         put(0, FILE_ID);
         put(2, DEVICE_SETTINGS);
@@ -367,6 +385,7 @@ public class GlobalFITMessage {
         put(140, PHYSIOLOGICAL_METRICS);
         put(159, WATCHFACE_SETTINGS);
         put(160, GPS_METADATA);
+        put(162, TIMESTAMP_CORRELATION);
         put(206, FIELD_DESCRIPTION);
         put(207, DEVELOPER_DATA);
         put(216, TIME_IN_ZONE);
@@ -381,6 +400,8 @@ public class GlobalFITMessage {
         put(346, SLEEP_STATS);
         put(370, HRV_SUMMARY);
         put(371, HRV_VALUE);
+        put(397, SKIN_TEMP_RAW);
+        put(398, SKIN_TEMP_OVERNIGHT);
     }};
     private final int number;
     private final String name;
