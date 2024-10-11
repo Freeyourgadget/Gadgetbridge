@@ -4,7 +4,7 @@
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
 * Initial support for Colmi R02/R03/R06 smart rings
-* Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6, Forerunner 165/255/255S Music/245 Music/265S/955/965, Venu/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
+* Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6/8, Forerunner 165/255/255S Music/245 Music/265S/955/965, Venu/Venu Sq/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
 * Initial support for Huawei Watch 3 / 3 Pro / 4 Pro / GT 3 SE / GT 5 / GT 5 Pro / GT Cyber / GT Runner
 * Initial support for Honor Watch GS 3 / Watch GS Pro
 * Initial support for Moondrop Space Travel
@@ -53,6 +53,7 @@
 * Fix crash when companion pairing
 * Fix discovery of connected devices
 * Fix emoji when some connected device does not support them
+* Fix language not being respected in some situations
 * Fix media controls not working for some apps
 * Fix notification text not being sent for some apps
 * Fix reconnection when device connects back during BLE scan
@@ -60,6 +61,8 @@
 * Fossil HR: Minor watchface fixes
 * Garmin: Display awake time during sleep
 * Garmin: Display HRV and body energy
+* Garmin: Fetch SKIP_TEMP files
+* Garmin: Fix agps upload for some URLs
 * Garmin: Fix auto-activity fetch on some devices
 * Garmin: Fix canned replies reset to defaults
 * Garmin: Fix crash on call with privacy mode on
@@ -72,6 +75,7 @@
 * Garmin: Parse workout physiological metrics, strength training workout sets
 * Garmin: Re-parse workout summary when opening details page
 * Garmin: Upload gpx to watch
+* Garmin: Use distance and calories provided by the watch
 * Garmin: View and share gpx files
 * Huami: Fetch workouts during normal sync
 * Huami: Migrate all device settings to sub-screens
@@ -89,10 +93,12 @@
 * Huawei: Improve device initialization
 * Huawei: Improve watchface install support
 * Huawei: Improve weather support
+* Huawei: Initial ephemeris update support
 * Huawei: Map more workout types
 * Huawei: Re-parse workout details when opening details
 * Huawei: Workout GPS synchronization
 * Huawei: Simple TruSleep support
+* Huawei: Use distance and calories provided by the watch
 * Improve calendar change detection
 * Mi Band: Migrate global preferences to device-specific
 * Mi Composition Scale: Add alternative bluetooth name
@@ -100,12 +106,12 @@
 * Pebble: Migrate global preferences to device-specific
 * Redmi Smart Band Pro: Fix crash on connection and activity sync issues
 * Sony Headphones: Enable read aloud incoming notifications and auto call pickup
-* UI: Add activity sailing icon
+* UI: Add new activity icons
 * UI: Fix changelog on device rotation
 * UI: Fix HR samples displayed on wrong device
 * UI: Fix pull-down to refresh for some devices
 * UI: Improvements for large screen resolutions, font sizes, landscape
-* UI: Reduce stutters on device changes / data fetch
+* UI: Reduce stutters on device changes / data fetch / scrolling
 * UI: Refactor preferences screen
 * UM25C: Fix some disconnection issues
 * Use default system TTS language
