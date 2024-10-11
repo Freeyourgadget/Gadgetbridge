@@ -671,33 +671,36 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
 
             String measurementSystem = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, "metric");
 
-            byte unitType = (byte) (measurementSystem.equals("metric")?0:1);
+            byte unitType = (byte) (measurementSystem.equals("metric") ? 0 : 1);
             try (CloseableListIterator<HuaweiWorkoutPaceSample> it = qbPace.build().listIterator()) {
-                HashMap<Byte, Integer> typeCount = new HashMap<>();
-                HashMap<Byte, Integer> typePace = new HashMap<>();
+
+                int paceCount = 0;
+                int paceSum = 0;
+                int paceFastest = Integer.MAX_VALUE;
+                int paceSlowest = 0;
 
                 int currentIndex = 1;
                 while (it.hasNext()) {
                     int index = it.nextIndex();
                     HuaweiWorkoutPaceSample sample = it.next();
 
-                    if(sample.getType() != unitType)
+                    if (sample.getType() != unitType)
                         continue;
 
                     int pace = sample.getPace();
-                    int count = 1;
 
-                    Integer previousCount = typeCount.get(sample.getType());
-                    Integer previousPace = typePace.get(sample.getType());
-                    if (previousCount != null)
-                        count += previousCount;
-                    if (previousPace != null)
-                        pace += previousPace;
-                    typeCount.put(sample.getType(), count);
-                    typePace.put(sample.getType(), pace);
+                    paceCount++;
+                    paceSum += pace;
+
+                    if (pace < paceFastest)
+                        paceFastest = pace;
+
+                    if (pace > paceSlowest)
+                        paceSlowest = pace;
+                    
                     double distance = sample.getDistance();
 
-                    if(sample.getCorrection() != null) {
+                    if (sample.getCorrection() != null) {
                         distance += sample.getCorrection() / 10000d;
                     }
 
@@ -717,23 +720,37 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                     );
                 }
 
+                if (paceCount != 0 && paceSum != 0) {
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.fmtPaceAverage),
+                            paceSum / (float) paceCount,
+                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
+                    );
+                }
+
+                if (paceFastest != Integer.MAX_VALUE) {
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.maxPace),
+                            paceFastest,
+                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
+                    );
+                }
+
+                if (paceSlowest != 0) {
+                    summaryData.add(
+                            ActivitySummaryEntries.GROUP_PACE,
+                            GBApplication.getContext().getString(R.string.minPace),
+                            paceSlowest,
+                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
+                    );
+                }
+
                 if (pacesTable.size() > 1) {
                     for (final Map.Entry<String, ActivitySummaryTableRowEntry> e : pacesTable.entrySet()) {
                         summaryData.add(e.getKey(), e.getValue());
                     }
-                }
-
-                for (Byte key : typeCount.keySet()) {
-                    Integer count = typeCount.get(key);
-                    Integer pace = typePace.get(key);
-                    if (count == null || pace == null || count == 0)
-                        continue;
-                    summaryData.add(
-                            ActivitySummaryEntries.GROUP_PACE,
-                            GBApplication.getContext().getString(R.string.fmtPaceTypeAverage, key),
-                            pace / (float) count,
-                            ActivitySummaryEntries.UNIT_SECONDS_PER_KM
-                    );
                 }
             }
 
