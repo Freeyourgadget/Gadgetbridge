@@ -3482,4 +3482,6 @@
     <string name="paceCorrection">Oprava</string>
     <string name="activity_detail_share_json_details">Sdílet podrobnosti v JSON</string>
     <string name="number_selected_items">Vybráno %1d</string>
+    <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
+    <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
 </resources>
