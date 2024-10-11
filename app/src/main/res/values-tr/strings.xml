@@ -3495,4 +3495,6 @@
     <string name="paceCorrection">Düzeltme</string>
     <string name="activity_detail_share_json_details">JSON Ayrıntılarını Paylaş</string>
     <string name="number_selected_items">%1d seçildi</string>
+    <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
+    <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
 </resources>
