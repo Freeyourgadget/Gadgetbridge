@@ -3233,4 +3233,5 @@
     <string name="hrv_status_balanced">Сбалансированное</string>
     <string name="hrv_status_unbalanced">Несбалансированное</string>
     <string name="devicetype_soundcore_motion300">Soundcore Motion 300</string>
+    <string name="activity_type_table_football">Настольный футбол</string>
 </resources>
