@@ -357,7 +357,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
             );
             List<HuaweiWorkoutDataSample> dataSamples = qbData.build().list();
 
-            QueryBuilder<HuaweiWorkoutPaceSample> qbPace = session.getHuaweiWorkoutPaceSampleDao().queryBuilder().where(
+            QueryBuilder<HuaweiWorkoutPaceSample> qbPace = session.getHuaweiWorkoutPaceSampleDao().queryBuilder().orderAsc(HuaweiWorkoutPaceSampleDao.Properties.PaceIndex).where(
                     HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(summary.getWorkoutId())
             );
 
@@ -697,7 +697,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
 
                     if (pace > paceSlowest)
                         paceSlowest = pace;
-                    
+
                     double distance = sample.getDistance();
 
                     if (sample.getCorrection() != null) {
