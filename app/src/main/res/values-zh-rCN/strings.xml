@@ -3482,4 +3482,6 @@
     <string name="paceCorrection">修正</string>
     <string name="number_selected_items">已选择 %1d</string>
     <string name="activity_detail_share_json_details">分享 JSON 详情</string>
+    <string name="devicetype_garmin_fenix_8">佳明 Fenix 8</string>
+    <string name="devicetype_garmin_venu_sq">佳明 Venu Sq</string>
 </resources>
