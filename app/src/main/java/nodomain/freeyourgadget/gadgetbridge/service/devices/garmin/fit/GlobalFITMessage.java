@@ -269,6 +269,12 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(3, BaseType.UINT8, "developer_data_index")
     ));
 
+    public static GlobalFITMessage MONITORING_HR_DATA = new GlobalFITMessage(211, "MONITORING_HR_DATA", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT8, "resting_heart_rate"),
+            new FieldDefinitionPrimitive(1, BaseType.UINT8, "current_day_resting_heart_rate"),
+            new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
+    ));
+
     public static GlobalFITMessage TIME_IN_ZONE = new GlobalFITMessage(216, "TIME_IN_ZONE", Arrays.asList(
             new FieldDefinitionPrimitive(0, BaseType.UINT16, "reference_message"),
             new FieldDefinitionPrimitive(1, BaseType.UINT16, "reference_index"),
@@ -388,6 +394,7 @@ public class GlobalFITMessage {
         put(162, TIMESTAMP_CORRELATION);
         put(206, FIELD_DESCRIPTION);
         put(207, DEVELOPER_DATA);
+        put(211, MONITORING_HR_DATA);
         put(216, TIME_IN_ZONE);
         put(222, ALARM_SETTINGS);
         put(225, SET);
@@ -403,6 +410,7 @@ public class GlobalFITMessage {
         put(397, SKIN_TEMP_RAW);
         put(398, SKIN_TEMP_OVERNIGHT);
     }};
+
     private final int number;
     private final String name;
 

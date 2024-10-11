@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminBodyEnergySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminEventSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHeartRateRestingSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvSummarySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRespiratoryRateSampleProvider;
@@ -35,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminHeartRateRestingSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminRespiratoryRateSample;
@@ -54,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvSummary;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvValue;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoring;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoringHrData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitPhysiologicalMetrics;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRespirationRate;
@@ -78,6 +81,7 @@ public class FitImporter {
     private final List<GarminBodyEnergySample> bodyEnergySamples = new ArrayList<>();
     private final List<GarminSpo2Sample> spo2samples = new ArrayList<>();
     private final List<GarminRespiratoryRateSample> respiratoryRateSamples = new ArrayList<>();
+    private final List<GarminHeartRateRestingSample> restingHrSamples = new ArrayList<>();
     private final List<GarminEventSample> events = new ArrayList<>();
     private final List<GarminSleepStageSample> sleepStageSamples = new ArrayList<>();
     private final List<GarminHrvSummarySample> hrvSummarySamples = new ArrayList<>();
@@ -95,7 +99,9 @@ public class FitImporter {
         this.workoutParser = new GarminWorkoutParser(context);
     }
 
-    /** @noinspection StatementWithEmptyBody*/
+    /**
+     * @noinspection StatementWithEmptyBody
+     */
     public void importFile(final File file) throws IOException {
         reset();
 
@@ -258,6 +264,17 @@ public class FitImporter {
                 sample.setTimestamp(ts * 1000L);
                 sample.setValue(Math.round(hrvValue.getValue()));
                 hrvValueSamples.add(sample);
+            } else if (record instanceof FitMonitoringHrData) {
+                final FitMonitoringHrData monitoringHrData = (FitMonitoringHrData) record;
+                if (monitoringHrData.getRestingHeartRate() == null) {
+                    LOG.warn("Resting HR at {} is null", ts);
+                    continue;
+                }
+                LOG.trace("Resting HR at {}: {}", ts, monitoringHrData.getRestingHeartRate());
+                final GarminHeartRateRestingSample sample = new GarminHeartRateRestingSample();
+                sample.setTimestamp(ts * 1000L);
+                sample.setHeartRate(monitoringHrData.getRestingHeartRate());
+                restingHrSamples.add(sample);
             } else {
                 LOG.trace("Unknown record: {}", record);
 
@@ -288,6 +305,7 @@ public class FitImporter {
                 persistActivitySamples();
                 persistSpo2Samples();
                 persistRespiratoryRateSamples();
+                persistRestingHrSamples();
                 persistStressSamples();
                 persistBodyEnergySamples();
                 break;
@@ -351,6 +369,7 @@ public class FitImporter {
         bodyEnergySamples.clear();
         spo2samples.clear();
         respiratoryRateSamples.clear();
+        restingHrSamples.clear();
         events.clear();
         sleepStageSamples.clear();
         hrvSummarySamples.clear();
@@ -702,6 +721,32 @@ public class FitImporter {
             sampleProvider.addSamples(respiratoryRateSamples);
         } catch (final Exception e) {
             GB.toast(context, "Error saving respiratory rate samples", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private void persistRestingHrSamples() {
+        if (restingHrSamples.isEmpty()) {
+            return;
+        }
+
+        LOG.debug("Will persist {} resting heart rate samples", restingHrSamples.size());
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            final GarminHeartRateRestingSampleProvider sampleProvider = new GarminHeartRateRestingSampleProvider(gbDevice, session);
+
+            for (final GarminHeartRateRestingSample sample : restingHrSamples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+            }
+
+            sampleProvider.addSamples(restingHrSamples);
+        } catch (final Exception e) {
+            GB.toast(context, "Error saving resting heart rate samples", Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 

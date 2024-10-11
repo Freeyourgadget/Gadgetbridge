@@ -61,6 +61,8 @@ public class FitRecordDataFactory {
                 return new FitFieldDescription(recordDefinition, recordHeader);
             case 207:
                 return new FitDeveloperData(recordDefinition, recordHeader);
+            case 211:
+                return new FitMonitoringHrData(recordDefinition, recordHeader);
             case 216:
                 return new FitTimeInZone(recordDefinition, recordHeader);
             case 222:
