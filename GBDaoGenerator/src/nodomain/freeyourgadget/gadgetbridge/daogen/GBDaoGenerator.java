@@ -46,7 +46,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(80, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(81, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -117,6 +117,7 @@ public class GBDaoGenerator {
         addGarminEventSample(schema, user, device);
         addGarminHrvSummarySample(schema, user, device);
         addGarminHrvValueSample(schema, user, device);
+        addGarminRespiratoryRateSample(schema, user, device);
         addPendingFile(schema, user, device);
         addWena3EnergySample(schema, user, device);
         addWena3BehaviorSample(schema, user, device);
@@ -354,9 +355,14 @@ public class GBDaoGenerator {
 
     private static Entity addHuamiSleepRespiratoryRateSample(Schema schema, Entity user, Entity device) {
         Entity sleepRespiratoryRateSample = addEntity(schema, "HuamiSleepRespiratoryRateSample");
-        addCommonTimeSampleProperties("AbstractSleepRespiratoryRateSample", sleepRespiratoryRateSample, user, device);
+        addCommonTimeSampleProperties("AbstractRespiratoryRateSample", sleepRespiratoryRateSample, user, device);
         sleepRespiratoryRateSample.addIntProperty("utcOffset").notNull();
-        sleepRespiratoryRateSample.addIntProperty("rate").notNull().codeBeforeGetter(OVERRIDE);
+        sleepRespiratoryRateSample.addIntProperty("rate").notNull().codeBeforeGetter(
+                "@Override\n" +
+                        "    public float getRespiratoryRate() {\n" +
+                        "        return (float) getRate();\n" +
+                        "    }\n\n"
+        );
         return sleepRespiratoryRateSample;
     }
 
@@ -813,6 +819,13 @@ public class GBDaoGenerator {
         addCommonTimeSampleProperties("AbstractHrvValueSample", hrvValueSample, user, device);
         hrvValueSample.addIntProperty("value").notNull().codeBeforeGetter(OVERRIDE);
         return hrvValueSample;
+    }
+
+    private static Entity addGarminRespiratoryRateSample(Schema schema, Entity user, Entity device) {
+        Entity garminRespiratoryRateSample = addEntity(schema, "GarminRespiratoryRateSample");
+        addCommonTimeSampleProperties("AbstractRespiratoryRateSample", garminRespiratoryRateSample, user, device);
+        garminRespiratoryRateSample.addFloatProperty("respiratoryRate").notNull().codeBeforeGetter(OVERRIDE);
+        return garminRespiratoryRateSample;
     }
 
     private static Entity addPendingFile(Schema schema, Entity user, Entity device) {

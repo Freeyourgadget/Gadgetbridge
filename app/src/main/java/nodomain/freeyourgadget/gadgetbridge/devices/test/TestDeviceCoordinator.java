@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestBodyEnergyS
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestHrvSummarySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestPaiSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestRespiratoryRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestStressSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.samples.TestSampleProvider;
@@ -70,7 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
-import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
@@ -175,9 +176,8 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public TimeSampleProvider<? extends SleepRespiratoryRateSample> getSleepRespiratoryRateSampleProvider(final GBDevice device, final DaoSession session) {
-        // TODO getHeartRateManualSampleProvider
-        return super.getSleepRespiratoryRateSampleProvider(device, session);
+    public TimeSampleProvider<? extends RespiratoryRateSample> getRespiratoryRateSampleProvider(final GBDevice device, final DaoSession session) {
+        return supportsRespiratoryRate() ? new TestRespiratoryRateSampleProvider() : super.getRespiratoryRateSampleProvider(device, session);
     }
 
     @Nullable
@@ -371,6 +371,11 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsPaiTime() {
         return supports(getTestDevice(), TestFeature.PAI_TIME);
+    }
+
+    @Override
+    public boolean supportsRespiratoryRate() {
+        return supports(getTestDevice(), TestFeature.RESPIRATORY_RATE);
     }
 
     @Override

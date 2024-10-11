@@ -18,16 +18,16 @@ package nodomain.freeyourgadget.gadgetbridge.entities;
 
 import androidx.annotation.NonNull;
 
-import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
-public abstract class AbstractSleepRespiratoryRateSample extends AbstractTimeSample implements SleepRespiratoryRateSample {
+public abstract class AbstractRespiratoryRateSample extends AbstractTimeSample implements RespiratoryRateSample {
     @NonNull
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimestampMillis(getTimestamp())) +
-                ", rate=" + getRate() +
+                ", respiratoryRate=" + getRespiratoryRate() +
                 ", userId=" + getUserId() +
                 ", deviceId=" + getDeviceId() +
                 "}";

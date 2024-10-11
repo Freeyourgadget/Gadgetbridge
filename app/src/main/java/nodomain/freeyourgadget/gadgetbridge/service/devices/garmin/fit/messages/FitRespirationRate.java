@@ -21,8 +21,8 @@ public class FitRespirationRate extends RecordData {
     }
 
     @Nullable
-    public Integer getRespirationRate() {
-        return (Integer) getFieldByNumber(0);
+    public Float getRespirationRate() {
+        return (Float) getFieldByNumber(0);
     }
 
     @Nullable

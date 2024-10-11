@@ -323,7 +323,7 @@ public class GlobalFITMessage {
     ));
 
     public static GlobalFITMessage RESPIRATION_RATE = new GlobalFITMessage(297, "RESPIRATION_RATE", Arrays.asList(
-            new FieldDefinitionPrimitive(0, BaseType.SINT16, "respiration_rate"), // breaths / min, scaled by 100
+            new FieldDefinitionPrimitive(0, BaseType.SINT16, "respiration_rate", 100, 0), // breaths / min
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 

@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-public interface SleepRespiratoryRateSample extends TimeSample {
+public interface RespiratoryRateSample extends TimeSample {
     /**
      * Returns the respiratory rate value, in breaths per minute.
      */
-    int getRate();
+    float getRespiratoryRate();
 }

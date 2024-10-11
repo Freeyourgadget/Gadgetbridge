@@ -56,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
-import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
@@ -264,6 +264,11 @@ public interface DeviceCoordinator {
     boolean supportsPaiTime();
 
     /**
+     * Indicates whether the device supports respiratory rate tracking.
+     */
+    boolean supportsRespiratoryRate();
+
+    /**
      * Returns true if sleep respiratory rate measurement and fetching is supported by
      * the device (with this coordinator).
      */
@@ -360,7 +365,7 @@ public interface DeviceCoordinator {
     /**
      * Returns the sample provider for sleep respiratory rate data, for the device being supported.
      */
-    TimeSampleProvider<? extends SleepRespiratoryRateSample> getSleepRespiratoryRateSampleProvider(GBDevice device, DaoSession session);
+    TimeSampleProvider<? extends RespiratoryRateSample> getRespiratoryRateSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the sample provider for weight data, for the device being supported.

@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSampleDao;
@@ -44,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
+import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Vo2MaxSample;
@@ -145,6 +147,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(final GBDevice device, final DaoSession session) {
         return new GarminSpo2SampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends RespiratoryRateSample> getRespiratoryRateSampleProvider(final GBDevice device, final DaoSession session) {
+        return new GarminRespiratoryRateSampleProvider(device, session);
     }
 
     @Override
@@ -264,6 +271,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsAwakeSleep() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsRespiratoryRate() {
         return true;
     }
 

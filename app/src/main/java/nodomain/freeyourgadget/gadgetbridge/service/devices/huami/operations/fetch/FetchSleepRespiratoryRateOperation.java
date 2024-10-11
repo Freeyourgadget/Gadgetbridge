@@ -94,7 +94,7 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
             final User user = DBHelper.getUser(session);
 
             final HuamiCoordinator coordinator = (HuamiCoordinator) getDevice().getDeviceCoordinator();
-            final HuamiSleepRespiratoryRateSampleProvider sampleProvider = coordinator.getSleepRespiratoryRateSampleProvider(getDevice(), session);
+            final HuamiSleepRespiratoryRateSampleProvider sampleProvider = coordinator.getRespiratoryRateSampleProvider(getDevice(), session);
 
             for (final HuamiSleepRespiratoryRateSample sample : samples) {
                 sample.setDevice(device);
