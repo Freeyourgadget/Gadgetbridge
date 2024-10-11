@@ -3482,4 +3482,6 @@
     <string name="activity_detail_share_json_details">Deel JSON-details</string>
     <string name="number_selected_items">%1d geselecteerd</string>
     <string name="paceCorrection">Correctie</string>
+    <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
+    <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
 </resources>
