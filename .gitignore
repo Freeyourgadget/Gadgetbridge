@@ -40,3 +40,4 @@ fw.dirs
 **/.classpath
 app/release/output-metadata.json
 app/.cxx/
+.attach_pid*
