@@ -3486,4 +3486,14 @@
     <string name="devicetype_huawei_watchgtcyber">Huawei Watch GT Cyber</string>
     <string name="activity_detail_share_json_details">Compartir detalles en JSON</string>
     <string name="number_selected_items">%1d seleccionado</string>
+    <string name="mijia_lywsd_comfort_level_summary">Configura los límites de temperatura y humedad para el emoji mostrado</string>
+    <string name="mijia_lywsd_comfort_temperature_title">Temperatura (°C)</string>
+    <string name="mijia_lywsd_comfort_humidity_title">Humedad (%)</string>
+    <string name="mijia_lywsd_comfort_lower">Límite inferior</string>
+    <string name="mijia_lywsd_comfort_upper">Límite superior</string>
+    <string name="mijia_lywsd_comfort_level_title">Nivel de comodidad</string>
+    <string name="mijia_lywsd_comfort_temperature_summary">Rango recomendado: 19 - 27</string>
+    <string name="mijia_lywsd_comfort_humidity_summary">Rango recomendado: 20 - 85</string>
+    <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
+    <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
 </resources>
