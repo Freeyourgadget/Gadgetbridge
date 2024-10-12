@@ -136,7 +136,7 @@ public class FitRecord extends RecordData {
             activityPoint.setHeartRate(getHeartRate());
         }
         if (getEnhancedSpeed() != null) {
-            activityPoint.setSpeed(getEnhancedSpeed());
+            activityPoint.setSpeed(getEnhancedSpeed().floatValue());
         }
         return activityPoint;
     }
