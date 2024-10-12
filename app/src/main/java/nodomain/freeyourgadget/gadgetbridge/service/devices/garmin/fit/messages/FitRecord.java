@@ -138,6 +138,9 @@ public class FitRecord extends RecordData {
         if (getEnhancedSpeed() != null) {
             activityPoint.setSpeed(getEnhancedSpeed().floatValue());
         }
+        if (getCadence() != null) {
+            activityPoint.setCadence(getCadence());
+        }
         return activityPoint;
     }
 }

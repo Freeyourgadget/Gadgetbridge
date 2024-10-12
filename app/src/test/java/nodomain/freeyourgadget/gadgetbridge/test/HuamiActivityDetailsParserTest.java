@@ -104,6 +104,4 @@ public class HuamiActivityDetailsParserTest extends TestBase {
     private InputStream getContents(URL hexFile) throws IOException {
         return new HexToBinaryInputStream(hexFile.openStream());
     }
-
-
 }

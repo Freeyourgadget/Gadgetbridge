@@ -26,11 +26,12 @@ import androidx.annotation.Nullable;
         <ele>29.2</ele>
         <time>2015-07-26T07:43:42Z</time>
         <extensions>
-        <gpxtpx:TrackPointExtension>
-        <gpxtpx:atemp>11</gpxtpx:atemp>
-        <gpxtpx:hr>92</gpxtpx:hr>
-        <gpxtpx:cad>0</gpxtpx:cad>
-        </gpxtpx:TrackPointExtension>
+            <gpxtpx:TrackPointExtension>
+                <gpxtpx:atemp>11</gpxtpx:atemp>
+                <gpxtpx:hr>92</gpxtpx:hr>
+                <gpxtpx:cad>0</gpxtpx:cad>
+                <gpxtpx:speed>0.5</gpxtpx:speed>
+            </gpxtpx:TrackPointExtension>
         </extensions>
         </trkpt>
 */
@@ -39,6 +40,7 @@ public class ActivityPoint {
     private GPSCoordinate location;
     private int heartRate;
     private float speed = -1;
+    private int cadence = -1;
 
     // e.g. to describe a pause during the activity
     private @Nullable String description;
@@ -89,5 +91,13 @@ public class ActivityPoint {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public int getCadence() {
+        return cadence;
+    }
+
+    public void setCadence(final int cadence) {
+        this.cadence = cadence;
     }
 }
