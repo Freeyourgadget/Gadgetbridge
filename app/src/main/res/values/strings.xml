@@ -1792,6 +1792,7 @@
     <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
     <string name="devicetype_micompositionscale">Mi Body Composition Scale 2</string>
     <string name="devicetype_itag">iTag</string>
+    <string name="devicetype_idasen">IKEA Idasen Desk</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
     <string name="devicetype_mijia_lywsd03">Mijia Temperature and Humidity Sensor 2</string>
@@ -2798,6 +2799,13 @@
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_feet">###ft</string>
 
+    <string name="idasen_control_button_mid">MID</string>
+    <string name="idasen_control_button_sit">SIT</string>
+    <string name="idasen_control_button_stand">STAND</string>
+    <string name="idasen_pref_mid_height">Middle position height (in centimeters)</string>
+    <string name="idasen_pref_sit_height">Sit position height (in centimeters)</string>
+    <string name="idasen_pref_stand_height">Stand position height (in centimeters)</string>
+    <string name="idasen_pref_value_warning">The value must be between 62 - 126 cm</string>
     <string name="prefs_workmode">Work Mode</string>
     <string name="huawei_alarm_smart_description">Do not uncheck smart wakeup checkbox.</string>
     <string name="huawei_alarm_event_description">Do not check smart wakeup checkbox.</string>

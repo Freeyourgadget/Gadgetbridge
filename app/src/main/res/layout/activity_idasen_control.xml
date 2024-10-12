@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/idasen_control_button_sit"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="0.5"
+            android:text="@string/idasen_control_button_sit"
+            app:icon="@drawable/ic_activity_yoga"
+            app:iconPadding="0dp"
+            app:iconSize="35dp"
+            app:iconTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/idasen_control_button_mid"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="0.5"
+            android:text="@string/idasen_control_button_mid"
+            app:icon="@drawable/ic_activity_bike_trainer"
+            app:iconSize="35dp" />
+
+        <Button
+            android:id="@+id/idasen_control_button_stand"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="0.5"
+            android:text="@string/idasen_control_button_stand"
+            app:icon="@drawable/ic_activity_exercise"
+            app:iconSize="35dp"
+            app:iconTint="#FFFFFF" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/idasen_control_button_up"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/ic_arrow_upward" />
+
+        <Button
+            android:id="@+id/idasen_control_button_down"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/ic_arrow_upward"
+            android:drawable="@drawable/ic_arrow_upward"
+            android:rotation="180" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/idasen_desk_height_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/arrow_autofit_height"
+            android:backgroundTint="#FF0000"
+            android:contentDescription="@string/icon_placeholder"
+            android:padding="0dp" />
+
+        <TextView
+            android:id="@+id/idasen_desk_height"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textIsSelectable="true"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/idasen_desk_speed_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/brand_speedtest"
+            android:backgroundTint="#FF0000"
+            android:contentDescription="@string/icon_placeholder"
+            android:padding="0dp" />
+
+        <TextView
+            android:id="@+id/idasen_desk_speed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textIsSelectable="true"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

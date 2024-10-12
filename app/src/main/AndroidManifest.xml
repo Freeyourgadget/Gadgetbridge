@@ -212,6 +212,10 @@
             android:label="@string/devicetype_vesc"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".devices.idasen.IdasenControlActivity"
+            android:label="@string/devicetype_idasen"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
             android:parentActivityName=".activities.ControlCenterv2"

@@ -482,6 +482,10 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_VESC_MINIMUM_VOLTAGE = "vesc_minimum_battery_voltage";
     public static final String PREF_VESC_MAXIMUM_VOLTAGE = "vesc_maximum_battery_voltage";
 
+    public static final String PREF_IDASEN_SIT_HEIGHT = "idasen_sit_height";
+    public static final String PREF_IDASEN_MID_HEIGHT = "idasen_mid_height";
+    public static final String PREF_IDASEN_STAND_HEIGHT = "idasen_stand_height";
+
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
     public static final String PREF_USER_FITNESS_GOAL = "fitness_goal";

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:title="@string/idasen_pref_sit_height"
+        android:key="idasen_sit_height"
+        android:inputType="number"
+        android:icon="@drawable/ic_activity_yoga"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        android:title="@string/idasen_pref_mid_height"
+        android:key="idasen_mid_height"
+        android:inputType="number"
+        android:icon="@drawable/ic_activity_bike_trainer"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        android:title="@string/idasen_pref_stand_height"
+        android:key="idasen_stand_height"
+        android:inputType="number"
+        android:icon="@drawable/ic_activity_exercise"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>
