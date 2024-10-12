@@ -463,6 +463,11 @@ public interface DeviceCoordinator {
     boolean supportsHeartRateMeasurement(GBDevice device);
 
     /**
+     * Returns true if the given device supports resting heart rate measurements.
+     */
+    boolean supportsHeartRateRestingMeasurement(GBDevice device);
+
+    /**
      * Returns true if the device supports triggering manual one-shot heart rate measurements.
      */
     boolean supportsManualHeartRateMeasurement(GBDevice device);

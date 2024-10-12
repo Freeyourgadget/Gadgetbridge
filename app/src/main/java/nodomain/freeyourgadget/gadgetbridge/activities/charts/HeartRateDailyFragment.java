@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -23,6 +22,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDailyFragment.HeartRateData> {
@@ -50,7 +51,6 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
     private TextView hrAverage;
     private TextView hrMinimum;
     private TextView hrMaximum;
-    private LinearLayout heartRateRestingWrapper;
     private LineChart hrLineChart;
 
 
@@ -70,21 +70,22 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         hrAverage = rootView.findViewById(R.id.hr_average);
         hrMinimum = rootView.findViewById(R.id.hr_minimum);
         hrMaximum = rootView.findViewById(R.id.hr_maximum);
-        heartRateRestingWrapper = rootView.findViewById(R.id.hr_resting_wrapper);
+        final LinearLayout heartRateRestingWrapper = rootView.findViewById(R.id.hr_resting_wrapper);
 
         setupChart();
         refresh();
         setupLegend(hrLineChart);
 
-        if (!supportHeartRateRestingMeasurement()) {
+        if (!supportsHeartRateRestingMeasurement()) {
             heartRateRestingWrapper.setVisibility(View.GONE);
         }
 
         return rootView;
     }
 
-    public boolean supportHeartRateRestingMeasurement() {
-        return false;
+    public boolean supportsHeartRateRestingMeasurement() {
+        final GBDevice device = getChartsHost().getDevice();
+        return device.getDeviceCoordinator().supportsHeartRateRestingMeasurement(device);
     }
 
     protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
@@ -124,7 +125,19 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         String formattedDate = new SimpleDateFormat("E, MMM dd").format(date);
         mDateView.setText(formattedDate);
         List<? extends ActivitySample> samples = getActivitySamples(db, device, startTs, endTs);
-        return new HeartRateData(samples);
+
+        int restingHeartRate = -1;
+        if (supportsHeartRateRestingMeasurement()) {
+            restingHeartRate = device.getDeviceCoordinator()
+                    .getHeartRateRestingSampleProvider(device, db.getDaoSession())
+                    .getAllSamples(startTs * 1000L, endTs * 1000L)
+                    .stream()
+                    .max(Comparator.comparingLong(HeartRateSample::getTimestamp))
+                    .map(HeartRateSample::getHeartRate)
+                    .orElse(-1);
+        }
+
+        return new HeartRateData(samples, restingHeartRate);
     }
 
     @Override
@@ -186,7 +199,6 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         final List<Entry> lineEntries = new ArrayList<>();
         List<? extends ActivitySample> samples = data.samples;
         int average = 0;
-        int resting = 0;
         int minimum = 0;
         int maximum = 0;
         int sum = 0;
@@ -233,7 +245,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         hrAverage.setText(average > 0 ? getString(R.string.bpm_value_unit, average) : "-");
         hrMinimum.setText(minimum > 0 ? getString(R.string.bpm_value_unit, minimum) : "-");
         hrMaximum.setText(maximum > 0 ? getString(R.string.bpm_value_unit, maximum) : "-");
-        hrResting.setText(resting > 0 ? getString(R.string.bpm_value_unit, resting) : "-");
+        hrResting.setText(data.restingHeartRate > 0 ? getString(R.string.bpm_value_unit, data.restingHeartRate) : "-");
 
 
         if (minimum > 0) {
@@ -251,9 +263,11 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
 
     protected static class HeartRateData extends ChartsData {
         public List<? extends ActivitySample> samples;
+        public int restingHeartRate;
 
-        protected HeartRateData(List<? extends ActivitySample> samples) {
+        protected HeartRateData(List<? extends ActivitySample> samples, int restingHeartRate) {
             this.samples = samples;
+            this.restingHeartRate = restingHeartRate;
         }
     }
 }

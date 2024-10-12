@@ -260,6 +260,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsHeartRateRestingMeasurement(final GBDevice device) {
+        return true;
+    }
+
+    @Override
     public boolean supportsRealtimeData() {
         return true;
     }

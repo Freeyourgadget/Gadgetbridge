@@ -45,7 +45,7 @@
                     android:id="@+id/hr_minimum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="@string/stats_empty_value"
                     android:textSize="20sp" />
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:id="@+id/hr_maximum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="@string/stats_empty_value"
                     android:textSize="20sp" />
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:id="@+id/hr_average"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="@string/stats_empty_value"
                     android:textSize="20sp" />
 
                 <TextView
@@ -107,7 +107,7 @@
                         android:id="@+id/hr_resting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="@string/stats_empty_value"
                         android:textSize="20sp" />
 
                     <TextView
