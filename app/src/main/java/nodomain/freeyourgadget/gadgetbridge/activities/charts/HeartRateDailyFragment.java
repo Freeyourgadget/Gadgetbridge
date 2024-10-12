@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -187,6 +189,21 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         hrEntry.label = getTitle();
         hrEntry.formColor = HEARTRATE_COLOR;
         legendEntries.add(hrEntry);
+
+        if (GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
+            LegendEntry hrAverageEntry = new LegendEntry();
+            hrAverageEntry.label = getString(R.string.hr_average);
+            hrAverageEntry.formColor = Color.RED;
+            legendEntries.add(hrAverageEntry);
+        }
+
+        //if (supportsHeartRateRestingMeasurement()) {
+        //    LegendEntry hrRestingEntry = new LegendEntry();
+        //    hrRestingEntry.label = getString(R.string.hr_resting);
+        //    hrRestingEntry.formColor = Color.GRAY;
+        //    legendEntries.add(hrRestingEntry);
+        //}
+
         chart.getLegend().setCustom(legendEntries);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         chart.getLegend().setWordWrapEnabled(true);
@@ -259,6 +276,24 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
 
         hrLineChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation, "HH:mm"));
         hrLineChart.setData(new LineData(dataSet));
+
+        hrLineChart.getAxisLeft().removeAllLimitLines();
+
+        if (GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
+            final LimitLine averageLine = new LimitLine(average);
+            averageLine.setLineWidth(1.5f);
+            averageLine.enableDashedLine(15f, 10f, 0f);
+            averageLine.setLineColor(Color.RED);
+            hrLineChart.getAxisLeft().addLimitLine(averageLine);
+        }
+
+        //if (data.restingHeartRate > 0) {
+        //    final LimitLine restingLine = new LimitLine(data.restingHeartRate);
+        //    restingLine.setLineWidth(1.5f);
+        //    restingLine.enableDashedLine(15f, 10f, 0f);
+        //    restingLine.setLineColor(Color.GRAY);
+        //    hrLineChart.getAxisLeft().addLimitLine(restingLine);
+        //}
     }
 
     protected static class HeartRateData extends ChartsData {
