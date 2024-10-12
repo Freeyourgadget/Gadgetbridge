@@ -1012,6 +1012,8 @@
     <string name="sleep_colored_stats_awake_avg">Awake AVG</string>
     <string name="stats_empty_value">-</string>
     <string name="time_empty_value" translatable="false">--:--</string>
+    <string name="date_placeholders__date__time">%1s, %1s</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
     <string name="stats_lowest_hr">Lowest HR</string>
     <string name="stats_highest_hr">Highest HR</string>
     <string name="transition">Transition</string>

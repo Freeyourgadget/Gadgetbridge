@@ -131,7 +131,7 @@ public class ActivityListItem {
         }
 
         if (date != null) {
-            dateLabel.setText(formatDate(date));
+            dateLabel.setText(DateTimeUtils.formatDateTimeRelative(rootView.getContext(), date));
             dateLabel.setVisibility(View.VISIBLE);
         } else {
             dateLabel.setVisibility(View.GONE);
@@ -160,23 +160,6 @@ public class ActivityListItem {
                 parentLayout.setBackgroundColor(backgroundColor);
             }
         }
-    }
-
-    private String formatDate(final Date date) {
-        if (date != null) {
-            final String activityDay;
-            if (DateUtils.isToday(date.getTime())) {
-                activityDay = rootView.getContext().getString(R.string.activity_summary_today);
-            } else if (DateTimeUtils.isYesterday(date)) {
-                activityDay = rootView.getContext().getString(R.string.activity_summary_yesterday);
-            } else {
-                activityDay = DateTimeUtils.formatDate(date, DateUtils.FORMAT_SHOW_WEEKDAY);
-            }
-            final String activityTime = DateTimeUtils.formatTime(date.getHours(), date.getMinutes());
-            return String.format("%s, %s", activityDay, activityTime);
-        }
-
-        return rootView.getContext().getString(R.string.unknown);
     }
 
     public static int getThemedColor(Context context, int resid) {

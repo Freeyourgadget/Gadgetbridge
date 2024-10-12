@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
@@ -34,6 +35,7 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class DateTimeUtils {
     private static SimpleDateFormat DAY_STORAGE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -257,6 +259,22 @@ public class DateTimeUtils {
     }
 
     /**
+     * Determine whether two Date instances are on the same day
+     *
+     * @param date1 The first date to compare
+     * @param date2 The second date to compare
+     * @return true if the Date instances are on the same day
+     */
+    public static boolean isSameDay(Date date1, Date date2) {
+        final Calendar calendar1 = GregorianCalendar.getInstance();
+        calendar1.setTime(date1);
+        final Calendar calendar2 = GregorianCalendar.getInstance();
+        calendar2.setTime(date2);
+
+        return isSameDay(calendar1, calendar2);
+    }
+
+    /**
      * Determine whether two Calendar instances are in the same month
      *
      * @param calendar1 The first calendar to compare
@@ -266,5 +284,25 @@ public class DateTimeUtils {
     public static boolean isSameMonth(Calendar calendar1, Calendar calendar2) {
         return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
                 && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH);
+    }
+
+    public static String formatDateRelative(final Context context, final Date date) {
+        if (DateUtils.isToday(date.getTime())) {
+            return context.getString(R.string.activity_summary_today);
+        } else if (DateTimeUtils.isYesterday(date)) {
+            return context.getString(R.string.activity_summary_yesterday);
+        } else {
+            return DateTimeUtils.formatDate(date, DateUtils.FORMAT_SHOW_WEEKDAY);
+        }
+    }
+
+    public static String formatDateTimeRelative(final Context context, final Date date) {
+        if (date != null) {
+            final String activityDay = formatDateRelative(context, date);
+            final String activityTime = DateTimeUtils.formatTime(date.getHours(), date.getMinutes());
+            return context.getString(R.string.date_placeholders__date__time, activityDay, activityTime);
+        }
+
+        return context.getString(R.string.unknown);
     }
 }

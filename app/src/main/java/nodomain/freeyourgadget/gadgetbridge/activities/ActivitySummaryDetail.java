@@ -22,7 +22,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -31,6 +30,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -44,6 +44,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.gridlayout.widget.GridLayout;
 
 import android.widget.ImageView;
@@ -102,7 +103,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
     BaseActivitySummary currentItem = null;
     private GBDevice gbDevice;
-    private int alternateColor;
     private Menu mOptionsMenu;
     List<String> filesGpxList = new ArrayList<>();
     int selectedGpxIndex;
@@ -155,7 +155,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         final ActivitySummaryItems items = new ActivitySummaryItems(this, gbDevice, activityFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
         final ScrollView layout = findViewById(R.id.activity_summary_detail_scroll_layout);
         //final LinearLayout layout = findViewById(R.id.activity_summary_detail_relative_layout);
-        alternateColor = getAlternateColor(this);
 
         final Animation animFadeRight;
         final Animation animFadeLeft;
@@ -227,99 +226,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 return false;
             }
         });
-
-        ImageView activity_summary_detail_edit_name_image = findViewById(R.id.activity_summary_detail_edit_name);
-        activity_summary_detail_edit_name_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final EditText input = new EditText(ActivitySummaryDetail.this);
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                String name = currentItem.getName();
-                input.setText((name != null) ? name : "");
-                FrameLayout container = new FrameLayout(ActivitySummaryDetail.this);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-                params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-                input.setLayoutParams(params);
-                container.addView(input);
-
-                new MaterialAlertDialogBuilder(ActivitySummaryDetail.this)
-                        .setView(container)
-                        .setCancelable(true)
-                        .setTitle(ActivitySummaryDetail.this.getString(R.string.activity_summary_edit_name_title))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String name = input.getText().toString();
-                                if (name.length() < 1) name = null;
-                                currentItem.setName(name);
-                                currentItem.update();
-                                makeSummaryHeader(currentItem);
-                                makeSummaryContent(currentItem);
-                            }
-                        })
-                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .show();
-            }
-        });
-        ImageView activity_summary_detail_edit_gps = findViewById(R.id.activity_summary_detail_edit_gps);
-        activity_summary_detail_edit_gps.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                export_path = get_path();
-                filesGpxList = get_gpx_file_list();
-
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ActivitySummaryDetail.this);
-                builder.setTitle(R.string.activity_summary_detail_select_gpx_track);
-                ArrayAdapter<String> directory_listing = new ArrayAdapter<String>(ActivitySummaryDetail.this, android.R.layout.simple_list_item_1, filesGpxList);
-                builder.setSingleChoiceItems(directory_listing, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedGpxIndex = which;
-                        selectedGpxFile = export_path + "/" + filesGpxList.get(selectedGpxIndex);
-                        String message = String.format("%s %s?", getString(R.string.set), filesGpxList.get(selectedGpxIndex));
-                        if (selectedGpxIndex == 0) {
-                            selectedGpxFile = null;
-                            message = String.format("%s?", getString(R.string.activity_summary_detail_clear_gpx_track));
-                        }
-
-                        new MaterialAlertDialogBuilder(ActivitySummaryDetail.this)
-                                .setCancelable(true)
-                                .setIcon(R.drawable.ic_warning)
-                                .setTitle(R.string.activity_summary_detail_editing_gpx_track)
-                                .setMessage(message)
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        currentItem.setGpxTrack(selectedGpxFile);
-                                        currentItem.update();
-                                        if (itemHasGps()) {
-                                            showGpsCanvas();
-                                            activitySummariesGpsFragment.set_data(getTrackFile());
-                                        } else {
-                                            hideGpsCanvas();
-                                        }
-                                    }
-                                })
-                                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .show();
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
     }
 
     private void makeSummaryHeader(BaseActivitySummary item) {
@@ -328,32 +234,45 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         String activityname = item.getName();
         Date starttime = item.getStartTime();
         Date endtime = item.getEndTime();
-        String starttimeS = String.format("%s, %s", DateTimeUtils.formatDate(starttime), DateTimeUtils.formatTime(starttime.getHours(), starttime.getMinutes()));
-        String endtimeS = String.format("%s, %s", DateTimeUtils.formatDate(endtime), DateTimeUtils.formatTime(endtime.getHours(), endtime.getMinutes()));
         String durationhms = DateTimeUtils.formatDurationHoursMinutes((endtime.getTime() - starttime.getTime()), TimeUnit.MILLISECONDS);
 
         ImageView activity_icon = findViewById(R.id.item_image);
         activity_icon.setImageResource(ActivityKind.fromCode(item.getActivityKind()).getIcon());
 
-        TextView activity_kind = findViewById(R.id.activitykind);
-        activity_kind.setText(activitykindname);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(activitykindname);
+        }
 
         TextView activity_name = findViewById(R.id.activityname);
         activity_name.setText(activityname);
-
         if (StringUtils.isBlank(activityname)) {
             activity_name.setVisibility(View.GONE);
         } else {
             activity_name.setVisibility(View.VISIBLE);
         }
 
-        TextView start_time = findViewById(R.id.starttime);
-        start_time.setText(starttimeS);
-        TextView end_time = findViewById(R.id.endtime);
-        end_time.setText(endtimeS);
-        TextView activity_duration = findViewById(R.id.duration);
-        activity_duration.setText(durationhms);
+        TextView activityDateTextView = findViewById(R.id.activitydate);
 
+        final Context context = activityDateTextView.getContext();
+        final String timeString;
+        if (DateTimeUtils.isSameDay(starttime, endtime)) {
+            timeString = context.getString(
+                    R.string.date_placeholders__start_time__end_time,
+                    DateTimeUtils.formatDateTimeRelative(context, starttime),
+                    DateTimeUtils.formatTime(endtime.getHours(), endtime.getMinutes())
+            );
+        } else {
+            timeString = context.getString(
+                    R.string.date_placeholders__start_time__end_time,
+                    DateTimeUtils.formatDateTimeRelative(context, starttime),
+                    DateTimeUtils.formatDateTimeRelative(context, endtime)
+            );
+        }
+        activityDateTextView.setText(timeString);
+
+        TextView activityTimeTextView = findViewById(R.id.activityduration);
+        activityTimeTextView.setText(durationhms);
     }
 
     private void refreshFromCurrentItem() {
@@ -439,7 +358,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             TextView label_field = new TextView(ActivitySummaryDetail.this);
             label_field.setId(View.generateViewId());
             label_field.setTextSize(18);
-            label_field.setPadding(dpToPx(8), dpToPx(20), 0, dpToPx(20));
+            label_field.setPaddingRelative(dpToPx(16), dpToPx(16), 0, dpToPx(16));
             label_field.setTypeface(null, Typeface.BOLD);
             label_field.setText(workoutValueFormatter.getStringResourceByName(groupKey));
             label_row.addView(label_field);
@@ -534,8 +453,84 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         } else if (itemId == R.id.activity_action_dev_share_json_details) {
             shareJsonDetails(ActivitySummaryDetail.this, currentItem);
             return true;
+        } else if (itemId == R.id.activity_summary_detail_action_edit_name) {
+            editLabel();
+            return true;
+        } else if (itemId == R.id.activity_summary_detail_action_edit_gps) {
+            editGps();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void editLabel() {
+        final EditText input = new EditText(ActivitySummaryDetail.this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        String name = currentItem.getName();
+        input.setText((name != null) ? name : "");
+        FrameLayout container = new FrameLayout(ActivitySummaryDetail.this);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+        input.setLayoutParams(params);
+        container.addView(input);
+
+        new MaterialAlertDialogBuilder(ActivitySummaryDetail.this)
+                .setView(container)
+                .setCancelable(true)
+                .setTitle(ActivitySummaryDetail.this.getString(R.string.activity_summary_edit_name_title))
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    String name1 = input.getText().toString();
+                    if (name1.isEmpty()) name1 = null;
+                    currentItem.setName(name1);
+                    currentItem.update();
+                    makeSummaryHeader(currentItem);
+                    makeSummaryContent(currentItem);
+                })
+                .setNegativeButton(R.string.Cancel, (dialog, which) -> {
+                    // do nothing
+                })
+                .show();
+    }
+
+    private void editGps() {
+        export_path = get_path();
+        filesGpxList = get_gpx_file_list();
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ActivitySummaryDetail.this);
+        builder.setTitle(R.string.activity_summary_detail_select_gpx_track);
+        ArrayAdapter<String> directory_listing = new ArrayAdapter<>(ActivitySummaryDetail.this, android.R.layout.simple_list_item_1, filesGpxList);
+        builder.setSingleChoiceItems(directory_listing, 0, (dialog, which) -> {
+            selectedGpxIndex = which;
+            selectedGpxFile = export_path + "/" + filesGpxList.get(selectedGpxIndex);
+            String message = String.format("%s %s?", getString(R.string.set), filesGpxList.get(selectedGpxIndex));
+            if (selectedGpxIndex == 0) {
+                selectedGpxFile = null;
+                message = String.format("%s?", getString(R.string.activity_summary_detail_clear_gpx_track));
+            }
+
+            new MaterialAlertDialogBuilder(ActivitySummaryDetail.this)
+                    .setCancelable(true)
+                    .setIcon(R.drawable.ic_warning)
+                    .setTitle(R.string.activity_summary_detail_editing_gpx_track)
+                    .setMessage(message)
+                    .setPositiveButton(R.string.ok, (dialog1, which1) -> {
+                        currentItem.setGpxTrack(selectedGpxFile);
+                        currentItem.update();
+                        if (itemHasGps()) {
+                            showGpsCanvas();
+                            activitySummariesGpsFragment.set_data(getTrackFile());
+                        } else {
+                            hideGpsCanvas();
+                        }
+                    })
+                    .setNegativeButton(R.string.Cancel, (dialog2, which2) -> {
+                    })
+                    .show();
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void take_share_screenshot(Context context) {

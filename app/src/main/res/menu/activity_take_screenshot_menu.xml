@@ -3,6 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/activity_detail_overflowMenu2"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/appmanager_app_edit"
+        app:iconTint="?attr/actionmenu_icon_color"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/activity_summary_detail_action_edit_name"
+                android:icon="@drawable/ic_edit"
+                android:title="@string/activity_summary_edit_name_title"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/activity_summary_detail_action_edit_gps"
+                android:icon="@drawable/ic_gps_edit"
+                android:title="@string/activity_summary_detail_select_gpx_track"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/activity_detail_overflowMenu"
         android:icon="@drawable/ic_share"
         android:title="@string/share"
@@ -54,5 +76,3 @@
         </menu>
     </item>
 </menu>
-
-
