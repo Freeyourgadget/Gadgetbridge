@@ -46,6 +46,11 @@ public class FitRecord extends RecordData {
     }
 
     @Nullable
+    public Integer getCadence() {
+        return (Integer) getFieldByNumber(4);
+    }
+
+    @Nullable
     public Double getDistance() {
         return (Double) getFieldByNumber(5);
     }
@@ -56,13 +61,48 @@ public class FitRecord extends RecordData {
     }
 
     @Nullable
-    public Long getEnhancedSpeed() {
-        return (Long) getFieldByNumber(73);
+    public Integer getPower() {
+        return (Integer) getFieldByNumber(7);
+    }
+
+    @Nullable
+    public Long getAccumulatedPower() {
+        return (Long) getFieldByNumber(29);
+    }
+
+    @Nullable
+    public Float getOscillation() {
+        return (Float) getFieldByNumber(39);
+    }
+
+    @Nullable
+    public Integer getActivity() {
+        return (Integer) getFieldByNumber(42);
+    }
+
+    @Nullable
+    public Float getFractionalCadence() {
+        return (Float) getFieldByNumber(53);
+    }
+
+    @Nullable
+    public Double getEnhancedSpeed() {
+        return (Double) getFieldByNumber(73);
     }
 
     @Nullable
     public Double getEnhancedAltitude() {
         return (Double) getFieldByNumber(78);
+    }
+
+    @Nullable
+    public Float getVerticalRatio() {
+        return (Float) getFieldByNumber(83);
+    }
+
+    @Nullable
+    public Float getStepLength() {
+        return (Float) getFieldByNumber(85);
     }
 
     @Nullable

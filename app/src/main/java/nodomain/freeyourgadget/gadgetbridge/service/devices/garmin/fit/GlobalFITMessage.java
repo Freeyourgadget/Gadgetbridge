@@ -139,10 +139,18 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(1, BaseType.SINT32, "longitude", FieldDefinitionFactory.FIELD.COORDINATE),
             new FieldDefinitionPrimitive(2, BaseType.UINT16, "altitude", 5, 500), // m
             new FieldDefinitionPrimitive(3, BaseType.UINT8, "heart_rate"),
+            new FieldDefinitionPrimitive(4, BaseType.UINT8, "cadence"), // rpm
             new FieldDefinitionPrimitive(5, BaseType.UINT32, "distance", 100, 0), // m
             new FieldDefinitionPrimitive(6, BaseType.UINT16, "speed", 1000, 0), // m/s
-            new FieldDefinitionPrimitive(73, BaseType.UINT32, "enhanced_speed"), // mm/s
+            new FieldDefinitionPrimitive(7, BaseType.UINT16, "power"), // watt
+            new FieldDefinitionPrimitive(29, BaseType.UINT32, "accumulated_power"), // watt
+            new FieldDefinitionPrimitive(39, BaseType.UINT16, "oscillation", 10, 0), // mm
+            new FieldDefinitionPrimitive(42, BaseType.ENUM, "activity"),
+            new FieldDefinitionPrimitive(53, BaseType.UINT8, "fractional_cadence", 128, 0), // rpm
+            new FieldDefinitionPrimitive(73, BaseType.UINT32, "enhanced_speed", 1000, 0), // mm/s
             new FieldDefinitionPrimitive(78, BaseType.UINT32, "enhanced_altitude", 5, 500), // m
+            new FieldDefinitionPrimitive(83, BaseType.UINT16, "vertical_ratio", 100, 0), // %
+            new FieldDefinitionPrimitive(85, BaseType.UINT16, "step_length", 10, 0), // mm
             new FieldDefinitionPrimitive(136, BaseType.UINT8, "wrist_heart_rate"),
             new FieldDefinitionPrimitive(143, BaseType.UINT8, "body_battery"),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
