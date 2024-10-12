@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -2379,30 +2381,37 @@ public class HuaweiSupportProvider {
 
     public void onTestNewFunction() {
         // Show to user
-        gbDevice.setBusyTask("Downloading file...");
+        gbDevice.setBusyTask("Downloading files...");
         gbDevice.sendDeviceUpdateIntent(getContext());
+
+        HuaweiTruSleepParser.SleepFileDownloadCallback callback = new HuaweiTruSleepParser.SleepFileDownloadCallback(this) {
+            @Override
+            public void syncComplete(byte[] statusData, byte[] sleepData) {
+                LOG.debug("Sync of TruSleep status and data finished");
+
+                if (statusData == null || statusData.length == 0)
+                    return;
+
+                HuaweiTruSleepParser.TruSleepStatus[] results = HuaweiTruSleepParser.parseState(statusData);
+                if (results.length == 0)
+                    return;
+
+                HuaweiTruSleepParser.TruSleepData data = HuaweiTruSleepParser.parseData(sleepData);
+                HuaweiTruSleepParser.analyze(this.provider, results, data);
+            }
+        };
 
         huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.sleepStateFileRequest(
                 getHuaweiCoordinator().getSupportsTruSleepNewSync(),
                 0,
                 (int) (System.currentTimeMillis() / 1000),
-                new HuaweiFileDownloadManager.FileDownloadCallback() {
-                    @Override
-                    public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
-                        // Handle file contents
-                    }
-                }
+                callback
         ), true);
         huaweiFileDownloadManager.addToQueue(HuaweiFileDownloadManager.FileRequest.sleepDataFileRequest(
                 getHuaweiCoordinator().getSupportsTruSleepNewSync(),
                 0,
                 (int) (System.currentTimeMillis() / 1000),
-                new HuaweiFileDownloadManager.FileDownloadCallback() {
-                    @Override
-                    public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
-                        // Handle file contents
-                    }
-                }
+                callback
         ), true);
     }
 }
