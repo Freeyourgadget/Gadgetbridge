@@ -77,7 +77,7 @@ public class GetWorkoutPaceRequest extends Request {
         LOG.info("Block num: " + packet.blocks.size());
         LOG.info("Blocks   : " + Arrays.toString(packet.blocks.toArray()));
 
-        supportProvider.addWorkoutPaceData(this.databaseId, packet.blocks);
+        supportProvider.addWorkoutPaceData(this.databaseId, packet.blocks, packet.paceNumber);
 
         if (this.workoutNumbers.paceCount > this.number + 1) {
             GetWorkoutPaceRequest nextRequest = new GetWorkoutPaceRequest(

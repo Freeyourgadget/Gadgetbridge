@@ -1672,19 +1672,21 @@ public class HuaweiSupportProvider {
         }
     }
 
-    public void addWorkoutPaceData(Long workoutId, List<Workout.WorkoutPace.Response.Block> paceList) {
+    public void addWorkoutPaceData(Long workoutId, List<Workout.WorkoutPace.Response.Block> paceList, short number) {
         if (workoutId == null)
             return;
 
         try (DBHandler db = GBApplication.acquireDB()) {
             HuaweiWorkoutPaceSampleDao dao = db.getDaoSession().getHuaweiWorkoutPaceSampleDao();
 
-            final DeleteQuery<HuaweiWorkoutPaceSample> tableDeleteQuery = dao.queryBuilder()
-                    .where(HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(workoutId))
-                    .buildDelete();
-            tableDeleteQuery.executeDeleteWithoutDetachingEntities();
+            if(number == 0) {
+                final DeleteQuery<HuaweiWorkoutPaceSample> tableDeleteQuery = dao.queryBuilder()
+                        .where(HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(workoutId))
+                        .buildDelete();
+                tableDeleteQuery.executeDeleteWithoutDetachingEntities();
+            }
 
-            int paceIndex = 0;
+            int paceIndex = (int) dao.queryBuilder().where(HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(workoutId)).count();
             for (Workout.WorkoutPace.Response.Block block : paceList) {
 
                 Integer correction = block.hasCorrection ? (int) block.correction : null;

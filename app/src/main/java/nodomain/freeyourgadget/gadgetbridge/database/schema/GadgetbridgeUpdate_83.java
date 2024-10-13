@@ -32,7 +32,7 @@ public class GadgetbridgeUpdate_83 implements DBUpdateScript {
                     + HuaweiWorkoutPaceSampleDao.Properties.Pace.columnName + ","
                     + HuaweiWorkoutPaceSampleDao.Properties.PointIndex.columnName + ","
                     + HuaweiWorkoutPaceSampleDao.Properties.Correction.columnName + ") "
-                    + " SELECT WORKOUT_ID, 0, DISTANCE, TYPE, PACE, 0, CORRECTION  FROM " +HuaweiWorkoutPaceSampleDao.TABLENAME + "_temp;";
+                    + " SELECT WORKOUT_ID, -1, DISTANCE, TYPE, PACE, 0, CORRECTION  FROM " +HuaweiWorkoutPaceSampleDao.TABLENAME + "_temp;";
 
             db.execSQL(MIGATE_DATA);
 
