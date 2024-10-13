@@ -1722,6 +1722,7 @@
     <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
     <string name="devicetype_garmin_venu">Garmin Venu</string>
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
+    <string name="devicetype_garmin_venu_sq_2">Garmin Venu Sq 2</string>
     <string name="devicetype_garmin_venu_2">Garmin Venu 2</string>
     <string name="devicetype_garmin_venu_2_plus">Garmin Venu 2 Plus</string>
     <string name="devicetype_garmin_venu_2s">Garmin Venu 2S</string>
@@ -1734,6 +1735,7 @@
     <string name="devicetype_garmin_fenix_5x_plus">Garmin Fenix 5X Plus</string>
     <string name="devicetype_garmin_fenix_6">Garmin Fenix 6</string>
     <string name="devicetype_garmin_fenix_6_sapphire">Garmin Fenix 6 Sapphire</string>
+    <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
     <string name="devicetype_garmin_fenix_7s">Garmin Fenix 7S</string>
     <string name="devicetype_garmin_fenix_7_pro">Garmin Fenix 7 Pro</string>
     <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>

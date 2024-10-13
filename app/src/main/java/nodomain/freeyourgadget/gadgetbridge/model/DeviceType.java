@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminF
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix5PlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix5XPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6SSapphireCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6SapphireCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix7ProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix7SCoordinator;
@@ -87,6 +88,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.swim.GarminSw
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenu2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenu2PlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenu2SCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenuSq2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenu3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenu3SCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.venu.GarminVenuCoordinator;
@@ -411,6 +413,7 @@ public enum DeviceType {
     GARMIN_FENIX_5X_PLUS(GarminFenix5XPlusCoordinator.class),
     GARMIN_FENIX_6(GarminFenix6Coordinator.class),
     GARMIN_FENIX_6_SAPPHIRE(GarminFenix6SapphireCoordinator.class),
+    GARMIN_FENIX_6S_SAPPHIRE(GarminFenix6SSapphireCoordinator.class),
     GARMIN_FENIX_7S(GarminFenix7SCoordinator.class),
     GARMIN_FENIX_7_PRO(GarminFenix7ProCoordinator.class),
     GARMIN_FENIX_8(GarminFenix8Coordinator.class),
@@ -438,6 +441,7 @@ public enum DeviceType {
     GARMIN_VIVOMOVE_TREND(GarminVivomoveTrendCoordinator.class),
     GARMIN_VENU(GarminVenuCoordinator.class),
     GARMIN_VENU_SQ(GarminVenuSqCoordinator.class),
+    GARMIN_VENU_SQ_2(GarminVenuSq2Coordinator.class),
     GARMIN_VENU_2(GarminVenu2Coordinator.class),
     GARMIN_VENU_2S(GarminVenu2SCoordinator.class),
     GARMIN_VENU_2_PLUS(GarminVenu2PlusCoordinator.class),
