@@ -373,6 +373,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             int cellNumber = 0;
             for (final Pair<String, ActivitySummaryEntry> entry : entries) {
                 final int columnSpan = entry.getRight().getColumnSpan();
+                if (columnSpan == 2 && cellNumber % 2 != 0) {
+                    // This entry needs 2 columns, so let's move to the next row
+                    cellNumber++;
+                }
                 LinearLayout linearLayout = generateLinearLayout(cellNumber, cellNumber + 2 >= totalCells, columnSpan);
                 entry.getRight().populate(entry.getLeft(), linearLayout, workoutValueFormatter);
                 gridLayout.addView(linearLayout);
