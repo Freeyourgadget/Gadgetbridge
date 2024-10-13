@@ -3507,4 +3507,6 @@
     <string name="mijia_lywsd_comfort_humidity_summary">Tavsiye edilen aralık: 20 - 85</string>
     <string name="mijia_lywsd_comfort_lower">Alt Sınır</string>
     <string name="mijia_lywsd_comfort_upper">Üst Sınır</string>
+    <string name="devicetype_garmin_venu_sq_2">Garmin Venu Sq 2</string>
+    <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
 </resources>
