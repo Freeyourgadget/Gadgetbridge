@@ -43,4 +43,10 @@ public class HuaweiWatchGT4Coordinator extends HuaweiBRCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_huawei_watchgt4;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        // HarmonyOS watch
+        return true;
+    }
 }

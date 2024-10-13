@@ -38,4 +38,10 @@ public class HuaweiWatchGTCyberCoordinator extends HuaweiBRCoordinator {
     public int getDeviceNameResource() {
         return R.string.devicetype_huawei_watchgtcyber;
     }
+
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        // HarmonyOS watch
+        return true;
+    }
 }
