@@ -3509,4 +3509,11 @@
     <string name="mijia_lywsd_comfort_upper">Üst Sınır</string>
     <string name="devicetype_garmin_venu_sq_2">Garmin Venu Sq 2</string>
     <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
+    <string name="inactivity_warnings_minimum_steps_title">Asgari adım sayısı</string>
+    <string name="inactivity_warnings_minimum_steps_summary">Eşik dakikaları boyunca atılması gereken asgari adım sayısı</string>
+    <string name="prefs_hrv_monitoring_title">Kalp Ritmi Değişkenliği izleme</string>
+    <string name="prefs_hrv_monitoring_description">Gün boyunca kalp ritmi değişkenliğini otomatik olarak izle</string>
+    <string name="busy_task_fetch_hrv_data">Kalp Ritmi Değişkenliği verileri alınıyor</string>
+    <string name="pref_dnd_follow_phone_title">Telefon Rahatsız Etme ayarını takip et</string>
+    <string name="pref_dnd_follow_phone_summary">Telefonda Rahatsız Etme etkinleştirildiğinde veya devre dışı bırakıldığında, aygıtta da otomatik olarak geçiş yap</string>
 </resources>
