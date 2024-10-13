@@ -3496,4 +3496,11 @@
     <string name="mijia_lywsd_comfort_temperature_summary">Aangeraden bereik: 19 - 27</string>
     <string name="mijia_lywsd_comfort_humidity_title">Luchtvochtigheid (%)</string>
     <string name="mijia_lywsd_comfort_humidity_summary">Aangeraden bereik: 20 - 85</string>
+    <string name="busy_task_fetch_hrv_data">HRV-gegevens ophalen</string>
+    <string name="pref_dnd_follow_phone_title">Volg niet-storenstand</string>
+    <string name="pref_dnd_follow_phone_summary">Wanneer \"niet storen\" wordt in- of uitgeschakeld op de telefoon, verander de instelling op het apparaat mee</string>
+    <string name="inactivity_warnings_minimum_steps_title">Minimum aantal stappen</string>
+    <string name="inactivity_warnings_minimum_steps_summary">Minimaal aantal stappen dat gezet moet worden binnen de minutendrempel</string>
+    <string name="prefs_hrv_monitoring_title">HRV-monitoring</string>
+    <string name="prefs_hrv_monitoring_description">Automatisch de hele dag de variabiliteit van hartslag in de gaten houden</string>
 </resources>
