@@ -3507,4 +3507,5 @@
     <string name="busy_task_fetch_hrv_data">Obtención datos HRV</string>
     <string name="pref_dnd_follow_phone_summary">Cuando DND está habilitado o deshabilitado en el teléfono, también se activa automáticamente en el dispositivo</string>
     <string name="prefs_hrv_monitoring_description">Monitoriza automáticamente la frecuencia cardíaca a lo largo del día</string>
+    <string name="fmtPaceAverage">Ritmo promedio</string>
 </resources>
