@@ -2188,6 +2188,12 @@
     <string name="hrZoneThreshold">Threshold</string>
     <string name="hrZoneExtreme">Extreme</string>
     <string name="hrZoneMaximum">Maximum</string>
+    <string name="average_respiration_rate">Respiration Rate</string>
+    <string name="max_respiration_rate">Max Respiration Rate</string>
+    <string name="min_respiration_rate">Min Respiration Rate</string>
+    <string name="hrv_sdrr">HRV SDRR</string>
+    <string name="hrv_rmssd">HRV RMSSD</string>
+    <string name="breaths_per_min">breaths/min</string>
     <string name="TrainingEffect">Training Effect</string>
     <string name="aerobicTrainingEffect">Aerobic Effect</string>
     <string name="anaerobicTrainingEffect">Anaerobic Effect</string>
@@ -2264,6 +2270,7 @@
     <string name="strokes_unit">str</string>
     <string name="seconds">sec</string>
     <string name="milliseconds">milliseconds</string>
+    <string name="milliseconds_ms">ms</string>
     <string name="swolf_index">swolf index</string>
     <string name="swim_style">swim style</string>
     <string name="laps_unit">laps</string>

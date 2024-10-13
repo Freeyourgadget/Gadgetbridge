@@ -166,8 +166,43 @@ public class FitSession extends RecordData {
     }
 
     @Nullable
+    public Float getEnhancedAvgRespirationRate() {
+        return (Float) getFieldByNumber(169);
+    }
+
+    @Nullable
+    public Float getEnhancedMaxRespirationRate() {
+        return (Float) getFieldByNumber(170);
+    }
+
+    @Nullable
     public Integer getEstimatedSweatLoss() {
         return (Integer) getFieldByNumber(178);
+    }
+
+    @Nullable
+    public Float getEnhancedMinRespirationRate() {
+        return (Float) getFieldByNumber(180);
+    }
+
+    @Nullable
+    public Integer getAvgSpo2() {
+        return (Integer) getFieldByNumber(194);
+    }
+
+    @Nullable
+    public Integer getAvgStress() {
+        return (Integer) getFieldByNumber(195);
+    }
+
+    @Nullable
+    public Integer getHrvSdrr() {
+        return (Integer) getFieldByNumber(197);
+    }
+
+    @Nullable
+    public Integer getHrvRmssd() {
+        return (Integer) getFieldByNumber(198);
     }
 
     @Nullable

@@ -117,7 +117,14 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(110, BaseType.STRING, 64, "sport_profile_name"),
             new FieldDefinitionPrimitive(124, BaseType.UINT32, "enhanced_avg_speed", 1000, 0), // m/s
             new FieldDefinitionPrimitive(125, BaseType.UINT32, "enhanced_max_speed", 1000, 0), // m/s
+            new FieldDefinitionPrimitive(169, BaseType.UINT16, "enhanced_avg_respiration_rate", 100, 0  ), // breaths/min
+            new FieldDefinitionPrimitive(170, BaseType.UINT16, "enhanced_max_respiration_rate", 100, 0  ), // breaths/min
             new FieldDefinitionPrimitive(178, BaseType.UINT16, "estimated_sweat_loss"), // ml
+            new FieldDefinitionPrimitive(180, BaseType.UINT16, "enhanced_min_respiration_rate", 100, 0  ), // breaths/min
+            new FieldDefinitionPrimitive(194, BaseType.UINT8, "avg_spo2"),
+            new FieldDefinitionPrimitive(195, BaseType.UINT8, "avg_stress"),
+            new FieldDefinitionPrimitive(197, BaseType.UINT8, "hrv_sdrr"), // ms
+            new FieldDefinitionPrimitive(198, BaseType.UINT8, "hrv_rmssd"), // ms
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 

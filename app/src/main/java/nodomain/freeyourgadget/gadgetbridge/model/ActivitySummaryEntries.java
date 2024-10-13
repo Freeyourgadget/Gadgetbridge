@@ -77,6 +77,14 @@ public class ActivitySummaryEntries {
     public static final String HR_ZONE_EXTREME = "hrZoneExtreme";
     public static final String HR_ZONE_MAXIMUM = "hrZoneMaximum";
 
+    public static final String RESPIRATION_AVG = "average_respiration_rate";
+    public static final String RESPIRATION_MAX = "max_respiration_rate";
+    public static final String RESPIRATION_MIN = "min_respiration_rate";
+    public static final String SPO2_AVG = "menuitem_spo2";
+    public static final String STRESS_AVG = "menuitem_stress";
+    public static final String HRV_SDRR = "hrv_sdrr";
+    public static final String HRV_RMSSD = "hrv_rmssd";
+
     public static final String LANE_LENGTH = "laneLength";
     public static final String LAPS = "laps";
     public static final String LAP_PACE_AVERAGE = "averageLapPace";
@@ -118,6 +126,7 @@ public class ActivitySummaryEntries {
     public static final String SETS = "workoutSets";
 
     public static final String UNIT_BPM = "bpm";
+    public static final String UNIT_BREATHS_PER_MIN = "breaths_per_min";
     public static final String UNIT_CM = "cm";
     public static final String UNIT_UNIX_EPOCH_SECONDS = "unix_epoch_seconds";
     public static final String UNIT_KCAL = "calories_unit";
@@ -125,11 +134,12 @@ public class ActivitySummaryEntries {
     public static final String UNIT_LAPS = "laps_unit";
     public static final String UNIT_KILOMETERS = "km";
     public static final String UNIT_METERS = "meters";
+    public static final String UNIT_PERCENTAGE = "%";
     public static final String UNIT_ML_KG_MIN = "ml/kg/min";
     public static final String UNIT_NONE = "";
     public static final String UNIT_HOURS = "hours";
     public static final String UNIT_SECONDS = "seconds";
-    public static final String UNIT_MILLISECONDS = "milliseconds";
+    public static final String UNIT_MILLISECONDS = "milliseconds_ms";
     public static final String UNIT_SECONDS_PER_KM = "seconds_km";
     public static final String UNIT_SECONDS_PER_M = "seconds_m";
     public static final String UNIT_METERS_PER_SECOND = "meters_second";
