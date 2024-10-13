@@ -3497,4 +3497,14 @@
     <string name="number_selected_items">%1d seçildi</string>
     <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="mijia_lywsd_comfort_temperature_summary">Tavsiye edilen aralık: 19 - 27</string>
+    <string name="mijia_lywsd_comfort_level_title">Rahatlık Seviyesi</string>
+    <string name="mijia_lywsd_comfort_level_summary">Görüntülenen emoji için sıcaklık ve nem sınırlarını yapılandırın</string>
+    <string name="mijia_lywsd_comfort_humidity_title">Nem (%)</string>
+    <string name="date_placeholders__date__time">%1s, %1s</string>
+    <string name="mijia_lywsd_comfort_temperature_title">Sıcaklık (°C)</string>
+    <string name="mijia_lywsd_comfort_humidity_summary">Tavsiye edilen aralık: 20 - 85</string>
+    <string name="mijia_lywsd_comfort_lower">Alt Sınır</string>
+    <string name="mijia_lywsd_comfort_upper">Üst Sınır</string>
 </resources>
