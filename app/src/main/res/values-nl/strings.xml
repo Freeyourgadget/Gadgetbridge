@@ -3484,4 +3484,16 @@
     <string name="paceCorrection">Correctie</string>
     <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
+    <string name="mijia_lywsd_comfort_upper">Maximum</string>
+    <string name="mijia_lywsd_comfort_lower">Minimum</string>
+    <string name="date_placeholders__date__time">%1s, %1s</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="mijia_lywsd_comfort_level_summary">Stel de temperatuur- en luchtvochtigheidslimieten in voor de weergegeven emoji</string>
+    <string name="devicetype_garmin_venu_sq_2">Garmin Venu Sq 2</string>
+    <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
+    <string name="mijia_lywsd_comfort_level_title">Comfortniveau</string>
+    <string name="mijia_lywsd_comfort_temperature_title">Temperatuur (°C)</string>
+    <string name="mijia_lywsd_comfort_temperature_summary">Aangeraden bereik: 19 - 27</string>
+    <string name="mijia_lywsd_comfort_humidity_title">Luchtvochtigheid (%)</string>
+    <string name="mijia_lywsd_comfort_humidity_summary">Aangeraden bereik: 20 - 85</string>
 </resources>
