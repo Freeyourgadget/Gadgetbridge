@@ -290,6 +290,9 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
                 ActivityKind activityKind = ActivityKind.fromCode(stats.activityIcon);
                 activityIconView.setImageResource(activityKind.getIcon());
                 activityIconBigView.setImageResource(activityKind.getIcon());
+            } else {
+                activityIconView.setImageResource(R.drawable.ic_activity_unknown_small);
+                activityIconBigView.setImageResource(R.drawable.ic_activity_unknown_small);
             }
 
             activityKindView.setText(activityName);
