@@ -790,6 +790,10 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                     return R.drawable.ic_shortcut;
                 case 27: // Notifications & Alerts
                     return R.drawable.ic_notifications;
+                case 30: // Wrist heart rate frequency
+                    return R.drawable.ic_heartrate;
+                case 38: // Alarms
+                    return R.drawable.ic_access_alarms;
                 case 5: // Sensors & accessories
                 case 46: // Watch Sensors
                     return R.drawable.ic_sensor_calibration;
