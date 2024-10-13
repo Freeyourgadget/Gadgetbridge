@@ -3494,4 +3494,6 @@
     <string name="mijia_lywsd_comfort_humidity_title">湿度</string>
     <string name="mijia_lywsd_comfort_humidity_summary">推荐范围： 20 - 85</string>
     <string name="mijia_lywsd_comfort_lower">下限</string>
+    <string name="devicetype_garmin_venu_sq_2">佳明 Venu Sq 2</string>
+    <string name="devicetype_garmin_fenix_6s_sapphire">佳明 Fenix 6S Sapphire</string>
 </resources>
