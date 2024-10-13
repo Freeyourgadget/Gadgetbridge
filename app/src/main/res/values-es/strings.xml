@@ -3500,4 +3500,11 @@
     <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
     <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
     <string name="devicetype_garmin_venu_sq_2">Garmin Venu Sq 2</string>
+    <string name="pref_dnd_follow_phone_title">Siga la configuración DND del teléfono</string>
+    <string name="inactivity_warnings_minimum_steps_title">Cantidad mínima de pasos</string>
+    <string name="inactivity_warnings_minimum_steps_summary">Cantidad mínima de pasos que se deben realizar durante los minutos límite</string>
+    <string name="prefs_hrv_monitoring_title">Monitoreo del ritmo cardíaco</string>
+    <string name="busy_task_fetch_hrv_data">Obtención datos HRV</string>
+    <string name="pref_dnd_follow_phone_summary">Cuando DND está habilitado o deshabilitado en el teléfono, también se activa automáticamente en el dispositivo</string>
+    <string name="prefs_hrv_monitoring_description">Monitoriza automáticamente la frecuencia cardíaca a lo largo del día</string>
 </resources>
