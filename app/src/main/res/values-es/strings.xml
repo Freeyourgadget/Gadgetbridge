@@ -3496,4 +3496,8 @@
     <string name="mijia_lywsd_comfort_humidity_summary">Rango recomendado: 20 - 85</string>
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
     <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
+    <string name="date_placeholders__date__time">%1s, %1s</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
+    <string name="devicetype_garmin_venu_sq_2">Garmin Venu Sq 2</string>
 </resources>
