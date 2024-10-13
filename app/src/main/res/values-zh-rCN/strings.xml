@@ -3484,4 +3484,14 @@
     <string name="activity_detail_share_json_details">分享 JSON 详情</string>
     <string name="devicetype_garmin_fenix_8">佳明 Fenix 8</string>
     <string name="devicetype_garmin_venu_sq">佳明 Venu Sq</string>
+    <string name="mijia_lywsd_comfort_upper">上限</string>
+    <string name="date_placeholders__date__time">%1s，%1s</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="mijia_lywsd_comfort_level_title">舒适度</string>
+    <string name="mijia_lywsd_comfort_level_summary">配置显示表情符号的温度和湿度限制</string>
+    <string name="mijia_lywsd_comfort_temperature_title">摄氏度</string>
+    <string name="mijia_lywsd_comfort_temperature_summary">推荐范围：19 - 27</string>
+    <string name="mijia_lywsd_comfort_humidity_title">湿度</string>
+    <string name="mijia_lywsd_comfort_humidity_summary">推荐范围： 20 - 85</string>
+    <string name="mijia_lywsd_comfort_lower">下限</string>
 </resources>
