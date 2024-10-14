@@ -1474,8 +1474,8 @@
     <string name="maxCadence">Max rytmus</string>
     <string name="spm">kroky/min</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Zapnout displej při zvednutí během režimu Nerušit</string>
-    <string name="minHR">Min Tepová frekvence</string>
-    <string name="maxHR">Max Tepová frekvence</string>
+    <string name="minHR">Min. tepová frekvence</string>
+    <string name="maxHR">Max. tepová frekvence</string>
     <string name="minCadence">Min rytmus</string>
     <string name="pref_header_sony_equalizer_bands">Rozsahy</string>
     <string name="sony_audio_upsampling">Převzorkování zvuku</string>
@@ -3496,4 +3496,19 @@
     <string name="devicetype_garmin_fenix_6s_sapphire">Garmin Fenix 6S Sapphire</string>
     <string name="mijia_lywsd_comfort_level_summary">Nastavte si omezení teploty a vlhkosti pro nastavené emotikony</string>
     <string name="mijia_lywsd_comfort_upper">Horní limit</string>
+    <string name="busy_task_fetch_hrv_data">Získávání dat HRV</string>
+    <string name="pref_dnd_follow_phone_title">Podle nastavení režimu Nerušit telefonu</string>
+    <string name="pref_dnd_follow_phone_summary">Pokud je na telefonu povolen nebo zakázán režim Nerušit, automaticky jej přepnout i na zařízení</string>
+    <string name="inactivity_warnings_minimum_steps_title">Minimální počet kroků</string>
+    <string name="min_respiration_rate">Min. rychlost dýchání</string>
+    <string name="breaths_per_min">nádechů/min</string>
+    <string name="fmtPaceAverage">Průměrné tempo</string>
+    <string name="milliseconds_ms">ms</string>
+    <string name="average_respiration_rate">Rychlost dýchání</string>
+    <string name="max_respiration_rate">Max. rychlost dýchání</string>
+    <string name="hrv_sdrr">HRV SDRR</string>
+    <string name="hrv_rmssd">HRV RMSSD</string>
+    <string name="inactivity_warnings_minimum_steps_summary">Minimální počet kroků, které je třeba udělat během prahových minut</string>
+    <string name="prefs_hrv_monitoring_title">Sledování HRV</string>
+    <string name="prefs_hrv_monitoring_description">Automaticky sledovat variabilitu srdeční frekvence během dne</string>
 </resources>
