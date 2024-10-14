@@ -3503,4 +3503,12 @@
     <string name="inactivity_warnings_minimum_steps_summary">Minimaal aantal stappen dat gezet moet worden binnen de minutendrempel</string>
     <string name="prefs_hrv_monitoring_title">HRV-monitoring</string>
     <string name="prefs_hrv_monitoring_description">Automatisch de hele dag de variabiliteit van hartslag in de gaten houden</string>
+    <string name="average_respiration_rate">Ademhalingsfrequentie</string>
+    <string name="max_respiration_rate">Maximale ademhalingsfrequentie</string>
+    <string name="min_respiration_rate">Minimale ademhalingsfrequentie</string>
+    <string name="hrv_sdrr">HRV SDRR</string>
+    <string name="hrv_rmssd">HRV RMSSD</string>
+    <string name="breaths_per_min">ademhaling/min</string>
+    <string name="fmtPaceAverage">Tempo gemiddeld</string>
+    <string name="milliseconds_ms">ms</string>
 </resources>
