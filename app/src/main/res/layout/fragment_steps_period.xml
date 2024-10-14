@@ -64,7 +64,7 @@
             </LinearLayout>
             <LinearLayout
                 style="@style/GridTile"
-                android:layout_marginEnd="1dp"
+                android:layout_marginStart="1dp"
                 android:layout_marginTop="2dp"
                 >
 
