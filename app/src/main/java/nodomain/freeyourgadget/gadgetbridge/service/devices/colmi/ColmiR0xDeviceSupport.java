@@ -343,6 +343,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
             // Big data responses can arrive in multiple packets that need to be concatenated
             if (bigDataPacket != null) {
                 LOG.debug("Received {} bytes on big data characteristic while waiting for follow-up data", value.length);
+                bigDataPacket.rewind();
                 ByteBuffer concatenated = ByteBuffer
                         .allocate(bigDataPacket.limit() + value.length)
                         .put(bigDataPacket)
