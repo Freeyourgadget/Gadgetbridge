@@ -296,7 +296,7 @@
     <string name="miband_prefs_device_time_offset_hours">Časový posun zařízení v hodinách (pro zjišťování spánku směnařů)</string>
     <string name="miband2_prefs_dateformat">Formát data</string>
     <string name="dateformat_time">Čas</string>
-    <string name="dateformat_date_time">Čas a datum</string>
+    <string name="dateformat_date_time"><![CDATA[Čas a datum]]></string>
     <string name="mi2_prefs_activate_display_on_lift">Zapnout displej při zvednutí</string>
     <string name="FetchActivityOperation_about_to_transfer_since">Přenáším data od %1$s</string>
     <string name="waiting_for_reconnect">Čekání na znovupřipojení</string>
@@ -398,7 +398,7 @@
     <string name="dbmanagementactivity_error_importing_shared">Chyba při importu preferencí: %1$s</string>
     <string name="mi2_fw_installhandler_fw53_hint">Před instalací tohoto firmwaru musíte nainstalovat verzi %1$s!</string>
     <string name="mi2_enable_text_notifications">Textové upozornění</string>
-    <string name="mi2_enable_text_notifications_summary">Vyžaduje aby byl nainstalován font &gt;= 1.0.1.28 and Mili_pro.ft*.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Vyžaduje nainstalovaný firmware >= 1.0.1.28 and Mili_pro.ft*]]></string>
     <string name="off">Vypnuto</string>
     <string name="mi2_dnd_off">Vypnuto</string>
     <string name="mi2_dnd_automatic">Automaticky (detekce spánku)</string>
@@ -3511,4 +3511,5 @@
     <string name="inactivity_warnings_minimum_steps_summary">Minimální počet kroků, které je třeba udělat během prahových minut</string>
     <string name="prefs_hrv_monitoring_title">Sledování HRV</string>
     <string name="prefs_hrv_monitoring_description">Automaticky sledovat variabilitu srdeční frekvence během dne</string>
+    <string name="devicetype_huawei_watchd2">Huawei Watch D2</string>
 </resources>
