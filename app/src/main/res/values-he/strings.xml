@@ -23,9 +23,9 @@
     <string name="appmananger_app_reinstall">התקנה מחדש</string>
     <string name="appmanager_app_openinstore">חיפוש בחנות היישומונים של Pebble</string>
     <string name="appmanager_health_activate">הפעלה</string>
-    <string name="appmanager_health_deactivate">נטרול</string>
+    <string name="appmanager_health_deactivate">כיבוי</string>
     <string name="appmanager_hrm_activate">הפעלת מעקב דופק</string>
-    <string name="appmanager_hrm_deactivate">נטרול מעקב דופק</string>
+    <string name="appmanager_hrm_deactivate">השבתת מעקב דופק</string>
     <string name="appmanager_weather_activate">הפעלת יישומון מזג האוויר של המערכת</string>
     <string name="appmanager_weather_deactivate">השבתת יישומון מזג האוויר של המערכת</string>
     <string name="appmanager_weather_install_provider">התקנת יישומון דיווח מזג האוויר</string>
@@ -92,7 +92,7 @@
     <string name="pref_title_pebble_sync_misfit">סנכרון Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">סנכרון Morpheuz</string>
     <string name="pref_title_enable_outgoing_call">תמיכה בשיחות יוצאות</string>
-    <string name="pref_summary_enable_outgoing_call">נטרול אפשרות זו גם תנטרל את הרטט לשיחות יוצאות ב־Pebble 2/LE</string>
+    <string name="pref_summary_enable_outgoing_call">השבתת אפשרות זו גם תשבית את הרטט לשיחות יוצאות ב־Pebble 2/LE</string>
     <string name="pref_title_enable_pebblekit">לאפשר גישה ליישומוני צד שלישי באנדרואיד</string>
     <string name="pref_summary_enable_pebblekit">הפעלת תמיכה ניסיונית ביישומוני Android באמצעות PebbleKit</string>
     <string name="pref_title_sunrise_sunset">זריחה ושקיעה</string>
@@ -138,7 +138,7 @@
     <string name="test_notification">התראה לבדיקה</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">זוהי התראה לבדיקה מ־Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">אין תמיכה ב־Bluetooth.</string>
-    <string name="bluetooth_is_disabled_">ה־Bluetooth מנוטרל.</string>
+    <string name="bluetooth_is_disabled_">ה־Bluetooth מושבת.</string>
     <string name="tap_connected_device_for_app_mananger">נקישה על ההתקן המחובר למנהל היישומים</string>
     <string name="tap_connected_device_for_activity">נקישה על ההתקן המחובר לפעילות</string>
     <string name="tap_connected_device_for_vibration">נקישה על ההתקן המחובר לרטט</string>
@@ -181,7 +181,7 @@
     <string name="miband_pairing_using_dummy_userdata">לא ניתנו נתוני משתמש, נעשה שימוש בנתוני דמה לבינתיים.</string>
     <string name="miband_pairing_tap_hint">כאשר ה־Mi Band שלך רוטט ומהבהב, יש לגעת בו מספר פעמים ברצף.</string>
     <string name="appinstaller_install">התקנה</string>
-    <string name="discovery_connected_devices_hint">יש להפעיל את האפשרות לאיתור ההתקן שלך. התקנים שכבר מחוברים כעת לא יתגלו. יש להפעיל מיקום (GPS) באנדרואיד 6+. יש לנטרל את שומר הפרטיות עבור Gadgetbridge כיוון שתכונה זו עשויה להקריס ולהפעיל מחדש את הטלפון שלך. אם לא נמצא אף התקן לאחר מספר דקות יש לנסות שוב לאחר הפעלת הטלפון הנייד שלך מחדש. </string>
+    <string name="discovery_connected_devices_hint">יש להפעיל את האפשרות לאיתור ההתקן שלך. התקנים שכבר מחוברים כעת לא יתגלו. יש להפעיל מיקום (GPS) באנדרואיד 6+. יש לכבות את שומר הפרטיות עבור Gadgetbridge כיוון שתכונה זו עשויה להקריס ולהפעיל מחדש את הטלפון שלך. אם לא נמצא אף התקן לאחר מספר דקות יש לנסות שוב לאחר הפעלת הטלפון הנייד שלך מחדש.</string>
     <string name="discovery_note">לתשומת לבך:</string>
     <string name="candidate_item_device_image">תמונת ההתקן</string>
     <string name="miband_prefs_alias">שם/כינוי</string>
@@ -278,7 +278,7 @@
     <string name="abstract_chart_fragment_kind_deep_sleep">שינה עמוקה</string>
     <string name="abstract_chart_fragment_kind_not_worn">לא נענד</string>
     <string name="device_not_connected">לא מחובר.</string>
-    <string name="user_feedback_all_alarms_disabled">כל ההתראות מנוטרלות</string>
+    <string name="user_feedback_all_alarms_disabled">כל ההתראות מושבתות</string>
     <string name="pref_title_keep_data_on_device">להשאיר את נתוני הפעילות בהתקן</string>
     <string name="miband_fwinstaller_incompatible_version">קושחה בלתי נתמכת</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">קושחה זו אינה נתמכת בהתקן</string>
@@ -348,7 +348,7 @@
     <string name="pebble_pairing_hint">במסך של התקן האנדרואיד שלך אמורה לקפוץ חלונית צימוד. אם החלונית לא מופיעה, יש לחפש במגירת הדיווחים ולאשר את בקשת הצימוד. לאחר מכן יש לאשר את בקשת הצימוד ב־Pebble שלך.</string>
     <string name="weather_notification_label">נא לוודא שערכת עיצוב זו מופעלת ביישומון דיווח מזג האוויר כדי לקבל נתוני מזג אוויר ל־Pebble שלך.\n\nלא נדרשות כאן הגדרות.\n\nניתן להפעיל את יישומון מזג האוויר המערכתי של ה־Pebble שלך ממנהל היישומונים.\n\nמסיכות השעון התומכות יציגו את מזג האוויר אוטומטית.</string>
     <string name="pref_title_setup_bt_pairing">הפעלת צימוד Bluetooth</string>
-    <string name="pref_summary_setup_bt_pairing">יש לנטרל זאת אם עולות תקלות בחיבור</string>
+    <string name="pref_summary_setup_bt_pairing">יש להשבית את זה אם קורות תקלות בחיבור</string>
     <string name="unit_metric">מטרית</string>
     <string name="unit_imperial">אימפריאלית</string>
     <string name="timeformat_24h">24ש׳</string>
@@ -3015,4 +3015,17 @@
     <string name="pref_header_deprecated_functionalities">יכולות עבר</string>
     <string name="pref_header_deprecated_functionalities_warning">היכולות הבאות יצאו מכלל שימוש והן תוסרנה בקרוב מהתוכנה.
 \nאם צריך להפעיל את אחת מההגדרות הבאות כדאי ליצור קשר עם צוות המיזם.</string>
+    <string name="pref_summary_sync_birthdays">לסנכרן את ימי ההולדת של אנשי הקשר לצד אירועי לוח שנה</string>
+    <string name="pref_title_sync_birthdays">סנכרון ימי הולדת</string>
+    <string name="busy_task_fetch_hrv_data">נתוני שונות קצב לב מעודכנים</string>
+    <string name="milliseconds_ms">מ״ש</string>
+    <string name="prefs_hrv_monitoring_description">למדוד שונות קצב לב במהלך היום</string>
+    <string name="pref_summary_calendar_lookahead">לסנכרן עד %1s ימים של אירועי לוח שנה</string>
+    <string name="pref_title_calendar_lookahead">מספר הימים מראש</string>
+    <string name="notif_battery_full">הסוללה של %1$s מלאה</string>
+    <string name="gps_glonass">GPS + GLONASS</string>
+    <string name="hr_resting">מנוחה</string>
+    <string name="hr_maximum">מרבי</string>
+    <string name="hr_minimum">מזערי</string>
+    <string name="hr_average">ממוצע</string>
 </resources>
