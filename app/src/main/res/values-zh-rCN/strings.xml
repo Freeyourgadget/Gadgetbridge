@@ -3496,4 +3496,19 @@
     <string name="mijia_lywsd_comfort_lower">下限</string>
     <string name="devicetype_garmin_venu_sq_2">佳明 Venu Sq 2</string>
     <string name="devicetype_garmin_fenix_6s_sapphire">佳明 Fenix 6S Sapphire</string>
+    <string name="busy_task_fetch_hrv_data">获取心率变异性数据</string>
+    <string name="hrv_sdrr">心跳间隔时间的标准偏差</string>
+    <string name="hrv_rmssd">HRV典型时域指标</string>
+    <string name="inactivity_warnings_minimum_steps_title">最少步数</string>
+    <string name="average_respiration_rate">呼吸频率</string>
+    <string name="max_respiration_rate">最大呼吸率</string>
+    <string name="min_respiration_rate">最低呼吸频率</string>
+    <string name="fmtPaceAverage">平均配速</string>
+    <string name="pref_dnd_follow_phone_title">遵循电话免打扰设置</string>
+    <string name="pref_dnd_follow_phone_summary">当手机上启用或禁用免打扰时，也会在设备上自动切换</string>
+    <string name="breaths_per_min">呼吸/分钟</string>
+    <string name="milliseconds_ms">毫秒</string>
+    <string name="inactivity_warnings_minimum_steps_summary">在阈值分钟内需要采取的最少步数</string>
+    <string name="prefs_hrv_monitoring_title">心率监控</string>
+    <string name="prefs_hrv_monitoring_description">自动监测全天心率变异性</string>
 </resources>
