@@ -152,7 +152,7 @@
     <string name="controlcenter_start_activitymonitor">Etkinliğiniz</string>
     <string name="controlcenter_start_configure_alarms">Alarmları yapılandır</string>
     <string name="controlcenter_take_screenshot">Ekran Görüntüsü Al</string>
-    <string name="dateformat_date_time">Saat ve tarih</string>
+    <string name="dateformat_date_time"><![CDATA[Saat ve tarih]]></string>
     <string name="dateformat_time">Saat</string>
     <string name="dbaccess_error_executing">\'%1$s\' çalıştırılırken hata oluştu</string>
     <string name="dbmanagementactivity_database_successfully_deleted">Veriler silindi.</string>
@@ -389,7 +389,7 @@
     <string name="mi2_dnd_off">Kapalı</string>
     <string name="mi2_dnd_scheduled">Zamanlandı (zaman aralığı)</string>
     <string name="mi2_enable_text_notifications">Metin bildirimleri</string>
-    <string name="mi2_enable_text_notifications_summary">1.0.1.28 veya üstü bir ürün yazılımı ve Mili_pro.ft* kurulu olması gerekiyor.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[1.0.1.28 veya üstü bir ürün yazılımı ve Mili_pro.ft* kurulu olması gerekiyor.]]></string>
     <string name="mi2_fw_installhandler_fw53_hint">Bu ürün yazılımını kurmadan önce %1$s sürümünü kurmalısınız!</string>
     <string name="mi2_prefs_activate_display_on_lift">Kaldırma anında ekranı etkinleştir</string>
     <string name="mi2_prefs_button_action">Düğme eylemini etkinleştir</string>
@@ -3524,4 +3524,5 @@
     <string name="hrv_sdrr">Kalp Ritmi Değişkenliği SDDR</string>
     <string name="breaths_per_min">nefes/dak</string>
     <string name="fmtPaceAverage">Hız ortalaması</string>
+    <string name="devicetype_huawei_watchd2">Huawei Watch D2</string>
 </resources>
