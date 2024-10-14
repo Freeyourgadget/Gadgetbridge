@@ -4,8 +4,8 @@
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
 * Initial support for Colmi R02/R03/R06 smart rings
-* Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6/8, Forerunner 165/255/255S Music/245 Music/265S/955/965, Venu/Venu Sq/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
-* Initial support for Huawei Watch 3 / 3 Pro / 4 Pro / GT 3 SE / GT 5 / GT 5 Pro / GT Cyber / GT Runner
+* Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6/6S Sapphire/8, Forerunner 165/255/255S Music/245 Music/265S/955/965, Venu/Venu Sq/Venu Sq 2/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
+* Initial support for Huawei Watch 3 / 3 Pro / 4 Pro / D2 / GT 3 SE / GT 5 / GT 5 Pro / GT Cyber / GT Runner
 * Initial support for Honor Watch GS 3 / Watch GS Pro
 * Initial support for Moondrop Space Travel
 * Initial support for Mijia XMWSDJ04MMC
@@ -61,6 +61,7 @@
 * Fossil HR: Minor watchface fixes
 * Garmin: Display awake time during sleep
 * Garmin: Display HRV and body energy
+* Garmin: Display resting heart rate
 * Garmin: Fetch SKIP_TEMP files
 * Garmin: Fix agps upload for some URLs
 * Garmin: Fix auto-activity fetch on some devices
@@ -85,11 +86,12 @@
 * Huawei: Calendar sync support
 * Huawei: Contacts uploading support
 * Huawei: Continuous skin temperature measurement switch
+* Huawei: Enable emoji for HarmonyOS watches
 * Huawei: Fix crash when notification has no text
 * Huawei: Fix initialization issues on some watches
 * Huawei: Fix some reconnection issues
 * Huawei: Fix watchface upload, activity sync, event alarms, weather for some devices
-* Huawei: Fix workout altitude and workout re-parsing
+* Huawei: Fix workout altitude, pace, workout re-parsing
 * Huawei: Improve device initialization
 * Huawei: Improve watchface install support
 * Huawei: Improve weather support
@@ -103,6 +105,7 @@
 * Mi Band: Migrate global preferences to device-specific
 * Mi Composition Scale: Add alternative bluetooth name
 * Mi Composition Scale: Persist and display weight samples
+* Mijia LYWSD/XMWSDJ: Add comfort level preference
 * Pebble: Migrate global preferences to device-specific
 * Redmi Smart Band Pro: Fix crash on connection and activity sync issues
 * Sony Headphones: Enable read aloud incoming notifications and auto call pickup
@@ -117,11 +120,14 @@
 * Use default system TTS language
 * Xiaomi Protobuf: Allow re-parse activity from storage
 * Xiaomi Protobuf: Enable watchface upload for all devices
+* Xiaomi Protobuf: Show watchface preview
+* Xiaomi Protobuf: Fix watchface install on some watches
 * Xiaomi Protobuf: Fix deleting first widget screen
 * Xiaomi Protobuf: Improve workout parsing for some devices
 * Zepp OS 3: Fix file transfer (notification icons, gpx upload, agps updates)
 * Zepp OS 3.5 / 4: Fix shortcuts, shortcut cards, menu items
 * Zepp OS: Add VO2 Max support
+* Zepp OS: Display resting heart rate
 * Zepp OS: Fix reminder creation in some cases
 * ZeTime: Migrate global preferences to device-specific
 
