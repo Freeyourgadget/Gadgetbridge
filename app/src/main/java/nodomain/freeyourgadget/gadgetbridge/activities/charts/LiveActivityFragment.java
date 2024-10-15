@@ -348,7 +348,7 @@ public class LiveActivityFragment extends AbstractActivityChartFragment<ChartsDa
         renderCharts();
 
         // have to enable it again and again to keep it measuring
-        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
+        GBApplication.deviceService(getChartsHost().getDevice()).onEnableRealtimeHeartRateMeasurement(true);
     }
 
     private int getPulseIntervalMillis() {
@@ -367,8 +367,8 @@ public class LiveActivityFragment extends AbstractActivityChartFragment<ChartsDa
             return;
         }
 
-        GBApplication.deviceService().onEnableRealtimeSteps(enable);
-        GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(enable);
+        GBApplication.deviceService(getChartsHost().getDevice()).onEnableRealtimeSteps(enable);
+        GBApplication.deviceService(getChartsHost().getDevice()).onEnableRealtimeHeartRateMeasurement(enable);
         if (enable) {
             if (getActivity() != null) {
                 getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
