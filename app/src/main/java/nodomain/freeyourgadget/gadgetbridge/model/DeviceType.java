@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.cmfwatchpro.CmfWatchProCoord
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.ColmiR02Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.ColmiR03Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.colmi.ColmiR06Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.colmi.ColmiR10Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.cycling_sensor.coordinator.CyclingSensorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.divoom.PixooCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
@@ -533,6 +534,7 @@ public enum DeviceType {
     COLMI_R02(ColmiR02Coordinator.class),
     COLMI_R03(ColmiR03Coordinator.class),
     COLMI_R06(ColmiR06Coordinator.class),
+    COLMI_R10(ColmiR10Coordinator.class),
     SCANNABLE(ScannableDeviceCoordinator.class),
     CYCLING_SENSOR(CyclingSensorCoordinator.class),
     BLE_GATT_CLIENT(BleGattClientCoordinator.class),
