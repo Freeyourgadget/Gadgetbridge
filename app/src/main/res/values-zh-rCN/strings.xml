@@ -320,7 +320,7 @@
     <string name="miband_prefs_device_time_offset_hours">设备时间偏移 (用于检测倒班工作人员的睡眠)</string>
     <string name="miband2_prefs_dateformat">日期格式</string>
     <string name="dateformat_time">仅时间</string>
-    <string name="dateformat_date_time">时间和日期</string>
+    <string name="dateformat_date_time"><![CDATA[时间和日期]]></string>
     <string name="mi2_prefs_button_actions">按钮操作</string>
     <string name="mi2_prefs_button_actions_summary">指定按钮按下时的操作</string>
     <string name="mi2_prefs_button_press_count">按钮按下计数</string>
@@ -424,7 +424,7 @@
     <string name="miband2_prefs_timeformat">小米手环2：时间格式</string>
     <string name="mi2_fw_installhandler_fw53_hint">您需要安装版本号为%1$s的固件在安装此固件前！</string>
     <string name="mi2_enable_text_notifications">文本通知</string>
-    <string name="mi2_enable_text_notifications_summary">需要已安装固件1.0.1.28 和 Mili_pro. ft * 。</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[ 需要已安装固件版大于或等于 1.0.1.28 和 Mili_pro. ft * 。]]></string>
     <string name="off">关</string>
     <string name="mi2_dnd_off">关</string>
     <string name="mi2_dnd_automatic">自动 (睡眠检测)</string>
@@ -3511,4 +3511,5 @@
     <string name="inactivity_warnings_minimum_steps_summary">在阈值分钟内需要采取的最少步数</string>
     <string name="prefs_hrv_monitoring_title">心率监控</string>
     <string name="prefs_hrv_monitoring_description">自动监测全天心率变异性</string>
+    <string name="devicetype_huawei_watchd2">华为 Watch D2</string>
 </resources>
