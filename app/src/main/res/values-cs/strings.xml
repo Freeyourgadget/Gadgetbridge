@@ -3512,4 +3512,13 @@
     <string name="prefs_hrv_monitoring_title">Sledování HRV</string>
     <string name="prefs_hrv_monitoring_description">Automaticky sledovat variabilitu srdeční frekvence během dne</string>
     <string name="devicetype_huawei_watchd2">Huawei Watch D2</string>
+    <string name="idasen_control_button_mid">MID</string>
+    <string name="devicetype_idasen">Stůl IKEA Idasen</string>
+    <string name="devicetype_colmi_r10">Colmi R10</string>
+    <string name="idasen_pref_stand_height">Výška stojící pozice (v centimetrech)</string>
+    <string name="idasen_control_button_sit">SIT</string>
+    <string name="idasen_control_button_stand">STAND</string>
+    <string name="idasen_pref_sit_height">Výška sedící pozice (v centimetrech)</string>
+    <string name="idasen_pref_value_warning">Hodnota musí být mezi 62 a 126 cm</string>
+    <string name="idasen_pref_mid_height">Výška prostřední pozice (v centimetrech)</string>
 </resources>
