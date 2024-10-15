@@ -192,7 +192,7 @@
     <string name="pbw_install_handler_unable_to_install">Nie można zainstalować podanego pliku : %1$s</string>
     <string name="pbw_install_handler_hw_revision_mismatch">Instalacja tego oprogramowania jest niemożliwa, ponieważ nie pasuje do wersji sprzętowej twojego Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Proszę czekać na określanie statusu instalacji…</string>
-    <string name="notif_battery_low_title">Bateria gadżetu prawie rozładowana!</string>
+    <string name="notif_battery_low_title">Gadżet prawie rozładowany!</string>
     <string name="notif_battery_low_percent">%1$s pozostało baterii: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Ostatnie ładowanie: %s 
 \n</string>
@@ -318,7 +318,7 @@
     <string name="clock">Zegar</string>
     <string name="heart_rate">Tętno</string>
     <string name="battery">Bateria</string>
-    <string name="dateformat_date_time">Data i czas</string>
+    <string name="dateformat_date_time"><![CDATA[Data i czas]]></string>
     <string name="mi2_prefs_button_actions">Akcje przycisku</string>
     <string name="mi2_prefs_button_actions_summary">Wybierz akcję po przyciśnięciu przycisku</string>
     <string name="mi2_prefs_button_press_count">Licznik wciśnięć przycisku</string>
@@ -2800,9 +2800,9 @@
     <string name="minutes_20">20 minut</string>
     <string name="sleep_colored_stats_deep">Głęboki</string>
     <string name="sleep_colored_stats_light">Płytki</string>
-    <string name="sleep_colored_stats_deep_avg">Głęboki średni</string>
-    <string name="sleep_colored_stats_light_avg">Płytki średni</string>
-    <string name="sleep_colored_stats_rem_avg">REM średni</string>
+    <string name="sleep_colored_stats_deep_avg">Średnia głębokiegio</string>
+    <string name="sleep_colored_stats_light_avg">Średnia płytkiego</string>
+    <string name="sleep_colored_stats_rem_avg">Średnia REM</string>
     <string name="stats_empty_value">-</string>
     <string name="pref_header_audio">Audio</string>
     <string name="minutes_60">60 minut</string>
@@ -2862,7 +2862,7 @@
     <string name="armenian">Ormiański</string>
     <string name="devicetype_garmin_vivomove_trend">Garmin Vívomove Trend</string>
     <string name="swolfMin">Minimalny swolf</string>
-    <string name="notif_battery_full_title">Bateria gadżetu naładowana!</string>
+    <string name="notif_battery_full_title">Gadżet naładowany!</string>
     <string name="url">URL</string>
     <string name="authentication_failed_check_key">Uwierzytelnienie nie powiodło się, proszę sprawdź klucz autoryzacji</string>
     <string name="battery_full_notify_enabled">Powiadom o pełnym naładowaniu baterii</string>
@@ -3431,4 +3431,10 @@
     <string name="pref_title_sync_birthdays">Synchronizuj urodziny</string>
     <string name="contact_birthday">Urodziny: %1s</string>
     <string name="birthdays">Urodziny</string>
+    <string name="pref_dnd_follow_phone_summary">Gdy tryb „bie przeszkadzać” jest włączany, lub wyłączany w telefonie, automatycznie przełącz go również na urządzeniu</string>
+    <string name="date_placeholders__date__time">%1s, %1s</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="pref_dnd_follow_phone_title">Śledź ustawienia trybu „nie przeszkadzać” w telefonie</string>
+    <string name="pref_title_calendar_lookahead">Liczba kolejnych dni</string>
+    <string name="pref_summary_calendar_lookahead">Synchronizuj wydarzenia z kalendarza do %1s dni</string>
 </resources>
