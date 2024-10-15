@@ -405,7 +405,7 @@
     <string name="miband2_prefs_timeformat">Mi2: formato de hora</string>
     <string name="mi2_fw_installhandler_fw53_hint">¡Debes instalar la versión %1$s antes de instalar este firmware!</string>
     <string name="mi2_enable_text_notifications">Notificaciones de texto</string>
-    <string name="mi2_enable_text_notifications_summary">Requiere firmware &gt;= 1.0.1.28 y tener Mili_pro.ft* instalado.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 y Mili_pro.ft* instalados.]]></string>
     <string name="off">Apagado</string>
     <string name="mi2_dnd_off">Apagado</string>
     <string name="mi2_dnd_automatic">Automático (detección de sueño)</string>
@@ -3508,4 +3508,21 @@
     <string name="pref_dnd_follow_phone_summary">Cuando DND está habilitado o deshabilitado en el teléfono, también se activa automáticamente en el dispositivo</string>
     <string name="prefs_hrv_monitoring_description">Monitoriza automáticamente la frecuencia cardíaca a lo largo del día</string>
     <string name="fmtPaceAverage">Ritmo promedio</string>
+    <string name="devicetype_huawei_watchd2">Huawei Watch D2</string>
+    <string name="average_respiration_rate">Frecuencia de la respiración</string>
+    <string name="breaths_per_min">Respiraciones por minuto</string>
+    <string name="devicetype_idasen">Escritorios de trabajo IDÅSEN de IKEA</string>
+    <string name="min_respiration_rate">Frecuencia mínima de la respiración</string>
+    <string name="hrv_sdrr">VFC SDRR</string>
+    <string name="idasen_control_button_sit">SENTADO</string>
+    <string name="idasen_control_button_stand">DE PIE</string>
+    <string name="idasen_pref_value_warning">El valor debe estar comprendido entre 62 y 126 cm</string>
+    <string name="devicetype_colmi_r10">Colmi R10</string>
+    <string name="idasen_control_button_mid">MEDIO</string>
+    <string name="max_respiration_rate">Frecuencia máxima de la respiración</string>
+    <string name="hrv_rmssd">RMSSD de la variación del ritmo cardíaco</string>
+    <string name="idasen_pref_sit_height">Altura de la posición sentado (en centímetros)</string>
+    <string name="idasen_pref_mid_height">Altura de posición media (en centímetros)</string>
+    <string name="idasen_pref_stand_height">Altura de la posición de pie (en centímetros)</string>
+    <string name="milliseconds_ms">ms</string>
 </resources>
