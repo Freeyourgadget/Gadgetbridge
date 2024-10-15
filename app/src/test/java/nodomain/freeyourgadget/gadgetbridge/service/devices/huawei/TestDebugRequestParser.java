@@ -156,11 +156,6 @@ public class TestDebugRequestParser {
         }
 
         @Override
-        public void addWorkoutPaceData(Long workoutId, List<Workout.WorkoutPace.Response.Block> paceList) {
-
-        }
-
-        @Override
         public void sendSetMusic() {
 
         }
