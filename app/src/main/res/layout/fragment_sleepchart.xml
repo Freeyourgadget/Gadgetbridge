@@ -92,6 +92,7 @@
                 </LinearLayout>
                 <LinearLayout
                     style="@style/GridTile"
+                    android:layout_height="fill_parent"
                     android:layout_marginBottom="0dp"
                     >
                     <LinearLayout
@@ -129,6 +130,7 @@
                 <LinearLayout
                     style="@style/GridTile"
                     android:layout_marginBottom="0dp"
+                    android:layout_height="fill_parent"
                     >
                     <LinearLayout
                         android:id="@+id/sleep_chart_legend_awake_time_wrapper"

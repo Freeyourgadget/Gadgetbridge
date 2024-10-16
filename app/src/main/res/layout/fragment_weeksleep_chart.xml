@@ -76,37 +76,46 @@
                     />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/sleep_chart_legend_rem_time_wrapper"
                 style="@style/GridTile"
-                android:layout_marginBottom="0dp"
-                >
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="5dp"
-                    android:background="@color/chart_rem_sleep_dark"
-                    android:layout_marginBottom="10dp"
-                    />
-                <TextView
-                    android:id="@+id/sleep_chart_legend_rem_time"
-                    android:text="@string/stats_empty_value"
-                    android:textSize="20sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"/>
-                <TextView
-                    android:id="@+id/sleep_chart_legend_rem_legend"
-                    android:text="@string/sleep_colored_stats_rem_avg"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/sleep_chart_legend_awake_time_wrapper"
-                style="@style/GridTile"
+                android:layout_height="fill_parent"
                 android:layout_marginBottom="0dp"
                 >
                 <LinearLayout
+                    android:id="@+id/sleep_chart_legend_rem_time_wrapper"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/chart_rem_sleep_dark"
+                        android:layout_marginBottom="10dp"
+                        />
+                    <TextView
+                        android:id="@+id/sleep_chart_legend_rem_time"
+                        android:text="@string/stats_empty_value"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"/>
+                    <TextView
+                        android:id="@+id/sleep_chart_legend_rem_legend"
+                        android:text="@string/sleep_colored_stats_rem_avg"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="0dp"
+                >
+                <LinearLayout
+                    android:id="@+id/sleep_chart_legend_awake_time_wrapper"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
