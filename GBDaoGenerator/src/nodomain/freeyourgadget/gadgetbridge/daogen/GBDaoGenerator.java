@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(83, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(84, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -1371,6 +1371,21 @@ public class GBDaoGenerator {
         workoutSummary.addByteArrayProperty("rawData");
 
         workoutSummary.addStringProperty("gpxFileLocation");
+
+        workoutSummary.addIntProperty("maxAltitude");
+        workoutSummary.addIntProperty("minAltitude");
+        workoutSummary.addIntProperty("elevationGain");
+        workoutSummary.addIntProperty("elevationLoss");
+
+        workoutSummary.addIntProperty("workoutLoad").notNull();
+        workoutSummary.addIntProperty("workoutAerobicEffect").notNull();
+        workoutSummary.addByteProperty("workoutAnaerobicEffect").notNull();
+        workoutSummary.addShortProperty("recoveryTime").notNull();
+
+        workoutSummary.addByteProperty("minHeartRatePeak").notNull();
+        workoutSummary.addByteProperty("maxHeartRatePeak").notNull();
+
+        workoutSummary.addByteArrayProperty("recoveryHeartRates");
 
         return workoutSummary;
     }

@@ -128,6 +128,22 @@ public class Workout {
             public short laps = -1;
             public short avgSwolf = -1;
 
+            public Integer maxAltitude = null;
+            public Integer minAltitude = null;
+            public Integer elevationGain = null;
+            public Integer elevationLoss = null;
+
+            public int workoutLoad = 0;
+            public int workoutAerobicEffect = 0;
+            public byte workoutAnaerobicEffect = -1;
+            public short recoveryTime = 0;
+
+            public byte minHeartRatePeak = 0;
+            public byte maxHeartRatePeak = 0;
+
+            public byte[] recoveryHeartRates = null;
+
+
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
             }
@@ -151,6 +167,19 @@ public class Workout {
                     this.stepCount = container.getInteger(0x08);
                 if (container.contains(0x09))
                     this.totalTime = container.getInteger(0x09);
+                if (container.contains(0x0b))
+                    this.elevationGain = container.getInteger(0x0b);
+                if (container.contains(0x0c)) {
+                    byte[] hrData = container.getBytes(0x0c);
+                    minHeartRatePeak = hrData[0];
+                    maxHeartRatePeak = hrData[1];
+                }
+                if (container.contains(0x0d))
+                    this.workoutLoad = container.getInteger(0x0d);
+                if (container.contains(0x0e))
+                    this.workoutAerobicEffect = container.getInteger(0x0e);
+                if (container.contains(0x11))
+                    this.recoveryTime = container.getShort(0x11);
                 if (container.contains(0x12))
                     this.duration = container.getInteger(0x12);
                 if (container.contains(0x14))
@@ -166,6 +195,17 @@ public class Workout {
                     this.laps = container.getShort(0x19);
                 if (container.contains(0x1a))
                     this.avgSwolf = container.getShort(0x1a);
+                if (container.contains(0x1b))
+                    this.elevationLoss = container.getInteger(0x1b);
+                if (container.contains(0x1c))
+                    this.maxAltitude = container.getInteger(0x1c);
+                if (container.contains(0x1d))
+                    this.minAltitude = container.getInteger(0x1d);
+                if (container.contains(0x20))
+                    this.workoutAnaerobicEffect = container.getByte(0x20);
+                if (container.contains(0x66))
+                    this.recoveryHeartRates = container.getBytes(0x66);
+
             }
         }
     }

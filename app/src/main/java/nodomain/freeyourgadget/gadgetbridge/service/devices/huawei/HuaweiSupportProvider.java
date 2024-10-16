@@ -1597,6 +1597,13 @@ public class HuaweiSupportProvider {
             else
                 raw = StringUtils.bytesToHex(packet.rawData).getBytes(StandardCharsets.UTF_8);
 
+
+            byte[] recoveryHeartRates;
+            if (packet.recoveryHeartRates == null)
+                recoveryHeartRates = null;
+            else
+                recoveryHeartRates = StringUtils.bytesToHex(packet.recoveryHeartRates).getBytes(StandardCharsets.UTF_8);
+
             HuaweiWorkoutSummarySample summarySample = new HuaweiWorkoutSummarySample(
                     workoutId,
                     deviceId,
@@ -1617,7 +1624,18 @@ public class HuaweiSupportProvider {
                     packet.laps,
                     packet.avgSwolf,
                     raw,
-                    null
+                    null,
+                    packet.maxAltitude,
+                    packet.minAltitude,
+                    packet.elevationGain,
+                    packet.elevationLoss,
+                    packet.workoutLoad,
+                    packet.workoutAerobicEffect,
+                    packet.workoutAnaerobicEffect,
+                    packet.recoveryTime,
+                    packet.minHeartRatePeak,
+                    packet.maxHeartRatePeak,
+                    recoveryHeartRates
             );
             db.getDaoSession().getHuaweiWorkoutSummarySampleDao().insertOrReplace(summarySample);
 

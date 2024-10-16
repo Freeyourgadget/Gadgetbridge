@@ -393,6 +393,30 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 summaryData.add(ActivitySummaryEntries.SWOLF_AVG, summary.getAvgSwolf(), ActivitySummaryEntries.UNIT_NONE);
             }
 
+            if(summary.getWorkoutLoad() > 0) {
+                summaryData.add(ActivitySummaryEntries.WORKOUT_LOAD, summary.getWorkoutLoad(), ActivitySummaryEntries.UNIT_NONE);
+            }
+
+            if(summary.getWorkoutAerobicEffect() > 0) {
+                summaryData.add(ActivitySummaryEntries.TRAINING_EFFECT_AEROBIC, summary.getWorkoutAerobicEffect() / 10.0, ActivitySummaryEntries.UNIT_NONE);
+            }
+
+            if(summary.getWorkoutAnaerobicEffect() >= 0) {
+                summaryData.add(ActivitySummaryEntries.TRAINING_EFFECT_ANAEROBIC, summary.getWorkoutAnaerobicEffect() / 10.0, ActivitySummaryEntries.UNIT_NONE);
+            }
+
+            if(summary.getRecoveryTime() > 0) {
+                summaryData.add(ActivitySummaryEntries.RECOVERY_TIME, summary.getRecoveryTime() / 60.0, ActivitySummaryEntries.UNIT_HOURS);
+            }
+
+            Integer summaryMinAltitude = summary.getMinAltitude();
+            Integer summaryMaxAltitude = summary.getMaxAltitude();
+            Integer elevationGain = summary.getElevationGain();
+            Integer elevationLoss = summary.getElevationLoss();
+
+            int minHeartRatePeak = summary.getMinHeartRatePeak() & 0xff;
+            int maxHeartRatePeak = summary.getMaxHeartRatePeak() & 0xff;
+
             boolean unknownData = false;
             if (!dataSamples.isEmpty()) {
                 int speed = 0;
@@ -631,8 +655,13 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
 
                 if (heartRateCount > 0) {
                     summaryData.add(ActivitySummaryEntries.HR_AVG, heartRate, ActivitySummaryEntries.UNIT_BPM);
-                    summaryData.add(ActivitySummaryEntries.HR_MAX, maxHeartRate, ActivitySummaryEntries.UNIT_BPM);
-                    summaryData.add(ActivitySummaryEntries.HR_MIN, minHeartRate, ActivitySummaryEntries.UNIT_BPM);
+                    if(minHeartRatePeak == 0) {
+                        minHeartRatePeak = minHeartRate;
+                    }
+
+                    if(maxHeartRatePeak == 0) {
+                        maxHeartRatePeak = maxHeartRate;
+                    }
                 }
 
                 if (sumCalories > 0) {
@@ -647,11 +676,44 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
 
                 if (altitudeCount > 0) {
                     summaryData.add(ActivitySummaryEntries.ALTITUDE_AVG, avgAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
-                    summaryData.add(ActivitySummaryEntries.ALTITUDE_MIN, minAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
-                    summaryData.add(ActivitySummaryEntries.ALTITUDE_MAX, maxAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
-                    summaryData.add(ActivitySummaryEntries.ELEVATION_GAIN, sumAltitudeUp / 10.0f, ActivitySummaryEntries.UNIT_METERS);
-                    summaryData.add(ActivitySummaryEntries.ELEVATION_LOSS, sumAltitudeDown / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+
+                    if(summaryMinAltitude == null) {
+                        summaryMinAltitude = minAltitude;
+                    }
+
+                    if(summaryMaxAltitude == null) {
+                        summaryMaxAltitude = maxAltitude;
+                    }
+
+                    if(elevationGain == null) {
+                        elevationGain = sumAltitudeUp;
+                    }
+
+                    if(elevationLoss == null) {
+                        elevationLoss = sumAltitudeDown;
+                    }
                 }
+            }
+
+            if (minHeartRatePeak > 0) {
+                summaryData.add(ActivitySummaryEntries.HR_MIN, minHeartRatePeak, ActivitySummaryEntries.UNIT_BPM);
+            }
+            if (maxHeartRatePeak > 0) {
+                summaryData.add(ActivitySummaryEntries.HR_MAX, maxHeartRatePeak, ActivitySummaryEntries.UNIT_BPM);
+            }
+
+            if(summaryMinAltitude != null) {
+                summaryData.add(ActivitySummaryEntries.ALTITUDE_MIN, summaryMinAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+            }
+
+            if(summaryMaxAltitude != null) {
+                summaryData.add(ActivitySummaryEntries.ALTITUDE_MAX, summaryMaxAltitude / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+            }
+            if(elevationGain != null) {
+                summaryData.add(ActivitySummaryEntries.ELEVATION_GAIN, elevationGain / 10.0f, ActivitySummaryEntries.UNIT_METERS);
+            }
+            if(elevationLoss != null) {
+                summaryData.add(ActivitySummaryEntries.ELEVATION_LOSS, elevationLoss / 10.0f, ActivitySummaryEntries.UNIT_METERS);
             }
 
             final LinkedHashMap<String, ActivitySummaryTableRowEntry> pacesTable = new LinkedHashMap<>();
