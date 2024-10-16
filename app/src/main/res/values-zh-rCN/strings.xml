@@ -3512,4 +3512,13 @@
     <string name="prefs_hrv_monitoring_title">心率监控</string>
     <string name="prefs_hrv_monitoring_description">自动监测全天心率变异性</string>
     <string name="devicetype_huawei_watchd2">华为 Watch D2</string>
+    <string name="idasen_control_button_sit">坐</string>
+    <string name="idasen_control_button_mid">中</string>
+    <string name="idasen_control_button_stand">站</string>
+    <string name="idasen_pref_mid_height">中间位置高度（厘米）</string>
+    <string name="idasen_pref_sit_height">坐姿高度（厘米）</string>
+    <string name="idasen_pref_stand_height">站立高度（厘米）</string>
+    <string name="idasen_pref_value_warning">该值必须在 62 - 126 厘米之间</string>
+    <string name="devicetype_idasen">宜家伊朵森书桌</string>
+    <string name="devicetype_colmi_r10">Colmi R10</string>
 </resources>
