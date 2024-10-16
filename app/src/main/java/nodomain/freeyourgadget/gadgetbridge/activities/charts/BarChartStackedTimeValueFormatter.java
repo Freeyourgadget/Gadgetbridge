@@ -8,11 +8,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class BarChartStackedTimeValueFormatter extends StackedValueFormatter {
     private float[] processedValues;
     private BarEntry lastEntry;
+    private int ignoreLast;
     private int lastNonZeroIndex;
     private int index = 0;
 
-    public BarChartStackedTimeValueFormatter(boolean drawWholeStack, String suffix, int decimals) {
+    public BarChartStackedTimeValueFormatter(boolean drawWholeStack, String suffix, int decimals, int ignoreLast) {
         super(drawWholeStack, suffix, decimals);
+        this.ignoreLast = ignoreLast;
     }
 
     private int getLastNonZeroIndex(float[] array) {
@@ -44,7 +46,7 @@ public class BarChartStackedTimeValueFormatter extends StackedValueFormatter {
 
     String getFormattedValue(float[] values) {
         float sum = 0;
-        for (int i = 0; i < values.length - 1; i++) {
+        for (int i = 0; i < values.length - ignoreLast; i++) {
             sum += values[i];
         }
         return DateTimeUtils.minutesToHHMM((int) sum);

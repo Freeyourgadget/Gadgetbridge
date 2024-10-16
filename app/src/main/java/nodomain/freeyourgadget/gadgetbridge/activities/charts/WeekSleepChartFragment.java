@@ -152,7 +152,10 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         mWeekChart.setData(mcd.getWeekBeforeData().getData());
         mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
         mWeekChart.getBarData().setValueTextSize(10f);
-        mWeekChart.getBarData().setValueFormatter(new BarChartStackedTimeValueFormatter(false, "", 0));
+
+        // The last value is for awake time, which we do not want to include in the "total sleep time"
+        final int barIgnoreLast = supportsAwakeSleep(getChartsHost().getDevice()) ? 1 : 0;
+        mWeekChart.getBarData().setValueFormatter(new BarChartStackedTimeValueFormatter(false, "", 0, barIgnoreLast));
 
         if (TOTAL_DAYS_FOR_AVERAGE > 0) {
             float avgDeep = Math.abs(this.mySleepWeeklyData.getTotalDeep() / TOTAL_DAYS_FOR_AVERAGE);
