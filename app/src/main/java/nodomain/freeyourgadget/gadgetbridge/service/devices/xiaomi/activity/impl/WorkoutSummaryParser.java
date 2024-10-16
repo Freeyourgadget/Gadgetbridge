@@ -383,6 +383,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 headerSize = 7;
                 break;
             case 5:
+            case 6:
                 headerSize = 9;
                 break;
             default:
