@@ -293,6 +293,8 @@ public enum ActivityKind {
     BIATHLON(0x040000ee, R.string.activity_type_biathlon),
     BUNGEE_JUMPING(0x040000ef, R.string.activity_type_bungee_jumping),
     ORIENTEERING(0x040000f0, R.string.activity_type_orienteering),
+    TREKKING(0x040000f1, R.string.activity_type_trekking),
+    TRAIL_RUN(0x040000f2, R.string.activity_type_trail_run),
     ;
 
     private final int code;
