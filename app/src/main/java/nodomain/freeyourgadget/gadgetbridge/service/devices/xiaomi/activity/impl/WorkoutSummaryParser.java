@@ -231,6 +231,8 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int headerSize;
         switch (version) {
             case 8:
+            case 9:
+            case 10:
                 headerSize = 6;
                 break;
             default:
