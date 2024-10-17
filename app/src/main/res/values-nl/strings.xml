@@ -3511,4 +3511,14 @@
     <string name="breaths_per_min">ademhaling/min</string>
     <string name="fmtPaceAverage">Tempo gemiddeld</string>
     <string name="milliseconds_ms">ms</string>
+    <string name="devicetype_huawei_watchd2">Huawei Watch D2</string>
+    <string name="devicetype_colmi_r10">Colmi R10</string>
+    <string name="devicetype_idasen">IKEA Idasen bureau</string>
+    <string name="idasen_control_button_mid">Midden</string>
+    <string name="idasen_control_button_sit">Zitten</string>
+    <string name="idasen_control_button_stand">Staan</string>
+    <string name="idasen_pref_mid_height">Middenpositie (in centimeters)</string>
+    <string name="idasen_pref_value_warning">De waarde moet tussen 62 en 126 cm zijn</string>
+    <string name="idasen_pref_sit_height">Zitpositie (in centimeters)</string>
+    <string name="idasen_pref_stand_height">Stapositie (in centimeters)</string>
 </resources>
