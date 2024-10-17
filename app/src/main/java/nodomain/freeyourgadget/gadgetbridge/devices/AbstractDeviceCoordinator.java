@@ -77,6 +77,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
@@ -278,6 +279,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public TimeSampleProvider<? extends WeightSample> getWeightSampleProvider(GBDevice device, DaoSession session) {
         return null;
+    }
+
+    @Override
+    public TimeSampleProvider<? extends RestingMetabolicRateSample> getRestingMetabolicRateProvider(final GBDevice device, final DaoSession session) {
+        return null; // FIXME return new DefaultRestingMetabolicRateProvider(device, session);
     }
 
     @Override

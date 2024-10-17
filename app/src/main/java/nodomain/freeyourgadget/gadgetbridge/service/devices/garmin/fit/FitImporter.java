@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHeartRateRestin
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvSummarySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvValueSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRespiratoryRateSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRestingMetabolicRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSleepStageSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminStressSampleProvider;
@@ -37,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHeartRateRestingSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminRestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminRespiratoryRateSample;
@@ -48,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.FileType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionHrvStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.fieldDefinitions.FieldDefinitionSleepStage;
@@ -57,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitHrvValue;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoring;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoringHrData;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitMonitoringInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitPhysiologicalMetrics;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRecord;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.messages.FitRespirationRate;
@@ -86,6 +90,7 @@ public class FitImporter {
     private final List<GarminSleepStageSample> sleepStageSamples = new ArrayList<>();
     private final List<GarminHrvSummarySample> hrvSummarySamples = new ArrayList<>();
     private final List<GarminHrvValueSample> hrvValueSamples = new ArrayList<>();
+    private final List<GarminRestingMetabolicRateSample> restingMetabolicRateSamples = new ArrayList<>();
     private final Map<Integer, Integer> unknownRecords = new HashMap<>();
     private FitSleepDataInfo fitSleepDataInfo = null;
     private final List<FitSleepDataRaw> fitSleepDataRawSamples = new ArrayList<>();
@@ -264,6 +269,16 @@ public class FitImporter {
                 sample.setTimestamp(ts * 1000L);
                 sample.setValue(Math.round(hrvValue.getValue()));
                 hrvValueSamples.add(sample);
+            } else if (record instanceof FitMonitoringInfo) {
+                final FitMonitoringInfo monitoringInfo = (FitMonitoringInfo) record;
+                if (monitoringInfo.getRestingMetabolicRate() == null) {
+                    continue;
+                }
+                LOG.trace("Monitoring info at {}: {}", ts, record);
+                final GarminRestingMetabolicRateSample sample = new GarminRestingMetabolicRateSample();
+                sample.setTimestamp(ts * 1000L);
+                sample.setRestingMetabolicRate(monitoringInfo.getRestingMetabolicRate());
+                restingMetabolicRateSamples.add(sample);
             } else if (record instanceof FitMonitoringHrData) {
                 final FitMonitoringHrData monitoringHrData = (FitMonitoringHrData) record;
                 if (monitoringHrData.getRestingHeartRate() == null) {
@@ -308,6 +323,7 @@ public class FitImporter {
                 persistRestingHrSamples();
                 persistStressSamples();
                 persistBodyEnergySamples();
+                persistRestingMetabolicRateSamples();
                 break;
             case SLEEP:
                 persistEvents();
@@ -374,6 +390,7 @@ public class FitImporter {
         sleepStageSamples.clear();
         hrvSummarySamples.clear();
         hrvValueSamples.clear();
+        restingMetabolicRateSamples.clear();
         unknownRecords.clear();
         fitSleepDataInfo = null;
         fitSleepDataRawSamples.clear();
@@ -797,6 +814,32 @@ public class FitImporter {
             }
 
             sampleProvider.addSamples(bodyEnergySamples);
+        } catch (final Exception e) {
+            GB.toast(context, "Error saving body energy samples", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private void persistRestingMetabolicRateSamples() {
+        if (restingMetabolicRateSamples.isEmpty()) {
+            return;
+        }
+
+        LOG.debug("Will persist {} resting metabolic rate samples", restingMetabolicRateSamples.size());
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            final GarminRestingMetabolicRateSampleProvider sampleProvider = new GarminRestingMetabolicRateSampleProvider(gbDevice, session);
+
+            for (final GarminRestingMetabolicRateSample sample : restingMetabolicRateSamples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+            }
+
+            sampleProvider.addSamples(restingMetabolicRateSamples);
         } catch (final Exception e) {
             GB.toast(context, "Error saving body energy samples", Toast.LENGTH_LONG, GB.ERROR, e);
         }

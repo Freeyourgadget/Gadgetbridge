@@ -127,6 +127,7 @@ public class GBDaoGenerator {
         addGarminHrvValueSample(schema, user, device);
         addGarminRespiratoryRateSample(schema, user, device);
         addGarminHeartRateRestingSample(schema, user, device);
+        addGarminRestingMetabolicRateSample(schema, user, device);
         addPendingFile(schema, user, device);
         addWena3EnergySample(schema, user, device);
         addWena3BehaviorSample(schema, user, device);
@@ -868,6 +869,14 @@ public class GBDaoGenerator {
         addCommonTimeSampleProperties("AbstractHeartRateSample", hrRestingSample, user, device);
         hrRestingSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
         return hrRestingSample;
+    }
+
+    private static Entity addGarminRestingMetabolicRateSample(Schema schema, Entity user, Entity device) {
+        Entity sample = addEntity(schema, "GarminRestingMetabolicRateSample");
+        sample.addImport(MAIN_PACKAGE + ".model.RestingMetabolicRateSample");
+        addCommonTimeSampleProperties("RestingMetabolicRateSample", sample, user, device);
+        sample.addIntProperty("restingMetabolicRate").notNull().codeBeforeGetter(OVERRIDE);
+        return sample;
     }
 
     private static Entity addPendingFile(Schema schema, Entity user, Entity device) {

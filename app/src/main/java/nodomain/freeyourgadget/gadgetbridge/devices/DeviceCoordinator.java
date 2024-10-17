@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
@@ -371,6 +372,8 @@ public interface DeviceCoordinator {
      * Returns the sample provider for weight data, for the device being supported.
      */
     TimeSampleProvider<? extends WeightSample> getWeightSampleProvider(GBDevice device, DaoSession session);
+
+    TimeSampleProvider<? extends RestingMetabolicRateSample> getRestingMetabolicRateProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.
