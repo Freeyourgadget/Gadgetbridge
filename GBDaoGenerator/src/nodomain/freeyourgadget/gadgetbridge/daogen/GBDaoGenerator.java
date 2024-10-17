@@ -1411,7 +1411,7 @@ public class GBDaoGenerator {
         workoutDataSample.addByteProperty("midFootLanding").notNull();
         workoutDataSample.addByteProperty("backFootLanding").notNull();
         workoutDataSample.addByteProperty("eversionAngle").notNull();
-        workoutDataSample.addByteProperty("swolf").notNull();
+        workoutDataSample.addShortProperty("swolf").notNull();
         workoutDataSample.addShortProperty("strokeRate").notNull();
 
         workoutDataSample.addByteArrayProperty("dataErrorHex");

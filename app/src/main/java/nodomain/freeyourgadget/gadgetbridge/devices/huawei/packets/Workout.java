@@ -276,7 +276,7 @@ public class Workout {
                 public byte backFootLanding = -1;
                 public byte eversionAngle = -1;
 
-                public byte swolf = -1;
+                public short swolf = -1;
                 public short strokeRate = -1;
 
                 public short calories = -1;
@@ -313,9 +313,8 @@ public class Workout {
                 }
             }
 
-            // I'm not sure about the lengths, but we haven't gotten any complaints so they probably are fine
-            private final byte[] bitmapLengths = {1, 2, 1, 2, 2, 4, -1, 2, 2, 2, 1, 1, 1, 1, 1, 1};
-            private final byte[] innerBitmapLengths = {2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1};
+            private final byte[] bitmapLengths = {1, 2, 1, 2, 2, 4, -1, 2, 2, 2};
+            private final byte[] innerBitmapLengths = {2, 2, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2, 2, 1, 1, 1, 2};
 
             public short workoutNumber;
             public short dataNumber;
@@ -332,6 +331,7 @@ public class Workout {
 
             /**
              * This is to be able to easily reparse the error data, only accepts tlv bytes
+             *
              * @param rawData The TLV bytes
              */
             public Response(byte[] rawData) throws ParseException {
@@ -355,7 +355,7 @@ public class Workout {
                     innerBitmap = 0x01FF; // This seems to be the default
 
                 int innerDataLength = 0;
-                for (byte i = 0; i < 16; i++) {
+                for (byte i = 0; i < innerBitmapLengths.length; i++) {
                     if ((innerBitmap & (1 << i)) != 0) {
                         innerDataLength += innerBitmapLengths[i];
                     }
@@ -380,7 +380,7 @@ public class Workout {
 
                 // Check data lengths from bitmap
                 int dataLength = 0;
-                for (byte i = 0; i < 16; i++) {
+                for (byte i = 0; i < bitmapLengths.length; i++) {
                     if ((header.bitmap & (1 << i)) != 0) {
                         if (i == 6) {
                             dataLength += innerDataLength;
@@ -398,7 +398,7 @@ public class Workout {
                 for (short i = 0; i < header.dataCount; i++) {
                     Data data = new Data();
                     data.timestamp = header.timestamp + header.interval * i;
-                    for (byte j = 0; j < 16; j++) {
+                    for (byte j = 0; j < bitmapLengths.length; j++) {
                         if ((header.bitmap & (1 << j)) != 0) {
                             switch (j) {
                                 case 0:
@@ -411,7 +411,7 @@ public class Workout {
                                     data.stepRate = buf.get();
                                     break;
                                 case 3:
-                                    data.swolf = buf.get();
+                                    data.swolf = buf.getShort();
                                     break;
                                 case 4:
                                     data.strokeRate = buf.getShort();
@@ -422,7 +422,7 @@ public class Workout {
                                 case 6:
                                     // Inner data, parsing into data
                                     // TODO: function for readability?
-                                    for (byte k = 0; k < 16; k++) {
+                                    for (byte k = 0; k < innerBitmapLengths.length; k++) {
                                         if ((innerBitmap & (1 << k)) != 0) {
                                             switch (k) {
                                                 case 0:
