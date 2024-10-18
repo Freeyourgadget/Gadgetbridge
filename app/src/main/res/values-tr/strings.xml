@@ -3525,4 +3525,13 @@
     <string name="breaths_per_min">nefes/dak</string>
     <string name="fmtPaceAverage">Hız ortalaması</string>
     <string name="devicetype_huawei_watchd2">Huawei Watch D2</string>
+    <string name="devicetype_idasen">IKEA Idasen Desk</string>
+    <string name="devicetype_colmi_r10">Colmi R10</string>
+    <string name="idasen_control_button_mid">ORTA</string>
+    <string name="idasen_control_button_sit">OTUR</string>
+    <string name="idasen_control_button_stand">AYAKTA</string>
+    <string name="idasen_pref_mid_height">Orta konum yüksekliği (santimetre cinsinden)</string>
+    <string name="idasen_pref_stand_height">Ayakta konumu yüksekliği (santimetre cinsinden)</string>
+    <string name="idasen_pref_value_warning">Değer 62 - 126 cm arasında olmalıdır</string>
+    <string name="idasen_pref_sit_height">Otur konumu yüksekliği (santimetre cinsinden)</string>
 </resources>
