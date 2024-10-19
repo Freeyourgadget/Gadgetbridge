@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -154,6 +155,11 @@ public class ZipBackupImportJob extends AbstractZipBackupJob {
                 if (!jsonBackupPreferences.importInto(globalPreferences)) {
                     LOG.warn("Global preferences were not commited");
                 }
+
+                // We may be restoring from different versions - reset the changelog version
+                globalPreferences.edit()
+                        .putInt("ckChangeLog_last_version_code", BuildConfig.VERSION_CODE)
+                        .apply();
             }
 
             if (isAborted()) return;
