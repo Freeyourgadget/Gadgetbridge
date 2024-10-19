@@ -594,6 +594,12 @@ public class HuaweiPacket {
                         return new MusicControl.MusicInfo.Response(paramsProvider).fromPacket(this);
                     case MusicControl.Control.id:
                         return new MusicControl.Control.Response(paramsProvider).fromPacket(this);
+                    case MusicControl.MusicInfoParams.id:
+                        return new MusicControl.MusicInfoParams.Response(paramsProvider).fromPacket(this);
+                    case MusicControl.UploadMusicFileInfo.id:
+                        return new MusicControl.UploadMusicFileInfo.UploadMusicFileInfoRequest(paramsProvider).fromPacket(this);
+                    case MusicControl.ExtendedMusicInfoParams.id:
+                        return new MusicControl.ExtendedMusicInfoParams.Response(paramsProvider).fromPacket(this);
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;

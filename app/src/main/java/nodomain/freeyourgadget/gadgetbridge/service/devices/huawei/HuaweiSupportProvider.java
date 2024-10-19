@@ -105,6 +105,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetContactsCount;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetEventAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetGpsParameterRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetExtendedMusicInfoParams;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetMusicInfoParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetNotificationConstraintsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetSmartAlarmList;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetWatchfaceParams;
@@ -268,6 +270,8 @@ public class HuaweiSupportProvider {
 
     protected HuaweiEphemerisManager huaweiEphemerisManager = new HuaweiEphemerisManager(this);
 
+    protected HuaweiMusicManager huaweiMusicManager = new HuaweiMusicManager(this);
+
     //TODO: we need only one instance of manager and all it services.
     protected HuaweiP2PManager huaweiP2PManager = new HuaweiP2PManager(this);
 
@@ -297,6 +301,10 @@ public class HuaweiSupportProvider {
 
     public HuaweiEphemerisManager getHuaweiEphemerisManager() {
         return huaweiEphemerisManager;
+    }
+
+    public HuaweiMusicManager getHuaweiMusicManager() {
+        return huaweiMusicManager;
     }
 
     public HuaweiSupportProvider(HuaweiBRSupport support) {
@@ -824,6 +832,8 @@ public class HuaweiSupportProvider {
             initRequestQueue.add(new GetWatchfaceParams(this));
             initRequestQueue.add(new SendCameraRemoteSetupEvent(this, CameraRemote.CameraRemoteSetup.Request.Event.ENABLE_CAMERA));
             initRequestQueue.add(new GetAppInfoParams(this));
+            initRequestQueue.add(new GetMusicInfoParams(this));
+            initRequestQueue.add(new GetExtendedMusicInfoParams(this));
             initRequestQueue.add(new SetActivateOnLiftRequest(this));
             initRequestQueue.add(new SetWearLocationRequest(this));
             initRequestQueue.add(new SetNavigateOnRotateRequest(this));
@@ -1959,6 +1969,10 @@ public class HuaweiSupportProvider {
 
         HuaweiUploadManager.FileUploadInfo fileInfo = new HuaweiUploadManager.FileUploadInfo();
 
+        if(huaweiFwHelper.isMusic()) {
+            getHuaweiMusicManager().addUploadMusic(huaweiFwHelper.getMusicInfo());
+        }
+
         fileInfo.setFileType(huaweiFwHelper.getFileType());
         if (huaweiFwHelper.isWatchface()) {
             fileInfo.setFileName(huaweiWatchfaceManager.getRandomName());
@@ -1989,10 +2003,14 @@ public class HuaweiSupportProvider {
                 if (code == 140004) {
                     LOG.error("Too many watchfaces installed");
                     HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.cannot_upload_watchface_too_many_watchfaces_installed), Toast.LENGTH_LONG, GB.ERROR));
+                } else if (code == 140008) {
+                    LOG.error("File already exists");
+                    HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage("File already exists", Toast.LENGTH_LONG, GB.ERROR)); //TODO: localization
                 } else if (code == 140009) {
                     LOG.error("Insufficient space for upload");
                     HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.insufficient_space_for_upload), Toast.LENGTH_LONG, GB.ERROR));
                 }
+
             }
         });
 

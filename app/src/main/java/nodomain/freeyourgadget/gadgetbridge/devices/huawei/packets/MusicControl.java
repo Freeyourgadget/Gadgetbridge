@@ -16,11 +16,21 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiMusicUtils.parseFormatBits;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiMusicUtils;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
 public class MusicControl {
     public static final byte id = 0x25;
+
 
     // TODO: should this be in HuaweiConstants?
     public static final int successValue = 0x000186A0;
@@ -185,6 +195,169 @@ public class MusicControl {
                     // Only grab the lowest byte
                     byte[] bytes = this.tlv.getBytes(0x02);
                     this.volume = bytes[bytes.length - 1];
+                }
+            }
+        }
+    }
+
+    public static class UploadMusicFileInfo {
+        public static final int id = 0x09;
+
+        public static class UploadMusicFileInfoRequest extends HuaweiPacket {
+            public short songIndex;
+            public String songFileName;
+
+            public UploadMusicFileInfoRequest(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+                this.songIndex = this.tlv.getShort(0x01);
+                this.songFileName = this.tlv.getString(0x02);
+            }
+        }
+
+        public static class UploadMusicFileInfoResponse extends HuaweiPacket {
+            public UploadMusicFileInfoResponse(ParamsProvider paramsProvider, short songIndex, String songName, String songArtist) {
+                super(paramsProvider);
+
+                this.serviceId = MusicControl.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV().put(0x01, songIndex).put(0x03, songName).put(0x04, songArtist);
+
+                this.complete = true;
+            }
+        }
+    }
+
+    public static class MusicInfoParams {
+        public static final byte id = 0x04;
+
+        public static class Request extends HuaweiPacket {
+
+            public Request(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+                this.serviceId = MusicControl.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV()
+                        .put(0x01)
+                        .put(0x02)
+                        .put(0x03);
+
+                this.complete = true;
+            }
+        }
+
+        public static class Response extends HuaweiPacket {
+            public HuaweiMusicUtils.MusicCapabilities params = new HuaweiMusicUtils.MusicCapabilities();
+
+            public Response(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+
+                //TODO: unknown TLV
+//                if (this.tlv.contains(0x01))
+//                     LOG.info("Unknown: " + this.tlv.getShort(0x01));
+
+                if (this.tlv.contains(0x02))
+                    params.availableSpace = this.tlv.getShort(0x02);
+                if (this.tlv.contains(0x03)) {
+                    byte[] formatBits = this.tlv.getBytes(0x03);
+                    params.supportedFormats = parseFormatBits(formatBits);
+                }
+                if (this.tlv.contains(0x04))
+                    params.maxMusicCount = this.tlv.getShort(0x04);
+                if (this.tlv.contains(0x05))
+                    params.currentMusicCount = this.tlv.getByte(0x05);
+
+                if (this.tlv.contains(0x86)) {
+                    params.pageStruct = new ArrayList<>();
+                    List<HuaweiTLV> subTlvs = this.tlv.getObject(0x86).getObjects(0x87);
+                    for (HuaweiTLV subTlv : subTlvs) {
+                        HuaweiMusicUtils.PageStruct pageStruct = new HuaweiMusicUtils.PageStruct();
+                        if (subTlv.contains(0x08))
+                            pageStruct.startIndex = subTlv.getShort(0x08);
+                        if (subTlv.contains(0x09))
+                            pageStruct.endIndex = subTlv.getShort(0x09);
+                        if (subTlv.contains(0x0a))
+                            pageStruct.count = subTlv.getShort(0x0a);
+                        if (subTlv.contains(0x0b))
+                            pageStruct.hashCode = subTlv.getBytes(0x0b);
+                        params.pageStruct.add(pageStruct);
+                    }
+                }
+            }
+        }
+    }
+
+    public static class ExtendedMusicInfoParams {
+        public static final byte id = 0x0d;
+
+        public static class Request extends HuaweiPacket {
+
+            public Request(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+                this.serviceId = MusicControl.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV()
+                        .put(0x01)
+                        .put(0x02)
+                        .put(0x03)
+                        .put(0x04)
+                        .put(0x05);
+
+                this.complete = true;
+            }
+        }
+
+        public static class Response extends HuaweiPacket {
+            public HuaweiMusicUtils.MusicCapabilities params = new HuaweiMusicUtils.MusicCapabilities();
+
+            public Response(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+                if (this.tlv.contains(0x01))
+                    params.availableSpace = this.tlv.getShort(0x01);
+                if (this.tlv.contains(0x02)) {
+                    byte[] formatBits = this.tlv.getBytes(0x02);
+                    params.supportedFormats = parseFormatBits(formatBits);
+                }
+                if (this.tlv.contains(0x03))
+                    params.maxMusicCount = this.tlv.getShort(0x03);
+                if (this.tlv.contains(0x04))
+                    params.maxPlaylistCount = this.tlv.getShort(0x04);
+                if (this.tlv.contains(0x05))
+                    params.unknown = this.tlv.getByte(0x05);
+
+                if (this.tlv.contains(0x86)) {
+                    params.formatsRestrictions = new ArrayList<>();
+                    List<HuaweiTLV> subTlvs = this.tlv.getObject(0x86).getObjects(0x87);
+                    for (HuaweiTLV subTlv : subTlvs) {
+                        HuaweiMusicUtils.FormatRestrictions restriction = new HuaweiMusicUtils.FormatRestrictions();
+                        if (subTlv.contains(0x08))
+                            restriction.formatIdx = subTlv.getByte(0x08);
+                        if (subTlv.contains(0x09))
+                            restriction.sampleRate = subTlv.getInteger(0x09);
+                        if (subTlv.contains(0x0a))
+                            restriction.musicEncode = subTlv.getByte(0x0a);
+                        if (subTlv.contains(0x0b))
+                            restriction.bitrate = subTlv.getShort(0x0b);
+                        if (subTlv.contains(0x0c))
+                            restriction.channels = subTlv.getByte(0x0c);
+                        if (subTlv.contains(0x0d))
+                            restriction.unknownBitrate = subTlv.getShort(0x0b);
+                        params.formatsRestrictions.add(restriction);
+                    }
                 }
             }
         }

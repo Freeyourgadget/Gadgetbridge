@@ -343,6 +343,12 @@ public class AsynchronousResponse {
                         this.support.sendSetMusic();
                     }, 100);
                 }
+            } else if (response.commandId == MusicControl.UploadMusicFileInfo.id) {
+                if (!(response instanceof MusicControl.UploadMusicFileInfo.UploadMusicFileInfoRequest))
+                    throw new Request.ResponseTypeMismatchException(response, MusicControl.UploadMusicFileInfo.UploadMusicFileInfoRequest.class);
+
+                MusicControl.UploadMusicFileInfo.UploadMusicFileInfoRequest resp = (MusicControl.UploadMusicFileInfo.UploadMusicFileInfoRequest) response;
+                support.getHuaweiMusicManager().uploadMusicInfo(resp.songIndex, resp.songFileName);
             }
         }
     }

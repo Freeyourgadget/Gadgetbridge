@@ -17,10 +17,17 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaExtractor;
+import android.media.MediaMetadataRetriever;
+import  	android.media.MediaFormat;
 import android.net.Uri;
+import android.provider.OpenableColumns;
+import android.text.TextUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +58,10 @@ public class HuaweiFwHelper {
     Bitmap previewBitmap;
     HuaweiWatchfaceManager.WatchfaceDescription watchfaceDescription;
     HuaweiAppManager.AppConfig appConfig;
+    HuaweiMusicManager.AudioInfo musicInfo;
     Context mContext;
+
+
 
     public HuaweiFwHelper(final Uri uri, final Context context) {
 
@@ -69,7 +79,9 @@ public class HuaweiFwHelper {
     }
 
     private void parseFile() {
-        if(parseAsApp()) {
+        if (parseAsMusic()) {
+            fileType = FileUpload.Filetype.music;
+        } else if (parseAsApp()) {
             assert appConfig.bundleName != null;
             fileType = FileUpload.Filetype.app;
         } else if (parseAsWatchFace()) {
@@ -79,31 +91,136 @@ public class HuaweiFwHelper {
         }
     }
 
+    private String getNameWithoutExtension(String fileName) {
+        return fileName.indexOf(".") > 0?fileName.substring(0, fileName.lastIndexOf(".")): fileName;
+    }
+
+    private String getExtension(String fileName) {
+        if (TextUtils.isEmpty(fileName)) {
+            return null;
+        }
+        int lastIndexOf = fileName.lastIndexOf(".");
+        if (lastIndexOf >= 0 && lastIndexOf + 1 < fileName.length()) {
+            return fileName.substring(lastIndexOf + 1);
+        }
+        return null;
+    }
+
+    private HuaweiMusicManager.AudioInfo getAudioInfo(Uri selectedUri) throws IOException {
+        ContentResolver contentResolver = mContext.getContentResolver();
+        String[] filePathColumn = {OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE};
+
+        Cursor cursor = contentResolver.query(selectedUri, filePathColumn, null, null, null);
+        if(cursor == null)
+            return null;
+        cursor.moveToFirst();
+
+        int fileNameIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String fileName = cursor.getString(fileNameIndex);
+        int fileSizeIndex = cursor.getColumnIndex(filePathColumn[1]);
+        long fileSize = cursor.getLong(fileSizeIndex);
+        cursor.close();
+
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(mContext, selectedUri);
+
+        String title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+        String artist = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+
+        if(TextUtils.isEmpty(title)) {
+            title = getNameWithoutExtension(fileName);
+        }
+        if(TextUtils.isEmpty(artist)) {
+            artist = "Unknown";
+        }
+
+        MediaExtractor mex = new MediaExtractor();
+        mex.setDataSource(mContext, selectedUri, null);
+
+
+        MediaFormat mf = mex.getTrackFormat(0);
+
+        int bitrate = -1; // TODO: calculate or get bitrate
+        int sampleRate = mf.getInteger(MediaFormat.KEY_SAMPLE_RATE);
+        int channels = mf.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
+        long duration = mf.getLong(MediaFormat.KEY_DURATION);
+
+        LOG.info("bitRate: " + bitrate);
+        LOG.info("sampleRate: " + sampleRate);
+        LOG.info("channelCount: " + channels);
+        LOG.info("duration: " + duration);
+
+        String extension = getExtension(fileName);
+        if(!TextUtils.isEmpty(extension)) {
+            extension = extension.toLowerCase();
+        }
+
+        HuaweiMusicManager.AudioInfo audioInfo = new HuaweiMusicManager.AudioInfo(fileName, fileSize, title, artist, extension);
+        audioInfo.setCharacteristics(duration, sampleRate, bitrate, (byte) channels);
+
+        return audioInfo;
+    }
+
+    private byte[] getFileData(UriHelper uriHelper) throws IOException {
+        InputStream inputStream = uriHelper.openInputStream();
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        int nRead;
+        byte[] data = new byte[1000];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        inputStream.close();
+        return buffer.toByteArray();
+    }
+
+    boolean parseAsMusic() {
+        try {
+            final UriHelper uriHelper = UriHelper.get(uri, this.mContext);
+
+            String mimeType = mContext.getContentResolver().getType(uri);
+            LOG.info("File mime type: {}", mimeType);
+
+            if(mimeType == null || !mimeType.startsWith("audio/"))
+                return false;
+
+            musicInfo = getAudioInfo(uri);
+            if(musicInfo == null)
+                return false;
+
+            musicInfo.setMimeType(mimeType);
+
+            byte[] musicData = getFileData(uriHelper);
+
+            fileName = musicInfo.getFileName();
+            fw = musicData;
+            fileSize = fw.length;
+
+            return true;
+        } catch (FileNotFoundException e) {
+            LOG.error("Music: File was not found {}", e.getMessage());
+        } catch (IOException e) {
+            LOG.error("Music: General IO error occurred {}", e.getMessage());
+        } catch (Exception e) {
+            LOG.error("Music: Unknown error occurred", e);
+        }
+        return false;
+    }
+
+
     boolean parseAsApp() {
 
         try {
             final UriHelper uriHelper = UriHelper.get(uri, this.mContext);
-            InputStream inputStream = uriHelper.openInputStream();
 
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-            int nRead;
-            byte[] data = new byte[4];
-
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-
-            buffer.flush();
-            byte[] appData = buffer.toByteArray();
-
-            inputStream.close();
+            byte[] appData = getFileData(uriHelper);
 
             HuaweiBinAppParser app = new HuaweiBinAppParser();
             app.parseData(appData);
 
             byte[] config = app.getEntryContent("config.json");
-            if(config == null)
+            if (config == null)
                 return false;
             appConfig = new HuaweiAppManager.AppConfig(new String(config));
             fileName = app.getPackageName() + "_INSTALL"; //TODO: INSTALL or UPDATE suffix
@@ -112,22 +229,21 @@ public class HuaweiFwHelper {
             fileSize = fw.length;
 
             byte[] icon = app.getEntryContent("icon_small.png");
-            if(icon != null) {
+            if (icon != null) {
                 previewBitmap = BitmapFactory.decodeByteArray(icon, 0, icon.length);
             }
 
             return true;
 
         } catch (FileNotFoundException e) {
-            LOG.error("The app file was not found.", e);
+            LOG.error("App: File was not found{}", e.getMessage());
         } catch (IOException e) {
-            LOG.error("General IO error occurred.", e);
+            LOG.error("App: General IO error occurred {}", e.getMessage());
         } catch (HuaweiBinAppParser.HuaweiBinAppParseError e) {
-            LOG.error("Error parsing app File", e);
+            LOG.error("App: Error parsing app File {}", e.getMessage());
         } catch (Exception e) {
-            LOG.error("Unknown error occurred.", e);
+            LOG.error("App: Unknown error occurred", e);
         }
-
         return false;
     }
 
@@ -172,7 +288,7 @@ public class HuaweiFwHelper {
 
             byte[] watchfaceZip = watchfacePackage.getFileFromZip("com.huawei.watchface");
             try {
-                GBZipFile watchfaceBinZip  = new GBZipFile(watchfaceZip);
+                GBZipFile watchfaceBinZip = new GBZipFile(watchfaceZip);
                 fw = watchfaceBinZip.getFileFromZip("watchface.bin");
             } catch (ZipFileException e) {
                 LOG.error("Unable to get watchfaceZip,  it seems older already watchface.bin");
@@ -182,13 +298,13 @@ public class HuaweiFwHelper {
             isWatchface = true;
 
         } catch (ZipFileException e) {
-            LOG.error("Unable to read watchface file.", e);
+            LOG.error("Watchface: Unable to read file {}", e.getMessage());
         } catch (FileNotFoundException e) {
-            LOG.error("The watchface file was not found.", e);
+            LOG.error("Watchface: File was not found {}", e.getMessage());
         } catch (IOException e) {
-            LOG.error("General IO error occurred.", e);
+            LOG.error("Watchface: General IO error occurred {}", e.getMessage());
         } catch (Exception e) {
-            LOG.error("Unknown error occurred.", e);
+            LOG.error("Watchface: Unknown error occurred", e);
         }
 
         return isWatchface;
@@ -202,8 +318,12 @@ public class HuaweiFwHelper {
         return fileType == FileUpload.Filetype.app;
     }
 
+    public boolean isMusic() {
+        return fileType == FileUpload.Filetype.music;
+    }
+
     public boolean isValid() {
-        return isWatchface() || isAPP();
+        return isWatchface() || isAPP() || isMusic();
     }
 
     public Bitmap getPreviewBitmap() {
@@ -216,6 +336,10 @@ public class HuaweiFwHelper {
 
     public HuaweiAppManager.AppConfig getAppConfig() {
         return appConfig;
+    }
+
+    public HuaweiMusicManager.AudioInfo getMusicInfo() {
+        return musicInfo;
     }
 
     public byte getFileType() {

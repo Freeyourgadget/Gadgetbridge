@@ -74,6 +74,10 @@ public class HuaweiCoordinator {
 
     private App.AppDeviceParams appDeviceParams;
 
+    private HuaweiMusicUtils.MusicCapabilities musicDeviceParams = null;
+
+    private HuaweiMusicUtils.MusicCapabilities musicExtendedDeviceParams = null;
+
     private final HuaweiCoordinatorSupplier parent;
 
     private boolean transactionCrypted=true;
@@ -492,6 +496,8 @@ public class HuaweiCoordinator {
 
     public boolean supportsAppParams(){ return supportsCommandForService(0x2a, 0x06);}
 
+    public boolean supportsMusicUploading(){ return supportsCommandForService(0x25, 0x04);}
+
     public boolean supportsWeather() {
         return supportsCommandForService(0x0f, 0x01);
     }
@@ -711,6 +717,23 @@ public class HuaweiCoordinator {
     public App.AppDeviceParams getAppDeviceParams() {
         return appDeviceParams;
     }
+
+    public void setExtendedMusicInfoParams(HuaweiMusicUtils.MusicCapabilities musicDeviceParams) {
+        LOG.info(musicDeviceParams.toString());
+        this.musicExtendedDeviceParams = musicDeviceParams;
+    }
+    public HuaweiMusicUtils.MusicCapabilities getExtendedMusicInfoParams() {
+        return musicExtendedDeviceParams;
+    }
+
+    public void setMusicInfoParams(HuaweiMusicUtils.MusicCapabilities musicDeviceParams) {
+        LOG.info(musicDeviceParams.toString());
+        this.musicDeviceParams = musicDeviceParams;
+    }
+    public HuaweiMusicUtils.MusicCapabilities getMusicInfoParams() {
+        return musicDeviceParams;
+    }
+
 
     public Class<? extends Activity> getAppManagerActivity() {
         return AppManagerActivity.class;

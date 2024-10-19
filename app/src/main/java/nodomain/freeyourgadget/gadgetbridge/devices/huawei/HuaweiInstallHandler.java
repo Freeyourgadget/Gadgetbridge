@@ -19,8 +19,12 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
@@ -31,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiAppManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiFwHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiMusicManager;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiWatchfaceManager;
 
 public class HuaweiInstallHandler implements InstallHandler {
@@ -46,6 +51,59 @@ public class HuaweiInstallHandler implements InstallHandler {
         this.helper = new HuaweiFwHelper(uri, context);
     }
 
+    private HuaweiMusicUtils.FormatRestrictions getRestriction(HuaweiMusicUtils.MusicCapabilities capabilities, String ext) {
+        List<HuaweiMusicUtils.FormatRestrictions> restrictions = capabilities.formatsRestrictions;
+        if(restrictions == null)
+            return null;
+
+        for(HuaweiMusicUtils.FormatRestrictions r: restrictions) {
+            if(ext.equals(r.getName())) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+    //TODO: add proper checks
+    private boolean checkMediaCompatibility(HuaweiMusicUtils.MusicCapabilities capabilities, HuaweiMusicManager.AudioInfo currentMusicInfo) {
+        if(capabilities == null) {
+            LOG.error("No media info from device");
+            return false;
+        }
+        String ext = currentMusicInfo.getExtension();
+
+        List<String> supportedFormats = capabilities.supportedFormats;
+        if(supportedFormats == null) {
+            LOG.error("Format not supported {}", ext);
+            return false;
+        }
+        if(!supportedFormats.contains(ext)) {
+            LOG.error("Format not supported {}", ext);
+            return false;
+        }
+
+        HuaweiMusicUtils.FormatRestrictions restrictions = getRestriction(capabilities, ext);
+        if(restrictions == null) {
+            LOG.info("no restriction for: {}", ext);
+            return true;
+        }
+
+        LOG.info("bitrate {}", restrictions.bitrate);
+        LOG.info("channels {}", restrictions.channels);
+        LOG.info("musicEncode {}", restrictions.musicEncode);
+        LOG.info("sampleRate {}", restrictions.sampleRate);
+        LOG.info("unknownBitrate {}", restrictions.unknownBitrate);
+
+        if(currentMusicInfo.getChannels() > restrictions.channels) {
+            LOG.error("Not supported channels couunt {} > {}", currentMusicInfo.getChannels(), restrictions.channels);
+            return false;
+        }
+
+        //TODO: check other restrictions.
+
+        return true;
+    }
+
 
     @Override
     public void validateInstallation(InstallActivity installActivity, GBDevice device) {
@@ -57,7 +115,7 @@ public class HuaweiInstallHandler implements InstallHandler {
             return;
         }
 
-        if(helper.isWatchface()) {
+        if (helper.isWatchface()) {
             final HuaweiCoordinatorSupplier huaweiCoordinatorSupplier = (HuaweiCoordinatorSupplier) coordinator;
 
             HuaweiWatchfaceManager.WatchfaceDescription description = helper.getWatchfaceDescription();
@@ -71,7 +129,6 @@ public class HuaweiInstallHandler implements InstallHandler {
 
             GenericItem installItem = new GenericItem();
 
-
             if (helper.getPreviewBitmap() != null) {
                 installItem.setPreview(helper.getPreviewBitmap());
             }
@@ -79,16 +136,16 @@ public class HuaweiInstallHandler implements InstallHandler {
             installItem.setName(description.title);
             installActivity.setInstallItem(installItem);
             if (device.isBusy()) {
-                LOG.error("Firmware cannot be installed (device busy)");
-                installActivity.setInfoText("Firmware cannot be installed (device busy)");
+                LOG.error("Watchface cannot be installed (device busy)");
+                installActivity.setInfoText("Watchface cannot be installed (device busy)");
                 installActivity.setInfoText(device.getBusyTask());
                 installActivity.setInstallEnabled(false);
                 return;
             }
 
             if (!device.isConnected()) {
-                LOG.error("Firmware cannot be installed (not connected or wrong device)");
-                installActivity.setInfoText("Firmware cannot be installed (not connected or wrong device)");
+                LOG.error("Watchface cannot be installed (not connected or wrong device)");
+                installActivity.setInfoText("Watchface cannot be installed (not connected or wrong device)");
                 installActivity.setInstallEnabled(false);
                 return;
             }
@@ -106,7 +163,7 @@ public class HuaweiInstallHandler implements InstallHandler {
             installItem.setIcon(R.drawable.ic_watchface);
             installActivity.setInfoText(context.getString(R.string.watchface_install_info, installItem.getName(), description.version, description.author));
 
-            LOG.debug("Initialized HuaweiInstallHandler");
+            LOG.debug("Initialized HuaweiInstallHandler: Watchface");
         } else if (helper.isAPP()) {
             final HuaweiAppManager.AppConfig config = helper.getAppConfig();
 
@@ -123,7 +180,7 @@ public class HuaweiInstallHandler implements InstallHandler {
             installItem.setName(config.bundleName);
             installActivity.setInstallItem(installItem);
             if (device.isBusy()) {
-                LOG.error("Firmware cannot be installed (device busy)");
+                LOG.error("App cannot be installed (device busy)");
                 installActivity.setInfoText("Firmware cannot be installed (device busy)");
                 installActivity.setInfoText(device.getBusyTask());
                 installActivity.setInstallEnabled(false);
@@ -131,7 +188,7 @@ public class HuaweiInstallHandler implements InstallHandler {
             }
 
             if (!device.isConnected()) {
-                LOG.error("Firmware cannot be installed (not connected or wrong device)");
+                LOG.error("App cannot be installed (not connected or wrong device)");
                 installActivity.setInfoText("Firmware cannot be installed (not connected or wrong device)");
                 installActivity.setInstallEnabled(false);
                 return;
@@ -149,7 +206,55 @@ public class HuaweiInstallHandler implements InstallHandler {
 
             installActivity.setInfoText(context.getString(R.string.app_install_info, installItem.getName(), config.version, config.vendor));
 
-            LOG.debug("Initialized HuaweiInstallHandler");
+            LOG.debug("Initialized HuaweiInstallHandler: App");
+        } else if (helper.isMusic()) {
+            final HuaweiCoordinatorSupplier huaweiCoordinatorSupplier = (HuaweiCoordinatorSupplier) coordinator;
+
+            HuaweiMusicUtils.MusicCapabilities capabilities = huaweiCoordinatorSupplier.getHuaweiCoordinator().getExtendedMusicInfoParams();
+            if(capabilities == null) {
+                capabilities = huaweiCoordinatorSupplier.getHuaweiCoordinator().getMusicInfoParams();
+            }
+            HuaweiMusicManager.AudioInfo currentMusicInfo = helper.getMusicInfo();
+
+            boolean isMediaCompatible = checkMediaCompatibility(capabilities, currentMusicInfo);
+
+            this.valid = isMediaCompatible && !TextUtils.isEmpty(helper.getMusicInfo().getFileName()) && !TextUtils.isEmpty(helper.getMusicInfo().getArtist()) && !TextUtils.isEmpty(helper.getMusicInfo().getTitle());
+
+            installActivity.setInstallEnabled(true);
+
+            GenericItem installItem = new GenericItem();
+
+            installItem.setName(helper.getFileName());
+            installActivity.setInstallItem(installItem);
+            if (device.isBusy()) {
+                LOG.error("Music cannot be uploaded (device busy)");
+                installActivity.setInfoText("Music cannot be uploaded (device busy)");
+                installActivity.setInfoText(device.getBusyTask());
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            if (!device.isConnected()) {
+                LOG.error("Music cannot be uploaded (not connected or wrong device)");
+                installActivity.setInfoText("Music cannot be uploaded (not connected or wrong device)");
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            if (!this.valid) {
+                LOG.error("Music cannot be uploaded");
+                installActivity.setInfoText("Music cannot be uploaded");
+                installActivity.setInstallEnabled(false);
+                return;
+            }
+
+            installItem.setDetails(helper.getMusicInfo().getFileName());
+
+            installItem.setIcon(R.drawable.ic_music_note);
+
+            installActivity.setInfoText(context.getString(R.string.app_install_info, helper.getMusicInfo().getFileName(), helper.getMusicInfo().getTitle(), helper.getMusicInfo().getArtist()));
+
+            LOG.debug("Initialized HuaweiInstallHandler: Music");
         }
 
     }
