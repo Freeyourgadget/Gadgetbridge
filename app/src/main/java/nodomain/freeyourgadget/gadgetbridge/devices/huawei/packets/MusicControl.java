@@ -343,8 +343,10 @@ public class MusicControl {
                         HuaweiMusicUtils.FormatRestrictions restriction = new HuaweiMusicUtils.FormatRestrictions();
                         if (subTlv.contains(0x08))
                             restriction.formatIdx = subTlv.getByte(0x08);
-                        if (subTlv.contains(0x09))
-                            restriction.sampleRate = subTlv.getInteger(0x09);
+                        if (subTlv.contains(0x09)) {
+                            String sampleRates = subTlv.getString(0x09);
+                            restriction.sampleRates = sampleRates.split(",");
+                        }
                         if (subTlv.contains(0x0a))
                             restriction.musicEncode = subTlv.getByte(0x0a);
                         if (subTlv.contains(0x0b))

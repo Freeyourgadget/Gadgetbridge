@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HuaweiMusicUtils {
@@ -32,10 +33,10 @@ public class HuaweiMusicUtils {
 
     public static class FormatRestrictions {
         public byte formatIdx = -1;
-        public int sampleRate = -1; // TODO: not sure
+        public String[] sampleRates = null;
         public byte musicEncode = -1;  // TODO: not sure
         public short bitrate = -1;
-        public byte channels = -1;
+        public byte channels = 2;
         public short unknownBitrate = -1;   // TODO: not sure
 
         // TODO: I am not sure about this. Most of formats unknown for me.
@@ -49,7 +50,7 @@ public class HuaweiMusicUtils {
         public String toString() {
             final StringBuffer sb = new StringBuffer("FormatRestrictions{");
             sb.append("formatIdx=").append(formatIdx);
-            sb.append(", sampleRate=").append(sampleRate);
+            sb.append(", sampleRates=").append(Arrays.toString(sampleRates));
             sb.append(", musicEncode=").append(musicEncode);
             sb.append(", bitrate=").append(bitrate);
             sb.append(", channels=").append(channels);

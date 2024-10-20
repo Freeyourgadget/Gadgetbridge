@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -91,7 +92,7 @@ public class HuaweiInstallHandler implements InstallHandler {
         LOG.info("bitrate {}", restrictions.bitrate);
         LOG.info("channels {}", restrictions.channels);
         LOG.info("musicEncode {}", restrictions.musicEncode);
-        LOG.info("sampleRate {}", restrictions.sampleRate);
+        LOG.info("sampleRate {}", Arrays.toString(restrictions.sampleRates));
         LOG.info("unknownBitrate {}", restrictions.unknownBitrate);
 
         if(currentMusicInfo.getChannels() > restrictions.channels) {
