@@ -75,7 +75,7 @@ public class HuaweiUploadManager {
             this.fileUploadParams = params;
         }
 
-        public short getUnitSize() {
+        public int getUnitSize() {
             return fileUploadParams.unit_size;
         }
 

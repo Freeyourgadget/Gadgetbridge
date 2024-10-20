@@ -827,12 +827,10 @@ public class HuaweiPacket {
         return retv;
     }
 
-    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, short unitSize, byte fileId, boolean isEncrypted) throws SerializeException {
+    public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, int unitSize, byte fileId, boolean isEncrypted) throws SerializeException {
         List<byte[]> retv = new ArrayList<>();
-        int headerLength = 5; // Magic + (short)(bodyLength + 1) + 0x00
-        int sliceHeaderLength = 6;
-
-        int footerLength = 2; //CRC16
+        final int sliceHeaderLength = 6;
+        final int packageHeaderAndFooterLength = 6;
 
         int packetCount = (int) Math.ceil(((double) fileChunk.length) / (double) unitSize);
 
@@ -842,7 +840,7 @@ public class HuaweiPacket {
 
         for (int i = 0; i < packetCount; i++) {
 
-            short contentSize = (short) Math.min(unitSize, buffer.remaining());
+            int contentSize = Math.min(unitSize, buffer.remaining());
 
             ByteBuffer payload = ByteBuffer.allocate(contentSize + sliceHeaderLength);
             payload.put(fileId);                                      // Slice
@@ -870,45 +868,23 @@ public class HuaweiPacket {
                 throw new HuaweiPacket.SerializeException("new payload is null");
             }
 
-            short packetSize = (short)(new_payload.length + sliceHeaderLength + footerLength);
-            ByteBuffer packet = ByteBuffer.allocate(packetSize);
-
-            int start = packet.position();
-            packet.put((byte) 0x5a);                                // Magic byte
-            packet.putShort((short) (packetSize - headerLength));   // Length
-
-            packet.put((byte) 0x00);
-            packet.put(this.serviceId);
-            packet.put(this.commandId);
-
-            packet.put(new_payload);
-
-            int length = packet.position() - start;
-            if (length != packetSize - footerLength) {
-                throw new HuaweiPacket.SerializeException(String.format(GBApplication.getLanguage(), "Packet lengths don't match! %d != %d", length, packetSize + headerLength));
+            if ((new_payload.length + packageHeaderAndFooterLength) > paramsProvider.getSliceSize()) {
+                retv.addAll(serializeSliced(new_payload));
+            } else {
+                retv.addAll(serializeUnsliced(new_payload));
             }
-
-            byte[] complete = new byte[length];
-            packet.position(start);
-            packet.get(complete, 0, length);
-            int crc16 = CheckSums.getCRC16(complete, 0x0000);
-
-            packet.putShort((short) crc16);                         // CRC16
 
             sliceStart += contentSize;
 
-            retv.add(packet.array());
         }
         return retv;
     }
 
     public List<byte[]> serializeFileChunk1c(byte[] fileChunk, short transferSize, int packetCount) throws SerializeException {
         List<byte[]> retv = new ArrayList<>();
-        int headerLength = 4; // Magic + (short)(bodyLength + 1) + 0x00
-        int bodyHeaderLength = 2; // sID + cID
-        int footerLength = 2; //CRC16
-        int subHeaderLength = 1;
 
+        final int subHeaderLength = 1;
+        final int packageHeaderAndFooterLength = 6;
 
         ByteBuffer buffer = ByteBuffer.wrap(fileChunk);
 
@@ -925,34 +901,11 @@ public class HuaweiPacket {
 
             byte[] new_payload = payload.array();
 
-            int bodyLength = bodyHeaderLength + new_payload.length;
-
-            short packetSize = (short)(headerLength + bodyLength + footerLength);
-            ByteBuffer packet = ByteBuffer.allocate(packetSize);
-
-            int start = packet.position();
-            packet.put((byte) 0x5a);                                // Magic byte
-            packet.putShort((short) (bodyLength + 1));   // Length
-
-            packet.put((byte) 0x00);
-            packet.put(this.serviceId);
-            packet.put(this.commandId);
-
-            packet.put(new_payload);
-
-            int length = packet.position() - start;
-            if (length != packetSize - footerLength) {
-                throw new HuaweiPacket.SerializeException(String.format(GBApplication.getLanguage(), "Packet lengths don't match! %d != %d", length, packetSize + headerLength));
+            if ((new_payload.length + packageHeaderAndFooterLength) > paramsProvider.getSliceSize()) {
+                retv.addAll(serializeSliced(new_payload));
+            } else {
+                retv.addAll(serializeUnsliced(new_payload));
             }
-
-            byte[] complete = new byte[length];
-            packet.position(start);
-            packet.get(complete, 0, length);
-            int crc16 = CheckSums.getCRC16(complete, 0x0000);
-
-            packet.putShort((short) crc16);                         // CRC16
-
-            retv.add(packet.array());
         }
         return retv;
     }

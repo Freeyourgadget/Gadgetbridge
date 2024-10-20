@@ -243,6 +243,16 @@ public class HuaweiTLV {
         return ByteBuffer.wrap(getBytes(tag)).getShort();
     }
 
+    public Integer getAsInteger(int tag) throws HuaweiPacket.MissingTagException {
+        byte[] bytes = getBytes(tag);
+        if(bytes.length == 1) {
+            return bytes[0] & 0xFF;
+        } else if(bytes.length == 2) {
+            return ByteBuffer.wrap(getBytes(tag)).getShort() & 0xFFFF;
+        }
+        return ByteBuffer.wrap(getBytes(tag)).getInt();
+    }
+
     public String getString(int tag) throws HuaweiPacket.MissingTagException {
         return new String(getBytes(tag), StandardCharsets.UTF_8);
     }

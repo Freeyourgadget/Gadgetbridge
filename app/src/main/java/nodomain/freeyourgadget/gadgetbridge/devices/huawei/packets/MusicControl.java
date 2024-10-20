@@ -18,9 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiMusicUtils.parseFormatBits;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -266,15 +263,15 @@ public class MusicControl {
 //                     LOG.info("Unknown: " + this.tlv.getShort(0x01));
 
                 if (this.tlv.contains(0x02))
-                    params.availableSpace = this.tlv.getShort(0x02);
+                    params.availableSpace = this.tlv.getAsInteger(0x02);
                 if (this.tlv.contains(0x03)) {
                     byte[] formatBits = this.tlv.getBytes(0x03);
                     params.supportedFormats = parseFormatBits(formatBits);
                 }
                 if (this.tlv.contains(0x04))
-                    params.maxMusicCount = this.tlv.getShort(0x04);
+                    params.maxMusicCount = this.tlv.getAsInteger(0x04);
                 if (this.tlv.contains(0x05))
-                    params.currentMusicCount = this.tlv.getByte(0x05);
+                    params.currentMusicCount = this.tlv.getAsInteger(0x05);
 
                 if (this.tlv.contains(0x86)) {
                     params.pageStruct = new ArrayList<>();
@@ -327,15 +324,15 @@ public class MusicControl {
             @Override
             public void parseTlv() throws ParseException {
                 if (this.tlv.contains(0x01))
-                    params.availableSpace = this.tlv.getShort(0x01);
+                    params.availableSpace = this.tlv.getAsInteger(0x01);
                 if (this.tlv.contains(0x02)) {
                     byte[] formatBits = this.tlv.getBytes(0x02);
                     params.supportedFormats = parseFormatBits(formatBits);
                 }
                 if (this.tlv.contains(0x03))
-                    params.maxMusicCount = this.tlv.getShort(0x03);
+                    params.maxMusicCount = this.tlv.getAsInteger(0x03);
                 if (this.tlv.contains(0x04))
-                    params.maxPlaylistCount = this.tlv.getShort(0x04);
+                    params.maxPlaylistCount = this.tlv.getAsInteger(0x04);
                 if (this.tlv.contains(0x05))
                     params.unknown = this.tlv.getByte(0x05);
 

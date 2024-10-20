@@ -95,7 +95,7 @@ public class HuaweiInstallHandler implements InstallHandler {
         LOG.info("unknownBitrate {}", restrictions.unknownBitrate);
 
         if(currentMusicInfo.getChannels() > restrictions.channels) {
-            LOG.error("Not supported channels couunt {} > {}", currentMusicInfo.getChannels(), restrictions.channels);
+            LOG.error("Not supported channels count {} > {}", currentMusicInfo.getChannels(), restrictions.channels);
             return false;
         }
 

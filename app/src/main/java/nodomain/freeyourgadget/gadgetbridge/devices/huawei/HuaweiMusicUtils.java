@@ -60,12 +60,12 @@ public class HuaweiMusicUtils {
     }
 
     public static class MusicCapabilities {
-        public short availableSpace = 0;
+        public int availableSpace = 0;
         public List<String> supportedFormats = null;
-        public short maxMusicCount = 0;
-        public short maxPlaylistCount = 0;
-        public short currentMusicCount = 0; // TODO: not sure
-        public byte unknown = 0; // TODO: not sure
+        public int maxMusicCount = 0;
+        public int maxPlaylistCount = 0;
+        public int currentMusicCount = 0; // TODO: not sure
+        public int unknown = 0; // TODO: not sure
         public List<FormatRestrictions> formatsRestrictions = null;
         public List<PageStruct> pageStruct = null;
 
