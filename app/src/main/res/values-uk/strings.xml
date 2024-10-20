@@ -355,7 +355,7 @@
     <string name="miband_prefs_reserve_alarm_calendar">Будильники для резервування майбутніх подій</string>
     <string name="miband_prefs_hr_sleep_detection">Використовувати датчик пульсу для поліпшення виявлення сну</string>
     <string name="dateformat_time">Час</string>
-    <string name="dateformat_date_time">Дата й час</string>
+    <string name="dateformat_date_time"><![CDATA[Дата й час]]></string>
     <string name="pref_title_unit_system">Одиниці вимірювання</string>
     <string name="tap_connected_device_for_vibration">Торкніться під\'єднаного пристрою для вібрації</string>
     <string name="pairing">Створення пари з %s…</string>
@@ -645,7 +645,7 @@
 \n*.log — файли журналів
 \nЕкспортовані файли (або помістіть сюди файли для імпорту) розміщено тут:</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Неможливо отримати доступ до теки для експорту. Будь ласка, зверніться до розробників.</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати поточні дані? Всі поточні дані про діяльність (якщо вони є) та налаштування будуть перезаписані.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати поточні дані? Усі поточні дані про діяльність (якщо вони є) пристрої та налаштування будуть перезаписані.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Дійсно видалити всю базу даних? Всі ваші дані про діяльність та дані про ваші пристрої будуть втрачені.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Видалити стару базу даних?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Дійсно видалити стару базу даних діяльностей? Дані, які не були імпортовані, будуть втрачені.</string>
@@ -663,7 +663,7 @@
     <string name="pref_title_setup_bt_pairing">Увімкніть створення пари через Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Вимкніть це, якщо у вас виникають проблеми з під\'єднанням</string>
     <string name="mi2_fw_installhandler_fw53_hint">Перед встановленням цієї мікропрограми спочатку потрібно встановити версію %1$s!</string>
-    <string name="mi2_enable_text_notifications_summary">Потрібна мікропрограма &gt;= 1.0.1.28 та встановлений Mili_pro.ft*.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Потрібна мікропрограма >= 1.0.1.28 та встановлений Mili_pro.ft*.]]></string>
     <string name="off">Вимкнути</string>
     <string name="mi2_dnd_off">Вимкнути</string>
     <string name="discovery_attempting_to_pair">Спроба створення пари з %1$s</string>
@@ -2839,7 +2839,7 @@
     <string name="devicetype_huawei_watchfit">Huawei Watch Fit</string>
     <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
     <string name="devicetype_honor_magicwatch2">Honor MagicWatch 2</string>
-    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 Pro</string>
+    <string name="devicetype_huawei_watch4pro">Huawei Watch 4 (Pro)</string>
     <string name="devicetype_huawei_band9">Huawei Band 9</string>
     <string name="devicetype_huawei_watchgt2">Huawei Watch GT 2 (Pro)</string>
     <string name="devicetype_mijia_mho_c303">Mijia MHO-C303</string>
