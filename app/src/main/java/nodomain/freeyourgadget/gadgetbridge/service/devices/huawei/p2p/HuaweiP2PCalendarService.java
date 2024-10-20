@@ -5,6 +5,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -20,8 +21,10 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -153,11 +156,16 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         long millis = System.currentTimeMillis();
         return String.format(Locale.ROOT, "calendar_data_%d.json", millis);
     }
+
+    private String prepareEventUUID(long id, long begin) {
+        return String.valueOf(id) + "_" + begin;
+    }
+
     static <T> T valueOrEmpty(T val, T def) {
         return val != null ? val : def;
     }
 
-    private JsonObject calendarEventToJson(CalendarEvent calendarEvent) {
+    private JsonObject calendarEventToJson(CalendarEvent calendarEvent, int operation) {
         JsonObject ret = new JsonObject();
 
         // NOTE: Calendar contain reminders already in required format. But GB reformat them.
@@ -167,11 +175,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
             reminders.append(String.valueOf((calendarEvent.getBegin() - rem) / 60 / 1000L)).append(",");
         }
 
-        String rrule = calendarEvent.getRrule();
-        if(rrule == null)
-            rrule = "";
-
-        String eventUUID = String.valueOf(calendarEvent.getId()) + "_" + calendarEvent.getBegin();
+        String eventUUID = prepareEventUUID(calendarEvent.getId(), calendarEvent.getBegin());
 
         ret.addProperty("account_name", truncateToHexBytes(calendarEvent.getCalAccountName(), 64));
         ret.addProperty("account_type", truncateToHexBytes(calendarEvent.getCalAccountType(), 64));
@@ -187,8 +191,8 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         ret.addProperty("event_uuid", eventUUID);
         ret.addProperty("has_alarm", (reminders.length() == 0) ? 0 : 1);
         ret.addProperty("minutes", reminders.toString());
-        ret.addProperty("operation", 1); // 1 - add, 2 - delete
-        ret.addProperty("rrule", valueOrEmpty(rrule,""));
+        ret.addProperty("operation", operation); // 1 - add, 2 - delete, 3 - update
+        ret.addProperty("rrule", valueOrEmpty(calendarEvent.getRrule(),""));
         // TODO: Retrieve from CalendarContract.CalendarAlerts, field state
         // TODO: see handleData function command ID 3 for details
         ret.addProperty("state", -1);
@@ -199,7 +203,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
     private JsonObject calendarDeletedEventToJson(CalendarEvent calendarEvent) {
         JsonObject ret = new JsonObject();
 
-        String eventUUID = String.valueOf(calendarEvent.getId()) + "_" + calendarEvent.getBegin();
+        String eventUUID = prepareEventUUID(calendarEvent.getId(), calendarEvent.getBegin());
 
         ret.addProperty("account_name", "");
         ret.addProperty("account_type", "");
@@ -228,7 +232,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
 
         JsonArray events = new JsonArray();
         for (final CalendarEvent calendarEvent : calendarEvents) {
-            events.add(calendarEventToJson(calendarEvent));
+            events.add(calendarEventToJson(calendarEvent, 1));
         }
 
         lastCalendarEvents = calendarEvents;
@@ -239,18 +243,42 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         final CalendarManager upcomingEvents = new CalendarManager(manager.getSupportProvider().getContext(), manager.getSupportProvider().getDevice().getAddress());
         final List<CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList();
 
-        List<CalendarEvent> newEvents = new ArrayList<>(calendarEvents);
-        newEvents.removeAll(lastCalendarEvents);
+        List<CalendarEvent> newEvents = new ArrayList<>();
+        List<CalendarEvent> updatedEvents = new ArrayList<>();
 
-        List<CalendarEvent> removedEvents = new ArrayList<>(lastCalendarEvents);
-        removedEvents.removeAll(calendarEvents);
+        Map<Pair<Long, Long>, CalendarEvent> lastEventsIds = new HashMap<>();
+        for (CalendarEvent evt : lastCalendarEvents) {
+            lastEventsIds.put(new Pair<>(evt.getId(),  evt.getBegin()), evt);
+        }
+
+        for (CalendarEvent evt : calendarEvents) {
+            CalendarEvent lastEvt = lastEventsIds.remove((new Pair<>(evt.getId(),  evt.getBegin())));
+            if (lastEvt == null) {
+                newEvents.add(evt);
+            } else {
+                if(!lastEvt.equals(evt)) {
+                    updatedEvents.add(evt);
+                }
+            }
+        }
+
+        List<CalendarEvent> removedEvents = new ArrayList<>(lastEventsIds.values());
+
 
         JsonArray events = new JsonArray();
+
+        for (final CalendarEvent calendarEvent : updatedEvents) {
+            LOG.info("Update: {}", prepareEventUUID(calendarEvent.getId(), calendarEvent.getBegin()));
+            events.add(calendarEventToJson(calendarEvent, 3));
+        }
+
         for (final CalendarEvent calendarEvent : newEvents) {
-            events.add(calendarEventToJson(calendarEvent));
+            LOG.info("New: {}", prepareEventUUID(calendarEvent.getId(), calendarEvent.getBegin()));
+            events.add(calendarEventToJson(calendarEvent, 1));
         }
 
         for (final CalendarEvent calendarEvent : removedEvents) {
+            LOG.info("Remove: {}", prepareEventUUID(calendarEvent.getId(), calendarEvent.getBegin()));
             events.add(calendarDeletedEventToJson(calendarEvent));
         }
 
