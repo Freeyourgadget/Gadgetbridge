@@ -182,7 +182,7 @@ public class HuaweiInstallHandler implements InstallHandler {
             installActivity.setInstallItem(installItem);
             if (device.isBusy()) {
                 LOG.error("App cannot be installed (device busy)");
-                installActivity.setInfoText("Firmware cannot be installed (device busy)");
+                installActivity.setInfoText("App cannot be installed (device busy)");
                 installActivity.setInfoText(device.getBusyTask());
                 installActivity.setInstallEnabled(false);
                 return;
@@ -190,7 +190,7 @@ public class HuaweiInstallHandler implements InstallHandler {
 
             if (!device.isConnected()) {
                 LOG.error("App cannot be installed (not connected or wrong device)");
-                installActivity.setInfoText("Firmware cannot be installed (not connected or wrong device)");
+                installActivity.setInfoText("App cannot be installed (not connected or wrong device)");
                 installActivity.setInstallEnabled(false);
                 return;
             }
@@ -251,9 +251,9 @@ public class HuaweiInstallHandler implements InstallHandler {
 
             installItem.setDetails(helper.getMusicInfo().getFileName());
 
-            installItem.setIcon(R.drawable.ic_music_note);
+            installItem.setIcon(R.drawable.ic_music);
 
-            installActivity.setInfoText(context.getString(R.string.app_install_info, helper.getMusicInfo().getFileName(), helper.getMusicInfo().getTitle(), helper.getMusicInfo().getArtist()));
+            installActivity.setInfoText(context.getString(R.string.music_upload_info, helper.getMusicInfo().getFileName(), helper.getMusicInfo().getTitle(), helper.getMusicInfo().getArtist()));
 
             LOG.debug("Initialized HuaweiInstallHandler: Music");
         }

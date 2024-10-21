@@ -2001,16 +2001,15 @@ public class HuaweiSupportProvider {
             @Override
             public void onError(int code) {
                 if (code == 140004) {
-                    LOG.error("Too many watchfaces installed");
+                    LOG.error("Too many watchfaces installed or musics uploaded");
                     HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.cannot_upload_watchface_too_many_watchfaces_installed), Toast.LENGTH_LONG, GB.ERROR));
                 } else if (code == 140008) {
                     LOG.error("File already exists");
-                    HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage("File already exists", Toast.LENGTH_LONG, GB.ERROR)); //TODO: localization
+                    HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.file_already_exists), Toast.LENGTH_LONG, GB.ERROR));
                 } else if (code == 140009) {
                     LOG.error("Insufficient space for upload");
                     HuaweiSupportProvider.this.handleGBDeviceEvent(new GBDeviceEventDisplayMessage(HuaweiSupportProvider.this.getContext().getString(R.string.insufficient_space_for_upload), Toast.LENGTH_LONG, GB.ERROR));
                 }
-
             }
         });
 

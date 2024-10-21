@@ -632,6 +632,7 @@
     <string name="firmware_install_warning">YOU ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.\n\n\n This firmware is for HW Revision: %s</string>
     <string name="app_install_info">You are about to install the following app:\n\n%1$s\nVersion %2$s by %3$s\n</string>
     <string name="watchface_install_info">You are about to install the following watchface:\n\n%1$s\nVersion %2$s by %3$s\n</string>
+    <string name="music_upload_info">You are about to upload the following music file:\n\n%1$s\nSong title: %2$s\nAlbum: %3$s\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">initialized</string>
     <string name="appversion_by_creator">%1$s by %2$s</string>
@@ -3322,6 +3323,7 @@
     <string name="pref_fetch_unknown_files_summary">Fetch unknown activity files from the watch. They will not be processed, but will be saved in the phone.</string>
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">"Cannot upload watchface, too many watchfaces installed"</string>
     <string name="insufficient_space_for_upload">"Insufficient space for upload"</string>
+    <string name="file_already_exists">"File already exists"</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">Measurement error. Are the ring\'s sensors oriented correctly?</string>
     <string name="smart_ring_measurement_error_unknown">Unknown measurement error %d received from ring</string>
     <string name="pref_header_deprecated_functionalities">Deprecated functionalities</string>
