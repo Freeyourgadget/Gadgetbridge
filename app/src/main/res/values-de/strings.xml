@@ -3341,4 +3341,8 @@
     <string name="workout_set_reps">Wiederholungen</string>
     <string name="activity_detail_share_json_details">JSON-Details teilen</string>
     <string name="max_respiration_rate">Atemfrequenz max</string>
+    <string name="date_placeholders__date__time">%1s, %1s</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="pref_title_calendar_lookahead">Anzahl der Tage voraus</string>
+    <string name="pref_summary_calendar_lookahead">Kalenderereignisse bis zu %1s Tagen synchronisieren</string>
 </resources>
