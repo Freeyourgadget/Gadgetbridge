@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -212,7 +213,10 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                         Calendar sampleCal = (Calendar) syncingDay.clone();
                         int startValue = hrPacketNr == 1 ? 6 : 2;  // packet 1 contains the sync-from timestamp in bytes 2-5
                         int minutesInPreviousPackets = 0;
-                        if (hrPacketNr > 1) {
+                        if (hrPacketNr == 1) {
+                            int timestamp = BLETypeConversions.toUint32(value[2], value[3], value[4], value[5]);
+                            LOG.info("Receiving HR history sequence with timestamp {}", DateTimeUtils.parseTimeStamp(timestamp));
+                        } else {
                             minutesInPreviousPackets = 9 * 5;  // packet 1
                             minutesInPreviousPackets += (hrPacketNr - 2) * 13 * 5;
                         }
@@ -222,6 +226,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                                 int minuteOfDay = minutesInPreviousPackets + (i - startValue) * 5;
                                 sampleCal.set(Calendar.HOUR_OF_DAY, minuteOfDay / 60);
                                 sampleCal.set(Calendar.MINUTE, minuteOfDay % 60);
+                                sampleCal.set(Calendar.SECOND, 0);
                                 LOG.info("Value {} is {} bpm, time of day is {}", i, value[i] & 0xff, sampleCal.getTime());
                                 // Build sample object and save in database
                                 try (DBHandler db = GBApplication.acquireDB()) {
@@ -634,9 +639,10 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
             syncingDay.add(Calendar.DAY_OF_MONTH, 0 - daysAgo);
             syncingDay.set(Calendar.HOUR_OF_DAY, 0);
             syncingDay.set(Calendar.MINUTE, 0);
+            syncingDay.set(Calendar.SECOND, 0);
         }
-        syncingDay.set(Calendar.SECOND, 0);
         syncingDay.set(Calendar.MILLISECOND, 0);
+        syncingDay.add(Calendar.MILLISECOND, syncingDay.get(Calendar.ZONE_OFFSET) + syncingDay.get(Calendar.DST_OFFSET));
         ByteBuffer hrHistoryRequestBB = ByteBuffer.allocate(5);
         hrHistoryRequestBB.order(ByteOrder.LITTLE_ENDIAN);
         hrHistoryRequestBB.put(0, ColmiR0xConstants.CMD_SYNC_HEART_RATE);
