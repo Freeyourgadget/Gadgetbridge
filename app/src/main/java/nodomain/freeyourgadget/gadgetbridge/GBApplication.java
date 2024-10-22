@@ -270,16 +270,16 @@ public class GBApplication extends Application {
                 startService(new Intent(this, NotificationCollectorMonitorService.class));
             } catch (IllegalStateException e) {
                 String message = e.toString();
-                if (message == null) {
-                    message = getString(R.string._unknown_);
-                }
+                final Intent instructionsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://gadgetbridge.org/basics/topics/background-service/"));
+                final PendingIntent pi = PendingIntentUtils.getActivity(context, 0, instructionsIntent, PendingIntent.FLAG_ONE_SHOT, false);
                 GB.notify(NOTIFICATION_ID_ERROR,
                         new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
                                 .setSmallIcon(R.drawable.ic_notification)
                                 .setContentTitle(getString(R.string.error_background_service))
                                 .setContentText(getString(R.string.error_background_service_reason_truncated))
+                                .setContentIntent(pi)
                                 .setStyle(new NotificationCompat.BigTextStyle()
-                                        .bigText(getString(R.string.error_background_service_reason) + "\"" + message + "\""))
+                                        .bigText(getString(R.string.error_background_service_reason) + " \"" + message + "\""))
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                 .build(), context);
             }
