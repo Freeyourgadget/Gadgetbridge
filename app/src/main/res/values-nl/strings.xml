@@ -910,7 +910,7 @@
     <string name="pref_title_weather_summary">Gebruikt voor de LineageOS-weeraanbieder, andere Android versies moeten een app zoals \"Weather notification\" gebruiken. Meer informatie is te vinden in de Gadgetbridge wiki.</string>
     <string name="menuitem_worldclock">Wereld Klok</string>
     <string name="error_background_service_reason_truncated">Het starten van de achtergrondservice is mislukt omdat…</string>
-    <string name="error_background_service_reason">Het starten van de achtergronddienst is mislukt vanwege een uitzondering. Fout:</string>
+    <string name="error_background_service_reason">Het starten van de achtergrondservice is mislukt door een probleem. Klik hier voor meer informatie.\n\nFout:</string>
     <string name="error_background_service">Kan de achtergrondservice niet starten</string>
     <string name="error_version_check_extreme_caution">LET OP: Fout bij het controleren van versie-informatie! Je moet niet doorgaan! Zag versienaam \"%s\"</string>
     <string name="permission_granting_mandatory">Al deze toestemmingen zijn vereist en er kan instabiliteit ontstaan als ze niet worden verleend</string>
