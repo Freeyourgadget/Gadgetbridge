@@ -441,7 +441,7 @@
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="pref_title_charts_swipe">Zapnout možnost potažení mezi grafy aktivit</string>
     <string name="pref_title_weather">Počasí</string>
-    <string name="pref_title_weather_location">Poloha pro počasí (LineageOS poskytovatel)</string>
+    <string name="pref_title_weather_location">Poloha pro počasí (poskytovatel v LineageOS)</string>
     <string name="pref_title_pebble_enable_bgjs">Zapnout JS na pozadí</string>
     <string name="pref_summary_pebble_enable_bgjs">Pokud je zapnuto, umožňuje hodinám zobrazovat počasí, údaje o baterii atd.</string>
     <string name="pref_header_auto_export">Automatický export</string>
