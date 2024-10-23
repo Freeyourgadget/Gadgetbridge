@@ -3234,4 +3234,7 @@
     <string name="hrv_status_unbalanced">Несбалансированное</string>
     <string name="devicetype_soundcore_motion300">Soundcore Motion 300</string>
     <string name="activity_type_table_football">Настольный футбол</string>
+    <string name="idasen_control_button_stand">СТОЯ</string>
+    <string name="idasen_control_button_sit">СИДЯ</string>
+    <string name="idasen_pref_value_warning">Значение должно быть в пределах 62-126 см</string>
 </resources>
