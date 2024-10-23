@@ -967,7 +967,7 @@
     <string name="error_exporting_device_preferences">Při exportu předvoleb specifických pro zařízení došlo k chybě</string>
     <string name="pref_check_permission_status_summary">Kontroluje chybějící oprávnění a žádá o ně, i když nemusí být okamžitě potřeba. Tuto funkci zakažte pouze v případě, že vaše zařízení některou z těchto funkcí skutečně nepodporuje. Neudělení oprávnění může způsobit problémy!</string>
     <string name="pref_check_permission_status">Kontrolovat stav oprávnění</string>
-    <string name="error_background_service_reason">Spuštění služby na pozadí selhalo z důvodu výjimky. Chyba:</string>
+    <string name="error_background_service_reason">Spuštění služby na pozadí selhalo z důvodu chyby – klepněte sem pro více informací.\n\nChyba:</string>
     <string name="device_requires_key">VYŽADOVÁN KLÍČ, ZADEJTE PODRŽENÍM</string>
     <string name="device_is_currently_bonded">JIŽ SPÁROVÁNO</string>
     <string name="error_background_service_reason_truncated">Službu na pozadí se nepodařilo spustit z důvodu…</string>
