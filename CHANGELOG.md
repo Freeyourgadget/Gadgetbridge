@@ -3,10 +3,11 @@
 #### Next version (WIP)
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
-* Initial support for Colmi R02/R03/R06 smart rings
+* Initial support for Colmi R02/R03/R06/R10 smart rings
 * Initial support for Garmin Enduro 3, Fenix 5/5 Plus/5X Plus/6/6S Sapphire/8, Forerunner 165/255/255S Music/245 Music/265S/955/965, Venu/Venu Sq/Venu Sq 2/Venu 2S, Vivoactive 3, Vivomove Trend, Vivosport
 * Initial support for Huawei Watch 3 / 3 Pro / 4 Pro / D2 / GT 3 SE / GT 5 / GT 5 Pro / GT Cyber / GT Runner
 * Initial support for Honor Watch GS 3 / Watch GS Pro
+* Initial support for IKEA desk controller
 * Initial support for Moondrop Space Travel
 * Initial support for Mijia XMWSDJ04MMC
 * Initial support for Mi Smart Scale 2
@@ -123,6 +124,7 @@
 * Xiaomi Protobuf: Show watchface preview
 * Xiaomi Protobuf: Fix watchface install on some watches
 * Xiaomi Protobuf: Fix deleting first widget screen
+* Xiaomi Protobuf: Fix naps
 * Xiaomi Protobuf: Improve workout parsing for some devices
 * Zepp OS 3: Fix file transfer (notification icons, gpx upload, agps updates)
 * Zepp OS 3.5 / 4: Fix shortcuts, shortcut cards, menu items
