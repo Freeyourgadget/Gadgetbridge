@@ -1070,7 +1070,7 @@
     <string name="error_exporting_device_preferences">Error al exportar las preferencias específicas del dispositivo</string>
     <string name="pref_check_permission_status_summary">Comprueba y pide los permisos que faltan, incluso cuando pueden no ser necesarios al instante. Desactiva esto solo si tus dispositivos no soportan ninguna de estas características. ¡No conceder un permiso puede causar problemas!</string>
     <string name="pref_check_permission_status">Comprobar el estado de los permisos</string>
-    <string name="error_background_service_reason">El inicio del servicio en segundo plano ha fallado debido a una excepción. Error:</string>
+    <string name="error_background_service_reason">El inicio del servicio en segundo plano falló debido a una excepción - haga clic aquí para obtener más información.\n\nError:</string>
     <string name="device_requires_key">CLAVE REQUERIDA, PULSACIÓN LARGA PARA ENTRAR</string>
     <string name="device_is_currently_bonded">YA SE HA HECHO EL ENLACE</string>
     <string name="error_background_service_reason_truncated">El inicio del servicio en segundo plano falló porque…</string>
