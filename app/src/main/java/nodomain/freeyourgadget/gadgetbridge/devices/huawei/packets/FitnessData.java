@@ -477,10 +477,12 @@ public class FitnessData {
                 this.serviceId = FitnessData.id;
                 this.commandId = id;
 
-                this.tlv = new HuaweiTLV();
+
+                HuaweiTLV subTlv = new HuaweiTLV();
                 for(HuaweiReportThreshold th: thresholds) {
-                    this.tlv.put(0x02, th.getBytes());
+                    subTlv.put(0x02, th.getBytes());
                 }
+                this.tlv = new HuaweiTLV().put(0x81, subTlv);
                 this.complete = true;
             }
         }
