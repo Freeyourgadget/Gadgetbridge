@@ -42,11 +42,11 @@ public class SendFitnessUserInfoRequest extends Request {
         try {
             // Hardcoded values till interface for goal
             ActivityUser activityUser = new ActivityUser();
-            byte gender = 3;
+            byte gender = UserInfo.UserInfoData.GENDER_UNKNOWN;
             if (activityUser.getGender() == ActivityUser.GENDER_FEMALE) {
-                gender = 2;
+                gender = UserInfo.UserInfoData.GENDER_FEMALE;
             } else if (activityUser.getGender() == ActivityUser.GENDER_MALE) {
-                gender = 1;
+                gender = UserInfo.UserInfoData.GENDER_MALE;
             }
 
             LocalDate dateOfBirth = activityUser.getDateOfBirth();
@@ -54,13 +54,26 @@ public class SendFitnessUserInfoRequest extends Request {
             birthdayEncoded += dateOfBirth.getMonthValue() << 8;
             birthdayEncoded += dateOfBirth.getDayOfMonth();
 
-            return new UserInfo.Request(paramsProvider,
+            boolean unknownGenderSupported = supportProvider.getHuaweiCoordinator().supportsUnknownGender();
+            //TODO: discover Vo2Max capability and retrieve calculate and set proper values. Currently disabled.
+            boolean vo2Supported = false;
+            int vo2Max = 0;
+            int vo2Time = 0;
+            boolean precisionWeightSupported = supportProvider.getHuaweiCoordinator().supportsPrecisionWeight();
+
+            UserInfo.UserInfoData userInfoData = new UserInfo.UserInfoData(
                     activityUser.getHeightCm(),
                     activityUser.getWeightKg(),
                     activityUser.getAge(),
                     birthdayEncoded,
-                    gender
-            ).serialize();
+                    gender,
+                    unknownGenderSupported,
+                    vo2Supported,
+                    vo2Max,
+                    vo2Time,
+                    precisionWeightSupported);
+
+            return new UserInfo.Request(paramsProvider, userInfoData).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new RequestCreationException(e);
         }
