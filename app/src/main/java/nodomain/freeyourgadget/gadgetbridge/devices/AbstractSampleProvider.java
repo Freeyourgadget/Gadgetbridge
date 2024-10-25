@@ -137,6 +137,12 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         return sample;
     }
 
+    /**
+     * Get the activity samples between two timestamps. Exactly one every minute.
+     * @param timestamp_from Start timestamp
+     * @param timestamp_to End timestamp
+     * @return Exactly one sample for every minute
+     */
     protected List<T> getGBActivitySamples(int timestamp_from, int timestamp_to) {
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
         Property timestampProperty = getTimestampSampleProperty();
