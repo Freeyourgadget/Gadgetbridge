@@ -34,7 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSampleDao;
-import nodomain.freeyourgadget.gadgetbridge.entities.GarminRespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSleepStageSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminSpo2SampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminStressSampleDao;
@@ -343,10 +342,14 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Nullable
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
+        final GarminFitFileInstallHandler fitFileInstallHandler = new GarminFitFileInstallHandler(uri, context);
+        if (fitFileInstallHandler.isValid())
+            return fitFileInstallHandler;
 
         final GarminGpxRouteInstallHandler garminGpxRouteInstallHandler = new GarminGpxRouteInstallHandler(uri, context);
         if (garminGpxRouteInstallHandler.isValid())
             return garminGpxRouteInstallHandler;
+
         return null;
     }
 }

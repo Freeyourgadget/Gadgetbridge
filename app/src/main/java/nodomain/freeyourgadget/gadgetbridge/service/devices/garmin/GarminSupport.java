@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.PendingFileProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminFitFileInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminGpxRouteInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminPreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
@@ -821,6 +822,17 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     @Override
     public void onInstallApp(Uri uri) {
+        final GarminFitFileInstallHandler fitFileInstallHandler = new GarminFitFileInstallHandler(uri, getContext());
+        if (fitFileInstallHandler.isValid()) {
+            communicator.sendMessage(
+                    "upload fit file",
+                    fileTransferHandler.initiateUpload(
+                            fitFileInstallHandler.getRawBytes(),
+                            fitFileInstallHandler.getFileType()
+                    ).getOutgoingMessage()
+            );
+        }
+
         final GarminGpxRouteInstallHandler garminGpxRouteInstallHandler = new GarminGpxRouteInstallHandler(uri, getContext());
         if (garminGpxRouteInstallHandler.isValid()) {
             communicator.sendMessage("upload course file", fileTransferHandler.initiateUpload(garminGpxRouteInstallHandler.getGpxRouteFileConverter().getConvertedFile().getOutgoingMessage(), FileType.FILETYPE.DOWNLOAD_COURSE).getOutgoingMessage());

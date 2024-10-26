@@ -179,6 +179,15 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 
+    public static GlobalFITMessage WORKOUT = new GlobalFITMessage(26, "WORKOUT", Arrays.asList(
+            new FieldDefinitionPrimitive(4, BaseType.ENUM, "sport"),
+            new FieldDefinitionPrimitive(5, BaseType.UINT32Z, "capabilities"),
+            new FieldDefinitionPrimitive(6, BaseType.UINT16, "num_valid_steps"),
+            new FieldDefinitionPrimitive(8, BaseType.STRING, "name"),
+            new FieldDefinitionPrimitive(11, BaseType.ENUM, "sub_sport"),
+            new FieldDefinitionPrimitive(17, BaseType.STRING, "notes")
+    ));
+
     public static GlobalFITMessage COURSE = new GlobalFITMessage(31, "COURSE", Arrays.asList(
             new FieldDefinitionPrimitive(4, BaseType.ENUM, "sport"),
             new FieldDefinitionPrimitive(5, BaseType.STRING, 16, "name")
@@ -397,6 +406,7 @@ public class GlobalFITMessage {
         put(20, RECORD);
         put(21, EVENT);
         put(23, DEVICE_INFO);
+        put(26, WORKOUT);
         put(31, COURSE);
         put(49, FILE_CREATOR);
         put(55, MONITORING);
