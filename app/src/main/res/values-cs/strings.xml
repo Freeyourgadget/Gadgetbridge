@@ -3521,4 +3521,7 @@
     <string name="idasen_pref_sit_height">Výška sedící pozice (v centimetrech)</string>
     <string name="idasen_pref_value_warning">Hodnota musí být mezi 62 a 126 cm</string>
     <string name="idasen_pref_mid_height">Výška prostřední pozice (v centimetrech)</string>
+    <string name="music_upload_info">Chystáte se nahrát následující hudební soubor:\n\n%1$s\nNázev skladby: %2$s\nAlbum: %3$s\n</string>
+    <string name="devicetype_garmin_fenix_7">Garmin Fenix 7</string>
+    <string name="file_already_exists">Soubor již existuje</string>
 </resources>
