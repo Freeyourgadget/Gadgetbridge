@@ -3521,4 +3521,7 @@
     <string name="idasen_pref_value_warning">该值必须在 62 - 126 厘米之间</string>
     <string name="devicetype_idasen">宜家伊朵森书桌</string>
     <string name="devicetype_colmi_r10">Colmi R10</string>
+    <string name="file_already_exists">文件已存在</string>
+    <string name="music_upload_info">您将要上传以下音乐文件：\n\n%1$s\n音乐标题：%2$s\n专辑：%3$s\n</string>
+    <string name="devicetype_garmin_fenix_7">佳明 Fenix 7</string>
 </resources>
