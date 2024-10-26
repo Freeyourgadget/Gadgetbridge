@@ -1127,6 +1127,7 @@ public class HuaweiSupportProvider {
                     sendUserInfo();
                     break;
                 case DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR:
+                case DeviceSettingsPreferenceConst.PREF_CALENDAR_LOOKAHEAD_DAYS:
                     HuaweiP2PCalendarService.getRegisteredInstance(huaweiP2PManager).restartSynchronization();
                     break;
             }
