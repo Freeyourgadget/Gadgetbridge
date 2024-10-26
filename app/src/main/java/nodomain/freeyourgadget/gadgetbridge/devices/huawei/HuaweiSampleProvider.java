@@ -366,8 +366,8 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
                 lastHr = ActivitySample.NOT_MEASURED;
 
                 currentIndex += 1;
-                if (currentIndex > processedSamples.size())
-                    return;
+                if (currentIndex >= processedSamples.size())
+                    return; // We cannot add the data to any samples, so we might as well return
             }
 
             // Update data
@@ -452,8 +452,8 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
                 lastHr = ActivitySample.NOT_MEASURED;
 
                 currentIndex += 1;
-                if (currentIndex > processedSamples.size())
-                    return;
+                if (currentIndex >= processedSamples.size())
+                    return; // We cannot add the data to any samples, so we might as well return
             }
 
             if (workoutSamples.get(i).getHeartRate() != ActivitySample.NOT_MEASURED)
