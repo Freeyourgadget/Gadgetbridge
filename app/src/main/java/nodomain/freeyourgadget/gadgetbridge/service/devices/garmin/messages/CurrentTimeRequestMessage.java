@@ -34,11 +34,35 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
         final int garminTimestamp = GarminTimeUtils.unixTimeToGarminTimestamp((int) now.getEpochSecond());
         final ZoneOffsetTransition nextTransitionStart = zoneRules.nextTransition(now);
 
-        final int nextTransitionStartsTs = (int) nextTransitionStart.toEpochSecond();
-        final int nextTransitionEndsTs = (int) zoneRules.nextTransition(nextTransitionStart.getInstant()).toEpochSecond();
+        final int nextTransitionEndsGarminTs;
+        final int nextTransitionStartsGarminTs;
 
+        if (nextTransitionStart != null) {
+            final int nextTransitionStartsTs = (int) nextTransitionStart.toEpochSecond();
+            nextTransitionStartsGarminTs = GarminTimeUtils.unixTimeToGarminTimestamp(nextTransitionStartsTs);
 
-        LOG.info("Processing current time request #{}: time={}, DST={}, ofs={}", referenceID, garminTimestamp, dstOffset, timeZoneOffset);
+            final ZoneOffsetTransition nextTransitionEnd = zoneRules.nextTransition(nextTransitionStart.getInstant());
+
+            if (nextTransitionEnd != null) {
+                final int nextTransitionEndsTs = (int) nextTransitionEnd.toEpochSecond();
+                nextTransitionEndsGarminTs = GarminTimeUtils.unixTimeToGarminTimestamp(nextTransitionEndsTs);
+            } else {
+                nextTransitionEndsGarminTs = 0;
+            }
+        } else {
+            nextTransitionEndsGarminTs = 0;
+            nextTransitionStartsGarminTs = 0;
+        }
+
+        LOG.info(
+                "Processing current time request #{}: time={}, DST={}, ofs={}, nextTransitionEnds={}, nextTransitionStarts={}",
+                referenceID,
+                garminTimestamp,
+                dstOffset,
+                timeZoneOffset,
+                nextTransitionEndsGarminTs,
+                nextTransitionStartsGarminTs
+        );
 
         final MessageWriter writer = new MessageWriter(response);
         writer.writeShort(0); // packet size will be filled below
@@ -48,8 +72,8 @@ public class CurrentTimeRequestMessage extends GFDIMessage {
         writer.writeInt(referenceID);
         writer.writeInt(garminTimestamp);
         writer.writeInt(timeZoneOffset);
-        writer.writeInt(GarminTimeUtils.unixTimeToGarminTimestamp(nextTransitionEndsTs));
-        writer.writeInt(GarminTimeUtils.unixTimeToGarminTimestamp(nextTransitionStartsTs));
+        writer.writeInt(nextTransitionEndsGarminTs);
+        writer.writeInt(nextTransitionStartsGarminTs);
         return true;
     }
 }
