@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.GFDI
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.ProtobufMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.messages.status.ProtobufStatusMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.CurrentPosition;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
@@ -212,11 +213,25 @@ public class ProtocolBufferHandler implements MessageHandler {
                     break;
                 }
 
+                final int startDateSeconds;
+                final int endDateSeconds;
+
+                if (mEvt.isAllDay()) {
+                    // For all-day events, garmin expects the start and end date to match the midnight boundaries
+                    // in the user's timezone. However, the calendar event will have them in the UTC timezone,
+                    // so we need to convert it
+                    startDateSeconds = (int) (DateTimeUtils.utcDateTimeToLocal(mEvt.getBegin()) / 1000);
+                    endDateSeconds = (int) (DateTimeUtils.utcDateTimeToLocal(mEvt.getEnd()) / 1000);
+                } else {
+                    startDateSeconds = mEvt.getBeginSeconds();
+                    endDateSeconds = mEvt.getEndSeconds();
+                }
+
                 final GdiCalendarService.CalendarService.CalendarEvent.Builder event = GdiCalendarService.CalendarService.CalendarEvent.newBuilder()
                         .setTitle(mEvt.getTitle().substring(0, Math.min(mEvt.getTitle().length(), calendarServiceRequest.getMaxTitleLength())))
                         .setAllDay(mEvt.isAllDay())
-                        .setStartDate(mEvt.getBeginSeconds())
-                        .setEndDate(mEvt.getEndSeconds());
+                        .setStartDate(startDateSeconds)
+                        .setEndDate(endDateSeconds);
 
                 if (calendarServiceRequest.getIncludeLocation() && mEvt.getLocation() != null) {
                     event.setLocation(mEvt.getLocation().substring(0, Math.min(mEvt.getLocation().length(), calendarServiceRequest.getMaxLocationLength())));

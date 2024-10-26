@@ -28,16 +28,13 @@ import android.os.Handler;
 import android.provider.CalendarContract;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 import java.util.Hashtable;
 import java.util.List;
@@ -234,15 +231,12 @@ public class CalendarReceiver extends ContentObserver {
                 calendarEventSpec.timestamp = calendarEvent.getBeginSeconds();
                 calendarEventSpec.durationInSeconds = calendarEvent.getDurationSeconds(); //FIXME: leads to problems right now
                 if (calendarEvent.isAllDay()) {
-                    //force the all day events to begin at midnight and last N whole days
-                    Calendar c = GregorianCalendar.getInstance();
-                    int numDays = (int) TimeUnit.DAYS.convert(calendarEvent.getEnd() - calendarEvent.getBegin(),
-                            TimeUnit.MILLISECONDS);
-                    c.setTimeInMillis(calendarEvent.getBegin());
-                    c.set(Calendar.HOUR_OF_DAY, 0);
-                    //workaround for negative timezones
-                    if (c.getTimeZone().getRawOffset() < 0) c.add(Calendar.DAY_OF_MONTH, 1);
-                    calendarEventSpec.timestamp = (int) (c.getTimeInMillis() / 1000);
+                    // As per the CalendarContract, for all-day events, the start timestamp is always in UTC
+                    // and corresponds to the midnight boundary
+                    final int numDays = (int) TimeUnit.DAYS.convert(
+                            calendarEvent.getEnd() - calendarEvent.getBegin(),
+                            TimeUnit.MILLISECONDS
+                    );
                     calendarEventSpec.durationInSeconds = 24 * 60 * 60 * numDays;
                 }
                 calendarEventSpec.description = calendarEvent.getDescription();

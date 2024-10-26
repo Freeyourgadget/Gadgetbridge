@@ -140,8 +140,8 @@ public class DateTimeUtils {
         return ret;
     }
 
-    public static Date dayStart(final LocalDate date) {
-        final Calendar calendar = Calendar.getInstance();
+    public static Date dayStartUtc(final LocalDate date) {
+        final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.set(Calendar.YEAR, date.getYear());
         calendar.set(Calendar.MONTH, date.getMonthValue() - 1);
         calendar.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
@@ -150,6 +150,20 @@ public class DateTimeUtils {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    public static long utcDateTimeToLocal(final long timestamp) {
+        final Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        utcCalendar.setTimeInMillis(timestamp);
+        final Calendar localCalendar = Calendar.getInstance(TimeZone.getDefault());
+        localCalendar.set(Calendar.YEAR, utcCalendar.get(Calendar.YEAR));
+        localCalendar.set(Calendar.MONTH, utcCalendar.get(Calendar.MONTH));
+        localCalendar.set(Calendar.DAY_OF_MONTH, utcCalendar.get(Calendar.DAY_OF_MONTH));
+        localCalendar.set(Calendar.HOUR_OF_DAY, utcCalendar.get(Calendar.HOUR_OF_DAY));
+        localCalendar.set(Calendar.MINUTE, utcCalendar.get(Calendar.MINUTE));
+        localCalendar.set(Calendar.SECOND, utcCalendar.get(Calendar.SECOND));
+        localCalendar.set(Calendar.MILLISECOND, utcCalendar.get(Calendar.MILLISECOND));
+        return localCalendar.getTimeInMillis();
     }
 
     public static Date dayEnd(final Date date) {

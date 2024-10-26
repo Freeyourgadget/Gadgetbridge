@@ -35,11 +35,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -212,9 +214,13 @@ public class CalendarManager {
                     continue;
                 }
 
+                // Follow the same logic as CalendarContract - all day events have the start
+                // timestamp at the UTC midnight boundary
+                final long startTimestampUtc = DateTimeUtils.dayStartUtc(birthday).getTime();
+
                 birthdays.add(new CalendarEvent(
-                        DateTimeUtils.dayStart(birthday).getTime(),
-                        DateTimeUtils.dayStart(birthday).getTime() + 86400000L - 1L,
+                        startTimestampUtc,
+                        startTimestampUtc + 86400000L - 1L,
                         contactId.hashCode(),
                         mContext.getString(R.string.contact_birthday, displayName),
                         null,
