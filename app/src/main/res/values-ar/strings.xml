@@ -3515,4 +3515,7 @@
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
     <string name="miscale_weight_unit_chinese">الصينية (جين)</string>
     <string name="devicetype_ble_gatt_client">عميل عام لـ BLE GATT</string>
+    <string name="music_upload_info">أنت على وشك تحميل ملف الموسيقى التالي:\n\n%1$s\nعنوان الأغنية: %2$s\nالألبوم: %3$s\n</string>
+    <string name="file_already_exists">الملف موجود بالفعل</string>
+    <string name="devicetype_garmin_fenix_7">Garmin Fenix 7</string>
 </resources>
