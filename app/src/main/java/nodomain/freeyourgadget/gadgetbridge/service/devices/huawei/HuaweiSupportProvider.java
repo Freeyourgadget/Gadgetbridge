@@ -74,6 +74,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSummarySampleDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSwimSegmentsSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutSwimSegmentsSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.export.ActivityTrackExporter;
 import nodomain.freeyourgadget.gadgetbridge.export.GPXExporter;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationProviderType;
@@ -1646,7 +1648,8 @@ public class HuaweiSupportProvider {
                     packet.recoveryTime,
                     packet.minHeartRatePeak,
                     packet.maxHeartRatePeak,
-                    recoveryHeartRates
+                    recoveryHeartRates,
+                    packet.swimType
             );
             db.getDaoSession().getHuaweiWorkoutSummarySampleDao().insertOrReplace(summarySample);
 
@@ -1734,6 +1737,44 @@ public class HuaweiSupportProvider {
             LOG.error("Failed to add workout pace data to database", e);
         }
     }
+
+
+    public void addWorkoutSwimSegmentsData(Long workoutId, List<Workout.WorkoutSwimSegments.Response.Block> paceList, short number) {
+        if (workoutId == null)
+            return;
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            HuaweiWorkoutSwimSegmentsSampleDao dao = db.getDaoSession().getHuaweiWorkoutSwimSegmentsSampleDao();
+
+            if(number == 0) {
+                final DeleteQuery<HuaweiWorkoutSwimSegmentsSample> tableDeleteQuery = dao.queryBuilder()
+                        .where(HuaweiWorkoutSwimSegmentsSampleDao.Properties.WorkoutId.eq(workoutId))
+                        .buildDelete();
+                tableDeleteQuery.executeDeleteWithoutDetachingEntities();
+            }
+
+            int paceIndex = (int) dao.queryBuilder().where(HuaweiWorkoutSwimSegmentsSampleDao.Properties.WorkoutId.eq(workoutId)).count();
+            for (Workout.WorkoutSwimSegments.Response.Block block : paceList) {
+                HuaweiWorkoutSwimSegmentsSample swimSectionSample = new HuaweiWorkoutSwimSegmentsSample(
+                        workoutId,
+                        paceIndex++,
+                        block.distance,
+                        block.type,
+                        block.pace,
+                        block.pointIndex,
+                        block.segment,
+                        block.swimType,
+                        block.strokes,
+                        block.avgSwolf,
+                        block.time
+                );
+                dao.insertOrReplace(swimSectionSample);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to add workout swim section data to database", e);
+        }
+    }
+
 
     public void setWearLocation() {
         try {

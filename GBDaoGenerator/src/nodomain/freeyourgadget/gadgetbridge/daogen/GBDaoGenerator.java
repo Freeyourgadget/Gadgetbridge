@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(84, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(85, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -151,6 +151,7 @@ public class GBDaoGenerator {
         Entity huaweiWorkoutSummary = addHuaweiWorkoutSummarySample(schema, user, device);
         addHuaweiWorkoutDataSample(schema, huaweiWorkoutSummary);
         addHuaweiWorkoutPaceSample(schema, huaweiWorkoutSummary);
+        addHuaweiWorkoutSwimSegmentsSample(schema, huaweiWorkoutSummary);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -1387,6 +1388,8 @@ public class GBDaoGenerator {
 
         workoutSummary.addByteArrayProperty("recoveryHeartRates");
 
+        workoutSummary.addByteProperty("swimType").notNull();
+
         return workoutSummary;
     }
 
@@ -1441,6 +1444,28 @@ public class GBDaoGenerator {
         workoutPaceSample.addIntProperty("correction");
 
         return workoutPaceSample;
+    }
+
+    private static Entity addHuaweiWorkoutSwimSegmentsSample(Schema schema, Entity summaryEntity) {
+        Entity workoutSwimSegmentsSample = addEntity(schema, "HuaweiWorkoutSwimSegmentsSample");
+
+        workoutSwimSegmentsSample.setJavaDoc("Contains Huawei Workout swim segments data samples");
+
+        Property id = workoutSwimSegmentsSample.addLongProperty("workoutId").primaryKey().notNull().getProperty();
+        workoutSwimSegmentsSample.addToOne(summaryEntity, id);
+
+        workoutSwimSegmentsSample.addIntProperty("segmentIndex").notNull().primaryKey();
+        workoutSwimSegmentsSample.addIntProperty("distance").notNull().primaryKey();
+        workoutSwimSegmentsSample.addByteProperty("type").notNull().primaryKey();
+        workoutSwimSegmentsSample.addIntProperty("pace").notNull();
+        workoutSwimSegmentsSample.addIntProperty("pointIndex").notNull();
+        workoutSwimSegmentsSample.addIntProperty("segment").notNull();
+        workoutSwimSegmentsSample.addByteProperty("swimType").notNull();
+        workoutSwimSegmentsSample.addIntProperty("strokes").notNull();
+        workoutSwimSegmentsSample.addIntProperty("avgSwolf").notNull();
+        workoutSwimSegmentsSample.addIntProperty("time").notNull();
+
+        return workoutSwimSegmentsSample;
     }
 
     private static void addTemperatureProperties(Entity activitySample) {

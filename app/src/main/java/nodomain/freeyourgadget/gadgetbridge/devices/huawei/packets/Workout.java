@@ -58,6 +58,8 @@ public class Workout {
                 public short workoutNumber;
                 public short dataCount;
                 public short paceCount;
+                public short segmentsCount = 0;
+
             }
 
             public short count;
@@ -84,6 +86,9 @@ public class Workout {
                     workoutNumber.workoutNumber = subContainerTlv.getShort(0x06);
                     workoutNumber.dataCount = subContainerTlv.getShort(0x07);
                     workoutNumber.paceCount = subContainerTlv.getShort(0x08);
+                    if(subContainerTlv.contains(0x09)) {
+                        workoutNumber.segmentsCount = subContainerTlv.getShort(0x09);
+                    }
                     this.workoutNumbers.add(workoutNumber);
                 }
             }
@@ -143,6 +148,8 @@ public class Workout {
 
             public byte[] recoveryHeartRates = null;
 
+            public byte swimType = -1;
+
 
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
@@ -184,7 +191,8 @@ public class Workout {
                     this.duration = container.getInteger(0x12);
                 if (container.contains(0x14))
                     this.type = container.getByte(0x14);
-                // TODO: I'm guessing 0x15 is Main style for swimming, but cannot confirm.
+                if (container.contains(0x15))
+                    this.swimType = container.getByte(0x15);
                 if (container.contains(0x16))
                     this.strokes = container.getShort(0x16);
                 if (container.contains(0x17))
@@ -559,6 +567,100 @@ public class Workout {
                         block.hasCorrection = true;
                         block.correction = blockTlv.getShort(0x09);
                     }
+                    blocks.add(block);
+                }
+            }
+        }
+    }
+
+    public static class WorkoutSwimSegments {
+        public static final int id = 0x0e;
+
+        public static class Request extends HuaweiPacket {
+
+            public Request(
+                    ParamsProvider paramsProvider,
+                    short workoutNumber,
+                    short segmentNumber
+            ) {
+                super(paramsProvider);
+
+                this.serviceId = Workout.id;
+                this.commandId = id;
+
+                this.tlv = new HuaweiTLV().put(0x81, new HuaweiTLV()
+                        .put(0x02, workoutNumber)
+                        .put(0x08, segmentNumber)
+                );
+
+                this.complete = true;
+            }
+        }
+
+        public static class Response extends HuaweiPacket {
+            public static class Block {
+                public short distance = -1;
+                public byte type = -1;
+                public int pace = -1;
+                public short pointIndex = 0;
+                public short segment = -1;
+                public byte swimType= -1;
+                public short strokes = -1;
+                public short avgSwolf = -1;
+                public int time= -1;
+
+                @Override
+                public String toString() {
+                    final StringBuffer sb = new StringBuffer("Block{");
+                    sb.append("distance=").append(distance);
+                    sb.append(", type=").append(type);
+                    sb.append(", pace=").append(pace);
+                    sb.append(", pointIndex=").append(pointIndex);
+                    sb.append(", segment=").append(segment);
+                    sb.append(", swimType=").append(swimType);
+                    sb.append(", strokes=").append(strokes);
+                    sb.append(", awgSwolf=").append(avgSwolf);
+                    sb.append(", time=").append(time);
+                    sb.append('}');
+                    return sb.toString();
+                }
+            }
+
+            public short workoutNumber;
+            public short segmentNumber;
+            public List<Block> blocks;
+
+            public Response(ParamsProvider paramsProvider) {
+                super(paramsProvider);
+            }
+
+            @Override
+            public void parseTlv() throws ParseException {
+                HuaweiTLV container = this.tlv.getObject(0x81);
+
+                this.workoutNumber = container.getShort(0x02);
+                this.segmentNumber = container.getShort(0x08);
+
+                this.blocks = new ArrayList<>();
+                for (HuaweiTLV blockTlv : container.getObjects(0x83)) {
+                    Block block = new Block();
+
+                    block.distance = blockTlv.getShort(0x04);
+                    block.type = blockTlv.getByte(0x05);
+                    block.pace = blockTlv.getInteger(0x06);
+                    if (blockTlv.contains(0x07))
+                        block.pointIndex = blockTlv.getShort(0x07);
+                    if (blockTlv.contains(0x09))
+                        block.segment = blockTlv.getShort(0x09);
+                    if (blockTlv.contains(0x0a))
+                        block.swimType= blockTlv.getByte(0x0a);
+                    if (blockTlv.contains(0x0b))
+                        block.strokes = blockTlv.getShort(0x0b);
+                    if (blockTlv.contains(0x0c))
+                        block.avgSwolf = blockTlv.getShort(0x0c);
+                    if (blockTlv.contains(0x0d))
+                        block.time= blockTlv.getInteger(0x0d);
+
                     blocks.add(block);
                 }
             }

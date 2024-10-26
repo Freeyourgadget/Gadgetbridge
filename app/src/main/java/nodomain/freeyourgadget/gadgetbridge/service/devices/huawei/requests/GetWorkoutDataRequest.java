@@ -112,6 +112,16 @@ public class GetWorkoutDataRequest extends Request {
             );
             nextRequest.setFinalizeReq(this.finalizeReq);
             this.nextRequest(nextRequest);
+        } else if (this.workoutNumbers.segmentsCount > 0) {
+            GetWorkoutSwimSegmentsRequest nextRequest = new GetWorkoutSwimSegmentsRequest(
+                    this.supportProvider,
+                    this.workoutNumbers,
+                    this.remainder,
+                    (short) 0,
+                    this.databaseId
+            );
+            nextRequest.setFinalizeReq(this.finalizeReq);
+            this.nextRequest(nextRequest);
         } else {
             new HuaweiWorkoutGbParser(getDevice()).parseWorkout(this.databaseId);
             supportProvider.downloadWorkoutGpsFiles(this.workoutNumbers.workoutNumber, this.databaseId, new Runnable() {
