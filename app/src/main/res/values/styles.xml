@@ -40,6 +40,8 @@
         <item name="deviceIconDark">#4dabf5</item>
 
         <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <!-- FIXME: SDK 21 to 27 has light navbar on light background -->
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 
     <!-- dark theme -->
@@ -83,12 +85,14 @@
         <item name="deviceIconDark">#4dabf5</item>
 
         <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 
     <!-- black theme -->
     <style name="GadgetbridgeThemeBlack" parent="GadgetbridgeThemeDark">
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 
     <!-- Material 3 dynamic color (Material You) themes -->
@@ -107,6 +111,8 @@
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <!-- FIXME: SDK 21 to 27 has light navbar on light background -->
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
         <item name="deviceIconPrimary">?attr/colorPrimary</item>
         <item name="deviceIconOnPrimary">?attr/colorOnPrimary</item>
         <item name="deviceIconLight">?attr/colorPrimaryVariant</item>
@@ -127,6 +133,7 @@
         <item name="sports_activity_summary_background">?attr/colorSurface</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
         <item name="deviceIconPrimary">?attr/colorPrimary</item>
         <item name="deviceIconOnPrimary">?attr/colorOnPrimary</item>
         <item name="deviceIconLight">?attr/colorPrimaryVariant</item>
@@ -193,6 +200,7 @@
     <style name="SplashTheme" parent="GadgetbridgeTheme.NoActionBar">
         <item name="android:statusBarColor">@color/primarydark_dark</item>
         <item name="android:navigationBarColor">@color/primarydark_dark</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
