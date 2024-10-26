@@ -87,6 +87,17 @@ public class HuaweiCoordinator {
 
     public HuaweiCoordinator(HuaweiCoordinatorSupplier parent) {
         this.parent = parent;
+
+        // Set non-numeric capabilities
+        this.expandCapabilities = GB.hexStringToByteArray(getCapabilitiesSharedPreferences().getString("expandCapabilities", "00"));
+        this.notificationCapabilities = (byte)getCapabilitiesSharedPreferences().getInt("notificationCapabilities", -0x01);
+        this.notificationConstraints = ByteBuffer.wrap(GB.hexStringToByteArray(
+                getCapabilitiesSharedPreferences().getString(
+                        "notificationConstraints",
+                        GB.hexdump(Notifications.defaultConstraints)
+                )));
+        this.maxContactsCount = getCapabilitiesSharedPreferences().getInt("maxContactsCount", 0);
+
         for (String key : getCapabilitiesSharedPreferences().getAll().keySet()) {
             int service;
             try {
@@ -94,18 +105,7 @@ public class HuaweiCoordinator {
                 byte[] commands = GB.hexStringToByteArray(getCapabilitiesSharedPreferences().getString(key, "00"));
                 this.commandsPerService.put(service, commands);
             } catch (NumberFormatException e) {
-                if (key.equals("expandCapabilities"))
-                    this.expandCapabilities = GB.hexStringToByteArray(getCapabilitiesSharedPreferences().getString(key, "00"));
-                if (key.equals("notificationCapabilities"))
-                    this.notificationCapabilities = (byte)getCapabilitiesSharedPreferences().getInt(key, -0x01);
-                if (key.equals("notificationConstraints"))
-                    this.notificationConstraints = ByteBuffer.wrap(GB.hexStringToByteArray(
-                                    getCapabilitiesSharedPreferences().getString(
-                                            key,
-                                            GB.hexdump(Notifications.defaultConstraints)
-                    )));
-                if (key.equals("maxContactsCount"))
-                    this.maxContactsCount = getCapabilitiesSharedPreferences().getInt(key, 0);
+                // These are the non-numeric capabilities, which have been set already
             }
         }
     }
