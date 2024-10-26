@@ -583,6 +583,14 @@ public class HuaweiCoordinator {
         return false;
     }
 
+    public boolean supportsTrack() {
+        if (supportsExpandCapability())
+            return supportsExpandCapability(0x36);
+        return false;
+    }
+
+
+
     public boolean supportsCalendar() {
         if (supportsExpandCapability())
             return supportsExpandCapability(171) || supportsExpandCapability(184);

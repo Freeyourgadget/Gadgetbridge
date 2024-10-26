@@ -104,6 +104,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PCalendarService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PTrackService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetAppInfoParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetContactsCount;
@@ -880,6 +881,13 @@ public class HuaweiSupportProvider {
                                 calendarService.register();
                             }
                         }
+                        if (getHuaweiCoordinator().supportsTrack()) {
+                            if (HuaweiP2PTrackService.getRegisteredInstance(huaweiP2PManager) == null) {
+                                HuaweiP2PTrackService trackService = new HuaweiP2PTrackService(huaweiP2PManager);
+                                trackService.register();
+                            }
+                        }
+
                     }
                 }
             });
