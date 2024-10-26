@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -215,7 +216,8 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                         int minutesInPreviousPackets = 0;
                         if (hrPacketNr == 1) {
                             int timestamp = BLETypeConversions.toUint32(value[2], value[3], value[4], value[5]);
-                            LOG.info("Receiving HR history sequence with timestamp {}", DateTimeUtils.parseTimeStamp(timestamp));
+                            Date timestampDate = DateTimeUtils.parseTimeStamp(timestamp);
+                            LOG.info("Receiving HR history sequence with timestamp {}", DateTimeUtils.formatIso8601UTC(timestampDate));
                         } else {
                             minutesInPreviousPackets = 9 * 5;  // packet 1
                             minutesInPreviousPackets += (hrPacketNr - 2) * 13 * 5;
@@ -642,13 +644,13 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
             syncingDay.set(Calendar.SECOND, 0);
         }
         syncingDay.set(Calendar.MILLISECOND, 0);
-        syncingDay.add(Calendar.MILLISECOND, syncingDay.get(Calendar.ZONE_OFFSET) + syncingDay.get(Calendar.DST_OFFSET));
         ByteBuffer hrHistoryRequestBB = ByteBuffer.allocate(5);
         hrHistoryRequestBB.order(ByteOrder.LITTLE_ENDIAN);
         hrHistoryRequestBB.put(0, ColmiR0xConstants.CMD_SYNC_HEART_RATE);
-        hrHistoryRequestBB.putInt(1, (int) (syncingDay.getTimeInMillis() / 1000));
+        long requestTimestamp = syncingDay.getTimeInMillis() + syncingDay.get(Calendar.ZONE_OFFSET) + syncingDay.get(Calendar.DST_OFFSET);
+        hrHistoryRequestBB.putInt(1, (int) (requestTimestamp / 1000));
         byte[] hrHistoryRequest = buildPacket(hrHistoryRequestBB.array());
-        LOG.info("Fetch historical HR data request sent ({}): {}", syncingDay.getTime(), StringUtils.bytesToHex(hrHistoryRequest));
+        LOG.info("Fetch historical HR data request sent ({}): {}", DateTimeUtils.formatIso8601(syncingDay.getTime()), StringUtils.bytesToHex(hrHistoryRequest));
         sendWrite("hrHistoryRequest", hrHistoryRequest);
     }
 
