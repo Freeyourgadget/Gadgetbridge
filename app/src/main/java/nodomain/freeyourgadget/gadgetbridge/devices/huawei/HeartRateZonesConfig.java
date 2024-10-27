@@ -16,7 +16,7 @@ public class HeartRateZonesConfig {
     public static final int MAXIMUM_HEART_RATE = 220;
 
     private final int configType;
-    private int calculateMethod = 0;
+    private int calculateMethod = 0; // 0 - MHR, 1 - HRR, 3 - LTHR
 
     private int maxHRThreshold;
     private int restHeartRate = DEFAULT_REST_HEART_RATE;
@@ -229,6 +229,37 @@ public class HeartRateZonesConfig {
 
     public boolean hasValidLTHRData() {
         return LTHRThresholdHeartRate > 0 && LTHRAnaerobic > 0 && LTHRLactate > 0 && LTHRAdvancedAerobic > 0 && LTHRBasicAerobic > 0 && LTHRWarmUp > 0;
+    }
+
+    private int getZoneForHR(int heartRate, int zone5Threshold, int zone4Threshold, int zone3Threshold, int zone2Threshold, int zone1Threshold) {
+        if (heartRate >= MAXIMUM_HEART_RATE) {
+            return -1;
+        }
+        if (heartRate >= zone5Threshold) {
+            return 4;
+        }
+        if (heartRate >= zone4Threshold) {
+            return 3;
+        }
+        if (heartRate >= zone3Threshold) {
+            return 2;
+        }
+        if (heartRate >= zone2Threshold) {
+            return 1;
+        }
+        return heartRate >= zone1Threshold ? 0 : -1;
+    }
+
+    public int getMHRZone(int heartRate) {
+        return getZoneForHR(heartRate, MHRExtreme, MHRAnaerobic, MHRAerobic, MHRFatBurning, MHRWarmUp);
+    }
+
+    public int getHHRZone(int heartRate) {
+        return getZoneForHR(heartRate, HRRAdvancedAnaerobic, HRRBasicAnaerobic, HRRLactate, HRRAdvancedAerobic, HRRBasicAerobic);
+    }
+
+    public int getLTHRZone(int heartRate) {
+        return getZoneForHR(heartRate, LTHRAnaerobic, LTHRLactate, LTHRAdvancedAerobic, LTHRBasicAerobic, LTHRWarmUp);
     }
 
 }

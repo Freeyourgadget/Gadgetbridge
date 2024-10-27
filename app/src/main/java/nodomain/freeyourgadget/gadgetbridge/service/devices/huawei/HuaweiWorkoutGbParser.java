@@ -36,10 +36,13 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryProgressEntry;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryTableRowEntry;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryValue;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HeartRateZonesConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSportHRZones;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Workout;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -58,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryData;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -486,7 +490,36 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 int sumAltitudeUp = 0;
                 int sumAltitudeDown = 0;
 
+                //NOTE: The method of retrieving HR zones from the Huawei watch is not discovered. It may not return zones.
+                // So they are calculated based on config. Enabled only for running and walking activities for testing.
+                // Currently only calculated zones based on MHR.
+                // TODO: Use other methods after the configuration will be implemented. Use calculateMethod on HeartRateZonesConfig class.
+                // TODO: Enable for other workout types
+                HeartRateZonesConfig HRZonesCfg = null;
+                if( type == ActivityKind.WALKING || type == ActivityKind.RUNNING) {
+                    ActivityUser activityUser = new ActivityUser();
+                    HuaweiSportHRZones hrSportZones = new HuaweiSportHRZones(activityUser.getAge());
+                    HRZonesCfg = hrSportZones.getHRZonesConfigByType(HeartRateZonesConfig.TYPE_UPRIGHT);
+                }
+
+                int dataDelta = 5;
+                if (dataSamples.size() >= 2 && dataSamples.get(1).getTimestamp() - dataSamples.get(0).getTimestamp() >= 40) {
+                    dataDelta = 60;
+                }
+
+                int[] HRZones = new int[5];
+
+                int dataIdx = 0;
                 for (HuaweiWorkoutDataSample dataSample : dataSamples) {
+
+                    if(HRZonesCfg != null) {
+                        int zoneIdx = HRZonesCfg.getMHRZone(dataSample.getHeartRate() & 0xFF);
+                        if (zoneIdx != -1 && dataIdx < (dataSamples.size() - 1)) {
+                                 HRZones[zoneIdx] += dataDelta;
+                        }
+                        dataIdx++;
+                    }
+
                     if (dataSample.getSpeed() != -1) {
                         speed += dataSample.getSpeed();
                         speedCount += 1;
@@ -588,6 +621,25 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                     if (dataSample.getDataErrorHex() != null)
                         unknownData = true;
                 }
+
+
+                if(HRZonesCfg != null) {
+                    final double totalTime = Arrays.stream(HRZones).sum();
+                    final List<String> zoneOrder = Arrays.asList(ActivitySummaryEntries.HR_ZONE_WARM_UP, ActivitySummaryEntries.HR_ZONE_FAT_BURN, ActivitySummaryEntries.HR_ZONE_AEROBIC, ActivitySummaryEntries.HR_ZONE_ANAEROBIC, ActivitySummaryEntries.HR_ZONE_EXTREME);
+                    for (int i = 0; i < zoneOrder.size(); i++) {
+                        double timeInZone = HRZones[i];
+                        LOG.info("Zone: {} {}", zoneOrder.get(i), timeInZone);
+                        summaryData.add(
+                                zoneOrder.get(i),
+                                new ActivitySummaryProgressEntry(
+                                        timeInZone,
+                                        ActivitySummaryEntries.UNIT_SECONDS,
+                                        (int) (100 * timeInZone / totalTime)
+                                )
+                        );
+                    }
+                }
+
 
                 // Average the things that should be averaged
                 if (speedCount > 0)
@@ -748,6 +800,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
             if(elevationLoss != null) {
                 summaryData.add(ActivitySummaryEntries.ELEVATION_LOSS, elevationLoss / 10.0f, ActivitySummaryEntries.UNIT_METERS);
             }
+
 
             final LinkedHashMap<String, ActivitySummaryTableRowEntry> pacesTable = new LinkedHashMap<>();
 
