@@ -10,7 +10,7 @@ steps:
     secrets: 
       - hc_url_nightly_deploy
     commands: |
-      curl -fsS -m 10 --retry 5 "$${hc_url_nightly_deploy}/start"
+      curl -fsS -m 10 --retry 5 "$${HC_URL_NIGHTLY_DEPLOY}/start"
 
       RELEASED_VERSION_CODE=$(curl https://freeyourgadget.codeberg.page/fdroid/repo/index-v1.json | jq '.packages."nodomain.freeyourgadget.gadgetbridge.nightly"[0].versionCode')
       CURRENT_VERSION_CODE=$(git rev-list HEAD --count)
@@ -21,7 +21,7 @@ steps:
       then
         echo "This version is already released, we quit!"
         touch .do_not_build
-        curl -fsS -m 10 --retry 5 "$${hc_url_nightly_deploy}"
+        curl -fsS -m 10 --retry 5 "$${HC_URL_NIGHTLY_DEPLOY}"
       fi
 
 
@@ -112,7 +112,7 @@ steps:
   on-success:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
     commands:
-      - curl -fsS -m 10 --retry 5 "$${hc_url_nightly_deploy}"
+      - curl -fsS -m 10 --retry 5 "$${HC_URL_NIGHTLY_DEPLOY}"
     when:
       status: success
     secrets: 
@@ -121,7 +121,7 @@ steps:
   on-error:
     image: codeberg.org/freeyourgadget/android-fdroid-tools:33.0.0
     commands:
-      - curl -fsS -m 10 --retry 5 "$${hc_url_nightly_deploy}/fail"
+      - curl -fsS -m 10 --retry 5 "$${HC_URL_NIGHTLY_DEPLOY}/fail"
       - cd ..
       - mkdir -p repoconfig
       - cd repoconfig
