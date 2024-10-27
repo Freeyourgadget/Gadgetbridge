@@ -65,9 +65,11 @@
 * Garmin: Display resting heart rate
 * Garmin: Fetch SKIP_TEMP files
 * Garmin: Fix agps upload for some URLs
+* Garmin: Fix all-day events
 * Garmin: Fix auto-activity fetch on some devices
 * Garmin: Fix canned replies reset to defaults
 * Garmin: Fix crash on call with privacy mode on
+* Garmin: Fix crash on timezones without DST
 * Garmin: Fix daily weather missing current day
 * Garmin: Fix weather temperature and speed units
 * Garmin: Improve activity, sleep and workout parsing
@@ -76,7 +78,7 @@
 * Garmin: Map some unknown realtime settings
 * Garmin: Parse workout physiological metrics, strength training workout sets
 * Garmin: Re-parse workout summary when opening details page
-* Garmin: Upload gpx to watch
+* Garmin: Upload gpx and workout fit files to watch
 * Garmin: Use distance and calories provided by the watch
 * Garmin: View and share gpx files
 * Huami: Fetch workouts during normal sync
@@ -90,6 +92,7 @@
 * Huawei: Enable emoji for HarmonyOS watches
 * Huawei: Fix crash when notification has no text
 * Huawei: Fix initialization issues on some watches
+* Huawei: Fix notifications for Huawei Band 4e
 * Huawei: Fix some reconnection issues
 * Huawei: Fix watchface upload, activity sync, event alarms, weather for some devices
 * Huawei: Fix workout altitude, pace, workout re-parsing
@@ -98,7 +101,10 @@
 * Huawei: Improve weather support
 * Huawei: Initial ephemeris update support
 * Huawei: Map more workout types
+* Huawei: Music upload support
+* Huawei: Provide an activity sample every minute
 * Huawei: Re-parse workout details when opening details
+* Huawei: Send default HR zones
 * Huawei: Workout GPS synchronization
 * Huawei: Simple TruSleep support
 * Huawei: Use distance and calories provided by the watch
@@ -113,6 +119,7 @@
 * UI: Add new activity icons
 * UI: Fix changelog on device rotation
 * UI: Fix HR samples displayed on wrong device
+* UI: Fix light navbar buttons on light themes for Android 8+
 * UI: Fix pull-down to refresh for some devices
 * UI: Improvements for large screen resolutions, font sizes, landscape
 * UI: Reduce stutters on device changes / data fetch / scrolling
