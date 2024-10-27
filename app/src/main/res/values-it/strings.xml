@@ -3324,4 +3324,13 @@
     <string name="bedtime">Sonno</string>
     <string name="pref_sleep_mode_schedule_title">Programma Modalità A Riposo</string>
     <string name="prefs_wena3_status_page_title">Ordinamento Pagina di Stato</string>
+    <string name="devicesetting_scannable_minimum_unseen_summary">Dopo la scansione, il dispositivo deve rimanere non visibile per questo periodo di tempo prima di essere nuovamente registrato</string>
+    <string name="devicesetting_scannable_rssi_summary">La soglia RSSI minima per il rilevamento</string>
+    <string name="state_scanned">Scansionato</string>
+    <string name="devicesetting_scannable_debounce">Timeout di smorzamento scansionabilità (secondi)</string>
+    <string name="devicesetting_scannable_minimum_unseen">Tempo minimo non visibile (secondi)</string>
+    <string name="companion_pairing_request_description">Accoppiare questo dispositivo come companion?\n\nQuesta opzione è consigliata per alcune funzioni, come la ricerca del dispositivo, e garantisce una connessione migliore.</string>
+    <string name="devicesetting_scannable_rssi">Soglia RSSI minima</string>
+    <string name="devicesetting_scannable_debounce_summary">Dopo la scansione, il dispositivo viene mantenuto come scansionato e ignorato per il periodo di tempo specificato</string>
+    <string name="devicetype_scannable">Dispositivi scansionabili</string>
 </resources>
