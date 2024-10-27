@@ -3333,4 +3333,9 @@
     <string name="devicesetting_scannable_rssi">Soglia RSSI minima</string>
     <string name="devicesetting_scannable_debounce_summary">Dopo la scansione, il dispositivo viene mantenuto come scansionato e ignorato per il periodo di tempo specificato</string>
     <string name="devicetype_scannable">Dispositivi scansionabili</string>
+    <string name="error_showing_changelog">Errore di visualizzazione del registro modifiche</string>
+    <string name="bottom_nav_devices">Dispositivi</string>
+    <string name="bottom_nav_dashboard">Cruscotto</string>
+    <string name="pref_dashboard_first_title">Mostra prima il cruscotto</string>
+    <string name="dashboard_settings">Impostazioni Dashboard</string>
 </resources>
