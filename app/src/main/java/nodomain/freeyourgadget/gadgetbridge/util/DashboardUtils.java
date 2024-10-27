@@ -63,6 +63,36 @@ public class DashboardUtils {
         return totalSteps;
     }
 
+    public static int getActiveCaloriesTotal(DashboardFragment.DashboardData dashboardData) {
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+        int totalActiveCalories = 0;
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            for (GBDevice dev : devices) {
+                if ((dashboardData.showAllDevices || dashboardData.showDeviceList.contains(dev.getAddress())) && dev.getDeviceCoordinator().supportsActivityTracking()) {
+                    totalActiveCalories += (int) getDailyTotals(dev, dbHandler, dashboardData.timeTo).getActiveCalories();
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Could not calculate total amount of active calories: ", e);
+        }
+        return totalActiveCalories;
+    }
+
+    public static int getRestingCaloriesTotal(DashboardFragment.DashboardData dashboardData) {
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+        int totalRestingCalories = 0;
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            for (GBDevice dev : devices) {
+                if ((dashboardData.showAllDevices || dashboardData.showDeviceList.contains(dev.getAddress())) && dev.getDeviceCoordinator().supportsActivityTracking()) {
+                    totalRestingCalories += (int) getDailyTotals(dev, dbHandler, dashboardData.timeTo).getRestingCalories();
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Could not calculate total amount of resting calories: ", e);
+        }
+        return totalRestingCalories;
+    }
+
     public static float getStepsGoalFactor(DashboardFragment.DashboardData dashboardData) {
         ActivityUser activityUser = new ActivityUser();
         float stepsGoal = activityUser.getStepsGoal();
@@ -129,6 +159,24 @@ public class DashboardUtils {
         ActivityUser activityUser = new ActivityUser();
         int distanceGoal = activityUser.getDistanceGoalMeters();
         float goalFactor = getDistanceTotal(dashboardData) / distanceGoal;
+        if (goalFactor > 1) goalFactor = 1;
+
+        return goalFactor;
+    }
+
+    public static float getActiveCaloriesGoalFactor(DashboardFragment.DashboardData dashboardData) {
+        ActivityUser activityUser = new ActivityUser();
+        int caloriesGoal = activityUser.getActiveCaloriesBurntGoal();
+        float goalFactor = (float) getActiveCaloriesTotal(dashboardData) / caloriesGoal;
+        if (goalFactor > 1) goalFactor = 1;
+
+        return goalFactor;
+    }
+
+    public static float getCaloriesGoalFactor(DashboardFragment.DashboardData dashboardData) {
+        ActivityUser activityUser = new ActivityUser();
+        int caloriesGoal = activityUser.getCaloriesBurntGoal();
+        float goalFactor = (float) (getRestingCaloriesTotal(dashboardData) + getActiveCaloriesTotal(dashboardData)) / caloriesGoal;
         if (goalFactor > 1) goalFactor = 1;
 
         return goalFactor;

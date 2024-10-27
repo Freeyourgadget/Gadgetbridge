@@ -227,6 +227,8 @@ public interface DeviceCoordinator {
     boolean supportsStepCounter();
     boolean supportsSpeedzones();
     boolean supportsActivityTabs();
+    boolean supportsRestingCalories();
+    boolean supportsActiveCalories();
 
     /**
      * Returns true if measurement and fetching of body temperature is supported by the device

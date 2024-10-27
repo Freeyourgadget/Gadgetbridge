@@ -80,6 +80,11 @@ public class ActivityAnalysis {
                 amount.addDistance(distance);
             }
 
+            final int activeCalories = sample.getActiveCalories();
+            if (activeCalories > 0) {
+                amount.addActiveCalories(activeCalories);
+            }
+
             if (previousSample != null) {
                 long timeDifference = sample.getTimestamp() - previousSample.getTimestamp();
                 if (previousSample.getRawKind() == sample.getRawKind()) {

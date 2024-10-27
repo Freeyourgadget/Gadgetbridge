@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,6 +134,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsVO2Max()) {
             tabList.remove("vo2max");
         }
+        if (!coordinator.supportsActiveCalories() && !coordinator.supportsRestingCalories()) {
+            tabList.remove("calories");
+        }
         return tabList;
     }
 
@@ -187,6 +191,10 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new CyclingChartFragment();
                 case "weight":
                     return new WeightChartFragment();
+                case "calories":
+                    Intent intent = getIntent();
+                    String mode = intent.getStringExtra(ActivityChartsActivity.EXTRA_MODE);
+                    return CaloriesDailyFragment.newInstance(mode);
             }
 
             return new UnknownFragment();
@@ -232,6 +240,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.title_cycling);
                 case "weight":
                     return getString(R.string.menuitem_weight);
+                case "calories":
+                    return getString(R.string.calories);
             }
 
             return String.format(Locale.getDefault(), "Unknown %d", position);

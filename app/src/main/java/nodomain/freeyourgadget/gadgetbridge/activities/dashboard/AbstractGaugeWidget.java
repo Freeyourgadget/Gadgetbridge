@@ -42,10 +42,16 @@ public abstract class AbstractGaugeWidget extends AbstractDashboardWidget {
 
     private final int label;
     private final String targetActivityTab;
+    private String mode = "";
 
     public AbstractGaugeWidget(@StringRes final int label, @Nullable final String targetActivityTab) {
         this.label = label;
         this.targetActivityTab = targetActivityTab;
+    }
+
+    public AbstractGaugeWidget(@StringRes final int label, @Nullable final String targetActivityTab, final String mode) {
+        this(label, targetActivityTab);
+        this.mode = mode;
     }
 
     @Override
@@ -53,7 +59,7 @@ public abstract class AbstractGaugeWidget extends AbstractDashboardWidget {
         final View fragmentView = inflater.inflate(R.layout.dashboard_widget_generic_gauge, container, false);
 
         if (targetActivityTab != null) {
-            onClickOpenChart(fragmentView, targetActivityTab, label);
+            onClickOpenChart(fragmentView, targetActivityTab, label, mode);
         }
 
         gaugeValue = fragmentView.findViewById(R.id.gauge_value);

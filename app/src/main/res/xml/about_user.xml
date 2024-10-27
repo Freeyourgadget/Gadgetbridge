@@ -95,6 +95,15 @@
 
         <EditTextPreference
             app:iconSpaceReserved="false"
+            android:defaultValue="350"
+            android:inputType="number"
+            android:key="activity_user_goal_active_calories_burnt"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_goal_active_calories_burnt"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="5000"
             android:inputType="number"
             android:key="activity_user_distance_meters"

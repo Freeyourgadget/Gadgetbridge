@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.dashboard;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GaugeDrawer {
     private static final Logger LOG = LoggerFactory.getLogger(GaugeDrawer.class);
@@ -192,6 +194,131 @@ public class GaugeDrawer {
         }
 
         gaugeBar.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap drawCircleGaugeSegmented(int width, int barWidth, final int[] colors, final float[] segments, final boolean gapBetweenSegments, String text, String lowerText, Context context) {
+        int TEXT_COLOR = GBApplication.getTextColor(context);
+        int height = width;
+        int barMargin = (int) Math.ceil(barWidth / 2f);
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.BUTT);
+        paint.setStrokeWidth(barWidth);
+        paint.setColor(context.getResources().getColor(R.color.gauge_line_color));
+        canvas.drawArc(
+                barMargin,
+                barMargin,
+                width - barMargin,
+                width - barMargin,
+                90,
+                360,
+                false,
+                paint);
+        paint.setStrokeWidth(barWidth);
+
+        float angleSum = 0;
+        for (int i = 0; i < segments.length; i++) {
+            if (segments[i] == 0) {
+                continue;
+            }
+
+            paint.setColor(colors[i]);
+            paint.setStrokeWidth(barWidth);
+
+            float startAngleDegrees = 270 + angleSum * 360;
+            float sweepAngleDegrees = segments[i] * 360;
+
+            if (gapBetweenSegments) {
+                sweepAngleDegrees -= 2;
+            }
+
+            canvas.drawArc(
+                    barMargin,
+                    barMargin,
+                    width - barMargin,
+                    height - barMargin,
+                    startAngleDegrees,
+                    sweepAngleDegrees,
+                    false,
+                    paint
+            );
+            angleSum += segments[i];
+        }
+
+        Paint textPaint = new Paint();
+        textPaint.setColor(TEXT_COLOR);
+        float textPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.06f, context.getResources().getDisplayMetrics());
+        textPaint.setTextSize(textPixels);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        int yPos = (int) ((float) height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
+        canvas.drawText(String.valueOf(text), width / 2f, yPos, textPaint);
+        Paint textLowerPaint = new Paint();
+        textLowerPaint.setColor(TEXT_COLOR);
+        textLowerPaint.setTextAlign(Paint.Align.CENTER);
+        float textLowerPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.025f, context.getResources().getDisplayMetrics());
+        textLowerPaint.setTextSize(textLowerPixels);
+        int yPosLowerText = (int) ((float) height / 2 - textPaint.ascent()) ;
+        canvas.drawText(String.valueOf(lowerText), width / 2f, yPosLowerText, textLowerPaint);
+
+        return bitmap;
+    }
+
+    public static Bitmap drawCircleGauge(int width, int barWidth, @ColorInt int filledColor, int value, int maxValue, Context context) {
+        int TEXT_COLOR = GBApplication.getTextColor(context);
+        int height = width;
+        int barMargin = (int) Math.ceil(barWidth / 2f);
+        float filledFactor = (float) value / maxValue;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeWidth(barWidth);
+        paint.setColor(context.getResources().getColor(R.color.gauge_line_color));
+        canvas.drawArc(
+                barMargin,
+                barMargin,
+                width - barMargin,
+                width - barMargin,
+                90,
+                360,
+                false,
+                paint);
+        paint.setStrokeWidth(barWidth);
+        paint.setColor(filledColor);
+        canvas.drawArc(
+                barMargin,
+                barMargin,
+                width - barMargin,
+                height - barMargin,
+                270,
+                360 * filledFactor,
+                false,
+                paint
+        );
+
+        Paint textPaint = new Paint();
+        textPaint.setColor(TEXT_COLOR);
+        float textPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.06f, context.getResources().getDisplayMetrics());
+        textPaint.setTextSize(textPixels);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        int yPos = (int) ((float) height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
+        canvas.drawText(String.valueOf(value), width / 2f, yPos, textPaint);
+        Paint textLowerPaint = new Paint();
+        textLowerPaint.setColor(TEXT_COLOR);
+        textLowerPaint.setTextAlign(Paint.Align.CENTER);
+        float textLowerPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.025f, context.getResources().getDisplayMetrics());
+        textLowerPaint.setTextSize(textLowerPixels);
+        int yPosLowerText = (int) ((float) height / 2 - textPaint.ascent()) ;
+        canvas.drawText(String.valueOf(maxValue), width / 2f, yPosLowerText, textLowerPaint);
+
+        return bitmap;
     }
 
     public static double normalize(final double value, final double min, final double max) {

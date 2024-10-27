@@ -497,6 +497,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActiveCalories() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsRestingCalories() {
+        return false;
+    }
+
+    @Override
     public boolean supportsActivityTabs() {
         return supportsActivityTracking();
     }

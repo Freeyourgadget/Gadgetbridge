@@ -37,6 +37,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.GaugeDrawer;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.WorkoutValueFormatter;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -125,12 +126,13 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
                 GBApplication.getContext().getResources().getDisplayMetrics()
         );
 
-        stepsGauge.setImageBitmap(drawGauge(
+        stepsGauge.setImageBitmap(GaugeDrawer.drawCircleGauge(
                 width,
                 width / 15,
                 getResources().getColor(R.color.steps_color),
                 (int) stepsData.todayStepsDay.steps,
-                STEPS_GOAL
+                STEPS_GOAL,
+                getContext()
         ));
 
         steps.setText(String.format(String.valueOf(stepsData.todayStepsDay.steps)));
@@ -227,59 +229,6 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawGridLines(false);
         yAxisRight.setDrawAxisLine(true);
-    }
-
-    Bitmap drawGauge(int width, int barWidth, @ColorInt int filledColor, int value, int maxValue) {
-        int height = width;
-        int barMargin = (int) Math.ceil(barWidth / 2f);
-        float filledFactor = (float) value / maxValue;
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(barWidth);
-        paint.setColor(getResources().getColor(R.color.gauge_line_color));
-        canvas.drawArc(
-                barMargin,
-                barMargin,
-                width - barMargin,
-                width - barMargin,
-                90,
-                360,
-                false,
-                paint);
-        paint.setStrokeWidth(barWidth);
-        paint.setColor(filledColor);
-        canvas.drawArc(
-                barMargin,
-                barMargin,
-                width - barMargin,
-                height - barMargin,
-                270,
-                360 * filledFactor,
-                false,
-                paint
-        );
-
-        Paint textPaint = new Paint();
-        textPaint.setColor(TEXT_COLOR);
-        float textPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.06f, requireContext().getResources().getDisplayMetrics());
-        textPaint.setTextSize(textPixels);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        int yPos = (int) ((float) height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
-        canvas.drawText(String.valueOf(value), width / 2f, yPos, textPaint);
-        Paint textLowerPaint = new Paint();
-        textLowerPaint.setColor(TEXT_COLOR);
-        textLowerPaint.setTextAlign(Paint.Align.CENTER);
-        float textLowerPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, width * 0.025f, requireContext().getResources().getDisplayMetrics());
-        textLowerPaint.setTextSize(textLowerPixels);
-        int yPosLowerText = (int) ((float) height / 2 - textPaint.ascent()) ;
-        canvas.drawText(String.valueOf(maxValue), width / 2f, yPosLowerText, textLowerPaint);
-
-        return bitmap;
     }
 
     protected static class StepsData extends ChartsData {

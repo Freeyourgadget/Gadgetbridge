@@ -61,6 +61,8 @@
     <color name="body_energy_level_color" type="color">#5ac234</color>
     <color name="body_energy_lost_color" type="color">#ff6c43</color>
     <color name="steps_color" type="color">#00c9bf</color>
+    <color name="calories_color" type="color">#fa4502</color>
+    <color name="calories_resting_color" type="color">#1f49f2</color>
 
     <color name="value_line_color" type="color">#858585</color>
     <color name="row_separator_light" type="color">#ffe2e2e5</color>

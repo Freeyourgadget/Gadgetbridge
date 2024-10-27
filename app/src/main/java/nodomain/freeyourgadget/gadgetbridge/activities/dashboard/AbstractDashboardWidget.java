@@ -87,7 +87,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
                 .collect(Collectors.toList());
     }
 
-    protected void onClickOpenChart(final View view, final String chart, final int label) {
+    protected void onClickOpenChart(final View view, final String chart, final int label, final String mode) {
         view.setOnClickListener(v -> {
             chooseDevice(dashboardData, device -> {
                 final Intent startIntent;
@@ -96,6 +96,7 @@ public abstract class AbstractDashboardWidget extends Fragment {
                 startIntent.putExtra(ActivityChartsActivity.EXTRA_SINGLE_FRAGMENT_NAME, chart);
                 startIntent.putExtra(ActivityChartsActivity.EXTRA_ACTIONBAR_TITLE, label);
                 startIntent.putExtra(ActivityChartsActivity.EXTRA_TIMESTAMP, dashboardData.timeTo);
+                startIntent.putExtra(ActivityChartsActivity.EXTRA_MODE, mode);
                 requireContext().startActivity(startIntent);
             });
         });

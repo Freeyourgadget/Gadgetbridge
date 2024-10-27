@@ -70,6 +70,7 @@ public abstract class AbstractChartsActivity extends AbstractGBFragmentActivity 
     public static final String EXTRA_SINGLE_FRAGMENT_NAME = "singleFragmentName";
     public static final String EXTRA_ACTIONBAR_TITLE = "actionbarTitle";
     public static final String EXTRA_TIMESTAMP = "timestamp";
+    public static final String EXTRA_MODE = "mode";
 
     private TextView mDateControl;
 

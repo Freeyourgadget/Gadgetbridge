@@ -44,6 +44,7 @@ public class ActivityUser {
     private int activityUserSleepDurationGoal;
     private int activityUserStepsGoal;
     private int activityUserCaloriesBurntGoal;
+    private int activityUserActiveCaloriesBurntGoal;
     private int activityUserDistanceGoalMeters;
     private int activityUserActiveTimeGoalMinutes;
     private int activityUserStandingTimeGoalHours;
@@ -58,6 +59,7 @@ public class ActivityUser {
     public static final int defaultUserSleepDurationGoal = 7;
     public static final int defaultUserStepsGoal = 8000;
     public static final int defaultUserCaloriesBurntGoal = 2000;
+    public static final int defaultUserActiveCaloriesBurntGoal = 350;
     public static final int defaultUserDistanceGoalMeters = 5000;
     public static final int defaultUserActiveTimeGoalMinutes = 60;
     public static final int defaultUserStepLengthCm = 0;
@@ -73,6 +75,7 @@ public class ActivityUser {
     public static final String PREF_USER_SLEEP_DURATION = "activity_user_sleep_duration";
     public static final String PREF_USER_STEPS_GOAL = "fitness_goal"; // FIXME: for compatibility
     public static final String PREF_USER_CALORIES_BURNT = "activity_user_calories_burnt";
+    public static final String PREF_USER_ACTIVE_CALORIES_BURNT = "activity_user_active_calories_burnt";
     public static final String PREF_USER_DISTANCE_METERS = "activity_user_distance_meters";
     public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
     public static final String PREF_USER_STEP_LENGTH_CM = "activity_user_step_length_cm";
@@ -160,6 +163,7 @@ public class ActivityUser {
         activityUserSleepDurationGoal = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDurationGoal);
         activityUserStepsGoal = prefs.getInt(PREF_USER_STEPS_GOAL, defaultUserStepsGoal);
         activityUserCaloriesBurntGoal = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurntGoal);
+        activityUserActiveCaloriesBurntGoal = prefs.getInt(PREF_USER_ACTIVE_CALORIES_BURNT, defaultUserActiveCaloriesBurntGoal);
         activityUserDistanceGoalMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceGoalMeters);
         activityUserActiveTimeGoalMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeGoalMinutes);
         activityUserStandingTimeGoalHours = prefs.getInt(PREF_USER_GOAL_STANDING_TIME_HOURS, defaultUserGoalStandingTimeHours);
@@ -185,6 +189,14 @@ public class ActivityUser {
             activityUserCaloriesBurntGoal = defaultUserCaloriesBurntGoal;
         }
         return activityUserCaloriesBurntGoal;
+    }
+
+    public int getActiveCaloriesBurntGoal()
+    {
+        if (activityUserActiveCaloriesBurntGoal < 1) {
+            activityUserActiveCaloriesBurntGoal = defaultUserActiveCaloriesBurntGoal;
+        }
+        return activityUserActiveCaloriesBurntGoal;
     }
 
     public int getDistanceGoalMeters()

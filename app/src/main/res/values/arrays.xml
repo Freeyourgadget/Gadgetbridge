@@ -3113,6 +3113,7 @@
         <item>@string/pref_header_spo2</item>
         <item>@string/menuitem_temperature</item>
         <item>@string/menuitem_weight</item>
+        <item>@string/menuitem_calories</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_values">
@@ -3131,6 +3132,7 @@
         <item>@string/p_spo2</item>
         <item>@string/p_temperature</item>
         <item>@string/p_weight</item>
+        <item>@string/p_calories</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_items_default">
@@ -3150,6 +3152,7 @@
         <item>@string/p_spo2</item>
         <item>@string/p_temperature</item>
         <item>@string/p_weight</item>
+        <item>@string/p_calories</item>
     </string-array>
 
 
@@ -4276,6 +4279,9 @@
         <item>@string/menuitem_vo2_max</item>
         <item>@string/vo2max_running</item>
         <item>@string/vo2max_cycling</item>
+        <item>@string/menuitem_calories_goal</item>
+        <item>@string/menuitem_calories_active_goal</item>
+        <item>@string/menuitem_calories_segmented</item>
     </string-array>
 
     <string-array name="pref_dashboard_widgets_order_values">
@@ -4293,6 +4299,9 @@
         <item>vo2max</item>
         <item>vo2max_running</item>
         <item>vo2max_cycling</item>
+        <item>calories</item>
+        <item>calories_active</item>
+        <item>calories_segmented</item>
     </string-array>
 
     <string-array name="pref_dashboard_widgets_order_default">
@@ -4306,5 +4315,8 @@
         <item>stress_segmented</item>
         <item>hrv</item>
         <item>vo2max</item>
+        <item>calories</item>
+        <item>calories_active</item>
+        <item>calories_segmented</item>
     </string-array>
 </resources>

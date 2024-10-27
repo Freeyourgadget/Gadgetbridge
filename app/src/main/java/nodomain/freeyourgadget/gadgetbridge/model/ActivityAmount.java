@@ -24,6 +24,7 @@ public class ActivityAmount {
     private long totalSeconds;
     private long totalSteps;
     private long totalDistance;
+    private long totalActiveCalories;
     private Date startDate = null;
     private Date endDate = null;
 
@@ -43,6 +44,10 @@ public class ActivityAmount {
         totalDistance += distance;
     }
 
+    public void addActiveCalories(long activeCalories) {
+        totalActiveCalories += activeCalories;
+    }
+
     public long getTotalSeconds() {
         return totalSeconds;
     }
@@ -53,6 +58,10 @@ public class ActivityAmount {
 
     public long getTotalDistance() {
         return totalDistance;
+    }
+
+    public long getTotalActiveCalories() {
+        return totalActiveCalories;
     }
 
     public ActivityKind getActivityKind() {
