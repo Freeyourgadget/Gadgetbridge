@@ -343,7 +343,7 @@
     <string name="miband_prefs_device_time_offset_hours">Apparaat-tijdsverschuiving in uren (voor het detecteren van slaap van werknemers in ploegendienst)</string>
     <string name="miband2_prefs_dateformat">Datumformaat</string>
     <string name="dateformat_time">Tijd</string>
-    <string name="dateformat_date_time">Tijd &amp; datum</string>
+    <string name="dateformat_date_time"><![CDATA[Tijd & datum]]></string>
     <string name="mi2_prefs_button_actions">Knoppen acties</string>
     <string name="mi2_prefs_button_actions_summary">Specificeer actie voor knop druk</string>
     <string name="mi2_prefs_button_press_count">Aantal knopdrukken</string>
@@ -451,7 +451,7 @@
     <string name="miband2_prefs_timeformat">Mi2: Tijdsformaat</string>
     <string name="mi2_fw_installhandler_fw53_hint">U moet versie %1$s installeren voordat u deze firmware installeert!</string>
     <string name="mi2_enable_text_notifications">Tekst meldingen</string>
-    <string name="mi2_enable_text_notifications_summary">Vereist dat firmware &gt;= 1.0.1.28 en Mili_pro.ft* geïnstalleerd is.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Vereist dat firmware >= 1.0.1.28 en Mili_pro.ft* geïnstalleerd is.]]></string>
     <string name="off">Uit</string>
     <string name="mi2_dnd_off">Uit</string>
     <string name="mi2_dnd_automatic">Automatisch (slaap detectie)</string>
@@ -3521,4 +3521,7 @@
     <string name="idasen_pref_value_warning">De waarde moet tussen 62 en 126 cm zijn</string>
     <string name="idasen_pref_sit_height">Zitpositie (in centimeters)</string>
     <string name="idasen_pref_stand_height">Stapositie (in centimeters)</string>
+    <string name="music_upload_info">U staat op het punt om het volgende muziekbestand te uploaden:\n\n%1$s\nTitel: %2$s\nAlbum: %3$s\n</string>
+    <string name="devicetype_garmin_fenix_7">Garmin Fenix 7</string>
+    <string name="file_already_exists">Bestand bestaat al</string>
 </resources>
