@@ -41,12 +41,14 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
     private ImageView caloriesGauge;
     private TextView dateView;
     private TextView caloriesResting;
-    private LinearLayout caloriesRestingWrapper;
     private TextView caloriesActive;
+    private LinearLayout caloriesActiveWrapper;
     private TextView caloriesActiveGoal;
+    private LinearLayout caloriesActiveGoalWrapper;
     private TextView caloriesTotalGoal;
-    private LinearLayout caloriesTotalGoalWrapper;
     protected int CALORIES_GOAL;
+    protected int TOTAL_CALORIES_GOAL;
+    protected int ACTIVE_CALORIES_GOAL;
     public enum GaugeViewMode {
         ACTIVE_CALORIES_GOAL,
         TOTAL_CALORIES_GOAL,
@@ -86,20 +88,19 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         caloriesGauge = rootView.findViewById(R.id.calories_gauge);
         dateView = rootView.findViewById(R.id.date_view);
         caloriesResting = rootView.findViewById(R.id.calories_resting);
-        caloriesRestingWrapper = rootView.findViewById(R.id.calories_resting_wrapper);
         caloriesActive = rootView.findViewById(R.id.calories_active);
+        caloriesActiveWrapper = rootView.findViewById(R.id.calories_active_wrapper);
         caloriesActiveGoal = rootView.findViewById(R.id.calories_active_goal);
+        caloriesActiveGoalWrapper = rootView.findViewById(R.id.calories_active_goal_wrapper);
         caloriesTotalGoal = rootView.findViewById(R.id.calories_total_goal);
-        caloriesTotalGoalWrapper = rootView.findViewById(R.id.calories_total_goal_wrapper);
         ActivityUser activityUser = new ActivityUser();
-        int TOTAL_CALORIES_GOAL = activityUser.getCaloriesBurntGoal();
-        caloriesTotalGoal.setText(String.valueOf(TOTAL_CALORIES_GOAL));
-        int ACTIVE_CALORIES_GOAL = activityUser.getActiveCaloriesBurntGoal();
-        caloriesActiveGoal.setText(String.valueOf(ACTIVE_CALORIES_GOAL));
+        TOTAL_CALORIES_GOAL = activityUser.getCaloriesBurntGoal();
+        ACTIVE_CALORIES_GOAL = activityUser.getActiveCaloriesBurntGoal();
 
         refresh();
         if (!supportsActiveCalories()) {
-            caloriesActive.setVisibility(View.GONE);
+            caloriesActiveWrapper.setVisibility(View.GONE);
+            caloriesActiveGoalWrapper.setVisibility(View.GONE);
         }
 
         if (gaugeViewMode == null) {
@@ -183,6 +184,8 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         int totalCalories = activeCalories + restingCalories;
         caloriesActive.setText(String.valueOf(activeCalories));
         caloriesResting.setText(String.valueOf(restingCalories));
+        caloriesTotalGoal.setText(String.valueOf(TOTAL_CALORIES_GOAL));
+        caloriesActiveGoal.setText(String.valueOf(ACTIVE_CALORIES_GOAL));
 
         if (gaugeViewMode.equals(GaugeViewMode.TOTAL_CALORIES_SEGMENT)) {
             int[] colors = new int[] {

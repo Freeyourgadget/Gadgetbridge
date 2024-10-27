@@ -233,7 +233,7 @@ public class GaugeDrawer {
             float sweepAngleDegrees = segments[i] * 360;
 
             if (gapBetweenSegments) {
-                sweepAngleDegrees -= 2;
+                sweepAngleDegrees -= 1;
             }
 
             canvas.drawArc(
