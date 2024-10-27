@@ -909,7 +909,7 @@
     <string name="menuitem_worldclock">שעון עולמי</string>
     <string name="permission_granting_mandatory">כל ההרשאות האלו נדרשות ואם לא תוענקנה היציבות תתערער</string>
     <string name="error_version_check_extreme_caution">אזהרה: בדיקת פרטי הגרסה נתקלה בשגיאה! עדיף שלא להמשיך! הגרסה שנצפתה היא „%s”</string>
-    <string name="error_background_service_reason">התחלת שירות הרקע נכשלה עקב חריגה. שגיאה:</string>
+    <string name="error_background_service_reason">התחלת שירות הרקע נכשלה עקב חריגה - נא ללחוץ כאן לפרטים נוספים. \n\nשגיאה:</string>
     <string name="error_background_service_reason_truncated">התחלת שירות הרקע נכשל עקב…</string>
     <string name="error_background_service">התחלת שירות הרקע נכשלה</string>
     <string name="fw_upgrade_notice_miband5">פעולה זו תתקין את הקושחה %s במקום הנוכחית שעל ה־Mi Band 5 שלך.
