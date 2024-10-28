@@ -129,7 +129,10 @@ public class ActivitySleepChartFragment extends AbstractActivityChartFragment<De
     @Override
     protected DefaultChartsData<LineData> refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<? extends ActivitySample> samples = getSamples(db, device);
-        return refresh(device, samples);
+        List<? extends ActivitySample> highResSamples = getSamplesHighRes(db, device);
+        if (highResSamples == null)
+            return refresh(device, samples);
+        return refresh(device, samples, highResSamples);
     }
 
     @Override
@@ -191,5 +194,10 @@ public class ActivitySleepChartFragment extends AbstractActivityChartFragment<De
     @Override
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return getAllSamples(db, device, tsFrom, tsTo);
+    }
+
+    @Override
+    protected List<? extends ActivitySample> getSamplesHighRes(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        return getAllSamplesHighRes(db, device, tsFrom, tsTo);
     }
 }
