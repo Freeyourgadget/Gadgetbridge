@@ -66,7 +66,8 @@ public class HuaweiSpo2SampleProvider extends AbstractTimeSampleProvider<HuaweiS
     @NonNull
     @Override
     public List<HuaweiSpo2Sample> getAllSamples(long timestampFrom, long timestampTo) {
-        List<HuaweiActivitySample> activitySamples = huaweiSampleProvider.getAllActivitySamples((int) (timestampFrom / 1000L), (int) (timestampTo / 1000L));
+        // Using high res data is fine for the SpO2 sample provider at the time of writing
+        List<HuaweiActivitySample> activitySamples = huaweiSampleProvider.getAllActivitySamplesHighRes((int) (timestampFrom / 1000L), (int) (timestampTo / 1000L));
         List<HuaweiSpo2Sample> spo2Samples = new ArrayList<>(activitySamples.size());
         for (HuaweiActivitySample sample : activitySamples) {
             if (sample.getSpo() == -1)

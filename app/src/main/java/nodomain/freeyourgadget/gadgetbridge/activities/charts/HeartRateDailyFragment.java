@@ -92,7 +92,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
 
     protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends ActivitySample> provider = device.getDeviceCoordinator().getSampleProvider(device, db.getDaoSession());
-        return provider.getAllActivitySamples(tsFrom, tsTo);
+        return provider.getAllActivitySamplesHighRes(tsFrom, tsTo);
     }
 
     @Override

@@ -78,6 +78,17 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     @NonNull
     @Override
+    public List<T> getAllActivitySamplesHighRes(int timestamp_from, int timestamp_to) {
+        return getGBActivitySamplesHighRes(timestamp_from, timestamp_to);
+    }
+
+    @Override
+    public boolean hasHighResData() {
+        return false;
+    }
+
+    @NonNull
+    @Override
     @Deprecated // use getAllActivitySamples
     public List<T> getActivitySamples(int timestamp_from, int timestamp_to) {
         if (getRawKindSampleProperty() != null) {
@@ -138,7 +149,7 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
     }
 
     /**
-     * Get the activity samples between two timestamps. Exactly one every minute.
+     * Get the activity samples between two timestamps (inclusive). Exactly one every minute.
      * @param timestamp_from Start timestamp
      * @param timestamp_to End timestamp
      * @return Exactly one sample for every minute
@@ -160,6 +171,20 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
         }
         detachFromSession();
         return samples;
+    }
+
+    /**
+     * Get the activity samples between two timestamps (inclusive).
+     * Differs from {@link #getGBActivitySamples(int, int)} in that it supplies as many samples as
+     * available.
+     * It assumes {@link #getGBActivitySamples(int, int)} returns the highest resolution data unless
+     * this is overwritten.
+     * @param timestamp_from Start timestamp
+     * @param timestamp_to End timestamp
+     * @return All the samples between start and end timestamp (inclusive)
+     */
+    protected List<T> getGBActivitySamplesHighRes(int timestamp_from, int timestamp_to) {
+        return getGBActivitySamples(timestamp_from, timestamp_to);
     }
 
     /**

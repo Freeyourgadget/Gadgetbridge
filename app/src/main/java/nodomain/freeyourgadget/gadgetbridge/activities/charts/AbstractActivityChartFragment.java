@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -180,14 +181,28 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         return provider.getAllActivitySamples(tsFrom, tsTo);
     }
 
+    protected List<? extends ActivitySample> getAllSamplesHighRes(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        // Only retrieve if the provider signals it has high res data, otherwise it is useless
+        if (provider.hasHighResData())
+            return provider.getAllActivitySamplesHighRes(tsFrom, tsTo);
+        return null;
+    }
+
     protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
         return provider.getActivitySamples(tsFrom, tsTo);
     }
 
     public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
+        // If there is no high res samples, all the samples are high res samples
+        return refresh(gbDevice, samples, samples);
+    }
+
+    public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples, List<? extends ActivitySample> highResSamples) {
         TimestampTranslation tsTranslation = new TimestampTranslation();
         LOG.info("{}: number of samples: {}", getTitle(), samples.size());
+        LOG.info("{}: number of high res samples: {}", getTitle(), highResSamples.size());
         LineData lineData;
 
         if (samples.isEmpty()) {
@@ -257,17 +272,23 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             }
             entries.get(index).add(createLineEntry(value, ts));
 
-            // heart rate line graph
-            if (hr && type != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
-                if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
-                    heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
-                    heartrateEntries.add(createLineEntry(0, ts - 1));
-                }
-                heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
-                lastHrSampleIndex = ts;
-            }
             last_type = type;
             last_value = value;
+        }
+
+        // Currently only for HR
+        if (hr) {
+            for (ActivitySample sample : highResSamples) {
+                if (sample.getKind() != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                    int ts = tsTranslation.shorten(sample.getTimestamp());
+                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                        heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
+                        heartrateEntries.add(createLineEntry(0, ts - 1));
+                    }
+                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
+                    lastHrSampleIndex = ts;
+                }
+            }
         }
 
         // convert Entry Lists to Datasets
@@ -364,14 +385,15 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 
     /**
      * Implement this to supply the samples to be displayed.
-     *
-     * @param db
-     * @param device
-     * @param tsFrom
-     * @param tsTo
-     * @return
      */
     protected abstract List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
+
+    /**
+     * Implement this to supply high resolution data
+     */
+    protected List<? extends ActivitySample> getSamplesHighRes(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        throw new NotImplementedException("High resolution samples have not been implemented for this chart.");
+    }
 
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
         int tsStart = getTSStart();
@@ -386,6 +408,12 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
 //        }
 //        return samples2;
         return samples;
+    }
+
+    protected List<? extends ActivitySample> getSamplesHighRes(DBHandler db, GBDevice device) {
+        int tsStart = getTSStart();
+        int tsEnd = getTSEnd();
+        return getSamplesHighRes(db, device, tsStart, tsEnd);
     }
 
     protected List<? extends ActivitySample> getSamplesofSleep(DBHandler db, GBDevice device) {

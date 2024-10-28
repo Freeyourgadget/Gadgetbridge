@@ -153,6 +153,11 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
     }
 
     @Override
+    protected List<? extends ActivitySample> getSamplesHighRes(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        return getAllSamplesHighRes(db, device, tsFrom, tsTo);
+    }
+
+    @Override
     protected void setupLegend(Chart<?> chart) {
         List<LegendEntry> legendEntries = new ArrayList<>(5);
 
@@ -231,9 +236,12 @@ public class ActivitySummariesChartFragment extends AbstractActivityChartFragmen
 
         private DefaultChartsData<LineData> buildChartFromSamples(DBHandler handler) {
             final List<? extends ActivitySample> samples = getAllSamples(handler, gbDevice, startTime, endTime);
+            final List<? extends ActivitySample> highResSamples = getAllSamplesHighRes(handler, gbDevice, startTime, endTime);
 
             try {
-                return refresh(gbDevice, samples);
+                if (highResSamples == null)
+                    return refresh(gbDevice, samples);
+                return refresh(gbDevice, samples, highResSamples);
             } catch (Exception e) {
                 LOG.error("Unable to get charts data right now", e);
             }
