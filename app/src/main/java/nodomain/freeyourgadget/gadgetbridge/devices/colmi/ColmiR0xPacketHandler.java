@@ -338,11 +338,14 @@ public class ColmiR0xPacketHandler {
                 index++;
                 int dayBytes = value[index];
                 index++;
+                // sleepStart is received as "minutes after midnight"
                 int sleepStart = BLETypeConversions.toUint16(value[index], value[index + 1]);
                 index += 2;
+                // sleepEnd is received as "minutes after midnight"
                 int sleepEnd = BLETypeConversions.toUint16(value[index], value[index + 1]);
                 index += 2;
                 // Calculate sleep start timestamp
+                LOG.info("Sleep session daysAgo={}, dayBytes={}, sleepStart={}, sleepEnd={}", daysAgo, dayBytes, sleepStart, sleepEnd);
                 Calendar sessionStart = Calendar.getInstance();
                 sessionStart.add(Calendar.DAY_OF_MONTH, 0 - daysAgo);
                 sessionStart.set(Calendar.HOUR_OF_DAY, 0);
@@ -351,8 +354,7 @@ public class ColmiR0xPacketHandler {
                 sessionStart.set(Calendar.MILLISECOND, 0);
                 if (sleepStart > sleepEnd) {
                     // Sleep started a day earlier, so before midnight
-                    sessionStart.add(Calendar.DAY_OF_MONTH, -1);
-                    sessionStart.add(Calendar.MINUTE, sleepStart);
+                    sessionStart.add(Calendar.MINUTE, sleepStart - 1440);
                 } else {
                     // Sleep started this day, so after midnight
                     sessionStart.add(Calendar.MINUTE, sleepStart);
@@ -374,15 +376,22 @@ public class ColmiR0xPacketHandler {
                 Calendar sleepStage = (Calendar) sessionStart.clone();
                 for (int j = 4; j < dayBytes; j += 2) {
                     int sleepMinutes = value[index + 1];
-                    LOG.info("Sleep stage type={} starts at {} and lasts for {} minutes", value[index], sleepStage.getTime(), sleepMinutes);
                     final ColmiSleepStageSample sample = new ColmiSleepStageSample();
                     sample.setTimestamp(sleepStage.getTimeInMillis());
                     sample.setDuration(value[index + 1]);
                     sample.setStage(value[index]);
-                    stageSamples.add(sample);
+                    if (sleepMinutes > 0) {
+                        LOG.info("Sleep stage type={} starts at {} and lasts for {} minutes", value[index], sleepStage.getTime(), sleepMinutes);
+                        if (sleepStage.getTimeInMillis() + sleepMinutes * 60 * 1000 > sessionEnd.getTimeInMillis()) {
+                            LOG.warn("Warning: sleep stage exceeds end of sleep session, received data may be corrupt");
+                        }
+                        stageSamples.add(sample);
+                        sleepStage.add(Calendar.MINUTE, sleepMinutes);
+                    } else {
+                        LOG.info("Ignoring sleep stage type={} starts at {} and lasts for {} minutes", value[index], sleepStage.getTime(), sleepMinutes);
+                    }
                     // Prepare for next sample
                     index += 2;
-                    sleepStage.add(Calendar.MINUTE, sleepMinutes);
                 }
                 // Persist sleep session
                 try (DBHandler handler = GBApplication.acquireDB()) {
