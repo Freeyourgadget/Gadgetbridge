@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
@@ -309,7 +310,8 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
     protected List<HuaweiActivitySample> getGBActivitySamplesHighRes(int timestamp_from, int timestamp_to) {
         List<HuaweiActivitySample> processedSamples = getRawOrderedActivitySamples(timestamp_from, timestamp_to);
         addWorkoutSamples(processedSamples, timestamp_from, timestamp_to);
-        return processedSamples;
+        // Filter out the end markers before returning
+        return processedSamples.stream().filter(sample -> sample.getTimestamp() <= sample.getOtherTimestamp()).collect(Collectors.toList());
     }
 
     @Override
@@ -357,6 +359,10 @@ public class HuaweiSampleProvider extends AbstractSampleProvider<HuaweiActivityS
         int stateModifier = ActivitySample.NOT_MEASURED;
 
         for (HuaweiActivitySample activitySample : activitySamples) {
+            // Ignore the end markers
+            if (activitySample.getTimestamp() > activitySample.getOtherTimestamp())
+                continue;
+
             // Skip the processed samples that are before this activity sample
             while (activitySample.getTimestamp() > processedSamples.get(currentIndex).getTimestamp()) {
                 // Add data to current index sample
