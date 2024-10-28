@@ -126,14 +126,14 @@ public class DashboardHrvWidget extends AbstractGaugeWidget {
     public static float calculateGaugeValue(int weeklyAverage, int baselineLowUpper, int baselineBalancedLower, int baselineBalancedUpper) {
         final float value;
         if (weeklyAverage != 0 && baselineLowUpper != 0 && baselineBalancedLower != 0 && baselineBalancedUpper != 0) {
-            if (weeklyAverage < baselineLowUpper) {
-                value = 0.125f * (float) GaugeDrawer.normalize(weeklyAverage, 0f, baselineLowUpper);
+            if (weeklyAverage <= baselineLowUpper) {
+                value = (float) GaugeDrawer.normalize(weeklyAverage, 0f, baselineLowUpper, 0, 0.124f);
             } else if (weeklyAverage < baselineBalancedLower) {
-                value = 0.125f + 0.125f * (float) GaugeDrawer.normalize((float) weeklyAverage, baselineLowUpper, baselineBalancedLower);
-            } else if (weeklyAverage < baselineBalancedUpper) {
-                value = 0.125f + 0.125f + 0.5f * (float) GaugeDrawer.normalize((float) weeklyAverage, baselineBalancedLower, baselineBalancedUpper);
+                value = (float) GaugeDrawer.normalize((float) weeklyAverage, baselineLowUpper + 1, baselineBalancedLower - 1, 0.126f, 0.249f);
+            } else if (weeklyAverage <= baselineBalancedUpper) {
+                value = (float) GaugeDrawer.normalize((float) weeklyAverage, baselineBalancedLower, baselineBalancedUpper, 0.251f, 0.749f);
             } else {
-                value = 0.125f + 0.125f + 0.5f + 0.125f * (float) GaugeDrawer.normalize((float) weeklyAverage, baselineBalancedUpper, 2 * baselineBalancedUpper);
+                value = (float) GaugeDrawer.normalize((float) weeklyAverage, baselineBalancedUpper, 2 * baselineBalancedUpper, 0.751f, 1);
             }
         } else {
             value = -1;
