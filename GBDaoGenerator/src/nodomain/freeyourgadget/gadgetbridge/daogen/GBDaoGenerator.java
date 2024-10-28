@@ -1333,7 +1333,7 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("distance").notNull().codeBeforeGetter(
                 "@Override\n" +
                 "    public int getDistanceCm() {\n" +
-                "        return getDistance() * 100;\n" +
+                "        return getDistance() == HuaweiActivitySample.NOT_MEASURED ? HuaweiActivitySample.NOT_MEASURED : getDistance() * 100;\n" +
                 "    }\n"
         );
         activitySample.addIntProperty("spo").notNull();
