@@ -3397,7 +3397,7 @@
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">Impossibile caricare il quadrante, troppi quadranti installati</string>
     <string name="alarm_slot_reset">Il registro della sveglia è stato reimpostato</string>
     <string name="garmin_agps_local_file">Documenti locali</string>
-    <string name="battery_percentage_str">%1$s%</string>
+    <string name="battery_percentage_str">%1$s%%</string>
     <string name="pref_fetch_unknown_files_title">Recuperare file sconosciuti</string>
     <string name="device_name_bicycle_sensor">Sensore Bici</string>
     <string name="pref_sleepasandroid_device_summary">Seleziona il dispositivo come fornitore di dati Sleep As Android</string>
