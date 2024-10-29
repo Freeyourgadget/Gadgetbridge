@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next version (WIP)
+#### 0.82.0
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
 * Initial support for Colmi R02/R03/R06/R10 smart rings
