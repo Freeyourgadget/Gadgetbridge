@@ -207,6 +207,7 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
     protected void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (ChartsHost.REFRESH.equals(action)) {
+            updateDateInfo(getStartDate(), getEndDate());
             refresh();
         } else if (ChartsHost.DATE_NEXT_DAY.equals(action)) {
             handleDate(getStartDate(), getEndDate(), +1);
