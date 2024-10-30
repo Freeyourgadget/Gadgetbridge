@@ -1821,6 +1821,7 @@
     <string name="devicetype_sony_wf_1000xm5">Sony WF-1000XM5</string>
     <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
     <string name="devicetype_sony_wf_c700n">Sony WF-C700N</string>
+    <string name="devicetype_sony_wi_c100">Sony WI-C100</string>
     <string name="devicetype_sony_wi_sp600n">Sony WI-SP600N</string>
     <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
