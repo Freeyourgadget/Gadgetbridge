@@ -8,7 +8,7 @@
 * Initial support for Moondrop Space Travel
 * Initial support for Mijia XMWSDJ04MMC
 * Initial support for Mi Smart Scale 2
-* Initial support for Sony WF-C500 / WF-C700N
+* Initial support for Sony WF-C500 / WF-C700N / WI-C100
 * Initial support for Soundcore Motion 300
 * Initial support for Vivitar HR & BP Monitor Activity Tracker
 * Experimental support for Amazfit T-Rex 3
