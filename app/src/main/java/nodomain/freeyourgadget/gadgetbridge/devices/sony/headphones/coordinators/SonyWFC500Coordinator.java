@@ -37,6 +37,7 @@ public class SonyWFC500Coordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.EqualizerSimple,
                 SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.AudioUpsampling,
+                SonyHeadphonesCapabilities.VoiceNotifications,
                 SonyHeadphonesCapabilities.PowerOffFromPhone
         );
     }
