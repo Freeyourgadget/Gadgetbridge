@@ -3507,4 +3507,5 @@
     <string name="backup_restore_warning_files">%1d file non ripristinati: \n%2s</string>
     <string name="pref_dashboard_widget_today_time_indicator_summary">Mostra un indicatore all\'ora corrente, per separare visivamente i dati di ieri e di oggi</string>
     <string name="backup_restore_exporting">Esportazione in formato zip…</string>
+    <string name="devicetype_sony_wi_c100">Sony WI-C100</string>
 </resources>
