@@ -1875,6 +1875,7 @@
     <string name="devicetype_colmi_r03">Colmi R03</string>
     <string name="devicetype_colmi_r06">Colmi R06</string>
     <string name="devicetype_colmi_r10">Colmi R10</string>
+    <string name="devicetype_bandw_pseries">Bowers and Wilkins P series</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>
