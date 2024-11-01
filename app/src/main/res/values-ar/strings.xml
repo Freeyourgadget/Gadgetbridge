@@ -3518,4 +3518,6 @@
     <string name="music_upload_info">أنت على وشك تحميل ملف الموسيقى التالي:\n\n%1$s\nعنوان الأغنية: %2$s\nالألبوم: %3$s\n</string>
     <string name="file_already_exists">الملف موجود بالفعل</string>
     <string name="devicetype_garmin_fenix_7">Garmin Fenix 7</string>
+    <string name="devicetype_garmin_forerunner_235">Garmin Forerunner 235</string>
+    <string name="devicetype_sony_wi_c100">Sony WI-C100</string>
 </resources>
