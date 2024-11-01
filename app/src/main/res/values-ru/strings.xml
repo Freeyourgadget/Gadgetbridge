@@ -829,7 +829,7 @@
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
     <string name="pref_summary_custom_deviceicon">При подключении показывать в уведомлении собственную иконку устройства вместо иконки Gadgetbridge</string>
     <string name="pref_theme_system">Системная</string>
-    <string name="error_background_service_reason">Не удается запустить фоновую службу. Ошибка:</string>
+    <string name="error_background_service_reason">Не удалось запустить фоновую службу из-за исключения. Нажмите для получения подробностей.\n\nОшибка:</string>
     <string name="error_background_service_reason_truncated">Не удается запустить фоновую службу из-за…</string>
     <string name="error_background_service">Не удалось запустить фоновую службу</string>
     <string name="error_version_check_extreme_caution">ВНИМАНИЕ: Ошибка при проверке информации о версии! Не продолжайте! Обнаруженное имя версии \"%s\"</string>
@@ -3237,4 +3237,7 @@
     <string name="idasen_control_button_stand">СТОЯ</string>
     <string name="idasen_control_button_sit">СИДЯ</string>
     <string name="idasen_pref_value_warning">Значение должно быть в пределах 62-126 см</string>
+    <string name="music_upload_info">Вы отправляете файл композиции:\n\n%1$s\nНазвание: %2$s\nАльбом: %3$s\n</string>
+    <string name="smart_ring_measurement_error_worn_incorrectly">Измерение не удалось. Проверьте правильность расположения сенсоров.</string>
+    <string name="file_already_exists">Этот файл уже существует</string>
 </resources>
