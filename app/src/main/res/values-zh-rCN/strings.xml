@@ -3524,4 +3524,6 @@
     <string name="file_already_exists">文件已存在</string>
     <string name="music_upload_info">您将要上传以下音乐文件：\n\n%1$s\n音乐标题：%2$s\n专辑：%3$s\n</string>
     <string name="devicetype_garmin_fenix_7">佳明 Fenix 7</string>
+    <string name="devicetype_garmin_forerunner_235">佳明 Forerunner 235</string>
+    <string name="devicetype_sony_wi_c100">索尼 WI-C100</string>
 </resources>
