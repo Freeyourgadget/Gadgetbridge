@@ -312,7 +312,7 @@
     <string name="miband_prefs_device_time_offset_hours">Gerätezeitversatz in Stunden (Erkennung des Schlafes von Schichtarbeitern)</string>
     <string name="miband2_prefs_dateformat">Datumsformat</string>
     <string name="dateformat_time">Zeit</string>
-    <string name="dateformat_date_time">Zeit &amp; Datum</string>
+    <string name="dateformat_date_time"><![CDATA[Zeit & Datum]]></string>
     <string name="mi2_prefs_goal_notification">Zielbenachrichtigung</string>
     <string name="mi2_prefs_goal_notification_summary">Das Band vibriert, wenn das Tagesschrittziel erreicht ist</string>
     <string name="mi2_prefs_display_items">Anzeigeelemente</string>
@@ -405,7 +405,7 @@
     <string name="miband2_prefs_timeformat">Mi2: Zeitformat</string>
     <string name="mi2_fw_installhandler_fw53_hint">Du musst Version %1$s installieren, um diese Firmware installierbar zu machen!</string>
     <string name="mi2_enable_text_notifications">Textbenachrichtigungen</string>
-    <string name="mi2_enable_text_notifications_summary">Benötigt Firmware &gt;= 1.0.1.28 und installiertes Mili_pro.ft*.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Benötigt Firmware >= 1.0.1.28 und Mili_pro.ft* Installiert.]]></string>
     <string name="off">Aus</string>
     <string name="mi2_dnd_off">Aus</string>
     <string name="mi2_dnd_automatic">Automatisch (Schlaferkennung)</string>
@@ -3345,4 +3345,8 @@
     <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
     <string name="pref_title_calendar_lookahead">Anzahl der Tage voraus</string>
     <string name="pref_summary_calendar_lookahead">Kalenderereignisse bis zu %1s Tagen synchronisieren</string>
+    <string name="activity_type_racquetball">Racquetball</string>
+    <string name="music_upload_info">Du bist gerade dabei vollende Musik Dateien hochzuladen:\n\n%1$s\nTitel: %2$s\nAlbum: %3$s\n</string>
+    <string name="activity_type_racket">Schläger</string>
+    <string name="activity_type_tactical">Taktisch</string>
 </resources>
