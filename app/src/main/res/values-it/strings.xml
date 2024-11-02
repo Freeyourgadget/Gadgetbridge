@@ -3509,4 +3509,5 @@
     <string name="backup_restore_exporting">Esportazione in formato zip…</string>
     <string name="devicetype_sony_wi_c100">Sony WI-C100</string>
     <string name="devicetype_garmin_forerunner_235">Garmin Forerunner 235</string>
+    <string name="devicetype_bandw_pseries">Bowers e Wilkins serie P</string>
 </resources>
