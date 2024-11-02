@@ -3526,4 +3526,5 @@
     <string name="devicetype_garmin_fenix_7">佳明 Fenix 7</string>
     <string name="devicetype_garmin_forerunner_235">佳明 Forerunner 235</string>
     <string name="devicetype_sony_wi_c100">索尼 WI-C100</string>
+    <string name="devicetype_bandw_pseries">Bowers and Wilkins P 系列</string>
 </resources>
