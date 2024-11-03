@@ -60,6 +60,7 @@ public class TemperatureChartFragment extends AbstractChartFragment<TemperatureC
 
     protected final int TOTAL_DAYS = getRangeDays();
 
+
     @Override
     protected void init() {
         BACKGROUND_COLOR = GBApplication.getBackgroundColor(requireContext());

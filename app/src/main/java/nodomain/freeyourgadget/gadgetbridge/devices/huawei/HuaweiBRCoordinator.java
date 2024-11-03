@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
+import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiBRSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiWorkoutGbParser;
@@ -188,6 +189,11 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     }
 
     @Override
+    public boolean supportsTemperatureMeasurement() {
+        return huaweiCoordinator.supportsTemperature();
+    }
+
+    @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return huaweiCoordinator.getInstallHandler(uri, context);
     }
@@ -205,6 +211,11 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
         return new HuaweiSpo2SampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends TemperatureSample> getTemperatureSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuaweiTemperatureSampleProvider(device, session);
     }
 
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {

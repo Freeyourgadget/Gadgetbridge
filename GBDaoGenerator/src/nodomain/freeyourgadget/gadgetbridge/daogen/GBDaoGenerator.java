@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(85, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(86, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -152,6 +152,9 @@ public class GBDaoGenerator {
         addHuaweiWorkoutDataSample(schema, huaweiWorkoutSummary);
         addHuaweiWorkoutPaceSample(schema, huaweiWorkoutSummary);
         addHuaweiWorkoutSwimSegmentsSample(schema, huaweiWorkoutSummary);
+
+        Entity huaweiDictData = addHuaweiDictData(schema, user, device);
+        addHuaweiDictDataValues(schema, huaweiDictData);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -1467,6 +1470,42 @@ public class GBDaoGenerator {
 
         return workoutSwimSegmentsSample;
     }
+
+    private static Entity addHuaweiDictData(Schema schema, Entity user, Entity device) {
+        Entity dictData = addEntity(schema, "HuaweiDictData");
+
+        dictData.setJavaDoc("Contains Huawei Dict Data");
+
+        dictData.addLongProperty("dictId").primaryKey().autoincrement();
+
+        Property deviceId = dictData.addLongProperty("deviceId").notNull().getProperty();
+        dictData.addToOne(device, deviceId);
+        Property userId = dictData.addLongProperty("userId").notNull().getProperty();
+        dictData.addToOne(user, userId);
+
+        dictData.addIntProperty("dictClass").notNull();
+        dictData.addLongProperty("startTimestamp").notNull();
+        dictData.addLongProperty("endTimestamp");
+        dictData.addLongProperty("modifyTimestamp");
+
+        return dictData;
+    }
+
+    private static Entity addHuaweiDictDataValues(Schema schema, Entity summaryEntity) {
+        Entity dictDataValues = addEntity(schema, "HuaweiDictDataValues");
+
+        dictDataValues.setJavaDoc("Contains Huawei Dict data values");
+
+        Property id = dictDataValues.addLongProperty("dictId").primaryKey().notNull().getProperty();
+        dictDataValues.addToOne(summaryEntity, id);
+
+        dictDataValues.addIntProperty("dictType").notNull().primaryKey();
+        dictDataValues.addByteProperty("tag").notNull().primaryKey();
+        dictDataValues.addByteArrayProperty("value");
+
+        return dictDataValues;
+    }
+
 
     private static void addTemperatureProperties(Entity activitySample) {
         activitySample.addFloatProperty(SAMPLE_TEMPERATURE).notNull().codeBeforeGetter(OVERRIDE);

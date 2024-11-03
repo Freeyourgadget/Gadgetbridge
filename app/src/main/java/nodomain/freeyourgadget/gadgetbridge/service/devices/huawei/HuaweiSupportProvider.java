@@ -31,8 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +68,10 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictData;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictDataDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictDataValues;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictDataValuesDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutDataSampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiWorkoutPaceSample;
@@ -105,6 +107,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PTrackService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PDataDictionarySyncService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.AcceptAgreementsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetAppInfoParams;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetContactsCount;
@@ -887,6 +890,10 @@ public class HuaweiSupportProvider {
                                 trackService.register();
                             }
                         }
+                        if (HuaweiP2PDataDictionarySyncService.getRegisteredInstance(huaweiP2PManager) == null) {
+                            HuaweiP2PDataDictionarySyncService trackService = new HuaweiP2PDataDictionarySyncService(huaweiP2PManager);
+                            trackService.register();
+                        }
 
                     }
                 }
@@ -1184,6 +1191,7 @@ public class HuaweiSupportProvider {
 
     private void fetchActivityData() {
         syncState.setActivitySync(true);
+        fetchActivityDataP2P();
 
         int sleepStart = 0;
         int stepStart = 0;
@@ -1242,6 +1250,7 @@ public class HuaweiSupportProvider {
             }
         });
 
+
         getStepDataCountRequest.setFinalizeReq(new RequestCallback() {
             @Override
             public void call() {
@@ -1283,6 +1292,18 @@ public class HuaweiSupportProvider {
         } catch (IOException e) {
             LOG.error("Exception on starting sleep data count request", e);
             syncState.setActivitySync(false);
+        }
+    }
+
+    private void fetchActivityDataP2P() {
+        HuaweiP2PDataDictionarySyncService P2PSyncService = HuaweiP2PDataDictionarySyncService.getRegisteredInstance(huaweiP2PManager);
+        if (P2PSyncService != null && getHuaweiCoordinator().supportsTemperature()) {
+            P2PSyncService.sendSyncRequest(400012, new HuaweiP2PDataDictionarySyncService.DictionarySyncCallback() {
+                @Override
+                public void onComplete(boolean complete) {
+                    LOG.info("Sync P2P Temperature complete");
+                }
+            });
         }
     }
 
@@ -1721,7 +1742,7 @@ public class HuaweiSupportProvider {
         try (DBHandler db = GBApplication.acquireDB()) {
             HuaweiWorkoutPaceSampleDao dao = db.getDaoSession().getHuaweiWorkoutPaceSampleDao();
 
-            if(number == 0) {
+            if (number == 0) {
                 final DeleteQuery<HuaweiWorkoutPaceSample> tableDeleteQuery = dao.queryBuilder()
                         .where(HuaweiWorkoutPaceSampleDao.Properties.WorkoutId.eq(workoutId))
                         .buildDelete();
@@ -1756,7 +1777,7 @@ public class HuaweiSupportProvider {
         try (DBHandler db = GBApplication.acquireDB()) {
             HuaweiWorkoutSwimSegmentsSampleDao dao = db.getDaoSession().getHuaweiWorkoutSwimSegmentsSampleDao();
 
-            if(number == 0) {
+            if (number == 0) {
                 final DeleteQuery<HuaweiWorkoutSwimSegmentsSample> tableDeleteQuery = dao.queryBuilder()
                         .where(HuaweiWorkoutSwimSegmentsSampleDao.Properties.WorkoutId.eq(workoutId))
                         .buildDelete();
@@ -1783,6 +1804,92 @@ public class HuaweiSupportProvider {
         } catch (Exception e) {
             LOG.error("Failed to add workout swim section data to database", e);
         }
+    }
+
+    public void addDictData(List<HuaweiP2PDataDictionarySyncService.DictData> dictData) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            Long userId = DBHelper.getUser(db.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(gbDevice, db.getDaoSession()).getId();
+
+            for (HuaweiP2PDataDictionarySyncService.DictData data : dictData) {
+                // Avoid duplicates
+                QueryBuilder<HuaweiDictData> qb = db.getDaoSession().getHuaweiDictDataDao().queryBuilder().where(
+                        HuaweiDictDataDao.Properties.UserId.eq(userId),
+                        HuaweiDictDataDao.Properties.DeviceId.eq(deviceId),
+                        HuaweiDictDataDao.Properties.DictClass.eq(data.getDictClass()),
+                        HuaweiDictDataDao.Properties.StartTimestamp.eq(data.getStartTimestamp())
+                );
+                List<HuaweiDictData> results = qb.build().list();
+                Long dictId = null;
+                if (!results.isEmpty())
+                    dictId = results.get(0).getDictId();
+
+                HuaweiDictData dictSample = new HuaweiDictData(
+                        dictId,
+                        deviceId,
+                        userId,
+                        data.getDictClass(),
+                        data.getStartTimestamp(),
+                        data.getEndTimestamp(),
+                        data.getModifyTimestamp()
+                );
+                db.getDaoSession().getHuaweiDictDataDao().insertOrReplace(dictSample);
+                addDictDataValue(dictSample.getDictId(), data.getData());
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to add dict data", e);
+        }
+    }
+
+    public void addDictDataValue(Long dictId, List<HuaweiP2PDataDictionarySyncService.DictData.DictDataValue> dictDataValues) {
+        if (dictId == null)
+            return;
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            HuaweiDictDataValuesDao dao = db.getDaoSession().getHuaweiDictDataValuesDao();
+
+            for (HuaweiP2PDataDictionarySyncService.DictData.DictDataValue dataValues : dictDataValues) {
+
+                HuaweiDictDataValues dictValue = new HuaweiDictDataValues(
+                        dictId,
+                        dataValues.getDataType(),
+                        dataValues.getTag(),
+                        dataValues.getValue()
+                );
+                dao.insertOrReplace(dictValue);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to add dict value to database", e);
+        }
+    }
+
+    public long getLastDataDictLastTimestamp(int dictClass) {
+        long lastTimestamp = 0;
+        if (dictClass == 0)
+            return lastTimestamp;
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            Long userId = DBHelper.getUser(db.getDaoSession()).getId();
+            Long deviceId = DBHelper.getDevice(gbDevice, db.getDaoSession()).getId();
+
+            QueryBuilder<HuaweiDictData> qb = db.getDaoSession().getHuaweiDictDataDao().queryBuilder().where(
+                    HuaweiDictDataDao.Properties.UserId.eq(userId),
+                    HuaweiDictDataDao.Properties.DeviceId.eq(deviceId),
+                    HuaweiDictDataDao.Properties.DictClass.eq(dictClass)
+            );
+            List<HuaweiDictData> results = qb.build().list();
+            for (HuaweiDictData data : results) {
+                if (data.getModifyTimestamp() != null) {
+                    lastTimestamp = Math.max(lastTimestamp, data.getModifyTimestamp());
+                }
+                if (data.getEndTimestamp() != null) {
+                    lastTimestamp = Math.max(lastTimestamp, data.getEndTimestamp());
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to select last timestsmp value to database", e);
+        }
+        return lastTimestamp;
     }
 
 
@@ -2021,7 +2128,7 @@ public class HuaweiSupportProvider {
 
         HuaweiUploadManager.FileUploadInfo fileInfo = new HuaweiUploadManager.FileUploadInfo();
 
-        if(huaweiFwHelper.isMusic()) {
+        if (huaweiFwHelper.isMusic()) {
             getHuaweiMusicManager().addUploadMusic(huaweiFwHelper.getMusicInfo());
         }
 
