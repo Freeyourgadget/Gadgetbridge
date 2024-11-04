@@ -123,6 +123,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
         INDOOR_CYCLE(7, ActivityKind.INDOOR_CYCLING),
         OPEN_WATER_SWIM(8, ActivityKind.SWIMMING_OPENWATER),
         INDOOR_WALK(13, ActivityKind.INDOOR_WALKING),
+        HIKING(14, ActivityKind.HIKING),
         JUMP_ROPING(21, ActivityKind.JUMP_ROPING),
         PING_PONG(128, ActivityKind.PINGPONG),
         BADMINTON(129, ActivityKind.BADMINTON),
