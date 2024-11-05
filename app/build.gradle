@@ -74,8 +74,8 @@ android {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
 
         //noinspection OldTargetApi
-        targetSdkVersion 34
-        compileSdk 34
+        targetSdkVersion 35
+        compileSdk 35
         minSdkVersion 21
 
         // Note: always bump BOTH versionCode and versionName!
