@@ -897,7 +897,7 @@
     <string name="bip_prefs_shotcuts_summary">Escolha os atalhos na tela da pulseira</string>
     <string name="bip_prefs_shortcuts">Atalhos</string>
     <string name="hr_widget_last_notification">Última notificação</string>
-    <string name="controlcenter_set_alias">Definir alias</string>
+    <string name="controlcenter_set_alias">Definir apelido</string>
     <string name="fw_upgrade_notice_amazfit_trex">Você está prestes a instalar o firmware %s no seu Amazit T-Rex. 
 \n 
 \nCertifique-se de instalar o arquivo .fw, depois o arquivo .res e finalmente o arquivo .gps. Seu relógio será reiniciado após a instalação do arquivo .fw. 
@@ -2418,4 +2418,25 @@
     <string name="state_scanned">Escaneado</string>
     <string name="activity_type_flexibility">Flexibilidade</string>
     <string name="moondrop_touch_action_call_pick_hang">Atender a ligação</string>
+    <string name="pref_header_deprecated_functionalities">Funcionalidades descontinuadas</string>
+    <string name="distance_total">Distância Total</string>
+    <string name="distance_avg">Média de Distância</string>
+    <string name="pref_deprecated_media_control_title">Controle de mídia descontinuado</string>
+    <string name="pref_crash_notification_summary">Quando o aplicativo falhar, exiba uma notificação com o erro</string>
+    <string name="pref_header_deprecated_functionalities_warning">As seguintes funcionalidades foram descontinuadas e serão removidas em breve do software.\nSe precisar ativar uma das configurações a seguir, entre em contato com a equipe do projeto.</string>
+    <string name="steps_avg">Média de Passos</string>
+    <string name="steps_total">Total de Passos</string>
+    <string name="controlcenter_toggle_details">Exibir detalhes</string>
+    <string name="pref_title_notification_media_ignores_application_list">As notificações de mídia ignoram a lista de aplicativos</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Processar notificações de mídia antes da lista de aplicativos. Se essa preferência estiver desmarcada, os aplicativos de mídia precisarão ser permitidos na lista de aplicativos para que os controles de mídia funcionem no dispositivo.</string>
+    <string name="pref_deprecated_media_control_summary">Envie comandos de controle de mídia como eventos chave em vez do controlador de mídia.</string>
+    <string name="no_supported_devices_found">Nenhum dispositivo compatível encontrado</string>
+    <string name="pref_crash_notification_title">Notificar em caso de falha</string>
+    <string name="pref_description_general">Inicialização, idioma, região, localização</string>
+    <string name="pref_title_user_interface">Interface do usuário</string>
+    <string name="pref_description_about_you">Data de nascimento, gênero, altura, peso, metas</string>
+    <string name="pref_header_main_screen">Tela principal</string>
+    <string name="pref_description_user_interface">Tema, tela principal</string>
+    <string name="pref_description_deprecated_functionalities">Configurações que serão removidas em uma versão futura</string>
+    <string name="activity_prefs_date_birth">Data de nascimento</string>
 </resources>
