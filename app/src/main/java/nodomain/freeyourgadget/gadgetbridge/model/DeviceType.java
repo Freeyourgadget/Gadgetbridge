@@ -62,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminF
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix5PlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix5XPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6SProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6SSapphireCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix6SapphireCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.watches.fenix.GarminFenix7Coordinator;
@@ -421,6 +422,7 @@ public enum DeviceType {
     GARMIN_FENIX_5X_PLUS(GarminFenix5XPlusCoordinator.class),
     GARMIN_FENIX_6(GarminFenix6Coordinator.class),
     GARMIN_FENIX_6_SAPPHIRE(GarminFenix6SapphireCoordinator.class),
+    GARMIN_FENIX_6S_PRO(GarminFenix6SProCoordinator.class),
     GARMIN_FENIX_6S_SAPPHIRE(GarminFenix6SSapphireCoordinator.class),
     GARMIN_FENIX_7(GarminFenix7Coordinator.class),
     GARMIN_FENIX_7S(GarminFenix7SCoordinator.class),
