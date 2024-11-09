@@ -18,6 +18,9 @@ public class ArmenianTransliteratorTest extends TestCase {
         Assert.assertEquals("vorotan", new ArmenianTransliterator().transliterate("որոտան"));
         Assert.assertEquals("voroshel", new ArmenianTransliterator().transliterate("որոշել"));
         Assert.assertEquals("uzox", new ArmenianTransliterator().transliterate("ուզող"));
+        Assert.assertEquals(
+                "AVO", new ArmenianTransliterator().transliterate("ԱՈ")
+        );
     }
 
     @Test
@@ -44,8 +47,10 @@ public class ArmenianTransliteratorTest extends TestCase {
         Assert.assertEquals(
                 "Ushadir", new ArmenianTransliterator().transliterate("Ուշադիր")
         );
+        Assert.assertEquals(
+                "AU", new ArmenianTransliterator().transliterate("ԱՈւ")
+        );
     }
-
 
     @Test
     public void testTop100Words() {
