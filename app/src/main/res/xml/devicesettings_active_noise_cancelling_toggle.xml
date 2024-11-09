@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_surround"
+        android:key="active_noise_cancelling_toggle"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/prefs_active_noise_cancelling_summary"
+        android:title="@string/prefs_active_noise_cancelling" />
+</androidx.preference.PreferenceScreen>

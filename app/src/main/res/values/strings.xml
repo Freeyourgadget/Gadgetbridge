@@ -2569,6 +2569,9 @@
     <string name="pref_voice_detect_duration_5">5 seconds</string>
     <string name="pref_voice_detect_duration_10">10 seconds</string>
     <string name="pref_voice_detect_duration_15">15 seconds</string>
+    <string name="pref_voice_passthrough_enabled">Passthrough</string>
+    <string name="pref_voice_passthrough_enabled_summary">Allow external sounds to pass through to your ears</string>
+    <string name="pref_voice_passthrough_level">Passthrough level</string>
     <string name="pref_header_heartrate_sleep">Sleep</string>
     <string name="pref_header_heartrate_allday">All-day monitoring</string>
     <string name="pref_header_heartrate_alerts">Heart rate alerts</string>

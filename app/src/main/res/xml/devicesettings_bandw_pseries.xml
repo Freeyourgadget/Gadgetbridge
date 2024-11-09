@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <SeekBarPreference
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:icon="@drawable/ic_hearing"
+            android:key="bandw_pseries_gui_vpt_level"
+            android:max="2"
+            android:summary="@string/pref_voice_passthrough_enabled_summary"
+            android:title="@string/pref_voice_passthrough_level" />
+</androidx.preference.PreferenceScreen>

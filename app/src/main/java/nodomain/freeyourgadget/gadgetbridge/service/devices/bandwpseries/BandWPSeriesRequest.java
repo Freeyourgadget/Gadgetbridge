@@ -21,7 +21,6 @@ public class BandWPSeriesRequest {
         messageType = BandWMessageType.REQUEST_WITHOUT_PAYLOAD;
         namespace = mNamespace;
         commandId = mCommandId;
-        payloadPacker.packInt(0);
     }
 
     public BandWPSeriesRequest addToPayload(int value) throws IOException {
@@ -36,6 +35,12 @@ public class BandWPSeriesRequest {
         return this;
     }
 
+    public BandWPSeriesRequest addToPayload(boolean value) throws IOException {
+        payloadPacker.packBoolean(value);
+        messageType = BandWMessageType.REQUEST_WITH_PAYLOAD;
+        return this;
+    }
+
     public BandWPSeriesRequest addToPayload(String value) throws IOException {
         payloadPacker.packString(value);
         messageType = BandWMessageType.REQUEST_WITH_PAYLOAD;
@@ -43,13 +48,15 @@ public class BandWPSeriesRequest {
     }
 
     public byte[] finishAndGetBytes() {
-        byte len = (byte) ((this.messageType == BandWMessageType.REQUEST_WITHOUT_PAYLOAD) ? 4 : 4 + payloadPacker.getBufferSize());
+        byte[] payload = payloadPacker.toByteArray();
+        byte len = (byte) ((this.messageType == BandWMessageType.REQUEST_WITHOUT_PAYLOAD) ? 4 : 6 + payload.length);
         byte[] out = addMessageType(new byte[len+1], messageType.value);
         out[0] = len;
         out[3] = commandId;
         out[4] = namespace;
         if (messageType == BandWMessageType.REQUEST_WITH_PAYLOAD) {
-            System.arraycopy(payloadPacker.toByteArray(), 0, out, 5, len - 5);
+            addShort(out, 5, payload.length);
+            System.arraycopy(payload, 0, out, 7, payload.length);
         }
         try {
             payloadPacker.close();
@@ -60,11 +67,14 @@ public class BandWPSeriesRequest {
     }
 
     private byte[] addMessageType(byte[] target, int value) {
-        byte valueLo = (byte) (value & 0xff);
-        byte valueHi = (byte) (value >> 8);
-        target[1] = valueLo;
-        target[2] = valueHi;
-        return target;
+        return addShort(target, 1, value);
     }
 
+    private byte[] addShort(byte[] target, int position, int value) {
+        byte valueLo = (byte) (value & 0xff);
+        byte valueHi = (byte) (value >> 8);
+        target[position] = valueLo;
+        target[position+1] = valueHi;
+        return target;
+    }
 }
