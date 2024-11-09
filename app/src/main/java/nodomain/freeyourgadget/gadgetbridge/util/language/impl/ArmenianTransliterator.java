@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ArmenianTransliterator implements Transliterator {
     // Transliteration map ordered by priority
@@ -38,7 +39,7 @@ public class ArmenianTransliterator implements Transliterator {
     private static final Map<String, String> transliterateMap = new LinkedHashMap<String, String>() {
         {
             // Simple substitutions
-            Map<String, String> simpleSubstitions =  new HashMap<String, String>() {
+            Map<String, String> simpleSubstitions = new HashMap<String, String>() {
                 {
                     put("ա","a");
                     put("բ","b");
@@ -63,6 +64,7 @@ public class ArmenianTransliterator implements Transliterator {
                     put("յ","y");
                     put("ն","n");
                     put("շ","sh");
+                    put("ո", "vo");
                     put("չ","ch");
                     put("պ","p");
                     put("ջ","j");
@@ -77,68 +79,78 @@ public class ArmenianTransliterator implements Transliterator {
                     put("օ","o");
                     put("և","ev");
                     put("ֆ","f");
+                    put("՝", "`");
+                    put("՞", "?");
+                    put("։", ":");
+                    put("․", ".");
                 }
             };
 
+            // Capitalize existing simple substitutions here
+            for (final Entry<String, String> entry : new ArrayList<Entry<String, String>>(simpleSubstitions.entrySet())) {
+                String capitalKey = entry.getKey().toUpperCase();
+                if (!capitalKey.equals(entry.getKey())) {
+                    simpleSubstitions.put(capitalKey, entry.getValue().toUpperCase());
+                }
+            }
 
             // Letter + 'ու'
-            char[] letterMapU = {
-                'ա',
-                'բ',
-                'գ',
-                'դ',
-                'ե',
-                'զ',
-                'է',
-                'ը',
-                'թ',
-                'ժ',
-                'ի',
-                'լ',
-                'խ',
-                'ծ',
-                'կ',
-                'հ',
-                'ձ',
-                'ղ',
-                'ճ',
-                'մ',
-                'յ',
-                'ն',
-                'շ',
-                'չ',
-                'պ',
-                'ջ',
-                'ռ',
-                'ս',
-                'վ',
-                'տ',
-                'ր',
-                'ց',
-                'փ',
-                'ք',
-                'օ',
-                'և',
-                'ֆ',
-                'ո',
+            final String[] letterMapU = {
+                "ա",
+                "բ",
+                "գ",
+                "դ",
+                "ե",
+                "զ",
+                "է",
+                "ը",
+                "թ",
+                "ժ",
+                "ի",
+                "լ",
+                "խ",
+                "ծ",
+                "կ",
+                "հ",
+                "ձ",
+                "ղ",
+                "ճ",
+                "մ",
+                "յ",
+                "ն",
+                "շ",
+                "չ",
+                "պ",
+                "ջ",
+                "ռ",
+                "ս",
+                "վ",
+                "տ",
+                "ր",
+                "ց",
+                "փ",
+                "ք",
+                "օ",
+                "և",
+                "ֆ",
+                "ո"
             };
 
-            for(char letter : letterMapU) {
-                char capitalLetter = Character.toUpperCase(letter);
-                final String transliteratedLetter = simpleSubstitions.get(Character.toString(letter));
-                final String transliteratedCapitalLetter = simpleSubstitions.get(Character.toString(capitalLetter));
+            for (final String letter : letterMapU) {
+                final String capitalLetter = letter.toUpperCase();
+                final String transliteratedLetter = Objects.requireNonNull(simpleSubstitions.get(letter), letter);
+                final String transliteratedCapitalLetter = Objects.requireNonNull(simpleSubstitions.get(capitalLetter), capitalLetter);
 
-                put(Character.toString(letter) + "ու", transliteratedLetter + "u");
-                put(Character.toString(capitalLetter) + "ու", transliteratedCapitalLetter + "u");
+                put(letter + "ու", transliteratedLetter + "u");
+                put(capitalLetter + "ու", transliteratedCapitalLetter + "u");
 
-                put(Character.toString(letter) + "ՈՒ", transliteratedLetter + "U");
-                put(Character.toString(capitalLetter) + "ՈՒ", transliteratedCapitalLetter + "U");
+                put(letter + "ՈՒ", transliteratedLetter + "U");
+                put(capitalLetter + "ՈՒ", transliteratedCapitalLetter + "U");
+                put(letter + "Ու", transliteratedLetter + "U");
+                put(capitalLetter + "Ու", transliteratedCapitalLetter + "U");
 
-                put(Character.toString(letter) + "Ու", transliteratedLetter + "U");
-                put(Character.toString(capitalLetter) + "Ու", transliteratedCapitalLetter + "U");
-
-                put(Character.toString(letter) + "ոՒ", transliteratedLetter + "U");
-                put(Character.toString(capitalLetter) + "ոՒ", transliteratedCapitalLetter + "U");
+                put(letter + "ոՒ", transliteratedLetter + "U");
+                put(capitalLetter + "ոՒ", transliteratedCapitalLetter + "U");
             }
 
             put("ու","u");
@@ -147,50 +159,51 @@ public class ArmenianTransliterator implements Transliterator {
             put("ՈՒ","U");
 
             // Letter + 'ո'
-            char[] letterMapVo = {
-                'բ',
-                'գ',
-                'դ',
-                'զ',
-                'թ',
-                'ժ',
-                'լ',
-                'խ',
-                'ծ',
-                'կ',
-                'հ',
-                'ձ',
-                'ղ',
-                'ճ',
-                'մ',
-                'յ',
-                'ն',
-                'շ',
-                'չ',
-                'պ',
-                'ջ',
-                'ռ',
-                'ս',
-                'վ',
-                'տ',
-                'ր',
-                'ց',
-                'փ',
-                'ք',
-                'և',
-                'ֆ',
+            final String[] letterMapVo = {
+                "բ",
+                "գ",
+                "դ",
+                "զ",
+                "թ",
+                "ժ",
+                "լ",
+                "խ",
+                "ծ",
+                "կ",
+                "հ",
+                "ձ",
+                "ղ",
+                "ճ",
+                "մ",
+                "յ",
+                "ն",
+                "շ",
+                "ո", // ո + ո should be voo
+                "չ",
+                "պ",
+                "ջ",
+                "ռ",
+                "ս",
+                "վ",
+                "տ",
+                "ր",
+                "ց",
+                "փ",
+                "ք",
+                "և",
+                "ֆ"
             };
 
-            for(char letter : letterMapVo) {
-                char capitalLetter = Character.toUpperCase(letter);
-                final String transliteratedLetter = simpleSubstitions.get(Character.toString(letter));
-                final String transliteratedCapitalLetter = simpleSubstitions.get(Character.toString(capitalLetter));
+            for (String letter : letterMapVo) {
+                String capitalLetter = letter.toUpperCase();
+                final String transliteratedLetter = Objects.requireNonNull(simpleSubstitions.get(letter));
+                final String transliteratedCapitalLetter = Objects.requireNonNull(simpleSubstitions.get(capitalLetter));
 
-                put(Character.toString(letter) + "ո", transliteratedLetter + "o");
-                put(Character.toString(capitalLetter) + "ո", transliteratedCapitalLetter + "o");
+                put(letter + "ո", transliteratedLetter + "o");
+                put(capitalLetter + "ո", transliteratedCapitalLetter + "o");
 
-                put(Character.toString(letter) + "Ո", transliteratedLetter + "Օ");
-                put(Character.toString(capitalLetter) + "Ո", transliteratedCapitalLetter + "Օ");
+                put(letter + "Ո", transliteratedLetter + "Օ");
+                put(capitalLetter + "Ո", transliteratedCapitalLetter + "Օ");
             }
 
             put("ո","vo");
@@ -213,12 +226,11 @@ public class ArmenianTransliterator implements Transliterator {
                 put(entry.getKey(), entry.getValue());
                 put(entry.getKey().toUpperCase(), entry.getValue().toUpperCase());
             }
-
         }};
 
     private static final Map<String, Integer> transliterationPriorityMap = new HashMap<String, Integer>() {{
         int priority = 0;
-        for( final String key : transliterateMap.keySet() ) {
+        for (final String key : transliterateMap.keySet()) {
             put(key, priority++);
         }
     }};
@@ -227,7 +239,7 @@ public class ArmenianTransliterator implements Transliterator {
     private static final Trie transliterationTrie;
     static {
         final Trie.TrieBuilder builder = Trie.builder();
-        for( final String key :  ArmenianTransliterator.transliterateMap.keySet()) {
+        for (final String key :  ArmenianTransliterator.transliterateMap.keySet()) {
             builder.addKeyword(key);
         }
         transliterationTrie = builder.build();
@@ -235,12 +247,12 @@ public class ArmenianTransliterator implements Transliterator {
 
     private static String ahoCorasick(final String text) {
         // Create a buffer sufficiently large that re-allocations are minimized.
-        final StringBuilder sb = new StringBuilder( text.length() * 10 / 12 );
+        final StringBuilder sb = new StringBuilder(text.length() * 10 / 12);
 
         // The complexity of the Aho-Corasick algorithm O(N + L + Z)
         // Where N is the length of the text, L is the length of keywords and the Z is a number of matches.
         // This algorithm allows us to do fast substring search
-        final List<Emit> emits = new ArrayList<Emit>(transliterationTrie.parseText( text ));
+        final List<Emit> emits = new ArrayList<Emit>(transliterationTrie.parseText(text));
 
         // Sort collection first by starting position, then by priority.
         Collections.sort(emits, new Comparator<Emit>() {
@@ -259,11 +271,11 @@ public class ArmenianTransliterator implements Transliterator {
 
         int prevIndex = 0;
 
-        for( final Emit emit : emits ) {
+        for (final Emit emit : emits) {
             final int matchIndex = emit.getStart();
 
             // Skip if we already substituted this part
-            if(matchIndex < prevIndex) {
+            if (matchIndex < prevIndex) {
                 continue;
             }
 
@@ -271,13 +283,13 @@ public class ArmenianTransliterator implements Transliterator {
             sb.append(text.substring(prevIndex, matchIndex));
 
             // Substitute and append to the builder
-            sb.append( ArmenianTransliterator.transliterateMap.get( emit.getKeyword() ) );
+            sb.append(Objects.requireNonNull(ArmenianTransliterator.transliterateMap.get(emit.getKeyword())));
 
             prevIndex = emit.getEnd() + 1;
         }
 
         // Add the remainder of the string (contains no more matches).
-        sb.append( text.substring( prevIndex ) );
+        sb.append(text.substring(prevIndex));
 
         return sb.toString();
     }
