@@ -277,6 +277,7 @@ public class HuaweiWeatherManager {
         if (response.getTlv().getInteger(0x7f, -1) == 0x000186AA) {
             // Send weather
             final ArrayList<WeatherSpec> specs = new ArrayList<>(nodomain.freeyourgadget.gadgetbridge.model.Weather.getInstance().getWeatherSpecs());
+            // TODO: could be empty, not really an issue but we need to check what to send back in that case
             this.sendWeather(specs.get(0));
             return;
         }

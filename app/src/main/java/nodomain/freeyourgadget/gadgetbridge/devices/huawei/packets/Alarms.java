@@ -92,11 +92,11 @@ public class Alarms {
 
         public SmartAlarm(HuaweiTLV tlv) throws ParseException {
             this.index = tlv.getByte(0x03);
-            this.status = tlv.getBoolean(0x04);
-            this.startHour = (byte) ((tlv.getShort(0x05) >> 8) & 0xFF);
-            this.startMinute = (byte) (tlv.getShort(0x05) & 0xFF);
-            this.repeat = tlv.getByte(0x06);
-            this.aheadTime = tlv.getByte(0x07);
+            this.status = tlv.getBoolean(0x04, false);
+            this.startHour = (byte) ((tlv.getShort(0x05, (short) 0) >> 8) & 0xFF);
+            this.startMinute = (byte) (tlv.getShort(0x05, (short) 0) & 0xFF);
+            this.repeat = tlv.getByte(0x06, (byte) 0);
+            this.aheadTime = tlv.getByte(0x07, (byte) 0);
         }
 
         public SmartAlarm(boolean status, byte startHour, byte startMinute, byte repeat, byte aheadTime) {
