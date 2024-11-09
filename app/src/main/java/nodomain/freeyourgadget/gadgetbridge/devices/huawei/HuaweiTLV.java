@@ -223,8 +223,24 @@ public class HuaweiTLV {
         return getBytes(tag)[0];
     }
 
+    public Byte getByte(int tag, Byte defaultValue) {
+        try {
+            return getByte(tag);
+        } catch (HuaweiPacket.MissingTagException e) {
+            return defaultValue;
+        }
+    }
+
     public Boolean getBoolean(int tag) throws HuaweiPacket.MissingTagException {
         return getBytes(tag)[0] == 1;
+    }
+
+    public Boolean getBoolean(int tag, Boolean defaultValue) {
+        try {
+            return getBoolean(tag);
+        } catch (HuaweiPacket.MissingTagException e) {
+            return defaultValue;
+        }
     }
 
     public Integer getInteger(int tag) throws HuaweiPacket.MissingTagException {
@@ -241,6 +257,14 @@ public class HuaweiTLV {
 
     public Short getShort(int tag) throws HuaweiPacket.MissingTagException {
         return ByteBuffer.wrap(getBytes(tag)).getShort();
+    }
+
+    public Short getShort(int tag, Short defaultValue) {
+        try {
+            return getShort(tag);
+        } catch (HuaweiPacket.MissingTagException e) {
+            return defaultValue;
+        }
     }
 
     public Long getLong(int tag) throws HuaweiPacket.MissingTagException {
