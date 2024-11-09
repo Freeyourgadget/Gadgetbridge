@@ -232,7 +232,7 @@ public class HuaweiEphemerisManager {
                 LOG.info("Ephemeris Time: {} ConfigData: {}", fileTime, availableDataConfig.toString());
 
             } catch (Exception e) {
-                LOG.error("Ephemeris exception file or config processing", e);
+                LOG.info("Ephemeris exception file or config processing: {}", e.getMessage());
                 availableDataConfig = null;
                 //responseCode = 100007; //no network connection
                 return; // NOTE: just ignore request if something wrong with data.
