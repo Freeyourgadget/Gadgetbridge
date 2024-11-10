@@ -3536,4 +3536,7 @@
     <string name="pref_voice_passthrough_enabled_summary">Desactivar la cancelación de ruido</string>
     <string name="devicetype_garmin_fenix_6s_pro">Garmin Fenix 6S Pro</string>
     <string name="pref_voice_passthrough_enabled">Transferencia</string>
+    <string name="devicetype_garmin_forerunner_55">Garmin Forerunner 55</string>
+    <string name="devicetype_oppo_enco_air">Oppo Enco Air</string>
+    <string name="devicetype_garmin_forerunner_620">Garmin Forerunner 620</string>
 </resources>
