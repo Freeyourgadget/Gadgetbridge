@@ -1,5 +1,18 @@
 ### Changelog
 
+#### Next Release (WIP)
+
+* Initial support for Bowers and Wilkins P Series
+* Initial support for Garmin Fenix 6S Pro, Forerunner 55/235/620
+* Initial support for Huawei Band 3 Pro
+* Initial support for Oppo Enco Air
+* Huawei: Display high-resolution heart rate
+* Huawei: Improve activity parsing
+* Huawei: Sync skin temperature
+* Huawei Watch GT: Fix connection failure
+* Withings: Fix crash on connection
+* Improve Armenian transliterator for mixed-case words
+
 #### 0.82.0
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
