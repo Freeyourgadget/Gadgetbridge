@@ -108,7 +108,6 @@ public abstract class AbstractHeadphoneDeviceSupport extends AbstractSerialDevic
 
     @Override
     public void onSendConfiguration(String config) {
-        LOG.warn("ONSENDCONFIGURATION");
         if (PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE.equals(config)) {
             final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
             gbTextToSpeech.setAudioFocus(prefs.getBoolean(PREF_SPEAK_NOTIFICATIONS_FOCUS_EXCLUSIVE, false) ?

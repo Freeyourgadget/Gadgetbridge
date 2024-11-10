@@ -3566,6 +3566,46 @@
         <item>as_off</item>
     </string-array>
 
+    <string-array name="oppo_touch_tap_2_names">
+        <item>@string/sony_button_mode_off</item>
+        <item>@string/moondrop_touch_action_play_pause</item>
+        <item>@string/pref_media_previous</item>
+        <item>@string/pref_media_next</item>
+        <item>@string/pref_title_touch_voice_assistant</item>
+    </string-array>
+
+    <string-array name="oppo_touch_tap_2_values">
+        <item>off</item>
+        <item>play_pause</item>
+        <item>previous</item>
+        <item>next</item>
+        <item>voice_assistant</item>
+    </string-array>
+
+    <string-array name="oppo_touch_tap_3_names">
+        <item>@string/sony_button_mode_off</item>
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/prefs_game_mode</item>
+    </string-array>
+
+    <string-array name="oppo_touch_tap_3_values">
+        <item>off</item>
+        <item>voice_assistant</item>
+        <item>game_mode</item>
+    </string-array>
+
+    <string-array name="oppo_touch_hold_names">
+        <item>@string/sony_button_mode_off</item>
+        <item>@string/pref_media_volumeup</item>
+        <item>@string/pref_media_volumedown</item>
+    </string-array>
+
+    <string-array name="oppo_touch_hold_values">
+        <item>off</item>
+        <item>volume_up</item>
+        <item>volume_down</item>
+    </string-array>
+
     <string-array name="soundcore_button_function_names">
         <item>@string/pref_media_volumedown</item>
         <item>@string/pref_media_volumeup</item>
