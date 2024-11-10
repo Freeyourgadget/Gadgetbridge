@@ -400,15 +400,12 @@ public class GBDevice implements Parcelable {
     }
 
     private void unsetDynamicState() {
-
         setBatteryLevel(BATTERY_UNKNOWN, 0);
         setBatteryLevel(BATTERY_UNKNOWN, 1);
         setBatteryLevel(BATTERY_UNKNOWN, 2);
         setBatteryState(UNKNOWN, 0);
         setBatteryState(UNKNOWN, 1);
         setBatteryState(UNKNOWN, 2);
-        setFirmwareVersion(null);
-        setFirmwareVersion2(null);
         setRssi(RSSI_UNKNOWN);
         resetExtraInfos();
         if (mBusyTask != null) {
