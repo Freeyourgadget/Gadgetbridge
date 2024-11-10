@@ -1751,6 +1751,7 @@
     <string name="devicetype_garmin_instinct_2_solar">Garmin Instinct 2 Solar</string>
     <string name="devicetype_garmin_instinct_2_soltac">Garmin Instinct 2 SolTac</string>
     <string name="devicetype_garmin_instinct_crossover">Garmin Instinct Crossover</string>
+    <string name="devicetype_garmin_forerunner_55">Garmin Forerunner 55</string>
     <string name="devicetype_garmin_forerunner_165">Garmin Forerunner 165</string>
     <string name="devicetype_garmin_forerunner_235">Garmin Forerunner 235</string>
     <string name="devicetype_garmin_forerunner_245">Garmin Forerunner 245</string>
@@ -1761,6 +1762,7 @@
     <string name="devicetype_garmin_forerunner_255s_music">Garmin Forerunner 255S Music</string>
     <string name="devicetype_garmin_forerunner_265">Garmin Forerunner 265</string>
     <string name="devicetype_garmin_forerunner_265s">Garmin Forerunner 265S</string>
+    <string name="devicetype_garmin_forerunner_620">Garmin Forerunner 620</string>
     <string name="devicetype_garmin_forerunner_955">Garmin Forerunner 955</string>
     <string name="devicetype_garmin_forerunner_965">Garmin Forerunner 965</string>
     <string name="devicetype_garmin_swim_2">Garmin Swim 2</string>
