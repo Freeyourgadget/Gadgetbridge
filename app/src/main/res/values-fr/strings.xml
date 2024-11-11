@@ -992,7 +992,7 @@ Temps de sommeil préféré en heures</string>
     <string name="error_exporting_device_preferences">Erreur à l\'exportation des préférences spécifiques de cet appareil</string>
     <string name="pref_check_permission_status_summary">Demander et vérifier les autorisations manquantes même si elles ne sont pas immédiatement nécessaires. Désactiver uniquement si votre appareil ne supporte pas ces fonctions. Refuser une autorisation peut provoquer des problèmes !</string>
     <string name="pref_check_permission_status">Vérifier l\'état des autorisations</string>
-    <string name="error_background_service_reason">Le démarrage du service en arrière-plan n\'a pas réussi à cause d\'une exception. Erreur:</string>
+    <string name="error_background_service_reason">Le démarrage du service en arrière-plan n\'a pas réussi à cause d\'une exception - cliquer ici pour plus d\'informations.\n\nErreur:</string>
     <string name="device_requires_key">CLÉ NÉCESSAIRE, APPUI LONG POUR ENTRER</string>
     <string name="device_is_currently_bonded">DÉJA LIÉ</string>
     <string name="error_background_service_reason_truncated">Le démarrage du service en arrière-plan n\'a pas réussi à cause de…</string>
@@ -2691,7 +2691,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_parallel_bar">Barres parallèles</string>
     <string name="activity_type_cooldown">Temps de récupération</string>
     <string name="activity_type_cross_training">Entrainement croisé</string>
-    <string name="activity_type_sit_ups">Sit ups</string>
+    <string name="activity_type_sit_ups">Relevé de buste</string>
     <string name="activity_type_fitness_gaming">Jeux de fitness</string>
     <string name="activity_type_aerobic_exercise">Exercices d\'aérobic</string>
     <string name="activity_type_rolling">Rollers</string>
@@ -3522,4 +3522,24 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
     <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
     <string name="hrZoneEasy">Facile</string>
+    <string name="idasen_control_button_sit">Assis</string>
+    <string name="idasen_control_button_stand">Debout</string>
+    <string name="idasen_control_button_mid">Moyen</string>
+    <string name="inactivity_warnings_minimum_steps_summary">Nombre minimal de pas à prendre en compte pour le seuil de minutes</string>
+    <string name="devicetype_garmin_fenix_6s_pro">Garmin Fenix 6S Pro</string>
+    <string name="devicetype_bandw_pseries">Bowers and Wilkins P series</string>
+    <string name="devicetype_garmin_forerunner_55">Garmin Forerunner 55</string>
+    <string name="devicetype_garmin_forerunner_620">Garmin Forerunner 620</string>
+    <string name="devicetype_huawei_band3pro">Huawei Band 3 (Pro)</string>
+    <string name="pref_voice_passthrough_enabled">Passthrough</string>
+    <string name="pref_voice_passthrough_enabled_summary">Laissez les sons externes passer à vos oreilles</string>
+    <string name="pref_voice_passthrough_level">Niveau de passthrough</string>
+    <string name="music_upload_info">Vous êtes sur le point de charger la musique suivante :\n\n%1$s\nTitre : %2$s\nAlbum : %3$s\n</string>
+    <string name="devicetype_garmin_fenix_7">Garmin Fenix 7</string>
+    <string name="pref_wear_sensor_title">Capteur d\'usure</string>
+    <string name="devicetype_oppo_enco_air">Oppo Enco Air</string>
+    <string name="pref_wear_sensor_summary">Détecter lorsque l’appareil n’est pas porté</string>
+    <string name="devicetype_garmin_forerunner_235">Garmin Forerunner 235</string>
+    <string name="devicetype_sony_wi_c100">Sony WI-C100</string>
+    <string name="file_already_exists">Fichier existant</string>
 </resources>
