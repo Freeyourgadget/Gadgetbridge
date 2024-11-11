@@ -1,7 +1,6 @@
 ### Changelog
 
 #### Next Release (WIP)
-
 * Initial support for Bowers and Wilkins P Series
 * Initial support for Garmin Fenix 6S Pro, Forerunner 55/235/620
 * Initial support for Huawei Band 3 Pro
@@ -9,6 +8,9 @@
 * Huawei: Display high-resolution heart rate
 * Huawei: Improve activity parsing
 * Huawei: Sync skin temperature
+
+#### 0.82.1
+* Huawei: Improve activity parsing
 * Huawei Watch GT: Fix connection failure
 * Withings: Fix crash on connection
 * Improve Armenian transliterator for mixed-case words
