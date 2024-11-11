@@ -612,6 +612,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);
 
         addPreferenceHandlerFor(PREF_ACTIVE_NOISE_CANCELLING_TOGGLE);
+        addPreferenceHandlerFor(PREF_WEAR_SENSOR_TOGGLE);
         addPreferenceHandlerFor(PREF_BANDW_PSERIES_GUI_VPT_LEVEL);
 
         addPreferenceHandlerFor(PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES);

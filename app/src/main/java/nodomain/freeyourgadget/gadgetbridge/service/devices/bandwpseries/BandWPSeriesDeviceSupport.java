@@ -4,6 +4,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANDW_PSERIES_GUI_VPT_LEVEL;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANDW_PSERIES_VPT_ENABLED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANDW_PSERIES_VPT_LEVEL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEAR_SENSOR_TOGGLE;
 import static nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.BATTERY_UNKNOWN;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.bandwpseries.BandWBLEProfile.ANC_MODE_ON;
 
@@ -78,6 +79,7 @@ public class BandWPSeriesDeviceSupport extends AbstractBTLEDeviceSupport {
         BandWBLEProfile.requestAncModeState(builder);
         BandWBLEProfile.requestVptEnabled(builder);
         BandWBLEProfile.requestVptLevel(builder);
+        BandWBLEProfile.requestWearSensorEnabled(builder);
         return builder;
     }
 
@@ -129,6 +131,12 @@ public class BandWPSeriesDeviceSupport extends AbstractBTLEDeviceSupport {
             if (response.commandId == 0x17) {
                 return handleBatteryLevels(response);
             }
+        } else if (response.namespace == 0x0a) {
+            if (response.commandId == 0x01) {
+                return handleGetWearSensorEnabledResponse(response);
+            } else if (response.commandId == 0x02) {
+                return getBooleanResponseStatus(response);
+            }
         }
         return true;
     }
@@ -165,6 +173,24 @@ public class BandWPSeriesDeviceSupport extends AbstractBTLEDeviceSupport {
             batteryInfo[i].level = level;
             handleGBDeviceEvent(batteryInfo[i]);
         }
+        return true;
+    }
+
+    private boolean handleGetWearSensorEnabledResponse(BandWPSeriesResponse response) {
+        if (!response.messageType.hasPayload) {
+            GB.toast("No payload in response!", Toast.LENGTH_SHORT, GB.ERROR);
+            return false;
+        }
+        boolean wearSensorEnabled;
+        try {
+            wearSensorEnabled = response.getPayloadBoolean();
+        } catch (IOException e) {
+            GB.toast("Failed to unpack wear sensor status from payload " + Arrays.toString(response.payload), Toast.LENGTH_SHORT, GB.ERROR);
+            return false;
+        }
+        Editor editor = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).edit();
+        editor.putBoolean(PREF_WEAR_SENSOR_TOGGLE, wearSensorEnabled);
+        editor.apply();
         return true;
     }
 
@@ -248,6 +274,10 @@ public class BandWPSeriesDeviceSupport extends AbstractBTLEDeviceSupport {
                     if (level != 0) {
                         BandWBLEProfile.setVptLevel(builder, level - 1);
                     }
+                    break;
+                case PREF_WEAR_SENSOR_TOGGLE:
+                    boolean wearSensorEnabled = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(PREF_WEAR_SENSOR_TOGGLE, true);
+                    BandWBLEProfile.setWearSensorEnabled(builder, wearSensorEnabled);
                     break;
             }
             performImmediately(builder);

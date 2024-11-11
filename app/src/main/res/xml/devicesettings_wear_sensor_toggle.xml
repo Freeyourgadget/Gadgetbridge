@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:icon="@drawable/ic_hearing"
+        android:key="wear_sensor_toggle"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/pref_wear_sensor_summary"
+        android:title="@string/pref_wear_sensor_title" />
+</androidx.preference.PreferenceScreen>

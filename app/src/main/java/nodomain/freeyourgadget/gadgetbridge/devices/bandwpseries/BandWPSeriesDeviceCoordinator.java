@@ -55,7 +55,8 @@ public class BandWPSeriesDeviceCoordinator extends AbstractBLEDeviceCoordinator 
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[] {
                 R.xml.devicesettings_active_noise_cancelling_toggle,
-                R.xml.devicesettings_bandw_pseries
+                R.xml.devicesettings_bandw_pseries,
+                R.xml.devicesettings_wear_sensor_toggle
         };
     }
 

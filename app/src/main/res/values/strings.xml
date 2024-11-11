@@ -2581,6 +2581,8 @@
     <string name="pref_header_stress">Stress</string>
     <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_hrv_status">HRV Status</string>
+    <string name="pref_wear_sensor_summary">Detect when the device is not being worn</string>
+    <string name="pref_wear_sensor_title">Wear Sensor</string>
     <string name="body_energy">Body Energy</string>
     <string name="vo2max_running">Running VO₂ Max</string>
     <string name="vo2max_cycling">Cycling VO₂ Max</string>

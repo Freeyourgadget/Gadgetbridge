@@ -77,4 +77,8 @@ public class BandWPSeriesResponse {
         }
         return values;
     }
+
+    public boolean getPayloadBoolean() throws IOException{
+        return payloadUnpacker.unpackBoolean();
+    }
 }

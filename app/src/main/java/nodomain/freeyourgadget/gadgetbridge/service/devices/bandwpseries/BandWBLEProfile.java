@@ -50,6 +50,10 @@ public class BandWBLEProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
         sendRequest(builder, (byte) 0x03, (byte) 0x03);
     }
 
+    public void requestWearSensorEnabled(final TransactionBuilder builder) {
+        sendRequest(builder, (byte) 0x0a, (byte) 0x01);
+    }
+
     public void setAncModeState(final TransactionBuilder builder, final boolean mode) throws IOException {
         BandWPSeriesRequest req = new BandWPSeriesRequest((byte) 0x03, (byte) 0x02).addToPayload(mode ? ANC_MODE_ON : ANC_MODE_OFF);
         builder.write(getCharacteristic(UUID_RPC_REQUEST_CHARACTERISTIC), req.finishAndGetBytes());
@@ -62,6 +66,11 @@ public class BandWBLEProfile<T extends AbstractBTLEDeviceSupport> extends Abstra
 
     public void setVptEnabled(final TransactionBuilder builder, final boolean mode) throws IOException {
         BandWPSeriesRequest req = new BandWPSeriesRequest((byte) 0x03, (byte) 0x06).addToPayload(mode);
+        builder.write(getCharacteristic(UUID_RPC_REQUEST_CHARACTERISTIC), req.finishAndGetBytes());
+    }
+
+    public void setWearSensorEnabled(final TransactionBuilder builder, final boolean mode) throws IOException {
+        BandWPSeriesRequest req = new BandWPSeriesRequest((byte) 0x0a, (byte) 0x02).addToPayload(mode);
         builder.write(getCharacteristic(UUID_RPC_REQUEST_CHARACTERISTIC), req.finishAndGetBytes());
     }
 
