@@ -3532,4 +3532,7 @@
     <string name="devicetype_huawei_band3pro">Huawei Band 3 (Pro)</string>
     <string name="pref_voice_passthrough_enabled">Doorlaten</string>
     <string name="pref_voice_passthrough_level">Niveau van doorlaten</string>
+    <string name="devicetype_garmin_forerunner_620">Garmin Forerunner 620</string>
+    <string name="devicetype_oppo_enco_air">Oppo Enco Air</string>
+    <string name="devicetype_garmin_forerunner_55">Garmin Forerunner 55</string>
 </resources>
