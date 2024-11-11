@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.82.1" versioncode="234">
+        <change>Huawei: Improve activity parsing</change>
+        <change>Huawei Watch GT: Fix connection failure</change>
+        <change>Withings: Fix crash on connection</change>
+        <change>Improve Armenian transliterator for mixed-case words</change>
+    </release>
     <release version="0.82.0" versioncode="233">
         <change>Initial support for Anker Soundcore Liberty 4 NC</change>
         <change>Initial support for CMF Buds Pro 2 / Watch Pro 2</change>

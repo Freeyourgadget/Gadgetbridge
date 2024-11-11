@@ -1,7 +1,6 @@
 ### Changelog
 
 #### 0.82.1
-
 * Huawei: Improve activity parsing
 * Huawei Watch GT: Fix connection failure
 * Withings: Fix crash on connection
