@@ -3535,4 +3535,6 @@
     <string name="devicetype_garmin_forerunner_55">佳明 Forerunner 55</string>
     <string name="devicetype_oppo_enco_air">Oppo Enco Air</string>
     <string name="devicetype_garmin_forerunner_620">佳明 Forerunner 620</string>
+    <string name="pref_wear_sensor_summary">检测设备何时未佩戴</string>
+    <string name="pref_wear_sensor_title">佩戴传感器</string>
 </resources>
