@@ -1,5 +1,12 @@
 ### Changelog
 
+#### 0.82.1
+
+* Huawei: Improve activity parsing
+* Huawei Watch GT: Fix connection failure
+* Withings: Fix crash on connection
+* Improve Armenian transliterator for mixed-case words
+
 #### 0.82.0
 * Initial support for Anker Soundcore Liberty 4 NC
 * Initial support for CMF Buds Pro 2 / Watch Pro 2
