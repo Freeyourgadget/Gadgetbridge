@@ -3532,4 +3532,7 @@
     <string name="pref_voice_passthrough_enabled">通透</string>
     <string name="pref_voice_passthrough_enabled_summary">允许外部声音传入您的耳朵</string>
     <string name="pref_voice_passthrough_level">通透等级</string>
+    <string name="devicetype_garmin_forerunner_55">佳明 Forerunner 55</string>
+    <string name="devicetype_oppo_enco_air">Oppo Enco Air</string>
+    <string name="devicetype_garmin_forerunner_620">佳明 Forerunner 620</string>
 </resources>
