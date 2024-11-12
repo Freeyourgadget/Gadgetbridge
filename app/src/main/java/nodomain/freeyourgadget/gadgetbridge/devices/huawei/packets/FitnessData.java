@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HeartRateZonesConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiReportThreshold;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
@@ -593,6 +594,71 @@ public class FitnessData {
                 }
                 this.tlv = new HuaweiTLV().put(0x81, subTlv);
                 this.complete = true;
+            }
+        }
+    }
+
+    public static class HeartRateZoneConfigPacket {
+        // It can use two IDs with basically the same format.
+        public static final byte id_simple = 0x13;
+        public static final byte id_extended = 0x21;
+
+        public static class Request extends HuaweiPacket {
+            private Request(
+                    ParamsProvider paramsProvider,
+                    byte id,
+                    HeartRateZonesConfig heartRateZonesConfig
+            ) {
+                super(paramsProvider);
+
+                this.serviceId = FitnessData.id;
+                this.commandId = id;
+
+                HuaweiTLV subTlv = new HuaweiTLV().
+                        put(0x08, heartRateZonesConfig.getWarningEnable());
+
+                if (
+                        heartRateZonesConfig.hasValidMHRData() &&
+                        heartRateZonesConfig.getWarningHRLimit() > 0 &&
+                        heartRateZonesConfig.getMaxHRThreshold() > 0
+                ) {
+                    subTlv
+                            .put(0x09, (byte) heartRateZonesConfig.getWarningHRLimit())
+                            .put(0x02, (byte) heartRateZonesConfig.getMHRWarmUp())
+                            .put(0x03, (byte) heartRateZonesConfig.getMHRFatBurning())
+                            .put(0x04, (byte) heartRateZonesConfig.getMHRAerobic())
+                            .put(0x05, (byte) heartRateZonesConfig.getMHRAnaerobic())
+                            .put(0x06, (byte) heartRateZonesConfig.getMHRExtreme())
+                            .put(0x07, (byte) heartRateZonesConfig.getMaxHRThreshold())
+                            .put(0x0b, (byte) heartRateZonesConfig.getMaxHRThreshold());
+                }
+
+                if (id == id_extended && heartRateZonesConfig.hasValidHRRData()) {
+                    subTlv
+                            .put(0x0d, (byte) heartRateZonesConfig.getHRRBasicAerobic())
+                            .put(0x0e, (byte) heartRateZonesConfig.getHRRAdvancedAerobic())
+                            .put(0x0f, (byte) heartRateZonesConfig.getHRRLactate())
+                            .put(0x10, (byte) heartRateZonesConfig.getHRRBasicAnaerobic())
+                            .put(0x11, (byte) heartRateZonesConfig.getHRRAdvancedAnaerobic());
+                }
+
+                if (id == id_extended && heartRateZonesConfig.getRestHeartRate() > 0) {
+                    subTlv
+                            .put(0x0a, (byte) heartRateZonesConfig.getCalculateMethod())
+                            .put(0x0c, (byte) heartRateZonesConfig.getRestHeartRate());
+                }
+
+                this.tlv = new HuaweiTLV().put(0x81, subTlv);
+
+                this.complete = true;
+            }
+
+            public static Request requestSimple(ParamsProvider paramsProvider, HeartRateZonesConfig heartRateZonesConfig) {
+                return new Request(paramsProvider, id_simple, heartRateZonesConfig);
+            }
+
+            public static Request requestExtended(ParamsProvider paramsProvider, HeartRateZonesConfig heartRateZonesConfig) {
+                return new Request(paramsProvider, id_extended, heartRateZonesConfig);
             }
         }
     }

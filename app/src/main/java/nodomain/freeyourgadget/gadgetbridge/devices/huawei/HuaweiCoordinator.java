@@ -453,6 +453,14 @@ public class HuaweiCoordinator {
         return supportsHeartRate() || getForceOption(gbDevice, PREF_FORCE_ENABLE_HEARTRATE_SUPPORT);
     }
 
+    public boolean supportsHeartRateZones() {
+        return supportsCommandForService(0x07, 0x13);
+    }
+
+    public boolean supportsExtendedHeartRateZones() {
+        return supportsCommandForService(0x07, 0x21);
+    }
+
     public boolean supportsFitnessRestHeartRate() {
         return supportsCommandForService(0x07, 0x23);
     }

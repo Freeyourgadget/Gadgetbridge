@@ -125,6 +125,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Send
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFitnessUserInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsDataRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendHeartRateZonesConfig;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendRunPaceConfigRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendSetContactsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendNotifyHeartRateCapabilityRequest;
@@ -834,6 +835,7 @@ public class HuaweiSupportProvider {
             initRequestQueue.add(new SendFitnessUserInfoRequest(this));
             initRequestQueue.add(new SendRunPaceConfigRequest(this));
             initRequestQueue.add(new SendDeviceReportThreshold(this));
+            initRequestQueue.add(new SendHeartRateZonesConfig(this));
             initRequestQueue.add(new SetMediumToStrengthThresholdRequest(this));
             initRequestQueue.add(new SendFitnessGoalRequest(this));
             initRequestQueue.add(new GetNotificationCapabilitiesRequest(this));
