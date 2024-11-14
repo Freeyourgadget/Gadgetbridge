@@ -38,7 +38,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettings;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsScreen;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.widgets.WidgetManager;
@@ -502,26 +504,26 @@ public class TestDeviceCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
-        final List<Integer> settings = new ArrayList<>();
+    public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
+        final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
-        settings.add(R.xml.devicesettings_header_apps);
-        settings.add(R.xml.devicesettings_loyalty_cards);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_loyalty_cards);
 
         if (getWorldClocksSlotCount() > 0) {
-            settings.add(R.xml.devicesettings_header_time);
-            settings.add(R.xml.devicesettings_world_clocks);
+            final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
+            dateTime.add(R.xml.devicesettings_world_clocks);
         }
 
         if (getContactsSlotCount(device) > 0) {
-            settings.add(R.xml.devicesettings_header_other);
-            settings.add(R.xml.devicesettings_contacts);
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_contacts);
         }
 
-        settings.add(R.xml.devicesettings_header_developer);
-        settings.add(R.xml.devicesettings_test_features);
+        deviceSpecificSettings.addRootScreen(R.xml.devicesettings_test_features);
 
-        return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
+        final List<Integer> developer = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DEVELOPER);
+        developer.add(R.xml.devicesettings_developer_add_test_activities);
+
+        return deviceSpecificSettings;
     }
 
     @Override

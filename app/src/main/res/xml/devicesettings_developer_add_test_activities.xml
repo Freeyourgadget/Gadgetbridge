@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:icon="@drawable/ic_auto_awesome"
+        android:key="pref_developer_add_test_activities"
+        android:summary="@string/pref_developer_add_test_activities_summary"
+        android:title="@string/pref_developer_add_test_activities_title" />
+</androidx.preference.PreferenceScreen>
