@@ -3537,4 +3537,6 @@
     <string name="devicetype_oppo_enco_air">Oppo Enco Air</string>
     <string name="pref_wear_sensor_summary">Rozpoznat, když zařízení není nošeno</string>
     <string name="pref_wear_sensor_title">Senzor nošení</string>
+    <string name="pref_developer_add_test_activities_title">Přidat zkušební aktivity</string>
+    <string name="pref_developer_add_test_activities_summary">Naplnit databázi fiktivními zkušebními aktivitami</string>
 </resources>
