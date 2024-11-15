@@ -3520,4 +3520,6 @@
     <string name="pref_wear_sensor_summary">Rileva quando il dispositivo non viene indossato</string>
     <string name="pref_wear_sensor_title">Sensore Indossabile</string>
     <string name="devicetype_garmin_forerunner_620">Garmin Forerunner 620</string>
+    <string name="pref_developer_add_test_activities_summary">Popolare il database con attività di test fittizie</string>
+    <string name="pref_developer_add_test_activities_title">Aggiungi attività di test</string>
 </resources>
