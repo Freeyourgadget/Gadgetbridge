@@ -47,6 +47,7 @@
 * Xiaomi-protobuf: Improve workout parsing
 * Zepp OS: Add sleep respiratory rate chart
 * Zepp OS: Send notification pictures
+* Bangle.js: Support sending activity type from Bangle
 
 #### 0.82.1
 * Huawei: Improve activity parsing

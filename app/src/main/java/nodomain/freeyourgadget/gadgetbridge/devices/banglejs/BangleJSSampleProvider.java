@@ -40,8 +40,6 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
         super(device, session);
     }
 
-    public static final int TYPE_ACTIVITY = 0;
-
     @Override
     public AbstractDao<BangleJSActivitySample, ?> getSampleDao() {
         return getSession().getBangleJSActivitySampleDao();
@@ -67,17 +65,12 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
 
     @Override
     public ActivityKind normalizeType(int rawType) {
-        switch (rawType) {
-            case TYPE_ACTIVITY:
-                return ActivityKind.ACTIVITY;
-            default: // fall through
-                return ActivityKind.UNKNOWN;
-        }
+        return ActivityKind.fromCode(rawType);
     }
 
     @Override
     public int toRawActivityKind(ActivityKind activityKind) {
-        return TYPE_ACTIVITY;
+        return activityKind.getCode();
     }
 
     @Override
