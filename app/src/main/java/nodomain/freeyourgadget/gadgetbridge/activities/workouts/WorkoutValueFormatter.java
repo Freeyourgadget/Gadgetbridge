@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.workouts;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_KILOMETERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_METERS_PER_SECOND;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_SECONDS_PER_KM;
@@ -104,6 +105,12 @@ public class WorkoutValueFormatter {
                     } else { //metric
                         value = value / 60D;
                         unit = "minutes_km";
+                    }
+                    break;
+                case UNIT_KILOMETERS:
+                    if (units.equals(UNIT_IMPERIAL)) {
+                        value = value * 0.621371D;
+                        unit = "mi";
                     }
                     break;
                 case UNIT_METERS:

@@ -37,6 +37,7 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.WorkoutValueFormatter;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -132,7 +133,9 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
         ));
 
         steps.setText(String.format(String.valueOf(stepsData.todayStepsDay.steps)));
-        distance.setText(getString(R.string.steps_distance_unit, stepsData.todayStepsDay.distance));
+
+        final WorkoutValueFormatter valueFormatter = new WorkoutValueFormatter();
+        distance.setText(valueFormatter.formatValue(stepsData.todayStepsDay.distance, "km"));
 
         // Chart
         final List<LegendEntry> legendEntries = new ArrayList<>(1);

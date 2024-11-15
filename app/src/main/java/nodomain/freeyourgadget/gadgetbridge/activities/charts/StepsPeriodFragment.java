@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.WorkoutValueFormatter;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -177,9 +178,10 @@ public class StepsPeriodFragment extends StepsFragment<StepsPeriodFragment.Steps
         }
         stepsChart.setData(barData);
         stepsAvg.setText(String.format(String.valueOf(stepsData.stepsDailyAvg)));
-        distanceAvg.setText(getString(R.string.steps_distance_unit, stepsData.distanceDailyAvg));
+        final WorkoutValueFormatter valueFormatter = new WorkoutValueFormatter();
+        distanceAvg.setText(valueFormatter.formatValue(stepsData.distanceDailyAvg, "km"));
         stepsTotal.setText(String.format(String.valueOf(stepsData.totalSteps)));
-        distanceTotal.setText(getString(R.string.steps_distance_unit, stepsData.totalDistance));
+        distanceTotal.setText(valueFormatter.formatValue(stepsData.totalDistance, "km"));
     }
 
     ValueFormatter getStepsChartDayValueFormatter(StepsPeriodFragment.StepsData stepsData) {
