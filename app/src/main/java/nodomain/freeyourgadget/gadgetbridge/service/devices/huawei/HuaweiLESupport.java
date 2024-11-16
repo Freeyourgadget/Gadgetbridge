@@ -33,6 +33,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceMusic;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
@@ -213,5 +214,15 @@ public class HuaweiLESupport extends AbstractBTLEDeviceSupport {
     @Override
     public boolean getSendWriteRequestResponse() {
         return false;
+    }
+
+    @Override
+    public void onMusicListReq() {
+        supportProvider.onMusicListReq();
+    }
+
+    @Override
+    public void onMusicOperation(int operation, int playlistIndex, String playlistName, ArrayList<Integer> musicIds) {
+        supportProvider.onMusicOperation(operation, playlistIndex, playlistName, musicIds);
     }
 }

@@ -39,6 +39,6 @@ public class GetMusicInfoParams extends Request {
             throw new Request.ResponseTypeMismatchException(receivedPacket, MusicControl.MusicInfoParams.Response.class);
 
         MusicControl.MusicInfoParams.Response resp = (MusicControl.MusicInfoParams.Response)(receivedPacket);
-        supportProvider.getHuaweiCoordinator().setMusicInfoParams(resp.params);
+        supportProvider.getHuaweiMusicManager().onMusicMusicInfoParams(resp.params, resp.frameCount, resp.pageStruct);
     }
 }

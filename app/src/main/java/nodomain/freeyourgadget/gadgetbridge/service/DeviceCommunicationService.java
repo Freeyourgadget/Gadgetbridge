@@ -87,6 +87,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.TinyWeatherForecastGe
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationService;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.sleepasandroid.SleepAsAndroidReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceMusic;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -1136,6 +1137,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     filename = intentCopy.getStringExtra(EXTRA_CAMERA_FILENAME);
                 }
                 deviceSupport.onCameraStatusChange(event, filename);
+                break;
+            case ACTION_REQUEST_MUSIC_LIST:
+                deviceSupport.onMusicListReq();
+                break;
+            case ACTION_REQUEST_MUSIC_OPERATION:
+                int operation = intentCopy.getIntExtra("operation", -1);
+                int playlistIndex = intentCopy.getIntExtra("playlistIndex", -1);
+                String playlistName = intentCopy.getStringExtra("playlistName");
+                ArrayList<Integer> musics = (ArrayList<Integer>) intentCopy.getSerializableExtra("musicIds");
+                deviceSupport.onMusicOperation(operation, playlistIndex, playlistName, musics);
                 break;
         }
     }

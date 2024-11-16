@@ -200,6 +200,10 @@
             android:launchMode="singleTop"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.musicmanager.MusicManagerActivity"
+            android:label="@string/title_activity_musicmanager"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
             android:name=".activities.AppBlacklistActivity"
             android:label="@string/title_activity_notification_management"
             android:parentActivityName=".activities.SettingsActivity" />

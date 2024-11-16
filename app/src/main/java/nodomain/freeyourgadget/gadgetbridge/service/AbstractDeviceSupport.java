@@ -63,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.musicmanager.MusicManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -86,12 +87,16 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventWearState;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceMusicData;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceMusicUpdate;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceMusic;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceMusicPlaylist;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
@@ -236,7 +241,12 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventWearState) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventSleepStateDetection) {
             handleGBDeviceEvent((GBDeviceEventSleepStateDetection) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceMusicData) {
+            handleGBDeviceEvent((GBDeviceMusicData) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceMusicUpdate) {
+            handleGBDeviceEvent((GBDeviceMusicUpdate) deviceEvent);
         }
+
     }
 
     private void handleGBDeviceEvent(GBDeviceEventSilentMode deviceEvent) {
@@ -751,6 +761,53 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         handleDeviceAction(actionOnUnwear, broadcastMessage);
     }
 
+    private void handleGBDeviceEvent(GBDeviceMusicData deviceEvent) {
+        Context context = getContext();
+        LOG.info("Got event for ACTION_MUSIC_DATA");
+
+        Intent intent = new Intent(MusicManagerActivity.ACTION_MUSIC_DATA);
+
+        intent.putExtra("type", deviceEvent.type);
+
+        if(deviceEvent.list != null) {
+            ArrayList<GBDeviceMusic> list = new ArrayList<>(deviceEvent.list);
+            intent.putExtra("musicList", list);
+        }
+
+        if(deviceEvent.playlists != null) {
+            ArrayList<GBDeviceMusicPlaylist> list = new ArrayList<>(deviceEvent.playlists);
+            intent.putExtra("musicPlaylist", list);
+        }
+
+        if(!TextUtils.isEmpty(deviceEvent.deviceInfo)) {
+            intent.putExtra("deviceInfo", deviceEvent.deviceInfo);
+        }
+
+        if(deviceEvent.maxMusicCount > 0) {
+            intent.putExtra("maxMusicCount", deviceEvent.maxMusicCount);
+        }
+        if(deviceEvent.maxPlaylistCount > 0) {
+            intent.putExtra("maxPlaylistCount", deviceEvent.maxPlaylistCount);
+        }
+
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
+    private void handleGBDeviceEvent(GBDeviceMusicUpdate deviceEvent) {
+        Context context = getContext();
+        LOG.info("Got event for ACTION_MUSIC_UPDATE");
+
+        Intent intent = new Intent(MusicManagerActivity.ACTION_MUSIC_UPDATE);
+
+        intent.putExtra("success", deviceEvent.success);
+        intent.putExtra("operation", deviceEvent.operation);
+        intent.putExtra("playlistIndex", deviceEvent.playlistIndex);
+        intent.putExtra("playlistName", deviceEvent.playlistName);
+        intent.putExtra("musicIds", deviceEvent.musicIds);
+
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
     private StoreDataTask createStoreTask(String task, Context context, GBDeviceEventBatteryInfo deviceEvent) {
         return new StoreDataTask(task, context, deviceEvent);
     }
@@ -1233,4 +1290,10 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
     @Override
     public void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename) {}
+
+    @Override
+    public void onMusicListReq() {}
+
+    @Override
+    public void onMusicOperation(int operation, int playlistIndex, String playlistName, ArrayList<Integer> musicIds) {}
 }

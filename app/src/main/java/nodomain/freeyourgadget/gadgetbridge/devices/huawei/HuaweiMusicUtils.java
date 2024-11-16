@@ -7,16 +7,16 @@ import java.util.List;
 public class HuaweiMusicUtils {
 
     public static class PageStruct {
-        public short startIndex = 0;
-        public short endIndex = 0;
+        public short startFrame = 0;
+        public short endFrame = 0;
         public short count = 0;
         public byte[] hashCode = null;
 
         @Override
         public String toString() {
             final StringBuffer sb = new StringBuffer("PageStruct{");
-            sb.append("startIndex=").append(startIndex);
-            sb.append(", endIndex=").append(endIndex);
+            sb.append("startFrame=").append(startFrame);
+            sb.append(", endFrame=").append(endFrame);
             sb.append(", count=").append(count);
             sb.append(", hashCode=");
             if (hashCode == null) sb.append("null");
@@ -68,7 +68,6 @@ public class HuaweiMusicUtils {
         public int currentMusicCount = 0; // TODO: not sure
         public int unknown = 0; // TODO: not sure
         public List<FormatRestrictions> formatsRestrictions = null;
-        public List<PageStruct> pageStruct = null;
 
         @Override
         public String toString() {
@@ -80,7 +79,6 @@ public class HuaweiMusicUtils {
             sb.append(", currentMusicCount=").append(currentMusicCount);
             sb.append(", unknown=").append(unknown);
             sb.append(", formatsRestrictions=").append(formatsRestrictions);
-            sb.append(", pageStruct=").append(pageStruct);
             sb.append('}');
             return sb.toString();
         }

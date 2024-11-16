@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/musicmanager_add_to_playlist"
+        android:title="@string/music_add_to_playlist"/>
+    <item
+        android:id="@+id/musicmanager_delete_from_playlist"
+        android:title="@string/music_delete_from_playlist"/>
+    <item
+        android:id="@+id/musicmanager_delete"
+        android:title="@string/music_delete"/>
+</menu>

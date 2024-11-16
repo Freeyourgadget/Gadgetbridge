@@ -598,6 +598,14 @@ public class HuaweiPacket {
                         return new MusicControl.Control.Response(paramsProvider).fromPacket(this);
                     case MusicControl.MusicInfoParams.id:
                         return new MusicControl.MusicInfoParams.Response(paramsProvider).fromPacket(this);
+                    case MusicControl.MusicList.id:
+                        return new MusicControl.MusicList.Response(paramsProvider).fromPacket(this);
+                    case MusicControl.MusicPlaylists.id:
+                        return new MusicControl.MusicPlaylists.Response(paramsProvider).fromPacket(this);
+                    case MusicControl.MusicPlaylistMusics.id:
+                        return new MusicControl.MusicPlaylistMusics.Response(paramsProvider).fromPacket(this);
+                    case MusicControl.MusicOperation.id:
+                        return new MusicControl.MusicOperation.Response(paramsProvider).fromPacket(this);
                     case MusicControl.UploadMusicFileInfo.id:
                         return new MusicControl.UploadMusicFileInfo.UploadMusicFileInfoRequest(paramsProvider).fromPacket(this);
                     case MusicControl.ExtendedMusicInfoParams.id:

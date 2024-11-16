@@ -285,6 +285,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_CONTACTS = "pref_contacts";
     public static final String PREF_WIDGETS = "pref_widgets";
 
+    public static final String PREF_MUSIC_MANAGEMENT = "pref_music_management";
+
     public static final String PREF_ANTILOST_ENABLED = "pref_antilost_enabled";
     public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";
     public static final String PREF_HYDRATION_PERIOD = "pref_hydration_period";

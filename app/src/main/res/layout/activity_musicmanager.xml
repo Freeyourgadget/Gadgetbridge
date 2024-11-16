@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.musicmanager.MusicManagerActivity">
+
+    <TextView
+        android:id="@+id/music_device_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:lineSpacingMultiplier="1.1"
+        android:text="" />
+
+    <LinearLayout
+        android:id="@+id/music_playlists_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/music_device_info"
+        android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/music_playlists"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="20" />
+            <ImageButton
+                android:id="@+id/music_playlist_rename"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/music_rename_playlist"
+                app:srcCompat="@drawable/ic_edit"/>
+            <ImageButton
+                android:id="@+id/music_playlist_delete"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/music_delete"
+                app:srcCompat="@drawable/ic_delete" />
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/music_songs_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/music_playlists_layout"
+        android:layout_centerHorizontal="true"
+        android:divider="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_music_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/music_new_playlist"
+        app:srcCompat="@android:drawable/stat_sys_upload" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_music_playlist_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="90dp"
+        app:srcCompat="@drawable/ic_add"
+        />
+
+    <RelativeLayout
+        android:id="@+id/music_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#95000000"
+        android:gravity="center">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</android.widget.RelativeLayout>

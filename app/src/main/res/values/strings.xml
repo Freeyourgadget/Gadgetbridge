@@ -191,6 +191,8 @@
     <string name="open_fw_installer_connect_minimum_one_device">Please connect AT LEAST ONE device you want to send the file to.</string>
     <string name="open_fw_installer_connect_maximum_one_device">Please connect ONLY ONE device you want to send the file to.</string>
     <string name="open_fw_installer_ensure_device_connected">Make sure that the device %s is connected</string>
+    <!-- Strings related to MusicManager -->
+    <string name="title_activity_musicmanager">Music Manager</string>
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
     <string name="proprietary_app_warning">This feature requires the installation of a proprietary app</string>
@@ -3398,4 +3400,15 @@
     <string name="inactivity_warnings_minimum_steps_summary">Minimum amount of steps that need to be taken during the threshold minutes</string>
     <string name="prefs_hrv_monitoring_title">HRV monitoring</string>
     <string name="prefs_hrv_monitoring_description">Automatically monitor heart rate variability throughout the day</string>
+    <string name="pref_music_management_title">Manage Music</string>
+    <string name="pref_music_management_summary">Manage music on the watch</string>
+    <string name="music_delete_confirm_description">Are you sure you want to delete \'%1$s\'?</string>
+    <string name="music_add_to_playlist">Add to playlist</string>
+    <string name="music_delete_from_playlist">Delete from playlist</string>
+    <string name="music_delete">Delete song</string>
+    <string name="music_all_songs">All songs</string>
+    <string name="music_new_playlist">New playlist</string>
+    <string name="music_rename_playlist">Rename playlist</string>
+    <string name="music_error">Error occurred</string>
+    <string name="music_huawei_device_info">Supported formats: %1$s\nWatch storage: %2$d MB</string>
 </resources>

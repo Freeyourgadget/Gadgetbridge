@@ -568,4 +568,20 @@ public class GBDeviceService implements DeviceService {
             intent.putExtra(EXTRA_CAMERA_FILENAME, filename);
         invokeService(intent);
     }
+
+    @Override
+    public void onMusicListReq() {
+        Intent intent = createIntent().setAction(ACTION_REQUEST_MUSIC_LIST);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onMusicOperation(int operation, int playlistIndex, String playlistName, ArrayList<Integer> musicIds) {
+        Intent intent = createIntent().setAction(ACTION_REQUEST_MUSIC_OPERATION);
+        intent.putExtra("operation", operation);
+        intent.putExtra("playlistIndex", playlistIndex);
+        intent.putExtra("playlistName", playlistName);
+        intent.putExtra("musicIds", musicIds);
+        invokeService(intent);
+    }
 }

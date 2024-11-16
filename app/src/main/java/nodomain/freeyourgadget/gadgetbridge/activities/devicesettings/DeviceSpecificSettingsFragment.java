@@ -70,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
 import nodomain.freeyourgadget.gadgetbridge.activities.app_specific_notifications.AppSpecificNotificationSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.musicmanager.MusicManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.widgets.WidgetScreensListActivity;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -1044,6 +1045,19 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     final Intent intent = new Intent(getContext(), ConfigureContacts.class);
+                    intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        }
+
+        final Preference music_management = findPreference(PREF_MUSIC_MANAGEMENT);
+        if (music_management != null) {
+            music_management.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final Intent intent = new Intent(getContext(), MusicManagerActivity.class);
                     intent.putExtra(GBDevice.EXTRA_DEVICE, device);
                     startActivity(intent);
                     return true;

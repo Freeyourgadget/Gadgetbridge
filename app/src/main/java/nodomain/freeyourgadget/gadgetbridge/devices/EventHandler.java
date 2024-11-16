@@ -95,7 +95,7 @@ public interface EventHandler {
 
     void onAppConfiguration(UUID appUuid, String config, Integer id);
 
-    void onAppReorder(UUID uuids[]);
+    void onAppReorder(UUID[] uuids);
 
     void onFetchRecordedData(int dataTypes);
 
@@ -154,4 +154,9 @@ public interface EventHandler {
     void onSleepAsAndroidAction(String action, Bundle extras);
 
     void onCameraStatusChange(GBDeviceEventCameraRemote.Event event, String filename);
+
+
+    void onMusicListReq();
+
+    void onMusicOperation(int operation, int playlistIndex, String playlistName, ArrayList<Integer> musicIds);
 }

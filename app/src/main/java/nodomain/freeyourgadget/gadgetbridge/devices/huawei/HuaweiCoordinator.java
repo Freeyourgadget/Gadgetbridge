@@ -305,6 +305,11 @@ public class HuaweiCoordinator {
             deviceSpecificSettings.addRootScreen(R.xml.devicesettings_contacts);
         }
 
+        //Music
+        if (supportsMusicUploading() && getMusicInfoParams() != null && device.isConnected()) {
+            deviceSpecificSettings.addRootScreen(R.xml.devicesettings_musicmanagement);
+        }
+
         // Time
         if (supportsDateFormat()) {
             final List<Integer> dateTime = deviceSpecificSettings.addRootScreen(DeviceSpecificSettingsScreen.DATE_TIME);
@@ -602,8 +607,6 @@ public class HuaweiCoordinator {
         return false;
     }
 
-
-
     public boolean supportsCalendar() {
         if (supportsExpandCapability())
             return supportsExpandCapability(171) || supportsExpandCapability(184);
@@ -625,6 +628,12 @@ public class HuaweiCoordinator {
     public boolean supportsPrecisionWeight() {
         if (supportsExpandCapability())
             return supportsExpandCapability(0xb3);
+        return false;
+    }
+
+    public boolean supportsMoreMusic() {
+        if (supportsExpandCapability())
+            return supportsExpandCapability(122);
         return false;
     }
 

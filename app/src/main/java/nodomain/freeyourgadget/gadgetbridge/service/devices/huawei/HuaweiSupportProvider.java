@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceMusicData;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
@@ -2528,5 +2529,13 @@ public class HuaweiSupportProvider {
                 (int) (System.currentTimeMillis() / 1000),
                 callback
         ), true);
+    }
+
+    public void onMusicListReq() {
+        getHuaweiMusicManager().startSyncMusicData();
+    }
+
+    public void onMusicOperation(int operation, int playlistIndex, String playlistName, ArrayList<Integer> musicIds) {
+        getHuaweiMusicManager().onMusicOperation(operation, playlistIndex, playlistName,  musicIds);
     }
 }

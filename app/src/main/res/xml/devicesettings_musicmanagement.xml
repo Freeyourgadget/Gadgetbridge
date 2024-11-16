@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:icon="@drawable/ic_music_note"
+        android:key="pref_music_management"
+        android:summary="@string/pref_music_management_summary"
+        android:title="@string/pref_music_management_title" />
+</androidx.preference.PreferenceScreen>
