@@ -455,10 +455,14 @@ public class NotificationListener extends NotificationListenerService {
         mPackageLookup.add(notificationSpec.getId(), sbn.getPackageName()); // for MUTE
 
         notificationBurstPrevention.put(source, curTime);
-        if (0 != notification.when) {
-            notificationOldRepeatPrevention.put(source, notification.when);
+        if (notification.when == 0) {
+            LOG.info("This app might show old/duplicate notifications. notification.when is 0 for {}", source);
+        } else if ((notification.when - System.currentTimeMillis()) > 30_000L) {
+            // #4327 - Some apps such as outlook send reminder notifications in the future
+            // If we add them to the oldRepeatPrevention, they never show up again
+            LOG.info("This app might show old/duplicate notifications. notification.when is in the future for {}", source);
         } else {
-            LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
+            notificationOldRepeatPrevention.put(source, notification.when);
         }
         notificationsActive.add(notificationSpec.getId());
         // NOTE for future developers: this call goes to implementations of DeviceService.onNotification(NotificationSpec), like in GBDeviceService
@@ -813,10 +817,11 @@ public class NotificationListener extends NotificationListenerService {
 
     private void logNotification(StatusBarNotification sbn, boolean posted) {
         LOG.debug(
-                "Notification {} {}: packageName={}, priority={}, category={}",
+                "Notification {} {}: packageName={}, when={}, priority={}, category={}",
                 sbn.getId(),
                 posted ? "posted" : "removed",
                 sbn.getPackageName(),
+                sbn.getNotification().when,
                 sbn.getNotification().priority,
                 sbn.getNotification().category
         );
