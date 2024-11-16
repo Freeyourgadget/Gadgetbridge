@@ -3543,4 +3543,16 @@
     <string name="pref_wear_sensor_title">Sensor de uso</string>
     <string name="pref_developer_add_test_activities_title">Agregar actividades de prueba</string>
     <string name="pref_developer_add_test_activities_summary">Llene la base de datos con actividades de prueba ficticias</string>
+    <string name="pref_music_management_title">Gestionar música</string>
+    <string name="pref_music_management_summary">Gestionar la música en el reloj</string>
+    <string name="music_add_to_playlist">Añadir a la lista de reproducción</string>
+    <string name="music_delete_from_playlist">Borrar de la lista de reproducción</string>
+    <string name="music_all_songs">Toda las canciones</string>
+    <string name="music_rename_playlist">Renombrar la lista de reproducción</string>
+    <string name="title_activity_musicmanager">Gestor de música</string>
+    <string name="music_error">Ocurrió un error</string>
+    <string name="music_delete_confirm_description">¿Estás seguro de que deseas eliminar \' %1$s \'?</string>
+    <string name="music_delete">Borrar la canción</string>
+    <string name="music_new_playlist">Nueva lista de reproducción</string>
+    <string name="music_huawei_device_info">Formatos soportados: %1$s\nAlmacenamiento del reloj : %2$d MB</string>
 </resources>
