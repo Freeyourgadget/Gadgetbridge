@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
+import nodomain.freeyourgadget.gadgetbridge.util.Accumulator;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDailyFragment.HeartRateData> {
@@ -215,16 +216,16 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         final TimestampTranslation tsTranslation = new TimestampTranslation();
         final List<Entry> lineEntries = new ArrayList<>();
         List<? extends ActivitySample> samples = data.samples;
-        int average = 0;
-        int minimum = 0;
-        int maximum = 0;
-        int sum = 0;
-        int n = 0;
+        final Accumulator accumulator = new Accumulator();
+
         int lastHrSampleIndex = -1;
         for (int i =0; i < samples.size(); i++) {
-            ActivitySample sample = samples.get(i);
-            int ts = tsTranslation.shorten(sample.getTimestamp());
-            if (sample.getKind() != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+            final ActivitySample sample = samples.get(i);
+            final int ts = tsTranslation.shorten(sample.getTimestamp());
+            if (!heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                continue;
+            }
+            if (sample.getKind() != ActivityKind.NOT_WORN) {
                 if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800 * HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
                     lineEntries.add(new Entry(lastHrSampleIndex + 1, 0 ));
                     lineEntries.add(new Entry(ts - 1, 0));
@@ -232,17 +233,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
                 lineEntries.add(new Entry(ts, sample.getHeartRate()));
                 lastHrSampleIndex = ts;
             }
-            if (sample.getHeartRate() <= 0) {
-                continue;
-            }
-            n++;
-            sum += sample.getHeartRate();
-            if (sample.getHeartRate() > maximum) {
-                maximum = sample.getHeartRate();
-            }
-            if (minimum == 0 || sample.getHeartRate() < minimum) {
-                minimum = sample.getHeartRate();
-            }
+            accumulator.add(sample.getHeartRate());
         }
 
         LineDataSet dataSet = new LineDataSet(lineEntries, "Heart Rate");
@@ -255,15 +246,14 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         dataSet.setColor(HEARTRATE_COLOR);
         dataSet.setValueTextColor(CHART_TEXT_COLOR);
 
-        if (n > 0 && sum > 0) {
-            average = sum / n;
-        }
+        final int average = accumulator.getCount() > 0 ? (int) Math.round(accumulator.getAverage()) : -1;
+        final int minimum = accumulator.getCount() > 0 ? (int) Math.round(accumulator.getMin()) : -1;
+        final int maximum = accumulator.getCount() > 0 ? (int) Math.round(accumulator.getMax()) : -1;
 
         hrAverage.setText(average > 0 ? getString(R.string.bpm_value_unit, average) : "-");
         hrMinimum.setText(minimum > 0 ? getString(R.string.bpm_value_unit, minimum) : "-");
         hrMaximum.setText(maximum > 0 ? getString(R.string.bpm_value_unit, maximum) : "-");
         hrResting.setText(data.restingHeartRate > 0 ? getString(R.string.bpm_value_unit, data.restingHeartRate) : "-");
-
 
         if (minimum > 0) {
             hrLineChart.getAxisLeft().setAxisMinimum(Math.max(minimum - 30, 0));
@@ -279,7 +269,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
 
         hrLineChart.getAxisLeft().removeAllLimitLines();
 
-        if (GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
+        if (average > 0 && GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
             final LimitLine averageLine = new LimitLine(average);
             averageLine.setLineWidth(1.5f);
             averageLine.enableDashedLine(15f, 10f, 0f);
