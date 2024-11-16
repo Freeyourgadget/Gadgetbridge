@@ -1960,7 +1960,7 @@
     <string name="supercars_lights_blinking_label">Mruganie</string>
     <string name="hrZoneAnaerobic">Anaerobowa</string>
     <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
-    <string name="hrZoneNa">N/A</string>
+    <string name="hrZoneNa">Brak</string>
     <string name="hrZoneAerobic">Aerobowa</string>
     <string name="sports_activity_confirm_delete_title">Usuń %d aktywności</string>
     <string name="sports_activity_confirm_delete_description">Czy na pewno chcesz usunąć %d aktywności\?</string>
@@ -2699,8 +2699,7 @@
     <string name="pref_enable_call_reject_summary">Włącz odrzucanie połączeń z poziomu urządzenia</string>
     <string name="pref_heartrate_automatic_enable">Włącz automatyczny pomiar tętna</string>
     <string name="pref_disable_find_phone_with_dnd">Wylącz funkcję Znajdź mój telefon, gdy tryb Nie przeszkadzać jest włączony</string>
-    <string name="pref_force_dnd_support_summary">Wymuś tryb Nie Przeszkadzać.
-\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_force_dnd_support_summary">Wymuś tryb Nie Przeszkadzać. \nUŻYWAJ NA WŁASNE RYZYKO</string>
     <string name="pref_force_dnd_support">Wymuś wspacie dla trybu Nie przeszkadzać</string>
     <string name="huawei_trusleep_summary_light">Poprawione monitorowanie snu</string>
     <string name="prefs_password_4_digits_0_to_9_summary">Hasło musi składać się z 4 znaków i zawierać jedynie cyfry</string>
@@ -3257,7 +3256,7 @@
     <string name="battery_polling_failed_start">Nie udało się zacząć sondażu baterii</string>
     <string name="devicetype_mismartscale">Mi Smart Scale 2</string>
     <string name="steps_distance_unit">%1$,.2f km</string>
-    <string name="weight_lbs">%1$.2f lbs</string>
+    <string name="weight_lbs">%1$.2f funty</string>
     <string name="target">Cel</string>
     <string name="miscale_weight_unit_summary">Ustaw jednostkę masy dla wyświetlanych pomiarów</string>
     <string name="miscale_weight_unit_metric">Metryczna (kg)</string>
@@ -3265,7 +3264,7 @@
     <string name="miscale_weight_unit_chinese">Chińska (jin)</string>
     <string name="workout_set_repetitions">%1d x</string>
     <string name="workout_set_repetitions_weight_kg">%1d x %2$.2f kg</string>
-    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f lbs</string>
+    <string name="workout_set_repetitions_weight_lbs">%1d x %2$.2f funty</string>
     <string name="pref_battery_polling_interval">Interwał sondowania baterii</string>
     <string name="pref_header_deprecated_functionalities">Przestarzałe funkcje</string>
     <string name="pref_header_deprecated_functionalities_warning">Następujące funkcje są przestarzałe i niedługo zostaną usunięte z programu.
@@ -3530,4 +3529,5 @@
     <string name="number_selected_items">Wybrano %1d</string>
     <string name="devicetype_garmin_venu_sq">Garmin Venu Sq</string>
     <string name="devicetype_bandw_pseries">Bowers and Wilkins P series</string>
+    <string name="menuitem_heart_rate_push">Pomiar tętna</string>
 </resources>
