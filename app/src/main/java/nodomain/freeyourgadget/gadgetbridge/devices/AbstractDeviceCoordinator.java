@@ -283,7 +283,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public TimeSampleProvider<? extends RestingMetabolicRateSample> getRestingMetabolicRateProvider(final GBDevice device, final DaoSession session) {
-        return null; // FIXME return new DefaultRestingMetabolicRateProvider(device, session);
+        return new DefaultRestingMetabolicRateProvider(device, session);
     }
 
     @Override
