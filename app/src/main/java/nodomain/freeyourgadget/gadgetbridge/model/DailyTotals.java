@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,7 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.GarminRestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 
@@ -162,21 +160,24 @@ public class DailyTotals implements Serializable {
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.SECOND, 0);
         day.add(Calendar.HOUR, 0);
-        TimeSample metabolicRate = getRestingMetabolicRate(db, device);
+        RestingMetabolicRateSample metabolicRate = getRestingMetabolicRate(db, device);
+        if (metabolicRate == null) {
+            return 0;
+        }
         double passedDayProportion = 1;
         boolean sameDay = calendar.get(Calendar.DAY_OF_YEAR) == day.get(Calendar.DAY_OF_YEAR) &&
                 calendar.get(Calendar.YEAR) == day.get(Calendar.YEAR);
         if (sameDay) {
             passedDayProportion = (double) (calendar.getTimeInMillis() - day.getTimeInMillis()) / (24L * 60 * 60 * 1000);
         }
-        return  (int) ((double) ((GarminRestingMetabolicRateSample) metabolicRate).getRestingMetabolicRate() * passedDayProportion);
+        return  (int) (metabolicRate.getRestingMetabolicRate() * passedDayProportion);
     }
 
     public static List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
-    protected static TimeSample getRestingMetabolicRate(DBHandler db, GBDevice device) {
+    protected static RestingMetabolicRateSample getRestingMetabolicRate(DBHandler db, GBDevice device) {
         TimeSampleProvider<? extends RestingMetabolicRateSample> provider = device.getDeviceCoordinator().getRestingMetabolicRateProvider(device, db.getDaoSession());
         return provider.getLatestSample();
     }

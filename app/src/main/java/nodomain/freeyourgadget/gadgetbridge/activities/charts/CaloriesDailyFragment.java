@@ -29,7 +29,6 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.GarminRestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -121,7 +120,7 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         return device.getDeviceCoordinator().supportsActiveCalories();
     }
 
-    protected TimeSample getRestingMetabolicRate(DBHandler db, GBDevice device) {
+    protected RestingMetabolicRateSample getRestingMetabolicRate(DBHandler db, GBDevice device) {
         TimeSampleProvider<? extends RestingMetabolicRateSample> provider = device.getDeviceCoordinator().getRestingMetabolicRateProvider(device, db.getDaoSession());
         return provider.getLatestSample();
     }
@@ -155,7 +154,10 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         String formattedDate = new SimpleDateFormat("E, MMM dd").format(date);
         dateView.setText(formattedDate);
         List<? extends ActivitySample> samples = getActivitySamples(db, device, startTs, endTs);
-        TimeSample metabolicRate = getRestingMetabolicRate(db, device);
+        RestingMetabolicRateSample metabolicRate = getRestingMetabolicRate(db, device);
+        if (metabolicRate == null) {
+            return new CaloriesData(0, 0, 0);
+        }
         int totalBurnt;
         int activeBurnt = 0;
         boolean sameDay = calendar.get(Calendar.DAY_OF_YEAR) == day.get(Calendar.DAY_OF_YEAR) &&
@@ -164,7 +166,7 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         if (sameDay) {
             passedDayProportion = (double) (calendar.getTimeInMillis() - day.getTimeInMillis()) / (24L * 60 * 60 * 1000);
         }
-        int restingBurnt = (int) ((double) ((GarminRestingMetabolicRateSample) metabolicRate).getRestingMetabolicRate() * passedDayProportion);
+        int restingBurnt = (int) (metabolicRate.getRestingMetabolicRate() * passedDayProportion);
 
         for (int i = 0; i <= samples.size() - 1; i++) {
             ActivitySample sample = samples.get(i);
