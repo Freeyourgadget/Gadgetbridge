@@ -403,7 +403,7 @@
     <string name="dbmanagementactivity_error_importing_shared">שגיאה בייבוא העדפה: %1$s</string>
     <string name="mi2_fw_installhandler_fw53_hint">עליך להתקין את הגרסה %1$s בטרם התקנת קושחה זו!</string>
     <string name="mi2_enable_text_notifications">התראות טקסט</string>
-    <string name="mi2_enable_text_notifications_summary">נדרשת קושחה &gt;= 1.0.1.28 והקובץ Mili_pro.ft*‎ מותקן.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[נדרשת קושחה >= 1.0.1.28 והקובץ Mili_pro.ft*‎ מותקן.]]></string>
     <string name="off">כבוי</string>
     <string name="mi2_dnd_off">כבוי</string>
     <string name="mi2_dnd_automatic">אוטומטי (זיהוי שינה)</string>
@@ -557,7 +557,7 @@
     <string name="polish">פולנית</string>
     <string name="korean">קוריאנית</string>
     <string name="japanese">יפנית</string>
-    <string name="you_slept">שנתך החלה ב־%1$s ונמשכה עד %2$s</string>
+    <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">לא ישנת</string>
     <string name="norwegian_bokmal">נורווגית ספרותית</string>
     <string name="pref_title_notifications_timeout">זמן מזערי בין הודעות</string>
@@ -3028,4 +3028,23 @@
     <string name="hr_maximum">מרבי</string>
     <string name="hr_minimum">מזערי</string>
     <string name="hr_average">ממוצע</string>
+    <string name="transition">מעברון</string>
+    <string name="activity_type_navigate">ניווט</string>
+    <string name="activity_prefs_height_inches">גובה באינצ׳ים</string>
+    <string name="authentication_failed_check_key">האימות נכשל, נא לבדוק את מפתח האימות</string>
+    <string name="authentication_failed_negotiation">המשא ומתן על מפתח האימות נכשל</string>
+    <string name="dateformat_month_day">חודש, יום</string>
+    <string name="music_rename_playlist">שינוי שם רשימת נגינה</string>
+    <string name="music_error">אירעה שגיאה</string>
+    <string name="music_huawei_device_info">תסדירים נתמכים: %1$s\nשטח אחסון בשעון: %2$d מ״ב</string>
+    <string name="dateformat_day_month">יום, חודש</string>
+    <string name="music_delete_from_playlist">מחיקת מרשימת הנגינה</string>
+    <string name="music_all_songs">כל השירים</string>
+    <string name="pref_music_management_summary">ניהול מוזיקה דרך השעון</string>
+    <string name="music_delete_confirm_description">למחוק את ‚%1$s’?</string>
+    <string name="music_add_to_playlist">הוספה לרשימת נגינה</string>
+    <string name="music_new_playlist">רשימת נגינה חדשה</string>
+    <string name="music_delete">מחיקת שיר</string>
+    <string name="title_activity_musicmanager">מנהל מוזיקה</string>
+    <string name="activity_prefs_date_birth">תאריך הלידה</string>
 </resources>
