@@ -3539,4 +3539,16 @@
     <string name="pref_wear_sensor_title">佩戴传感器</string>
     <string name="pref_developer_add_test_activities_title">添加测试活动</string>
     <string name="pref_developer_add_test_activities_summary">使用虚拟测试活动填充数据库</string>
+    <string name="pref_music_management_title">管理音乐</string>
+    <string name="music_delete_confirm_description">您确认想要删除‘%1$s’？</string>
+    <string name="music_delete_from_playlist">从播放列表中删除</string>
+    <string name="music_all_songs">所有歌曲</string>
+    <string name="music_new_playlist">新播放列表</string>
+    <string name="music_rename_playlist">重命名播放列表</string>
+    <string name="music_error">发生错误</string>
+    <string name="music_huawei_device_info">支持的格式：%1$s\n手表空间：%2$d MB</string>
+    <string name="title_activity_musicmanager">音乐管理器</string>
+    <string name="pref_music_management_summary">管理手表上的音乐</string>
+    <string name="music_add_to_playlist">添加到播放列表</string>
+    <string name="music_delete">删除歌曲</string>
 </resources>
