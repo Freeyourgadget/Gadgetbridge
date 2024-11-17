@@ -3539,4 +3539,16 @@
     <string name="pref_wear_sensor_title">Senzor nošení</string>
     <string name="pref_developer_add_test_activities_title">Přidat zkušební aktivity</string>
     <string name="pref_developer_add_test_activities_summary">Naplnit databázi fiktivními zkušebními aktivitami</string>
+    <string name="pref_music_management_title">Spravovat hudbu</string>
+    <string name="pref_music_management_summary">Spravovat hudbu na hodinkách</string>
+    <string name="music_delete_confirm_description">Opravdu chcete odstranit „%1$s“?</string>
+    <string name="music_add_to_playlist">Přidat do playlistu</string>
+    <string name="music_all_songs">Všechny skladby</string>
+    <string name="title_activity_musicmanager">Správce hudby</string>
+    <string name="music_error">Došlo k chybě</string>
+    <string name="music_delete_from_playlist">Odstranit z playlistu</string>
+    <string name="music_huawei_device_info">Podporované formáty: %1$s\nÚložiště hodinek: %2$d MB</string>
+    <string name="music_delete">Odstranit skladbu</string>
+    <string name="music_new_playlist">Nový playlist</string>
+    <string name="music_rename_playlist">Přejmenovat playlist</string>
 </resources>
