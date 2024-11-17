@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -36,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.agps.GarminAgpsStatus;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -142,7 +144,10 @@ public class GarminSettingsCustomizer implements DeviceSpecificSettingsCustomize
                 prefUpdateTime.setTitle(R.string.pref_agps_update_time);
                 final long ts = prefs.getLong(GarminPreferences.agpsUpdateTime(url), 0L);
                 if (ts > 0) {
-                    prefUpdateTime.setSummary(SDF.format(new Date(ts)));
+                    prefUpdateTime.setSummary(String.format("%s (%s)",
+                            SDF.format(new Date(ts)),
+                            DateTimeUtils.formatDurationHoursMinutes(System.currentTimeMillis() - ts, TimeUnit.MILLISECONDS)
+                    ));
                 } else {
                     prefUpdateTime.setSummary(handler.getContext().getString(R.string.unknown));
                 }
