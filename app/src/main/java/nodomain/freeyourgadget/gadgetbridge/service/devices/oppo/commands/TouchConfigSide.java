@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 public enum TouchConfigSide {
     LEFT(0x01),
     RIGHT(0x02),
+    BOTH(0x04),
     ;
 
     private final int code;

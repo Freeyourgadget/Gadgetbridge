@@ -21,7 +21,8 @@ import androidx.annotation.Nullable;
 public enum TouchConfigValue {
     OFF(0x00),
     PLAY_PAUSE(0x01),
-    VOICE_ASSISTANT(0x03),
+    VOICE_ASSISTANT(0x03), // oppo
+    VOICE_ASSISTANT_REALME(0x04),
     PREVIOUS(0x05),
     NEXT(0x06),
     GAME_MODE(0x11),

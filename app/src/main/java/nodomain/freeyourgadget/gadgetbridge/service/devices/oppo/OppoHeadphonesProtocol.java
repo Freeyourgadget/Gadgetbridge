@@ -66,7 +66,7 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
                 i++;
                 continue;
             }
-            final int totalLength = BLETypeConversions.toUint16(responseData, i + 1);
+            final int totalLength = responseData[i + 1] & 0xff;
             if (responseData.length - i < totalLength + 2) {
                 LOG.error("Got partial response with {} bytes, expected {}", responseData.length - i, totalLength + 2);
                 break;
@@ -99,9 +99,9 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
         }
 
         final short zero = responseBuf.getShort();
-        if (zero != 0) {
-            LOG.error("Unexpected bytes: {}, expected 0", zero);
-            return Collections.emptyList();
+        if (zero != 0 && zero != 4) {
+            // 0 on oppo, 4 on realme?
+            LOG.warn("Unexpected bytes: {}, expected 0 or 4", zero);
         }
 
         final short code = responseBuf.getShort();
@@ -146,10 +146,11 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
                     break;
                 }
 
-                final String fwString = StringUtils.untilNullTerminator(payload, 1);
-                if (fwString == null) {
-                    LOG.warn("Failed to get firmware string");
-                    break;
+                final String fwString;
+                if (payload[payload.length - 1] == 0) {
+                    fwString = new String(ArrayUtils.subarray(payload, 2, payload.length - 1)).strip();
+                } else {
+                    fwString = new String(ArrayUtils.subarray(payload, 2, payload.length - 2)).strip();
                 }
                 final String[] parts = fwString.split(",");
                 if (parts.length % 3 != 0) {
@@ -180,7 +181,18 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
                     }
                 }
 
-                final String fwVersion = String.join(".", fwVersionParts);
+                final List<String> nonNullParts = new ArrayList<>(fwVersionParts.length);
+                for (int i = 0; i < fwVersionParts.length; i++) {
+                    if (fwVersionParts[i] == null) {
+                        continue;
+                    }
+                    nonNullParts.add(fwVersionParts[i]);
+                    if (fwVersionParts[i].contains(".")) {
+                        // Realme devices have the version already with the dots, repeated multiple times
+                        break;
+                    }
+                }
+                final String fwVersion = String.join(".", nonNullParts);
 
                 final GBDeviceEventVersionInfo eventVersionInfo = new GBDeviceEventVersionInfo();
                 eventVersionInfo.fwVersion = fwVersion;

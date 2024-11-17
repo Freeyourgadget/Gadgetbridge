@@ -3,28 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        android:key="oppo_touch_header_left"
         android:title="@string/left_earbud"
         app:iconSpaceReserved="false">
         <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/oppo_touch_tap_2_names"
-            android:entryValues="@array/oppo_touch_tap_2_values"
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
             android:icon="@drawable/ic_filter_2"
             android:key="oppo_touch__left__tap_2"
             android:summary="%s"
             android:title="@string/double_tap" />
         <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/oppo_touch_tap_3_names"
-            android:entryValues="@array/oppo_touch_tap_3_values"
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
             android:icon="@drawable/ic_filter_3"
             android:key="oppo_touch__left__tap_3"
             android:summary="%s"
             android:title="@string/triple_tap" />
         <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/oppo_touch_hold_names"
-            android:entryValues="@array/oppo_touch_hold_values"
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
             android:icon="@drawable/ic_horizontal_rule"
             android:key="oppo_touch__left__hold"
             android:summary="%s"
@@ -32,30 +33,45 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="oppo_touch_header_right"
         android:title="@string/right_earbud"
         app:iconSpaceReserved="false">
         <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/oppo_touch_tap_2_names"
-            android:entryValues="@array/oppo_touch_tap_2_values"
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
             android:icon="@drawable/ic_filter_2"
             android:key="oppo_touch__right__tap_2"
             android:summary="%s"
             android:title="@string/double_tap" />
         <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/oppo_touch_tap_3_names"
-            android:entryValues="@array/oppo_touch_tap_3_values"
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
             android:icon="@drawable/ic_filter_3"
             android:key="oppo_touch__right__tap_3"
             android:summary="%s"
             android:title="@string/triple_tap" />
         <ListPreference
-            android:defaultValue="none"
-            android:entries="@array/oppo_touch_hold_names"
-            android:entryValues="@array/oppo_touch_hold_values"
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
             android:icon="@drawable/ic_horizontal_rule"
             android:key="oppo_touch__right__hold"
+            android:summary="%s"
+            android:title="@string/long_press" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="oppo_touch_header_both"
+        android:title="@string/moondrop_touch_earbud_both"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            android:defaultValue="off"
+            android:entries="@array/oppo_touch_tap_names"
+            android:entryValues="@array/oppo_touch_tap_values"
+            android:icon="@drawable/ic_horizontal_rule"
+            android:key="oppo_touch__both__hold"
             android:summary="%s"
             android:title="@string/long_press" />
     </PreferenceCategory>
