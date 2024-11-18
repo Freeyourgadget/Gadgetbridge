@@ -3551,4 +3551,5 @@
     <string name="music_delete">Odstranit skladbu</string>
     <string name="music_new_playlist">Nový playlist</string>
     <string name="music_rename_playlist">Přejmenovat playlist</string>
+    <string name="devicetype_realme_buds_t110">Realme Buds T110</string>
 </resources>
