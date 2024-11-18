@@ -3551,4 +3551,5 @@
     <string name="pref_music_management_summary">管理手表上的音乐</string>
     <string name="music_add_to_playlist">添加到播放列表</string>
     <string name="music_delete">删除歌曲</string>
+    <string name="devicetype_realme_buds_t110">真我 Buds T110</string>
 </resources>
