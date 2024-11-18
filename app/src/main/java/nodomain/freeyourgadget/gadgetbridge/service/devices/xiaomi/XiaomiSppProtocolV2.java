@@ -105,7 +105,11 @@ public class XiaomiSppProtocolV2 extends AbstractXiaomiSppProtocol {
                     break;
                 case PACKET_TYPE_DATA:
                     XiaomiSppPacketV2.DataPacket dataPacket = (XiaomiSppPacketV2.DataPacket) decodedPacket;
-                    support.onPacketReceived(dataPacket.getChannel(), dataPacket.getPayloadBytes(support.getAuthService()));
+                    try {
+                        support.onPacketReceived(dataPacket.getChannel(), dataPacket.getPayloadBytes(support.getAuthService()));
+                    } catch (final Exception ex) {
+                        LOG.error("Exception while handling received packet", ex);
+                    }
                     // TODO: only directly ack protobuf packets, bulk ack others
                     sendAck(decodedPacket.getSequenceNumber());
                     break;
