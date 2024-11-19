@@ -2943,4 +2943,18 @@
     <string name="minutes_180">180 хвилин</string>
     <string name="minutes_240">240 хвилин</string>
     <string name="activity_type_rem_sleep">Швидкий сон</string>
+    <string name="title_activity_musicmanager">Музикальний менеджер</string>
+    <string name="pref_description_user_interface">Тема, головний екран</string>
+    <string name="pref_description_dashboard">Віджети, пристрої для додавання</string>
+    <string name="pref_description_automations">Автоекспорт, автоотримання</string>
+    <string name="pref_description_developer_options">Журнали, Intent API</string>
+    <string name="pref_description_deprecated_functionalities">Налаштування, які будуть видалені в наступній версії</string>
+    <string name="pref_title_user_interface">Інтерфейс користувача</string>
+    <string name="pref_title_nagivation_apps">Застосунки для навігації</string>
+    <string name="pref_header_external_integrations">Зовнішні інтеграції</string>
+    <string name="pref_header_automations">Автоматизація</string>
+    <string name="pref_description_general">Запуск, мова, регіон, розташування</string>
+    <string name="pref_description_about_you">Дата народження, стать, зріст, вага, цілі</string>
+    <string name="pref_description_notifications">Сповіщення у застосунку, білий/чорний список</string>
+    <string name="pref_header_main_screen">Головний екран</string>
 </resources>
