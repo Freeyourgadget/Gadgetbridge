@@ -6,6 +6,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.fit.baseTypes
 public class FieldDefinitionTemperature extends FieldDefinition {
 
     public FieldDefinitionTemperature(int localNumber, int size, BaseType baseType, String name) {
+        // #4313 - We do a "wrong" conversion to celsius on purpose
         super(localNumber, size, baseType, name, 1, -273);
     }
 

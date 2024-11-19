@@ -273,7 +273,8 @@ public class WeatherHandler {
                 return new WeatherValue(kelvin, "KELVIN");
             case "CELSIUS":
             default:
-                return new WeatherValue(kelvin - 273.15, "CELSIUS");
+                // #4313 - We do a "wrong" conversion to celsius on purpose
+                return new WeatherValue(kelvin - 273, "CELSIUS");
         }
     }
 
