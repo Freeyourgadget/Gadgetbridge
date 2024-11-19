@@ -97,14 +97,14 @@ public class BodyEnergyFragment extends AbstractChartFragment<BodyEnergyFragment
 
     @Override
     protected BodyEnergyData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        String formattedDate = new SimpleDateFormat("E, MMM dd").format(getEndDate());
-        mDateView.setText(formattedDate);
         List<? extends BodyEnergySample> samples = getBodyEnergySamples(db, device, getTSStart(), getTSEnd());
         return new BodyEnergyData(samples);
     }
 
     @Override
     protected void updateChartsnUIThread(BodyEnergyData bodyEnergyData) {
+        String formattedDate = new SimpleDateFormat("E, MMM dd").format(getEndDate());
+        mDateView.setText(formattedDate);
 
         List<Entry> lineEntries = new ArrayList<>();
         final List<ILineDataSet> lineDataSets = new ArrayList<>();

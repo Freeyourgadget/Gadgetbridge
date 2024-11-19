@@ -126,10 +126,8 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
     @Override
     protected HRVStatusWeeklyData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
-        Date tsEnd = getChartsHost().getEndDate();
-        day.setTime(tsEnd);
-        String formattedDate = new SimpleDateFormat("E, MMM dd").format(tsEnd);
-        mDateView.setText(formattedDate);
+        day.setTime(getEndDate());
+
         List<HRVStatusDayData> weeklyData = getWeeklyData(db, day, device);
         return new HRVStatusWeeklyData(weeklyData);
     }
@@ -164,6 +162,9 @@ public class HRVStatusFragment extends AbstractChartFragment<HRVStatusFragment.H
 
     @Override
     protected void updateChartsnUIThread(HRVStatusWeeklyData weeklyData) {
+        String formattedDate = new SimpleDateFormat("E, MMM dd").format(getEndDate());
+        mDateView.setText(formattedDate);
+
         mWeeklyHRVStatusChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
         List<Entry> lineEntries = new ArrayList<>();
         final List<ILineDataSet> lineDataSets = new ArrayList<>();

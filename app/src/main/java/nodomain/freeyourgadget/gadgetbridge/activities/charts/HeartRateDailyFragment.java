@@ -124,9 +124,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         day.add(Calendar.HOUR, 0);
         int startTs = (int) (day.getTimeInMillis() / 1000);
         int endTs = startTs + 24 * 60 * 60 - 1;
-        Date date = new Date((long) endTs * 1000);
-        String formattedDate = new SimpleDateFormat("E, MMM dd").format(date);
-        mDateView.setText(formattedDate);
+
         List<? extends ActivitySample> samples = getActivitySamples(db, device, startTs, endTs);
 
         int restingHeartRate = -1;
@@ -212,6 +210,19 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
 
     @Override
     protected void updateChartsnUIThread(HeartRateDailyFragment.HeartRateData data) {
+        Calendar day = Calendar.getInstance();
+        day.setTime(getEndDate());
+        day.add(Calendar.DATE, 0);
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        day.add(Calendar.HOUR, 0);
+        int startTs = (int) (day.getTimeInMillis() / 1000);
+        int endTs = startTs + 24 * 60 * 60 - 1;
+        Date date = new Date((long) endTs * 1000);
+        String formattedDate = new SimpleDateFormat("E, MMM dd").format(date);
+        mDateView.setText(formattedDate);
+
         HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
         final TimestampTranslation tsTranslation = new TimestampTranslation();
         final List<Entry> lineEntries = new ArrayList<>();

@@ -102,8 +102,6 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
     protected StepsDailyFragment.StepsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
         day.setTime(chartsHost.getEndDate());
-        String formattedDate = new SimpleDateFormat("E, MMM dd").format(chartsHost.getEndDate());
-        mDateView.setText(formattedDate);
         List<StepsDay> stepsDayList = getMyStepsDaysData(db, day, device);
         final StepsDay stepsDay;
         if (stepsDayList.isEmpty()) {
@@ -118,6 +116,9 @@ public class StepsDailyFragment extends StepsFragment<StepsDailyFragment.StepsDa
 
     @Override
     protected void updateChartsnUIThread(StepsDailyFragment.StepsData stepsData) {
+        String formattedDate = new SimpleDateFormat("E, MMM dd").format(getEndDate());
+        mDateView.setText(formattedDate);
+
         final int width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 300,

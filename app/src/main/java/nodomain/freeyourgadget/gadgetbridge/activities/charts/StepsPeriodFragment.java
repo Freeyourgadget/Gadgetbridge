@@ -143,18 +143,19 @@ public class StepsPeriodFragment extends StepsFragment<StepsPeriodFragment.Steps
     @Override
     protected StepsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
-        Date to = new Date((long) this.getTSEnd() * 1000);
-        Date from = DateUtils.addDays(to,-(TOTAL_DAYS - 1));
-        String toFormattedDate = new SimpleDateFormat("E, MMM dd").format(to);
-        String fromFormattedDate = new SimpleDateFormat("E, MMM dd").format(from);
-        mDateView.setText(fromFormattedDate + " - " + toFormattedDate);
-        day.setTime(to);
+        day.setTime(getEndDate());
         List<StepsDay> stepsDaysData = getMyStepsDaysData(db, day, device);
         return new StepsData(stepsDaysData);
     }
 
     @Override
     protected void updateChartsnUIThread(StepsData stepsData) {
+        Date to = new Date((long) getTSEnd() * 1000);
+        Date from = DateUtils.addDays(to,-(TOTAL_DAYS - 1));
+        String toFormattedDate = new SimpleDateFormat("E, MMM dd").format(to);
+        String fromFormattedDate = new SimpleDateFormat("E, MMM dd").format(from);
+        mDateView.setText(fromFormattedDate + " - " + toFormattedDate);
+
         stepsChart.setData(null);
 
         List<BarEntry> entries = new ArrayList<>();

@@ -118,8 +118,6 @@ public class VO2MaxFragment extends AbstractChartFragment<VO2MaxFragment.VO2MaxD
 
     @Override
     protected VO2MaxData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        String formattedDate = new SimpleDateFormat("E, MMM dd").format(getEndDate());
-        mDateView.setText(formattedDate);
         List<VO2MaxRecord> records = new ArrayList<>();
         int tsEnd = getTSEnd();
         Calendar day = Calendar.getInstance();
@@ -145,7 +143,9 @@ public class VO2MaxFragment extends AbstractChartFragment<VO2MaxFragment.VO2MaxD
 
     @Override
     protected void updateChartsnUIThread(VO2MaxData vo2MaxData) {
-        TimestampTranslation tsTranslation = new TimestampTranslation();
+        String formattedDate = new SimpleDateFormat("E, MMM dd").format(getEndDate());
+        mDateView.setText(formattedDate);
+
         List<Entry> runningEntries = new ArrayList<>();
         List<Entry> cyclingEntries = new ArrayList<>();
         vo2MaxData.records.forEach((record) -> {
