@@ -1747,6 +1747,7 @@
     <string name="devicetype_garmin_fenix_8">Garmin Fenix 8</string>
     <string name="devicetype_garmin_instinct">Garmin Instinct</string>
     <string name="devicetype_garmin_instinct_solar">Garmin Instinct Solar</string>
+    <string name="devicetype_garmin_instinct_2">Garmin Instinct 2</string>
     <string name="devicetype_garmin_instinct_2s">Garmin Instinct 2S</string>
     <string name="devicetype_garmin_instinct_2s_solar">Garmin Instinct 2S Solar</string>
     <string name="devicetype_garmin_instinct_2x_solar">Garmin Instinct 2X Solar</string>
