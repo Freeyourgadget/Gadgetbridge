@@ -3552,4 +3552,5 @@
     <string name="music_add_to_playlist">添加到播放列表</string>
     <string name="music_delete">删除歌曲</string>
     <string name="devicetype_realme_buds_t110">真我 Buds T110</string>
+    <string name="devicetype_garmin_instinct_2">佳明 Instinct 2</string>
 </resources>
