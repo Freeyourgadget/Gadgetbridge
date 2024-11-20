@@ -3529,4 +3529,22 @@
     <string name="title_activity_musicmanager">مدير الموسيقى</string>
     <string name="devicetype_realme_buds_t110">Realme Buds T110</string>
     <string name="pref_voice_passthrough_enabled_summary">اسمح للأصوات الخارجية بالمرور إلى أذنيك</string>
+    <string name="pref_wear_sensor_summary">اكتشف متى لا يتم ارتداء الجهاز</string>
+    <string name="pref_wear_sensor_title">حساس الارتداء</string>
+    <string name="pref_music_management_title">إدارة الموسيقى</string>
+    <string name="music_add_to_playlist">اضف الى قائمة التشغيل</string>
+    <string name="music_delete_from_playlist">حذف من قائمة التشغيل</string>
+    <string name="music_delete">حذف الأغنية</string>
+    <string name="music_delete_confirm_description">هل أنت متأكد أنك تريد حذف \'%1$s \'؟</string>
+    <string name="music_all_songs">كل الأغاني</string>
+    <string name="music_new_playlist">قائمة تشغيل جديدة</string>
+    <string name="music_rename_playlist">إعادة تسمية قائمة التشغيل</string>
+    <string name="music_error">حدث خطأ</string>
+    <string name="pref_music_management_summary">إدارة الموسيقى على الساعة</string>
+    <string name="devicetype_garmin_instinct_2">Garmin Instinct 2</string>
+    <string name="music_huawei_device_info">التنسيقات المدعومة: %1$s\nوحدة تخزين الساعة: %2$d ميجابايت</string>
+    <string name="pref_voice_passthrough_enabled">تمرير الصوت</string>
+    <string name="pref_voice_passthrough_level">مستوى تمرير الصوت</string>
+    <string name="pref_developer_add_test_activities_summary">ملء قاعدة البيانات بأنشطة اختبار وهمية</string>
+    <string name="pref_developer_add_test_activities_title">إضافة أنشطة الاختبار</string>
 </resources>
