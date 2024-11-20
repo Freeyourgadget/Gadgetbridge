@@ -300,7 +300,7 @@ public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements Shared
         // If not a call or email, check the sender and if null, promote the title and message preview
         // as subtitle
         if (showMessagePreview && icon != CasioConstants.CATEGORY_INCOMING_CALL && icon != CasioConstants.CATEGORY_EMAIL) {
-            if (!StringUtils.isNullOrEmpty(sender)) {
+            if (StringUtils.isNullOrEmpty(sender)) {
                 // Shift title to sender slot
                 sender = title;
             }
