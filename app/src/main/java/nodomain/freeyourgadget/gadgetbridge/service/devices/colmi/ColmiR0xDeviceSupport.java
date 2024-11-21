@@ -64,8 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(ColmiR0xDeviceSupport.class);
-    Handler backgroundTasksHandler = new Handler(Looper.getMainLooper());
-    Runnable backgroundTask;
+    private final Handler backgroundTasksHandler = new Handler(Looper.getMainLooper());
 
     private final DeviceInfoProfile<ColmiR0xDeviceSupport> deviceInfoProfile;
     private String cachedFirmwareVersion = null;
@@ -97,9 +96,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void dispose() {
-        if (backgroundTasksHandler != null) {
-            backgroundTasksHandler.removeCallbacks(backgroundTask);
-        }
+        backgroundTasksHandler.removeCallbacksAndMessages(null);
 
         super.dispose();
     }
@@ -121,7 +118,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleDeviceInfo(DeviceInfo info) {
-        LOG.debug("Device info: " + info);
+        LOG.debug("Device info: {}", info);
 
         GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
         versionCmd.hwVersion = info.getHardwareRevision();
@@ -149,13 +146,8 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(ColmiR0xConstants.CHARACTERISTIC_NOTIFY_V2), true);
 
         // Delay initialization with 2 seconds to give the ring time to settle
-        backgroundTask = new Runnable() {
-            @Override
-            public void run() {
-                postConnectInitialization();
-            }
-        };
-        backgroundTasksHandler.postDelayed(backgroundTask, 2000);
+        backgroundTasksHandler.removeCallbacksAndMessages(null);
+        backgroundTasksHandler.postDelayed(this::postConnectInitialization, 2000);
 
         return builder;
     }
