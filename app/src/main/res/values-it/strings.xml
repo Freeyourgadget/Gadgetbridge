@@ -3522,4 +3522,18 @@
     <string name="devicetype_garmin_forerunner_620">Garmin Forerunner 620</string>
     <string name="pref_developer_add_test_activities_summary">Popolare il database con attività di test fittizie</string>
     <string name="pref_developer_add_test_activities_title">Aggiungi attività di test</string>
+    <string name="devicetype_garmin_instinct_2">Garmin Instinct 2</string>
+    <string name="devicetype_realme_buds_t110">Realme Buds T110</string>
+    <string name="title_activity_musicmanager">Gestore musica</string>
+    <string name="music_rename_playlist">Rinomina lista di riproduzione</string>
+    <string name="music_new_playlist">Nuova lista di riproduzione</string>
+    <string name="music_error">Si è verificato un errore</string>
+    <string name="music_all_songs">Tutte le canzoni</string>
+    <string name="music_huawei_device_info">Formati supportati: %1$s\nMemoria dell\'orologio: %2$d MB</string>
+    <string name="pref_music_management_title">Gestisci musica</string>
+    <string name="pref_music_management_summary">Gestisci la musica sull\'orologio</string>
+    <string name="music_delete_confirm_description">Vuoi davvero cancellare \'%1$s\'?</string>
+    <string name="music_add_to_playlist">Aggiungi alla lista di riproduzione</string>
+    <string name="music_delete_from_playlist">Rimuovi dalla lista di riproduzione</string>
+    <string name="music_delete">Cancella canzone</string>
 </resources>
