@@ -166,17 +166,8 @@ public class DashboardUtils {
 
     public static float getActiveCaloriesGoalFactor(DashboardFragment.DashboardData dashboardData) {
         ActivityUser activityUser = new ActivityUser();
-        int caloriesGoal = activityUser.getActiveCaloriesBurntGoal();
-        float goalFactor = (float) getActiveCaloriesTotal(dashboardData) / caloriesGoal;
-        if (goalFactor > 1) goalFactor = 1;
-
-        return goalFactor;
-    }
-
-    public static float getCaloriesGoalFactor(DashboardFragment.DashboardData dashboardData) {
-        ActivityUser activityUser = new ActivityUser();
         int caloriesGoal = activityUser.getCaloriesBurntGoal();
-        float goalFactor = (float) (getRestingCaloriesTotal(dashboardData) + getActiveCaloriesTotal(dashboardData)) / caloriesGoal;
+        float goalFactor = (float) getActiveCaloriesTotal(dashboardData) / caloriesGoal;
         if (goalFactor > 1) goalFactor = 1;
 
         return goalFactor;

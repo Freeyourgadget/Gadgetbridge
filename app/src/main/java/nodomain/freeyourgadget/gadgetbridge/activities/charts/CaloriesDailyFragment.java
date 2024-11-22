@@ -33,7 +33,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
-import nodomain.freeyourgadget.gadgetbridge.model.TimeSample;
 
 public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFragment.CaloriesData> {
 
@@ -44,13 +43,10 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
     private LinearLayout caloriesActiveWrapper;
     private TextView caloriesActiveGoal;
     private LinearLayout caloriesActiveGoalWrapper;
-    private TextView caloriesTotalGoal;
     protected int CALORIES_GOAL;
-    protected int TOTAL_CALORIES_GOAL;
     protected int ACTIVE_CALORIES_GOAL;
     public enum GaugeViewMode {
         ACTIVE_CALORIES_GOAL,
-        TOTAL_CALORIES_GOAL,
         TOTAL_CALORIES_SEGMENT
     }
     private GaugeViewMode gaugeViewMode;
@@ -91,10 +87,8 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         caloriesActiveWrapper = rootView.findViewById(R.id.calories_active_wrapper);
         caloriesActiveGoal = rootView.findViewById(R.id.calories_active_goal);
         caloriesActiveGoalWrapper = rootView.findViewById(R.id.calories_active_goal_wrapper);
-        caloriesTotalGoal = rootView.findViewById(R.id.calories_total_goal);
         ActivityUser activityUser = new ActivityUser();
-        TOTAL_CALORIES_GOAL = activityUser.getCaloriesBurntGoal();
-        ACTIVE_CALORIES_GOAL = activityUser.getActiveCaloriesBurntGoal();
+        ACTIVE_CALORIES_GOAL = activityUser.getCaloriesBurntGoal();
 
         refresh();
         if (!supportsActiveCalories()) {
@@ -108,8 +102,6 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
 
         if (gaugeViewMode.equals(GaugeViewMode.ACTIVE_CALORIES_GOAL)) {
             CALORIES_GOAL = ACTIVE_CALORIES_GOAL;
-        } else if (gaugeViewMode.equals(GaugeViewMode.TOTAL_CALORIES_GOAL)) {
-            CALORIES_GOAL = TOTAL_CALORIES_GOAL;
         }
 
         return rootView;
@@ -186,7 +178,6 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
         int totalCalories = activeCalories + restingCalories;
         caloriesActive.setText(String.valueOf(activeCalories));
         caloriesResting.setText(String.valueOf(restingCalories));
-        caloriesTotalGoal.setText(String.valueOf(TOTAL_CALORIES_GOAL));
         caloriesActiveGoal.setText(String.valueOf(ACTIVE_CALORIES_GOAL));
 
         if (gaugeViewMode.equals(GaugeViewMode.TOTAL_CALORIES_SEGMENT)) {
@@ -217,8 +208,6 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
             int value = 0;
             if (gaugeViewMode.equals(GaugeViewMode.ACTIVE_CALORIES_GOAL)) {
                 value = activeCalories;
-            } else if (gaugeViewMode.equals(GaugeViewMode.TOTAL_CALORIES_GOAL)) {
-                value = totalCalories;
             }
             final int width = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,

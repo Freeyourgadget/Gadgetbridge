@@ -4279,7 +4279,6 @@
         <item>@string/menuitem_vo2_max</item>
         <item>@string/vo2max_running</item>
         <item>@string/vo2max_cycling</item>
-        <item>@string/menuitem_calories_goal</item>
         <item>@string/menuitem_calories_active_goal</item>
         <item>@string/menuitem_calories_segmented</item>
     </string-array>
@@ -4299,7 +4298,6 @@
         <item>vo2max</item>
         <item>vo2max_running</item>
         <item>vo2max_cycling</item>
-        <item>calories</item>
         <item>calories_active</item>
         <item>calories_segmented</item>
     </string-array>
@@ -4315,7 +4313,6 @@
         <item>stress_segmented</item>
         <item>hrv</item>
         <item>vo2max</item>
-        <item>calories</item>
         <item>calories_active</item>
         <item>calories_segmented</item>
     </string-array>

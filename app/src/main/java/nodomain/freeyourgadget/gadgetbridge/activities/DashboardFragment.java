@@ -68,7 +68,6 @@ import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardActive
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardBodyEnergyWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardCalendarActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardCaloriesTotalSegmentedWidget;
-import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardCaloriesGoalWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardDistanceWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardGoalsWidget;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.DashboardHrvWidget;
@@ -313,9 +312,6 @@ public class DashboardFragment extends Fragment implements MenuProvider {
                     case "vo2max":
                         widget = DashboardVO2MaxAnyWidget.newInstance(dashboardData);
                         break;
-                    case "calories":
-                        widget = DashboardCaloriesGoalWidget.newInstance(dashboardData);
-                        break;
                     case "calories_active":
                         widget = DashboardCaloriesActiveGoalWidget.newInstance(dashboardData);
                         break;
@@ -388,7 +384,6 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         private int activeCaloriesTotal;
         private float activeCaloriesGoalFactor;
         private int caloriesTotal;
-        private float caloriesGoalFactor;
         private long sleepTotalMinutes;
         private float sleepGoalFactor;
         private float distanceTotalMeters;
@@ -400,9 +395,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         public void clear() {
             restingCaloriesTotal = 0;
             activeCaloriesTotal = 0;
-            activeCaloriesGoalFactor = 0;
             caloriesTotal = 0;
-            caloriesGoalFactor = 0;
             stepsTotal = 0;
             stepsGoalFactor = 0;
             sleepTotalMinutes = 0;
@@ -420,9 +413,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
                     stepsGoalFactor == 0 &&
                     restingCaloriesTotal == 0 &&
                     activeCaloriesTotal == 0 &&
-                    activeCaloriesGoalFactor == 0 &&
                     caloriesTotal == 0 &&
-                    caloriesGoalFactor == 0 &&
                     sleepTotalMinutes == 0 &&
                     sleepGoalFactor == 0 &&
                     distanceTotalMeters == 0 &&
@@ -497,18 +488,6 @@ public class DashboardFragment extends Fragment implements MenuProvider {
             if (activeCaloriesGoalFactor == 0)
                 activeCaloriesGoalFactor = DashboardUtils.getActiveCaloriesGoalFactor(this);
             return activeCaloriesGoalFactor;
-        }
-
-        public synchronized int getCaloriesTotal() {
-            if (caloriesTotal == 0)
-                caloriesTotal = getRestingCaloriesTotal() + getActiveCaloriesTotal();
-            return caloriesTotal;
-        }
-
-        public synchronized float getCaloriesGoalFactor() {
-            if (caloriesGoalFactor == 0)
-                caloriesGoalFactor = DashboardUtils.getCaloriesGoalFactor(this);
-            return caloriesGoalFactor;
         }
 
         public void put(final String key, final Serializable value) {

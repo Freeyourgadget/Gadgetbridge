@@ -938,7 +938,6 @@
     <string name="hr_average">Average</string>
     <string name="active">Active</string>
     <string name="active_goal">Active goal</string>
-    <string name="total_goal">Total goal</string>
     <string name="total_burnt">Total burnt</string>
     <string name="goal">Goal</string>
     <string name="blood_pressure">Blood pressure</string>
@@ -1948,7 +1947,6 @@
     <string name="menuitem_stress_breakdown">Stress (breakdown)</string>
     <string name="menuitem_calories_segmented">Calories(segmented)</string>
     <string name="menuitem_calories_active_goal">Calories goal(active)</string>
-    <string name="menuitem_calories_goal">Calories goal(total)</string>
     <string name="menuitem_pai">PAI</string>
     <string name="menuitem_hr">Heart Rate</string>
     <string name="menuitem_spo2">SpO2</string>
