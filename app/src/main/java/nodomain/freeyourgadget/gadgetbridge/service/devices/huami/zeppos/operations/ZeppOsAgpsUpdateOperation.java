@@ -111,7 +111,7 @@ public class ZeppOsAgpsUpdateOperation extends AbstractBTLEOperation<ZeppOsSuppo
             return;
         }
 
-        fileTransferService.sendFile(AGPS_UPDATE_URL, AGPS_UPDATE_FILE, fileBytes, this);
+        fileTransferService.sendFile(AGPS_UPDATE_URL, AGPS_UPDATE_FILE, fileBytes, false, this);
     }
 
     @Override

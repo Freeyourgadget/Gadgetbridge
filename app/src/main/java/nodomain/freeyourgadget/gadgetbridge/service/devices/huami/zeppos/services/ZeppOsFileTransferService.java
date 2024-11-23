@@ -20,12 +20,14 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
@@ -58,6 +60,7 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
     private int mVersion = -1;
     private int mChunkSize = -1;
+    private int mCompressedChunkSize = -1;
 
     public ZeppOsFileTransferService(final ZeppOsSupport support) {
         super(support, false);
@@ -81,13 +84,19 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
                     return;
                 }
                 mChunkSize = BLETypeConversions.toUint16(payload, 2);
-                // TODO parse the rest for v3
-                LOG.info("Got file transfer service: version={}, chunkSize={}", mVersion, mChunkSize);
                 if (mVersion == 3) {
+                    // TODO parse the rest for v3
+                    mCompressedChunkSize = BLETypeConversions.toUint32(payload, 4);
                     final TransactionBuilder builder = getSupport().createTransactionBuilder("enable file transfer v3 notifications");
                     builder.notify(getSupport().getCharacteristic(HuamiService.UUID_CHARACTERISTIC_ZEPP_OS_FILE_TRANSFER_V3), true);
                     builder.queue(getSupport().getQueue());
                 }
+                LOG.info(
+                    "Got file transfer service: version={}, chunkSize={}, compressedChunkSize={}",
+                    mVersion,
+                    mChunkSize,
+                    mCompressedChunkSize
+                );
                 return;
             case CMD_TRANSFER_REQUEST:
                 handleFileTransferRequest(payload);
@@ -176,7 +185,14 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
         LOG.info("Got transfer request: session={}, url={}, filename={}, length={}, compressed={}", session, url, filename, length, compressed);
 
-        final FileTransferRequest request = new FileTransferRequest(url, filename, new byte[length], compressed, getSupport());
+        final FileTransferRequest request = new FileTransferRequest(
+                url,
+                filename,
+                new byte[length],
+                compressed,
+                compressed ? mCompressedChunkSize : mChunkSize,
+                getSupport()
+        );
         request.setCrc32(crc32);
 
         if (mVersion < 3) {
@@ -260,6 +276,20 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         }
     }
 
+    public static byte[] compress(final byte[] data) {
+        final Deflater deflater = new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(data.length);
+        final byte[] buf = new byte[8096];
+        int read;
+        while ((read = deflater.deflate(buf)) > 0) {
+            baos.write(buf, 0, read);
+        }
+
+        return baos.toByteArray();
+    }
+
     public static byte[] decompress(final byte[] data) {
         final Inflater inflater = new Inflater();
         final byte[] output = new byte[data.length];
@@ -276,16 +306,23 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         return output;
     }
 
-    public void sendFile(final String url, final String filename, final byte[] bytes, final Callback callback) {
+    public void sendFile(final String url, final String filename, final byte[] bytes, final boolean compress, final Callback callback) {
         if (mChunkSize < 0) {
             LOG.error("Service not initialized, refusing to send {}", url);
             callback.onFileUploadFinish(false);
             return;
         }
 
-        LOG.info("Sending {} bytes to {}", bytes.length, url);
+        LOG.info("Sending {} bytes to {} in {}", bytes.length, filename, url);
 
-        final FileTransferRequest request = new FileTransferRequest(url, filename, bytes, false, callback);
+        final FileTransferRequest request = new FileTransferRequest(
+                url,
+                filename,
+                bytes,
+                compress && mCompressedChunkSize > 0,
+                compress && mCompressedChunkSize > 0 ? mCompressedChunkSize : mChunkSize,
+                callback
+        );
 
         if (mVersion == 3 && !mSessionRequests.isEmpty()) {
             // FIXME non-zero session on v3
@@ -302,6 +339,9 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         int payloadSize = 2 + url.length() + 1 + filename.length() + 1 + 4 + 4;
         if (mVersion == 3) {
             payloadSize += 2;
+            if (compress) {
+                payloadSize += 4;
+            }
         }
 
         final ByteBuffer buf = ByteBuffer.allocate(payloadSize);
@@ -315,8 +355,10 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         buf.putInt(bytes.length);
         buf.putInt(request.getCrc32());
         if (mVersion == 3) {
-            // compression ?
-            buf.put((byte) 0);
+            buf.put((byte) (compress ? 1 : 0));
+            if (compress) {
+                buf.putInt(mCompressedChunkSize);
+            }
             buf.put((byte) 0);
         }
 
@@ -333,7 +375,7 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         }
 
         if (request.getProgress() >= request.getSize()) {
-            LOG.info("Sending {} finished", request.getUrl());
+            LOG.info("Finished sending {}", request.getUrl());
             onUploadFinish(session, true);
             return;
         }
@@ -354,7 +396,7 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
     }
 
     private void writeChunkV1(final FileTransferRequest request, final byte session) {
-        final ByteBuffer buf = ByteBuffer.allocate(10 + mChunkSize);
+        final ByteBuffer buf = ByteBuffer.allocate(10 + request.getChunkSize());
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(CMD_DATA_SEND);
 
@@ -362,7 +404,7 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         if (request.getProgress() == 0) {
             flags |= FLAG_FIRST_CHUNK;
         }
-        if (request.getProgress() + mChunkSize >= request.getSize()) {
+        if (request.getProgress() + request.getChunkSize() >= request.getSize()) {
             flags |= FLAG_LAST_CHUNK;
         }
 
@@ -379,7 +421,7 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         final byte[] payload = ArrayUtils.subarray(
                 request.getBytes(),
                 request.getProgress(),
-                request.getProgress() + mChunkSize
+                request.getProgress() + request.getChunkSize()
         );
 
         buf.putShort((short) payload.length);
@@ -396,14 +438,14 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         final byte[] chunk = ArrayUtils.subarray(
                 request.getBytes(),
                 request.getProgress(),
-                request.getProgress() + mChunkSize
+                request.getProgress() + request.getChunkSize()
         );
 
         byte flags = 0;
         if (request.getProgress() == 0) {
             flags |= FLAG_FIRST_CHUNK;
         }
-        if (request.getProgress() + mChunkSize >= request.getSize()) {
+        if (request.getProgress() + request.getChunkSize() >= request.getSize()) {
             flags |= FLAG_LAST_CHUNK;
         }
 
@@ -494,16 +536,18 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
         private final String filename;
         private final byte[] bytes;
         private final boolean compressed;
+        private final int chunkSize;
         private final Callback callback;
         private int progress = 0;
         private byte index = 0;
         private int crc32;
 
-        public FileTransferRequest(final String url, final String filename, final byte[] bytes, boolean compressed, final Callback callback) {
+        public FileTransferRequest(final String url, final String filename, final byte[] bytes, boolean compressed, int chunkSize, final Callback callback) {
             this.url = url;
             this.filename = filename;
-            this.bytes = bytes;
+            this.bytes = compressed ? compress(bytes) : bytes;
             this.compressed = compressed;
+            this.chunkSize = chunkSize;
             this.callback = callback;
             this.crc32 = CheckSums.getCRC32(bytes);
         }
@@ -526,6 +570,10 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
         public boolean isCompressed() {
             return compressed;
+        }
+
+        public int getChunkSize() {
+            return chunkSize;
         }
 
         public Callback getCallback() {

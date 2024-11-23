@@ -54,6 +54,7 @@ public class ZeppOsGpxRouteUploadOperation extends AbstractBTLEOperation<ZeppOsS
                 "sport://file_transfer?appId=7073283073&params={}",
                 "track_" + file.getTimestamp() + ".dat",
                 fileBytes,
+                false,
                 this
         );
     }
