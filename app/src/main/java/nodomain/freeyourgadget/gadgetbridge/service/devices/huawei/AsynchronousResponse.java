@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.CameraActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -59,6 +60,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileUpload;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.P2P;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Watchface;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetBatteryLevelRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.GetPhoneInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendFileUploadComplete;
@@ -123,6 +126,7 @@ public class AsynchronousResponse {
             handleP2p(response);
             handleEphemeris(response);
             handleEphemerisUploadService(response);
+            handleAsyncBattery(response);
         } catch (Request.ResponseParseException e) {
             LOG.error("Response parse exception", e);
         }
@@ -676,6 +680,48 @@ public class AsynchronousResponse {
                     closeCameraEvent.event = GBDeviceEventCameraRemote.Event.CLOSE_CAMERA;
                     support.evaluateGBDeviceEvent(closeCameraEvent);
                     break;
+            }
+        }
+    }
+
+    private void handleAsyncBattery(HuaweiPacket response) {
+        if (response.serviceId == DeviceConfig.id && response.commandId == DeviceConfig.BatteryLevel.id_change) {
+            if (!(response instanceof DeviceConfig.BatteryLevel.Response)) {
+                // TODO: exception?
+                return;
+            }
+
+            DeviceConfig.BatteryLevel.Response resp = (DeviceConfig.BatteryLevel.Response) response;
+
+            if (resp.multi_level == null) {
+                byte batteryLevel = resp.level;
+                this.support.getDevice().setBatteryLevel(batteryLevel);
+
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                batteryInfo.state = BatteryState.BATTERY_NORMAL;
+                batteryInfo.level = (int) batteryLevel & 0xff;
+                this.support.evaluateGBDeviceEvent(batteryInfo);
+            } else {
+                // Handle multiple batteries
+                for (int i = 0; i < resp.multi_level.length; i++) {
+                    int level = (int) resp.multi_level[i] & 0xff;
+                    this.support.getDevice().setBatteryLevel(level, i);
+
+                    GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                    batteryInfo.batteryIndex = i;
+                    batteryInfo.state = resp.status != null && resp.status.length > i ?
+                            GetBatteryLevelRequest.byteToBatteryState(resp.status[i]) :
+                            BatteryState.BATTERY_NORMAL;
+                    batteryInfo.level = level;
+                    this.support.evaluateGBDeviceEvent(batteryInfo);
+                }
+            }
+
+            if (GBApplication.getDevicePrefs(this.support.getDevice()).getBatteryPollingEnabled()) {
+                if (!this.support.startBatteryRunnerDelayed()) {
+                    GB.toast(this.support.getContext(), R.string.battery_polling_failed_start, Toast.LENGTH_SHORT, GB.ERROR);
+                    LOG.error("Failed to start the battery polling");
+                }
             }
         }
     }

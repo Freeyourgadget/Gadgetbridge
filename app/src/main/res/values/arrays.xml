@@ -4473,4 +4473,16 @@
         <item>calories_active</item>
         <item>calories_segmented</item>
     </string-array>
+
+    <string-array name="huawei_freebuds_audio_mode_names">
+        <item>@string/prefs_active_noise_cancelling</item>
+        <item>@string/prefs_active_noise_cancelling_transparency</item>
+        <item>@string/off</item>
+    </string-array>
+
+    <string-array name="huawei_freebuds_audio_mode_values">
+        <item>anc</item>
+        <item>transparency</item>
+        <item>off</item>
+    </string-array>
 </resources>

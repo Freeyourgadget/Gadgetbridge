@@ -334,6 +334,10 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_NOTHING_EAR1_INEAR = "pref_nothing_inear_detection";
     public static final String PREF_NOTHING_EAR1_AUDIOMODE = "pref_nothing_audiomode";
 
+
+    public static final String PREF_HUAWEI_FREEBUDS_INEAR = "pref_freebuds_inear_detection";
+    public static final String PREF_HUAWEI_FREEBUDS_AUDIOMODE = "pref_freebuds_audiomode";
+
     public static final String PREF_GALAXY_BUDS_AMBIENT_MODE = "pref_galaxy_buds_ambient_mode";
     public static final String PREF_GALAXY_BUDS_AMBIENT_VOICE_FOCUS = "pref_galaxy_buds_ambient_voice_focus";
     public static final String PREF_GALAXY_BUDS_AMBIENT_VOLUME = "pref_galaxy_buds_ambient_volume";

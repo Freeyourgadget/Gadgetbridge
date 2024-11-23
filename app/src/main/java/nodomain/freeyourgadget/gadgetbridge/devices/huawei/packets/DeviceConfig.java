@@ -666,6 +666,7 @@ public class DeviceConfig {
 
     public static class BatteryLevel {
         public static final byte id = 0x08;
+        public static final byte id_change = 0x27; // Same format, async (receive) only
 
         public static class Request extends HuaweiPacket {
             public Request(ParamsProvider paramsProvider) {
@@ -683,6 +684,9 @@ public class DeviceConfig {
         public static class Response extends HuaweiPacket {
             public byte level;
 
+            public byte[] multi_level;
+            public byte[] status; // TODO: enum
+
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
 
@@ -693,6 +697,8 @@ public class DeviceConfig {
             @Override
             public void parseTlv() throws ParseException {
                 this.level = this.tlv.getByte(0x01);
+                this.multi_level = this.tlv.getBytes(0x02, null);
+                this.status = this.tlv.getBytes(0x03, null);
             }
         }
         // TODO: implement parsing this request for the log parser support
@@ -957,6 +963,9 @@ public class DeviceConfig {
         }
         // TODO: implement parsing this request for the log parser support
     }
+
+    // TODO: set (earphone) double tap action 0x1f
+    // TODO: get (earphone) double tap action 0x20
 
     public static class HiChain {
         public static final int id = 0x28;

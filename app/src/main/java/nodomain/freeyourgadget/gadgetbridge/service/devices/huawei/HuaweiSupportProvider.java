@@ -376,11 +376,15 @@ public class HuaweiSupportProvider {
         this.gpsParametersResponse = response;
     }
 
-    protected nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder initializeDevice(nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
-        this.gbDevice = leSupport.getDevice();
-        this.context = leSupport.getContext();
+    public void setup(GBDevice device, Context context) {
+        this.gbDevice = device;
+        this.context = context;
         this.huaweiType = getCoordinator().getHuaweiType();
         this.paramsProvider.setTransactionsCrypted(this.getHuaweiCoordinator().isTransactionCrypted());
+    }
+
+    protected nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder initializeDevice(nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder builder) {
+        setup(leSupport.getDevice(), leSupport.getContext());
         builder.setCallback(leSupport);
         final BluetoothGattCharacteristic characteristicRead = leSupport.getCharacteristic(HuaweiConstants.UUID_CHARACTERISTIC_HUAWEI_READ);
         if (characteristicRead == null) {
@@ -397,10 +401,7 @@ public class HuaweiSupportProvider {
     }
 
     protected nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder initializeDevice(nodomain.freeyourgadget.gadgetbridge.service.btbr.TransactionBuilder builder) {
-        this.gbDevice = brSupport.getDevice();
-        this.context = brSupport.getContext();
-        this.huaweiType = getCoordinator().getHuaweiType();
-        this.paramsProvider.setTransactionsCrypted(this.getHuaweiCoordinator().isTransactionCrypted());
+        setup(brSupport.getDevice(), brSupport.getContext());
         builder.setCallback(brSupport);
         builder.add(new nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.SetDeviceStateAction(getDevice(), GBDevice.State.AUTHENTICATING, getContext()));
         final GetLinkParamsRequest linkParamsReq = new GetLinkParamsRequest(this, builder);

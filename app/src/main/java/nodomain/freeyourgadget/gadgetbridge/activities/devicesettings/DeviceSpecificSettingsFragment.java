@@ -640,6 +640,9 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor(PREF_NOTHING_EAR1_INEAR);
         addPreferenceHandlerFor(PREF_NOTHING_EAR1_AUDIOMODE);
 
+        addPreferenceHandlerFor(PREF_HUAWEI_FREEBUDS_INEAR);
+        addPreferenceHandlerFor(PREF_HUAWEI_FREEBUDS_AUDIOMODE);
+
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_VOICE_FOCUS);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_VOLUME);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_LOCK_TOUCH);

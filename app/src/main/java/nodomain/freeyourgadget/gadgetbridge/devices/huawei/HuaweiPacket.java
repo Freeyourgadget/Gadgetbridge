@@ -35,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.App;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Calls;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.CameraRemote;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Contacts;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.Earphones;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.EphemerisFileUpload;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService0A;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FileDownloadService2C;
@@ -446,6 +447,7 @@ public class HuaweiPacket {
                     case DeviceConfig.Auth.id:
                         return new DeviceConfig.Auth.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.BatteryLevel.id:
+                    case DeviceConfig.BatteryLevel.id_change:
                         return new DeviceConfig.BatteryLevel.Response(paramsProvider).fromPacket(this);
                     case DeviceConfig.DeviceStatus.id:
                         return new DeviceConfig.DeviceStatus.Response(paramsProvider).fromPacket(this);
@@ -651,6 +653,13 @@ public class HuaweiPacket {
                     default:
                         this.isEncrypted = this.attemptDecrypt(); // Helps with debugging
                         return this;
+                }
+            case Earphones.id:
+                switch (this.commandId) {
+                    case Earphones.InEarStateResponse.id:
+                        return new Earphones.InEarStateResponse(paramsProvider).fromPacket(this);
+                    case Earphones.GetAudioModeRequest.id:
+                        return new Earphones.GetAudioModeRequest.Response(paramsProvider).fromPacket(this);
                 }
             case FileDownloadService2C.id:
                 switch (this.commandId) {

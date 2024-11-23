@@ -1881,6 +1881,7 @@
     <string name="devicetype_huawei_watchultimate">Huawei Watch Ultimate</string>
     <string name="devicetype_huawei_watch3">Huawei Watch 3 (Pro)</string>
     <string name="devicetype_huawei_watch4pro">Huawei Watch 4 (Pro)</string>
+    <string name="devicetype_huawei_freebuds_5i">Huawei FreeBuds 5i</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
     <string name="devicetype_xiaomi_watch_lite">Xiaomi Watch Lite</string>
     <string name="devicetype_redmiwatch3active">Redmi Watch 3 Active</string>

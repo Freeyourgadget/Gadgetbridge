@@ -219,6 +219,14 @@ public class HuaweiTLV {
         throw new HuaweiPacket.MissingTagException(tag);
     }
 
+    public byte[] getBytes(int tag, byte[] defaultValue) {
+        try {
+            return getBytes(tag);
+        } catch (HuaweiPacket.MissingTagException e) {
+            return defaultValue;
+        }
+    }
+
     public Byte getByte(int tag) throws HuaweiPacket.MissingTagException {
         return getBytes(tag)[0];
     }

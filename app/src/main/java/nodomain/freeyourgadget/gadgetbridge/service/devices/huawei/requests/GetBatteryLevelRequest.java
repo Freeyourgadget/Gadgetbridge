@@ -50,6 +50,12 @@ public class GetBatteryLevelRequest extends Request {
         }
     }
 
+    public static BatteryState byteToBatteryState(byte state) {
+        if (state == 1)
+            return BatteryState.BATTERY_CHARGING;
+        return BatteryState.BATTERY_NORMAL;
+    }
+
     @Override
     protected void processResponse() throws ResponseParseException {
         LOG.debug("handle Battery Level");
@@ -57,13 +63,31 @@ public class GetBatteryLevelRequest extends Request {
         if (!(receivedPacket instanceof DeviceConfig.BatteryLevel.Response))
             throw new ResponseTypeMismatchException(receivedPacket, DeviceConfig.BatteryLevel.Response.class);
 
-        byte batteryLevel = ((DeviceConfig.BatteryLevel.Response) receivedPacket).level;
-        getDevice().setBatteryLevel(batteryLevel);
+        DeviceConfig.BatteryLevel.Response response = (DeviceConfig.BatteryLevel.Response) receivedPacket;
 
-        GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
-        batteryInfo.state = BatteryState.BATTERY_NORMAL;
-        batteryInfo.level = (int)batteryLevel & 0xff;
-        this.supportProvider.evaluateGBDeviceEvent(batteryInfo);
+        if (response.multi_level == null) {
+            byte batteryLevel = response.level;
+            getDevice().setBatteryLevel(batteryLevel);
+
+            GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+            batteryInfo.state = BatteryState.BATTERY_NORMAL;
+            batteryInfo.level = (int) batteryLevel & 0xff;
+            this.supportProvider.evaluateGBDeviceEvent(batteryInfo);
+        } else {
+            // Handle multiple batteries
+            for (int i = 0; i < response.multi_level.length; i++) {
+                int level = (int) response.multi_level[i] & 0xff;
+                getDevice().setBatteryLevel(level, i);
+
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                batteryInfo.batteryIndex = i;
+                batteryInfo.state = response.status != null && response.status.length > i ?
+                        byteToBatteryState(response.status[i]) :
+                        BatteryState.BATTERY_NORMAL;
+                batteryInfo.level = level;
+                this.supportProvider.evaluateGBDeviceEvent(batteryInfo);
+            }
+        }
 
         if (GBApplication.getDevicePrefs(getDevice()).getBatteryPollingEnabled()) {
             if (!this.supportProvider.startBatteryRunnerDelayed()) {
