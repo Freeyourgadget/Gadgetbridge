@@ -291,9 +291,14 @@ public class HuaweiFileDownloadManager {
         @Override
         protected void processResponse() throws ResponseParseException {
             if (this.receivedPacket instanceof FileDownloadService0A.BlockResponse) {
+                FileDownloadService0A.BlockResponse response = (FileDownloadService0A.BlockResponse) this.receivedPacket;
                 this.newSync = false;
-                this.number = ((FileDownloadService0A.BlockResponse) this.receivedPacket).number;
-                this.data = ((FileDownloadService0A.BlockResponse) this.receivedPacket).data;
+                this.number = response.number;
+                this.data = response.data;
+
+                if (response.e instanceof HuaweiPacket.CryptoException) {
+                    LOG.warn("Data could be decoded as TLV, but not decrypted.", response.e);
+                }
             } else if (this.receivedPacket instanceof FileDownloadService2C.BlockResponse) {
                 this.newSync = true;
                 this.number = ((FileDownloadService2C.BlockResponse) this.receivedPacket).fileId;
@@ -629,7 +634,13 @@ public class HuaweiFileDownloadManager {
         }
 
         // Handle file data
-        currentFileRequest.fileDownloadCallback.downloadComplete(currentFileRequest);
+        try {
+            currentFileRequest.fileDownloadCallback.downloadComplete(currentFileRequest);
+        } catch (Exception e) {
+            LOG.error("Download complete callback exception.", e);
+            LOG.warn("File contents: {}", GB.hexdump(currentFileRequest.getData()));
+            GB.toast("Workout GPX file could not be parsed.",Toast.LENGTH_SHORT, GB.ERROR, e);
+        }
 
         if (!this.currentFileRequest.newSync && !this.fileRequests.isEmpty() && !this.fileRequests.get(0).newSync) {
             // Old sync can potentially take a shortcut

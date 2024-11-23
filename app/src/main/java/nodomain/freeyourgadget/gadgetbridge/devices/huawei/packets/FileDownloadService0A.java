@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
@@ -236,16 +237,28 @@ public class FileDownloadService0A {
         public byte number;
         public byte[] data;
 
+        public Exception e = null;
+
         public BlockResponse(ParamsProvider paramsProvider) {
             super(paramsProvider);
         }
 
         @Override
         public void parseTlv() throws ParseException {
-            // Note that this packet does not contain TLV data
-            this.number = this.payload[2];
-            this.data = new byte[this.payload.length - 3];
-            System.arraycopy(this.payload, 3, this.data, 0, this.payload.length - 3);
+            int offset;
+            // Try to decrypt TLV, and otherwise assume the data is not encrypted
+            try {
+                HuaweiTLV tlv = new HuaweiTLV().parse(this.payload, 2 ,this.payload.length - 2);
+                this.payload = tlv.decryptRaw(paramsProvider);
+                offset = 0;
+            } catch (ArrayIndexOutOfBoundsException | HuaweiCrypto.CryptoException e) {
+                this.e = e;
+                offset = 2;
+            }
+
+            this.number = this.payload[offset];
+            this.data = new byte[this.payload.length - offset - 1];
+            System.arraycopy(this.payload, offset + 1, this.data, 0, this.payload.length - offset - 1);
         }
     }
 
