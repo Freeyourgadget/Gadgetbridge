@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
@@ -555,8 +556,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
         // but the encoding seems to actually be the same...?
         // The TGA needs to have this ID, or the band does not accept it
         final byte[] tgaIdBytes = new byte[46];
-        //System.arraycopy(format.getTgaId().getBytes(StandardCharsets.UTF_8), 0, tgaIdBytes, 0, 5);
-        System.arraycopy(GB.hexStringToByteArray("534F4D486601"), 0, tgaIdBytes, 0, 6);
+        System.arraycopy(format.getTgaId().getBytes(StandardCharsets.UTF_8), 0, tgaIdBytes, 0, 5);
 
         return BitmapUtil.convertToTgaRGB565(bmp, width, height, tgaIdBytes);
     }
