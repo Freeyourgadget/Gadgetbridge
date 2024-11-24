@@ -1,13 +1,36 @@
 ### Changelog
 
 #### Next Release (WIP)
+* Add first start onboarding screen
 * Initial support for Bowers and Wilkins P Series
-* Initial support for Garmin Fenix 6S Pro, Forerunner 55/235/620
+* Initial support for Garmin Fenix 6S Pro, Forerunner 55/235/620, Instinct 2
 * Initial support for Huawei Band 3 Pro
 * Initial support for Oppo Enco Air
+* Initial support for Realme Buds T110
+* Add calories charts and widgets
+* Add more workout icons
+* Casio GBX-100: Fix notification title
+* Colmi R0x: Fix occasional crash on disconnection
+* Fix crash in some chart pages
+* Fix heart rate charts average and maximum value
+* Fix imperial unit on steps charts
+* Fix notifications after a notification is received with a time in the future
+* Fossil/Skagen Hybrids: Fix erroneous watchface downgrade
+* Garmin: Display AGPS age
+* Garmin: Fix weather temperature conversion to celsius
+* Garmin: Persist sleep score and metabolic rate
+* Huawei: Add HR zones configuration for non-P2P devices
 * Huawei: Display high-resolution heart rate
 * Huawei: Improve activity parsing
+* Huawei: Music management
+* Huawei: Send weather error if there is no data
 * Huawei: Sync skin temperature
+* Restore sleep balance on weekly and monthly charts
+* Test device: Add dummy activities
+* Xiaomi Smart Band 8 Active: Fix freestyle and walking workout parsing 
+* Xiaomi Smart Band 9: Fix outdoor cycling parsing
+* Xiaomi SPPv2: Fix message processing getting stuck after exception
+* Zepp OS: Send notification pictures
 
 #### 0.82.1
 * Huawei: Improve activity parsing
