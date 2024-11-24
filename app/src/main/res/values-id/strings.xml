@@ -2026,9 +2026,7 @@
 \nIntensitas gerakan:%3$s</string>
     <string name="activity_db_management_empty_db_warning">Peringatan! Dengan menekan tombol ini Anda akan menghapus basis data Anda dan mulai dari awal.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Benar-benar hapus seluruh basis data\? Semua data aktivitas dan informasi tentang perangkat Anda akan hilang.</string>
-    <string name="permission_location">%1$s membutuhkan akses ke lokasi Anda di latar belakang untuk memungkinkan untuk tetap terhubung ke jam tangan Anda bahkan ketika layar Anda mati. 
-\n 
-\nMohon ketuk \'%2$s\' untuk menerima.</string>
+    <string name="permission_location">%1$s membutuhkan akses ke lokasi Anda di latar belakang untuk memungkinkan untuk tetap terhubung ke jam tangan Anda bahkan ketika layar Anda mati. \n \nMohon ketuk \'%2$s\' untuk menerima.</string>
     <string name="permission_notification_listener">%1$s membutuhkan akses ke Notifikasi untuk dapat ditampilkan di jam tangan Anda ketika layar ponsel Anda mati. 
 \n 
 \nMohon ketuk \'%2$s\'\' lalu \'%1$s\' dan aktifkan \'Perbolehkan Akses Notifikasi\', lalu ketuk \'Kembali\' untuk kembali ke %1$s.</string>
