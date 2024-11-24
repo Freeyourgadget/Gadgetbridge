@@ -1700,9 +1700,7 @@
     <string name="pref_explanation_authkey">Sommige apparaten hebben een speciale koppelingssleutel nodig voor de allereerste initialisatie van het apparaat. Tik hier voor meer details op de wiki.</string>
     <string name="quick_alarm_description">Alarm van widget</string>
     <string name="controlcenter_set_parent_folder">Map instellen</string>
-    <string name="permission_location">%1$s heeft toegang tot je locatie op de achtergrond nodig om verbonden te blijven met je horloge als het scherm is uitgeschakeld.
-\n
-\nTik op \'%2$s\' om akkoord te gaan.</string>
+    <string name="permission_location">%1$s heeft toegang tot je locatie op de achtergrond nodig om verbonden te blijven met je horloge als het scherm is uitgeschakeld. \n \nTik op \'%2$s\' om akkoord te gaan.</string>
     <string name="info_connected_count">%d apparaten verbonden</string>
     <string name="autoconnect_from_device_summary">Breng een verbinding tot stand wanneer de verbinding tot stand wordt gebracht door een apparaat, zoals een hoofdtelefoon</string>
     <string name="pref_workout_start_on_phone_title">Fitness-app tracking</string>
