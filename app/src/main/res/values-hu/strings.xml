@@ -2195,9 +2195,7 @@
     <string name="permission_notification_listener">A(z) %1$s-nek hozzáférésre van szüksége az értesítésekhez, hogy megjeleníthesse azokat az óráján, amikor a telefon képernyője ki van kapcsolva.
 \n
 \nKoppintson a(z) \'%2$s\', majd a(z) \'%1$s\' elemre, és engedélyezze az \'Értesítési hozzáférés engedélyezése\' opciót, majd koppintson a \'Vissza\' elemre a(z) %1$s oldalra való visszatéréshez.</string>
-    <string name="permission_location">A(z) %1$s-nek hozzáférésre van szüksége az tartózkodási helyszínéhez a háttérben, hogy akkor is kapcsolatban maradhasson az órájával, amikor a képernyője ki van kapcsolva.
-\n
-\nKoppintson a \'%2$s\' gombra a beleegyezéshez.</string>
+    <string name="permission_location">A(z) %1$s-nek hozzáférésre van szüksége az tartózkodási helyszínéhez a háttérben, hogy akkor is kapcsolatban maradhasson az órájával, amikor a képernyője ki van kapcsolva. \n \nKoppintson a \'%2$s\' gombra a beleegyezéshez.</string>
     <string name="permission_display_over_other_apps">A(z) %1$s-nek engedélyre van szüksége a más alkalmazások feletti megjelenítéshez, hogy a Bangle.js órák tevékenységeket indíthassanak intenten keresztül, amikor a(z) %1$s a háttérben van.
 \n
 \nEz használható egy zenei alkalmazás elindítására és egy dal lejátszására, és sok más dologra.
