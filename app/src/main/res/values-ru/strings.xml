@@ -1513,9 +1513,7 @@
     <string name="pref_title_banglejs_webview_url">URL-адрес загрузчика приложения</string>
     <string name="check_all_applications">Отметить все приложения</string>
     <string name="pref_title_opentracks_packagename">Название пакета OpenTracks</string>
-    <string name="permission_location">%1$s необходимо предоставить доступ к вашему местоположению в фоновом режиме для того, чтобы была возможность оставаться на связи с вашими часами даже при выключенном экране.
-\n
-\nПожалуйста, нажмите «%2$s», чтобы принять.</string>
+    <string name="permission_location">%1$s необходимо предоставить доступ к вашему местоположению в фоновом режиме для того, чтобы была возможность оставаться на связи с вашими часами даже при выключенном экране. \n \nПожалуйста, нажмите «%2$s», чтобы принять.</string>
     <string name="pref_summary_opentracks_packagename">Используется для запуска/остановки записи GPS-трека во внешнем фитнес-приложении.</string>
     <string name="pref_title_notification_delay_calls">Задержка уведомления о вызове</string>
     <string name="pref_title_notifications_generic_settings">Настройки уведомлений Android</string>
