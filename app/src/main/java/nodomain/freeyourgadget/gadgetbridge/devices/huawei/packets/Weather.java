@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -401,9 +403,9 @@ public class Weather {
 
                 if (windDirection != null) {
                     if (windDirection > 0)
-                        wind |= ((short) (windDirection * 8 / 360)) << 8;
+                        wind |= (short) (((short) (windDirection * 8 / 360)) << 8);
                     else
-                        wind |= ((short) (360 + windDirection) * 8 / 360) << 8;
+                        wind |= (short) (((short) (360 + windDirection) * 8 / 360) << 8);
                 }
                 tlv81.put(0x03, wind);
             }
@@ -585,6 +587,7 @@ public class Weather {
             public WeatherIcon icon;
             public Byte temperature;
 
+            @NonNull
             @Override
             public String toString() {
                 String timestampStr = new Date(timestamp * 1000L).toString();
@@ -608,6 +611,7 @@ public class Weather {
             public Integer moonSetTime;
             public MoonPhase moonPhase;
 
+            @NonNull
             @Override
             public String toString() {
                 String timestampStr = new Date(timestamp * 1000L).toString();
