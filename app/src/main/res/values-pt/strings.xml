@@ -2354,9 +2354,7 @@
     <string name="activity_type_weightlifting">Levantamento de peso</string>
     <string name="battery_polling_failed_start">Falha ao iniciar a captura de dados da pilha</string>
     <string name="pref_title_nagivation_apps">Apps de navegação</string>
-    <string name="permission_location">%1$s precisa de acesso à sua localização em segundo plano para permitir que ele permaneça conectado ao seu relógio mesmo quando o ecrã estiver desligada.
-\n
-\nToque em \'%2$s\' para concordar.</string>
+    <string name="permission_location">%1$s precisa de acesso à sua localização em segundo plano para permitir que ele permaneça conectado ao seu relógio mesmo quando o ecrã estiver desligada. \n \nToque em \'%2$s\' para concordar.</string>
     <string name="moondrop_touch_action_anc_mode">Ativar o modo de cancelamento de ruído</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Tamanho dos bitmaps de texto</string>
     <string name="pref_title_notification_times_enabled">Horas de notificação</string>
