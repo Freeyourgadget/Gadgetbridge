@@ -1719,9 +1719,7 @@
     <string name="info_connected_count">%d 设备已连接</string>
     <string name="pref_title_banglejs_webview_url">应用加载程序网址</string>
     <string name="pref_summary_banglejs_webview_url">如果您想要一个自定义的应用程序加载器，请将您的 https://…/android.html 网址放在这里。留空的话则为： https://banglejs.com/apps</string>
-    <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。
-\n
-\n请点击 \'%2$s\' 以同意。</string>
+    <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。 \n \n请点击 \'%2$s\' 以同意。</string>
     <string name="lithuanian">立陶宛语</string>
     <string name="persian">波斯语</string>
     <string name="scandinavian">斯堪的纳维亚语</string>
