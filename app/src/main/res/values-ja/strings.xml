@@ -1903,9 +1903,7 @@
 \n動作に必要なアクセス許可を要求するダイアログが表示されます。
 \n
 \n\'%2$s\' をタップして進みます。</string>
-    <string name="permission_location">%1$s は、画面がオフの状態でもウォッチとの接続を維持するためにバックグラウンドで位置情報にアクセスする権限が必要です。
-\n
-\n\'%2$s\' をタップして同意します。</string>
+    <string name="permission_location">%1$s は、画面がオフの状態でもウォッチとの接続を維持するためにバックグラウンドで位置情報にアクセスする権限が必要です。 \n \n\'%2$s\' をタップして同意します。</string>
     <string name="permission_granting_mandatory">これらすべての許可がなければ、アプリが正しく動作しない可能性があります</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js は動作中です</string>
     <string name="about_description_banglejs_nightly">Gadgetbridge プロジェクト上に構築された Bangle.js の Android コンパニオン アプリ。インターネット アクセスが追加されています。
