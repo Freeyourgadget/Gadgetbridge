@@ -1734,9 +1734,7 @@
     <string name="czech">Tschechisch</string>
     <string name="pref_title_banglejs_webview_url">URL des App-Loaders</string>
     <string name="icelandic">Isländisch</string>
-    <string name="permission_location">%1$s benötigt im Hintergrund Zugriff auf deinen Standort, um mit deiner Uhr verbunden zu bleiben, auch wenn dein Bildschirm ausgeschaltet ist.
-\n
-\nBitte tippe auf \'%2$s\', um zuzustimmen.</string>
+    <string name="permission_location">%1$s benötigt im Hintergrund Zugriff auf deinen Standort, um mit deiner Uhr verbunden zu bleiben, auch wenn dein Bildschirm ausgeschaltet ist. \n \nBitte tippe auf \'%2$s\', um zuzustimmen.</string>
     <string name="persian">Persisch</string>
     <string name="pref_summary_banglejs_webview_url">Wenn du einen benutzerdefinierten App-Loader möchtest, trage hier deine URL https://…/android.html ein. Andernfalls lasse https://banglejs.com/apps leer</string>
     <string name="bengali">Bengalisch</string>
