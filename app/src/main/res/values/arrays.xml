@@ -3133,6 +3133,7 @@
         <item>@string/p_temperature</item>
         <item>@string/p_weight</item>
         <item>@string/p_calories</item>
+        <item>@string/p_respiratory_rate</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_items_default">
@@ -3153,6 +3154,7 @@
         <item>@string/p_temperature</item>
         <item>@string/p_weight</item>
         <item>@string/p_calories</item>
+        <item>@string/p_respiratory_rate</item>
     </string-array>
 
 

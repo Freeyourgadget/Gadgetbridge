@@ -928,6 +928,7 @@
     <string name="updatefirmwareoperation_failed_low_mtu">Current MTU of %1$d is too low, please enable high MTU in the device settings and disconnect/re-connect the device.</string>
     <string name="chart_steps">Steps</string>
     <string name="calories">Calories</string>
+    <string name="respiratoryrate">Respiratory Rate</string>
     <string name="active_calories">Active calories</string>
     <string name="distance">Distance</string>
     <string name="clock">Clock</string>
@@ -1018,6 +1019,10 @@
     <string name="sleep_colored_stats_light_avg">Light AVG</string>
     <string name="sleep_colored_stats_rem_avg">REM AVG</string>
     <string name="sleep_colored_stats_awake_avg">Awake AVG</string>
+    <string name="awake_avg">Awake AVG</string>
+    <string name="sleep_avg">Sleep AVG</string>
+    <string name="lowest">Lowest</string>
+    <string name="highest">Highest</string>
     <string name="stats_empty_value">-</string>
     <string name="time_empty_value" translatable="false">--:--</string>
     <string name="date_placeholders__date__time">%1s, %1s</string>
@@ -2186,6 +2191,7 @@
     <string name="maxAltitude">Maximum</string>
     <string name="minAltitude">Minimum</string>
     <string name="averageAltitude">Average</string>
+    <string name="respiratoryRate">Respiratory Rate</string>
     <string name="steps">Steps</string>
     <string name="steps_avg">Steps AVG</string>
     <string name="steps_total">Steps Total</string>

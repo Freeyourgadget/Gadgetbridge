@@ -195,6 +195,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     Intent intent = getIntent();
                     String mode = intent.getStringExtra(ActivityChartsActivity.EXTRA_MODE);
                     return CaloriesDailyFragment.newInstance(mode);
+                case "respiratoryrate":
+                    return RespiratoryRateCollectionFragment.newInstance(enabledTabsList.size() == 1);
             }
 
             return new UnknownFragment();
@@ -242,6 +244,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.menuitem_weight);
                 case "calories":
                     return getString(R.string.calories);
+                case "respiratoryrate":
+                    return getString(R.string.respiratoryRate);
             }
 
             return String.format(Locale.getDefault(), "Unknown %d", position);

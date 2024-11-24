@@ -113,6 +113,7 @@
     <item name="p_heartrate" type="string">heartrate</item>
     <item name="p_live_stats" type="string">livestats</item>
     <item name="p_spo2" type="string">spo2</item>
+    <item name="p_respiratory_rate" type="string">respiratoryrate</item>
     <item name="p_temperature" type="string">temperature</item>
     <item name="p_weight" type="string">weight</item>
 

@@ -1,0 +1,80 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rr_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300sp">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/respiratory_rate_line_chart"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2" />
+        </LinearLayout>
+
+        <GridLayout
+            android:background="@color/gauge_line_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_marginTop="15dp"
+            >
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginEnd="1dp"
+                android:layout_marginTop="2dp"
+                >
+                <TextView
+                    android:id="@+id/sleep_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sleep_avg"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="2dp"
+                >
+                <TextView
+                    android:id="@+id/awake_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/awake_avg"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </GridLayout>
+    </LinearLayout>
+
+</ScrollView>
