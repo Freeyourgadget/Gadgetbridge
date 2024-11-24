@@ -1725,9 +1725,7 @@
     <string name="quick_alarm_description">Будильник з віджета</string>
     <string name="pref_title_banglejs_webview_url">URL-адреса завантажувача застосунку</string>
     <string name="pref_summary_banglejs_webview_url">Якщо ви хочете використовувати власний завантажувач застосунків, вкажіть вашу URL-адресу https://…/android.html тут. В іншому випадку залиште порожнім для https://banglejs.com/apps</string>
-    <string name="permission_location">%1$s потрібує доступ до вашого місцеперебування у фоновому режимі, щоб мати можливість залишатися з\'єднаним з годинником, навіть коли екран вимкнено.
-\n
-\nНатисніть «%2$s», щоб погодитися.</string>
+    <string name="permission_location">%1$s потрібує доступ до вашого місцеперебування у фоновому режимі, щоб мати можливість залишатися з\'єднаним з годинником, навіть коли екран вимкнено. \n \nНатисніть «%2$s», щоб погодитися.</string>
     <string name="info_no_devices_connected">Немає під\'єднаних пристроїв</string>
     <string name="info_connected_count">Під\'єднано пристроїв: %d</string>
     <string name="bengali">Бенгальська</string>
