@@ -12,6 +12,7 @@ import "garmin/gdi_data_transfer_service.proto";
 import "garmin/gdi_sms_notification.proto";
 import "garmin/gdi_calendar_service.proto";
 import "garmin/gdi_settings_service.proto";
+import "garmin/gdi_notifications_service.proto";
 
 message Smart {
     optional CalendarService calendar_service = 1;
@@ -22,6 +23,7 @@ message Smart {
     optional CoreService core_service = 13;
     optional SmsNotificationService sms_notification_service = 16;
     optional SettingsService settings_service = 42;
+    optional NotificationsService notifications_service = 49;
 }
 
 /*

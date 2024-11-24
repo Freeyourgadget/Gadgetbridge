@@ -117,7 +117,7 @@ public class NotificationsHandler implements MessageHandler {
             }
         }
 
-        final boolean hasPicture = !nodomain.freeyourgadget.gadgetbridge.util.StringUtils.isEmpty(notificationSpec.picturePath);
+        final boolean hasPicture = !StringUtils.isEmpty(notificationSpec.picturePath);
         return new NotificationUpdateMessage(notificationUpdateType, notificationSpec.type, getNotificationsCount(notificationSpec.type), notificationSpec.getId(), hasActions, hasPicture);
     }
 
@@ -349,8 +349,8 @@ public class NotificationsHandler implements MessageHandler {
                     toReturn = encodeNotificationActionsString(notificationSpec);
                     break;
                 case ATTACHMENTS:
-                    LOG.debug("NOTIFICATION ATTACHMENTS REQUESTED. Notification Id: {}", notificationSpec.getId());
-                    toReturn = "1"; //TODO: possibly the number of attachments, or is it a progressive ID of the attachment to be requested?
+                    LOG.debug("Notification attachments requested for notification id {}", notificationSpec.getId());
+                    toReturn = "1"; // the number of attachments
                     break;
             }
             if (maxLength == 0)

@@ -240,8 +240,7 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     }
 
     protected Bitmap getNotificationAttachmentBitmap(int notificationId) {
-        Bitmap pippo = BitmapFactory.decodeFile(getNotificationAttachmentPath(notificationId));
-        return pippo;
+        return BitmapFactory.decodeFile(getNotificationAttachmentPath(notificationId));
     }
 
     @Override

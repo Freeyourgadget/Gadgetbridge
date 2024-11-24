@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+package garmin_vivomovehr;
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.garmin";
+
+message NotificationsService {
+  optional PictureRequest pictureRequest = 1;
+  optional PictureResponse pictureResponse = 2;
+}
+
+message PictureRequest {
+  optional uint32 notification_id = 1;
+  optional uint32 unk2 = 2; // 0
+  optional PictureParameters parameters = 3;
+  // unk4 "\001"
+}
+
+message PictureParameters {
+  optional uint32 width = 1;
+  optional uint32 height = 2;
+  optional uint32 unk3 = 3; // 204800 max size?
+  optional uint32 quality = 4; // 80
+}
+
+message PictureResponse {
+  optional uint32 unk1 = 1; // 1
+  optional uint32 notification_id = 2;
+  optional uint32 unk3 = 3; // 0
+  optional uint32 unk4 = 4; // 1
+  optional DataTransferItem dataTransferItem = 5;
+}
+
+message DataTransferItem {
+  optional uint32 id = 1;
+  optional uint32 size = 2;
+}

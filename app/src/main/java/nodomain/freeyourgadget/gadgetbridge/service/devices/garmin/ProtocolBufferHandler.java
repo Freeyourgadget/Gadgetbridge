@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.garmin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDataTransferService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiDeviceStatus;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiFindMyWatch;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiHttpService;
+import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiNotificationsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSettingsService;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.proto.garmin.GdiSmsNotification;
@@ -128,6 +131,9 @@ public class ProtocolBufferHandler implements MessageHandler {
             if (smart.hasSettingsService()) {
                 processed = true;
                 processProtobufSettingsService(smart.getSettingsService());
+            }
+            if (smart.hasNotificationsService()) {
+                return prepareProtobufResponse(processProtobufNotificationsServiceMessage(smart.getNotificationsService()), message.getRequestId());
             }
             if (processed) {
                 message.setStatusMessage(new ProtobufStatusMessage(
@@ -355,6 +361,47 @@ public class ProtocolBufferHandler implements MessageHandler {
         }
 
         LOG.warn("Unknown CoreService request: {}", coreService);
+        return null;
+    }
+
+    private GdiSmartProto.Smart processProtobufNotificationsServiceMessage(final GdiNotificationsService.NotificationsService notificationsService) {
+        if (notificationsService.hasPictureRequest()) {
+            final GdiNotificationsService.PictureRequest pictureRequest = notificationsService.getPictureRequest();
+            final int notificationId = pictureRequest.getNotificationId();
+            final Bitmap bmp = deviceSupport.getNotificationAttachmentBitmap(notificationId);
+            if (bmp == null) {
+                LOG.warn("Failed to find bitmap for notification id {}", notificationId);
+                return null;
+            }
+
+            final GdiNotificationsService.PictureParameters parameters = pictureRequest.getParameters();
+            final int targetHeight = (int) Math.round(bmp.getHeight() * ((double) parameters.getWidth() / bmp.getWidth()));
+
+            final Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, parameters.getWidth(), targetHeight, true);
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            scaledBmp.compress(Bitmap.CompressFormat.JPEG, parameters.getQuality(), baos);
+            final byte[] imageBytes = baos.toByteArray();
+
+            final int transferId = DataTransferHandler.registerData(imageBytes);
+
+            final GdiNotificationsService.PictureResponse response = GdiNotificationsService.PictureResponse.newBuilder()
+                    .setUnk1(1)
+                    .setNotificationId(notificationId)
+                    .setUnk3(0)
+                    .setUnk4(1)
+                    .setDataTransferItem(
+                            GdiNotificationsService.DataTransferItem.newBuilder()
+                                    .setId(transferId)
+                                    .setSize(imageBytes.length)
+                                    .build()
+                    )
+                    .build();
+            return GdiSmartProto.Smart.newBuilder().setNotificationsService(
+                    GdiNotificationsService.NotificationsService.newBuilder().setPictureResponse(response)
+            ).build();
+        }
+
+        LOG.warn("Protobuf notificationsService request not implemented: {}", notificationsService);
         return null;
     }
 
