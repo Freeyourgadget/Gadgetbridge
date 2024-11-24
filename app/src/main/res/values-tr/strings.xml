@@ -1731,9 +1731,7 @@
     <string name="portuguese_br">Portekizce (Brezilya)</string>
     <string name="pref_title_banglejs_webview_url">Uygulama yükleyici URL\'si</string>
     <string name="pref_summary_banglejs_webview_url">Özel bir uygulama yükleyicisi istiyorsanız https://…/android.html URL\'nizi buraya koyun. Aksi takdirde https://banglejs.com/apps için boş bırakın</string>
-    <string name="permission_location">%1$s ekranınız kapalıyken bile saatinize bağlı kalmasını sağlamak için arka planda konumunuza erişmeye ihtiyaç duyuyor.
-\n
-\nKabul etmek için lütfen \'%2$s\' düğmesine dokunun.</string>
+    <string name="permission_location">%1$s ekranınız kapalıyken bile saatinize bağlı kalmasını sağlamak için arka planda konumunuza erişmeye ihtiyaç duyuyor. \n \nKabul etmek için lütfen \'%2$s\' düğmesine dokunun.</string>
     <string name="info_no_devices_connected">Bağlı aygıt yok</string>
     <string name="info_connected_count">%d aygıt bağlı</string>
     <string name="estonian">Estonca</string>
