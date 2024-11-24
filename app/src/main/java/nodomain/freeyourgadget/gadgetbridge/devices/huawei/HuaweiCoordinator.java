@@ -541,6 +541,10 @@ public class HuaweiCoordinator {
         return supportsCommandForService(0x0f, 0x06);
     }
 
+    public boolean supportsWeatherErrorSimple() {
+        return supportsCommandForService(0x0f, 0x07);
+    }
+
     public boolean supportsWeatherForecasts() {
         return supportsCommandForService(0x0f, 0x08);
     }
@@ -551,6 +555,10 @@ public class HuaweiCoordinator {
 
     public boolean supportsWeatherTides() {
         return supportsCommandForService(0x0f, 0x0b);
+    }
+
+    public boolean supportsWeatherErrorExtended() {
+        return supportsCommandForService(0x0f, 0x0c);
     }
 
     public boolean supportsWeatherUvIndex() {

@@ -344,6 +344,24 @@ public class Weather {
         }
     }
 
+    public enum ErrorCode {
+        NETWORK_ERROR,
+        GPS_PERMISSION_ERROR,
+        WEATHER_DISABLED
+    }
+
+    private static byte errorCodeToByte(ErrorCode errorCode) {
+        switch (errorCode) {
+            case NETWORK_ERROR:
+                return 0;
+            case GPS_PERMISSION_ERROR:
+                return 1;
+            case WEATHER_DISABLED:
+                return 2;
+        }
+        throw new RuntimeException(); // Shouldn't happen
+    }
+
     public static class CurrentWeatherRequest extends HuaweiPacket {
         public static final byte id = 0x01;
 
@@ -539,6 +557,22 @@ public class Weather {
                 this.timeSupported = (this.supportedBitmap & 0x01) != 0;
                 this.sourceSupported = (this.supportedBitmap & 0x02) != 0;
                 this.weatherIconSupported = (this.supportedBitmap & 0x04) != 0;
+            }
+        }
+    }
+
+    public static class WeatherErrorSimple {
+        public static final byte id = 0x07;
+
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider, ErrorCode errorCode) {
+                super(paramsProvider);
+
+                this.serviceId = Weather.id;
+                this.commandId = id;
+                this.tlv = new HuaweiTLV().put(0x01, errorCodeToByte(errorCode));
+                this.isEncrypted = true;
+                this.complete = true;
             }
         }
     }
@@ -762,6 +796,29 @@ public class Weather {
 
                 this.sunRiseSetSupported = (this.supportedBitmap & 0x01) != 0;
                 this.moonPhaseSupported = (this.supportedBitmap & 0x02) != 0;
+            }
+        }
+    }
+
+    public static class WeatherErrorExtended {
+        public static final byte id = 0x0c;
+
+        public static class Request extends HuaweiPacket {
+            public Request(ParamsProvider paramsProvider, ErrorCode errorCode, boolean serverError) {
+                super(paramsProvider);
+
+                this.serviceId = Weather.id;
+                this.commandId = id;
+
+                HuaweiTLV innerTlv = new HuaweiTLV();
+                innerTlv.put(0x02, errorCodeToByte(errorCode));
+                if (errorCode == ErrorCode.NETWORK_ERROR && serverError)
+                    innerTlv.put(0x03, (byte) 0x01);
+
+                this.tlv = new HuaweiTLV().put(0x81, innerTlv);
+
+                this.isEncrypted = true;
+                this.complete = true;
             }
         }
     }

@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Requ
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendGpsAndTimeToDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherCurrentRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherDeviceRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherErrorRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherExtendedSupportRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherForecastRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.SendWeatherStartRequest;
@@ -277,7 +278,15 @@ public class HuaweiWeatherManager {
         if (response.getTlv().getInteger(0x7f, -1) == 0x000186AA) {
             // Send weather
             final ArrayList<WeatherSpec> specs = new ArrayList<>(nodomain.freeyourgadget.gadgetbridge.model.Weather.getInstance().getWeatherSpecs());
-            // TODO: could be empty, not really an issue but we need to check what to send back in that case
+            if (specs.isEmpty()) {
+                LOG.debug("Weather specs empty, returning that weather is disabled.");
+                try {
+                    new SendWeatherErrorRequest(supportProvider, Weather.ErrorCode.WEATHER_DISABLED).doPerform();
+                } catch (IOException e) {
+                    LOG.error("Could not send weather error request.", e);
+                }
+                return;
+            }
             this.sendWeather(specs.get(0));
             return;
         }
