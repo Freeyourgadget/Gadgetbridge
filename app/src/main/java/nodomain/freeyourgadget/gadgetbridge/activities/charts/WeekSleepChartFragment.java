@@ -126,6 +126,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         lightSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_light_time);
         sleepDatesText = rootView.findViewById(R.id.sleep_dates);
 
+        mBalanceView = rootView.findViewById(R.id.balance);
+
         setupWeekChart();
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
@@ -186,6 +188,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         String toFormattedDate = new SimpleDateFormat("E, MMM dd").format(to);
         String fromFormattedDate = new SimpleDateFormat("E, MMM dd").format(from);
         sleepDatesText.setText(fromFormattedDate + " - " + toFormattedDate);
+
+        mBalanceView.setText(mcd.getWeekBeforeData().getBalanceMessage());
     }
 
     @Override

@@ -19,6 +19,17 @@
                 android:layout_marginBottom="10dp"
         />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <GridLayout
             android:background="@color/gauge_line_color"
             android:layout_width="match_parent"
