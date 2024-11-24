@@ -3557,4 +3557,11 @@
     <string name="music_huawei_device_info">Formatos soportados: %1$s\nAlmacenamiento del reloj : %2$d MB</string>
     <string name="devicetype_realme_buds_t110">Realme Buds T110</string>
     <string name="devicetype_garmin_instinct_2">Garmin Instinct 2</string>
+    <string name="menuitem_calories_active_goal">Objetivo de calorías (activo)</string>
+    <string name="active_calories">Calorias activas</string>
+    <string name="active_calories_short">Activo</string>
+    <string name="total_calories_burnt">Total quemadas</string>
+    <string name="activity_prefs_goal_active_calories_burnt">Objetivo diario: calorías activas quemadas</string>
+    <string name="active_calories_goal">Objetivo activo</string>
+    <string name="menuitem_calories_segmented">Calorías (segmentadas)</string>
 </resources>
