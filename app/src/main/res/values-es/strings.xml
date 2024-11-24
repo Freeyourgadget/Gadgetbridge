@@ -1754,9 +1754,7 @@
     <string name="permission_notification_listener">%1$s necesita acceder a las notificaciones para mostrarlas en el reloj cuando la pantalla del teléfono está apagada.
 \n
 \nPulse \'%2$s\' y después \'%1$s\' active \'Permitir acceso a notificaciones\' y a continuación, pulse \'Atrás\' para volver a %1$s.</string>
-    <string name="permission_location">%1$s necesita acceder a su ubicación en segundo plano para poder seguir conectado a su reloj aunque la pantalla esté apagada.
-\n
-\nPulse \'%2$s\' para aceptar.</string>
+    <string name="permission_location">%1$s necesita acceder a su ubicación en segundo plano para poder seguir conectado a su reloj aunque la pantalla esté apagada. \n \nPulse \'%2$s\' para aceptar.</string>
     <string name="hrZoneNa">N/D</string>
     <string name="elevationGain">Aumento de la altitud</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Personalizar widget</string>
