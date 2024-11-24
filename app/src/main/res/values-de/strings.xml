@@ -3389,4 +3389,11 @@
     <string name="menuitem_night_display">Nacht-Ansicht</string>
     <string name="steps_total">Schritte Total</string>
     <string name="number_selected_items">%1d ausgewählt</string>
+    <string name="active_calories_short">Aktivität</string>
+    <string name="active_calories">Aktivitätskalorien</string>
+    <string name="active_calories_goal">Aktivitätsziel</string>
+    <string name="activity_prefs_goal_active_calories_burnt">"Tagesziel:  Aktiver Verbrauch"</string>
+    <string name="activity_type_health_snapshot">Gesundheit aktuell</string>
+    <string name="total_calories_burnt">Insgesamt verbraucht</string>
+    <string name="title_activity_musicmanager">Musikmanager</string>
 </resources>
