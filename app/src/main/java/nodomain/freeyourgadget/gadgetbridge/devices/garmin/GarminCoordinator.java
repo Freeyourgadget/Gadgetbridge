@@ -256,11 +256,6 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsRestingCalories() {
-        return true;
-    }
-
-    @Override
     public int[] getStressRanges() {
         // 1-25 = relaxed
         // 26-50 = low

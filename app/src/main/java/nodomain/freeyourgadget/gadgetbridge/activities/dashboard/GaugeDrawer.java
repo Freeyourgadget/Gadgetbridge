@@ -196,7 +196,14 @@ public class GaugeDrawer {
         gaugeBar.setImageBitmap(bitmap);
     }
 
-    public static Bitmap drawCircleGaugeSegmented(int width, int barWidth, final int[] colors, final float[] segments, final boolean gapBetweenSegments, String text, String lowerText, Context context) {
+    public static Bitmap drawCircleGaugeSegmented(int width,
+                                                  int barWidth,
+                                                  final int[] colors,
+                                                  final float[] segments,
+                                                  final boolean gapBetweenSegments,
+                                                  String text,
+                                                  String lowerText,
+                                                  Context context) {
         int TEXT_COLOR = GBApplication.getTextColor(context);
         int height = width;
         int barMargin = (int) Math.ceil(barWidth / 2f);
@@ -267,7 +274,12 @@ public class GaugeDrawer {
         return bitmap;
     }
 
-    public static Bitmap drawCircleGauge(int width, int barWidth, @ColorInt int filledColor, int value, int maxValue, Context context) {
+    public static Bitmap drawCircleGauge(int width,
+                                         int barWidth,
+                                         @ColorInt int filledColor,
+                                         int value,
+                                         int maxValue,
+                                         Context context) {
         int TEXT_COLOR = GBApplication.getTextColor(context);
         int height = width;
         int barMargin = (int) Math.ceil(barWidth / 2f);

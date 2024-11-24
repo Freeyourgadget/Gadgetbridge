@@ -1,4 +1,4 @@
-/*  Copyright (C) 2024 Severin von Wnuck-Lipinski
+/*  Copyright (C) 2024 José Rebelo
 
     This file is part of Gadgetbridge.
 

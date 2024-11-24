@@ -17,9 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-import android.content.Context;
-
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +27,10 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityAnalysis;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractTimeSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.DefaultRestingMetabolicRateProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
@@ -160,8 +158,9 @@ public class DailyTotals implements Serializable {
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.SECOND, 0);
         day.add(Calendar.HOUR, 0);
-        RestingMetabolicRateSample metabolicRate = getRestingMetabolicRate(db, device);
+        RestingMetabolicRateSample metabolicRate = getRestingMetabolicRate(db, day, device);
         if (metabolicRate == null) {
+            // should never happen
             return 0;
         }
         double passedDayProportion = 1;
@@ -177,9 +176,17 @@ public class DailyTotals implements Serializable {
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
-    protected static RestingMetabolicRateSample getRestingMetabolicRate(DBHandler db, GBDevice device) {
-        TimeSampleProvider<? extends RestingMetabolicRateSample> provider = device.getDeviceCoordinator().getRestingMetabolicRateProvider(device, db.getDaoSession());
-        return provider.getLatestSample();
+    protected static RestingMetabolicRateSample getRestingMetabolicRate(DBHandler db, Calendar day, GBDevice device) {
+        // FIXME this cast is ugly and might lead to issues
+        AbstractTimeSampleProvider<? extends RestingMetabolicRateSample> provider = (AbstractTimeSampleProvider<? extends RestingMetabolicRateSample>)
+                device.getDeviceCoordinator().getRestingMetabolicRateProvider(device, db.getDaoSession());
+        final long endOfDayTimestamp = day.getTimeInMillis() + 86_400_000L;
+        final RestingMetabolicRateSample latestSample = provider.getLastSampleBefore(endOfDayTimestamp);
+        if (latestSample != null) {
+            return latestSample;
+        }
+        DefaultRestingMetabolicRateProvider defaultProvider = new DefaultRestingMetabolicRateProvider(device, db.getDaoSession());
+        return defaultProvider.getLastSampleBefore(endOfDayTimestamp);
     }
 
     protected static SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {

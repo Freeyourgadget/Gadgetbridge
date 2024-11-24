@@ -227,7 +227,6 @@ public interface DeviceCoordinator {
     boolean supportsStepCounter();
     boolean supportsSpeedzones();
     boolean supportsActivityTabs();
-    boolean supportsRestingCalories();
     boolean supportsActiveCalories();
 
     /**

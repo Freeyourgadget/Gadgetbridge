@@ -134,7 +134,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsVO2Max()) {
             tabList.remove("vo2max");
         }
-        if (!coordinator.supportsActiveCalories() && !coordinator.supportsRestingCalories()) {
+        if (!coordinator.supportsActiveCalories()) {
             tabList.remove("calories");
         }
         return tabList;

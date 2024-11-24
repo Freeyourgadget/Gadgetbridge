@@ -19,26 +19,26 @@
             android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/calories_gauge"
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:layout_gravity="center"
-            android:scaleType="fitStart"
-            android:id="@+id/calories_gauge" />
+            android:scaleType="fitStart" />
 
         <GridLayout
             android:id="@+id/calories_types_wrapper"
-            android:background="@color/gauge_line_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
             android:layout_marginTop="15dp"
-            >
+            android:background="@color/gauge_line_color"
+            android:columnCount="2">
+
             <LinearLayout
                 android:id="@+id/calories_active_wrapper"
                 style="@style/GridTile"
-                android:layout_marginEnd="1dp"
                 android:layout_marginTop="2dp"
-                >
+                android:layout_marginEnd="1dp">
+
                 <TextView
                     android:id="@+id/calories_active"
                     android:layout_width="wrap_content"
@@ -49,14 +49,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/active"
+                    android:text="@string/active_calories_short"
                     android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/calories_resting_wrapper"
                 style="@style/GridTile"
-                android:layout_marginEnd="1dp"
-                >
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="2dp">
+
                 <TextView
                     android:id="@+id/calories_resting"
                     android:layout_width="wrap_content"
@@ -70,12 +72,12 @@
                     android:text="@string/hr_resting"
                     android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/calories_active_goal_wrapper"
                 style="@style/GridTile"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="2dp"
-                >
+                android:layout_marginEnd="1dp">
+
                 <TextView
                     android:id="@+id/calories_active_goal"
                     android:layout_width="wrap_content"
@@ -86,24 +88,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/active_goal"
+                    android:text="@string/active_calories_goal"
                     android:textSize="12sp" />
             </LinearLayout>
+
+            <!-- empty tile -->
             <LinearLayout
                 style="@style/GridTile"
-                android:layout_marginEnd="1dp"
-                >
-            </LinearLayout>
+                android:layout_marginStart="1dp" />
         </GridLayout>
-
-        <TextView
-            android:id="@+id/steps_chart_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:paddingLeft="20dip"
-            android:text=""
-            android:textSize="20sp" />
     </LinearLayout>
 
 </ScrollView>

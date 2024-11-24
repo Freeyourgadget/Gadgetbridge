@@ -395,6 +395,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
         public void clear() {
             restingCaloriesTotal = 0;
             activeCaloriesTotal = 0;
+            activeCaloriesGoalFactor = 0;
             caloriesTotal = 0;
             stepsTotal = 0;
             stepsGoalFactor = 0;
@@ -413,6 +414,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
                     stepsGoalFactor == 0 &&
                     restingCaloriesTotal == 0 &&
                     activeCaloriesTotal == 0 &&
+                    activeCaloriesGoalFactor == 0 &&
                     caloriesTotal == 0 &&
                     sleepTotalMinutes == 0 &&
                     sleepGoalFactor == 0 &&

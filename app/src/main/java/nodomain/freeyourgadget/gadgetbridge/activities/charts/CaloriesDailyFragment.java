@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.GaugeDrawer;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.DefaultRestingMetabolicRateProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
@@ -114,7 +115,12 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
 
     protected RestingMetabolicRateSample getRestingMetabolicRate(DBHandler db, GBDevice device) {
         TimeSampleProvider<? extends RestingMetabolicRateSample> provider = device.getDeviceCoordinator().getRestingMetabolicRateProvider(device, db.getDaoSession());
-        return provider.getLatestSample();
+        RestingMetabolicRateSample latestSample = provider.getLatestSample();
+        if (latestSample != null) {
+            return latestSample;
+        }
+        DefaultRestingMetabolicRateProvider defaultProvider = new DefaultRestingMetabolicRateProvider(device, db.getDaoSession());
+        return defaultProvider.getLatestSample();
     }
 
     protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
@@ -201,7 +207,7 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
                     segments,
                     true,
                     String.valueOf(totalCalories),
-                    getContext().getString(R.string.total_burnt),
+                    getContext().getString(R.string.total_calories_burnt),
                     getContext()
             ));
         } else {

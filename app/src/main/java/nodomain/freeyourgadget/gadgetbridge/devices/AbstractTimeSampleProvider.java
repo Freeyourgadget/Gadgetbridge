@@ -100,6 +100,7 @@ public abstract class AbstractTimeSampleProvider<T extends AbstractTimeSample> i
         return samples.get(0);
     }
 
+    @Nullable
     public T getLastSampleBefore(final long timestampTo) {
         final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
         if (dbDevice == null) {
@@ -119,6 +120,7 @@ public abstract class AbstractTimeSampleProvider<T extends AbstractTimeSample> i
         return !samples.isEmpty() ? samples.get(0) : null;
     }
 
+    @Nullable
     public T getNextSampleAfter(final long timestampFrom) {
         final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
         if (dbDevice == null) {

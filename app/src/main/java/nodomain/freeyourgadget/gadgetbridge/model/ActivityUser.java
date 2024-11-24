@@ -44,7 +44,6 @@ public class ActivityUser {
     private int activityUserSleepDurationGoal;
     private int activityUserStepsGoal;
     private int activityUserCaloriesBurntGoal;
-    private int activityUserActiveCaloriesBurntGoal;
     private int activityUserDistanceGoalMeters;
     private int activityUserActiveTimeGoalMinutes;
     private int activityUserStandingTimeGoalHours;

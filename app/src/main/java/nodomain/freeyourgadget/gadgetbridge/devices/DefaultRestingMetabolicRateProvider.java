@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+import de.greenrobot.dao.AbstractDao;
+import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -29,13 +31,16 @@ import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
 
 /**
  * Provides a default resting metabolic rate, for devices that do not provide it. Currently it uses the
- * Mifflin St Jeor equation. TODO: use the user data at that timestamp, and make the algorithm configurable.
+ * Mifflin St Jeor equation.
+ * TODO: use the user data at that timestamp, and make the algorithm configurable.
+ * TODO: maybe let the user also configure their own static value
  */
-public class DefaultRestingMetabolicRateProvider implements TimeSampleProvider<RestingMetabolicRateSample> {
+public class DefaultRestingMetabolicRateProvider extends AbstractTimeSampleProvider<RestingMetabolicRateSample> {
     private final DaoSession mSession;
     private final GBDevice mDevice;
 
-    protected DefaultRestingMetabolicRateProvider(final GBDevice device, final DaoSession session) {
+    public DefaultRestingMetabolicRateProvider(final GBDevice device, final DaoSession session) {
+        super(device, session);
         mDevice = device;
         mSession = session;
     }
@@ -66,13 +71,41 @@ public class DefaultRestingMetabolicRateProvider implements TimeSampleProvider<R
 
     @Override
     public RestingMetabolicRateSample createSample() {
-        throw new UnsupportedOperationException("createSample not supported");
+        return new DefaultRestingMetabolicRateSample(System.currentTimeMillis());
+    }
+
+    @NonNull
+    @Override
+    public AbstractDao<RestingMetabolicRateSample, ?> getSampleDao() {
+        throw new UnsupportedOperationException("getSampleDao not supported");
+    }
+
+    @NonNull
+    @Override
+    protected Property getTimestampSampleProperty() {
+        throw new UnsupportedOperationException("getTimestampSampleProperty not supported");
+    }
+
+    @NonNull
+    @Override
+    protected Property getDeviceIdentifierSampleProperty() {
+        throw new UnsupportedOperationException("getDeviceIdentifierSampleProperty not supported");
     }
 
     @Nullable
     @Override
     public RestingMetabolicRateSample getLatestSample() {
-        return new DefaultRestingMetabolicRateSample();
+        return new DefaultRestingMetabolicRateSample(System.currentTimeMillis());
+    }
+
+    @Nullable
+    public RestingMetabolicRateSample getLastSampleBefore(final long timestampTo) {
+        return new DefaultRestingMetabolicRateSample(timestampTo);
+    }
+
+    @Nullable
+    public RestingMetabolicRateSample getNextSampleAfter(final long timestampFrom) {
+        return new DefaultRestingMetabolicRateSample(timestampFrom);
     }
 
     @Nullable
@@ -81,12 +114,12 @@ public class DefaultRestingMetabolicRateProvider implements TimeSampleProvider<R
         return getLatestSample();
     }
 
-    private static class DefaultRestingMetabolicRateSample extends RestingMetabolicRateSample {
+    public static class DefaultRestingMetabolicRateSample extends RestingMetabolicRateSample {
         private long timestamp;
         private final int rate;
 
-        private DefaultRestingMetabolicRateSample() {
-            this.timestamp = System.currentTimeMillis();
+        public DefaultRestingMetabolicRateSample(final long timestamp) {
+            this.timestamp = timestamp;
             ActivityUser activityUser = new ActivityUser();
             final int weightKg = activityUser.getWeightKg();
             final int heightCm = activityUser.getHeightCm();

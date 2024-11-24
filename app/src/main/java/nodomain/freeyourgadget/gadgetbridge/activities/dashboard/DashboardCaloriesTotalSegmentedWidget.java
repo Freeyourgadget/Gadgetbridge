@@ -37,6 +37,11 @@ public class DashboardCaloriesTotalSegmentedWidget extends AbstractGaugeWidget {
     }
 
     @Override
+    protected boolean isSupportedBy(final GBDevice device) {
+        return device.getDeviceCoordinator().supportsActiveCalories();
+    }
+
+    @Override
     protected void populateData(final DashboardFragment.DashboardData dashboardData) {
         dashboardData.getActiveCaloriesTotal();
         dashboardData.getRestingCaloriesTotal();
