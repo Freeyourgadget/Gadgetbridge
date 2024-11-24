@@ -1721,9 +1721,7 @@
     <string name="pref_summary_banglejs_webview_url">Pokud chcete vlastní zavaděč aplikací, vložte adresu ve formátu URL https://.../android.html. V opačném případě zanechte prázdné pro https://banglejs.com/apps</string>
     <string name="portuguese_br">Portugalština (Brazílie)</string>
     <string name="portuguese_pt">Portugalština (Portugalsko)</string>
-    <string name="permission_location">Aplikace %1$s potřebuje přístup k poloze na pozadí z důvodu zajištění udržení spojení z vašimi hodinkami i v době, kdy je obrazovka telefonu zhasnutá.
-\n
-\nKlepněte prosím na „%2$s“ pro souhlas.</string>
+    <string name="permission_location">Aplikace %1$s potřebuje přístup k poloze na pozadí z důvodu zajištění udržení spojení z vašimi hodinkami i v době, kdy je obrazovka telefonu zhasnutá. \n \nKlepněte prosím na „%2$s“ pro souhlas.</string>
     <string name="info_no_devices_connected">Nejsou připojena žádná zařízení</string>
     <string name="info_connected_count">Připojená zařízení: %d</string>
     <string name="czech">Čeština</string>
