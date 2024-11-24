@@ -1892,9 +1892,7 @@
     <string name="pref_title_touch_volume">Głośność</string>
     <string name="pref_switch_controls_anc_off">Tłumienie hałasu ←→ Wyłączone</string>
     <string name="sensitive">Wrażliwy</string>
-    <string name="permission_location">%1$s potrzebuje dostępu do Twojej lokalizacji w tle, aby móc pozostać połączonym z Twoim zegarkiem nawet wtedy, gdy ekran jest wyłączony.
-\n
-\nStuknij w \"%2$s\", aby się zgodzić.</string>
+    <string name="permission_location">%1$s potrzebuje dostępu do Twojej lokalizacji w tle, aby móc pozostać połączonym z Twoim zegarkiem nawet wtedy, gdy ekran jest wyłączony. \n \nStuknij w \"%2$s\", aby się zgodzić.</string>
     <string name="controlcenter_unset_folder">Nieustawiony folder</string>
     <string name="pref_switch_controls_ambient_off">Otoczenie ←→ Wyłączone</string>
     <string name="prefs_noise_control">Kontrola hałasu</string>
