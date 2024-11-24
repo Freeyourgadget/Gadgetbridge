@@ -2329,11 +2329,11 @@ public class HuaweiSupportProvider {
                 new HuaweiFileDownloadManager.FileDownloadCallback() {
                     @Override
                     public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
-                        syncState.stopWorkoutGpsDownload(); // TODO: delay until the file is actually parsed...
                         extraCallbackAction.run();
 
                         if (fileRequest.getData().length == 0) {
                             LOG.debug("GPS file empty");
+                            syncState.stopWorkoutGpsDownload();
                             return;
                         }
 
@@ -2345,6 +2345,7 @@ public class HuaweiSupportProvider {
 
                         if (points.length == 0) {
                             LOG.debug("No GPS points returned");
+                            syncState.stopWorkoutGpsDownload();
                             return;
                         }
 
@@ -2384,6 +2385,7 @@ public class HuaweiSupportProvider {
                         } catch (IOException e) {
                             GB.toast(context, "Could not open Workout GPS file to write to", Toast.LENGTH_SHORT, GB.ERROR, e);
                             LOG.error("Could not open Workout GPS file to write to", e);
+                            syncState.stopWorkoutGpsDownload();
                             return;
                         }
 
@@ -2394,6 +2396,7 @@ public class HuaweiSupportProvider {
                         } catch (IOException | ActivityTrackExporter.GPXTrackEmptyException e) {
                             GB.toast(context, "Failed to export Workout GPX file", Toast.LENGTH_SHORT, GB.ERROR, e);
                             LOG.error("Failed to export Workout GPX file", e);
+                            syncState.stopWorkoutGpsDownload();
                             return;
                         }
 
@@ -2401,6 +2404,7 @@ public class HuaweiSupportProvider {
                         if (databaseId == null) {
                             GB.toast(context, "Cannot link GPX to workout", Toast.LENGTH_SHORT, GB.ERROR);
                             LOG.error("Cannot link GPX to workout");
+                            syncState.stopWorkoutGpsDownload();
                             return;
                         }
 
@@ -2412,12 +2416,14 @@ public class HuaweiSupportProvider {
                         } catch (Exception e) {
                             GB.toast(context, "Failed to save Workout GPX file location", Toast.LENGTH_SHORT, GB.ERROR, e);
                             LOG.error("Failed to save Workout GPX file location", e);
+                            syncState.stopWorkoutGpsDownload();
                             return;
                         }
 
                         new HuaweiWorkoutGbParser(getDevice()).parseWorkout(databaseId);
 
                         LOG.debug("Completed workout GPS parsing and inserting");
+                        syncState.stopWorkoutGpsDownload();
                     }
 
                     @Override
