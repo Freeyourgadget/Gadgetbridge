@@ -1720,9 +1720,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_voice_detect_duration_15">15 secondes</string>
     <string name="pref_device_action_fitness_app_control_toggle">Basculer d\'app de suivi sportif</string>
     <string name="pref_title_banglejs_webview_url">URL de chargement de l\'app</string>
-    <string name="permission_location">%1$s a besoin d\'accès à votre emplacement en arrière-plan pour lui permettre de rester connecté à votre montre même quand votre écran est éteint.
-\n
-\nAppuyez-ici \'%2$s\' pour accepter.</string>
+    <string name="permission_location">%1$s a besoin d\'accès à votre emplacement en arrière-plan pour lui permettre de rester connecté à votre montre même quand votre écran est éteint. \n \nAppuyez-ici \'%2$s\' pour accepter.</string>
     <string name="pref_summary_banglejs_webview_url">Si vous souhaitez utiliser un chargeur d\'app spécifique mettre votre URL https://…/android.html ici. Sinon laissez blanc pour https://banglejs.com/apps</string>
     <string name="info_no_devices_connected">Aucun appareil connecté</string>
     <string name="info_connected_count">%d appareils connectés</string>
