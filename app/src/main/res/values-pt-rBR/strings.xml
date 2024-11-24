@@ -2394,9 +2394,7 @@
     <string name="activity_db_management_autoexport_location">Não foi possível entender a localização. Provavelmente um problema do sistema de permissão mais recente do Android. Muito provavelmente, a exportação automática não está funcionando agora.</string>
     <string name="pref_battery_polling_interval_format">a cada %1$s minutos</string>
     <string name="proprietary_app_warning">Esse recurso requer a instalação de um aplicativo proprietário</string>
-    <string name="permission_location">%1$s precisa de acesso à sua localização em segundo plano para permitir que ele permaneça conectado ao seu relógio mesmo quando a tela estiver desligada.
-\n
-\nToque em \'%2$s\' para concordar.</string>
+    <string name="permission_location">%1$s precisa de acesso à sua localização em segundo plano para permitir que ele permaneça conectado ao seu relógio mesmo quando a tela estiver desligada. \n \nToque em \'%2$s\' para concordar.</string>
     <string name="fwapp_install_device_not_supported">O arquivo não pode ser instalado, o dispositivo não é compatível.</string>
     <string name="moondrop_touch_action_call_start">Iniciar uma ligação</string>
     <string name="moondrop_touch_action_assistant">Iniciar o Assistente de Voz</string>
