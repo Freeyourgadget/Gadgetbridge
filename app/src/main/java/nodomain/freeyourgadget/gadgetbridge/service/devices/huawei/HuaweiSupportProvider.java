@@ -198,11 +198,17 @@ public class HuaweiSupportProvider {
 
     private class SyncState {
         private boolean activitySync = false;
+        private boolean p2pSync = false;
         private boolean workoutSync = false;
         private int workoutGpsDownload = 0;
 
         public void setActivitySync(boolean state) {
             this.activitySync = state;
+            updateState();
+        }
+
+        public void setP2pSync(boolean state) {
+            this.p2pSync = state;
             updateState();
         }
 
@@ -225,7 +231,7 @@ public class HuaweiSupportProvider {
         }
 
         public void updateState(boolean needSync) {
-            if (!activitySync && !workoutSync && workoutGpsDownload == 0) {
+            if (!activitySync && !p2pSync && !workoutSync && workoutGpsDownload == 0) {
                 if (getDevice().isBusy()) {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(context);
@@ -1290,14 +1296,14 @@ public class HuaweiSupportProvider {
     }
 
     private void fetchActivityDataP2P() {
-        // TODO: Add sync state support for this
-
+        syncState.setP2pSync(true);
         HuaweiP2PDataDictionarySyncService P2PSyncService = HuaweiP2PDataDictionarySyncService.getRegisteredInstance(huaweiP2PManager);
         if (P2PSyncService != null && getHuaweiCoordinator().supportsTemperature()) {
             P2PSyncService.sendSyncRequest(400012, new HuaweiP2PDataDictionarySyncService.DictionarySyncCallback() {
                 @Override
                 public void onComplete(boolean complete) {
                     LOG.info("Sync P2P Temperature complete");
+                    syncState.setP2pSync(false);
                 }
             });
         }
