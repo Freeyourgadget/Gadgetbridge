@@ -309,6 +309,22 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="@string/open_camera" />
+
+            <Button
+                android:id="@+id/startWelcomeActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Welcome Activity" />
+
+            <Button
+                android:id="@+id/startPermissionsActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Permissions Screen" />
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>

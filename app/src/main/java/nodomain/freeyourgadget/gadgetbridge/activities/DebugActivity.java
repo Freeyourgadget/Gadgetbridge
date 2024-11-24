@@ -99,6 +99,7 @@ import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
+import nodomain.freeyourgadget.gadgetbridge.activities.welcome.WelcomeActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
 import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -771,6 +772,16 @@ public class DebugActivity extends AbstractGBActivity {
                 cameraIntent.putExtra(CameraActivity.intentExtraEvent, GBDeviceEventCameraRemote.eventToInt(GBDeviceEventCameraRemote.Event.OPEN_CAMERA));
                 getApplicationContext().startActivity(cameraIntent);
             }
+        });
+
+        Button startWelcomeActivity = findViewById(R.id.startWelcomeActivity);
+        startWelcomeActivity.setOnClickListener(view -> {
+            startActivity(new Intent(this, WelcomeActivity.class));
+        });
+
+        Button startPermissionsActivity = findViewById(R.id.startPermissionsActivity);
+        startPermissionsActivity.setOnClickListener(view -> {
+            startActivity(new Intent(this, PermissionsActivity.class));
         });
     }
 
