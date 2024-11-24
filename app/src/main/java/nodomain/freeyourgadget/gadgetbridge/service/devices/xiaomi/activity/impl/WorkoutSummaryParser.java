@@ -230,6 +230,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int version = fileId.getVersion();
         final int headerSize;
         switch (version) {
+            case 5:
+                headerSize = 3;
+                break;
             case 8:
             case 9:
             case 10:
@@ -249,21 +252,31 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addByte(HR_AVG, UNIT_BPM);
         builder.addByte(HR_MAX, UNIT_BPM);
         builder.addByte(HR_MIN, UNIT_BPM);
-        builder.addUnknown(6);
-        builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
-        builder.addUnknown(1);
-        builder.addUnknown(1);
-        builder.addShort(RECOVERY_TIME, UNIT_HOURS);
-        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
-        builder.addUnknown(2);
-        builder.addUnknown(4);
-        builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
-        builder.addUnknown(3);
-
+        if (version == 5) {
+            // for Smart Band 8 Active
+            builder.addUnknown(7);
+            builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+            // builder.addUnknown(23);
+        } else {
+            builder.addUnknown(6);
+            builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
+            builder.addUnknown(1);
+            builder.addUnknown(1);
+            builder.addShort(RECOVERY_TIME, UNIT_HOURS);
+            builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+            builder.addUnknown(2);
+            builder.addUnknown(4);
+            builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
+            builder.addUnknown(3);
+        }
         return builder.build();
     }
 
@@ -381,6 +394,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int version = fileId.getVersion();
         final int headerSize;
         switch (version) {
+            case 1:
+                headerSize = 5;
+                break;
             case 4:
                 headerSize = 7;
                 break;
@@ -403,45 +419,63 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt(DISTANCE_METERS, UNIT_METERS);
         builder.addUnknown(2);
         builder.addShort(CALORIES_BURNT, UNIT_KCAL);
-        if (version >= 5) {
-            builder.addInt(PACE_AVG_SECONDS_KM, UNIT_SECONDS_PER_KM);
-        }
-        builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
-        builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
-        if (version >= 5) {
-            builder.addFloat(SPEED_AVG, UNIT_KMPH);
-        }
-        builder.addFloat(SPEED_MAX, UNIT_KMPH);
-        builder.addInt(STEPS, UNIT_STEPS);
-        if (version >= 5) {
+        if (version == 1) {
+            // for Smart Band 8 Active
+            builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
+            builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
             builder.addUnknown(4);
+            builder.addInt(STEPS, UNIT_STEPS);
+            builder.addUnknown(2);        // MAX_STEPS_PER_MINUTE, Short?
+            builder.addByte(HR_AVG, UNIT_BPM);
+            builder.addByte(HR_MAX, UNIT_BPM);
+            builder.addByte(HR_MIN, UNIT_BPM);
+            builder.addUnknown(33);
+            builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+            // builder.addUnknown(22);
+        } else {
+            if (version >= 5) {
+                builder.addInt(PACE_AVG_SECONDS_KM, UNIT_SECONDS_PER_KM);
+            }
+            builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
+            builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
+            if (version >= 5) {
+                builder.addFloat(SPEED_AVG, UNIT_KMPH);
+            }
+            builder.addFloat(SPEED_MAX, UNIT_KMPH);
+            builder.addInt(STEPS, UNIT_STEPS);
+            if (version >= 5) {
+                builder.addUnknown(4);
+            }
+            builder.addUnknown(2);
+            builder.addByte(HR_AVG, UNIT_BPM);
+            builder.addByte(HR_MAX, UNIT_BPM);
+            builder.addByte(HR_MIN, UNIT_BPM);
+            builder.addUnknown(20);
+            builder.addFloat("recoveryValue", "?");
+            builder.addUnknown(9);
+            builder.addByte(RECOVERY_TIME, UNIT_HOURS);
+            builder.addUnknown(2);
+            builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+            builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+            builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+            builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
+            builder.addInt("configuredDistanceGoal", UNIT_METERS);
+            builder.addUnknown(11);
+            builder.addShort(WORKOUT_LOAD, UNIT_NONE); // training load
+            builder.addUnknown(24);
+            builder.addByte("averageHR2", UNIT_BPM);
+            builder.addByte("maxHR2", UNIT_BPM);
+            builder.addByte("minHR2", UNIT_BPM);
+            builder.addUnknown(2);
+            builder.addByte(CADENCE_AVG, UNIT_SPM);
         }
-        builder.addUnknown(2);
-        builder.addByte(HR_AVG, UNIT_BPM);
-        builder.addByte(HR_MAX, UNIT_BPM);
-        builder.addByte(HR_MIN, UNIT_BPM);
-        builder.addUnknown(20);
-        builder.addFloat("recoveryValue", "?");
-        builder.addUnknown(9);
-        builder.addByte(RECOVERY_TIME, UNIT_HOURS);
-        builder.addUnknown(2);
-        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
-        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
-        builder.addInt("configuredTimeGoal", UNIT_SECONDS);
-        builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
-        builder.addInt("configuredDistanceGoal", UNIT_METERS);
-        builder.addUnknown(11);
-        builder.addShort(WORKOUT_LOAD, UNIT_NONE); // training load
-        builder.addUnknown(24);
-        builder.addByte("averageHR2", UNIT_BPM);
-        builder.addByte("maxHR2", UNIT_BPM);
-        builder.addByte("minHR2", UNIT_BPM);
-        builder.addUnknown(2);
-        builder.addByte(CADENCE_AVG, UNIT_SPM);
-
         return builder.build();
     }
 
