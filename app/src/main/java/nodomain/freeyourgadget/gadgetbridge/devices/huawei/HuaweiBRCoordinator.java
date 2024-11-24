@@ -164,6 +164,11 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
     }
 
     @Override
+    public boolean supportsActiveCalories() {
+        return true;
+    }
+
+    @Override
     public boolean supportsActivityTracking() {
         return true;
     }

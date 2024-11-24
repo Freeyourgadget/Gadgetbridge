@@ -173,6 +173,11 @@ public abstract class HuaweiLECoordinator extends AbstractBLEDeviceCoordinator i
     }
 
     @Override
+    public boolean supportsActiveCalories() {
+        return true;
+    }
+
+    @Override
     public boolean supportsActivityTracking() {
         return true;
     }

@@ -1363,7 +1363,7 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("calories").notNull().codeBeforeGetter(
                 "@Override\n" +
                 "    public int getActiveCalories() {\n" +
-                "        return getCalories();\n" +
+                "        return getCalories() == HuaweiActivitySample.NOT_MEASURED ? HuaweiActivitySample.NOT_MEASURED : Math.round(getCalories() / 1000f);\n" +
                 "    }\n"
         );
         activitySample.addIntProperty("distance").notNull().codeBeforeGetter(
