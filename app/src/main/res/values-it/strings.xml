@@ -1703,9 +1703,7 @@
     <string name="ukranian">Ucraino</string>
     <string name="activity_prefs_discovery_pairing">Opzioni di rilevamento e accoppiamento</string>
     <string name="quick_alarm">Sveglia rapida</string>
-    <string name="permission_location">%1$s ha bisogno di accedere alla posizione in background per rimanere connesso all\'orologio anche quando lo schermo è spento.
-\n
-\nTocca \'%2$s\' per acconsentire.</string>
+    <string name="permission_location">%1$s ha bisogno di accedere alla posizione in background per rimanere connesso all\'orologio anche quando lo schermo è spento. \n \nTocca \'%2$s\' per acconsentire.</string>
     <string name="about_description_banglejs_nightly">Applicazione Android per Bangle.js basata sul progetto Gadgetbridge, con l\'aggiunta dell\'accesso a Internet.
 \n
 \nA causa delle politiche di Google Play Store, non è possibile inserire un link per le donazioni nell\'applicazione stessa, ma se ti piace questa applicazione, considera una donazione tramite la pagina di Gadgetbridge qui sotto.</string>
