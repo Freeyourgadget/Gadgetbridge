@@ -78,6 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepScoreSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
@@ -284,6 +285,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public TimeSampleProvider<? extends RestingMetabolicRateSample> getRestingMetabolicRateProvider(final GBDevice device, final DaoSession session) {
         return new DefaultRestingMetabolicRateProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends SleepScoreSample> getSleepScoreProvider(final GBDevice device, final DaoSession session) {
+        return null;
     }
 
     @Override
@@ -681,6 +687,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
     @Override
     public boolean supportsAwakeSleep() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsSleepScore() {
         return false;
     }
 

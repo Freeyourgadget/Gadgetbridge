@@ -363,6 +363,23 @@ public class GlobalFITMessage {
     ));
 
     public static GlobalFITMessage SLEEP_STATS = new GlobalFITMessage(346, "SLEEP_STATS", Arrays.asList(
+            new FieldDefinitionPrimitive(0, BaseType.UINT8, "combined_awake_score"),
+            new FieldDefinitionPrimitive(1, BaseType.UINT8, "awake_time_score"),
+            new FieldDefinitionPrimitive(2, BaseType.UINT8, "awakenings_count_score"),
+            new FieldDefinitionPrimitive(3, BaseType.UINT8, "deep_sleep_score"),
+            new FieldDefinitionPrimitive(4, BaseType.UINT8, "sleep_duration_score"),
+            new FieldDefinitionPrimitive(5, BaseType.UINT8, "light_sleep_score"),
+            new FieldDefinitionPrimitive(6, BaseType.UINT8, "overall_sleep_score"),
+            new FieldDefinitionPrimitive(7, BaseType.UINT8, "sleep_quality_score"),
+            new FieldDefinitionPrimitive(8, BaseType.UINT8, "sleep_recovery_score"),
+            new FieldDefinitionPrimitive(9, BaseType.UINT8, "rem_sleep_score"),
+            new FieldDefinitionPrimitive(10, BaseType.UINT8, "sleep_restlessness_score"),
+            new FieldDefinitionPrimitive(11, BaseType.UINT8, "awakenings_count"),
+            new FieldDefinitionPrimitive(12, BaseType.ENUM, "unk_12"),
+            new FieldDefinitionPrimitive(13, BaseType.ENUM, "unk_13"),
+            new FieldDefinitionPrimitive(14, BaseType.UINT8, "interruptions_score"),
+            new FieldDefinitionPrimitive(15, BaseType.UINT16, "average_stress_during_sleep", 100, 0),
+            new FieldDefinitionPrimitive(16, BaseType.ENUM, "unk_16")
     ));
 
     public static GlobalFITMessage HRV_SUMMARY = new GlobalFITMessage(370, "HRV_SUMMARY", Arrays.asList(

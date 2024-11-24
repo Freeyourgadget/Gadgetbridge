@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 José Rebelo
+/*  Copyright (C) 2024 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -14,28 +14,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.entities;
+package nodomain.freeyourgadget.gadgetbridge.model;
 
 import androidx.annotation.NonNull;
 
-import nodomain.freeyourgadget.gadgetbridge.model.TimeSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.AbstractTimeSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
-public abstract class AbstractTimeSample implements TimeSample {
-    // Unix timestamp in milliseconds
-    public abstract void setTimestamp(long timestamp);
-
-    public abstract long getUserId();
-
-    public abstract void setUserId(long userId);
-
-    public abstract long getDeviceId();
-
-    public abstract void setDeviceId(long deviceId);
-
-    public abstract void setDevice(Device device);
-
-    public abstract void setUser(User user);
+public abstract class SleepScoreSample extends AbstractTimeSample {
+    public abstract int getSleepScore();
 
     @NonNull
     @Override
@@ -44,6 +31,7 @@ public abstract class AbstractTimeSample implements TimeSample {
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimestampMillis(getTimestamp())) +
                 ", userId=" + getUserId() +
                 ", deviceId=" + getDeviceId() +
+                ", sleepScore=" + getSleepScore() +
                 "}";
     }
 }

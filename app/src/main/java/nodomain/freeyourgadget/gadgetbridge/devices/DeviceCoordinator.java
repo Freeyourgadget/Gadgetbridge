@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
 import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepScoreSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
@@ -376,6 +377,8 @@ public interface DeviceCoordinator {
 
     TimeSampleProvider<? extends RestingMetabolicRateSample> getRestingMetabolicRateProvider(GBDevice device, DaoSession session);
 
+    TimeSampleProvider<? extends SleepScoreSample> getSleepScoreProvider(GBDevice device, DaoSession session);
+
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.
      *
@@ -573,6 +576,11 @@ public interface DeviceCoordinator {
      * Indicates whether the device supports Awake sleep tracking.
      */
     boolean supportsAwakeSleep();
+
+    /**
+     * Indicates whether the device supports determining a sleep score in a 0-100 range.
+     */
+    boolean supportsSleepScore();
 
     /**
      * Indicates whether the device supports current weather and/or weather

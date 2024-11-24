@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(87, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(88, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -128,6 +128,7 @@ public class GBDaoGenerator {
         addGarminRespiratoryRateSample(schema, user, device);
         addGarminHeartRateRestingSample(schema, user, device);
         addGarminRestingMetabolicRateSample(schema, user, device);
+        addGarminSleepStatsSample(schema, user, device);
         addPendingFile(schema, user, device);
         addWena3EnergySample(schema, user, device);
         addWena3BehaviorSample(schema, user, device);
@@ -876,6 +877,14 @@ public class GBDaoGenerator {
         sample.addImport(MAIN_PACKAGE + ".model.RestingMetabolicRateSample");
         addCommonTimeSampleProperties("RestingMetabolicRateSample", sample, user, device);
         sample.addIntProperty("restingMetabolicRate").notNull().codeBeforeGetter(OVERRIDE);
+        return sample;
+    }
+
+    private static Entity addGarminSleepStatsSample(Schema schema, Entity user, Entity device) {
+        Entity sample = addEntity(schema, "GarminSleepStatsSample");
+        sample.addImport(MAIN_PACKAGE + ".model.SleepScoreSample");
+        addCommonTimeSampleProperties("SleepScoreSample", sample, user, device);
+        sample.addIntProperty("sleepScore").notNull().codeBeforeGetter(OVERRIDE);
         return sample;
     }
 

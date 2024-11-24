@@ -25,6 +25,8 @@ import java.util.List;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
@@ -167,6 +169,16 @@ public class DefaultRestingMetabolicRateProvider extends AbstractTimeSampleProvi
 
         @Override
         public void setDeviceId(final long deviceId) {
+
+        }
+
+        @Override
+        public void setDevice(final Device device) {
+
+        }
+
+        @Override
+        public void setUser(final User user) {
 
         }
 
