@@ -383,6 +383,8 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
             return;
         }
 
+        mNotificationPictures.remove(id);
+
         LOG.info("Deleting notification {} from band", id);
 
         final ByteBuffer buf = ByteBuffer.allocate(12);
