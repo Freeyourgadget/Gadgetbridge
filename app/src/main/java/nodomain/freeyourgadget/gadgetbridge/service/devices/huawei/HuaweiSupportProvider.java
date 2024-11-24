@@ -197,32 +197,75 @@ public class HuaweiSupportProvider {
     // TODO: Potentially use translatable messages for the toast messages
 
     private class SyncState {
+        private final List<Integer> syncQueue = new ArrayList<>(2);
+
         private boolean activitySync = false;
         private boolean p2pSync = false;
         private boolean workoutSync = false;
         private int workoutGpsDownload = 0;
 
+        public void addActivitySyncToQueue() {
+            if (syncQueue.contains(RecordedDataTypes.TYPE_ACTIVITY))
+                LOG.info("Activity type sync already queued, ignoring");
+            else
+                syncQueue.add(RecordedDataTypes.TYPE_ACTIVITY);
+        }
+
+        public void addWorkoutSyncToQueue() {
+            if (syncQueue.contains(RecordedDataTypes.TYPE_GPS_TRACKS))
+                LOG.info("Workout type sync already queued, ignoring");
+            else
+                syncQueue.add(RecordedDataTypes.TYPE_GPS_TRACKS);
+        }
+
+        public int getCurrentSyncType() {
+            if (syncQueue.isEmpty())
+                return -1;
+            return syncQueue.get(0);
+        }
+
         public void setActivitySync(boolean state) {
+            LOG.debug("Set activity sync state to {}", state);
             this.activitySync = state;
+            if (!state && !this.p2pSync) {
+                this.syncQueue.remove((Integer) RecordedDataTypes.TYPE_ACTIVITY);
+                HuaweiSupportProvider.this.fetchRecodedDataFromQueue();
+            }
             updateState();
         }
 
         public void setP2pSync(boolean state) {
+            LOG.debug("Set p2p sync state to {}", state);
             this.p2pSync = state;
+            if (!state && !this.activitySync) {
+                this.syncQueue.remove((Integer) RecordedDataTypes.TYPE_ACTIVITY);
+                HuaweiSupportProvider.this.fetchRecodedDataFromQueue();
+            }
             updateState();
         }
 
         public void setWorkoutSync(boolean state) {
+            LOG.debug("Set workout sync state to {}", state);
             this.workoutSync = state;
+            if (!state && this.workoutGpsDownload == 0) {
+                this.syncQueue.remove((Integer) RecordedDataTypes.TYPE_GPS_TRACKS);
+                HuaweiSupportProvider.this.fetchRecodedDataFromQueue();
+            }
             updateState();
         }
 
         public void startWorkoutGpsDownload() {
             this.workoutGpsDownload += 1;
+            LOG.debug("Add GPS download: {}", this.workoutGpsDownload);
         }
 
         public void stopWorkoutGpsDownload() {
             this.workoutGpsDownload -= 1;
+            LOG.debug("Subtract GPS download: {}", this.workoutGpsDownload);
+            if (this.workoutGpsDownload == 0 && !this.workoutSync) {
+                this.syncQueue.remove((Integer) RecordedDataTypes.TYPE_GPS_TRACKS);
+                HuaweiSupportProvider.this.fetchRecodedDataFromQueue();
+            }
             updateState();
         }
 
@@ -1163,23 +1206,31 @@ public class HuaweiSupportProvider {
     }
 
     public void onFetchRecordedData(int dataTypes) {
-        if (gbDevice.isBusy()) {
+        for (int i = 1; i > -1; i <<= 1) {
+            if ((dataTypes & i) != 0) {
+                switch (i) {
+                    case RecordedDataTypes.TYPE_ACTIVITY:
+                        this.syncState.addActivitySyncToQueue();
+                        break;
+                    case RecordedDataTypes.TYPE_GPS_TRACKS:
+                        this.syncState.addWorkoutSyncToQueue();
+                        break;
+                    // Ignore the following because we know/they are included in the others
+                    case RecordedDataTypes.TYPE_SPO2:
+                    case RecordedDataTypes.TYPE_STRESS:
+                    case RecordedDataTypes.TYPE_HEART_RATE:
+                    case RecordedDataTypes.TYPE_PAI:
+                    case RecordedDataTypes.TYPE_SLEEP_RESPIRATORY_RATE:
+                        break;
+                    default:
+                        LOG.warn("Recorded data type {} not implemented yet.", i);
+                }
+            }
+        }
+        if (gbDevice.isBusy())
             LOG.warn("Device is already busy with {}, so won't fetch data now.", gbDevice.getBusyTask());
-            // TODO: better way of letting user know?
-            GB.toast("Device is already busy with " + gbDevice.getBusyTask() + ", so won't fetch data now.", Toast.LENGTH_LONG, 0);
-            return;
-        }
-
-        // TODO: Add support for retrieving multiple activity types with one call - maybe with a queue?
-
-        if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0) {
-            fetchActivityData();
-        } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
-            fetchWorkoutData();
-        } else {
-            LOG.warn("Recorded data type {} not implemented yet.", dataTypes);
-            GB.toast("Recoded data type " + dataTypes + " not implemented yet", Toast.LENGTH_SHORT, GB.WARN);
-        }
+        else
+            fetchRecodedDataFromQueue();
 
         // Get the battery level as well
         getBatteryLevel();
@@ -1187,6 +1238,18 @@ public class HuaweiSupportProvider {
         // Get the alarms as they cannot be retrieved on opening the alarm window
         // TODO: get the alarms if the alarm settings are opened instead of here
         getAlarms();
+    }
+
+    private void fetchRecodedDataFromQueue() {
+        int dataType = this.syncState.getCurrentSyncType();
+        if (dataType == -1)
+            return; // Empty queue
+
+        if (dataType == RecordedDataTypes.TYPE_ACTIVITY) {
+            fetchActivityData();
+        } else if (dataType == RecordedDataTypes.TYPE_GPS_TRACKS) {
+            fetchWorkoutData();
+        }
     }
 
     private void fetchActivityData() {
@@ -1296,9 +1359,9 @@ public class HuaweiSupportProvider {
     }
 
     private void fetchActivityDataP2P() {
-        syncState.setP2pSync(true);
         HuaweiP2PDataDictionarySyncService P2PSyncService = HuaweiP2PDataDictionarySyncService.getRegisteredInstance(huaweiP2PManager);
         if (P2PSyncService != null && getHuaweiCoordinator().supportsTemperature()) {
+            syncState.setP2pSync(true);
             P2PSyncService.sendSyncRequest(400012, new HuaweiP2PDataDictionarySyncService.DictionarySyncCallback() {
                 @Override
                 public void onComplete(boolean complete) {
@@ -2355,7 +2418,7 @@ public class HuaweiSupportProvider {
                 new HuaweiFileDownloadManager.FileDownloadCallback() {
                     @Override
                     public void downloadComplete(HuaweiFileDownloadManager.FileRequest fileRequest) {
-                        syncState.stopWorkoutGpsDownload();
+                        syncState.stopWorkoutGpsDownload(); // TODO: delay until the file is actually parsed...
                         extraCallbackAction.run();
 
                         if (fileRequest.getData().length == 0) {

@@ -83,6 +83,8 @@ public class GetWorkoutCountRequest extends Request {
             );
             nextRequest.setFinalizeReq(this.finalizeReq);
             this.nextRequest(nextRequest);
+        } else {
+            this.supportProvider.endOfWorkoutSync();
         }
     }
 }

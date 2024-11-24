@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
@@ -91,6 +92,9 @@ public class Workout {
                     }
                     this.workoutNumbers.add(workoutNumber);
                 }
+
+                // Has to be sorted for the timestamp-based sync start that we use in the HuaweiSupportProvider
+                this.workoutNumbers.sort(Comparator.comparingInt(o -> o.workoutNumber));
             }
         }
     }
