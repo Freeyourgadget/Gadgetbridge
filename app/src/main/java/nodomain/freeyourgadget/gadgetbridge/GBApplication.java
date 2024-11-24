@@ -1853,8 +1853,12 @@ public class GBApplication extends Application {
                     }
 
                     final String newPrefValue;
-                    if (!StringUtils.isBlank(chartsTabsValue) && !chartsTabsValue.contains("calories")) {
-                        newPrefValue = chartsTabsValue + ",calories";
+                    if (!StringUtils.isBlank(chartsTabsValue)) {
+                        if (!chartsTabsValue.contains("calories")) {
+                            newPrefValue = chartsTabsValue + ",calories";
+                        } else {
+                            newPrefValue = chartsTabsValue;
+                        }
                     } else {
                         newPrefValue = "calories";
                     }
