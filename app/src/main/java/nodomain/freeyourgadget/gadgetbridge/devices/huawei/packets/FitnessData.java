@@ -23,6 +23,7 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HeartRateZonesConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiReportThreshold;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiRunPaceConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 
 public class FitnessData {
@@ -741,25 +742,19 @@ public class FitnessData {
         public static final byte id = 0x28;
 
         public static class Request extends HuaweiPacket {
-            public Request(ParamsProvider paramsProvider,
-                           int easyPaceZoneMinValue,
-                           int marathonPaceZoneMinValue,
-                           int lactatePaceZoneMinValue,
-                           int anaerobicPaceZoneMinValue,
-                           int maxOxygenPaceZoneMinValue,
-                           int maxOxygenPaceZoneMaxValue) {
+            public Request(ParamsProvider paramsProvider, final HuaweiRunPaceConfig runPaceConfig) {
                 super(paramsProvider);
 
                 this.serviceId = FitnessData.id;
                 this.commandId = id;
 
                 this.tlv = new HuaweiTLV()
-                        .put(0x01, (short) easyPaceZoneMinValue)
-                        .put(0x02, (short) marathonPaceZoneMinValue)
-                        .put(0x03, (short) lactatePaceZoneMinValue)
-                        .put(0x04, (short) anaerobicPaceZoneMinValue)
-                        .put(0x05, (short) maxOxygenPaceZoneMinValue)
-                        .put(0x06, (short) maxOxygenPaceZoneMaxValue);
+                        .put(0x01, (short) runPaceConfig.getZone1JogMin())
+                        .put(0x02, (short) runPaceConfig.getZone2MarathonMin())
+                        .put(0x03, (short) runPaceConfig.getZone3LactateThresholdMin())
+                        .put(0x04, (short) runPaceConfig.getZone4AnaerobicMin())
+                        .put(0x05, (short) runPaceConfig.getZone5HIITRunMin())
+                        .put(0x06, (short) runPaceConfig.getZone5HIITRunMax());
                 this.complete = true;
             }
         }

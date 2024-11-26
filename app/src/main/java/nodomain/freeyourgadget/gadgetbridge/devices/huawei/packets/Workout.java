@@ -154,6 +154,26 @@ public class Workout {
 
             public byte swimType = -1;
 
+            public int maxMET = 0;
+
+            public byte hrZoneType = -1;
+
+            public short runPaceZone1Min = -1;
+            public short runPaceZone2Min = -1;
+            public short runPaceZone3Min = -1;
+            public short runPaceZone4Min = -1;
+            public short runPaceZone5Min = -1;
+            public short runPaceZone5Max = -1;
+
+            public short runPaceZone1Time = -1;
+            public short runPaceZone2Time = -1;
+            public short runPaceZone3Time = -1;
+            public short runPaceZone4Time = -1;
+            public short runPaceZone5Time = -1;
+
+            public byte algType = 0;
+
+            public int trainingPoints = -1;
 
             public Response(ParamsProvider paramsProvider) {
                 super(paramsProvider);
@@ -189,6 +209,8 @@ public class Workout {
                     this.workoutLoad = container.getInteger(0x0d);
                 if (container.contains(0x0e))
                     this.workoutAerobicEffect = container.getInteger(0x0e);
+                if (container.contains(0x10))
+                    this.maxMET = container.getInteger(0x10);
                 if (container.contains(0x11))
                     this.recoveryTime = container.getShort(0x11);
                 if (container.contains(0x12))
@@ -215,9 +237,36 @@ public class Workout {
                     this.minAltitude = container.getInteger(0x1d);
                 if (container.contains(0x20))
                     this.workoutAnaerobicEffect = container.getByte(0x20);
+                if (container.contains(0x24))
+                    this.hrZoneType = container.getByte(0x24);
+                if (container.contains(0x50))
+                    this.runPaceZone1Min = container.getShort(0x50);
+                if (container.contains(0x51))
+                    this.runPaceZone2Min = container.getShort(0x51);
+                if (container.contains(0x52))
+                    this.runPaceZone3Min = container.getShort(0x52);
+                if (container.contains(0x53))
+                    this.runPaceZone4Min = container.getShort(0x53);
+                if (container.contains(0x54))
+                    this.runPaceZone5Min = container.getShort(0x54);
+                if (container.contains(0x55))
+                    this.runPaceZone5Max = container.getShort(0x55);
+                if (container.contains(0x56))
+                    this.runPaceZone1Time = container.getShort(0x56);
+                if (container.contains(0x57))
+                    this.runPaceZone2Time = container.getShort(0x57);
+                if (container.contains(0x58))
+                    this.runPaceZone3Time = container.getShort(0x58);
+                if (container.contains(0x59))
+                    this.runPaceZone4Time = container.getShort(0x59);
+                if (container.contains(0x5a))
+                    this.runPaceZone5Time = container.getShort(0x5a);
+                if (container.contains(0x5d))
+                    this.algType = container.getByte(0x5d);
+                if (container.contains(0x63))
+                    this.trainingPoints = container.getShort(0x63);
                 if (container.contains(0x66))
                     this.recoveryHeartRates = container.getBytes(0x66);
-
             }
         }
     }

@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(88, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(89, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -1410,6 +1410,26 @@ public class GBDaoGenerator {
         workoutSummary.addByteArrayProperty("recoveryHeartRates");
 
         workoutSummary.addByteProperty("swimType").notNull();
+
+        workoutSummary.addIntProperty("maxMET").notNull();
+
+        workoutSummary.addByteProperty("hrZoneType").notNull();
+
+        workoutSummary.addShortProperty("runPaceZone1Min").notNull();
+        workoutSummary.addShortProperty("runPaceZone2Min").notNull();
+        workoutSummary.addShortProperty("runPaceZone3Min").notNull();
+        workoutSummary.addShortProperty("runPaceZone4Min").notNull();
+        workoutSummary.addShortProperty("runPaceZone5Min").notNull();
+        workoutSummary.addShortProperty("runPaceZone5Max").notNull();
+
+        workoutSummary.addShortProperty("runPaceZone1Time").notNull();
+        workoutSummary.addShortProperty("runPaceZone2Time").notNull();
+        workoutSummary.addShortProperty("runPaceZone3Time").notNull();
+        workoutSummary.addShortProperty("runPaceZone4Time").notNull();
+        workoutSummary.addShortProperty("runPaceZone5Time").notNull();
+
+        workoutSummary.addByteProperty("algType").notNull();
+        workoutSummary.addIntProperty("trainingPoints").notNull();
 
         return workoutSummary;
     }

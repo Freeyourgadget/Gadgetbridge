@@ -1649,8 +1649,25 @@ public class HuaweiSupportProvider {
                     packet.minHeartRatePeak,
                     packet.maxHeartRatePeak,
                     recoveryHeartRates,
-                    packet.swimType
+                    packet.swimType,
+                    packet.maxMET,
+                    packet.hrZoneType,
+                    packet.runPaceZone1Min,
+                    packet.runPaceZone2Min,
+                    packet.runPaceZone3Min,
+                    packet.runPaceZone4Min,
+                    packet.runPaceZone5Min,
+                    packet.runPaceZone5Max,
+                    packet.runPaceZone1Time,
+                    packet.runPaceZone2Time,
+                    packet.runPaceZone3Time,
+                    packet.runPaceZone4Time,
+                    packet.runPaceZone5Time,
+                    packet.algType,
+                    packet.trainingPoints
             );
+
+
             db.getDaoSession().getHuaweiWorkoutSummarySampleDao().insertOrReplace(summarySample);
 
             return summarySample.getWorkoutId();

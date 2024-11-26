@@ -2,26 +2,26 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huawei;
 
 public class HuaweiSportHRZones {
     private final HeartRateZonesConfig otherHRZonesConfig;
-    private final HeartRateZonesConfig SittingHRZonesConfig;
-    private final HeartRateZonesConfig UprightHRZonesConfig;
-    private final HeartRateZonesConfig SwimmingHRZonesConfig;
+    private final HeartRateZonesConfig sittingHRZonesConfig;
+    private final HeartRateZonesConfig uprightHRZonesConfig;
+    private final HeartRateZonesConfig swimmingHRZonesConfig;
 
     public HuaweiSportHRZones(int age) {
-        this.UprightHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_UPRIGHT, age);
-        this.SittingHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_SITTING, age);
-        this.SwimmingHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_SWIMMING, age);
+        this.uprightHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_UPRIGHT, age);
+        this.sittingHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_SITTING, age);
+        this.swimmingHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_SWIMMING, age);
         this.otherHRZonesConfig = new HeartRateZonesConfig(HeartRateZonesConfig.TYPE_OTHER, age);
     }
 
     public HeartRateZonesConfig getHRZonesConfigByType(int type) {
         if (type == HeartRateZonesConfig.TYPE_SITTING) {
-            return this.SittingHRZonesConfig;
+            return this.sittingHRZonesConfig;
         } else if (type == HeartRateZonesConfig.TYPE_SWIMMING) {
-            return this.SwimmingHRZonesConfig;
+            return this.swimmingHRZonesConfig;
         } else if (type == HeartRateZonesConfig.TYPE_OTHER) {
             return this.otherHRZonesConfig;
         }
-        return this.UprightHRZonesConfig;
+        return this.uprightHRZonesConfig;
     }
 
     public byte[] getHRZonesData() {

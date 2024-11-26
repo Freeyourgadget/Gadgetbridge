@@ -395,7 +395,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
             summaryData.add(ActivitySummaryEntries.DISTANCE_METERS, summary.getDistance(), ActivitySummaryEntries.UNIT_METERS);
             summaryData.add(ActivitySummaryEntries.STEPS, summary.getStepCount(), ActivitySummaryEntries.UNIT_STEPS);
             summaryData.add(ActivitySummaryEntries.ACTIVE_SECONDS, summary.getDuration(), ActivitySummaryEntries.UNIT_SECONDS);
-            summaryData.add(ActivitySummaryEntries.STATUS, summary.getStatus() & 0xFF, ActivitySummaryEntries.UNIT_NONE);
+            //summaryData.add(ActivitySummaryEntries.STATUS, summary.getStatus() & 0xFF, ActivitySummaryEntries.UNIT_NONE);
             summaryData.add(ActivitySummaryEntries.TYPE, summary.getType() & 0xFF, ActivitySummaryEntries.UNIT_NONE);
 
             if (summary.getStrokes() != -1) {
@@ -492,15 +492,15 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 int sumAltitudeDown = 0;
 
                 //NOTE: The method of retrieving HR zones from the Huawei watch is not discovered. It may not return zones.
-                // So they are calculated based on config. Enabled only for running and walking activities for testing.
-                // Currently only calculated zones based on MHR.
-                // TODO: Use other methods after the configuration will be implemented. Use calculateMethod on HeartRateZonesConfig class.
-                // TODO: Enable for other workout types
+                // So they are calculated based on config.
                 HeartRateZonesConfig HRZonesCfg = null;
-                if( type == ActivityKind.WALKING || type == ActivityKind.RUNNING) {
+                Integer zoneType = HuaweiWorkoutUtils.getHRZoneTypeByActivity(type);
+                int zoneCalculateMethod = summary.getHrZoneType();
+                LOG.info("Workout HR Zone Calculate Type: {}", zoneCalculateMethod);
+                if(zoneType != null && HeartRateZonesConfig.isCalculateMethodValidFroType(zoneType, zoneCalculateMethod)) {
                     ActivityUser activityUser = new ActivityUser();
                     HuaweiSportHRZones hrSportZones = new HuaweiSportHRZones(activityUser.getAge());
-                    HRZonesCfg = hrSportZones.getHRZonesConfigByType(HeartRateZonesConfig.TYPE_UPRIGHT);
+                    HRZonesCfg = hrSportZones.getHRZonesConfigByType(zoneType);
                 }
 
                 int dataDelta = 5;
@@ -514,7 +514,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 for (HuaweiWorkoutDataSample dataSample : dataSamples) {
 
                     if(HRZonesCfg != null) {
-                        int zoneIdx = HRZonesCfg.getMHRZone(dataSample.getHeartRate() & 0xFF);
+                        int zoneIdx = HRZonesCfg.getZoneByMethod(dataSample.getHeartRate() & 0xFF, zoneCalculateMethod);
                         if (zoneIdx != -1 && dataIdx < (dataSamples.size() - 1)) {
                                  HRZones[zoneIdx] += dataDelta;
                         }
@@ -627,7 +627,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 if(HRZonesCfg != null) {
                     final double totalTime = Arrays.stream(HRZones).sum();
                     final List<String> zoneOrder = Arrays.asList(ActivitySummaryEntries.HR_ZONE_WARM_UP, ActivitySummaryEntries.HR_ZONE_FAT_BURN, ActivitySummaryEntries.HR_ZONE_AEROBIC, ActivitySummaryEntries.HR_ZONE_ANAEROBIC, ActivitySummaryEntries.HR_ZONE_EXTREME);
-                    for (int i = 0; i < zoneOrder.size(); i++) {
+                    for (int i = zoneOrder.size() - 1; i >= 0; i--) {
                         double timeInZone = HRZones[i];
                         LOG.info("Zone: {} {}", zoneOrder.get(i), timeInZone);
                         summaryData.add(
@@ -675,8 +675,6 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 }
 
                 if (stepRatePresent) {
-                    summaryData.add(ActivitySummaryEntries.STEP_RATE_SUM, stepRate, ActivitySummaryEntries.UNIT_SPM);
-
                     summaryData.add(ActivitySummaryEntries.STEP_RATE_AVG, avgStepRate, ActivitySummaryEntries.UNIT_SPM);
                 }
 
@@ -724,11 +722,7 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                     if(avgStrokeRate == -1) {
                         avgStrokeRate = strokeRate;
                     }
-                    // TODO: find out unit?
-                    summaryData.add(ActivitySummaryEntries.STROKE_RATE_AVG, strokeRate, ActivitySummaryEntries.UNIT_NONE);
-
-                    // TODO: find out unit?
-                    summaryData.add(ActivitySummaryEntries.STROKE_RATE_MAX, maxStrokeRate, ActivitySummaryEntries.UNIT_NONE);
+                    summaryData.add(ActivitySummaryEntries.STROKE_RATE_MAX, maxStrokeRate, ActivitySummaryEntries.UNIT_STROKES_PER_MINUTE);
                 }
 
                 if (heartRateCount > 0) {

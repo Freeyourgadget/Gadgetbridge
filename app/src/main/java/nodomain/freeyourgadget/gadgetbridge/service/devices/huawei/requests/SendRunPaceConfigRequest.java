@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiRunPaceConfig;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.packets.FitnessData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiSupportProvider;
 
@@ -26,15 +27,7 @@ public class SendRunPaceConfigRequest extends Request {
     @Override
     protected List<byte[]> createRequest() throws Request.RequestCreationException {
         try {
-            //Hardcoded value till interface enable threshold values
-            return new FitnessData.RunPaceConfig.Request(paramsProvider,
-                    0x1C2,
-                    0x1A4,
-                    0x186,
-                    0x168,
-                    0x14A,
-                    0x12C
-            ).serialize();
+            return new FitnessData.RunPaceConfig.Request(paramsProvider, new HuaweiRunPaceConfig()).serialize();
         } catch (HuaweiPacket.CryptoException e) {
             throw new Request.RequestCreationException(e);
         }

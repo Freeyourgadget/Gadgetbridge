@@ -11,12 +11,16 @@ public class HeartRateZonesConfig {
     public static final int TYPE_SWIMMING = 3;
     public static final int TYPE_OTHER = 4;
 
+    public static final int CALCULATE_METHOD_MHR = 0;
+    public static final int CALCULATE_METHOD_HRR = 1;
+    public static final int CALCULATE_METHOD_LTHR = 3;
+
 
     private static final int DEFAULT_REST_HEART_RATE = 60;
     public static final int MAXIMUM_HEART_RATE = 220;
 
     private final int configType;
-    private int calculateMethod = 0; // 0 - MHR, 1 - HRR, 3 - LTHR
+    private int calculateMethod = CALCULATE_METHOD_MHR; // 0 - MHR, 1 - HRR, 3 - LTHR
 
     private int maxHRThreshold;
     private int restHeartRate = DEFAULT_REST_HEART_RATE;
@@ -261,5 +265,23 @@ public class HeartRateZonesConfig {
     public int getLTHRZone(int heartRate) {
         return getZoneForHR(heartRate, LTHRAnaerobic, LTHRLactate, LTHRAdvancedAerobic, LTHRBasicAerobic, LTHRWarmUp);
     }
+
+    public int getZoneByMethod(int heartRate, int method) {
+        if(method == CALCULATE_METHOD_LTHR) {
+            return getLTHRZone(heartRate);
+        } else if(method == CALCULATE_METHOD_MHR) {
+            return getMHRZone(heartRate);
+        }
+        return getHHRZone(heartRate);
+    }
+
+    public static boolean isCalculateMethodValidFroType(int type, int method) {
+        if(method == CALCULATE_METHOD_LTHR && type == TYPE_UPRIGHT) {
+            return true;
+        }
+        return (method == CALCULATE_METHOD_MHR) || (method == CALCULATE_METHOD_HRR);
+
+    }
+
 
 }
