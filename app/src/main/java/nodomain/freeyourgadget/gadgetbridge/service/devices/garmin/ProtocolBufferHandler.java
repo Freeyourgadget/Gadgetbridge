@@ -370,7 +370,6 @@ public class ProtocolBufferHandler implements MessageHandler {
             final int notificationId = pictureRequest.getNotificationId();
             final Bitmap bmp = deviceSupport.getNotificationAttachmentBitmap(notificationId);
             if (bmp == null) {
-                LOG.warn("Failed to find bitmap for notification id {}", notificationId);
                 return null;
             }
 

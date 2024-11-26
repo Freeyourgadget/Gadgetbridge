@@ -135,6 +135,7 @@ public class NotificationsHandler implements MessageHandler {
                 return e;
             }
         }
+        LOG.warn("Failed to find notificationSpec in queue for {}", id);
         return null;
     }
 
