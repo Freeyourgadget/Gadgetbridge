@@ -52,7 +52,6 @@ public class HuaweiUploadManager {
         private String dstPackage = null;
         private String srcFingerprint = null;
         private String dstFingerprint = null;
-        private boolean isEncrypted = false;
 
         private int currentUploadPosition = 0;
         private int uploadChunkSize = 0;
@@ -77,6 +76,10 @@ public class HuaweiUploadManager {
 
         public int getUnitSize() {
             return fileUploadParams.unit_size;
+        }
+
+        public boolean getEncrypt() {
+            return fileUploadParams.no_encrypt == 0;
         }
 
         public void setBytes(byte[] uploadArray) {
@@ -143,10 +146,6 @@ public class HuaweiUploadManager {
         public String getDstFingerprint() { return dstFingerprint;}
 
         public void setDstFingerprint(String dstFingerprint) { this.dstFingerprint = dstFingerprint;}
-
-        public boolean isEncrypted() { return isEncrypted; }
-
-        public void setEncrypted(boolean encrypted) { isEncrypted = encrypted; }
 
         public byte[] getFileSHA256() {
             return fileSHA256;

@@ -43,7 +43,7 @@ public class SendFileUploadChunk extends Request {
                     huaweiUploadManager.getFileUploadInfo().getCurrentUploadPosition(),
                     huaweiUploadManager.getFileUploadInfo().getUnitSize(),
                     huaweiUploadManager.getFileUploadInfo().getFileId(),
-                    huaweiUploadManager.getFileUploadInfo().isEncrypted()
+                    huaweiUploadManager.getFileUploadInfo().getEncrypt()
             );
         } catch(HuaweiPacket.SerializeException e) {
             throw new RequestCreationException(e.getMessage());

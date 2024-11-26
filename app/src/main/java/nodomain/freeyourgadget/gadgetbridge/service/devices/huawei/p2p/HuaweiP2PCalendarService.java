@@ -328,7 +328,6 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         fileInfo.setDstPackage(this.getPackage());
         fileInfo.setSrcFingerprint(this.getLocalFingerprint());
         fileInfo.setDstFingerprint(this.getFingerprint());
-        fileInfo.setEncrypted(true);
 
         fileInfo.setFileUploadCallback(new HuaweiUploadManager.FileUploadCallback() {
             @Override

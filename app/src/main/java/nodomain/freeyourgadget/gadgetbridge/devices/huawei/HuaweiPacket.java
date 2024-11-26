@@ -839,7 +839,7 @@ public class HuaweiPacket {
 
     public List<byte[]> serializeFileChunk(byte[] fileChunk, int uploadPosition, int unitSize, byte fileId, boolean isEncrypted) throws SerializeException {
         List<byte[]> retv = new ArrayList<>();
-        final int sliceHeaderLength = 6;
+        final int subHeaderLength = 6;
         final int packageHeaderAndFooterLength = 6;
 
         int packetCount = (int) Math.ceil(((double) fileChunk.length) / (double) unitSize);
@@ -852,14 +852,14 @@ public class HuaweiPacket {
 
             int contentSize = Math.min(unitSize, buffer.remaining());
 
-            ByteBuffer payload = ByteBuffer.allocate(contentSize + sliceHeaderLength);
-            payload.put(fileId);                                      // Slice
-            payload.put((byte)i);                                       // Flag
+            ByteBuffer payload = ByteBuffer.allocate(contentSize + subHeaderLength);
+            payload.put(fileId);
+            payload.put((byte)i);
             payload.putInt(sliceStart);
 
             byte[] packetContent = new byte[contentSize];
             buffer.get(packetContent);
-            payload.put(packetContent);                              // Packet databyte[] packetContent = new byte[contentSize];
+            payload.put(packetContent);
 
 
             byte[] new_payload = null;
