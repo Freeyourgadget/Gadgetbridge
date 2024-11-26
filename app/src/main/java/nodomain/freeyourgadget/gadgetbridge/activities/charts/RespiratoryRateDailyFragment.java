@@ -106,11 +106,29 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
         respiratoryRateChart.getLegend().setTextColor(TEXT_COLOR);
         respiratoryRateChart.getLegend().setCustom(legendEntries);
 
-        final List<Entry> lineEntries = new ArrayList<>();
+        final List<ILineDataSet> lineDataSets = new ArrayList<>();
+        List<Entry> lineEntries = new ArrayList<>();
         final TimestampTranslation tsTranslation = new TimestampTranslation();
+        int lastTsShorten = 0;
         for (final AbstractRespiratoryRateSample sample : respiratoryRateDay.respiratoryRateSamples) {
             int ts = (int) (sample.getTimestamp() / 1000L);
-            lineEntries.add(new Entry(tsTranslation.shorten(ts), (int) sample.getRespiratoryRate()));
+            int tsShorten = tsTranslation.shorten(ts);
+            if (lastTsShorten == 0 || (tsShorten - lastTsShorten) <= 300) {
+                lineEntries.add(new Entry(tsShorten, (int) sample.getRespiratoryRate()));
+            } else {
+                if (!lineEntries.isEmpty()) {
+                    List<Entry> clone = new ArrayList<>(lineEntries.size());
+                    clone.addAll(lineEntries);
+                    lineDataSets.add(createDataSet(clone));
+                    lineEntries.clear();
+                }
+            }
+            lastTsShorten = tsShorten;
+            lineEntries.add(new Entry(tsShorten, (int) sample.getRespiratoryRate()));
+        }
+
+        if (!lineEntries.isEmpty()) {
+            lineDataSets.add(createDataSet(lineEntries));
         }
 
         respiratoryRateChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation, "HH:mm"));
@@ -130,10 +148,24 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
         lineDataSet.setDrawValues(false);
         lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        final List<ILineDataSet> lineDataSets = new ArrayList<>();
         lineDataSets.add(lineDataSet);
         final LineData lineData = new LineData(lineDataSets);
         respiratoryRateChart.setData(lineData);
+    }
+
+    protected LineDataSet createDataSet(final List<Entry> values) {
+        final LineDataSet lineDataSet = new LineDataSet(values, getString(R.string.respiratoryRate));
+        lineDataSet.setColor(getResources().getColor(R.color.respiratory_rate_color));
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setLineWidth(2f);
+        lineDataSet.setFillAlpha(255);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setCircleColor(getResources().getColor(R.color.respiratory_rate_color));
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+        return lineDataSet;
     }
 
     @Override

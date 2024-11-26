@@ -168,8 +168,8 @@ public class RespiratoryRatePeriodFragment extends RespiratoryRateFragment<Respi
             }
         }
 
-        LineDataSet awakeDataSet = createDataSet(lineAwakeRateAvgEntries, getString(R.string.awake_avg), R.color.respiratory_rate_color);
-        LineDataSet sleepDataSet = createDataSet(lineSleepRateEntries, getString(R.string.awake_avg), R.color.chart_light_sleep_light);
+        LineDataSet awakeDataSet = createDataSet(lineAwakeRateAvgEntries, getString(R.string.sleep_colored_stats_awake_avg), R.color.respiratory_rate_color);
+        LineDataSet sleepDataSet = createDataSet(lineSleepRateEntries, getString(R.string.sleep_avg), R.color.chart_light_sleep_light);
 
         final List<ILineDataSet> lineDataSets = new ArrayList<>();
         lineDataSets.add(awakeDataSet);
@@ -177,7 +177,7 @@ public class RespiratoryRatePeriodFragment extends RespiratoryRateFragment<Respi
 
         List<LegendEntry> legendEntries = new ArrayList<>(1);
         LegendEntry awakeEntry = new LegendEntry();
-        awakeEntry.label = getString(R.string.awake_avg);
+        awakeEntry.label = getString(R.string.sleep_colored_stats_awake_avg);
         awakeEntry.formColor = getResources().getColor(R.color.respiratory_rate_color);
         LegendEntry sleepEntry = new LegendEntry();
         sleepEntry.label = getString(R.string.sleep_avg);

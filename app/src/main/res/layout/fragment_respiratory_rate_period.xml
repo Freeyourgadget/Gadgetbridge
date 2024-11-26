@@ -71,7 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/awake_avg"
+                    android:text="@string/sleep_colored_stats_awake_avg"
                     android:textSize="12sp" />
             </LinearLayout>
         </GridLayout>
