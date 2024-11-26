@@ -430,6 +430,12 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 summaryData.add(ActivitySummaryEntries.SWIM_STYLE, getSwimStyle(summary.getSwimType()));
             }
 
+            if(summary.getMaxMET() > 0) {
+                int value = (int) (((float) summary.getMaxMET() * 3.5f)) / 65536;
+                summaryData.add(ActivitySummaryEntries.MAXIMUM_OXYGEN_UPTAKE, value, ActivitySummaryEntries.UNIT_ML_KG_MIN);
+            }
+
+
             Integer summaryMinAltitude = summary.getMinAltitude();
             Integer summaryMaxAltitude = summary.getMaxAltitude();
             Integer elevationGain = summary.getElevationGain();
