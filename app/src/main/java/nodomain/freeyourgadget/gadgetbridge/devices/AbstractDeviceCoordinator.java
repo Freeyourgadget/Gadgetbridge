@@ -560,6 +560,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsDayRespiratoryRate() {
+        return false;
+    }
+
+    @Override
     public boolean supportsSleepRespiratoryRate() {
         return supportsRespiratoryRate();
     }

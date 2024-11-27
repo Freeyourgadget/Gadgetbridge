@@ -272,6 +272,12 @@ public interface DeviceCoordinator {
     boolean supportsRespiratoryRate();
 
     /**
+     * Indicates whether the device tracks respiratory rate during the day, will be false
+     * if only during the night.
+     */
+    boolean supportsDayRespiratoryRate();
+
+    /**
      * Returns true if sleep respiratory rate measurement and fetching is supported by
      * the device (with this coordinator).
      */

@@ -18,7 +18,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 
 abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractChartFragment<T> {
-    protected static final Logger LOG = LoggerFactory.getLogger(StepsDailyFragment.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(RespiratoryRateFragment.class);
 
     protected int CHART_TEXT_COLOR;
     protected int TEXT_COLOR;
@@ -46,6 +46,8 @@ abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractCha
         day = (Calendar) day.clone(); // do not modify the caller's argument
         day.add(Calendar.DATE, -TOTAL_DAYS + 1);
 
+        final boolean supportsDayRespiratoryRate = device.getDeviceCoordinator().supportsDayRespiratoryRate();
+
         List<RespiratoryRateDay> daysData = new ArrayList<>();;
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
             int startTs;
@@ -62,7 +64,7 @@ abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractCha
             List<SleepAnalysis.SleepSession> sleepSessions = sleepAnalysis.calculateSleepSessions(activitySamples);
             List<? extends AbstractRespiratoryRateSample> samples = getRespiratoryRateSamples(db, device, startTs, endTs);
             Calendar d = (Calendar) day.clone();
-            daysData.add(new RespiratoryRateDay(d, samples, sleepSessions));
+            daysData.add(new RespiratoryRateDay(d, samples, sleepSessions, supportsDayRespiratoryRate));
             day.add(Calendar.DATE, 1);
         }
         return daysData;
@@ -91,7 +93,10 @@ abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractCha
         List<? extends AbstractRespiratoryRateSample> respiratoryRateSamples;
         List<SleepAnalysis.SleepSession> sleepSessions;
 
-        protected RespiratoryRateDay(Calendar day, List<? extends AbstractRespiratoryRateSample> respiratoryRateSamples, List<SleepAnalysis.SleepSession> sleepSessions) {
+        protected RespiratoryRateDay(Calendar day,
+                                     List<? extends AbstractRespiratoryRateSample> respiratoryRateSamples,
+                                     List<SleepAnalysis.SleepSession> sleepSessions,
+                                     boolean supportsDayRespiratoryRate) {
             this.day = day;
             this.respiratoryRateSamples = respiratoryRateSamples;
             this.sleepSessions = sleepSessions;
@@ -103,7 +108,7 @@ abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractCha
             float highest = 0;
             if (!this.respiratoryRateSamples.isEmpty()) {
                 for (AbstractRespiratoryRateSample sample : this.respiratoryRateSamples) {
-                    if (isSleepSample(sample)) {
+                    if (isSleepSample(sample, supportsDayRespiratoryRate)) {
                         sleepRateTotal += sample.getRespiratoryRate();
                         sleepCounter++;
                     } else {
@@ -128,7 +133,11 @@ abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractCha
             this.rateHighest = (int) highest;
         }
 
-        private boolean isSleepSample(AbstractRespiratoryRateSample sample) {
+        private boolean isSleepSample(AbstractRespiratoryRateSample sample, boolean supportsDayRespiratoryRate) {
+            if (!supportsDayRespiratoryRate) {
+                return true;
+            }
+
             if (this.sleepSessions.isEmpty()) {
                 return true;
             }

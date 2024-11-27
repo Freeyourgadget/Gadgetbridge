@@ -148,8 +148,9 @@ public class RespiratoryRatePeriodFragment extends RespiratoryRateFragment<Respi
     @Override
     protected void updateChartsnUIThread(RespiratoryRateData respiratoryRateData) {
         respiratoryRateChart.setData(null);
-        sleepAvg.setText(String.valueOf(respiratoryRateData.sleepRateAvg));
-        awakeAvg.setText(String.valueOf(respiratoryRateData.awakeRateAvg));
+        final String emptyValue = requireContext().getString(R.string.stats_empty_value);
+        sleepAvg.setText(respiratoryRateData.sleepRateAvg > 0 ? String.valueOf(respiratoryRateData.sleepRateAvg) : emptyValue);
+        awakeAvg.setText(respiratoryRateData.awakeRateAvg > 0 ? String.valueOf(respiratoryRateData.awakeRateAvg) : emptyValue);
 
         List<Entry> lineAwakeRateAvgEntries = new ArrayList<>();
         List<Entry> lineSleepRateEntries = new ArrayList<>();

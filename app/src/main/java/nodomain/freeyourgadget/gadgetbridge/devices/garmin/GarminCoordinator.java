@@ -311,6 +311,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsDayRespiratoryRate() {
+        return true;
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return true;
     }

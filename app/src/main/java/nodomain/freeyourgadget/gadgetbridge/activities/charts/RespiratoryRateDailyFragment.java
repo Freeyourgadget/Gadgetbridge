@@ -83,7 +83,7 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
         if (stepsDayList.isEmpty()) {
             LOG.error("Failed to get RespiratoryRateDay for {}", day);
             List<? extends AbstractRespiratoryRateSample> s = new ArrayList<>();
-            RespiratoryRateDay = new RespiratoryRateDay(day, new ArrayList<>(), new ArrayList<>());
+            RespiratoryRateDay = new RespiratoryRateDay(day, new ArrayList<>(), new ArrayList<>(), true);
         } else {
             RespiratoryRateDay = stepsDayList.get(0);
         }
@@ -92,10 +92,11 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
 
     @Override
     protected void updateChartsnUIThread(RespiratoryRateFragment.RespiratoryRateDay respiratoryRateDay) {
-        awakeAvg.setText(String.format(String.valueOf(respiratoryRateDay.awakeRateAvg)));
-        sleepAvg.setText(String.valueOf(respiratoryRateDay.sleepRateAvg));
-        lowest.setText(String.valueOf(respiratoryRateDay.rateLowest));
-        highest.setText(String.valueOf(respiratoryRateDay.rateHighest));
+        final String emptyValue = requireContext().getString(R.string.stats_empty_value);
+        awakeAvg.setText(respiratoryRateDay.awakeRateAvg > 0 ? String.valueOf(respiratoryRateDay.awakeRateAvg) : emptyValue);
+        sleepAvg.setText(respiratoryRateDay.sleepRateAvg > 0 ? String.valueOf(respiratoryRateDay.sleepRateAvg) : emptyValue);
+        lowest.setText(respiratoryRateDay.rateLowest > 0 ? String.valueOf(respiratoryRateDay.rateLowest) : emptyValue);
+        highest.setText(respiratoryRateDay.rateHighest > 0 ? String.valueOf(respiratoryRateDay.rateHighest) : emptyValue);
 
         // Chart
         final List<LegendEntry> legendEntries = new ArrayList<>(1);
