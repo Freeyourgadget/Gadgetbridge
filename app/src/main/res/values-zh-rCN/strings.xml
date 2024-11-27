@@ -3314,7 +3314,7 @@
     <string name="steps_avg">平均步数</string>
     <string name="steps_total">总步数</string>
     <string name="distance_avg">平均距离</string>
-    <string name="steps_distance_unit">%1$,.2f 公千米</string>
+    <string name="steps_distance_unit">%1$,.2f 千米</string>
     <string name="distance_total">总距离</string>
     <string name="minutes_2">2 分钟</string>
     <string name="minutes_3">3 分钟</string>
