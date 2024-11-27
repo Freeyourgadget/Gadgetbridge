@@ -803,6 +803,8 @@ public class GarminRealtimeSettingsFragment extends AbstractPreferenceFragment {
                     return R.drawable.ic_map;
                 case 7: // Music
                     return R.drawable.ic_music_note;
+                case 8: // Phone
+                    return R.drawable.ic_phone;
                 case 11: // Connectivity
                     return R.drawable.ic_bluetooth_searching;
                 case 13: // Audio Prompts
