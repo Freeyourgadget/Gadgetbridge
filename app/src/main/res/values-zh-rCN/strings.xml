@@ -903,7 +903,7 @@
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
     <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
-    <string name="about_description_generic">用于替代原厂手环应用的脱机无版权自由应用。</string>
+    <string name="about_description_generic">脱机无版权自由版的供应商闭源穿戴设备 Android 应用程序替代方案。</string>
     <string name="about_activity_title_generic">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
     <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
@@ -1580,9 +1580,7 @@
     <string name="watchface_dialog_pre_setting_position">预设位置为 %s</string>
     <string name="watchface_setting_light_up_on_notification">有新通知时亮起</string>
     <string name="menuitem_email">电子邮件</string>
-    <string name="about_description_banglejs_main">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。
-\n
-\n由于 Google Play 商店的政策，我们不允许在应用程序本身有捐赠链接，但如果你喜欢这个应用程序，请考虑通过下面的Gadgetbridge主页进行捐赠。</string>
+    <string name="about_description_banglejs_main">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。 \n \n由于 Google Play 商店的政策，我们不被允许在应用程序中添加捐赠链接，但如果你喜欢这个应用程序，请考虑通过下面的 Gadgetbridge 主页进行捐赠。</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js 正在运行</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1719,7 +1717,7 @@
     <string name="info_connected_count">%d 设备已连接</string>
     <string name="pref_title_banglejs_webview_url">应用加载程序网址</string>
     <string name="pref_summary_banglejs_webview_url">如果您想要一个自定义的应用程序加载器，请将您的 https://…/android.html 网址放在这里。留空的话则为： https://banglejs.com/apps</string>
-    <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。 \n \n请在稍后出现的屏幕中选择 \'%2$s\' ，并点击返回至 %1$s 。</string>
+    <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。 \n \n请在稍后出现的页面中选择 \'%2$s\' ，并点击返回至 %1$s 。</string>
     <string name="lithuanian">立陶宛语</string>
     <string name="persian">波斯语</string>
     <string name="scandinavian">斯堪的纳维亚语</string>
@@ -3538,7 +3536,7 @@
     <string name="pref_developer_add_test_activities_title">添加测试活动</string>
     <string name="pref_developer_add_test_activities_summary">使用虚拟测试活动填充数据库</string>
     <string name="pref_music_management_title">管理音乐</string>
-    <string name="music_delete_confirm_description">您确认想要删除‘%1$s’？</string>
+    <string name="music_delete_confirm_description">您确认要删除‘%1$s’吗？</string>
     <string name="music_delete_from_playlist">从播放列表中删除</string>
     <string name="music_all_songs">所有歌曲</string>
     <string name="music_new_playlist">新播放列表</string>
@@ -3554,7 +3552,7 @@
     <string name="activity_prefs_goal_active_calories_burnt">每日目标：消耗活跃卡路里</string>
     <string name="first_start_welcome_title">欢迎</string>
     <string name="first_start_intro_welcome_to">欢迎来到</string>
-    <string name="first_start_intro_tag_line">摆脱小工具供应商的专有应用程序和云服务。</string>
+    <string name="first_start_intro_tag_line">摆脱穿戴设备供应商的专有应用程序和云服务。</string>
     <string name="first_start_overview_title">总览</string>
     <string name="first_start_overview_devices">设备视图显示您已配置的所有设备及其状态，并允许访问设备特定功能，例如详细图表、设置、应用程序和警报。</string>
     <string name="first_start_open_source_title">开源</string>
@@ -3566,11 +3564,11 @@
     <string name="permission_bluetooth_scan_summary">扫描新的蓝牙设备</string>
     <string name="permission_bluetooth_connect_title">蓝牙连接</string>
     <string name="permission_contacts_title">联系人</string>
-    <string name="permission_receive_sms_summary">将 SMS 消息转发到小工具</string>
-    <string name="permission_send_sms_summary">从小工具发送短信（预设回复）</string>
+    <string name="permission_receive_sms_summary">将 SMS 消息转发到穿戴设备</string>
+    <string name="permission_send_sms_summary">从穿戴设备发送短信（预设回复）</string>
     <string name="permission_read_call_log_title">读取通话记录</string>
-    <string name="permission_read_call_log_summary">将通话记录转发到小工具</string>
-    <string name="permission_call_phone_summary">从小工具发起电话呼叫</string>
+    <string name="permission_read_call_log_summary">将通话记录转发到穿戴设备</string>
+    <string name="permission_call_phone_summary">从穿戴设备发起电话呼叫</string>
     <string name="permission_query_all_packages_title">查询所有包</string>
     <string name="permission_query_all_packages_summary">读取所有已安装应用程序的名称和图标</string>
     <string name="active_calories">活动卡路里</string>
@@ -3586,7 +3584,7 @@
     <string name="first_start_overview_dashboard">仪表板可让您快速了解您今天的表现。日历视图显示您整个月的目标状态。</string>
     <string name="first_start_permissions_desc">Gadgetbridge 需要大量权限才能执行其所有功能。查看下面的权限及其用途。</string>
     <string name="first_start_get_started_restore_button">恢复备份</string>
-    <string name="first_start_open_source_text">Gadgetbridge 是一个开源应用程序。它是由社区开发、为社区服务的。\n\n欢迎任何人通过代码、文档、测试和捐赠做出贡献。\n\nGadgetbridge 不包含广告，也没有跟踪。它将您的数据保存在 Android 设备本地，因此 100% 隐私友好。\n\n请访问我们的网站以获取更多信息、文档以及我们沟通渠道的链接。</string>
+    <string name="first_start_open_source_text">Gadgetbridge 是一个开源应用程序。它是由社区开发、为社区服务的。\n\n欢迎任何人通过代码、文档、测试和捐赠做出贡献。\n\nGadgetbridge 不包含广告，也没有跟踪器。它将您的数据在您的 Android 设备上本地保存，因此 100% 隐私友好。\n\n请访问我们的网站以获取更多信息、文档以及我们的沟通频道链接。</string>
     <string name="permission_displayover_title">显示在其他应用之上</string>
     <string name="permission_displayover_summary">由 Bangle.js 用于启动手机上的应用程序和其他功能</string>
     <string name="permission_fine_location_title">寻找位置</string>
@@ -3594,9 +3592,9 @@
     <string name="first_start_get_started_title">开始使用</string>
     <string name="first_start_get_started_go_to_app_button">前往应用</string>
     <string name="first_start_get_started_desc">首先，直接从此屏幕添加您的第一个设备、恢复备份或从干净的数据库开始。</string>
-    <string name="permission_notifications_summary">将通知转发到连接的小工具</string>
+    <string name="permission_notifications_summary">将通知转发到已连接的穿戴设备</string>
     <string name="permission_fine_location_summary">扫描蓝牙设备</string>
-    <string name="permission_background_location_summary">在后台扫描蓝牙设备并将位置发送到特定小工具</string>
+    <string name="permission_background_location_summary">在后台扫描蓝牙设备并将位置发送到特定设备</string>
     <string name="permission_bluetooth_admin_title">蓝牙管理员</string>
     <string name="permission_bluetooth_scan_title">蓝牙扫描</string>
     <string name="permission_bluetooth_admin_summary">发现并配对蓝牙设备</string>
@@ -3611,12 +3609,12 @@
     <string name="permission_read_phone_state_title">读取手机状态</string>
     <string name="permission_call_phone_title">拨打电话</string>
     <string name="permission_process_outgoing_calls_title">处理拨出电话</string>
-    <string name="permission_contacts_summary">将联系人发送到小工具</string>
+    <string name="permission_contacts_summary">将联系人发送到穿戴设备</string>
     <string name="permission_send_sms_title">发送短信</string>
     <string name="permission_external_storage_title">外部存储</string>
     <string name="permission_external_storage_summary">使用图像、铃声、应用程序文件等</string>
     <string name="permission_receive_sms_title">接收短信</string>
     <string name="permission_read_phone_state_summary">读取正在进行的通话的状态</string>
-    <string name="permission_process_outgoing_calls_summary">读取拨出电话的号码并将其显示在小工具上</string>
-    <string name="permission_answer_phone_calls_summary">通过小工具接听电话</string>
+    <string name="permission_process_outgoing_calls_summary">读取拨出电话的号码并将其显示在穿戴设备上</string>
+    <string name="permission_answer_phone_calls_summary">通过穿戴设备接听电话</string>
 </resources>
