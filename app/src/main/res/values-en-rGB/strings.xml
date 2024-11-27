@@ -1378,7 +1378,7 @@
     <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
     <string name="pref_check_permission_status_summary">Check and ask for missing permissions even when they might not be instantly needed. Disable this only if your devices actually doesn\'t support any of these features. Not granting a permission might cause issues!</string>
     <string name="pref_check_permission_status">Check permission status</string>
-    <string name="error_background_service_reason">Starting the background service failed because of an exception. Error:</string>
+    <string name="error_background_service_reason">Starting the background service failed because of an exception - click here for more information.\n\nError:</string>
     <string name="device_requires_key">Key required</string>
     <string name="error_background_service_reason_truncated">Starting the background service failed because…</string>
     <string name="error_background_service">Failed to start background service</string>
