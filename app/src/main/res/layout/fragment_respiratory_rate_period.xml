@@ -42,26 +42,6 @@
                 android:layout_marginTop="2dp"
                 >
                 <TextView
-                    android:id="@+id/sleep_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stats_empty_value"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sleep_avg"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                style="@style/GridTile"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="2dp"
-                >
-                <TextView
                     android:id="@+id/awake_avg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,6 +52,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sleep_colored_stats_awake_avg"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="2dp"
+                >
+                <TextView
+                    android:id="@+id/sleep_avg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stats_empty_value"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sleep_avg"
                     android:textSize="12sp" />
             </LinearLayout>
         </GridLayout>
