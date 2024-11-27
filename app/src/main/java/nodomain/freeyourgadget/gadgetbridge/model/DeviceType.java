@@ -227,6 +227,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nothing.EarStickCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.nut.NutCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.oppo.OppoEncoAir2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.oppo.OppoEncoAirCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFCoordinator;
@@ -547,6 +548,7 @@ public enum DeviceType {
     SUPER_CARS(SuperCarsCoordinator.class),
     ASTEROIDOS(AsteroidOSDeviceCoordinator.class),
     OPPO_ENCO_AIR(OppoEncoAirCoordinator.class),
+    OPPO_ENCO_AIR2(OppoEncoAir2Coordinator.class),
     REALME_BUDS_T110(RealmeBudsT110Coordinator.class),
     SOFLOW_SO6(SoFlowCoordinator.class),
     WITHINGS_STEEL_HR(WithingsSteelHRDeviceCoordinator.class),
