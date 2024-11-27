@@ -1901,8 +1901,12 @@ public class GBApplication extends Application {
                     }
 
                     final String newPrefValue;
-                    if (!StringUtils.isBlank(chartsTabsValue) && !chartsTabsValue.contains("respiratoryrate")) {
-                        newPrefValue = chartsTabsValue + ",respiratoryrate";
+                    if (!StringUtils.isBlank(chartsTabsValue)) {
+                        if (!chartsTabsValue.contains("respiratoryrate")) {
+                            newPrefValue = chartsTabsValue + ",respiratoryrate";
+                        } else {
+                            newPrefValue = chartsTabsValue;
+                        }
                     } else {
                         newPrefValue = "respiratoryrate";
                     }

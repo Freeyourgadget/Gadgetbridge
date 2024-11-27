@@ -245,7 +245,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "calories":
                     return getString(R.string.calories);
                 case "respiratoryrate":
-                    return getString(R.string.respiratoryRate);
+                    return getString(R.string.respiratoryrate);
             }
 
             return String.format(Locale.getDefault(), "Unknown %d", position);

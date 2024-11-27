@@ -3114,7 +3114,7 @@
         <item>@string/menuitem_temperature</item>
         <item>@string/menuitem_weight</item>
         <item>@string/watchface_widget_type_calories</item>
-        <item>@string/respiratoryRate</item>
+        <item>@string/respiratoryrate</item>
     </string-array>
 
     <string-array name="pref_charts_tabs_values">

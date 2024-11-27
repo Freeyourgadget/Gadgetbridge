@@ -69,7 +69,7 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
 
         @Override
     public String getTitle() {
-        return getString(R.string.respiratoryRate);
+        return getString(R.string.respiratoryrate);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
         // Chart
         final List<LegendEntry> legendEntries = new ArrayList<>(1);
         final LegendEntry respiratoryRateEntry = new LegendEntry();
-        respiratoryRateEntry.label = getString(R.string.respiratoryRate);
+        respiratoryRateEntry.label = getString(R.string.respiratoryrate);
         respiratoryRateEntry.formColor = getResources().getColor(R.color.respiratory_rate_color);
         legendEntries.add(respiratoryRateEntry);
         respiratoryRateChart.getLegend().setTextColor(TEXT_COLOR);
@@ -137,7 +137,7 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
             yAxisLeft.setAxisMaximum(Math.max(respiratoryRateDay.rateHighest + 3, 20));
         }
 
-        final LineDataSet lineDataSet = new LineDataSet(lineEntries, getString(R.string.respiratoryRate));
+        final LineDataSet lineDataSet = new LineDataSet(lineEntries, getString(R.string.respiratoryrate));
         lineDataSet.setColor(getResources().getColor(R.color.respiratory_rate_color));
         lineDataSet.setDrawCircles(false);
         lineDataSet.setLineWidth(2f);
@@ -154,7 +154,7 @@ public class RespiratoryRateDailyFragment extends RespiratoryRateFragment<Respir
     }
 
     protected LineDataSet createDataSet(final List<Entry> values) {
-        final LineDataSet lineDataSet = new LineDataSet(values, getString(R.string.respiratoryRate));
+        final LineDataSet lineDataSet = new LineDataSet(values, getString(R.string.respiratoryrate));
         lineDataSet.setColor(getResources().getColor(R.color.respiratory_rate_color));
         lineDataSet.setDrawCircles(false);
         lineDataSet.setLineWidth(2f);

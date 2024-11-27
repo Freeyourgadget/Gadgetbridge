@@ -30,7 +30,7 @@ abstract class RespiratoryRateFragment<T extends ChartsData> extends AbstractCha
 
     @Override
     public String getTitle() {
-        return getString(R.string.respiratoryRate);
+        return getString(R.string.respiratoryrate);
     }
 
     @Override

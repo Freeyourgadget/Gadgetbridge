@@ -2190,7 +2190,6 @@
     <string name="maxAltitude">Maximum</string>
     <string name="minAltitude">Minimum</string>
     <string name="averageAltitude">Average</string>
-    <string name="respiratoryRate">Respiratory Rate</string>
     <string name="steps">Steps</string>
     <string name="steps_avg">Steps AVG</string>
     <string name="steps_total">Steps Total</string>
