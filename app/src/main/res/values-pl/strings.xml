@@ -3630,4 +3630,5 @@
     <string name="permission_send_sms_summary">Wysyłanie SMS-ów (szablonowych odpowiedzi) z gadżetów</string>
     <string name="permission_calendar_title">Kalendarz</string>
     <string name="permission_read_call_log_title">Odczyt rejestru połączeń</string>
+    <string name="devicetype_oppo_enco_air2">Oppo Enco Air2</string>
 </resources>
