@@ -3619,4 +3619,5 @@
     <string name="permission_displayover_title">Zobrazovat přes ostatní aplikace</string>
     <string name="first_start_get_started_go_to_app_button">Přejít do aplikace</string>
     <string name="permission_background_location_title">Poloha na pozadí</string>
+    <string name="devicetype_oppo_enco_air2">Oppo Enco Air2</string>
 </resources>
