@@ -3617,4 +3617,5 @@
     <string name="permission_read_phone_state_summary">读取正在进行的通话的状态</string>
     <string name="permission_process_outgoing_calls_summary">读取拨出电话的号码并将其显示在穿戴设备上</string>
     <string name="permission_answer_phone_calls_summary">通过穿戴设备接听电话</string>
+    <string name="devicetype_oppo_enco_air2">Oppo Enco Air2</string>
 </resources>
