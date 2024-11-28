@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:key="pref_key_header_redmibuds5pro_sound"
+        android:title="@string/pref_header_sound">
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_sony_equalizer"
+            android:persistent="false"
+            android:title="@string/pref_header_equalizer">
+
+            <ListPreference
+                android:entries="@array/redmi_buds_5_pro_equalizer_presets_names"
+                android:entryValues="@array/redmi_buds_5_pro_equalizer_presets_values"
+                android:icon="@drawable/ic_graphic_eq"
+                android:defaultValue="0"
+                android:key="pref_redmi_buds_5_pro_equalizer_preset"
+                android:summary="%s"
+                android:title="@string/prefs_equalizer_preset" />
+
+            <PreferenceCategory
+                android:key="pref_key_header_redmibuds5pro_custom_equalizer"
+                android:title="@string/soundcore_equalizer_custom_title">
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_62"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_62" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_125"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_125" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_250"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_250" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_500"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_500" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_1k"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_1k" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_2k"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_2k" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_4k"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_4k" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_8k"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_8k" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_12k"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_12k" />
+
+                <ListPreference
+                    android:entries="@array/redmi_buds_5_pro_equalizer_offsets_names"
+                    android:entryValues="@array/redmi_buds_5_pro_equalizer_offsets_values"
+                    android:icon="@drawable/ic_graphic_eq"
+                    android:defaultValue="0"
+                    android:key="pref_redmi_buds_5_pro_equalizer_band_16k"
+                    android:summary="%s"
+                    android:title="@string/redmi_buds_5_pro_equalizer_band_16k" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+<!--        <SwitchPreferenceCompat-->
+<!--            android:defaultValue="false"-->
+<!--            android:key="pref_redmi_buds_5_pro_surround_sound"-->
+<!--            android:icon="@drawable/ic_surround"-->
+<!--            android:layout="@layout/preference_checkbox"-->
+<!--            android:title="@string/redmi_buds_5_pro_spatial_audio" />-->
+
+<!--        <ListPreference-->
+<!--            android:entries="@array/redmi_buds_5_pro_surround_sound_mode_names"-->
+<!--            android:entryValues="@array/redmi_buds_5_pro_surround_sound_mode_values"-->
+<!--            android:key="pref_redmi_buds_5_pro_surround_sound_mode"-->
+<!--            android:summary="%s"-->
+<!--            android:title="@string/redmi_buds_5_pro_spatial_audio_mode" />-->
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_redmi_buds_5_pro_adaptive_sound"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/redmi_buds_5_pro_adaptive_sound_description"
+            android:title="@string/redmi_buds_5_pro_adaptive_sound" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

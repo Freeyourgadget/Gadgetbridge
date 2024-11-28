@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_header_redmibuds5pro_ambient_sound_control"
+        android:title="@string/pref_header_sony_ambient_sound_control">
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/redmi_buds_5_pro_ambient_sound_control_names"
+            android:entryValues="@array/redmi_buds_5_pro_ambient_sound_control_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_redmi_buds_5_pro_ambient_sound_control"
+            android:summary="%s"
+            android:title="@string/sony_ambient_sound" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="pref_redmi_buds_5_pro_adaptive_noise_cancelling"
+            android:entries="@array/redmi_buds_5_pro_noise_cancelling_strength_names"
+            android:entryValues="@array/redmi_buds_5_pro_noise_cancelling_strength_values"
+            android:key="pref_redmi_buds_5_pro_noise_cancelling_strength"
+            android:summary="%s"
+            android:title="@string/prefs_active_noise_cancelling_level" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/redmi_buds_5_pro_transparency_strength_names"
+            android:entryValues="@array/redmi_buds_5_pro_transparency_strength_values"
+            android:key="pref_redmi_buds_5_pro_transparency_strength"
+            android:summary="%s"
+            android:title="@string/redmi_buds_5_pro_transparency_strength" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            android:key="pref_redmi_buds_5_pro_adaptive_noise_cancelling"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_adaptive_noise_cancelling_summary"
+            android:title="@string/pref_adaptive_noise_cancelling_title" />
+
+<!--        <SwitchPreferenceCompat-->
+<!--            android:defaultValue="true"-->
+<!--            android:key="pref_redmi_buds_5_pro_personalized_noise_cancelling"-->
+<!--            android:layout="@layout/preference_checkbox"-->
+<!--            android:summary="@string/pref_personalized_noise_cancelling_summary"-->
+<!--            android:title="@string/pref_personalized_noise_cancelling_title" />-->
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
