@@ -3668,4 +3668,5 @@
     <string name="redmi_buds_5_pro_equalizer_3">3 dB</string>
     <string name="redmi_buds_5_pro_equalizer_5">5 dB</string>
     <string name="redmi_buds_5_pro_equalizer_6">6 dB</string>
+    <string name="devicetype_miband9pro">Xiaomi Smart Band 9 Pro</string>
 </resources>
