@@ -137,7 +137,7 @@
     <string name="pref_title_unit_system">Единицы</string>
     <string name="pref_title_timeformat">Формат времени</string>
     <string name="pref_title_screentime">Продолжительность работы экрана</string>
-    <string name="prefs_title_all_day_heart_rate">Измерение сердечного ритма в течение всего дня</string>
+    <string name="prefs_title_all_day_heart_rate">Замер сердечного ритма на протяжении всего дня</string>
     <string name="preferences_hplus_settings">Настройки HPlus/Makibes</string>
     <string name="not_connected">Нет соединения</string>
     <string name="connecting">Соединение</string>
@@ -461,7 +461,7 @@
     <string name="simplified_chinese">Китайский упрощённый</string>
     <string name="traditional_chinese">Китайский традиционный</string>
     <string name="english">Английский язык</string>
-    <string name="prefs_title_heartrate_measurement_interval">Измерение пульса в течение дня</string>
+    <string name="prefs_title_heartrate_measurement_interval">Замер пульса на протяжении дня</string>
     <string name="interval_one_minute">раз в минуту</string>
     <string name="interval_five_minutes">каждые 5 минут</string>
     <string name="interval_ten_minutes">каждые 10 минут</string>
@@ -1069,7 +1069,7 @@
     <string name="sonyswr12_settings_stamina">Режима энергосбережения включен</string>
     <string name="sonyswr12_settings_alarm_interval">Интервал умного будильника в минутах</string>
     <string name="sonyswr12_settings_low_vibration_summary">Включить слабую вибрации на браслете</string>
-    <string name="sonyswr12_settings_stamina_summary">Режим энергосбережения отключает периодическое автоматическое измерение пульса, что увеличивает время работы</string>
+    <string name="sonyswr12_settings_stamina_summary">Режим энергосбережения отключает периодические замеры пульса, продлевая время работы</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Интервал умного будильника - это интервал до установленного будильника. В этом интервале устройство пытается определить самую легкую фазу сна, чтобы разбудить пользователя</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="activity_error_no_app_for_png">Чтобы поделиться этим снимком, установите приложение, способное обрабатывать файлы изображений.</string>
@@ -1298,7 +1298,7 @@
     <string name="pref_theme_black_background">Использовать черный фон в темной теме</string>
     <string name="watchface_upload_failed">Не удалось загрузить циферблат. Пожалуйста, попробуйте еще раз.</string>
     <string name="watchface_cache_confirm_overwrite">Циферблат с таким именем уже существует в кеше. Вы хотите его перезаписать\?</string>
-    <string name="heart_rate_result">Результаты измерений</string>
+    <string name="heart_rate_result">Результаты замеров</string>
     <string name="getting_heart_rate">Измерение</string>
     <string name="blood_pressure">Артериальное давление</string>
     <string name="pref_title_huami_force_new_protocol">Новый протокол авторизации</string>
@@ -1386,7 +1386,7 @@
     <string name="sony_surround_mode_arena">Арена</string>
     <string name="sony_ambient_sound_noise_cancelling">Подавление шума</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
-    <string name="prefs_autoheartrate_interval">Частота измерений</string>
+    <string name="prefs_autoheartrate_interval">Частота замеров</string>
     <string name="prefs_notifications_enable">Включить уведомления</string>
     <string name="sony_ambient_sound_off">Выкл.</string>
     <string name="prefs_vibration_enable">Включить вибрацию</string>
@@ -1534,7 +1534,7 @@
     <string name="pref_title_equalizer_bass_boost">Усиление басов</string>
     <string name="enable_vibrations_summary">Вибрация при поступлении звонков, сообщений, оповещений и прочего</string>
     <string name="enable_notifications_summary">Оповещение при поступлении звонков, сообщений и прочего</string>
-    <string name="prefs_autoheartrate_summary">Периодическое измерение частоты сердцебиения в течение дня и во время сна</string>
+    <string name="prefs_autoheartrate_summary">Периодические замеры частоты сердцебиения на протяжении дня и во время сна</string>
     <string name="prefs_equalizer_summary">Включить или выключить эквалайзер</string>
     <string name="prefs_ambient_voice_summary">Выделить голос</string>
     <string name="prefs_active_noise_cancelling">Активное подавление шума</string>
@@ -1580,8 +1580,8 @@
     <string name="start">Начать</string>
     <string name="maxHR">Максимальный пульс</string>
     <string name="minHR">Минимальный пульс</string>
-    <string name="prefs_autoheartrate_measurement">Автоизмерение частоты сердцебиения</string>
-    <string name="prefs_autoheartrate_sleep">Проводить измерения во время сна</string>
+    <string name="prefs_autoheartrate_measurement">Автозамеры частоты сердцебиения</string>
+    <string name="prefs_autoheartrate_sleep">Проводить замеры во время сна</string>
     <string name="prefs_galaxy_touch_options">Настройки касаний</string>
     <string name="discovery_bluetooth_le_scan">Сканирование Bluetooth LE устройств:</string>
     <string name="discover_unsupported_devices">Обнаружение неподдерживаемых устройств</string>
@@ -1589,7 +1589,7 @@
     <string name="prefs_game_mode_summary">Только если ваш телефон поддерживает игровой режим</string>
     <string name="prefs_galaxy_buds_experimental">Экспериментальные</string>
     <string name="sony_ambient_sound_wind_noise_reduction">Снижение шума от ветра</string>
-    <string name="controlcenter_get_heartrate_measurement">Измерение частоты пульса</string>
+    <string name="controlcenter_get_heartrate_measurement">Измерить частоту пульса</string>
     <string name="prefs_fm_preset_instructions">Нажмите и удерживайте кнопку для сохранения предустановки</string>
     <string name="device_unsupported">НЕ ПОДДЕРЖИВАЕТСЯ</string>
     <string name="miband_prefs_reserve_reminder_calendar">Резервирование напоминаний для предстоящих событий</string>
@@ -1660,7 +1660,7 @@
     <string name="prefs_stress_monitoring_description">Наблюдение за уровнем стресса при отдыхе</string>
     <string name="prefs_spo2_monitoring_description">Автоматическое наблюдение за уровнем кислорода в крови в течение дня</string>
     <string name="prefs_activity_monitoring_title">Наблюдение за активностью</string>
-    <string name="prefs_activity_monitoring_description">Автоматически повышать частоту измерения пульса при обнаружении физической активности для повышения точности измерений.</string>
+    <string name="prefs_activity_monitoring_description">Автоматически повышать частоту замеров пульса при обнаружении физической активности для повышения точности замеров.</string>
     <string name="seconds_6">6 секунд</string>
     <string name="prefs_control_center">Центр управления</string>
     <string name="prefs_password_4_digits_1_to_4_summary">Пароль должен состоять из 4 цифр, от 1 до 4</string>
@@ -1712,7 +1712,7 @@
     <string name="prefs_relaxation_reminder_title">Напоминание об отдыхе</string>
     <string name="activity_type_outdoor_running">Бег на свежем воздухе</string>
     <string name="activity_type_indoor_walking">Ходьба в помещении</string>
-    <string name="menuitem_one_tap_measuring">Измерения одним нажатием</string>
+    <string name="menuitem_one_tap_measuring">Замер одним нажатием</string>
     <string name="seconds_8">8 секунд</string>
     <string name="seconds_9">9 секунд</string>
     <string name="activity_type_elliptical">Эллиптический</string>
@@ -2354,7 +2354,7 @@
     <string name="devicetype_amazfit_falcon">Amazfit Falcon</string>
     <string name="maxCadence">Максимум шагов в минуту</string>
     <string name="minStride">Минимальная длина шага</string>
-    <string name="prefs_autoheartrate">Автоизмерение сердцебиения</string>
+    <string name="prefs_autoheartrate">Автозамеры сердцебиения</string>
     <string name="prefs_voice_detect">Активация по голосу</string>
     <string name="sony_ambient_sound_focus_voice">Концентрация на голосе</string>
     <string name="maxStride">Максимальная длина шага</string>
@@ -2658,8 +2658,8 @@
     <string name="pref_enable_call_accept">Принятие тел. вызовов</string>
     <string name="pref_enable_call_accept_summary">Включить принятие вызовов с устройства</string>
     <string name="pref_enable_call_reject">Отклонение тел. вызовов</string>
-    <string name="pref_heartrate_automatic_enable">Автоизмерение сердцебиения</string>
-    <string name="pref_spo_automatic_enable">Автоизмерение кислорода в крови</string>
+    <string name="pref_heartrate_automatic_enable">Автозамеры частоты сердцебиения</string>
+    <string name="pref_spo_automatic_enable">Автозамеры уровня кислорода в крови</string>
     <string name="pref_force_options">Форсирование опций</string>
     <string name="pref_force_smart_alarm">Поддержка умного будильника</string>
     <string name="pref_force_smart_alarm_summary">Форсировать поддержку умных будильников.
@@ -2788,7 +2788,7 @@
 \nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
     <string name="pref_force_enable_heartrate_support_summary">Форсировать поддержку измерения пульса.
 \nИСПОЛЬЗУЙТЕ НА СВОЙ РИСК</string>
-    <string name="pref_force_enable_spo2_support">Поддержка измерения SpO2</string>
+    <string name="pref_force_enable_spo2_support">Поддержка замеров SpO2</string>
     <string name="pref_dashboard_widget_double_size_summary">Разрешите виджету занимать две колонки на приборной панели</string>
     <string name="pref_dashboard_widget_show_legend_summary">Показывать значения цветов под виджетом</string>
     <string name="pref_dashboard_select_devices_title">Выберите устройства...</string>
@@ -2802,7 +2802,7 @@
     <string name="pref_header_audio">Аудио</string>
     <string name="activity_type_free_training">Свободная тренировка</string>
     <string name="activity_type_dynamic_cycle">Динамический цикл</string>
-    <string name="pref_dashboard_widget_today_hr_interval_title">Интервал измерений пульса</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Интервал замеров пульса</string>
     <string name="pref_speak_notifications_aloud_title">Произносить уведомления вслух</string>
     <string name="pref_header_calls_and_notifications">Вызовы и уведомления</string>
     <string name="pref_dashboard_widget_show_legend_title">Показывать обозначения</string>
@@ -3004,7 +3004,7 @@
     <string name="pref_dashboard_cards_title">Показывайте виджеты на карточках</string>
     <string name="pref_dashboard_widget_settings">Настройки виджета</string>
     <string name="pref_dashboard_widget_goals_chart_title">Таблица целей</string>
-    <string name="pref_dashboard_widget_today_hr_interval_summary">Количество минут, в течение которых на графике отображается \"ношение\" после каждого успешного измерения пульса</string>
+    <string name="pref_dashboard_widget_today_hr_interval_summary">Количество минут, в течение которых на графике отображается \"ношение\" после каждого успешного замера пульса</string>
     <string name="pref_speak_notifications_aloud_summary">Уведомления будут читаться вслух через наушники</string>
     <string name="pref_summary_garmin_default_reply_suffix">Прилагательное в дополнение к суффиксу, установленному в Гаджетбридже</string>
     <string name="pref_dashboard_widget_today_upside_down_title">Полночь на дне</string>
@@ -3238,4 +3238,46 @@
     <string name="music_upload_info">Вы отправляете файл композиции:\n\n%1$s\nНазвание: %2$s\nАльбом: %3$s\n</string>
     <string name="smart_ring_measurement_error_worn_incorrectly">Измерение не удалось. Проверьте правильность расположения сенсоров.</string>
     <string name="file_already_exists">Этот файл уже существует</string>
+    <string name="mijia_lywsd_comfort_humidity_summary">Рекомендуемый диапазон: 20 - 85</string>
+    <string name="mijia_lywsd_comfort_lower">Нижняя граница</string>
+    <string name="battery_polling_failed_start">Не удалось начать опрос батареи</string>
+    <string name="mijia_lywsd_comfort_level_title">Уровень комфорта</string>
+    <string name="mijia_lywsd_comfort_level_summary">Настройте уровни температуры и влажности для отображаемых эмодзи</string>
+    <string name="number_selected_items">%1d выбрано</string>
+    <string name="redmi_buds_5_pro_equalizer_neg6">-6 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_neg5">-5 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_5">5 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_3">3 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_4">4 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_6">6 дБ</string>
+    <string name="soundcore_equalizer_frequency">Частота</string>
+    <string name="soundcore_equalizer_value">Значение</string>
+    <string name="miscale_small_objects_title">Небольшие предметы</string>
+    <string name="mijia_lywsd_comfort_humidity_title">Влажность (%)</string>
+    <string name="mijia_lywsd_comfort_temperature_summary">Рекомендуемый диапазон: 19 - 27</string>
+    <string name="mijia_lywsd_comfort_temperature_title">Температура (°C)</string>
+    <string name="pref_dnd_follow_phone_title">Соответствовать режиму «не беспокоить» устройства</string>
+    <string name="music_new_playlist">Создать плейлист</string>
+    <string name="music_rename_playlist">Переименовать плейлист</string>
+    <string name="permission_manage_dnd_title">Управление режимом «не беспокоить»</string>
+    <string name="date_placeholders__date__time">%1s %1s</string>
+    <string name="miscale_weight_unit_summary">Укажите единицу массы для отображения замеров</string>
+    <string name="redmi_buds_5_pro_equalizer_neg3">-3 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_neg4">-4 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_neg2">-2 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_2">2 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_neg1">-1 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_zero">0 дБ</string>
+    <string name="redmi_buds_5_pro_equalizer_1">1 дБ</string>
+    <string name="first_start_permissions_title">Разрешения</string>
+    <string name="first_start_overview_title">Обзор</string>
+    <string name="mijia_lywsd_comfort_upper">Верхняя граница</string>
+    <string name="date_placeholders__start_time__end_time">%1s - %2s</string>
+    <string name="pref_music_management_title">Управление музыкой</string>
+    <string name="pref_music_management_summary">Управление сохранённой музыкой</string>
+    <string name="music_delete_confirm_description">Вы точно хотите удалить «%1$s»?</string>
+    <string name="music_add_to_playlist">Добавить в плейлист</string>
+    <string name="music_delete_from_playlist">Удалить из плейлиста</string>
+    <string name="music_delete">Удалить трек</string>
+    <string name="music_all_songs">Все треки</string>
 </resources>
