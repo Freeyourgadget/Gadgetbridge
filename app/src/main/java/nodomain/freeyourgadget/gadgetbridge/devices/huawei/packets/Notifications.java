@@ -75,21 +75,21 @@ public class Notifications {
                     .put(0x03, true); // This used to be vibrate, but doesn't work
 
             HuaweiTLV subTlv = new HuaweiTLV();
-            if (titleContent != null)
+            if (titleContent != null && !titleContent.isEmpty())
                 subTlv.put(0x8D, new HuaweiTLV()
                         .put(0x0E, (byte) TextType.title)
                         .put(0x0F, (byte) encoding)
                         .put(0x10, titleContent)
                 );
 
-            if (senderContent != null)
+            if (senderContent != null && !senderContent.isEmpty())
                 subTlv.put(0x8D, new HuaweiTLV()
                         .put(0x0E, (byte) TextType.sender)
                         .put(0x0F, (byte) encoding)
                         .put(0x10, senderContent)
                 );
 
-            if (bodyContent != null)
+            if (bodyContent != null && !bodyContent.isEmpty())
                 subTlv.put(0x8D, new HuaweiTLV()
                         .put(0x0E, (byte) TextType.text)
                         .put(0x0F, (byte) encoding)
