@@ -3620,4 +3620,19 @@
     <string name="first_start_get_started_go_to_app_button">Přejít do aplikace</string>
     <string name="permission_background_location_title">Poloha na pozadí</string>
     <string name="devicetype_oppo_enco_air2">Oppo Enco Air2</string>
+    <string name="redmi_buds_5_pro_combo_transparency_off">Průchodnost / vypnuta</string>
+    <string name="redmi_buds_5_pro_anc_balanced">Vyvážené</string>
+    <string name="devicetype_redmi_buds_5_pro">Redmi Buds 5 Pro</string>
+    <string name="redmi_buds_5_pro_anc_light">Lehké</string>
+    <string name="redmi_buds_5_pro_transparency_ambient">Vylepšit ambientní zvuky</string>
+    <string name="redmi_buds_5_pro_combo_anc_transparency">ANC / průchodnost</string>
+    <string name="redmi_buds_5_pro_combo_all">ANC / průchodnost / vypnuta</string>
+    <string name="redmi_buds_5_pro_double_connection_description">Povolit sluchátkám připojit se ke dvěma zařízením zároveň</string>
+    <string name="redmi_buds_5_pro_anc_deep">Hluboké</string>
+    <string name="redmi_buds_5_pro_transparency_strength">Síla průchodnosti</string>
+    <string name="redmi_buds_5_pro_transparency_regular">Běžná</string>
+    <string name="redmi_buds_5_pro_combo_anc_off">ANC / vypnuto</string>
+    <string name="redmi_buds_5_pro_transparency_voice">Vylepšit hlasy</string>
+    <string name="redmi_buds_5_pro_double_connection">Dvojité připojení</string>
+    <string name="redmi_buds_5_pro_adaptive_sound">Adaptivní zvuk</string>
 </resources>
