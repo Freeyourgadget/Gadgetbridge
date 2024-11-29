@@ -104,10 +104,13 @@ public class XiaomiSimpleActivityParser {
                         summary.setActivityKind(ActivityKind.OUTDOOR_RUNNING.getCode());
                         break;
                     case 2:
-                        summary.setActivityKind(ActivityKind.OUTDOOR_WALKING.getCode());
+                        summary.setActivityKind(ActivityKind.WALKING.getCode());
                         break;
                     case 6:
                         summary.setActivityKind(ActivityKind.OUTDOOR_CYCLING.getCode());
+                        break;
+                    case 15:
+                        summary.setActivityKind(ActivityKind.OUTDOOR_WALKING.getCode());
                         break;
                     default:
                         summary.setActivityKind(ActivityKind.UNKNOWN.getCode());

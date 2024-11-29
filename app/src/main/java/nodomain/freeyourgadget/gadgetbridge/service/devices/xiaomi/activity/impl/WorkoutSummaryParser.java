@@ -192,7 +192,8 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 parser = getIndoorCyclingParser(fileId);
                 break;
             case SPORTS_FREESTYLE:
-                summary.setActivityKind(ActivityKind.STRENGTH_TRAINING.getCode());
+                summary.setActivityKind(ActivityKind.EXERCISE.getCode());
+                // summary.setActivityKind(ActivityKind.STRENGTH_TRAINING.getCode());
                 parser = getFreestyleParser(fileId);
                 break;
             case SPORTS_POOL_SWIMMING:
@@ -200,12 +201,13 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 parser = getPoolSwimmingParser(fileId);
                 break;
             case SPORTS_HIIT:
-                summary.setActivityKind(ActivityKind.EXERCISE.getCode());
+                summary.setActivityKind(ActivityKind.HIIT.getCode());
+                // summary.setActivityKind(ActivityKind.EXERCISE.getCode());
                 parser = getHiitParser(fileId);
                 break;
             case SPORTS_ELLIPTICAL:
                 summary.setActivityKind(ActivityKind.ELLIPTICAL_TRAINER.getCode());
-                // TODO
+                parser = getEllipticalParser(fileId);
                 break;
             case SPORTS_OUTDOOR_WALKING_V2:
                 parser = getOutdoorWalkingV2Parser(fileId);
@@ -230,7 +232,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int version = fileId.getVersion();
         final int headerSize;
         switch (version) {
-            case 5:
+            case 5:   // for Smart Band 8 Active
                 headerSize = 3;
                 break;
             case 8:
@@ -253,25 +255,37 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addByte(HR_MAX, UNIT_BPM);
         builder.addByte(HR_MIN, UNIT_BPM);
         if (version == 5) {
-            // for Smart Band 8 Active
             builder.addUnknown(7);
-            builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
-            // builder.addUnknown(23);
         } else {
             builder.addUnknown(6);
             builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
             builder.addUnknown(1);
             builder.addUnknown(1);
             builder.addShort(RECOVERY_TIME, UNIT_HOURS);
-            builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
-            builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        }
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        if (version == 5) {
+            builder.addUnknown(11);
+		    // TODO: next byte is FreestyleType?
+		    // indoor cycling 0x07
+		    // freestyle 0x08
+		    // yoga 0x0c
+		    // HIIT 0x10
+		    // stair climbing 0x2d
+		    // core training 0x2f
+		    // flexibility 0x30
+		    // pilates 0x31
+		    // stretching 0x33
+		    // strength 0x34
+		    // aerobics 0x36
+		    // roller skating 0xca
+            builder.addUnknown(1);        // FREESTYLE_TYPE
+            builder.addUnknown(1);
+        } else {
             builder.addUnknown(2);
             builder.addUnknown(4);
             builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
@@ -394,7 +408,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         final int version = fileId.getVersion();
         final int headerSize;
         switch (version) {
-            case 1:
+            case 1:  // for Smart Band 8 Active
                 headerSize = 5;
                 break;
             case 4:
@@ -408,7 +422,6 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
                 LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
                 return null;
         }
-
         final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
         builder.setHeaderSize(headerSize);
         builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
@@ -420,12 +433,11 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addUnknown(2);
         builder.addShort(CALORIES_BURNT, UNIT_KCAL);
         if (version == 1) {
-            // for Smart Band 8 Active
             builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
             builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
             builder.addUnknown(4);
             builder.addInt(STEPS, UNIT_STEPS);
-            builder.addUnknown(2);        // MAX_STEPS_PER_MINUTE, Short?
+            builder.addUnknown(2);        // MAX_STEPS_PER_MINUTE, UNIT_STEPS_PER_MINUTE
             builder.addByte(HR_AVG, UNIT_BPM);
             builder.addByte(HR_MAX, UNIT_BPM);
             builder.addByte(HR_MIN, UNIT_BPM);
@@ -435,7 +447,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
             builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
             builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
-            // builder.addUnknown(22);
+            builder.addUnknown(21);
         } else {
             if (version >= 5) {
                 builder.addInt(PACE_AVG_SECONDS_KM, UNIT_SECONDS_PER_KM);
@@ -629,6 +641,41 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addShort("minSWOLF", UNIT_NONE);
         builder.addShort("maxSWOLF", UNIT_NONE);
         // builder.addInt("totalStrokes2", UNIT_STROKES);
+
+        return builder.build();
+    }
+
+    @Nullable
+    private XiaomiSimpleActivityParser getEllipticalParser(final XiaomiActivityFileId fileId) {
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 3:
+                headerSize = 4;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
+        builder.setHeaderSize(headerSize);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addInt(STEPS, UNIT_STEPS);
+        builder.addUnknown(2);        // MAX_STEPS_PER_MINUTE, UNIT_STEPS_PER_MINUTE
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addUnknown(7);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        builder.addUnknown(20);
 
         return builder.build();
     }
