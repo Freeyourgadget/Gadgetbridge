@@ -550,7 +550,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             public void handleFileData(byte[] fileData) {
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
                     ActivityFileParser parser = new ActivityFileParser();
-                    ArrayList<ActivityEntry> entries = parser.parseFile(fileData);
+                    ArrayList<ActivityEntry> entries = parser.parseFile(fileData).getKey();
                     HybridHRActivitySampleProvider provider = new HybridHRActivitySampleProvider(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
 
                     HybridHRActivitySample[] samples = new HybridHRActivitySample[entries.size()];

@@ -15,10 +15,12 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser;
+import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRSpo2Sample;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ActivityFileParser {
     
@@ -28,10 +30,9 @@ public class ActivityFileParser {
     int currentTimestamp = 0; // Aligns with `e2 04` from my testing
     ActivityEntry currentSample = null;
     int currentId = 1;
-    int spO2 = -1; // Should actually do something with this
     
 
-    public ArrayList<ActivityEntry> parseFile(byte[] file) {
+    public Map.Entry<ArrayList<ActivityEntry>, ArrayList<HybridHRSpo2Sample>> parseFile(byte[] file) {
         ByteBuffer buffer = ByteBuffer.wrap(file);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -48,6 +49,7 @@ public class ActivityFileParser {
         buffer.position(52); // Seem to be another 32 bytes after the initial 20 stop 
 
         ArrayList<ActivityEntry> samples = new ArrayList<>();
+        ArrayList<HybridHRSpo2Sample> spo2Samples = new ArrayList<>();
         finishCurrentPacket(samples);
 
 
@@ -97,7 +99,12 @@ public class ActivityFileParser {
                         continue; // Not sure what to do with this                                  
                     
                     } else if (f1 == (byte) 0xD6) {
-                        buffer.get(new byte[4]);
+                        HybridHRSpo2Sample spo2Sample = new HybridHRSpo2Sample();
+                        spo2Sample.setTimestamp(currentTimestamp * 1000L);
+                        spo2Sample.setSpo2(buffer.get() & 0xFF);
+                        spo2Samples.add(spo2Sample);
+                        
+                        buffer.get(new byte[3]); // Likely something to do with sample statistics
 
                     } else if (f1 == (byte) 0xFE && f2 == (byte) 0xFE) {
                         if (buffer.get(buffer.position()) == (byte) 0xFE) { buffer.get(); } // WHY?
@@ -163,9 +170,12 @@ public class ActivityFileParser {
                     
                     break;
 
-            case (byte) 0xD6: // Seems to only come from intentional spot-checks, despite watch's value updating independently on occasion.
-                    spO2 = buffer.get() & 0xFF;
-
+            case (byte) 0xD6:
+                    buffer.get(); // Likely some statistic, notably different from 0xCE 0xD6
+                    HybridHRSpo2Sample spo2Sample = new HybridHRSpo2Sample();
+                    spo2Sample.setTimestamp(currentTimestamp * 1000L);
+                    spo2Sample.setSpo2(buffer.get() & 0xFF);
+                    spo2Samples.add(spo2Sample);
                     break;
             
             case (byte) 0xCB: // Very rare, may even be removed
@@ -181,7 +191,7 @@ public class ActivityFileParser {
     
 
         }
-        return samples;
+        return Map.entry(samples, spo2Samples);
     }
 
     private static boolean elemValidFlags(byte value) {

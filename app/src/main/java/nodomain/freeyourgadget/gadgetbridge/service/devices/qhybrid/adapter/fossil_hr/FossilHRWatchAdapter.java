@@ -102,8 +102,12 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivi
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilFileReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilHRInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRSpo2SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRSpo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
@@ -1232,19 +1236,28 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     @Override
                     public void handleFileData(byte[] fileData) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                            User user = DBHelper.getUser(dbHandler.getDaoSession());
+                            Long userId = user.getId();
+                            Device device = DBHelper.getDevice(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
+                            Long deviceId = device.getId();
                             ActivityFileParser parser = new ActivityFileParser();
-                            ArrayList<ActivityEntry> entries = parser.parseFile(fileData);
+                            Map.Entry<ArrayList<ActivityEntry>, ArrayList<HybridHRSpo2Sample>> parsedEntries = parser.parseFile(fileData);
+                            // Activities
+                            ArrayList<ActivityEntry> entries = parsedEntries.getKey();
                             HybridHRActivitySampleProvider provider = new HybridHRActivitySampleProvider(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
-
                             HybridHRActivitySample[] samples = new HybridHRActivitySample[entries.size()];
-
-                            Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
-                            Long deviceId = DBHelper.getDevice(getDeviceSupport().getDevice(), dbHandler.getDaoSession()).getId();
                             for (int i = 0; i < entries.size(); i++) {
                                 samples[i] = entries.get(i).toDAOActivitySample(userId, deviceId);
                             }
-
                             provider.addGBActivitySamples(samples);
+                            // SpO2, should be empty for an unsupported device
+                            ArrayList<HybridHRSpo2Sample> spo2Samples = parsedEntries.getValue();
+                            HybridHRSpo2SampleProvider spo2Provider = new HybridHRSpo2SampleProvider(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
+                            for (HybridHRSpo2Sample sample : spo2Samples) {
+                                sample.setDevice(device);
+                                sample.setUser(user);
+                            }
+                            spo2Provider.addSamples(spo2Samples);
 
                             if (saveRawActivityFiles) {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);

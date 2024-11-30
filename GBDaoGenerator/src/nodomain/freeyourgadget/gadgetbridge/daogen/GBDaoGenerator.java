@@ -54,7 +54,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(89, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(90, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -115,6 +115,7 @@ public class GBDaoGenerator {
         addPineTimeActivitySample(schema, user, device);
         addWithingsSteelHRActivitySample(schema, user, device);
         addHybridHRActivitySample(schema, user, device);
+        addHybridHRSpo2Sample(schema, user, device);
         addVivomoveHrActivitySample(schema, user, device);
         addGarminFitFile(schema, user, device);
         addGarminActivitySample(schema, user, device);
@@ -732,6 +733,13 @@ public class GBDaoGenerator {
         activitySample.addByteProperty("wear_type").notNull();
         addHeartRateProperties(activitySample);
         return activitySample;
+    }
+
+    private static Entity addHybridHRSpo2Sample(Schema schema, Entity user, Entity device) {
+        Entity spo2sample = addEntity(schema, "HybridHRSpo2Sample");
+        addCommonTimeSampleProperties("AbstractSpo2Sample", spo2sample, user, device);
+        spo2sample.addIntProperty("spo2").notNull().codeBeforeGetter(OVERRIDE);
+        return spo2sample;
     }
 
     private static Entity addCyclingSample(Schema schema, Entity user, Entity device) {

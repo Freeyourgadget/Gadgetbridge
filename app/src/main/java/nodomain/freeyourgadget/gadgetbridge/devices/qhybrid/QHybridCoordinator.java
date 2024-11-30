@@ -45,11 +45,13 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
@@ -101,6 +103,11 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new HybridHRActivitySampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session) {
+        return new HybridHRSpo2SampleProvider(device, session);
     }
 
     @Override
@@ -337,5 +344,10 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsNavigation() {
         return isHybridHR();
+    }
+
+    @Override
+    public boolean supportsSpo2(GBDevice device) {
+        return device.getName().equals("Fossil Gen. 6 Hybrid");
     }
 }
