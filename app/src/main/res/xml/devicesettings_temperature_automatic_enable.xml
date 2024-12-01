@@ -5,6 +5,5 @@
         android:defaultValue="false"
         android:key="continuous_skin_temperature_measurement"
         android:layout="@layout/preference_checkbox"
-        android:summary="@string/pref_continuous_skin_temperature_measurement_description"
         android:title="@string/pref_continuous_skin_temperature_measurement_title" />
 </androidx.preference.PreferenceScreen>
