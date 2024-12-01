@@ -3462,6 +3462,7 @@
     <string name="pref_music_management_title">Manage Music</string>
     <string name="pref_music_management_summary">Manage music on the watch</string>
     <string name="music_delete_confirm_description">Are you sure you want to delete \'%1$s\'?</string>
+    <string name="music_delete_multiple_confirm_description">Are you sure you want to delete \'%1$d\' songs?</string>
     <string name="music_add_to_playlist">Add to playlist</string>
     <string name="music_delete_from_playlist">Delete from playlist</string>
     <string name="music_delete">Delete song</string>
@@ -3470,6 +3471,7 @@
     <string name="music_rename_playlist">Rename playlist</string>
     <string name="music_error">Error occurred</string>
     <string name="music_huawei_device_info">Supported formats: %1$s\nWatch storage: %2$d MB</string>
+    <string name="music_multiselect_limit">Limit for selecting more than one item reached</string>
 
     <!-- Welcome screens strings -->
     <string name="first_start_welcome_title">Welcome</string>

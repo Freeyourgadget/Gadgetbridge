@@ -21,27 +21,29 @@
         android:layout_below="@id/music_device_info"
         android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/music_playlists"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_weight="20" />
-            <ImageButton
-                android:id="@+id/music_playlist_rename"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:contentDescription="@string/music_rename_playlist"
-                app:srcCompat="@drawable/ic_edit"/>
-            <ImageButton
-                android:id="@+id/music_playlist_delete"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:contentDescription="@string/music_delete"
-                app:srcCompat="@drawable/ic_delete" />
+        <Spinner
+            android:id="@+id/music_playlists"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="20" />
+
+        <ImageButton
+            android:id="@+id/music_playlist_rename"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/music_rename_playlist"
+            app:srcCompat="@drawable/ic_edit" />
+
+        <ImageButton
+            android:id="@+id/music_playlist_delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/music_delete"
+            app:srcCompat="@drawable/ic_delete" />
     </LinearLayout>
 
 
@@ -53,6 +55,7 @@
         android:layout_centerHorizontal="true"
         android:divider="@null" />
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_music_upload"
         android:layout_width="wrap_content"
@@ -61,7 +64,6 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/music_new_playlist"
         app:srcCompat="@android:drawable/stat_sys_upload" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -73,8 +75,65 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="90dp"
-        app:srcCompat="@drawable/ic_add"
-        />
+        android:contentDescription="@string/music_new_playlist"
+        app:srcCompat="@drawable/ic_add" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/bottom_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_gravity="bottom"
+            android:background="@color/primary_dark">
+
+            <ImageButton
+                android:id="@+id/music_cancel_selection"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/music_rename_playlist"
+                app:srcCompat="@drawable/ic_action_notify_cancel" />
+
+            <TextView
+                android:id="@+id/music_selection_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end">
+
+                <ImageButton
+                    android:id="@+id/music_multiselect_add_to_playlist"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_toStartOf="@id/music_multiselect_delete"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:contentDescription="@string/music_add_to_playlist"
+                    app:srcCompat="@drawable/ic_checklist" />
+
+                <ImageButton
+                    android:id="@+id/music_multiselect_delete"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:contentDescription="@string/music_delete"
+                    app:srcCompat="@drawable/ic_delete" />
+            </LinearLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/music_loading"

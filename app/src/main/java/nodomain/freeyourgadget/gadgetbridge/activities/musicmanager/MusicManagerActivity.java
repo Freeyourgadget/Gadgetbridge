@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -79,6 +80,12 @@ public class MusicManagerActivity extends AbstractGBActivity {
 
     private FloatingActionButton fabMusicUpload;
     private FloatingActionButton fabMusicPlaylistAdd;
+
+
+    private MaterialToolbar bottomToolbar;
+    private TextView selectionInfo;
+    private ImageButton selectionAddPlaylist;
+    private ImageButton selectionDelete;
 
     private int maxMusicCount = 0;
     private int maxPlaylistCount = 0;
@@ -134,6 +141,14 @@ public class MusicManagerActivity extends AbstractGBActivity {
 
         hideActionButtons();
 
+        bottomToolbar = findViewById(R.id.bottom_toolbar);
+
+        ImageButton cancelSelection = findViewById(R.id.music_cancel_selection);
+        selectionInfo = findViewById(R.id.music_selection_info);
+        selectionAddPlaylist = findViewById(R.id.music_multiselect_add_to_playlist);
+        selectionDelete = findViewById(R.id.music_multiselect_delete);
+
+
         RecyclerView musicListView = findViewById(R.id.music_songs_list);
         loadingView = findViewById(R.id.music_loading);
 
@@ -153,19 +168,55 @@ public class MusicManagerActivity extends AbstractGBActivity {
 
         musicAdapter = new MusicListAdapter(
                 musicList,
-                new MusicListAdapter.onItemAction() {
+                new MusicListAdapter.onDataAction() {
                     @Override
                     public void onItemClick(View view, GBDeviceMusic music) {
                         openPopupMenu(view, music);
                     }
 
                     @Override
-                    public boolean onItemLongClick(View view, GBDeviceMusic music) {
-                        return false;
+                    public void onMultiSelect(int count, boolean limit) {
+                        multiSelect(count, limit);
                     }
+
                 }
         );
         musicListView.setAdapter(musicAdapter);
+
+        cancelSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicAdapter.clearSelectedItems();
+            }
+        });
+
+        selectionAddPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<GBDeviceMusic> musics = musicAdapter.getSelectedItems();
+                if(!musics.isEmpty()) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    for(GBDeviceMusic music: musics) {
+                        list.add(music.getId());
+                    }
+                    addMusicSongToPlaylist(list);
+                }
+            }
+        });
+
+        selectionDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<GBDeviceMusic> musics = musicAdapter.getSelectedItems();
+                if(!musics.isEmpty()) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    for(GBDeviceMusic music: musics) {
+                        list.add(music.getId());
+                    }
+                    deleteMusicMultipleConfirm(list);
+                }
+            }
+        });
 
         playlistSpinnerLayout = findViewById(R.id.music_playlists_layout);
 
@@ -194,6 +245,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 GBDeviceMusicPlaylist item = (GBDeviceMusicPlaylist) adapterView.getItemAtPosition(i);
+                musicAdapter.clearSelectedItems();
                 if (item.getId() == 0) {
                     deletePlaylist.setVisibility(View.GONE);
                     renamePlaylist.setVisibility(View.GONE);
@@ -216,6 +268,25 @@ public class MusicManagerActivity extends AbstractGBActivity {
 
         playlistAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         playlistsSpinner.setAdapter(playlistAdapter);
+    }
+
+    private void multiSelect(int count, boolean limit) {
+        if(limit) {
+            GB.toast(this, R.string.music_multiselect_limit, Toast.LENGTH_LONG, GB.WARN);
+        }
+        if(count > 0) {
+            hideActionButtons();
+            bottomToolbar.setVisibility(View.VISIBLE);
+            selectionInfo.setText("" + count);
+            if(playlists.size() <= 1) {
+                selectionAddPlaylist.setVisibility(View.GONE);
+            } else {
+                selectionAddPlaylist.setVisibility(View.VISIBLE);
+            }
+        } else {
+            bottomToolbar.setVisibility(View.GONE);
+            showActionButtons();
+        }
     }
 
     private void hideActionButtons() {
@@ -246,6 +317,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
     private void stopLoading() {
         loadingTimeout.removeCallbacks(loadingRunnable);
         loadingView.setVisibility(View.GONE);
+        musicAdapter.clearSelectedItems();
         showActionButtons();
     }
 
@@ -311,7 +383,6 @@ public class MusicManagerActivity extends AbstractGBActivity {
         }
 
         GBDeviceMusicPlaylist current = (GBDeviceMusicPlaylist) playlistsSpinner.getSelectedItem();
-        musicList.clear();
         if (current.getId() == 0) {
             menu.removeItem(R.id.musicmanager_delete_from_playlist);
         } else {
@@ -335,19 +406,36 @@ public class MusicManagerActivity extends AbstractGBActivity {
             deleteMusicConfirm(music);
             return true;
         } else if (itemId == R.id.musicmanager_add_to_playlist) {
-            addMusicSongToPlaylist(music);
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(music.getId());
+            addMusicSongToPlaylist(list);
             return true;
         }
         return false;
     }
 
     private void deleteMusicConfirm(final GBDeviceMusic music) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(music.getId());
+
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.Delete)
                 .setMessage(this.getString(R.string.music_delete_confirm_description, music.getTitle()))
                 .setIcon(R.drawable.ic_warning)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    deleteMusicFromDevice((GBDeviceMusicPlaylist) playlistsSpinner.getSelectedItem(), music);
+                    deleteMusicFromDevice((GBDeviceMusicPlaylist) playlistsSpinner.getSelectedItem(), list);
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void deleteMusicMultipleConfirm(final ArrayList<Integer> list) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.Delete)
+                .setMessage(this.getString(R.string.music_delete_multiple_confirm_description, list.size()))
+                .setIcon(R.drawable.ic_warning)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    deleteMusicFromDevice((GBDeviceMusicPlaylist) playlistsSpinner.getSelectedItem(), list);
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
@@ -368,17 +456,13 @@ public class MusicManagerActivity extends AbstractGBActivity {
         GBApplication.deviceService(mGBDevice).onMusicOperation(2, playlist.getId(), newPlaylistName, null);
     }
 
-    private void addMusicToDevicePlaylist(GBDeviceMusicPlaylist playlist, final GBDeviceMusic music) {
+    private void addMusicToDevicePlaylist(GBDeviceMusicPlaylist playlist, final ArrayList<Integer> list) {
         startLoading();
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(music.getId());
         GBApplication.deviceService(mGBDevice).onMusicOperation(3, playlist.getId(), null, list);
     }
 
-    private void deleteMusicFromDevice(GBDeviceMusicPlaylist playlist, final GBDeviceMusic music) {
+    private void deleteMusicFromDevice(GBDeviceMusicPlaylist playlist, final ArrayList<Integer> list) {
         startLoading();
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(music.getId());
         GBApplication.deviceService(mGBDevice).onMusicOperation(4, playlist.getId(), null, list);
     }
 
@@ -387,7 +471,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
         input.setInputType(InputType.TYPE_CLASS_TEXT);
 
         FrameLayout container = new FrameLayout(this);
-        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
         params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
         input.setLayoutParams(params);
@@ -398,7 +482,9 @@ public class MusicManagerActivity extends AbstractGBActivity {
                 .setView(container)
                 .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                     String playlistName = input.getText().toString();
-                    addPlaylistToDevice(playlistName);
+                    if(!playlistName.isEmpty()) {
+                        addPlaylistToDevice(playlistName);
+                    }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
@@ -423,7 +509,9 @@ public class MusicManagerActivity extends AbstractGBActivity {
                 .setView(container)
                 .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                     String playlistName = input.getText().toString();
-                    renamePlaylistOnDevice(playlist, playlistName);
+                    if(!playlistName.isEmpty()) {
+                        renamePlaylistOnDevice(playlist, playlistName);
+                    }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
@@ -443,7 +531,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
                 .show();
     }
 
-    private void addMusicSongToPlaylist(final GBDeviceMusic music) {
+    private void addMusicSongToPlaylist(final ArrayList<Integer> list) {
         final Spinner dPlaylists = new Spinner(this);
 
         List<GBDeviceMusicPlaylist> dialogPlaylists = new ArrayList<>();
@@ -469,7 +557,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
                 .setView(container)
                 .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                     GBDeviceMusicPlaylist playlist = (GBDeviceMusicPlaylist) dPlaylists.getSelectedItem();
-                    addMusicToDevicePlaylist(playlist, music);
+                    addMusicToDevicePlaylist(playlist, list);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
@@ -513,7 +601,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
             int playlistIndex = intent.getIntExtra("playlistIndex", -1);
             String playlistName = intent.getStringExtra("playlistName");
 
-            if (playlistIndex != -1 && !TextUtils.isEmpty(playlistName)) {
+            if (playlistIndex != -1 && playlistName != null) {
                 playlists.add(new GBDeviceMusicPlaylist(playlistIndex, playlistName, new ArrayList<>()));
                 playlistAdapter.notifyDataSetChanged();
             }
@@ -531,7 +619,7 @@ public class MusicManagerActivity extends AbstractGBActivity {
         } else if (operation == 2) {
             int playlistIndex = intent.getIntExtra("playlistIndex", -1);
             String playlistName = intent.getStringExtra("playlistName");
-            if (playlistIndex != -1 && !TextUtils.isEmpty(playlistName)) {
+            if (playlistIndex != -1 && playlistName != null) {
                 for (GBDeviceMusicPlaylist playlist : playlists) {
                     if (playlist.getId() == playlistIndex) {
                         playlist.setName(playlistName);
