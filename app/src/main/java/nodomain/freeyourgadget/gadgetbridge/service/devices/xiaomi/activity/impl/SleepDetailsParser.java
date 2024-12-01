@@ -30,10 +30,12 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.HeartPulseSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiSleepStageSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.xiaomi.XiaomiSleepTimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HeartPulseSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepStageSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.XiaomiSleepTimeSample;
@@ -140,6 +142,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         }
 
         final List<XiaomiSleepStageSample> stages = new ArrayList<>();
+        final List<HeartPulseSample> heartPulseSamples = new ArrayList<>();
         LOG.debug("Sleep stage packets from offset {}", Integer.toHexString(buf.position()));
 
         // Do not crash if we face a buffer underflow, as the next parsing is not 100% fool-proof,
@@ -181,7 +184,16 @@ public class SleepDetailsParser extends XiaomiActivityParser {
 
                 final ByteBuffer dataBuf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN);
 
-                if (type == 16) {
+                if (type == 1) {
+                    long timestampAcc = ts;
+                    while (dataBuf.position() < dataBuf.limit()) {
+                        final int delta = dataBuf.get() & 0xff;
+                        final HeartPulseSample heartPulseSample = new HeartPulseSample();
+                        heartPulseSample.setTimestamp(timestampAcc + delta);
+                        heartPulseSamples.add(heartPulseSample);
+                        timestampAcc += delta;
+                    }
+                } else if (type == 16) {
                     final int data_0 = dataBuf.get() & 0xFF;
                     final int sleep_index = data_0 >> 4;
                     final int wake_count = data_0 & 0x0F;
@@ -243,6 +255,8 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             summaries.add(sample);
         }
 
+        boolean persistSuccess = !stagesParseFailed;
+
         // save all the samples that we got
         try (DBHandler handler = GBApplication.acquireDB()) {
             final DaoSession session = handler.getDaoSession();
@@ -271,7 +285,7 @@ public class SleepDetailsParser extends XiaomiActivityParser {
         } catch (final Exception e) {
             GB.toast(support.getContext(), "Error saving sleep sample", Toast.LENGTH_LONG, GB.ERROR);
             LOG.error("Error saving sleep sample", e);
-            return false;
+            persistSuccess = false;
         }
 
         if (!stagesParseFailed && !stages.isEmpty()) {
@@ -295,11 +309,32 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             } catch (final Exception e) {
                 GB.toast(support.getContext(), "Error saving sleep stage samples", Toast.LENGTH_LONG, GB.ERROR);
                 LOG.error("Error saving sleep stage samples", e);
-                return false;
+                persistSuccess = false;
             }
         }
 
-        return !stagesParseFailed;
+        // Save the heart pulse samples
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+            final GBDevice gbDevice = support.getDevice();
+            final Device device = DBHelper.getDevice(gbDevice, session);
+            final User user = DBHelper.getUser(session);
+
+            final HeartPulseSampleProvider sampleProvider = new HeartPulseSampleProvider(gbDevice, session);
+
+            for (final HeartPulseSample stageSample : heartPulseSamples) {
+                stageSample.setDevice(device);
+                stageSample.setUser(user);
+            }
+
+            sampleProvider.addSamples(heartPulseSamples);
+        } catch (final Exception e) {
+            GB.toast(support.getContext(), "Error saving heart pulse samples", Toast.LENGTH_LONG, GB.ERROR);
+            LOG.error("Error saving heart pulse samples", e);
+            persistSuccess = false;
+        }
+
+        return persistSuccess;
     }
 
     private static boolean readStagePacketHeader(final ByteBuffer buffer) {
