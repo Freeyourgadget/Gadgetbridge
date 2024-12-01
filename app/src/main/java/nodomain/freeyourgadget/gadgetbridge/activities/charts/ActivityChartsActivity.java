@@ -137,6 +137,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsActiveCalories()) {
             tabList.remove("calories");
         }
+        if (!coordinator.supportsRespiratoryRate()) {
+            tabList.remove("respiratoryrate");
+        }
         return tabList;
     }
 
