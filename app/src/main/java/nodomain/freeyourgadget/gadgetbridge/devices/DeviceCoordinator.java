@@ -237,6 +237,12 @@ public interface DeviceCoordinator {
     boolean supportsTemperatureMeasurement();
 
     /**
+     * Returns true if continuous temperature measurement used in device
+     * (with this coordinator).
+     */
+    boolean supportsContinuousTemperature();
+
+    /**
      * Returns true if SpO2 measurement and fetching is supported by the device
      * (with this coordinator).
      */

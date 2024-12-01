@@ -160,6 +160,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         @NonNull
         @Override
         public Fragment getItem(int position) {
+            final DeviceCoordinator coordinator = getDevice().getDeviceCoordinator();
             // getItem is called to instantiate the fragment for the given page.
             switch (enabledTabsList.get(position)) {
                 case "activity":
@@ -189,7 +190,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                 case "spo2":
                     return new Spo2ChartFragment();
                 case "temperature":
-                    return new TemperatureChartFragment();
+                    return coordinator.supportsContinuousTemperature()? new TemperatureDailyFragment(): new TemperatureChartFragment();
                 case "cycling":
                     return new CyclingChartFragment();
                 case "weight":

@@ -530,6 +530,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsContinuousTemperature() {
+        return false;
+    }
+
+    @Override
     public boolean supportsSpo2(final GBDevice device) {
         return false;
     }
