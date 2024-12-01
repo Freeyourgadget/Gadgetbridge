@@ -274,8 +274,6 @@ public class HuaweiP2PDataDictionarySyncService extends HuaweiBaseP2PService {
                         for (HuaweiTLV l1 : l.getObjects(0x87)) {
                             for (HuaweiTLV ll : l1.getObjects(0x88)) {
                                 int type = ll.getInteger(0x9);
-                                // 10 - Double - data
-                                // 11 - String - metadata
                                 if (ll.contains(0xa))
                                     dataValues.add(new DictData.DictDataValue(type, (byte) 0xa, ll.getBytes(0xa)));
                                 if (ll.contains(0xb))

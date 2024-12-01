@@ -302,7 +302,7 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
 
         byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
         ByteBuffer sendData = ByteBuffer.allocate(dataBytes.length + 8); // 8 is data header
-        // NOTE: minor version is short in response but in this case it writes as integer
+        //NOTE: minor version is short in response but in this case it writes as integer
         sendData.putInt(minorVersion);
         sendData.putInt(dataBytes.length);
         sendData.put(dataBytes);
@@ -487,6 +487,5 @@ public class HuaweiP2PCalendarService extends HuaweiBaseP2PService {
         } catch (HuaweiPacket.MissingTagException e) {
             LOG.error("P2P handle packet: tag is missing");
         }
-
     }
 }

@@ -75,7 +75,7 @@ public class HuaweiP2PTrackService extends HuaweiBaseP2PService {
         header.putInt(counter.getNext()); // message id
         header.flip();
 
-        ByteBuffer packet = ByteBuffer.allocate(36 + data.length);
+        ByteBuffer packet = ByteBuffer.allocate(HEADER_LENGTH + data.length);
         packet.put(header.array());
         packet.put(data);
         packet.flip();
