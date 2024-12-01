@@ -3663,4 +3663,10 @@
     <string name="redmi_buds_5_pro_equalizer_6">6 dB</string>
     <string name="redmi_buds_5_pro_equalizer_4">4 dB</string>
     <string name="devicetype_miband9pro">小米手环 9 Pro</string>
+    <string name="music_multiselect_limit">已达到选择多于一项的限制</string>
+    <string name="sleep_avg">平均睡眠</string>
+    <string name="respiratoryrate">呼吸频率</string>
+    <string name="lowest">最低</string>
+    <string name="highest">最高</string>
+    <string name="music_delete_multiple_confirm_description">您确定想要删除歌曲 %1$d ？</string>
 </resources>
