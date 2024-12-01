@@ -3640,4 +3640,24 @@ Temps de sommeil préféré en heures</string>
     <string name="music_delete">Supprimer la chanson</string>
     <string name="music_all_songs">Toutes les chansons</string>
     <string name="music_new_playlist">Nouvelle playlist</string>
+    <string name="permission_calendar_title">Calendrier</string>
+    <string name="permission_calendar_summary">Envoi de calendrier aux gadgets</string>
+    <string name="permission_receive_sms_title">Recevoir des SMS</string>
+    <string name="permission_send_sms_title">Envoyer des SMS</string>
+    <string name="permission_send_sms_summary">Envoi de SMS (réponse préremplie) à partir des gadgets</string>
+    <string name="permission_read_call_log_title">Lire le journal des appels</string>
+    <string name="permission_call_phone_title">Appel téléphonique</string>
+    <string name="permission_call_phone_summary">Lancer des appels téléphoniques à partir des gadgets</string>
+    <string name="permission_process_outgoing_calls_title">Traiter les appels sortants</string>
+    <string name="permission_answer_phone_calls_title">Répondre aux appels téléphoniques</string>
+    <string name="permission_external_storage_title">Stockage externe</string>
+    <string name="permission_contacts_summary">Envoi de contacts vers les gadgets</string>
+    <string name="permission_receive_sms_summary">Transfert de messages SMS vers les gadgets</string>
+    <string name="permission_read_phone_state_title">Lire l\'état du téléphone</string>
+    <string name="permission_answer_phone_calls_summary">Répondre aux appels téléphoniques à partir des gadgets</string>
+    <string name="permission_read_call_log_summary">Transfert du journal des appels aux gadgets</string>
+    <string name="permission_process_outgoing_calls_summary">Lecture du numéro d’un appel sortant pour l’afficher sur un gadget</string>
+    <string name="permission_query_all_packages_title">Interroger tous les paquets</string>
+    <string name="permission_external_storage_summary">Utilisation d’images, de sonneries, de fichiers d’applications et plus encore</string>
+    <string name="permission_query_all_packages_summary">Lecture des noms et icônes de toutes les applications installées</string>
 </resources>
