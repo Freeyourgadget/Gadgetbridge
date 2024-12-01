@@ -3394,4 +3394,13 @@
     <string name="activity_type_health_snapshot">Gesundheit aktuell</string>
     <string name="total_calories_burnt">Insgesamt verbraucht</string>
     <string name="title_activity_musicmanager">Musikmanager</string>
+    <string name="activity_db_management_export_to_zip">ZIP exportieren</string>
+    <string name="backup_restore_abort_import_confirmation">Import abbrechen? Das kann zu einer kaputten Datenbank führen.</string>
+    <string name="backup_restore_restart_title">Neustart</string>
+    <string name="backup_restore_restart_summary">%1s startet jetzt neu.</string>
+    <string name="first_start_welcome_title">Willkommen</string>
+    <string name="first_start_intro_welcome_to">WIllkommen zu</string>
+    <string name="activity_db_management_import_from_zip">ZIP importieren</string>
+    <string name="activity_db_management_backup_restore_explanation">Das Sichern und Wiederherstellen ermöglicht es, alle Gadgetbridge-Einstellungen, -Geräte und -Daten mittels ZIP-Datei zu migrieren oder zu sichern.\n\nBeim Wiederherstellen werden alle bestehenden Daten, Geräte und Einstellungen entfernt und vollständig durch die Sicherung ersetzt.</string>
+    <string name="backup_restore_abort_export_confirmation">Export abbrechen? Die unvollständige ZIP-Datei wird gelöscht.</string>
 </resources>
