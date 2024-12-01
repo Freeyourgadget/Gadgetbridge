@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiDictTypes;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiTLV;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.HuaweiP2PManager;
@@ -20,6 +22,9 @@ public class HuaweiP2PDataDictionarySyncService extends HuaweiBaseP2PService {
     public static final String MODULE = "hw.unitedevice.datadictionarysync";
 
     private AtomicBoolean serviceAvailable = new AtomicBoolean(false);
+
+
+    private List<Integer> classesToSync = null;
 
     public interface DictionarySyncCallback {
         void onComplete(boolean complete);
@@ -54,7 +59,32 @@ public class HuaweiP2PDataDictionarySyncService extends HuaweiBaseP2PService {
                 (byte) value};
     }
 
-    public void sendSyncRequest(int dictClass, DictionarySyncCallback callback) {
+    public List<Integer> checkSupported(HuaweiCoordinator coordinator, List<Integer> list) {
+        List<Integer> result = new ArrayList<>();
+
+        for(Integer cl: list) {
+            if((cl == HuaweiDictTypes.BODY_TEMPERATURE_CLASS || cl == HuaweiDictTypes.SKIN_TEMPERATURE_CLASS) && coordinator.supportsTemperature()) {
+                result.add(cl);
+            } else if(cl == HuaweiDictTypes.BLOOD_PRESSURE_CLASS && coordinator.supportsBloodPressure()) {
+                result.add(cl);
+            }
+        }
+        return result;
+    }
+
+    public void startSync(List<Integer> dictClasses, DictionarySyncCallback callback) {
+        LOG.info("P2PDataDictionarySyncService startSync {}", dictClasses);
+        classesToSync = dictClasses;
+        if(classesToSync.isEmpty()) {
+            callback.onComplete(false);
+            return;
+        }
+        sendSyncRequest(classesToSync.remove(0), callback);
+    }
+
+    private void sendSyncRequest(int dictClass, DictionarySyncCallback callback) {
+
+        LOG.info("P2PDataDictionarySyncService class {}", dictClass);
 
         if (!serviceAvailable.get()) {
             LOG.info("P2PDataDictionarySyncService not available");
@@ -76,8 +106,8 @@ public class HuaweiP2PDataDictionarySyncService extends HuaweiBaseP2PService {
         HuaweiTLV tlv = new HuaweiTLV()
                 .put(0x1, (byte) 1)
                 .put(0x2, dictToBytes(dictClass)) //-- skin temperature
-                .put(0x5, Long.valueOf(startTime))
-                .put(0x6, Long.valueOf(System.currentTimeMillis()))
+                .put(0x5, startTime)
+                .put(0x6, System.currentTimeMillis())
                 .put(0x0d, (byte) 1);
         byte[] data = tlv.serialize();
         if (data == null) {
@@ -261,7 +291,12 @@ public class HuaweiP2PDataDictionarySyncService extends HuaweiBaseP2PService {
                 if (!result.isEmpty()) {
                     sendSyncRequest(dictClass, callback);
                 } else {
-                    callback.onComplete(true);
+                    if(classesToSync.isEmpty()) {
+                        classesToSync = null;
+                        callback.onComplete(true);
+                    } else {
+                        sendSyncRequest(classesToSync.remove(0), callback);
+                    }
                 }
             } catch (HuaweiPacket.MissingTagException e) {
                 LOG.error("P2PDataDictionarySyncService parse error", e);

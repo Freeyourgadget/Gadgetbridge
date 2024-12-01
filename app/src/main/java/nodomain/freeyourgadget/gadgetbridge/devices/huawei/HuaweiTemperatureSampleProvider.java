@@ -84,7 +84,7 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
         QueryBuilder<HuaweiDictData> qb =  this.session.getHuaweiDictDataDao().queryBuilder();
                 qb.where(HuaweiDictDataDao.Properties.DeviceId.eq(deviceId))
                 .where(HuaweiDictDataDao.Properties.UserId.eq(userId))
-                .where(HuaweiDictDataDao.Properties.DictClass.eq(400012))
+                .where(HuaweiDictDataDao.Properties.DictClass.eq(HuaweiDictTypes.SKIN_TEMPERATURE_CLASS))
                         .where(HuaweiDictDataDao.Properties.StartTimestamp.between(timestampFrom, timestampTo));
         final List<HuaweiDictData> dictData = qb.build().list();
 
@@ -95,7 +95,7 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
 
         QueryBuilder<HuaweiDictDataValues> qbv =  this.session.getHuaweiDictDataValuesDao().queryBuilder();
 
-        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(400012430)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.in(ids));
+        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(HuaweiDictTypes.SKIN_TEMPERATURE_VALUE)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.in(ids));
 
         final List<HuaweiDictDataValues> valuesData = qbv.build().list();
 
@@ -141,7 +141,7 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
         QueryBuilder<HuaweiDictData> qb =  this.session.getHuaweiDictDataDao().queryBuilder();
         qb.where(HuaweiDictDataDao.Properties.DeviceId.eq(deviceId))
                 .where(HuaweiDictDataDao.Properties.UserId.eq(userId))
-                .where(HuaweiDictDataDao.Properties.DictClass.eq(400012));
+                .where(HuaweiDictDataDao.Properties.DictClass.eq(HuaweiDictTypes.SKIN_TEMPERATURE_CLASS));
         qb.orderDesc(HuaweiDictDataDao.Properties.StartTimestamp).limit(1);
 
         final List<HuaweiDictData> data = qb.build().list();
@@ -150,7 +150,7 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
 
 
         QueryBuilder<HuaweiDictDataValues> qbv =  this.session.getHuaweiDictDataValuesDao().queryBuilder();
-        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(400012430)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.eq(data.get(0).getDictId()));
+        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(HuaweiDictTypes.SKIN_TEMPERATURE_VALUE)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.eq(data.get(0).getDictId()));
         final List<HuaweiDictDataValues> valuesData = qbv.build().list();
 
         if (valuesData.isEmpty())
@@ -171,7 +171,7 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
         QueryBuilder<HuaweiDictData> qb =  this.session.getHuaweiDictDataDao().queryBuilder();
         qb.where(HuaweiDictDataDao.Properties.DeviceId.eq(deviceId))
                 .where(HuaweiDictDataDao.Properties.UserId.eq(userId))
-                .where(HuaweiDictDataDao.Properties.DictClass.eq(400012));
+                .where(HuaweiDictDataDao.Properties.DictClass.eq(HuaweiDictTypes.SKIN_TEMPERATURE_CLASS));
         qb.orderAsc(HuaweiDictDataDao.Properties.StartTimestamp).limit(1);
 
         final List<HuaweiDictData> data = qb.build().list();
@@ -179,7 +179,7 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
             return null;
 
         QueryBuilder<HuaweiDictDataValues> qbv =  this.session.getHuaweiDictDataValuesDao().queryBuilder();
-        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(400012430)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.eq(data.get(0).getDictId()));
+        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(HuaweiDictTypes.SKIN_TEMPERATURE_VALUE)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.eq(data.get(0).getDictId()));
         final List<HuaweiDictDataValues> valuesData = qbv.build().list();
 
         if (valuesData.isEmpty())

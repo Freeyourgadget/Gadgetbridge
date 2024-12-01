@@ -487,6 +487,7 @@ public class HuaweiCoordinator {
     // 0x43 - SupportTemperatureStudy
     public boolean supportsTemperature() { return supportsExpandCapability(0x1d); }
 
+    public boolean supportsBloodPressure() { return supportsExpandCapability(0x3b); }
 
     public boolean supportsEventAlarm() {
         return supportsCommandForService(0x08, 0x01);

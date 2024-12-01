@@ -14,6 +14,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.requests.Send
 public abstract class HuaweiBaseP2PService {
     private final Logger LOG = LoggerFactory.getLogger(HuaweiBaseP2PService.class);
 
+
+    public interface HuaweiP2PCallback {
+        void onResponse(int code, byte[] data);
+    }
+
     protected final HuaweiP2PManager manager;
 
     protected HuaweiBaseP2PService(HuaweiP2PManager manager) {
@@ -90,7 +95,11 @@ public abstract class HuaweiBaseP2PService {
         if (waitPackets.containsKey(packet.sequenceId)) {
             LOG.info("HuaweiP2PCalendarService handlePacket find handler");
             HuaweiP2PCallback handle = waitPackets.remove(packet.sequenceId);
-            handle.onResponse(packet.respCode, packet.respData);
+            if(handle != null) {
+                handle.onResponse(packet.respCode, packet.respData);
+            } else {
+                LOG.error("HuaweiP2PCalendarService handler is null");
+            }
         } else {
 
             if (packet.cmdId == 1) { //Ping

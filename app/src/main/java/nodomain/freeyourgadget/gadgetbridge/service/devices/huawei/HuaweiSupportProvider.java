@@ -34,6 +34,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -56,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupplier;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCoordinatorSupplier.HuaweiDeviceType;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiCrypto;
+import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiDictTypes;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiGpsParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiPacket;
 import nodomain.freeyourgadget.gadgetbridge.devices.huawei.HuaweiSampleProvider;
@@ -1271,15 +1273,19 @@ public class HuaweiSupportProvider {
 
     private void fetchActivityDataP2P() {
         HuaweiP2PDataDictionarySyncService P2PSyncService = HuaweiP2PDataDictionarySyncService.getRegisteredInstance(huaweiP2PManager);
-        if (P2PSyncService != null && getHuaweiCoordinator().supportsTemperature()) {
-            syncState.setP2pSync(true);
-            P2PSyncService.sendSyncRequest(400012, new HuaweiP2PDataDictionarySyncService.DictionarySyncCallback() {
-                @Override
-                public void onComplete(boolean complete) {
-                    LOG.info("Sync P2P Temperature complete");
-                    syncState.setP2pSync(false);
-                }
-            });
+
+        if (P2PSyncService != null) {
+            List<Integer> list = P2PSyncService.checkSupported(this.getHuaweiCoordinator(), Arrays.asList(HuaweiDictTypes.SKIN_TEMPERATURE_CLASS, HuaweiDictTypes.BLOOD_PRESSURE_CLASS));
+            if(!list.isEmpty()) {
+                syncState.setP2pSync(true);
+                P2PSyncService.startSync(list, new HuaweiP2PDataDictionarySyncService.DictionarySyncCallback() {
+                    @Override
+                    public void onComplete(boolean complete) {
+                        LOG.info("Sync P2P Data complete");
+                        syncState.setP2pSync(false);
+                    }
+                });
+            }
         }
     }
 
