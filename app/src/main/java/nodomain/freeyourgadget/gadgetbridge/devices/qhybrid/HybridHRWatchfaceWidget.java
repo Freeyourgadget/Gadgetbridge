@@ -78,6 +78,7 @@ public class HybridHRWatchfaceWidget implements Serializable {
         widgetTypes.put("widgetActiveMins", context.getString(R.string.watchface_widget_type_active_mins));
         widgetTypes.put("widgetChanceOfRain", context.getString(R.string.watchface_widget_type_chance_rain));
         widgetTypes.put("widgetUV", context.getString(R.string.watchface_widget_type_uv_index));
+        widgetTypes.put("widgetSpO2", context.getString(R.string.watchface_widget_type_sp02));
         widgetTypes.put("widgetCustom", context.getString(R.string.watchface_widget_type_custom));
         return widgetTypes;
     }

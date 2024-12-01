@@ -22,7 +22,7 @@ import java.util.Map;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public final class QHybridConstants {
-    public static final String HYBRIDHR_WATCHFACE_VERSION = "1.12";
+    public static final String HYBRIDHR_WATCHFACE_VERSION = "1.13";
     public static final int HYBRID_HR_WATCHFACE_WIDGET_SIZE = 76;
 
     public static Map<String, String> KNOWN_WAPP_VERSIONS = new HashMap<String, String>() {

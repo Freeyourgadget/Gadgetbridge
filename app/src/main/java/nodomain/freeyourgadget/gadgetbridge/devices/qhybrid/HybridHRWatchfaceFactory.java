@@ -105,6 +105,7 @@ public class HybridHRWatchfaceFactory {
                 case "widgetActiveMins":
                 case "widgetChanceOfRain":
                 case "widgetUV":
+                case "widgetSpO2":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
@@ -191,6 +192,7 @@ public class HybridHRWatchfaceFactory {
             if (includeWidget("widgetActiveMins") > 0) code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
             if (includeWidget("widgetChanceOfRain") > 0) code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
             if (includeWidget("widgetUV") > 0) code.put("widgetUV", context.getAssets().open("fossil_hr/widgetUV.bin"));
+            if (includeWidget("widgetSpO2") > 0) code.put("widgetSpO2", context.getAssets().open("fossil_hr/widgetSpO2.bin"));
             for (int i=0; i<includeWidget("widget2ndTZ"); i++) {
                 code.put("widget2ndTZ" + i, context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
             }
@@ -222,6 +224,7 @@ public class HybridHRWatchfaceFactory {
             if (includeWidget("widgetCalories") > 0) icons.put("icCalories", context.getAssets().open("fossil_hr/icCalories.rle"));
             if (includeWidget("widgetActiveMins") > 0) icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
             if (includeWidget("widgetChanceOfRain") > 0) icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
+            if (includeWidget("widgetSpO2") > 0) icons.put("icSpO2", context.getAssets().open("fossil_hr/icSpO2.rle"));
             if (includeWidget("widgetCustom") > 0) icons.put("widget_bg_error.rle", context.getAssets().open("fossil_hr/widget_bg_error.rle"));
             // Note: we have to check and invert every used widget background here,
             // because the watch doesn't invert the background image when the widget color is inverted
@@ -355,6 +358,9 @@ public class HybridHRWatchfaceFactory {
                 break;
             case "timeZone2SSE":
                 widgetName = "widget2ndTZ";
+                break;
+            case "spo2SSE":
+                widgetName = "widgetSpO2";
                 break;
         }
         if (widgetName.startsWith("widget2ndTZ")) {
