@@ -38,7 +38,7 @@
     <string name="app_configure">配置</string>
     <string name="app_move_to_top">移至顶部</string>
     <string name="title_activity_calblacklist">阻止记录</string>
-    <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
+    <string name="title_activity_fw_app_insaller">固件/应用安装器</string>
     <string name="fw_upgrade_notice">您即将安装 %s 。</string>
     <string name="fw_upgrade_notice_amazfitbip">即将在您的跃我手表青春版(Amazfit Bip)上安装固件 %s 。
 \n
@@ -56,9 +56,7 @@
 \n您需要自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
-    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 
-\n 
-\n不建议刷入！</string>
+    <string name="miband_firmware_unknown_warning">此固件未经测试，可能与 Gadgetbridge 不兼容。 \n \n我们不建议您刷入它！</string>
     <string name="miband_firmware_suggest_whitelist">如果您仍想继续并且此固件在安装之后能够正常工作，请告知 Gadgetbridge 开发者将固件 %s 列入白名单。</string>
     <string name="title_activity_settings">设置</string>
     <string name="pref_header_general">常规设置</string>
@@ -903,7 +901,7 @@
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
     <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
-    <string name="about_description_generic">脱机无版权自由版的供应商闭源穿戴设备 Android 应用程序替代方案。</string>
+    <string name="about_description_generic">用于替代供应商闭源穿戴设备 Android 应用程序的脱机、无版权、自由的方案。</string>
     <string name="about_activity_title_generic">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
     <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
@@ -1427,7 +1425,7 @@
     <string name="sony_warn_sbc_codec">警告：这些设置仅在SBC音频编码下工作。</string>
     <string name="sony_equalizer_preset_speech">演讲</string>
     <string name="sony_equalizer_band_2500">2.5K</string>
-    <string name="prefs_activity_in_device_card_title_summary">在设备卡片上显示当前的步数、距离或睡眠时间</string>
+    <string name="prefs_activity_in_device_card_title_summary">在设备卡片上显示当前的步数、行走距离或睡眠时间</string>
     <string name="prefs_activity_in_device_card_sleep_title">睡眠</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">距离由步数和步长计算（在“设置-关于您”中可调整）</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">显示总计步数</string>
@@ -1580,7 +1578,7 @@
     <string name="watchface_dialog_pre_setting_position">预设位置为 %s</string>
     <string name="watchface_setting_light_up_on_notification">有新通知时亮起</string>
     <string name="menuitem_email">电子邮件</string>
-    <string name="about_description_banglejs_main">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。 \n \n由于 Google Play 商店的政策，我们不被允许在应用程序中添加捐赠链接，但如果你喜欢这个应用程序，请考虑通过下面的 Gadgetbridge 主页进行捐赠。</string>
+    <string name="about_description_banglejs_main">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。 \n \n由于 Google Play 商店政策，我们不允许在应用程序本身中提供捐赠链接，但如果您喜欢此应用程序，请考虑通过下面的 Gadgetbridge 主页进行捐赠。</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js 正在运行</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1596,12 +1594,12 @@
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge 每夜编译版本，无 Pebble</string>
     <string name="gadgetbridge_running_main_nopebble">无 Pebble 的每夜编译版 GB 正在运行</string>
     <string name="about_activity_title_main_nopebble">关于 Gadgetbridge 每夜编译版本，无 Pebble</string>
-    <string name="about_description_main_nopebble">供应商提供的闭源 Android 小工具应用程序的无云无版权库替代品。 Gadgetbridge 的夜间版本。 此版本重命名了 Pebble 提供程序以防止冲突，因此某些与 Pebble 相关的集成将不起作用，但它可以与现有的 Gadgetbridge 安装一起安装。</string>
-    <string name="application_name_main_nopebble">Gadgetbridge （每夜编译版本，无 Pebble 服务商）</string>
+    <string name="about_description_main_nopebble">用于替代供应商闭源穿戴设备 Android 应用程序的脱机、无版权、自由的方案。 该程序为 Gadgetbridge 的每夜编译版本。此版本重命名了 Pebble 提供程序以防止冲突，因此某些与 Pebble 相关的集成将不起作用，但它可以与现有的 Gadgetbridge 安装一起安装。</string>
+    <string name="application_name_main_nopebble">Gadgetbridge （每夜编译版本，无 Pebble 提供程序）</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">关于 Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_main_nightly">服务商提供的闭源 Android 小工具应用程序的无云无版本的替代品。 Gadgetbridge 的每夜编译版本。 如果您已经安装了 Gadgetbridge 或 Pebble 应用程序，则无法安装它，因为 Pebble 提供程序存在冲突。</string>
+    <string name="about_description_main_nightly">用于替代供应商闭源穿戴设备 Android 应用程序的脱机、无版权、自由的方案。 该程序为 Gadgetbridge 的每夜编译版本。 如果您已经安装了 Gadgetbridge 或 Pebble 应用程序，则无法安装它，因为 Pebble 提供程序存在冲突。</string>
     <string name="prefs_activate_display_on_lift_sensitivity">敏感度</string>
     <string name="normal">正常</string>
     <string name="sensitive">敏感</string>
@@ -2374,7 +2372,7 @@
     <string name="devicetype_amazfit_trex_ultra">跃我 T-Rex Ultra</string>
     <string name="devicetype_amazfit_gtr_mini">跃我 GTR Mini</string>
     <string name="button_open_menu_companion">打开配套应用的菜单</string>
-    <string name="devicetype_amazfit_cheetah_round">跃我 Amazfit (圆形)</string>
+    <string name="devicetype_amazfit_cheetah_round">跃我 Cheetah (圆形)</string>
     <string name="devicetype_amazfit_bip5">跃我 Bip 5</string>
     <string name="devicetype_amazfit_falcon">跃我 Falcon</string>
     <string name="button_reset_menu_structure">重置菜单结构</string>
@@ -2526,9 +2524,9 @@
     <string name="busy_task_fetch_statistics">正在获取统计数据</string>
     <string name="pref_call_rejection_method_summary">拒接手表来电时采取什么操作</string>
     <string name="busy_task_fetch_temperature">正在获取温度数据</string>
-    <string name="devicetype_amazfit_active_edge">跃我活动边界</string>
+    <string name="devicetype_amazfit_active_edge">跃我 Active Edge</string>
     <string name="charts_legend_spo2_average">血氧平均值</string>
-    <string name="devicetype_amazfit_active">跃我活动</string>
+    <string name="devicetype_amazfit_active">跃我 Active</string>
     <string name="pref_title_navigation_apps">导航应用</string>
     <string name="pref_title_navigation_prefs">导航首选项</string>
     <string name="pref_navigation_app_gmaps">谷歌地图</string>
@@ -3554,12 +3552,12 @@
     <string name="first_start_intro_welcome_to">欢迎来到</string>
     <string name="first_start_intro_tag_line">摆脱穿戴设备供应商的专有应用程序和云服务。</string>
     <string name="first_start_overview_title">总览</string>
-    <string name="first_start_overview_devices">设备视图显示您已配置的所有设备及其状态，并允许访问设备特定功能，例如详细图表、设置、应用程序和警报。</string>
+    <string name="first_start_overview_devices">设备视图显示您已配置的所有设备及其状态，并允许访问设备特定功能，例如详细图表、设置、应用程序和闹钟。</string>
     <string name="first_start_open_source_title">开源</string>
     <string name="first_start_permissions_request_all_button">请求所有权限</string>
     <string name="first_start_permissions_request_button">请求</string>
     <string name="permission_manage_dnd_summary">更改免打扰通知政策</string>
-    <string name="permission_background_location_title">后台位置</string>
+    <string name="permission_background_location_title">后台位置访问</string>
     <string name="permission_bluetooth_summary">连接至蓝牙设备</string>
     <string name="permission_bluetooth_scan_summary">扫描新的蓝牙设备</string>
     <string name="permission_bluetooth_connect_title">蓝牙连接</string>
@@ -3580,18 +3578,18 @@
     <string name="menuitem_calories_active_goal">卡路里目标（主动）</string>
     <string name="first_start_get_started_add_first_device_button">添加第一台设备</string>
     <string name="permission_manage_dnd_title">管理请勿打扰</string>
-    <string name="first_start_overview_desc">Gadgetbridge 有两个主要视图，每个视图都有自己的目的。</string>
-    <string name="first_start_overview_dashboard">仪表板可让您快速了解您今天的表现。日历视图显示您整个月的目标状态。</string>
-    <string name="first_start_permissions_desc">Gadgetbridge 需要大量权限才能执行其所有功能。查看下面的权限及其用途。</string>
+    <string name="first_start_overview_desc">Gadgetbridge 有两个主要视图，每个视图都有自己的作用。</string>
+    <string name="first_start_overview_dashboard">仪表板可让您快速了解您今天的表现。日历视图显示您整个月的目标达成状态。</string>
+    <string name="first_start_permissions_desc">Gadgetbridge 需要大量权限才能执行其所有功能。在下方查看所需的权限及其用途。</string>
     <string name="first_start_get_started_restore_button">恢复备份</string>
     <string name="first_start_open_source_text">Gadgetbridge 是一个开源应用程序。它是由社区开发、为社区服务的。\n\n欢迎任何人通过代码、文档、测试和捐赠做出贡献。\n\nGadgetbridge 不包含广告，也没有跟踪器。它将您的数据在您的 Android 设备上本地保存，因此 100% 隐私友好。\n\n请访问我们的网站以获取更多信息、文档以及我们的沟通频道链接。</string>
     <string name="permission_displayover_title">显示在其他应用之上</string>
     <string name="permission_displayover_summary">由 Bangle.js 用于启动手机上的应用程序和其他功能</string>
-    <string name="permission_fine_location_title">寻找位置</string>
+    <string name="permission_fine_location_title">精确位置</string>
     <string name="permission_bluetooth_title">蓝牙</string>
     <string name="first_start_get_started_title">开始使用</string>
     <string name="first_start_get_started_go_to_app_button">前往应用</string>
-    <string name="first_start_get_started_desc">首先，直接从此屏幕添加您的第一个设备、恢复备份或从干净的数据库开始。</string>
+    <string name="first_start_get_started_desc">为了使用应用，请从此屏幕添加您的第一个设备、恢复备份或是从零开始。</string>
     <string name="permission_notifications_summary">将通知转发到已连接的穿戴设备</string>
     <string name="permission_fine_location_summary">扫描蓝牙设备</string>
     <string name="permission_background_location_summary">在后台扫描蓝牙设备并将位置发送到特定设备</string>
@@ -3605,7 +3603,7 @@
     <string name="permission_internet_access_summary">与在线资源同步</string>
     <string name="permission_bluetooth_connect_summary">连接到已配对的蓝牙设备</string>
     <string name="permission_calendar_title">日历</string>
-    <string name="permission_calendar_summary">将日历发送到小工具</string>
+    <string name="permission_calendar_summary">将日历发送到穿戴设备</string>
     <string name="permission_read_phone_state_title">读取手机状态</string>
     <string name="permission_call_phone_title">拨打电话</string>
     <string name="permission_process_outgoing_calls_title">处理拨出电话</string>
@@ -3622,8 +3620,8 @@
     <string name="redmi_buds_5_pro_double_connection">双连接</string>
     <string name="redmi_buds_5_pro_adaptive_sound">自适应声</string>
     <string name="redmi_buds_5_pro_equalizer_preset_standard">标准</string>
-    <string name="redmi_buds_5_pro_equalizer_preset_treble">增强高音</string>
-    <string name="redmi_buds_5_pro_equalizer_preset_voice">增强语音</string>
+    <string name="redmi_buds_5_pro_equalizer_preset_treble">高音增强</string>
+    <string name="redmi_buds_5_pro_equalizer_preset_voice">人声增强</string>
     <string name="redmi_buds_5_pro_equalizer_band_250">250 Hz</string>
     <string name="redmi_buds_5_pro_equalizer_band_2k">2 kHz</string>
     <string name="redmi_buds_5_pro_equalizer_band_4k">4 kHz</string>
@@ -3646,7 +3644,7 @@
     <string name="redmi_buds_5_pro_combo_anc_transparency">降噪 / 通透</string>
     <string name="redmi_buds_5_pro_double_connection_description">允许耳机同时连接到两个设备</string>
     <string name="redmi_buds_5_pro_adaptive_sound_description">根据耳朵形状和环境调节声音</string>
-    <string name="redmi_buds_5_pro_equalizer_preset_bass">增强低音</string>
+    <string name="redmi_buds_5_pro_equalizer_preset_bass">低音增强</string>
     <string name="redmi_buds_5_pro_equalizer_preset_custom">自定义</string>
     <string name="redmi_buds_5_pro_equalizer_band_62">62 Hz</string>
     <string name="redmi_buds_5_pro_equalizer_band_125">125 Hz</string>
