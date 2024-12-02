@@ -90,16 +90,12 @@
                     android:text="@string/hr_average"
                     android:textSize="12sp" />
             </LinearLayout>
+
+            <LinearLayout
+                style="@style/GridTile"
+                android:layout_marginStart="1dp" />
         </GridLayout>
 
-        <TextView
-            android:id="@+id/steps_chart_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:paddingLeft="20dip"
-            android:text=""
-            android:textSize="20sp" />
     </LinearLayout>
 
 </ScrollView>
