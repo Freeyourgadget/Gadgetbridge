@@ -3665,4 +3665,10 @@
     <string name="redmi_buds_5_pro_equalizer_1">1 dB</string>
     <string name="redmi_buds_5_pro_equalizer_4">4 dB</string>
     <string name="redmi_buds_5_pro_equalizer_3">3 dB</string>
+    <string name="music_multiselect_limit">Dosažen limit pro výběr více než jedné položky</string>
+    <string name="respiratoryrate">Rychlost dýchání</string>
+    <string name="lowest">Nejnižší</string>
+    <string name="sleep_avg">Prům. spánku</string>
+    <string name="music_delete_multiple_confirm_description">Opravdu chcete odstranit skladby „%1$d“?</string>
+    <string name="highest">Nejvyšší</string>
 </resources>
