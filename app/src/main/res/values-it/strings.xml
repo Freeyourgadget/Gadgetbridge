@@ -3335,7 +3335,7 @@
     <string name="bottom_nav_devices">Dispositivi</string>
     <string name="bottom_nav_dashboard">Cruscotto</string>
     <string name="pref_dashboard_first_title">Mostra prima il cruscotto</string>
-    <string name="dashboard_settings">Impostazioni Dashboard</string>
+    <string name="dashboard_settings">Impostazioni Cruscotto</string>
     <string name="pref_dashboard_cards_summary">Disegnare tessere intorno ai widget del cruscotto</string>
     <string name="pref_dashboard_first_summary">Mostra il cruscotto all\'avvio di Gadgetbridge, invece della schermata dei dispositivi</string>
     <string name="pref_auto_reply_calls_title">Rispondi automaticamente alle chiamate telefoniche</string>
@@ -3362,7 +3362,7 @@
         <item quantity="many">%d di giorni</item>
         <item quantity="other">%d giorni</item>
     </plurals>
-    <string name="pref_dashboard_widget_double_size_title">Dimensione raddoppiata</string>
+    <string name="pref_dashboard_widget_double_size_title">Grandezza raddoppiata</string>
     <string name="pref_dashboard_widget_today_upside_down_summary">In modalità 24 ore, disegna la mezzanotte in basso e il mezzogiorno in alto nel grafico</string>
     <string name="pref_dashboard_widgets_order_summary">Seleziona quali widget sono abilitati e in quale ordine vengono visualizzati sul cruscotto</string>
     <string name="pref_dashboard_widget_settings">Impostazioni widget</string>
@@ -3551,11 +3551,14 @@
     <string name="redmi_buds_5_pro_equalizer_preset_voice">Migliora la voce</string>
     <string name="redmi_buds_5_pro_equalizer_band_250">250 Hz</string>
     <string name="redmi_buds_5_pro_equalizer_band_500">500 Hz</string>
-    <string name="redmi_buds_5_pro_equalizer_band_4k"></string>
-    <string name="redmi_buds_5_pro_equalizer_band_2k"></string>
+    <string name="redmi_buds_5_pro_equalizer_band_4k"/>
+    <string name="redmi_buds_5_pro_equalizer_band_2k"/>
     <string name="redmi_buds_5_pro_anc_balanced">Equilibrato</string>
     <string name="redmi_buds_5_pro_transparency_voice">Migliora le voci</string>
     <string name="redmi_buds_5_pro_double_connection">Doppia connessione</string>
     <string name="redmi_buds_5_pro_equalizer_preset_custom">Personalizzato</string>
-    <string name="redmi_buds_5_pro_equalizer_band_1k"></string>
+    <string name="redmi_buds_5_pro_equalizer_band_1k"/>
+    <string name="active_calories_goal">Obiettivo attivo</string>
+    <string name="first_start_overview_dashboard">Il cruscotto consente di avere una rapida idea di come si sta procedendo oggi. La vista del calendario mostra lo stato dei vostri obiettivi per un mese intero.</string>
+    <string name="respiratoryrate">Frequenza respiratoria</string>
 </resources>
