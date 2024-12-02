@@ -1713,7 +1713,7 @@
     <string name="permission_notification_listener">ל־%1$s דרושה גישה להתראות כדי להציג אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
 \n
 \nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר גישה להתראות’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s.</string>
-    <string name="permission_location">ל־%1$s דרושה גישה למיקום שלך ברקע כדי לאפשר לו להישאר מחובר לשעון שלך גם כאשר המסך שלך כבוי. \n \nנא לגעת ב‚%2$s’ כדי להסכים.</string>
+    <string name="permission_location">ל־%1$s דרושה גישה למיקום שלך ברקע כדי לאפשר לו להישאר מחובר לשעון שלך גם כאשר המסך שלך כבוי. \n \nנא לבחור ב‚%2$s’ במסך הבא, ואז ללחוץ על ‚חזרה’ כדי לחזור אל %1$s.</string>
     <string name="permission_notification_policy_access">ל־%1$s דרושה גישה להגדרות לא להפריע כדי לכבד אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
 \n
 \nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר לא להפריע’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s.</string>
@@ -3045,4 +3045,22 @@
     <string name="music_delete">מחיקת שיר</string>
     <string name="title_activity_musicmanager">מנהל מוזיקה</string>
     <string name="activity_prefs_date_birth">תאריך הלידה</string>
+    <string name="permission_read_call_log_summary">העברת יומן שיחות לגאדג׳טים</string>
+    <string name="permission_read_call_log_title">קריאת יומן שיחות</string>
+    <string name="permission_contacts_title">אנשי קשר</string>
+    <string name="permission_process_outgoing_calls_summary">קריאת המספר של שיחות יוצאות כדי להציג אותו בגאדג׳ט</string>
+    <string name="permission_answer_phone_calls_summary">מענה לשיחות טלפון מגאדג׳טים</string>
+    <string name="permission_answer_phone_calls_title">מענה לשיחות טלפון</string>
+    <string name="permission_query_all_packages_summary">הקראת שמות וסמלים של כל היישומים המותקנים</string>
+    <string name="permission_query_all_packages_title">תשאול כל החבילות</string>
+    <string name="permission_read_phone_state_title">קריאת מצב טלפון</string>
+    <string name="permission_send_sms_title">שליחת מסרונים</string>
+    <string name="permission_process_outgoing_calls_title">עיבוד שיחות יוצאות</string>
+    <string name="permission_call_phone_summary">יזימת שיחות מהגאדג׳טים</string>
+    <string name="devicetype_redmi_buds_5_pro">‎Redmi Buds 5 Pro</string>
+    <string name="permission_external_storage_title">אחסון חיצוני</string>
+    <string name="permission_call_phone_title">שיחת טלפון</string>
+    <string name="permission_read_phone_state_summary">קריאת מצב של שיחות בזמן שמתבצעות</string>
+    <string name="permission_internet_access_summary">סנכרון עם משאבים מקוונים</string>
+    <string name="permission_internet_access_title">גישה לאינטרנט</string>
 </resources>
