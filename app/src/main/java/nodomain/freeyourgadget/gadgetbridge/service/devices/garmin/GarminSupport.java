@@ -143,18 +143,24 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
     protected TransactionBuilder initializeDevice(final TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
-        if (getSupportedServices().contains(CommunicatorV2.UUID_SERVICE_GARMIN_ML_GFDI)) {
-            communicator = new CommunicatorV2(this);
-        } else if (getSupportedServices().contains(CommunicatorV1.UUID_SERVICE_GARMIN_GFDI)) {
-            communicator = new CommunicatorV1(this);
-        } else {
-            LOG.warn("Failed to find a known Garmin service");
-            builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.NOT_CONNECTED, getContext()));
-            return builder;
-        }
-
         if (getDevicePrefs().getBoolean(PREF_ALLOW_HIGH_MTU, true)) {
             builder.requestMtu(515);
+        }
+
+        final CommunicatorV2 communicatorV2 = new CommunicatorV2(this);
+        if (communicatorV2.initializeDevice(builder)) {
+            communicator = communicatorV2;
+        } else {
+            // V2 did not manage to initialize, attempt V1
+            final CommunicatorV1 communicatorV1 = new CommunicatorV1(this);
+            if (!communicatorV1.initializeDevice(builder)) {
+                // Neither V1 nor V2 worked, not a Garmin device?
+                LOG.warn("Failed to find a known Garmin service");
+                builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.NOT_CONNECTED, getContext()));
+                return builder;
+            }
+
+            communicator = communicatorV1;
         }
 
         communicator.initializeDevice(builder);

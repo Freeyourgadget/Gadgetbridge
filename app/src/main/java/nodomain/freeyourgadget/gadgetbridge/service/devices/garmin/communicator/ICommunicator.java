@@ -10,7 +10,7 @@ public interface ICommunicator {
 
     void onMtuChanged(final int mtu);
 
-    void initializeDevice(TransactionBuilder builder);
+    boolean initializeDevice(TransactionBuilder builder);
 
     boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic);
 

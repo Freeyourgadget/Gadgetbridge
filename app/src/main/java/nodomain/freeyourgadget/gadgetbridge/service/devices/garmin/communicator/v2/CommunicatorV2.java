@@ -77,7 +77,7 @@ public class CommunicatorV2 implements ICommunicator {
     }
 
     @Override
-    public void initializeDevice(final TransactionBuilder builder) {
+    public boolean initializeDevice(final TransactionBuilder builder) {
         // Iterate through the known ML characteristics until we find a known pair
         // send characteristic = read characteristic + 0x10 (eg. 2810 / 2820)
         for (int i = 0x2810; i <= 0x2814; i++) {
@@ -90,13 +90,13 @@ public class CommunicatorV2 implements ICommunicator {
                 builder.notify(characteristicReceive, true);
                 builder.write(characteristicSend, closeAllServices());
 
-                return;
+                return true;
             }
         }
 
         LOG.warn("Failed to find any known ML characteristics");
 
-        builder.add(new SetDeviceStateAction(mSupport.getDevice(), GBDevice.State.NOT_CONNECTED, mSupport.getContext()));
+        return false;
     }
 
     @Override
