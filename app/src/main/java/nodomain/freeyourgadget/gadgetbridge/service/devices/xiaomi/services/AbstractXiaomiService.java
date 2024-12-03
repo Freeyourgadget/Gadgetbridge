@@ -42,6 +42,10 @@ public abstract class AbstractXiaomiService {
 
     }
 
+    public void dispose() {
+
+    }
+
     /**
      * Handle a preference change.
      * @param config the preference key

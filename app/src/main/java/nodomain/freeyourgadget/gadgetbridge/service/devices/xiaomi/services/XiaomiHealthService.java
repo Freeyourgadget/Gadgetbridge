@@ -204,6 +204,11 @@ public class XiaomiHealthService extends AbstractXiaomiService {
     }
 
     @Override
+    public void dispose() {
+        activityFetcher.dispose();
+    }
+
+    @Override
     public boolean onSendConfiguration(final String config, final Prefs prefs) {
         switch (config) {
             case ActivityUser.PREF_USER_HEIGHT_CM:
