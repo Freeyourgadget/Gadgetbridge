@@ -17,9 +17,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.garmin.communicator.
 public class CommunicatorV1 implements ICommunicator {
     private static final Logger LOG = LoggerFactory.getLogger(CommunicatorV1.class);
 
-    public static final UUID UUID_SERVICE_GARMIN_GFDI = UUID.fromString("6A4E2401-667B-11E3-949A-0800200C9A66");
-    public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_SEND = UUID.fromString("6A4E4C80-667B-11E3-949A-0800200C9A66");
-    public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_RECEIVE = UUID.fromString("6A4ECD28-667B-11E3-949A-0800200C9A66");
+    // Seen in Vivovit / Forerunner 620
+    public static final UUID UUID_SERVICE_GARMIN_GFDI_V0 = UUID.fromString("9B012401-BC30-CE9A-E111-0F67E491ABDE");
+    public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_V0_SEND = UUID.fromString("DF334C80-E6A7-D082-274D-78FC66F85E16");
+    public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_V0_RECEIVE = UUID.fromString("4ACBCD28-7425-868E-F447-915C8F00D0CB");
+
+    // Seen in Vivomove HR
+    public static final UUID UUID_SERVICE_GARMIN_GFDI_V1 = UUID.fromString("6A4E2401-667B-11E3-949A-0800200C9A66");
+    public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_V1_SEND = UUID.fromString("6A4E4C80-667B-11E3-949A-0800200C9A66");
+    public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_V1_RECEIVE = UUID.fromString("6A4ECD28-667B-11E3-949A-0800200C9A66");
 
     private BluetoothGattCharacteristic characteristicSend;
     private BluetoothGattCharacteristic characteristicReceive;
@@ -41,11 +47,16 @@ public class CommunicatorV1 implements ICommunicator {
 
     @Override
     public boolean initializeDevice(final TransactionBuilder builder) {
-        characteristicSend = mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_GFDI_SEND);
-        characteristicReceive = mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_GFDI_RECEIVE);
+        characteristicSend = mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_GFDI_V1_SEND);
+        characteristicReceive = mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_GFDI_V1_RECEIVE);
 
         if (characteristicSend == null || characteristicReceive == null) {
-            LOG.warn("Failed to find V1 GFDI characteristics");
+            characteristicSend = mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_GFDI_V0_SEND);
+            characteristicReceive = mSupport.getCharacteristic(UUID_CHARACTERISTIC_GARMIN_GFDI_V0_RECEIVE);
+        }
+
+        if (characteristicSend == null || characteristicReceive == null) {
+            LOG.warn("Failed to find V0/V1 GFDI characteristics");
             return false;
         }
 

@@ -105,7 +105,8 @@ public class GarminSupport extends AbstractBTLEDeviceSupport implements ICommuni
 
     public GarminSupport() {
         super(LOG);
-        addSupportedService(CommunicatorV1.UUID_SERVICE_GARMIN_GFDI);
+        addSupportedService(CommunicatorV1.UUID_SERVICE_GARMIN_GFDI_V0);
+        addSupportedService(CommunicatorV1.UUID_SERVICE_GARMIN_GFDI_V1);
         addSupportedService(CommunicatorV2.UUID_SERVICE_GARMIN_ML_GFDI);
         protocolBufferHandler = new ProtocolBufferHandler(this);
         fileTransferHandler = new FileTransferHandler(this);
