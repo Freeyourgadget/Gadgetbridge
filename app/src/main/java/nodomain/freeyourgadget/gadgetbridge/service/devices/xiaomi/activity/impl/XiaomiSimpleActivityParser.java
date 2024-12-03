@@ -109,6 +109,9 @@ public class XiaomiSimpleActivityParser {
                     case 4:
                         summary.setActivityKind(ActivityKind.TREKKING.getCode());
                         break;
+                    case 5:
+                        summary.setActivityKind(ActivityKind.TRAIL_RUN.getCode());
+                        break;
                     case 6:
                         summary.setActivityKind(ActivityKind.OUTDOOR_CYCLING.getCode());
                         break;
@@ -133,41 +136,65 @@ public class XiaomiSimpleActivityParser {
                     case 202: // roller skating   0x00ca
                         summary.setActivityKind(ActivityKind.ROLLER_SKATING.getCode());
                         break;
-                    case 301:  // stair climbing   0x012d
+                    case 301: // stair climbing   0x012d
                         summary.setActivityKind(ActivityKind.STAIR_CLIMBER.getCode());
                         break;
-                    case 303:  // core training    0x012f
+                    case 303: // core training    0x012f
                         summary.setActivityKind(ActivityKind.CORE_TRAINING.getCode());
                         break;
-                    case 304:  // flexibility      0x0130
+                    case 304: // flexibility      0x0130
                         summary.setActivityKind(ActivityKind.FLEXIBILITY.getCode());
                         break;
-                    case 305:  // pilates          0x0131
+                    case 305: // pilates          0x0131
                         summary.setActivityKind(ActivityKind.PILATES.getCode());
                         break;
-                    case 307:  // stretching       0x0133
+                    case 307: // stretching       0x0133
                         summary.setActivityKind(ActivityKind.STRETCHING.getCode());
                         break;
-                    case 308:  // strength         0x0134
+                    case 308: // strength         0x0134
                         summary.setActivityKind(ActivityKind.STRENGTH_TRAINING.getCode());
                         break;
-                    case 310:  // aerobics         0x0136
+                    case 310: // aerobics         0x0136
                         summary.setActivityKind(ActivityKind.AEROBICS.getCode());
                         break;
-                    case 499: // dancing          0x01f3
-                        summary.setActivityKind(ActivityKind.PLAZA_DANCING.getCode());
+                    case 399: // indoor-Fitness   0x018f
+                        summary.setActivityKind(ActivityKind.INDOOR_FITNESS.getCode());
                         break;
-                    case 607:  // table tennis     0x025f
+                    case 499: // dancing          0x01f3
+                        summary.setActivityKind(ActivityKind.DANCE.getCode());
+                        break;
+                    case 600: // Soccer           0x0258
+                        summary.setActivityKind(ActivityKind.SOCCER.getCode());
+                        break;
+                    case 601: // basketball       0x0259
+                        summary.setActivityKind(ActivityKind.BASKETBALL.getCode());
+                        break;
+                    case 607: // table tennis     0x025f
                         summary.setActivityKind(ActivityKind.TABLE_TENNIS.getCode());
                         break;
-                    case 609:  // tennis           0x0261
+                    case 608: // badminton        0x0260
+                        summary.setActivityKind(ActivityKind.BADMINTON.getCode());
+                        break;
+                    case 609: // tennis           0x0261
                         summary.setActivityKind(ActivityKind.TENNIS.getCode());
+                        break;
+                    case 614: // billard          0x0266
+                        summary.setActivityKind(ActivityKind.BILLIARDS.getCode());
+                        break;
+                    case 619: // golf             0x026b
+                        summary.setActivityKind(ActivityKind.GOLF.getCode());
                         break;
                     case 700: // ice skating      0x02bc
                         summary.setActivityKind(ActivityKind.ICE_SKATING.getCode());
                         break;
+                    case 708: // snowboard        0x02c4
+                        summary.setActivityKind(ActivityKind.SNOWBOARDING.getCode());
+                        break;
                     case 709: // skiing           0x02c5
                         summary.setActivityKind(ActivityKind.SKIING.getCode());
+                        break;
+                    case 808: // shuttelcock      0x0328
+                        summary.setActivityKind(ActivityKind.SHUTTLECOCK.getCode());
                         break;
                     default:
                         summary.setActivityKind(ActivityKind.UNKNOWN.getCode());
