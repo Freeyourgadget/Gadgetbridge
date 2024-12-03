@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huawei;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -76,9 +77,11 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
     // TODO: Might be nicer to propagate the exceptions, so they can be handled upstream
 
     private final GBDevice gbDevice;
+    private final Context context;
 
-    public HuaweiWorkoutGbParser(final GBDevice gbDevice) {
+    public HuaweiWorkoutGbParser(final GBDevice gbDevice, final Context context) {
         this.gbDevice = gbDevice;
+        this.context = context;
     }
 
     @Override
@@ -633,6 +636,13 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                 if(HRZonesCfg != null) {
                     final double totalTime = Arrays.stream(HRZones).sum();
                     final List<String> zoneOrder = Arrays.asList(ActivitySummaryEntries.HR_ZONE_WARM_UP, ActivitySummaryEntries.HR_ZONE_FAT_BURN, ActivitySummaryEntries.HR_ZONE_AEROBIC, ActivitySummaryEntries.HR_ZONE_ANAEROBIC, ActivitySummaryEntries.HR_ZONE_EXTREME);
+                    final int[] zoneColors = new int[]{
+                            context.getResources().getColor(R.color.hr_zone_warm_up_color),
+                            context.getResources().getColor(R.color.hr_zone_easy_color),
+                            context.getResources().getColor(R.color.hr_zone_aerobic_color),
+                            context.getResources().getColor(R.color.hr_zone_threshold_color),
+                            context.getResources().getColor(R.color.hr_zone_maximum_color),
+                    };
                     for (int i = zoneOrder.size() - 1; i >= 0; i--) {
                         double timeInZone = HRZones[i];
                         LOG.info("Zone: {} {}", zoneOrder.get(i), timeInZone);
@@ -641,7 +651,8 @@ public class HuaweiWorkoutGbParser implements ActivitySummaryParser {
                                 new ActivitySummaryProgressEntry(
                                         timeInZone,
                                         ActivitySummaryEntries.UNIT_SECONDS,
-                                        (int) (100 * timeInZone / totalTime)
+                                        (int) (100 * timeInZone / totalTime),
+                                        zoneColors[i]
                                 )
                         );
                     }

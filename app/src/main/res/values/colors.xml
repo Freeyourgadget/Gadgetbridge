@@ -70,6 +70,12 @@
     <color name="row_separator_dark" type="color">#19808080</color>
     <color name="gauge_line_color" type="color">#19808080</color>
 
+    <color name="hr_zone_warm_up_color" type="color">#92a4ad</color>
+    <color name="hr_zone_easy_color" type="color">#80D8FF</color>
+    <color name="hr_zone_aerobic_color" type="color">#66BB6A</color>
+    <color name="hr_zone_threshold_color" type="color">#FF7043</color>
+    <color name="hr_zone_maximum_color" type="color">#F44336</color>
+
     <attr name="row_separator" format="color" />
     <color name="alternate_row_background_light">#FFEDEDED</color>
     <color name="alternate_row_background_dark">#545254</color>

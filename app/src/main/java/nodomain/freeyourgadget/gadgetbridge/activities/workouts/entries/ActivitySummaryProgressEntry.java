@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.workouts.WorkoutValueForm
 
 public class ActivitySummaryProgressEntry extends ActivitySummarySimpleEntry {
     private final int progress;
+    private int color;
 
     public ActivitySummaryProgressEntry(final Object value, final String unit, final int progress) {
         this(null, value, unit, progress);
@@ -19,6 +21,11 @@ public class ActivitySummaryProgressEntry extends ActivitySummarySimpleEntry {
     public ActivitySummaryProgressEntry(final String group, final Object value, final String unit, final int progress) {
         super(group, value, unit);
         this.progress = progress;
+    }
+
+    public ActivitySummaryProgressEntry(final Object value, final String unit, final int progress, final int color) {
+        this(null, value, unit, progress);
+        this.color = color;
     }
 
     public int getProgress() {
@@ -59,6 +66,9 @@ public class ActivitySummaryProgressEntry extends ActivitySummarySimpleEntry {
         progressBar.setIndeterminate(false);
         progressBar.setProgress(progress);
         progressBar.setVisibility(View.VISIBLE);
+        if (color != 0) {
+            progressBar.setProgressTintList(ColorStateList.valueOf(color));
+        }
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         progressLayout.addView(progressBar, params);
 

@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.*;
 
+import android.content.Context;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -28,6 +30,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.entries.ActivitySummaryProgressEntry;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.proto.HuamiProtos;
@@ -39,10 +42,15 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.ZeppOsA
 
 public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsActivitySummaryParser.class);
+    private final Context context;
 
     @Override
     public AbstractHuamiActivityDetailsParser getDetailsParser(final BaseActivitySummary summary) {
         return new ZeppOsActivityDetailsParser(summary);
+    }
+
+    public ZeppOsActivitySummaryParser(final Context context) {
+        this.context = context;
     }
 
     @Override
@@ -130,13 +138,22 @@ public class ZeppOsActivitySummaryParser extends HuamiActivitySummaryParser {
                         .sum();
 
                 final List<String> zoneOrder = Arrays.asList(HR_ZONE_NA, HR_ZONE_WARM_UP, HR_ZONE_FAT_BURN, HR_ZONE_AEROBIC, HR_ZONE_ANAEROBIC, HR_ZONE_EXTREME);
+                final int[] zoneColors = new int[]{
+                        0,
+                        context.getResources().getColor(R.color.hr_zone_warm_up_color),
+                        context.getResources().getColor(R.color.hr_zone_easy_color),
+                        context.getResources().getColor(R.color.hr_zone_aerobic_color),
+                        context.getResources().getColor(R.color.hr_zone_threshold_color),
+                        context.getResources().getColor(R.color.hr_zone_maximum_color),
+                };
                 for (int i = 0; i < zoneOrder.size(); i++) {
                     summaryData.add(
                             zoneOrder.get(i),
                             new ActivitySummaryProgressEntry(
                                     summaryProto.getHeartRateZones().getZoneTime(i),
                                     UNIT_SECONDS,
-                                    (int) ((100 * summaryProto.getHeartRateZones().getZoneTime(i)) / totalTime)
+                                    (int) ((100 * summaryProto.getHeartRateZones().getZoneTime(i)) / totalTime),
+                                    zoneColors[i]
                             )
                     );
                 }

@@ -123,7 +123,7 @@ public class GetWorkoutDataRequest extends Request {
             nextRequest.setFinalizeReq(this.finalizeReq);
             this.nextRequest(nextRequest);
         } else {
-            new HuaweiWorkoutGbParser(getDevice()).parseWorkout(this.databaseId);
+            new HuaweiWorkoutGbParser(getDevice(), getContext()).parseWorkout(this.databaseId);
             supportProvider.downloadWorkoutGpsFiles(this.workoutNumbers.workoutNumber, this.databaseId, new Runnable() {
                 @Override
                 public void run() {

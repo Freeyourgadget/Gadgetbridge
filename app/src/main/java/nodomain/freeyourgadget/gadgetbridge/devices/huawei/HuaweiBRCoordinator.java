@@ -205,7 +205,7 @@ public abstract class HuaweiBRCoordinator extends AbstractBLClassicDeviceCoordin
 
     @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device, final Context context) {
-        return new HuaweiWorkoutGbParser(device);
+        return new HuaweiWorkoutGbParser(device, context);
     }
 
     @Override

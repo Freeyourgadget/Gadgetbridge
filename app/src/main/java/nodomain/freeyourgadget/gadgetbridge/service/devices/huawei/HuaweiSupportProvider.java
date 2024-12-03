@@ -2443,7 +2443,7 @@ public class HuaweiSupportProvider {
                             return;
                         }
 
-                        new HuaweiWorkoutGbParser(getDevice()).parseWorkout(databaseId);
+                        new HuaweiWorkoutGbParser(getDevice(), getContext()).parseWorkout(databaseId);
 
                         LOG.debug("Completed workout GPS parsing and inserting");
                         syncState.stopWorkoutGpsDownload();

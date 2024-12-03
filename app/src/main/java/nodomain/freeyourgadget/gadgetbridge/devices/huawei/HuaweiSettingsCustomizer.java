@@ -70,7 +70,7 @@ public class HuaweiSettingsCustomizer implements DeviceSpecificSettingsCustomize
         if (preference.getKey().equals("huawei_reparse_workout_data")) {
             if (((SwitchPreferenceCompat) preference).isChecked()) {
                 GB.toast("Starting workout reparse", Toast.LENGTH_SHORT, 0);
-                new HuaweiWorkoutGbParser(handler.getDevice()).parseAllWorkouts();
+                new HuaweiWorkoutGbParser(handler.getDevice(), handler.getContext()).parseAllWorkouts();
                 GB.toast("Workout reparse is complete", Toast.LENGTH_SHORT, 0);
 
                 ((SwitchPreferenceCompat) preference).setChecked(false);
