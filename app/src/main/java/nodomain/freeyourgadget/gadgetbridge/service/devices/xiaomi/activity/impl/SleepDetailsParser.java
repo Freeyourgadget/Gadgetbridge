@@ -78,6 +78,19 @@ public class SleepDetailsParser extends XiaomiActivityParser {
             sleepQuality = buf.get() & 0xff;
         }
 
+        // note on RR-intervals (msg type 1) on Xiaomi band 9, FW 2.3.93, HW M2345B1:
+        //
+        // the band collects RR interval in groups of ~10 minutes, which are then sent as msg type 1
+        // along with an associated RTC timestamp. RTC timestamp jitter and drift of up to
+        // +/-several seconds was observed, compared to the sum of intervals in a given msg.
+        //
+        // In order to preserve RR-interval continuity throughout the entire duration of sleep, as
+        // is necessary for breath-detection algorithm, and to avoid negative or impossibly large
+        // (false) RR intervals, we maintain an running timestamp of last heart pulse.
+        // While processing msgs, in case the detected jitter is too large, the running timestamp
+        // is reset to the current msg timestamp.
+        long lastHeartPulseTimestamp = 0;  // tracks the true timestamp of last heart pulse across the jittery 10-minute segments
+
         LOG.debug("Sleep sample: bedTime: {}, wakeupTime: {}, isAwake: {}", bedTime, wakeupTime, isAwake);
 
         final List<XiaomiSleepTimeSample> summaries = new ArrayList<>();
@@ -185,13 +198,22 @@ public class SleepDetailsParser extends XiaomiActivityParser {
                 final ByteBuffer dataBuf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN);
 
                 if (type == 1) {
-                    long timestampAcc = ts;
-                    while (dataBuf.position() < dataBuf.limit()) {
-                        final int delta = dataBuf.get() & 0xff;
+                    // RR intervals: https://en.wikipedia.org/wiki/RR_interval
+                    // add first heartbeat before intervals, if necessary
+                    if (Math.abs(lastHeartPulseTimestamp - ts) > 30000) {  // 30 seconds
+                        // we drifted too far from RTC timestamp, or this is the very first sample:
+                        lastHeartPulseTimestamp = ts;  // resync
                         final HeartPulseSample heartPulseSample = new HeartPulseSample();
-                        heartPulseSample.setTimestamp(timestampAcc + delta);
+                        heartPulseSample.setTimestamp(lastHeartPulseTimestamp);
                         heartPulseSamples.add(heartPulseSample);
-                        timestampAcc += delta;
+                    }
+                    // add heartbeats after intervals
+                    while (dataBuf.position() < dataBuf.limit()) {
+                        final int delta = dataBuf.get() & 0xff;  // delta is in 10msec units
+                        lastHeartPulseTimestamp += 10 * delta;  // convert to 1msec units for timestamps
+                        final HeartPulseSample heartPulseSample = new HeartPulseSample();
+                        heartPulseSample.setTimestamp(lastHeartPulseTimestamp);
+                        heartPulseSamples.add(heartPulseSample);
                     }
                 } else if (type == 16) {
                     final int data_0 = dataBuf.get() & 0xFF;
