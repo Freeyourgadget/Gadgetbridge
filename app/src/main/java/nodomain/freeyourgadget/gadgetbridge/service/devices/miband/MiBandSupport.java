@@ -127,7 +127,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private RealtimeSamplesSupport realtimeSamplesSupport;
-    private boolean alarmClockRining;
     private boolean alarmClockRinging;
 
     public MiBandSupport() {
@@ -570,7 +569,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void onAlarmClock(NotificationSpec notificationSpec) {
-        alarmClockRining = true;
+        alarmClockRinging = true;
         AbortTransactionAction abortAction = new AbortTransactionAction() {
             @Override
             protected boolean shouldAbort() {
@@ -584,7 +583,7 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onDeleteNotification(int id) {
-        alarmClockRining = false; // we should have the notificationtype at least to check
+        alarmClockRinging = false; // we should have the notificationtype at least to check
     }
 
     @Override
