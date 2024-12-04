@@ -161,6 +161,28 @@
                 android:layout_width="fill_parent"
                 android:layout_height="350dp"
         />
+    <LinearLayout
+        android:id="@+id/sleep_score_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textSize="20sp"
+            android:text="@string/sleep_score"
+            />
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/sleep_score_chart"
+            android:layout_width="fill_parent"
+            android:layout_height="350dp"
+            />
+    </LinearLayout>
 
     </LinearLayout>
 

@@ -1022,6 +1022,8 @@
     <string name="sleep_avg">Sleep AVG</string>
     <string name="lowest">Lowest</string>
     <string name="highest">Highest</string>
+    <string name="sleep_score">Sleep score</string>
+    <string name="sleep_score_value">Score: %1d</string>
     <string name="stats_empty_value">-</string>
     <string name="time_empty_value" translatable="false">--:--</string>
     <string name="date_placeholders__date__time">%1s, %1s</string>

@@ -227,6 +227,19 @@ public class GaugeDrawer {
                 paint);
         paint.setStrokeWidth(barWidth);
 
+        float remainingAngle = 360;
+        float gapDegree = 1f;
+        if (gapBetweenSegments) {
+            int validSegments = segments.length;
+            for (int i = 0; i < segments.length; i++) {
+                if (segments[i] == 0) {
+                    validSegments--;
+                }
+            }
+
+            remainingAngle = 360 - (validSegments * gapDegree);
+        }
+
         float angleSum = 0;
         for (int i = 0; i < segments.length; i++) {
             if (segments[i] == 0) {
@@ -236,12 +249,8 @@ public class GaugeDrawer {
             paint.setColor(colors[i]);
             paint.setStrokeWidth(barWidth);
 
-            float startAngleDegrees = 270 + angleSum * 360;
-            float sweepAngleDegrees = segments[i] * 360;
-
-            if (gapBetweenSegments) {
-                sweepAngleDegrees -= 1;
-            }
+            float startAngleDegrees = 270 + (angleSum * remainingAngle);
+            float sweepAngleDegrees = segments[i] * remainingAngle;
 
             canvas.drawArc(
                     barMargin,
@@ -254,6 +263,9 @@ public class GaugeDrawer {
                     paint
             );
             angleSum += segments[i];
+            if (gapBetweenSegments) {
+                angleSum += (gapDegree / 360f);
+            }
         }
 
         Paint textPaint = new Paint();

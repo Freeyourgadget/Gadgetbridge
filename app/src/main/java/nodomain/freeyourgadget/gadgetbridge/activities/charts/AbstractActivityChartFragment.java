@@ -1,4 +1,4 @@
-/*  Copyright (C) 2023-2024 Daniel Dakhno, José Rebelo
+/*  Copyright (C) 2023-2024 Daniel Dakhno, José Rebelo, a0z
 
     This file is part of Gadgetbridge.
 
@@ -31,7 +31,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -346,17 +345,11 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     protected LineDataSet createDataSet(List<Entry> values, Integer color, String label) {
         LineDataSet set1 = new LineDataSet(values, label);
         set1.setColor(color);
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
         set1.setDrawFilled(true);
         set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
         set1.setFillColor(color);
         set1.setFillAlpha(255);
         set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(128, 0, 255));
-//        set1.setColor(Color.rgb(89, 178, 44));
         set1.setValueTextColor(CHART_TEXT_COLOR);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         return set1;
@@ -366,17 +359,9 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
         LineDataSet set1 = new LineDataSet(values, label);
         set1.setLineWidth(2.2f);
         set1.setColor(HEARTRATE_COLOR);
-//        set1.setDrawCubic(true);
         set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         set1.setCubicIntensity(0.1f);
         set1.setDrawCircles(false);
-//        set1.setCircleRadius(2f);
-//        set1.setDrawFilled(true);
-//        set1.setColor(getResources().getColor(android.R.color.background_light));
-//        set1.setCircleColor(HEARTRATE_COLOR);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-//        set1.setHighLightColor(Color.rgb(128, 0, 255));
-//        set1.setColor(Color.rgb(89, 178, 44));
         set1.setDrawValues(true);
         set1.setValueTextColor(CHART_TEXT_COLOR);
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);

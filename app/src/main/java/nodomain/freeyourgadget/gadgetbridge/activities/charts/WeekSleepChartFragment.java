@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2024 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
-    Pavel Elagin, Petr Vaněk
+    Pavel Elagin, Petr Vaněk, a0z
 
     This file is part of Gadgetbridge.
 
@@ -25,8 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
@@ -60,6 +63,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     private TextView lightSleepTimeText;
     private TextView sleepDatesText;
     private MySleepWeeklyData mySleepWeeklyData;
+    private LinearLayout sleepScoreWrapper;
+    private LineChart sleepScoreChart;
 
     public static WeekSleepChartFragment newInstance ( int totalDays ) {
         WeekSleepChartFragment fragmentFirst = new WeekSleepChartFragment();
@@ -118,6 +123,8 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         }
 
         mWeekChart = rootView.findViewById(R.id.weekstepschart);
+        sleepScoreWrapper = rootView.findViewById(R.id.sleep_score_wrapper);
+        sleepScoreChart = rootView.findViewById(R.id.sleep_score_chart);
         remSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_rem_time);
         remSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_rem_time_wrapper);
         awakeSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_awake_time);
@@ -128,8 +135,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
         mBalanceView = rootView.findViewById(R.id.balance);
 
-        setupWeekChart();
+        if (!supportsSleepScore()) {
+            sleepScoreWrapper.setVisibility(View.GONE);
+        } else {
+            setupSleepScoreChart();
+        }
 
+        setupWeekChart();
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
 
@@ -154,6 +166,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         mWeekChart.setData(mcd.getWeekBeforeData().getData());
         mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
         mWeekChart.getBarData().setValueTextSize(10f);
+
+        if (supportsSleepScore()) {
+            sleepScoreChart.setData(null);
+            sleepScoreChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
+            sleepScoreChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+            sleepScoreChart.setData(mcd.getWeekBeforeData().getSleepScoreData());
+        }
 
         // The last value is for awake time, which we do not want to include in the "total sleep time"
         final int barIgnoreLast = supportsAwakeSleep(getChartsHost().getDevice()) ? 1 : 0;
@@ -200,12 +219,48 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         WeekChartsData<BarData> weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
         mySleepWeeklyData = getMySleepWeeklyData(db, day, device);
 
-        return new MyChartsData(null, weekBeforeData);
+        return new MyChartsData(weekBeforeData);
+    }
+
+    private void setupSleepScoreChart() {
+        final XAxis xAxisBottom = sleepScoreChart.getXAxis();
+        xAxisBottom.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxisBottom.setDrawLabels(true);
+        xAxisBottom.setDrawGridLines(false);
+        xAxisBottom.setEnabled(true);
+        xAxisBottom.setDrawLimitLinesBehindData(true);
+        xAxisBottom.setTextColor(CHART_TEXT_COLOR);
+        xAxisBottom.setAxisMinimum(0f);
+        xAxisBottom.setAxisMaximum(TOTAL_DAYS-1);
+        xAxisBottom.setGranularity(1f);
+        xAxisBottom.setGranularityEnabled(true);
+
+        final YAxis yAxisLeft = sleepScoreChart.getAxisLeft();
+        yAxisLeft.setDrawGridLines(true);
+        yAxisLeft.setAxisMaximum(100);
+        yAxisLeft.setAxisMinimum(0);
+        yAxisLeft.setDrawTopYLabelEntry(true);
+        yAxisLeft.setEnabled(true);
+        yAxisLeft.setTextColor(CHART_TEXT_COLOR);
+
+        final YAxis yAxisRight = sleepScoreChart.getAxisRight();
+        yAxisRight.setEnabled(true);
+        yAxisRight.setDrawLabels(false);
+        yAxisRight.setDrawGridLines(false);
+        yAxisRight.setDrawAxisLine(true);
+
+        sleepScoreChart.setDoubleTapToZoomEnabled(false);
+        sleepScoreChart.getDescription().setEnabled(false);
+        if (TOTAL_DAYS <= 7) {
+            sleepScoreChart.setScaleEnabled(false);
+            sleepScoreChart.setTouchEnabled(false);
+        }
     }
 
     @Override
     protected void renderCharts() {
         mWeekChart.invalidate();
+        sleepScoreChart.invalidate();
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2017-2024 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, José Rebelo, Pavel Elagin, Petr Vaněk
+    Daniele Gobbetti, José Rebelo, Pavel Elagin, Petr Vaněk, a0z
 
     This file is part of Gadgetbridge.
 
@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -35,10 +34,11 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +51,11 @@ import java.util.Locale;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepScoreSample;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 
@@ -65,46 +67,10 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
     protected Locale mLocale;
     protected int mTargetValue = 0;
 
-    protected PieChart mTodayPieChart;
     protected BarChart mWeekChart;
     protected TextView mBalanceView;
 
     private int mOffsetHours = getOffsetHours();
-
-    @Override
-    protected MyChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        Calendar day = Calendar.getInstance();
-        day.setTime(chartsHost.getEndDate());
-        //NB: we could have omitted the day, but this way we can move things to the past easily
-        DayData dayData = refreshDayPie(db, day, device);
-        WeekChartsData<BarData> weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
-
-        return new MyChartsData(dayData, weekBeforeData);
-    }
-
-    @Override
-    protected void updateChartsnUIThread(MyChartsData mcd) {
-        setupLegend(mWeekChart);
-        mTodayPieChart.setCenterText(mcd.getDayData().centerText);
-        mTodayPieChart.setData(mcd.getDayData().data);
-        //set custom renderer for 30days bar charts
-        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
-            mWeekChart.setRenderer(new AngledLabelsChartRenderer(mWeekChart, mWeekChart.getAnimator(), mWeekChart.getViewPortHandler()));
-        }
-
-        mWeekChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
-        mWeekChart.setData(mcd.getWeekBeforeData().getData());
-        mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
-
-        mBalanceView.setText(mcd.getWeekBeforeData().getBalanceMessage());
-    }
-
-    @Override
-    protected void renderCharts() {
-        mWeekChart.invalidate();
-        mTodayPieChart.invalidate();
-//        mBalanceView.setText(getBalanceMessage(balance));
-    }
 
     protected String getWeeksChartsLabel(Calendar day){
         if (TOTAL_DAYS > 7) {
@@ -125,19 +91,39 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         long balance = 0;
         long daily_balance = 0;
         TOTAL_DAYS_FOR_AVERAGE=0;
-
+        List<Entry> sleepScoreEntities = new ArrayList<>();
+        final List<ILineDataSet> sleepScoreDataSets = new ArrayList<>();
         for (int counter = 0; counter < TOTAL_DAYS; counter++) {
+            // Sleep stages
             ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
             daily_balance=calculateBalance(amounts);
             if (daily_balance > 0) {
                 TOTAL_DAYS_FOR_AVERAGE++;
             }
-
             balance += daily_balance;
             entries.add(new BarEntry(counter, getTotalsForActivityAmounts(amounts)));
             labels.add(getWeeksChartsLabel(day));
+            // Sleep score
+            if (supportsSleepScore()) {
+                List<? extends SleepScoreSample> sleepScoreSamples = getSleepScoreSamples(db, device, day);
+                if (!sleepScoreSamples.isEmpty() && sleepScoreSamples.get(0).getSleepScore() > 0) {
+                    sleepScoreEntities.add(new Entry(counter, sleepScoreSamples.get(0).getSleepScore()));
+                } else {
+                    if (!sleepScoreEntities.isEmpty()) {
+                        List<Entry> clone = new ArrayList<>(sleepScoreEntities.size());
+                        clone.addAll(sleepScoreEntities);
+                        sleepScoreDataSets.add(createSleepScoreDataSet(clone));
+                        sleepScoreEntities.clear();
+                    }
+                }
+            }
             day.add(Calendar.DATE, 1);
         }
+        if (!sleepScoreEntities.isEmpty()) {
+            sleepScoreDataSets.add(createSleepScoreDataSet(sleepScoreEntities));
+        }
+        final LineData sleepScoreLineData = new LineData(sleepScoreDataSets);
+        sleepScoreLineData.setHighlightEnabled(false);
 
         BarDataSet set = new BarDataSet(entries, "");
         set.setColors(getColors());
@@ -179,49 +165,50 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
             }
         }
 
+        if (supportsSleepScore()) {
+            return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue), sleepScoreLineData);
+        }
         return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels), getBalanceMessage(balance, mTargetValue));
     }
 
-    protected DayData refreshDayPie(DBHandler db, Calendar day, GBDevice device) {
+    protected List<SleepScoreSample> getSleepScoreSamples(DBHandler db, GBDevice device, Calendar day) {
+        int startTs;
+        int endTs;
 
-        PieData data = new PieData();
-        List<PieEntry> entries = new ArrayList<>();
-        PieDataSet set = new PieDataSet(entries, "");
+        day = (Calendar) day.clone(); // do not modify the caller's argument
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        day.add(Calendar.HOUR, 0);
+        startTs = (int) (day.getTimeInMillis() / 1000);
+        endTs = startTs + 24 * 60 * 60 - 1;
 
-        ActivityAmounts amounts = getActivityAmountsForDay(db, day, device);
-        float[] totalValues = getTotalsForActivityAmounts(amounts);
-        String[] pieLabels = getPieLabels();
-        float totalValue = 0;
-        for (int i = 0; i < totalValues.length; i++) {
-            float value = totalValues[i];
-            totalValue += value;
-            entries.add(new PieEntry(value, pieLabels[i]));
-        }
-
-        set.setColors(getColors());
-
-        if (totalValues.length < 2) {
-            if (totalValue < mTargetValue) {
-                entries.add(new PieEntry((mTargetValue - totalValue)));
-                set.addColor(Color.GRAY);
-            }
-        }
-
-        data.setDataSet(set);
-
-        if (totalValues.length < 2) {
-            data.setDrawValues(false);
-        }
-        else {
-            set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-            set.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-            set.setValueTextColor(DESCRIPTION_COLOR);
-            set.setValueTextSize(13f);
-            set.setValueFormatter(getPieValueFormatter());
-        }
-
-        return new DayData(data, formatPieValue((long) totalValue));
+        TimeSampleProvider<? extends SleepScoreSample> provider = device.getDeviceCoordinator().getSleepScoreProvider(device, db.getDaoSession());
+        return (List<SleepScoreSample>) provider.getAllSamples(startTs * 1000L, endTs * 1000L);
     }
+
+    protected LineDataSet createSleepScoreDataSet(final List<Entry> values) {
+        final LineDataSet lineDataSet = new LineDataSet(values, getString(R.string.sleep_score));
+        lineDataSet.setColor(getResources().getColor(R.color.chart_light_sleep_light));
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setLineWidth(2f);
+        lineDataSet.setFillAlpha(255);
+        lineDataSet.setCircleRadius(5f);
+        lineDataSet.setDrawCircles(true);
+        lineDataSet.setDrawCircleHole(true);
+        lineDataSet.setCircleColor(getResources().getColor(R.color.chart_light_sleep_light));
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSet.setDrawValues(true);
+        lineDataSet.setValueTextSize(10f);
+        lineDataSet.setValueTextColor(CHART_TEXT_COLOR);
+        lineDataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return String.format(Locale.ROOT, "%d", (int) value);
+            }
+        });
+        return lineDataSet;
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -241,31 +228,15 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
             mTargetValue = goal;
         }
 
-        mTodayPieChart = rootView.findViewById(R.id.todaystepschart);
         mWeekChart = rootView.findViewById(R.id.weekstepschart);
         mBalanceView = rootView.findViewById(R.id.balance);
 
         setupWeekChart();
-        setupTodayPieChart();
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
 
         return rootView;
-    }
-
-
-
-
-
-    protected void setupTodayPieChart() {
-        mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);
-        mTodayPieChart.getDescription().setTextColor(DESCRIPTION_COLOR);
-        mTodayPieChart.setEntryLabelColor(DESCRIPTION_COLOR);
-        mTodayPieChart.getDescription().setText(getPieDescription(mTargetValue));
-//        mTodayPieChart.setNoDataTextDescription("");
-        mTodayPieChart.setNoDataText("");
-        mTodayPieChart.getLegend().setEnabled(false);
     }
 
     protected void setupWeekChart() {
@@ -323,27 +294,11 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         return super.getAllSamples(db, device, tsFrom, tsTo);
     }
 
-    private static class DayData {
-        private final PieData data;
-        private final CharSequence centerText;
-
-        DayData(PieData data, String centerText) {
-            this.data = data;
-            this.centerText = centerText;
-        }
-    }
-
     protected static class MyChartsData extends ChartsData {
         private final WeekChartsData<BarData> weekBeforeData;
-        private final DayData dayData;
 
-        MyChartsData(DayData dayData, WeekChartsData<BarData> weekBeforeData) {
-            this.dayData = dayData;
+        MyChartsData(WeekChartsData<BarData> weekBeforeData) {
             this.weekBeforeData = weekBeforeData;
-        }
-
-        DayData getDayData() {
-            return dayData;
         }
 
         WeekChartsData<BarData> getWeekBeforeData() {
@@ -382,6 +337,11 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
         }
     }
 
+    public boolean supportsSleepScore() {
+        final GBDevice device = getChartsHost().getDevice();
+        return device.getDeviceCoordinator().supportsSleepScore();
+    }
+
     abstract String getAverage(float value);
 
     abstract int getGoal();
@@ -410,14 +370,23 @@ public abstract class AbstractWeekChartFragment extends AbstractActivityChartFra
 
     protected class WeekChartsData<T extends ChartData<?>> extends DefaultChartsData<T> {
         private final String balanceMessage;
+        private LineData sleepScoresLineData;
 
         public WeekChartsData(T data, PreformattedXIndexLabelFormatter xIndexLabelFormatter, String balanceMessage) {
             super(data, xIndexLabelFormatter);
             this.balanceMessage = balanceMessage;
         }
 
+        public WeekChartsData(T data, PreformattedXIndexLabelFormatter xIndexLabelFormatter, String balanceMessage, LineData sleepScores) {
+            super(data, xIndexLabelFormatter);
+            this.balanceMessage = balanceMessage;
+            this.sleepScoresLineData = sleepScores;
+        }
+
         public String getBalanceMessage() {
             return balanceMessage;
         }
+
+        public LineData getSleepScoreData() { return sleepScoresLineData; }
     }
 }

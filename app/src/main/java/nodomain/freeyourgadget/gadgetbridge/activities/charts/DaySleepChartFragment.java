@@ -1,5 +1,5 @@
 /*  Copyright (C) 2015-2024 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Dikay900, José Rebelo, ozkanpakdil, Pavel Elagin, Petr Vaněk, Q-er
+    Gobbetti, Dikay900, José Rebelo, ozkanpakdil, Pavel Elagin, Petr Vaněk, Q-er, a0z
 
     This file is part of Gadgetbridge.
 
@@ -23,21 +23,21 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.*;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
@@ -52,10 +52,13 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.SleepAnalysis.SleepSession;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.GaugeDrawer;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepScoreSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -64,7 +67,7 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private LineChart mActivityChart;
-    private PieChart mSleepAmountChart;
+    private ImageView sleepStagesGauge;
     private TextView mSleepchartInfo;
     private TextView remSleepTimeText;
     private LinearLayout remSleepTimeTextWrapper;
@@ -106,8 +109,11 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         } else {
             samples = getSamplesofSleep(db, device);
         }
-
-        MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples);
+        List<? extends SleepScoreSample> sleepScoreSamples = new ArrayList<>();
+        if (supportsSleepScore()) {
+            sleepScoreSamples = getSleepScoreSamples(db, device, getTSStart(), getTSEnd());
+        }
+        MySleepChartsData mySleepChartsData = refreshSleepAmounts(device, samples, sleepScoreSamples);
 
         if (!CHARTS_SLEEP_RANGE_24H) {
             if (mySleepChartsData.sleepSessions.size() > 0) {
@@ -130,12 +136,9 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
 
 
 
-    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<? extends ActivitySample> samples) {
+    private MySleepChartsData refreshSleepAmounts(GBDevice mGBDevice, List<? extends ActivitySample> samples, List<? extends SleepScoreSample> sleepScoreSamples) {
         SleepAnalysis sleepAnalysis = new SleepAnalysis();
         List<SleepSession> sleepSessions = sleepAnalysis.calculateSleepSessions(samples);
-
-        PieData data = new PieData();
-
 
         final long lightSleepDuration = calculateLightSleepDuration(sleepSessions);
         final long deepSleepDuration = calculateDeepSleepDuration(sleepSessions);
@@ -143,45 +146,12 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         final long awakeSleepDuration = calculateAwakeSleepDuration(sleepSessions);
         final long totalSeconds = lightSleepDuration + deepSleepDuration + remSleepDuration;
 
-        final List<PieEntry> entries = new ArrayList<>();
-        final List<Integer> colors = new ArrayList<>();
-
-        if (!sleepSessions.isEmpty()) {
-            entries.add(new PieEntry(lightSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_light_sleep)));
-            entries.add(new PieEntry(deepSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_deep_sleep)));
-            colors.add(getColorFor(ActivityKind.LIGHT_SLEEP));
-            colors.add(getColorFor(ActivityKind.DEEP_SLEEP));
-
-            if (supportsRemSleep(mGBDevice)) {
-                entries.add(new PieEntry(remSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_rem_sleep)));
-                colors.add(getColorFor(ActivityKind.REM_SLEEP));
-            }
-
-            if (supportsAwakeSleep(mGBDevice)) {
-                entries.add(new PieEntry(awakeSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_awake_sleep)));
-                colors.add(getColorFor(ActivityKind.AWAKE_SLEEP));
-            }
-        } else {
-            entries.add(new PieEntry(1));
-            colors.add(getResources().getColor(R.color.gauge_line_color));
+        int sleepScore = 0;
+        if (!sleepScoreSamples.isEmpty()) {
+            sleepScore = sleepScoreSamples.get(0).getSleepScore();
         }
 
-        PieDataSet set = new PieDataSet(entries, "");
-        set.setSliceSpace(2f);
-        set.setColors(colors);
-        set.setValueTextColor(DESCRIPTION_COLOR);
-        set.setValueTextSize(13f);
-        set.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        set.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        data.setDataSet(set);
-
-        String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
-        String totalAwake = DateTimeUtils.formatDurationHoursMinutes(awakeSleepDuration, TimeUnit.SECONDS);
-        String totalRem = DateTimeUtils.formatDurationHoursMinutes(remSleepDuration, TimeUnit.SECONDS);
-        String totalDeep = DateTimeUtils.formatDurationHoursMinutes(deepSleepDuration, TimeUnit.SECONDS);
-        String totalLight = DateTimeUtils.formatDurationHoursMinutes(lightSleepDuration, TimeUnit.SECONDS);
-        //setupLegend(pieChart);
-        return new MySleepChartsData(data, sleepSessions, totalSleep, totalAwake, totalRem, totalDeep, totalLight);
+        return new MySleepChartsData(sleepSessions, totalSeconds, awakeSleepDuration, remSleepDuration, deepSleepDuration, lightSleepDuration, sleepScore);
     }
 
     private long calculateLightSleepDuration(List<SleepSession> sleepSessions) {
@@ -216,6 +186,45 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         return result;
     }
 
+    protected void sleepStagesGaugeUpdate(MySleepChartsData pieData) {
+        int[] colors = new int[] {
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_light_sleep_light),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_deep_sleep_light),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_rem_sleep_light),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_awake_sleep_light),
+        };
+        long total = pieData.getTotalSleep() + pieData.getTotalAwake();
+        float[] segments = new float[] {
+                pieData.getTotalLight() > 0 ? (float) pieData.getTotalLight() / total : 0,
+                pieData.getTotalDeep() > 0 ? (float) pieData.getTotalDeep() / total : 0,
+                pieData.getTotalRem() > 0 ? (float) pieData.getTotalRem() / total : 0,
+                pieData.getTotalAwake() > 0 ? (float) pieData.getTotalAwake() / total : 0,
+        };
+        final int width = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                300,
+                GBApplication.getContext().getResources().getDisplayMetrics()
+        );
+        String lowerText = "";
+        if (supportsSleepScore()) {
+            lowerText = GBApplication.getContext().getString(R.string.sleep_score_value, pieData.getSleepScore());
+        }
+        sleepStagesGauge.setImageBitmap(GaugeDrawer.drawCircleGaugeSegmented(
+                width,
+                width / 15,
+                colors,
+                segments,
+                true,
+                String.valueOf(timeStringFormat(pieData.getTotalSleep())),
+                lowerText,
+                getContext()
+        ));
+    }
+
+    private String timeStringFormat(long seconds) {
+        return DateTimeUtils.formatDurationHoursMinutes(seconds, TimeUnit.SECONDS);
+    }
+
     @Override
     protected void updateChartsnUIThread(MyChartsData mcd) {
         MySleepChartsData pieData = mcd.getPieData();
@@ -224,15 +233,13 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         String formattedDate = new SimpleDateFormat("E, MMM dd").format(date);
         sleepDateText.setText(formattedDate);
 
-        pieData.pieData.setDrawValues(false);
-        mSleepAmountChart.setTouchEnabled(false);
-        mSleepAmountChart.setCenterTextColor(GBApplication.getTextColor(getContext()));
-        mSleepAmountChart.setCenterText(pieData.getTotalSleep());
+        sleepStagesGaugeUpdate(pieData);
+
         if (!pieData.sleepSessions.isEmpty()) {
-            awakeSleepTimeText.setText(pieData.getTotalAwake());
-            remSleepTimeText.setText(pieData.getTotalRem());
-            deepSleepTimeText.setText(pieData.getTotalDeep());
-            lightSleepTimeText.setText(pieData.getTotalLight());
+            awakeSleepTimeText.setText(timeStringFormat(pieData.getTotalAwake()));
+            remSleepTimeText.setText(timeStringFormat(pieData.getTotalRem()));
+            deepSleepTimeText.setText(timeStringFormat(pieData.getTotalDeep()));
+            lightSleepTimeText.setText(timeStringFormat(pieData.getTotalLight()));
         } else {
             awakeSleepTimeText.setText("-");
             remSleepTimeText.setText("-");
@@ -245,9 +252,6 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         if (!supportsAwakeSleep(getChartsHost().getDevice())) {
             awakeSleepTimeTextWrapper.setVisibility(View.GONE);
         }
-        mSleepAmountChart.setCenterTextSize(18f);
-        mSleepAmountChart.setHoleColor(getContext().getResources().getColor(R.color.transparent));
-        mSleepAmountChart.setData(pieData.getPieData());
         mSleepchartInfo.setText(buildYouSleptText(pieData));
         mSleepchartInfo.setMovementMethod(new ScrollingMovementMethod());
         mActivityChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
@@ -263,10 +267,6 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         movementIntensityText.setText(intensityTotal > 0 ? new DecimalFormat("###.#").format(intensityTotal) : "-");
         movementIntensityTextWrapper.setVisibility(intensityTotal > 0 ? View.VISIBLE : View.GONE);
         dummyTile.setVisibility(intensityTotal > 0 ? View.VISIBLE : View.GONE);
-
-        mSleepAmountChart.setHoleRadius(85);
-        mSleepAmountChart.setDrawEntryLabels(false);
-        mSleepAmountChart.getLegend().setEnabled(false);
 
         if (!CHARTS_SLEEP_RANGE_24H
                 && supportsHeartrate(getChartsHost().getDevice())
@@ -366,6 +366,11 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         return result.toString();
     }
 
+    public boolean supportsSleepScore() {
+        final GBDevice device = getChartsHost().getDevice();
+        return device.getDeviceCoordinator().supportsSleepScore();
+    }
+
     @Override
     public String getTitle() {
         return getString(R.string.sleepchart_your_sleep);
@@ -383,7 +388,7 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         }
 
         mActivityChart = rootView.findViewById(R.id.sleepchart);
-        mSleepAmountChart = rootView.findViewById(R.id.sleepchart_pie_light_deep);
+        sleepStagesGauge = rootView.findViewById(R.id.sleep_stages_gauge);
         mSleepchartInfo = rootView.findViewById(R.id.sleepchart_info);
         remSleepTimeText = rootView.findViewById(R.id.sleep_chart_legend_rem_time);
         remSleepTimeTextWrapper = rootView.findViewById(R.id.sleep_chart_legend_rem_time_wrapper);
@@ -401,7 +406,6 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         mSleepchartInfo.setMaxLines(sleepLinesLimit);
 
         setupActivityChart();
-        setupSleepAmountChart();
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
@@ -424,16 +428,6 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
         }
     }
 
-    private void setupSleepAmountChart() {
-        mSleepAmountChart.setBackgroundColor(BACKGROUND_COLOR);
-        mSleepAmountChart.getDescription().setTextColor(DESCRIPTION_COLOR);
-        mSleepAmountChart.setEntryLabelColor(DESCRIPTION_COLOR);
-        mSleepAmountChart.getDescription().setText("");
-//        mSleepAmountChart.getDescription().setNoDataTextDescription("");
-        mSleepAmountChart.setNoDataText("");
-        mSleepAmountChart.getLegend().setEnabled(false);
-    }
-
     private void setupActivityChart() {
         mActivityChart.setBackgroundColor(BACKGROUND_COLOR);
         mActivityChart.getDescription().setTextColor(DESCRIPTION_COLOR);
@@ -448,14 +442,10 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
 
         YAxis y = mActivityChart.getAxisLeft();
         y.setDrawGridLines(false);
-//        y.setDrawLabels(false);
-        // TODO: make fixed max value optional
         y.setAxisMaximum(1f);
         y.setAxisMinimum(0);
         y.setDrawTopYLabelEntry(false);
         y.setTextColor(CHART_TEXT_COLOR);
-
-//        y.setLabelCount(5);
         y.setEnabled(true);
 
         YAxis yAxisRight = mActivityChart.getAxisRight();
@@ -513,58 +503,60 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
 
     @Override
     protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-// temporary fix for totally wrong sleep amounts
+        // Temporary fix for totally wrong sleep amounts.
         return super.getAllSamples(db, device, tsFrom, tsTo);
+    }
+
+    protected List<SleepScoreSample> getSleepScoreSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+        TimeSampleProvider<? extends SleepScoreSample> provider = device.getDeviceCoordinator().getSleepScoreProvider(device, db.getDaoSession());
+        return (List<SleepScoreSample>) provider.getAllSamples(tsFrom * 1000L, tsTo * 1000L);
     }
 
     @Override
     protected void renderCharts() {
         mActivityChart.animateX(ANIM_TIME, Easing.EaseInOutQuart);
-        mSleepAmountChart.invalidate();
     }
 
     private static class MySleepChartsData extends ChartsData {
-        private String totalSleep;
-        private String totalAwake;
-        private String totalRem;
-        private String totalDeep;
-        private String totalLight;
-        private final PieData pieData;
+        private long totalSleep;
+        private long totalAwake;
+        private long totalRem;
+        private long totalDeep;
+        private long totalLight;
+        private int sleepScore;
         private final List<SleepSession> sleepSessions;
 
-        public MySleepChartsData(PieData pieData, List<SleepSession> sleepSessions, String totalSleep, String totalAwake, String totalRem, String totalDeep, String totalLight) {
-            this.pieData = pieData;
+        public MySleepChartsData(List<SleepSession> sleepSessions, long totalSleep, long totalAwake, long totalRem, long totalDeep, long totalLight, int sleepScore) {
             this.sleepSessions = sleepSessions;
             this.totalAwake = totalAwake;
             this.totalSleep = totalSleep;
             this.totalRem = totalRem;
             this.totalDeep = totalDeep;
             this.totalLight = totalLight;
+            this.sleepScore = sleepScore;
         }
 
-        public PieData getPieData() {
-            return pieData;
-        }
-
-        public CharSequence getTotalSleep() {
+        public long getTotalSleep() {
             return totalSleep;
         }
 
-        public CharSequence getTotalAwake() {
+        public long getTotalAwake() {
             return totalAwake;
         }
 
-        public CharSequence getTotalRem() {
+        public long getTotalRem() {
             return totalRem;
         }
 
-        public CharSequence getTotalDeep() {
+        public long getTotalDeep() {
             return totalDeep;
         }
 
-        public CharSequence getTotalLight() {
+        public long getTotalLight() {
             return totalLight;
         }
+
+        public int getSleepScore() {return sleepScore;}
 
         public List<SleepSession> getSleepSessions() {
             return sleepSessions;

@@ -23,13 +23,15 @@
             android:text="@string/stats_empty_value"
             android:textSize="12sp" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/sleepchart_pie_light_deep"
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
+        <ImageView
+            android:layout_weight="2"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="2" />
+            android:id="@+id/sleep_stages_gauge"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:scaleType="fitStart" />
 
         <LinearLayout
             android:layout_width="match_parent"
