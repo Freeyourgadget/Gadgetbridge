@@ -87,7 +87,7 @@ message System {
   optional Clock clock = 4;
 
   // 2, 18
-  optional uint32 findDevice = 5; // 0
+  optional uint32 findDevice = 5; // 0, 1 == "found it" pressed on device
 
   // 2, 29 get | 2, 39 set
   optional DisplayItems displayItems = 10;

@@ -178,6 +178,12 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                     getSupport().evaluateGBDeviceEvent(findPhoneEvent);
                 }
                 return;
+            case CMD_FIND_WATCH:
+                if (cmd.hasSystem()) {
+                    LOG.debug("Got find device: {}", cmd.getSystem().getFindDevice());
+                    // TODO mark device as found
+                }
+                return;
             case CMD_DISPLAY_ITEMS_GET:
                 handleDisplayItems(cmd.getSystem().getDisplayItems());
                 return;
