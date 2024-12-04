@@ -86,6 +86,7 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
     public static final int CMD_FIND_PHONE = 17;
     public static final int CMD_FIND_WATCH = 18;
     public static final int CMD_PASSWORD_SET = 21;
+    public static final int CMD_DND_MODE_SET = 23;
     public static final int CMD_DISPLAY_ITEMS_GET = 29;
     public static final int CMD_DISPLAY_ITEMS_SET = 30;
     public static final int CMD_WORKOUT_TYPES_GET = 39;
@@ -156,6 +157,9 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 return;
             case CMD_PASSWORD_GET:
                 handlePassword(cmd.getSystem().getPassword());
+                return;
+            case CMD_DND_MODE_SET:
+                LOG.debug("Got set DND, status={}", cmd.getSystem().getDndStatus());
                 return;
             case CMD_MISC_SETTING_SET:
                 LOG.debug("Got misc setting set ack, status={}", cmd.getStatus());
