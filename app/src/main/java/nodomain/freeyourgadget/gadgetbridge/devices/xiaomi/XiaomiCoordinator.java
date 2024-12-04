@@ -153,9 +153,8 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public TimeSampleProvider<? extends HeartRateSample> getHeartRateRestingSampleProvider(final GBDevice device, final DaoSession session) {
-        // TODO XiaomiHeartRateRestingSampleProvider
-        return super.getHeartRateRestingSampleProvider(device, session);
+    public TimeSampleProvider<? extends HeartRateSample> getHeartRateRestingSampleProvider(GBDevice device, DaoSession session) {
+        return new XiaomiHeartRateRestingSampleProvider(device, session);
     }
 
     @Override
@@ -269,6 +268,11 @@ public abstract class XiaomiCoordinator extends AbstractBLEDeviceCoordinator {
     public boolean supportsHeartRateStats() {
         // TODO it does, and they're persisted - see DailySummaryParser
         return false;
+    }
+
+    @Override
+    public boolean supportsHeartRateRestingMeasurement(GBDevice device) {
+        return true;
     }
 
     @Override
