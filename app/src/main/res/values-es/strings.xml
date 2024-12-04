@@ -3675,4 +3675,6 @@
     <string name="highest">Más alto</string>
     <string name="music_delete_multiple_confirm_description">¿Estás seguro de que quieres borrar \'%1$d\' canciones?</string>
     <string name="sleep_avg">Promedio de sueño</string>
+    <string name="watchface_widget_type_sp02">Saturación de oxígeno</string>
+    <string name="devicetype_colmi_r09">Colmi R09</string>
 </resources>
