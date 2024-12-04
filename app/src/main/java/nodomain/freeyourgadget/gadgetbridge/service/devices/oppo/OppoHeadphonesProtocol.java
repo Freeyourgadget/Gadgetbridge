@@ -42,7 +42,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.oppo.commands.TouchC
 import nodomain.freeyourgadget.gadgetbridge.service.devices.oppo.commands.TouchConfigType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.oppo.commands.TouchConfigValue;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.preferences.DevicePrefs;
 
 public class OppoHeadphonesProtocol extends GBDeviceProtocol {
@@ -59,24 +58,26 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
     @Override
     public GBDeviceEvent[] decodeResponse(final byte[] responseData) {
         final List<GBDeviceEvent> events = new ArrayList<>();
-        int i = 0;
-        while (i < responseData.length) {
-            if (responseData[i] != CMD_PREAMBLE) {
-                LOG.warn("Unexpected preamble {}", responseData[i]);
-                i++;
+        final ByteBuffer buf = ByteBuffer.wrap(responseData);
+
+        while (buf.position() < buf.limit()) {
+            final byte preamble = buf.get();
+            if (preamble != CMD_PREAMBLE) {
+                LOG.warn("Unexpected preamble {}", preamble);
                 continue;
             }
-            final int totalLength = responseData[i + 1] & 0xff;
-            if (responseData.length - i < totalLength + 2) {
-                LOG.error("Got partial response with {} bytes, expected {}", responseData.length - i, totalLength + 2);
+
+            final int totalLength = buf.get() & 0xff;
+            if (buf.limit() - buf.position() < totalLength) {
+                LOG.error("Got partial response with {} bytes, expected {}", buf.limit() - buf.position(), totalLength);
                 break;
             }
 
-            final byte[] singleResponse = ArrayUtils.subarray(responseData, i, i + totalLength + 3);
+            final byte[] singleResponse = new byte[totalLength + 2];
+            buf.position(buf.position() - 2);
+            buf.get(singleResponse);
 
             events.addAll(handleSingleResponse(singleResponse));
-
-            i += totalLength + 2;
         }
         return events.toArray(new GBDeviceEvent[0]);
     }
@@ -92,7 +93,7 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
             return Collections.emptyList();
         }
 
-        final byte totalLength = responseBuf.get();
+        final int totalLength = responseBuf.get() & 0xff;
         if (responseData.length != totalLength + 2) {
             LOG.error("Invalid number of bytes {}, expected {}", responseData.length, totalLength + 2);
             return Collections.emptyList();
@@ -235,15 +236,15 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
                     final TouchConfigValue value = TouchConfigValue.fromCode(valueCode);
 
                     if (side == null) {
-                        LOG.warn("Unknown side code {}", sideCode);
+                        LOG.warn("Unknown touch side code {}", sideCode);
                         continue;
                     }
                     if (type == null) {
-                        LOG.warn("Unknown type code {}", typeCode);
+                        LOG.warn("Unknown touch type code {}", typeCode);
                         continue;
                     }
                     if (value == null) {
-                        LOG.warn("Unknown value code {}", valueCode);
+                        LOG.warn("Unknown touch value code {}", valueCode);
                         continue;
                     }
 
