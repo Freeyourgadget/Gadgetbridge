@@ -171,8 +171,8 @@ public class XiaomiSystemService extends AbstractXiaomiService implements Xiaomi
                 LOG.debug("Got camera remote set ack, status={}", cmd.getStatus());
                 return;
             case CMD_FIND_PHONE:
-                LOG.debug("Got find phone: {}", cmd.getSystem().getFindDevice());
                 if (cmd.hasSystem()) {
+                    LOG.debug("Got find phone: {}", cmd.getSystem().getFindDevice());
                     final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
                     if (cmd.getSystem().getFindDevice() == 0) {
                         findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
