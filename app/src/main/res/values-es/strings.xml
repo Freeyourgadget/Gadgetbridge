@@ -3677,4 +3677,6 @@
     <string name="sleep_avg">Promedio de sueño</string>
     <string name="watchface_widget_type_sp02">Saturación de oxígeno</string>
     <string name="devicetype_colmi_r09">Colmi R09</string>
+    <string name="sleep_score">Resultados del sueño</string>
+    <string name="sleep_score_value">Resultado: %1d</string>
 </resources>
