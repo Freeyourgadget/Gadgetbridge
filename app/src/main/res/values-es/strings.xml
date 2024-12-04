@@ -3669,4 +3669,10 @@
     <string name="redmi_buds_5_pro_equalizer_5">5 dB</string>
     <string name="redmi_buds_5_pro_equalizer_6">6 dB</string>
     <string name="devicetype_miband9pro">Xiaomi Smart Band 9 Pro</string>
+    <string name="respiratoryrate">Frecuencia respiratoria</string>
+    <string name="lowest">Más bajo</string>
+    <string name="music_multiselect_limit">Se alcanzó el límite para seleccionar más de un elemento</string>
+    <string name="highest">Más alto</string>
+    <string name="music_delete_multiple_confirm_description">¿Estás seguro de que quieres borrar \'%1$d\' canciones?</string>
+    <string name="sleep_avg">Promedio de sueño</string>
 </resources>
