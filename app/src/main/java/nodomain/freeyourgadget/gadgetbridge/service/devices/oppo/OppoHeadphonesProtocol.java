@@ -150,11 +150,18 @@ public class OppoHeadphonesProtocol extends GBDeviceProtocol {
                 if (payload[payload.length - 1] == 0) {
                     fwString = new String(ArrayUtils.subarray(payload, 2, payload.length - 1)).strip();
                 } else {
-                    fwString = new String(ArrayUtils.subarray(payload, 2, payload.length - 2)).strip();
+                    fwString = new String(ArrayUtils.subarray(payload, 2, payload.length)).strip();
                 }
                 final String[] parts = fwString.split(",");
                 if (parts.length % 3 != 0) {
                     LOG.warn("Fw parts length {} from '{}' is not divisible by 3", parts.length, fwString);
+
+                    // We need to persist something, otherwise Gb misbehaves
+                    final GBDeviceEventVersionInfo eventVersionInfo = new GBDeviceEventVersionInfo();
+                    eventVersionInfo.fwVersion = fwString;
+                    eventVersionInfo.hwVersion = GBApplication.getContext().getString(R.string.n_a);
+                    events.add(eventVersionInfo);
+
                     break;
                 }
                 final String[] fwVersionParts = new String[3];
