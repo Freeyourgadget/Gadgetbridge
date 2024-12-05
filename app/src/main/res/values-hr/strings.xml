@@ -251,7 +251,7 @@
     <string name="error_background_service_reason_truncated">Pokretanje pozadinske usluge nije uspjelo jer…</string>
     <string name="device_is_currently_bonded">VEĆ POVEZANO</string>
     <string name="device_requires_key">POTREBAN JE KLJUČ, PRITISNI ZA UNOS</string>
-    <string name="error_background_service_reason">Pokretanje pozadinske usluge nije uspjelo zbog iznimke. Pogreška:</string>
+    <string name="error_background_service_reason">Pokretanje pozadinske usluge nije uspjelo zbog iznimke – Pritisni ovdje za više informacija.\n\nGreška:</string>
     <string name="error_retrieving_devices_database">Pogreška prilikom dohvaćanja uređaja iz baze podataka</string>
     <string name="ignore_bonded_devices_description">Omogućavanje ove opcije zanemarit će uređaje koji su već bili povezani/upareni prilikom skeniranja</string>
     <string name="distanceMeters">Udaljenost</string>
@@ -278,8 +278,8 @@
     <string name="averageStrokeDistance">Prosječna udaljenost zamaha</string>
     <string name="averageStrokesPerSecond">Prosječni zamasi</string>
     <string name="averageLapPace">Prosječni tempo kruga</string>
-    <string name="swolfIndex">swolf-indeks</string>
-    <string name="swimStyle">stil plivanja</string>
+    <string name="swolfIndex">SWOLF</string>
+    <string name="swimStyle">Stil plivanja</string>
     <string name="descentSeconds">Silazno</string>
     <string name="flatSeconds">Ravno</string>
     <string name="baseAltitude">Osnovna visina</string>
@@ -690,7 +690,7 @@
     <string name="miband_firmware_unknown_warning">Ovaj firmware nije testiran i možda nije kompatibilan s Gadgetbridgeom.
 \n
 \nOBESHRABLJENI ste da ga flešate!</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Povežite se s Gadgetbridge uređajem kada je Bluetooth uključen</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Povežite se s Gadgetbridge uređajima kada je Bluetooth uključen</string>
     <string name="pref_title_general_autoreconnect">Automatsko ponovno povezivanje</string>
     <string name="pref_title_audio_player">Željeni audioplayer</string>
     <string name="pref_theme_dark">Tamna</string>
@@ -713,8 +713,8 @@
     <string name="pref_call_privacy_mode_number">Sakrij broj, ali prikaži ime</string>
     <string name="pref_call_privacy_mode_complete">Sakrij ime i broj</string>
     <string name="pref_title_message_privacy_mode">Način privatnosti poruka</string>
-    <string name="pref_message_privacy_mode_off">Prikaži sadržaj</string>
-    <string name="pref_message_privacy_mode_complete">Sakrij sadržaj</string>
+    <string name="pref_message_privacy_mode_off">Prikaži sav sadržaj</string>
+    <string name="pref_message_privacy_mode_complete">Sakrij sav sadržaj</string>
     <string name="pref_header_development">Opcije razvojnog programera</string>
     <string name="pref_title_pebble_privacy_mode">Način privatnosti</string>
     <string name="toast_enable_networklocationprovider">Molimo omogućite mrežnu lokaciju</string>
@@ -954,7 +954,7 @@
     <string name="activity_prefs_calories_burnt">Dnevni cilj: potrošene kalorije</string>
     <string name="action_db_management">Upravljanje podacima</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Ne mogu pristupiti putu izvoza. Molimo kontaktirajte programere.</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Stvarno prebrisati trenutne podatke? Svi vaši podaci o trenutačnoj aktivnosti (ako ih ima) i postavke bit će prebrisani.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Stvarno prepisati trenutne podatke? Svi vaši podaci trenutačne aktivnosti (ako ih ima), uređaji i postavke će se prepisati.</string>
     <string name="dbmanagementactivity_import_successful">Uvezeno.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Brisanje baze podataka nije uspjelo.</string>
     <string name="activity_db_management_autoexport_explanation">Lokacija automatskog izvoza baze podataka postavljena je na:</string>
@@ -1188,7 +1188,7 @@
     <string name="devicestatus_upload_starting">Počinje prijenos</string>
     <string name="devicestatus_upload_started">Prijenos je započeo</string>
     <string name="devicestatus_disconnected">Uređaj je prekinuo vezu!</string>
-    <string name="dateformat_date_time">Vrijeme &amp; datum</string>
+    <string name="dateformat_date_time"><![CDATA[Vrijeme i datum]]></string>
     <string name="prefs_disconnect_notification">Obavijest o prekidu veze</string>
     <string name="prefs_find_phone_duration">Trajanje zvona u sekundama</string>
     <string name="miband2_prefs_dateformat">Format datuma</string>
@@ -1281,7 +1281,7 @@
     <string name="watch9_time_minutes">Minute:</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">drugi pomak vremenske zone u odnosu na UTC</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
-    <string name="mi2_enable_text_notifications_summary">Potreban je firmware &gt;= 1.0.1.28 i Mili_pro.ft* instaliran.</string>
+    <string name="mi2_enable_text_notifications_summary"><![CDATA[Firmware >= 1.0.1.28 i Mili_pro.ft* moraju biti instalirani.]]></string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_itag">iTag</string>
     <string name="fossil_hr_synced_activity_data">Sinkronizirani podaci o aktivnostima</string>
@@ -1347,7 +1347,7 @@
     <string name="pref_theme_system">Sustav</string>
     <string name="pref_theme_light">Svjetla</string>
     <string name="pref_title_datetime_syctimeonconnect">Vrijeme sinkronizacije</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sinkroniziraj vrijeme s Gadgetbridge uređajem prilikom povezivanja i kada se promijeni vrijeme ili vremenska zona na Android uređaju</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sinkroniziraj vrijeme s Gadgetbridge uređajima prilikom povezivanja, kada se promijeni vrijeme ili vremenska zona na Android uređaju i povremeno</string>
     <string name="pref_header_datetime">Datum i vrijeme</string>
     <string name="pref_default">Zadano</string>
     <string name="miband_firmware_suggest_whitelist">Ako dalje želite nastaviti i stvari nakon toga nastavi raditi ispravno, recitirajte programima Gadgetbridge-a da nastavite u popisu dopuštene verzije %s firmware-a.</string>
@@ -1482,7 +1482,7 @@
     <string name="appmanager_app_edit">Uredi</string>
     <string name="sony_surround_mode_club">Klub</string>
     <string name="sony_surround_mode_outdoor_stage">Vanjska pozornica</string>
-    <string name="you_slept">Spavali ste od %1$s do %2$s</string>
+    <string name="you_slept">%1$s – %2$s</string>
     <string name="mi2_prefs_do_not_disturb_end">Vrijeme završetka</string>
     <string name="notification_channel_name">Općenito</string>
     <string name="notification_channel_high_priority_name">Visok prioritet</string>
@@ -1598,4 +1598,12 @@
     <string name="watchface_setting_button_move_hands">Pomakni kazaljke</string>
     <string name="prefs_always_on_display_follow_watchface">Stil slijedi brojčanik</string>
     <string name="watchface_dialog_title_widget">Postavke widgeta</string>
+    <string name="device_experimental">EKSPERIMENTALNO</string>
+    <string name="stress_average">Prosjek</string>
+    <string name="total_calories_burnt">Ukupno potrošeno</string>
+    <string name="hrZoneMaximum">Maksimum</string>
+    <string name="hr_average">Prosjek</string>
+    <string name="hr_resting">Odmaranje</string>
+    <string name="hr_maximum">Maksimum</string>
+    <string name="hr_minimum">Minimum</string>
 </resources>
