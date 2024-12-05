@@ -3667,4 +3667,8 @@
     <string name="lowest">最低</string>
     <string name="highest">最高</string>
     <string name="music_delete_multiple_confirm_description">您确定想要删除歌曲 %1$d ？</string>
+    <string name="sleep_score">睡眠评分</string>
+    <string name="sleep_score_value">评分：%1d</string>
+    <string name="devicetype_colmi_r09">Colmi R09</string>
+    <string name="watchface_widget_type_sp02">SpO2</string>
 </resources>
