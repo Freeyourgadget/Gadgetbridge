@@ -148,7 +148,7 @@ public class DaySleepChartFragment extends AbstractActivityChartFragment<DaySlee
 
         int sleepScore = 0;
         if (!sleepScoreSamples.isEmpty()) {
-            sleepScore = sleepScoreSamples.get(0).getSleepScore();
+            sleepScore = sleepScoreSamples.get(sleepScoreSamples.size() - 1).getSleepScore();
         }
 
         return new MySleepChartsData(sleepSessions, totalSeconds, awakeSleepDuration, remSleepDuration, deepSleepDuration, lightSleepDuration, sleepScore);
