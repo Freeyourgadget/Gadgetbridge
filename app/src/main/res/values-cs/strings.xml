@@ -1860,7 +1860,7 @@
     <string name="pref_header_health">Zdraví</string>
     <string name="pref_summary_canned_replies">Odpovědi z hodinek pomocí přednastavených zpráv</string>
     <string name="prefs_heartrate_alert_high_threshold">Varovný práh vysoké srdeční frekvence</string>
-    <string name="prefs_spo2_alert_threshold">Prahová hodnota výstrahy SPO2</string>
+    <string name="prefs_spo2_alert_threshold">Prahová hodnota výstrahy SpO2</string>
     <string name="spo2_perc_80">80 %</string>
     <string name="spo2_perc_85">85 %</string>
     <string name="spo2_perc_90">90 %</string>
@@ -3671,4 +3671,9 @@
     <string name="sleep_avg">Prům. spánku</string>
     <string name="music_delete_multiple_confirm_description">Opravdu chcete odstranit skladby „%1$d“?</string>
     <string name="highest">Nejvyšší</string>
+    <string name="sleep_score">Spánkové skóre</string>
+    <string name="sleep_score_value">Skóre: %1d</string>
+    <string name="devicetype_colmi_r09">Colmi R09</string>
+    <string name="watchface_widget_type_sp02">SpO2</string>
+    <string name="devicetype_huawei_band2pro">Huawei Band 2 (Pro)</string>
 </resources>
