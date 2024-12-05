@@ -3671,4 +3671,5 @@
     <string name="sleep_score_value">评分：%1d</string>
     <string name="devicetype_colmi_r09">Colmi R09</string>
     <string name="watchface_widget_type_sp02">SpO2</string>
+    <string name="devicetype_huawei_band2pro">华为手环 2 Pro</string>
 </resources>
