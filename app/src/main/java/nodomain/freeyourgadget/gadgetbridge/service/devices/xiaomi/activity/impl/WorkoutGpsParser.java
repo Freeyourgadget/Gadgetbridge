@@ -58,6 +58,9 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
         final int sampleSize;
         switch (version) {
             case 1:
+                headerSize = 1;
+                sampleSize = 12;
+                break;
             case 2:
                 headerSize = 1;
                 sampleSize = 18;
@@ -85,21 +88,34 @@ public class WorkoutGpsParser extends XiaomiActivityParser {
 
         final ActivityTrack activityTrack = new ActivityTrack();
 
-        while (buf.position() < buf.limit()) {
-            final int ts = buf.getInt();
-            final float longitude = buf.getFloat();
-            final float latitude = buf.getFloat();
-            final int unk1 = buf.getInt(); // 0
-            final float speed = (buf.getShort() >> 2) / 10.0f;
+        // GPS V1 contains no speed data, therefore second while loop to avoid too many ifs within the loop
+        if (version == 1) {
+            while (buf.position() < buf.limit()) {
+                final int ts = buf.getInt();
+                final float longitude = buf.getFloat();
+                final float latitude = buf.getFloat();
 
-            final ActivityPoint ap = new ActivityPoint(new Date(ts * 1000L));
-            ap.setLocation(new GPSCoordinate(longitude, latitude, 0));
-            activityTrack.addTrackPoint(ap);
+                final ActivityPoint ap = new ActivityPoint(new Date(ts * 1000L));
+                ap.setLocation(new GPSCoordinate(longitude, latitude, 0));
+                activityTrack.addTrackPoint(ap);
+                LOG.trace("ActivityPoint V1: ts={} lon={} lat={}", ts, longitude, latitude);
+            }
+        } else { 
+            while (buf.position() < buf.limit()) {
+                final int ts = buf.getInt();
+                final float longitude = buf.getFloat();
+                final float latitude = buf.getFloat();
+                final int unk1 = buf.getInt(); // 0
+                final float speed = (buf.getShort() >> 2) / 10.0f;
 
-            LOG.trace("ActivityPoint: ts={} lon={} lat={} unk1={} speed={}", ts, longitude, latitude, unk1, speed);
+                final ActivityPoint ap = new ActivityPoint(new Date(ts * 1000L));
+                ap.setLocation(new GPSCoordinate(longitude, latitude, 0));
+                activityTrack.addTrackPoint(ap);
+                LOG.trace("ActivityPoint: ts={} lon={} lat={} unk1={} speed={}", ts, longitude, latitude, unk1, speed);
+            }
         }
 
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+       try (DBHandler dbHandler = GBApplication.acquireDB()) {
             final DaoSession session = dbHandler.getDaoSession();
             final Device device = DBHelper.getDevice(support.getDevice(), session);
             final User user = DBHelper.getUser(session);

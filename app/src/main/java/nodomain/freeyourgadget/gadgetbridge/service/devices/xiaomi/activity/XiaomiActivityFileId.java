@@ -198,7 +198,7 @@ public class XiaomiActivityFileId implements Comparable<XiaomiActivityFileId> {
         SPORTS_OUTDOOR_RUNNING(Type.SPORTS, 0x01),
         SPORTS_OUTDOOR_WALKING_V1(Type.SPORTS, 0x02),
         SPORTS_TREADMILL(Type.SPORTS, 0x03),
-        SPORTS_OUTDOOR_CYCLING_V2(Type.SPORTS, 0x06),    // TODO
+        SPORTS_OUTDOOR_CYCLING_V2(Type.SPORTS, 0x06),
         SPORTS_INDOOR_CYCLING(Type.SPORTS, 0x07),
         SPORTS_FREESTYLE(Type.SPORTS, 0x08),
         SPORTS_POOL_SWIMMING(Type.SPORTS, 0x09),

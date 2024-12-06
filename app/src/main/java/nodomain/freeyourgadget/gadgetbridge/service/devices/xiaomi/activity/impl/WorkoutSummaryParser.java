@@ -210,6 +210,10 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             case SPORTS_OUTDOOR_WALKING_V2:
                 parser = getOutdoorWalkingV2Parser(fileId);
                 break;
+            case SPORTS_OUTDOOR_CYCLING_V2:
+                summary.setActivityKind(ActivityKind.OUTDOOR_CYCLING.getCode());
+                parser = getOutdoorCyclingV2Parser(fileId);
+                break;
             case SPORTS_OUTDOOR_CYCLING:
                 parser = getOutdoorCyclingParser(fileId);
                 break;
@@ -277,7 +281,10 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         if (version == 5) {
             builder.addUnknown(10);
             builder.addShort(XIAOMI_WORKOUT_TYPE, UNIT_NONE);
-            builder.addUnknown(8);
+            builder.addUnknown(2);
+            builder.addUnknown(2); // configuredTimeGoal, UNIT_SECONDS
+            builder.addUnknown(2);
+            builder.addUnknown(2); // configuredCaloriesGoal, UNIT_KCAL
         } else {
             builder.addUnknown(2);
             builder.addUnknown(4);
@@ -746,6 +753,44 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
         builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
         builder.addUnknown(32);
+
+        return builder.build();
+    }
+
+    @Nullable
+    private XiaomiSimpleActivityParser getOutdoorCyclingV2Parser(final XiaomiActivityFileId fileId) {
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 4:
+                headerSize = 5;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
+        builder.setHeaderSize(headerSize);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addInt(DISTANCE_METERS, UNIT_METERS);
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addUnknown(8);
+        builder.addFloat(SPEED_MAX, UNIT_KMPH);
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addUnknown(28);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        builder.addUnknown(18);
+        builder.addUnknown(2); // configuredTimeGoal, UNIT_SECONDS
+        builder.addUnknown(6);
 
         return builder.build();
     }
