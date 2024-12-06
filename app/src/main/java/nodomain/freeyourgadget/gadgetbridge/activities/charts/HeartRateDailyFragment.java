@@ -20,6 +20,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -208,6 +209,19 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         chart.getLegend().setWordWrapEnabled(true);
     }
 
+    protected LineDataSet createHeartRateDataSet(final List<Entry> values) {
+        LineDataSet dataSet = new LineDataSet(values, "Heart Rate");
+        dataSet.setLineWidth(1.5f);
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setCubicIntensity(0.1f);
+        dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(true);
+        dataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        dataSet.setColor(HEARTRATE_COLOR);
+        dataSet.setValueTextColor(CHART_TEXT_COLOR);
+        return dataSet;
+    }
+
     @Override
     protected void updateChartsnUIThread(HeartRateDailyFragment.HeartRateData data) {
         Calendar day = Calendar.getInstance();
@@ -229,33 +243,32 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         List<? extends ActivitySample> samples = data.samples;
         final Accumulator accumulator = new Accumulator();
 
-        int lastHrSampleIndex = -1;
+        final List<ILineDataSet> lineDataSets = new ArrayList<>();
+        int lastTsShorten = 0;
         for (int i =0; i < samples.size(); i++) {
             final ActivitySample sample = samples.get(i);
-            final int ts = tsTranslation.shorten(sample.getTimestamp());
+            final int tsShorten = tsTranslation.shorten(sample.getTimestamp());
             if (!heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
                 continue;
             }
-            if (sample.getKind() != ActivityKind.NOT_WORN) {
-                if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800 * HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
-                    lineEntries.add(new Entry(lastHrSampleIndex + 1, 0 ));
-                    lineEntries.add(new Entry(ts - 1, 0));
+            if (lastTsShorten == 0 || (tsShorten - lastTsShorten) <= 60 * HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                lineEntries.add(new Entry(tsShorten, sample.getHeartRate()));
+            } else {
+                if (!lineEntries.isEmpty()) {
+                    List<Entry> clone = new ArrayList<>(lineEntries.size());
+                    clone.addAll(lineEntries);
+                    lineDataSets.add(createHeartRateDataSet(clone));
+                    lineEntries.clear();
                 }
-                lineEntries.add(new Entry(ts, sample.getHeartRate()));
-                lastHrSampleIndex = ts;
             }
+            lastTsShorten = tsShorten;
+            lineEntries.add(new Entry(tsShorten, sample.getHeartRate()));
             accumulator.add(sample.getHeartRate());
         }
 
-        LineDataSet dataSet = new LineDataSet(lineEntries, "Heart Rate");
-        dataSet.setLineWidth(1.5f);
-        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        dataSet.setCubicIntensity(0.1f);
-        dataSet.setDrawCircles(false);
-        dataSet.setDrawValues(true);
-        dataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        dataSet.setColor(HEARTRATE_COLOR);
-        dataSet.setValueTextColor(CHART_TEXT_COLOR);
+        if (!lineEntries.isEmpty()) {
+            lineDataSets.add(createHeartRateDataSet(lineEntries));
+        }
 
         final int average = accumulator.getCount() > 0 ? (int) Math.round(accumulator.getAverage()) : -1;
         final int minimum = accumulator.getCount() > 0 ? (int) Math.round(accumulator.getMin()) : -1;
@@ -276,7 +289,7 @@ public class HeartRateDailyFragment extends AbstractChartFragment<HeartRateDaily
         }
 
         hrLineChart.getXAxis().setValueFormatter(new SampleXLabelFormatter(tsTranslation, "HH:mm"));
-        hrLineChart.setData(new LineData(dataSet));
+        hrLineChart.setData(new LineData(lineDataSets));
 
         hrLineChart.getAxisLeft().removeAllLimitLines();
 
