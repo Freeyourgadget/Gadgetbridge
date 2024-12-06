@@ -219,12 +219,6 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             entries.add(new ArrayList<>());
         }
 
-        boolean hr = supportsHeartrate(gbDevice);
-        List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
-
-        int lastHrSampleIndex = -1;
-        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
-
         for (int i = 0; i < numEntries; i++) {
             ActivitySample sample = samples.get(i);
             ActivityKind type = sample.getKind();
@@ -275,19 +269,34 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
             last_value = value;
         }
 
+        boolean hr = supportsHeartrate(gbDevice);
+        final List<Entry> heartRateLineEntries = new ArrayList<>();
+        final List<ILineDataSet> heartRateDataSets = new ArrayList<>();
+        int lastTsShorten = 0;
+        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
+
         // Currently only for HR
         if (hr) {
             for (ActivitySample sample : highResSamples) {
                 if (sample.getKind() != ActivityKind.NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
-                    int ts = tsTranslation.shorten(sample.getTimestamp());
-                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
-                        heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
-                        heartrateEntries.add(createLineEntry(0, ts - 1));
+                    int tsShorten = tsTranslation.shorten(sample.getTimestamp());
+                    if (lastTsShorten == 0 || (tsShorten - lastTsShorten) <= 60 * HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
+                        heartRateLineEntries.add(new Entry(tsShorten, sample.getHeartRate()));
+                    } else {
+                        if (!heartRateLineEntries.isEmpty()) {
+                            List<Entry> clone = new ArrayList<>(heartRateLineEntries.size());
+                            clone.addAll(heartRateLineEntries);
+                            heartRateDataSets.add(createHeartrateSet(clone, "Heart Rate"));
+                            heartRateLineEntries.clear();
+                        }
                     }
-                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
-                    lastHrSampleIndex = ts;
+                    lastTsShorten = tsShorten;
+                    heartRateLineEntries.add(new Entry(tsShorten, sample.getHeartRate()));
                 }
             }
+        }
+        if (!heartRateLineEntries.isEmpty()) {
+            heartRateDataSets.add(createHeartrateSet(heartRateLineEntries, "Heart Rate"));
         }
 
         // convert Entry Lists to Datasets
@@ -316,9 +325,8 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
                 entries.get(getIndexOfActivity(ActivityKind.AWAKE_SLEEP)), akAwakeSleep.color, "Awake Sleep"
             ));
         }
-        if (hr && !heartrateEntries.isEmpty()) {
-            LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-            lineDataSets.add(heartrateSet);
+        if (hr && !heartRateDataSets.isEmpty()) {
+            lineDataSets.addAll(heartRateDataSets);
         }
 
         lineData = new LineData(lineDataSets);
