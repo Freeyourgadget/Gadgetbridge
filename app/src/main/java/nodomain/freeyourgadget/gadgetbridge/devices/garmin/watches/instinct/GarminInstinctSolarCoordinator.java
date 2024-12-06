@@ -9,7 +9,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 public class GarminInstinctSolarCoordinator extends GarminCoordinator {
     @Override
     protected Pattern getSupportedDeviceName() {
-        return Pattern.compile("^Instinct Solar$");
+        return Pattern.compile("^Instinct (Solar|Dual Power)$");
     }
 
     @Override
