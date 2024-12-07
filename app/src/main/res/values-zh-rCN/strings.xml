@@ -3672,4 +3672,5 @@
     <string name="devicetype_colmi_r09">Colmi R09</string>
     <string name="watchface_widget_type_sp02">SpO2</string>
     <string name="devicetype_huawei_band2pro">华为手环 2 Pro</string>
+    <string name="devicetype_huawei_freebuds_5i">华为 FreeBuds 5i</string>
 </resources>
