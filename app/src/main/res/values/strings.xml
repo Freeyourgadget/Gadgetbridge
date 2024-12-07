@@ -2246,6 +2246,9 @@
     <string name="avgStrokeRate">Average Stroke Rate</string>
     <string name="maxStrokeRate">Max Stroke Rate</string>
     <string name="strokes">Total Strokes</string>
+    <string name="avgJumpRate">Average Jump Rate</string>
+    <string name="maxJumpRate">Max Jump Rate</string>
+    <string name="totalJumps">Total Jumps</string>
     <string name="averageLapPace">Average Lap Pace</string>
     <string name="swolfIndex">SWOLF</string>
     <string name="swolfAvg">Average swolf</string>
@@ -2301,6 +2304,8 @@
     <string name="strokes_second">str/s</string>
     <string name="strokes_minute">str/min</string>
     <string name="strokes_unit">str</string>
+    <string name="jumps_minute">jumps/min</string>
+    <string name="jumps_unit">jumps</string>
     <string name="seconds">sec</string>
     <string name="milliseconds">milliseconds</string>
     <string name="milliseconds_ms">ms</string>
@@ -2319,6 +2324,7 @@
     <string name="Pace">Pace</string>
     <!-- activity summary groups-->
     <string name="Strokes">Strokes</string>
+    <string name="Jumps">Jumps</string>
     <string name="Swimming">Swimming</string>
     <string name="Distance">Distance</string>
     <string name="Elevation">Elevation</string>

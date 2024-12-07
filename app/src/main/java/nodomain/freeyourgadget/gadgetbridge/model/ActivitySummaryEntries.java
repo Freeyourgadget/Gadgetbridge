@@ -104,6 +104,10 @@ public class ActivitySummaryEntries {
     public static final String STROKE_RATE_MAX = "maxStrokeRate";
     public static final String STROKES = "strokes";
 
+    public static final String JUMP_RATE_AVG = "avgJumpRate";
+    public static final String JUMP_RATE_MAX = "maxJumpRate";
+    public static final String JUMPS = "totalJumps";
+
     public static final String SWIM_STYLE = "swimStyle";
     public static final String SWOLF_INDEX = "swolfIndex";
     public static final String SWOLF_AVG = "swolfAvg";
@@ -149,6 +153,8 @@ public class ActivitySummaryEntries {
     public static final String UNIT_STROKES = "strokes_unit";
     public static final String UNIT_STROKES_PER_MINUTE = "strokes_minute";
     public static final String UNIT_STROKES_PER_SECOND = "strokes_second";
+    public static final String UNIT_JUMPS = "jumps_unit";
+    public static final String UNIT_JUMPS_PER_MINUTE = "jumps_minute";
     public static final String UNIT_YARD = "yard";
     public static final String UNIT_DEGREES = "degrees";
     public static final String UNIT_STRING = "string";
@@ -161,6 +167,7 @@ public class ActivitySummaryEntries {
     public static final String GROUP_ELEVATION = "Elevation";
     public static final String GROUP_HEART_RATE_ZONES = "HeartRateZones";
     public static final String GROUP_STROKES = "Strokes";
+    public static final String GROUP_JUMPS = "Jumps";
     public static final String GROUP_SWIMMING = "Swimming";
     public static final String GROUP_TRAINING_EFFECT = "TrainingEffect";
     public static final String GROUP_LAPS = "laps";

@@ -45,6 +45,9 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKES;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKE_RATE_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.JUMPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.JUMP_RATE_AVG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.JUMP_RATE_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SWIM_STYLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SWOLF_AVG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.TIME_END;
@@ -66,6 +69,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STEPS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STROKES;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_STROKES_PER_MINUTE;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_JUMPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_JUMPS_PER_MINUTE;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.UNIT_UNIX_EPOCH_SECONDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.WORKOUT_LOAD;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.xiaomi.activity.impl.XiaomiSimpleActivityParser.XIAOMI_WORKOUT_TYPE;
@@ -224,6 +229,10 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             case SPORTS_ROWING:
                 summary.setActivityKind(ActivityKind.ROWING.getCode());
                 parser = getRowingParser(fileId);
+                break;
+            case SPORTS_JUMP_ROPING:
+                summary.setActivityKind(ActivityKind.JUMP_ROPING.getCode());
+                parser = getJumpRopingParser(fileId);
                 break;
             default:
                 LOG.warn("No workout summary parser for {}", fileId.getSubtypeCode());
@@ -794,4 +803,46 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
 
         return builder.build();
     }
+
+    @Nullable
+    private XiaomiSimpleActivityParser getJumpRopingParser(final XiaomiActivityFileId fileId) {
+        final int version = fileId.getVersion();
+        final int headerSize;
+        switch (version) {
+            case 3:
+                headerSize = 5;
+                break;
+            default:
+                LOG.warn("Unable to parse workout summary version {}", fileId.getVersion());
+                return null;
+        }
+
+        final XiaomiSimpleActivityParser.Builder builder = new XiaomiSimpleActivityParser.Builder();
+        builder.setHeaderSize(headerSize);
+        builder.addInt(TIME_START, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(TIME_END, UNIT_UNIX_EPOCH_SECONDS);
+        builder.addInt(ACTIVE_SECONDS, UNIT_SECONDS);
+        builder.addShort(CALORIES_BURNT, UNIT_KCAL);
+        builder.addByte(HR_AVG, UNIT_BPM);
+        builder.addByte(HR_MAX, UNIT_BPM);
+        builder.addByte(HR_MIN, UNIT_BPM);
+        builder.addUnknown(7);
+        builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
+        builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
+        builder.addUnknown(2);
+        builder.addInt(JUMPS, UNIT_JUMPS);
+        builder.addShort(JUMP_RATE_AVG, UNIT_JUMPS_PER_MINUTE);
+        builder.addUnknown(2);
+        builder.addShort(JUMP_RATE_MAX, UNIT_JUMPS_PER_MINUTE);
+        builder.addUnknown(43);
+        builder.addUnknown(2);    // configuredJumpsGoal, UNIT_JUMPS
+        builder.addUnknown(2);
+
+        return builder.build();
+    }
 }
+
+

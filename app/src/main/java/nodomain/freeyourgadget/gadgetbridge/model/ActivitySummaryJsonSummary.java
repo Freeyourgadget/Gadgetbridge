@@ -180,6 +180,9 @@ public class ActivitySummaryJsonSummary {
                     STROKE_DISTANCE_AVG, STROKE_AVG_PER_SECOND, STROKES,
                     STROKE_RATE_AVG, STROKE_RATE_MAX
             ));
+            put(GROUP_JUMPS, Arrays.asList(
+                    JUMPS, JUMP_RATE_AVG, JUMP_RATE_MAX
+            ));
             put(GROUP_SWIMMING, Arrays.asList(
                     SWOLF_INDEX, SWOLF_AVG, SWOLF_MAX, SWOLF_MIN, SWIM_STYLE
             ));
