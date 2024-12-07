@@ -3403,4 +3403,10 @@
     <string name="activity_db_management_import_from_zip">ZIP importieren</string>
     <string name="activity_db_management_backup_restore_explanation">Das Sichern und Wiederherstellen ermöglicht es, alle Gadgetbridge-Einstellungen, -Geräte und -Daten mittels ZIP-Datei zu migrieren oder zu sichern.\n\nBeim Wiederherstellen werden alle bestehenden Daten, Geräte und Einstellungen entfernt und vollständig durch die Sicherung ersetzt.</string>
     <string name="backup_restore_abort_export_confirmation">Export abbrechen? Die unvollständige ZIP-Datei wird gelöscht.</string>
+    <string name="totalJumps">Anzahl Sprünge</string>
+    <string name="jumps_minute">Sprünge/min</string>
+    <string name="jumps_unit">Sprünge</string>
+    <string name="Jumps">Sprünge</string>
+    <string name="avgJumpRate">Mittlere Sprungrate</string>
+    <string name="maxJumpRate">Max Sprungrate</string>
 </resources>
