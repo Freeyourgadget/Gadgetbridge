@@ -2746,7 +2746,7 @@
     <string name="activity_type_pull_ups">引体向上</string>
     <string name="activity_type_plank">木板</string>
     <string name="activity_type_javelin">标枪</string>
-    <string name="activity_type_long_jump">跳远</string>
+    <string name="activity_type_long_jump">长跳</string>
     <string name="activity_type_dumbbell">哑铃</string>
     <string name="activity_type_belly_dance">肚皮舞</string>
     <string name="activity_type_jazz_dance">爵士舞</string>
@@ -3673,4 +3673,10 @@
     <string name="watchface_widget_type_sp02">SpO2</string>
     <string name="devicetype_huawei_band2pro">华为手环 2 Pro</string>
     <string name="devicetype_huawei_freebuds_5i">华为 FreeBuds 5i</string>
+    <string name="avgJumpRate">平均跳远距离</string>
+    <string name="totalJumps">总计跳远次数</string>
+    <string name="jumps_unit">跳远</string>
+    <string name="maxJumpRate">最大跳远距离</string>
+    <string name="jumps_minute">跳远/分钟</string>
+    <string name="Jumps">跳远</string>
 </resources>
