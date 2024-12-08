@@ -941,7 +941,7 @@
     <string name="laps">Bazénů</string>
     <string name="swimStyle">Plavecký styl</string>
     <string name="swolfIndex">SWOLF</string>
-    <string name="averageLapPace">Průměrné Tempo Bazénu</string>
+    <string name="averageLapPace">Průměrné tempo kola</string>
     <string name="averageStrokesPerSecond">Průměrné Záběry</string>
     <string name="averageStrokeDistance">Průměrná Délka Záběru</string>
     <string name="averageStride">Průměrný Krok</string>
@@ -3677,4 +3677,10 @@
     <string name="watchface_widget_type_sp02">SpO2</string>
     <string name="devicetype_huawei_band2pro">Huawei Band 2 (Pro)</string>
     <string name="devicetype_huawei_freebuds_5i">Huawei FreeBuds 5i</string>
+    <string name="Jumps">Výskoky</string>
+    <string name="jumps_minute">výskoků/min</string>
+    <string name="jumps_unit">výskoků</string>
+    <string name="totalJumps">Celkem výskoků</string>
+    <string name="avgJumpRate">Průměrná frekvence výskoků</string>
+    <string name="maxJumpRate">Maximální frekvence výskoků</string>
 </resources>
