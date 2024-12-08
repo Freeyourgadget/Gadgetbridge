@@ -75,7 +75,8 @@ public class DashboardUtils {
         } catch (Exception e) {
             LOG.warn("Could not calculate total amount of active calories: ", e);
         }
-        return totalActiveCalories;
+        // Convert calories to kcal
+        return totalActiveCalories / 1000;
     }
 
     public static int getRestingCaloriesTotal(DashboardFragment.DashboardData dashboardData) {

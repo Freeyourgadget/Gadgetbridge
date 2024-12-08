@@ -108,6 +108,7 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
             convertCumulativeSteps(samples, GarminActivitySampleDao.Properties.Steps);
         }
 
+        convertCalories(samples);
         overlaySleep(samples, timestamp_from, timestamp_to);
 
         final long nanoEnd = System.nanoTime();
@@ -117,6 +118,15 @@ public class GarminActivitySampleProvider extends AbstractSampleProvider<GarminA
         LOG.trace("Getting Garmin samples took {}ms", executionTime);
 
         return samples;
+    }
+
+    /**
+     * Converts the calories from kcal to cal
+     */
+    private void convertCalories(List<GarminActivitySample> samples) {
+        for (GarminActivitySample sample : samples) {
+            sample.setActiveCalories(sample.getActiveCalories() * 1000);
+        }
     }
 
     public void overlaySleep(final List<GarminActivitySample> samples, final int timestamp_from, final int timestamp_to) {

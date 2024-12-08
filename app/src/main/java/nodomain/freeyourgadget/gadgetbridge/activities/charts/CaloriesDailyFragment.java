@@ -172,6 +172,8 @@ public class CaloriesDailyFragment extends AbstractChartFragment<CaloriesDailyFr
                 activeBurnt += sample.getActiveCalories();
             }
         }
+        // Convert calories to kcal
+        activeBurnt = activeBurnt / 1000;
         totalBurnt = restingBurnt + activeBurnt;
 
         return new CaloriesData(totalBurnt, activeBurnt, restingBurnt);

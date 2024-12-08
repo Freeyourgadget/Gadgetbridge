@@ -78,7 +78,7 @@ public interface ActivitySample extends TimeStamped {
     int getDistanceCm();
 
     /**
-     * Returns the calories burned during the period of this sample, in kcal. -1 if unknown.
+     * Returns the calories burned during the period of this sample, in calories. -1 if unknown.
      */
     int getActiveCalories();
 
