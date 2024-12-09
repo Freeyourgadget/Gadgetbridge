@@ -3679,4 +3679,12 @@
     <string name="devicetype_colmi_r09">Colmi R09</string>
     <string name="sleep_score">Resultados del sueño</string>
     <string name="sleep_score_value">Resultado: %1d</string>
+    <string name="devicetype_huawei_band2pro">Huawei Band 2 (Pro)</string>
+    <string name="devicetype_huawei_freebuds_5i">Huawei FreeBuds 5i</string>
+    <string name="avgJumpRate">Índice medio de salto</string>
+    <string name="maxJumpRate">Salto máximo</string>
+    <string name="totalJumps">Saltos totales</string>
+    <string name="Jumps">Saltos</string>
+    <string name="jumps_minute">saltos/min</string>
+    <string name="jumps_unit">saltos</string>
 </resources>
