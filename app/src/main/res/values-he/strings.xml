@@ -3063,4 +3063,5 @@
     <string name="permission_read_phone_state_summary">קריאת מצב של שיחות בזמן שמתבצעות</string>
     <string name="permission_internet_access_summary">סנכרון עם משאבים מקוונים</string>
     <string name="permission_internet_access_title">גישה לאינטרנט</string>
+    <string name="permission_manage_dnd_title">ניהול „לא להפריע”</string>
 </resources>
