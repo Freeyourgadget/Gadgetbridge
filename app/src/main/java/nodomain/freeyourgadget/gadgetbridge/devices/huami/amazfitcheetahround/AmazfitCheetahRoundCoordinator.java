@@ -27,11 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class AmazfitCheetahRoundCoordinator extends ZeppOsCoordinator {
     @Override
-    public boolean isExperimental() {
-        return true;
-    }
-
-    @Override
     public String getDeviceBluetoothName() {
         return HuamiConst.AMAZFIT_CHEETAH_ROUND_NAME;
     }
