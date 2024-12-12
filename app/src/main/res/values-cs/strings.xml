@@ -3683,4 +3683,6 @@
     <string name="totalJumps">Celkem výskoků</string>
     <string name="avgJumpRate">Průměrná frekvence výskoků</string>
     <string name="maxJumpRate">Maximální frekvence výskoků</string>
+    <string name="devicetype_garmin_fenix_7x">Garmin Fenix 7X</string>
+    <string name="devicetype_redmi_watch_5_lite">Redmi Watch 5 Lite</string>
 </resources>
