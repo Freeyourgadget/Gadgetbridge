@@ -3680,4 +3680,5 @@
     <string name="jumps_minute">跳远/分钟</string>
     <string name="Jumps">跳远</string>
     <string name="devicetype_redmi_watch_5_lite">红米手表5 青春版</string>
+    <string name="devicetype_garmin_fenix_7x">佳明 Fenix 7X</string>
 </resources>
