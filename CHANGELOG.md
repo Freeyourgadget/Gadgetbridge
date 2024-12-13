@@ -12,6 +12,7 @@
 * Initial support for Xiaomi Smart Band 9 Pro
 * Add calories charts and widgets
 * Add more workout icons
+* Bangle.js: Fix call notification in Turkish locale
 * Casio GBX-100: Fix notification title
 * Colmi R0x: Fix occasional crash on disconnection
 * Fix crash in some chart pages

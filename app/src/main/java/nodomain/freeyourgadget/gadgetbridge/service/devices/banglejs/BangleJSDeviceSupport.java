@@ -564,12 +564,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             } break;
             case "music": {
                 GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
-                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(json.getString("n").toUpperCase());
+                deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.valueOf(json.getString("n").toUpperCase(Locale.US));
                 evaluateGBDeviceEvent(deviceEventMusicControl);
             } break;
             case "call": {
                 GBDeviceEventCallControl deviceEventCallControl = new GBDeviceEventCallControl();
-                deviceEventCallControl.event = GBDeviceEventCallControl.Event.valueOf(json.getString("n").toUpperCase());
+                deviceEventCallControl.event = GBDeviceEventCallControl.Event.valueOf(json.getString("n").toUpperCase(Locale.US));
                 evaluateGBDeviceEvent(deviceEventCallControl);
             } break;
             case "status":
@@ -762,7 +762,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
      */
     private void handleNotificationControl(JSONObject json) throws JSONException {
 
-        String response = json.getString("n").toUpperCase();
+        String response = json.getString("n").toUpperCase(Locale.US);
         LOG.debug("Notification response: " + response);
 
         // Wake the Android device if the setting is toggled on by user.
@@ -825,7 +825,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         ActivityKind activity = ActivityKind.ACTIVITY;
         if (json.has("act")) {
             try {
-                String actName = json.optString("act","").toUpperCase();
+                String actName = json.optString("act","").toUpperCase(Locale.US);
                 activity = ActivityKind.valueOf(actName);
             } catch (final Exception e) {
                 LOG.warn("JSON activity not known", e);
@@ -888,7 +888,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         int method = Request.Method.GET;
         if (json.has("method")) {
-            String m = json.getString("method").toLowerCase();
+            String m = json.getString("method").toLowerCase(Locale.US);
             if (m.equals("get")) method = Request.Method.GET;
             else if (m.equals("post")) method = Request.Method.POST;
             else if (m.equals("head")) method = Request.Method.HEAD;
@@ -1579,7 +1579,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 Field[] fields = callSpec.getClass().getDeclaredFields();
                 for (Field field : fields)
                     if (field.getName().startsWith("CALL_") && field.getInt(callSpec) == callSpec.command)
-                        cmdName = field.getName().substring(5).toLowerCase();
+                        cmdName = field.getName().substring(5).toLowerCase(Locale.US);
             } catch (IllegalAccessException e) {}
             o.put("cmd", cmdName);
             o.put("name", renderUnicodeAsImage(callSpec.name));
