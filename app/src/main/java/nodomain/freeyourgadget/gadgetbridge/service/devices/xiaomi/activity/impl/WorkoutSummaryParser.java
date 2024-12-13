@@ -289,16 +289,23 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
         if (version == 5) {
             builder.addUnknown(10);
-            builder.addShort(XIAOMI_WORKOUT_TYPE, UNIT_NONE);
+            builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
             builder.addUnknown(2);
             builder.addUnknown(2); // configuredTimeGoal, UNIT_SECONDS
             builder.addUnknown(2);
             builder.addUnknown(2); // configuredCaloriesGoal, UNIT_KCAL
         } else {
             builder.addUnknown(2);
-            builder.addUnknown(4);
+            builder.addUnknown(4); // activeSeconds again?, UNIT_SECONDS
             builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
-            builder.addUnknown(3);
+            builder.addUnknown(1);
+            builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
+            builder.addUnknown(2);
+            builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+            builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
+            builder.addShort(WORKOUT_LOAD, UNIT_NONE);
+            builder.addUnknown(1);
+            builder.addByte("vitality_gain", UNIT_NONE);
         }
         return builder.build();
     }
