@@ -168,6 +168,13 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
             mOutStream = null;
             mBtSocket = null;
             return false;
+        } catch (SecurityException e) {
+            LOG.error("Could not connect to device.", e);
+            setUpdateState(originalState);
+            mInStream = null;
+            mOutStream = null;
+            mBtSocket = null;
+            return false;
         }
 
         initialize();
