@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,6 +118,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
                              Bundle savedInstanceState) {
         mLocale = getResources().getConfiguration().locale;
         View rootView = inflater.inflate(R.layout.fragment_weeksleep_chart, container, false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rootView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                getChartsHost().enableSwipeRefresh(scrollY == 0);
+            });
+        }
+
         final int goal = getGoal();
         if (goal >= 0) {
             mTargetValue = goal;
