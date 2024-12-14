@@ -22,11 +22,10 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.TestDeviceRand;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 
-public class TestHrvSummarySampleProvider implements TimeSampleProvider<HrvSummarySample> {
+public class TestHrvSummarySampleProvider extends AbstractTestSampleProvider<HrvSummarySample> {
     @NonNull
     @Override
     public List<HrvSummarySample> getAllSamples(final long timestampFrom, final long timestampTo) {
@@ -37,21 +36,6 @@ public class TestHrvSummarySampleProvider implements TimeSampleProvider<HrvSumma
         }
 
         return samples;
-    }
-
-    @Override
-    public void addSample(final HrvSummarySample timeSample) {
-        throw new UnsupportedOperationException("read-only sample provider");
-    }
-
-    @Override
-    public void addSamples(final List<HrvSummarySample> timeSamples) {
-        throw new UnsupportedOperationException("read-only sample provider");
-    }
-
-    @Override
-    public HrvSummarySample createSample() {
-        throw new UnsupportedOperationException("read-only sample provider");
     }
 
     @Nullable

@@ -85,6 +85,26 @@ public class XiaomiManualSampleProvider extends AbstractTimeSampleProvider<Xiaom
     }
 
     @Nullable
+    public XiaomiManualSample getLatestSample(final int type, final long until) {
+        final QueryBuilder<XiaomiManualSample> qb = getSampleDao().queryBuilder();
+        final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no sample
+            return null;
+        }
+        final Property deviceProperty = getDeviceIdentifierSampleProperty();
+        qb.where(deviceProperty.eq(dbDevice.getId()))
+                .where(XiaomiManualSampleDao.Properties.Timestamp.le(until))
+                .where(XiaomiManualSampleDao.Properties.Type.eq(type))
+                .orderDesc(getTimestampSampleProperty()).limit(1);
+        final List<XiaomiManualSample> samples = qb.build().list();
+        if (samples.isEmpty()) {
+            return null;
+        }
+        return samples.get(0);
+    }
+
+    @Nullable
     public XiaomiManualSample getFirstSample(final int type) {
         final QueryBuilder<XiaomiManualSample> qb = getSampleDao().queryBuilder();
         final Device dbDevice = DBHelper.findDevice(getDevice(), getSession());

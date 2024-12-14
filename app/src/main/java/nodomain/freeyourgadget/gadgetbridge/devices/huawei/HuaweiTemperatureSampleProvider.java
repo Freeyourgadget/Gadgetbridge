@@ -8,27 +8,19 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import de.greenrobot.dao.Property;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictData;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictDataDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictDataValues;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuaweiDictDataValuesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huawei.p2p.HuaweiP2PDataDictionarySyncService;
 
 public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<TemperatureSample> {
 
@@ -140,6 +132,37 @@ public class HuaweiTemperatureSampleProvider implements TimeSampleProvider<Tempe
 
         QueryBuilder<HuaweiDictData> qb =  this.session.getHuaweiDictDataDao().queryBuilder();
         qb.where(HuaweiDictDataDao.Properties.DeviceId.eq(deviceId))
+                .where(HuaweiDictDataDao.Properties.UserId.eq(userId))
+                .where(HuaweiDictDataDao.Properties.DictClass.eq(HuaweiDictTypes.SKIN_TEMPERATURE_CLASS));
+        qb.orderDesc(HuaweiDictDataDao.Properties.StartTimestamp).limit(1);
+
+        final List<HuaweiDictData> data = qb.build().list();
+        if (data.isEmpty())
+            return null;
+
+
+        QueryBuilder<HuaweiDictDataValues> qbv =  this.session.getHuaweiDictDataValuesDao().queryBuilder();
+        qbv.where(HuaweiDictDataValuesDao.Properties.DictType.eq(HuaweiDictTypes.SKIN_TEMPERATURE_VALUE)).where(HuaweiDictDataValuesDao.Properties.Tag.eq(10)).where(HuaweiDictDataValuesDao.Properties.DictId.eq(data.get(0).getDictId()));
+        final List<HuaweiDictDataValues> valuesData = qbv.build().list();
+
+        if (valuesData.isEmpty())
+            return null;
+
+        return new HuaweiTemperatureSample(valuesData.get(0).getHuaweiDictData().getStartTimestamp(), (float) conv2Double(valuesData.get(0).getValue()));
+    }
+
+    @Nullable
+    @Override
+    public TemperatureSample getLatestSample(final long until) {
+        Long userId = DBHelper.getUser(this.session).getId();
+        Long deviceId = DBHelper.getDevice(this.device, this.session).getId();
+
+        if (deviceId == null || userId == null)
+            return null;
+
+        QueryBuilder<HuaweiDictData> qb =  this.session.getHuaweiDictDataDao().queryBuilder();
+        qb.where(HuaweiDictDataDao.Properties.StartTimestamp.le(until))
+                .where(HuaweiDictDataDao.Properties.DeviceId.eq(deviceId))
                 .where(HuaweiDictDataDao.Properties.UserId.eq(userId))
                 .where(HuaweiDictDataDao.Properties.DictClass.eq(HuaweiDictTypes.SKIN_TEMPERATURE_CLASS));
         qb.orderDesc(HuaweiDictDataDao.Properties.StartTimestamp).limit(1);

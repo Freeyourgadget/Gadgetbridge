@@ -101,6 +101,12 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
 
         @Nullable
         @Override
+        public AbstractActivitySample getLatestActivitySample(final int until) {
+            return null;
+        }
+
+        @Nullable
+        @Override
         public AbstractActivitySample getFirstActivitySample() {
             return null;
         }

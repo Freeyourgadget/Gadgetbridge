@@ -106,6 +106,13 @@ public interface SampleProvider<T extends AbstractActivitySample> {
     T getLatestActivitySample();
 
     /**
+     * Returns the activity sample with the highest timestamp, until a limit (inclusive). or null if none
+     * @return the latest sample or null
+     */
+    @Nullable
+    T getLatestActivitySample(int until);
+
+    /**
      * Returns the activity sample with the oldest timestamp or null if none
      * @return the oldest sample or null
      */

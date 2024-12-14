@@ -73,6 +73,16 @@ public class XiaomiPaiSampleProvider implements TimeSampleProvider<PaiSample> {
 
     @Nullable
     @Override
+    public PaiSample getLatestSample(final long until) {
+        final XiaomiDailySummarySample sample = dailySummarySampleProvider.getLatestSample(until);
+        if (sample != null) {
+            return new XiaomiPaiSample(sample);
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
     public PaiSample getFirstSample() {
         final XiaomiDailySummarySample sample = dailySummarySampleProvider.getFirstSample();
         if (sample != null) {

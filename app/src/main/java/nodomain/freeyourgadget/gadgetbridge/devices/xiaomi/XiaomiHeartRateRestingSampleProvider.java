@@ -73,6 +73,16 @@ public class XiaomiHeartRateRestingSampleProvider implements TimeSampleProvider<
 
     @Nullable
     @Override
+    public HeartRateSample getLatestSample(final long until) {
+        final XiaomiDailySummarySample sample = dailySummarySampleProvider.getLatestSample(until);
+        if (sample != null) {
+            return new XiaomiHeartRateRestingSample(sample);
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
     public HeartRateSample getFirstSample() {
         final XiaomiDailySummarySample sample = dailySummarySampleProvider.getFirstSample();
         if (sample != null) {

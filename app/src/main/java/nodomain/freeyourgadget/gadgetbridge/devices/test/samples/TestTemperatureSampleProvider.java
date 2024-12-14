@@ -22,11 +22,10 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.TestDeviceRand;
 import nodomain.freeyourgadget.gadgetbridge.model.TemperatureSample;
 
-public class TestTemperatureSampleProvider implements TimeSampleProvider<TemperatureSample> {
+public class TestTemperatureSampleProvider extends AbstractTestSampleProvider<TemperatureSample> {
     @NonNull
     @Override
     public List<TemperatureSample> getAllSamples(final long timestampFrom, final long timestampTo) {
@@ -43,21 +42,6 @@ public class TestTemperatureSampleProvider implements TimeSampleProvider<Tempera
         }
 
         return samples;
-    }
-
-    @Override
-    public void addSample(final TemperatureSample timeSample) {
-        throw new UnsupportedOperationException("read-only sample provider");
-    }
-
-    @Override
-    public void addSamples(final List<TemperatureSample> timeSamples) {
-        throw new UnsupportedOperationException("read-only sample provider");
-    }
-
-    @Override
-    public TemperatureSample createSample() {
-        throw new UnsupportedOperationException("read-only sample provider");
     }
 
     @Nullable

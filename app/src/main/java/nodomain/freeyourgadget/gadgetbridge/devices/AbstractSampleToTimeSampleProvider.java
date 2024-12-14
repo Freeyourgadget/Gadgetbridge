@@ -90,6 +90,13 @@ public abstract class AbstractSampleToTimeSampleProvider<T extends TimeSample, S
 
     @Nullable
     @Override
+    public T getLatestSample(final long until) {
+        final S latestSample = mSampleProvider.getLatestActivitySample((int) (until / 1000L));
+        return convertSample(latestSample);
+    }
+
+    @Nullable
+    @Override
     public T getFirstSample() {
         final S firstSample = mSampleProvider.getFirstActivitySample();
         return convertSample(firstSample);

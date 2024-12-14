@@ -78,6 +78,16 @@ public class XiaomiTemperatureSampleProvider implements TimeSampleProvider<Tempe
 
     @Nullable
     @Override
+    public TemperatureSample getLatestSample(final long until) {
+        final XiaomiManualSample sample = manualSampleProvider.getLatestSample(XiaomiManualSampleProvider.TYPE_TEMPERATURE, until);
+        if (sample != null) {
+            return new XiaomiTemperatureSample(sample);
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
     public TemperatureSample getFirstSample() {
         final XiaomiManualSample sample = manualSampleProvider.getFirstSample(XiaomiManualSampleProvider.TYPE_TEMPERATURE);
         if (sample != null) {

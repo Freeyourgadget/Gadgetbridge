@@ -130,6 +130,29 @@ public abstract class AbstractSampleProvider<T extends AbstractActivitySample> i
 
     @Nullable
     @Override
+    public T getLatestActivitySample(final int until) {
+        QueryBuilder<T> qb = getSampleDao().queryBuilder();
+        Device dbDevice = DBHelper.findDevice(getDevice(), getSession());
+        if (dbDevice == null) {
+            // no device, no sample
+            return null;
+        }
+        Property deviceProperty = getDeviceIdentifierSampleProperty();
+        Property timestampProperty = getTimestampSampleProperty();
+        qb.where(timestampProperty.le(until))
+                .where(deviceProperty.eq(dbDevice.getId()))
+                .orderDesc(timestampProperty).limit(1);
+        List<T> samples = qb.build().list();
+        if (samples.isEmpty()) {
+            return null;
+        }
+        T sample = samples.get(0);
+        sample.setProvider(this);
+        return sample;
+    }
+
+    @Nullable
+    @Override
     public T getFirstActivitySample() {
         QueryBuilder<T> qb = getSampleDao().queryBuilder();
         Device dbDevice = DBHelper.findDevice(getDevice(), getSession());

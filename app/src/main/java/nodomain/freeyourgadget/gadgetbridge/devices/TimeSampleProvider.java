@@ -80,6 +80,16 @@ public interface TimeSampleProvider<T extends TimeSample> {
     T getLatestSample();
 
     /**
+     * Returns the sample with the highest timestamp until a limit, or null if none.
+     *
+     * @param until maximum timestamp of the sample, inclusive
+     *
+     * @return the latest sample, or null if none is found.
+     */
+    @Nullable
+    T getLatestSample(long until);
+
+    /**
      * Returns the sample with the oldest timestamp, or null if none.
      *
      * @return the oldest sample, or null if none is found

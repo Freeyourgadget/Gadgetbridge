@@ -22,11 +22,10 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.test.TestDeviceRand;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 
-public class TestSpo2SampleProvider implements TimeSampleProvider<Spo2Sample> {
+public class TestSpo2SampleProvider extends AbstractTestSampleProvider<Spo2Sample> {
     @NonNull
     @Override
     public List<Spo2Sample> getAllSamples(final long timestampFrom, final long timestampTo) {
@@ -42,21 +41,6 @@ public class TestSpo2SampleProvider implements TimeSampleProvider<Spo2Sample> {
         }
 
         return samples;
-    }
-
-    @Override
-    public void addSample(final Spo2Sample timeSample) {
-        throw new UnsupportedOperationException("read-only sample provider");
-    }
-
-    @Override
-    public void addSamples(final List<Spo2Sample> timeSamples) {
-        throw new UnsupportedOperationException("read-only sample provider");
-    }
-
-    @Override
-    public Spo2Sample createSample() {
-        throw new UnsupportedOperationException("read-only sample provider");
     }
 
     @Nullable
