@@ -241,9 +241,9 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:3.17.0"
     implementation "org.cyanogenmod:platform.sdk:6.0"
     implementation 'com.jaredrummler:colorpicker:1.1.0'
-    implementation 'com.github.wax911.android-emojify:contract:1.9.4'
-    implementation 'com.github.wax911.android-emojify:emojify:1.9.4'
-    implementation 'com.github.wax911.android-emojify:gson:1.9.4'
+    implementation 'com.github.wax911.android-emojify:contract:1.9.5'
+    implementation 'com.github.wax911.android-emojify:emojify:1.9.5'
+    implementation 'com.github.wax911.android-emojify:gson:1.9.5'
     implementation 'com.google.protobuf:protobuf-javalite:4.28.2'
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'org.msgpack:msgpack-core:0.9.8'
