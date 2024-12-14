@@ -4428,6 +4428,7 @@
         <item>@string/distance</item>
         <item>@string/active_time</item>
         <item>@string/menuitem_sleep</item>
+        <item>@string/sleep_score</item>
         <item>@string/body_energy</item>
         <item>@string/menuitem_stress_simple</item>
         <item>@string/menuitem_stress_segmented</item>
@@ -4447,6 +4448,7 @@
         <item>distance</item>
         <item>activetime</item>
         <item>sleep</item>
+        <item>sleepscore</item>
         <item>bodyenergy</item>
         <item>stress_simple</item>
         <item>stress_segmented</item>
