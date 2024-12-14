@@ -3557,4 +3557,16 @@
     <string name="permission_query_all_packages_title">Query all packages</string>
     <string name="permission_query_all_packages_summary">Reading names and icons of all installed apps</string>
     <string name="about_build_details_copied_to_clipboard">Build details copied to clipboard</string>
+    <string name="devicetype_marstek_b2500">Marstek B2500</string>
+    <string name="battery_discharge_intervals">Battery Discharge Intervals</string>
+    <string name="discharge_interval_1">Discharge Interval 1</string>
+    <string name="discharge_interval_2">Discharge Interval 2</string>
+    <string name="discharge_interval_3">Discharge Interval 3</string>
+    <string name="discharge_interval_4">Discharge Interval 4</string>
+    <string name="discharge_interval_5">Discharge Interval 5</string>
+    <string name="power_w">Power in W</string>
+    <string name="manual_discharge_summary">when disabled, this assumes intelligent discharge controlled by an external power meter (not supported by Gadgetbridge)</string>
+    <string name="manual_discharge">Manual Discharge Intervals</string>
+    <string name="summary_battery_discharge_intervals_set">Send configuration below to device</string>
+    <string name="battery_minimum_charge">Minimum allowed charge in %</string>
 </resources>

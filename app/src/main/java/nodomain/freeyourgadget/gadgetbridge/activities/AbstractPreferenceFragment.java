@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -53,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialEditTextPreferenceDialogFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialListPreferenceDialogFragment;
 import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialMultiSelectListPreferenceDialogFragment;
+import nodomain.freeyourgadget.gadgetbridge.util.preferences.MinMaxTextWatcher;
 
 public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompat {
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractPreferenceFragment.class);
@@ -139,6 +141,17 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
         final EditTextPreference textPreference = findPreference(preferenceKey);
         if (textPreference != null) {
             textPreference.setOnBindEditTextListener(editText -> editText.setInputType(editTypeFlags));
+        }
+    }
+
+    public void setNumericInputTypeWithRangeFor(final String preferenceKey, int min, int max, boolean allowEmpty) {
+        final EditTextPreference textPreference = findPreference(preferenceKey);
+        if (textPreference != null) {
+            textPreference.setOnBindEditTextListener(editText -> {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editText.addTextChangedListener(new MinMaxTextWatcher(editText, min, max, allowEmpty));
+                editText.setSelection(editText.getText().length());
+            });
         }
     }
 

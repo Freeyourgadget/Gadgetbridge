@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_battery"
+        android:key="screen_battery_discharge settings"
+        android:persistent="false"
+        android:title="@string/battery_discharge_intervals">
+
+        <Preference
+            android:icon="@drawable/ic_refresh"
+            android:key="battery_discharge_intervals_set"
+            android:summary="@string/summary_battery_discharge_intervals_set"
+            android:title="@string/pref_title_canned_messages_set" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="battery_discharge_manual"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/manual_discharge_summary"
+            android:title="@string/manual_discharge" />
+
+        <PreferenceCategory
+            android:dependency="battery_discharge_manual"
+            android:title="@string/discharge_interval_1">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="battery_discharge_interval1_enabled"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/function_enabled" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval1_start"
+                android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval1_end"
+                android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            <EditTextPreference
+                android:defaultValue="80"
+                android:inputType="number"
+                android:key="battery_discharge_interval1_watt"
+                android:title="@string/power_w"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:dependency="battery_discharge_manual"
+            android:title="@string/discharge_interval_2">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="battery_discharge_interval2_enabled"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/function_enabled" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval2_start"
+                android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval2_end"
+                android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            <EditTextPreference
+                android:defaultValue="80"
+                android:inputType="number"
+                android:key="battery_discharge_interval2_watt"
+                android:title="@string/power_w"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:dependency="battery_discharge_manual"
+            android:title="@string/discharge_interval_3">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="battery_discharge_interval3_enabled"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/function_enabled" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval3_start"
+                android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval3_end"
+                android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            <EditTextPreference
+                android:defaultValue="80"
+                android:inputType="number"
+                android:key="battery_discharge_interval3_watt"
+                android:title="@string/power_w"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:dependency="battery_discharge_manual"
+            android:title="@string/discharge_interval_4">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="battery_discharge_interval4_enabled"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/function_enabled" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval4_start"
+                android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval4_end"
+                android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            <EditTextPreference
+                android:defaultValue="80"
+                android:inputType="number"
+                android:key="battery_discharge_interval4_watt"
+                android:title="@string/power_w"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:dependency="battery_discharge_manual"
+            android:title="@string/discharge_interval_5">
+            <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="battery_discharge_interval5_enabled"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/function_enabled" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval5_start"
+                android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="00:00"
+                android:icon="@drawable/ic_access_time"
+                android:key="battery_discharge_interval5_end"
+                android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+            <EditTextPreference
+                android:defaultValue="80"
+                android:inputType="number"
+                android:key="battery_discharge_interval5_watt"
+                android:title="@string/power_w"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>
