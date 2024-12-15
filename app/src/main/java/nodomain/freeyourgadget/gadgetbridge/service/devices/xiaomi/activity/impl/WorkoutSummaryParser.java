@@ -498,9 +498,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             builder.addUnknown(7);
             builder.addByte("vitality_gain", UNIT_NONE);
             builder.addUnknown(16);
-            builder.addByte("averageHR2", UNIT_BPM);
-            builder.addByte("maxHR2", UNIT_BPM);
-            builder.addByte("minHR2", UNIT_BPM);
+            builder.addUnknown(1); // HR_AVG duplicate
+            builder.addUnknown(1); // HR_MAX duplicate
+            builder.addUnknown(1); // HR_MIN duplicate
             builder.addUnknown(2);
             builder.addByte(CADENCE_AVG, UNIT_SPM);
         }
