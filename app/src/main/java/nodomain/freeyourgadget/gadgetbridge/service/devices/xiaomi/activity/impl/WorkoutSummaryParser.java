@@ -274,7 +274,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addByte(HR_MAX, UNIT_BPM);
         builder.addByte(HR_MIN, UNIT_BPM);
         if (version == 5) {
-            builder.addUnknown(7);
+            builder.addUnknown(7); // probably training effect aerobic and recovery time?
         } else {
             builder.addUnknown(6);
             builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
@@ -288,7 +288,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addInt(HR_ZONE_FAT_BURN, UNIT_SECONDS);
         builder.addInt(HR_ZONE_WARM_UP, UNIT_SECONDS);
         if (version == 5) {
-            builder.addUnknown(10);
+            builder.addUnknown(10); // Probably the same as for v8 below?
             builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
             builder.addUnknown(2);
             builder.addInt("configuredTimeGoal", UNIT_SECONDS);
