@@ -291,9 +291,8 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
             builder.addUnknown(10);
             builder.addShort(XIAOMI_WORKOUT_TYPE, XIAOMI_WORKOUT_TYPE);
             builder.addUnknown(2);
-            builder.addUnknown(2); // configuredTimeGoal, UNIT_SECONDS
-            builder.addUnknown(2);
-            builder.addUnknown(2); // configuredCaloriesGoal, UNIT_KCAL
+            builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+            builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
         } else {
             builder.addUnknown(2);
             builder.addUnknown(4); // activeSeconds again?, UNIT_SECONDS
