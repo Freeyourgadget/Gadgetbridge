@@ -827,9 +827,13 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addByte(HR_AVG, UNIT_BPM);
         builder.addByte(HR_MAX, UNIT_BPM);
         builder.addByte(HR_MIN, UNIT_BPM);
-        builder.addUnknown(7);
-        if (version >= 5)
-            builder.addUnknown(1);
+        builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
+        if (version == 3) {
+            builder.addUnknown(3);
+        } else {
+            builder.addUnknown(2);
+            builder.addShort(RECOVERY_TIME, UNIT_HOURS);
+        }
         builder.addInt(HR_ZONE_EXTREME, UNIT_SECONDS);
         builder.addInt(HR_ZONE_ANAEROBIC, UNIT_SECONDS);
         builder.addInt(HR_ZONE_AEROBIC, UNIT_SECONDS);
@@ -840,9 +844,22 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addShort(JUMP_RATE_AVG, UNIT_JUMPS_PER_MINUTE);
         builder.addUnknown(2);
         builder.addShort(JUMP_RATE_MAX, UNIT_JUMPS_PER_MINUTE);
-        builder.addUnknown(43);
-        builder.addUnknown(2);    // configuredJumpsGoal, UNIT_JUMPS
-        builder.addUnknown(2);
+        if (version == 3) {
+            builder.addUnknown(43);
+            builder.addUnknown(2);    // configuredJumpsGoal, UNIT_JUMPS
+            builder.addUnknown(2);
+        } else {
+            builder.addUnknown(27);
+            builder.addUnknown(4); // activeSeconds again?, UNIT_SECONDS
+            builder.addFloat(TRAINING_EFFECT_ANAEROBIC, UNIT_NONE);
+            builder.addUnknown(3);
+            builder.addInt("configuredTimeGoal", UNIT_SECONDS);
+            builder.addShort("configuredCaloriesGoal", UNIT_KCAL);
+            builder.addInt("configuredJumpsGoal", UNIT_JUMPS);
+            builder.addShort(WORKOUT_LOAD, UNIT_NONE);
+            builder.addUnknown(1);
+            builder.addByte("vitality_gain", UNIT_NONE); // vitality, UNIT_NONE
+        }
 
         return builder.build();
     }
