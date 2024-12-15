@@ -23,6 +23,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
@@ -33,8 +34,15 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     public static final UUID UUID_SERVICE_MAIN = UUID.fromString("0000ff00-0000-1000-8000-00805f9b34fb");
 
     private static final byte COMMAND_PREFIX = 0x73;
-    private static final byte[] COMMAND_GET_INFOS = new byte[]{COMMAND_PREFIX, 0x06, 0x23, 0x03, 0x01, 0x54};
-    private static final byte[] COMMAND_GET_INFOS2 = new byte[]{COMMAND_PREFIX, 0x06, 0x23, 0x13, 0x00, 0x45};
+    private static final byte COMMAND = 0x23;
+    private static final byte OPCODE_REBOOT = 0x25;
+    private static final byte OPCODE_INFO1 = 0x03;
+    private static final byte OPCODE_INFO2 = 0x13;
+
+    // the following already have checksums precalculated (last byte)
+    private static final byte[] COMMAND_GET_INFOS1 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_INFO1, 0x01, 0x54};
+    private static final byte[] COMMAND_GET_INFOS2 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_INFO2, 0x00, 0x45};
+    private static final byte[] COMMAND_REBOOT = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_REBOOT, 0x01, 0x72};
 
     private static final Logger LOG = LoggerFactory.getLogger(MarstekB2500DeviceSupport.class);
     private int firmwareVersion;
@@ -55,19 +63,10 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Characteristic changed value: {}", StringUtils.bytesToHex(value));
 
         if (value[0] == COMMAND_PREFIX) {
-            if ((value[1] == 0x10) && (value[2] == 0x23) && (value[3] == 0x03)) {
-                firmwareVersion = value[12];
-                getDevice().setFirmwareVersion("V" + (firmwareVersion & 0xff));
-                getDevice().sendDeviceUpdateIntent(getContext());
-
-                int battery_minimum_charge = 100 - value[18];
-                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
-                SharedPreferences.Editor devicePrefsEdit = devicePrefs.getPreferences().edit();
-                devicePrefsEdit.putString(PREF_BATTERY_MINIMUM_CHARGE, String.valueOf(battery_minimum_charge));
-                devicePrefsEdit.apply();
-                devicePrefsEdit.commit();
+            if ((value[1] == 0x10) && (value[2] == COMMAND) && (value[3] == OPCODE_INFO1)) {
+                decodeInfos(value);
                 return true;
-            } else if ((value[1] == 0x3a || value[1] == 0x22) && value[2] == 0x23 && value[3] == 0x13) {
+            } else if ((value[1] == 0x3a || value[1] == 0x22) && value[2] == COMMAND && value[3] == OPCODE_INFO2) {
                 decodeDischargeIntervalsToPreferences(value);
                 return true;
             }
@@ -75,9 +74,18 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
+
     @Override
     public void onTestNewFunction() {
-        sendCommand("test", COMMAND_GET_INFOS);
+        sendCommand("get infos 1", COMMAND_GET_INFOS1);
+        sendCommand("get infos 2", COMMAND_GET_INFOS2);
+    }
+
+    @Override
+    public void onReset(int flags) {
+        if ((flags & GBDeviceProtocol.RESET_FLAGS_REBOOT) != 0) {
+            sendCommand("reboot", COMMAND_REBOOT);
+        }
     }
 
     @Override
@@ -88,7 +96,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         builder.requestMtu(512);
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_MAIN), true);
         builder.wait(800);
-        builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS);
+        builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS1);
         builder.wait(800);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS2);
         builder.wait(800);
@@ -131,10 +139,37 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.warn("Unknown config changed: {}", config);
     }
 
-    private void decodeDischargeIntervalsToPreferences(byte[] values) {
+    private void decodeInfos(byte[] value) {
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         SharedPreferences.Editor devicePrefsEdit = devicePrefs.getPreferences().edit();
-        ByteBuffer buf = ByteBuffer.wrap(values);
+        ByteBuffer buf = ByteBuffer.wrap(value);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.position(12); // skip header and unknown
+        firmwareVersion = buf.get();
+        boolean charge_before_discharge = buf.get() == 0x01;
+        buf.position(buf.position() + 4); // skip unknown
+        byte battery_max_use = buf.get();
+        short battery_current_discharge = buf.getShort();
+        buf.position(buf.position() + 1); // skip unknown
+        short battery_charge = buf.getShort();
+
+        getDevice().setFirmwareVersion("V" + (firmwareVersion & 0xff));
+        getDevice().sendDeviceUpdateIntent(getContext());
+
+        int battery_minimum_charge = 100 - battery_max_use;
+        devicePrefsEdit.putString(PREF_BATTERY_MINIMUM_CHARGE, String.valueOf(battery_minimum_charge));
+        devicePrefsEdit.apply();
+        devicePrefsEdit.commit();
+
+        int battery_percentage = (int) Math.ceil((battery_charge / 2240.0f) * 100);
+        getDevice().setBatteryLevel(battery_percentage);
+        getDevice().sendDeviceUpdateIntent(getContext());
+    }
+
+    private void decodeDischargeIntervalsToPreferences(byte[] value) {
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        SharedPreferences.Editor devicePrefsEdit = devicePrefs.getPreferences().edit();
+        ByteBuffer buf = ByteBuffer.wrap(value);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.position(5); // skip
         for (int i = 1; i <= 5; i++) {
@@ -150,7 +185,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
             devicePrefsEdit.putString("battery_discharge_interval" + i + "_watt", String.valueOf(watt));
 
             if (i == 3) {
-                if (values.length == 0x22) // old fw only seems to return 3 settings and has 7 trailing bytes
+                if (value.length == 0x22) // old fw only seems to return 3 settings and has 7 trailing bytes
                     break;
                 buf.position(buf.position() + 17); // skip 17 bytes, there is a hole with unknown data
             }
@@ -170,7 +205,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
 
         buf.put(COMMAND_PREFIX);
         buf.put(length);
-        buf.put((byte) 0x23);
+        buf.put(COMMAND);
         buf.put((byte) 0x0b);
         buf.put((byte) maximum_use);
         buf.put(getXORChecksum(buf.array()));
@@ -188,7 +223,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
 
         buf.put(COMMAND_PREFIX);
         buf.put(length);
-        buf.put((byte) 0x23);
+        buf.put(COMMAND);
         buf.put((byte) 0x14);
 
         final Calendar calendar = DateTimeUtils.getCalendarUTC();
@@ -214,7 +249,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put(COMMAND_PREFIX);
             buf.put((byte) length);
-            buf.put((byte) 0x23); // set power parameters ?
+            buf.put(COMMAND); // set power parameters ?
             buf.put((byte) 0x12); // set discharge power timers ?
             for (int i = 1; i <= nr_invervals; i++) {
                 boolean enabled = devicePrefs.getBoolean("battery_discharge_interval" + i + "_enabled", false);
