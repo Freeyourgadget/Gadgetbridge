@@ -273,6 +273,16 @@ public interface DeviceCoordinator {
     boolean supportsPaiTime();
 
     /**
+     * Returns true if the device is capable of providing the time contribution for light PAI type.
+     */
+    boolean supportsPaiLow();
+
+    /**
+     * Returns the PAI target - usually 100.
+     */
+    int getPaiTarget();
+
+    /**
      * Indicates whether the device supports respiratory rate tracking.
      */
     boolean supportsRespiratoryRate();

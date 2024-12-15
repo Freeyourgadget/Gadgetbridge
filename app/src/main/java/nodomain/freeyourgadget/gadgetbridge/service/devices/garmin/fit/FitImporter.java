@@ -26,6 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminEventSampleProv
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHeartRateRestingSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvSummarySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminHrvValueSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminIntensityMinutesSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRespiratoryRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminRestingMetabolicRateSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.garmin.GarminSleepStatsSampleProvider;
@@ -41,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.GarminActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminBodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminEventSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHeartRateRestingSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminIntensityMinutesSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminRestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.GarminHrvValueSample;
@@ -433,6 +435,7 @@ public class FitImporter {
         }
 
         final List<GarminActivitySample> activitySamples = new ArrayList<>(activitySamplesPerTimestamp.size());
+        final List<GarminIntensityMinutesSample> intensityMinutesSamples = new ArrayList<>(activitySamplesPerTimestamp.size());
 
         // Garmin reports the cumulative data per activity, but not always, so we need to keep
         // track of the amounts for each activity, and set the sum of all on the sample
@@ -472,9 +475,9 @@ public class FitImporter {
             sample.setDistanceCm(ActivitySample.NOT_MEASURED);
             sample.setActiveCalories(ActivitySample.NOT_MEASURED);
 
-            boolean hasSteps = false;
-            boolean hasDistance = false;
-            boolean hasCalories = false;
+            int minutesModerate = 0;
+            int minutesVigorous = 0;
+
             for (final FitMonitoring record : Objects.requireNonNull(records)) {
                 final Integer activityType = record.getComputedActivityType().orElse(ActivitySample.NOT_MEASURED);
 
@@ -486,41 +489,48 @@ public class FitImporter {
                 final Long steps = record.getCycles();
                 if (steps != null) {
                     stepsPerActivity.put(activityType, steps);
-                    hasSteps = true;
                 }
 
                 final Long distance = record.getDistance();
                 if (distance != null) {
                     distancePerActivity.put(activityType, distance);
-                    hasDistance = true;
                 }
 
                 final Integer calories = record.getActiveCalories();
                 if (calories != null) {
                     caloriesPerActivity.put(activityType, calories);
-                    hasCalories = true;
                 }
 
                 final Integer intensity = record.getComputedIntensity();
                 if (intensity != null) {
                     sample.setRawIntensity(intensity);
                 }
+
+                final Integer recordMinutesModerate = record.getModerateActivityMinutes();
+                if (recordMinutesModerate != null) {
+                    minutesModerate += recordMinutesModerate;
+                }
+
+                final Integer recordMinutesVigorous = record.getVigorousActivityMinutes();
+                if (recordMinutesVigorous != null) {
+                    minutesVigorous += recordMinutesVigorous;
+                }
             }
-            if (hasSteps) {
+            if (!stepsPerActivity.isEmpty()) {
                 int sumSteps = 0;
                 for (final Long steps : stepsPerActivity.values()) {
                     sumSteps += steps;
                 }
                 sample.setSteps(sumSteps);
             }
-            if (hasDistance) {
+            if (!distancePerActivity.isEmpty()) {
                 int sumDistance = 0;
                 for (final Long distance : distancePerActivity.values()) {
                     sumDistance += distance;
                 }
                 sample.setDistanceCm(sumDistance);
             }
-            if (hasCalories) {
+            if (!caloriesPerActivity.isEmpty()) {
                 int sumCalories = 0;
                 for (final Integer calories : caloriesPerActivity.values()) {
                     sumCalories += calories;
@@ -529,6 +539,14 @@ public class FitImporter {
             }
 
             activitySamples.add(sample);
+
+            if (minutesModerate != 0 || minutesVigorous != 0) {
+                final GarminIntensityMinutesSample intensityMinutesSample = new GarminIntensityMinutesSample();
+                intensityMinutesSample.setTimestamp(ts * 1000L);
+                intensityMinutesSample.setModerate(minutesModerate);
+                intensityMinutesSample.setVigorous(minutesVigorous);
+                intensityMinutesSamples.add(intensityMinutesSample);
+            }
 
             prevActivityKind = sample.getRawKind();
             prevTs = (int) ts;
@@ -550,6 +568,12 @@ public class FitImporter {
             sampleProvider.addGBActivitySamples(activitySamples.toArray(new GarminActivitySample[0]));
         } catch (final Exception e) {
             GB.toast(context, "Error saving activity samples", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+
+        try {
+            persistAbstractSamples(intensityMinutesSamples, new GarminIntensityMinutesSampleProvider(gbDevice, session));
+        } catch (final Exception e) {
+            GB.toast(context, "Error saving intensity minutes samples", Toast.LENGTH_LONG, GB.ERROR, e);
         }
     }
 

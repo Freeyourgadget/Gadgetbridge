@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BodyEnergySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvSummarySample;
 import nodomain.freeyourgadget.gadgetbridge.model.HrvValueSample;
+import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RespiratoryRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.RestingMetabolicRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.SleepScoreSample;
@@ -148,6 +149,11 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(final GBDevice device, final DaoSession session) {
         return new GarminSpo2SampleProvider(device, session);
+    }
+
+    @Override
+    public TimeSampleProvider<? extends PaiSample> getPaiSampleProvider(final GBDevice device, final DaoSession session) {
+        return new GarminPaiSampleProvider(device, session);
     }
 
     @Override
@@ -313,6 +319,32 @@ public abstract class GarminCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsDayRespiratoryRate() {
         return true;
+    }
+
+    @Override
+    public boolean supportsPai() {
+        // Intensity Minutes
+        return true;
+    }
+
+    @Override
+    public int getPaiName() {
+        return R.string.garmin_intensity_minutes;
+    }
+
+    @Override
+    public boolean supportsPaiTime() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsPaiLow() {
+        return false;
+    }
+
+    @Override
+    public int getPaiTarget() {
+        return 150;
     }
 
     @Override

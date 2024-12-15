@@ -208,6 +208,8 @@ public class GlobalFITMessage {
             new FieldDefinitionPrimitive(24, BaseType.BASE_TYPE_BYTE, "current_activity_type_intensity"),
             new FieldDefinitionPrimitive(26, BaseType.UINT16, "timestamp_16"),
             new FieldDefinitionPrimitive(27, BaseType.UINT8, "heart_rate"),
+            new FieldDefinitionPrimitive(33, BaseType.UINT16, "moderate_activity_minutes"),
+            new FieldDefinitionPrimitive(34, BaseType.UINT16, "vigorous_activity_minutes"),
             new FieldDefinitionPrimitive(253, BaseType.UINT32, "timestamp", FieldDefinitionFactory.FIELD.TIMESTAMP)
     ));
 

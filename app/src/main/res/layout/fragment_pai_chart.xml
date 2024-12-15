@@ -93,6 +93,7 @@
 
             <LinearLayout
                 style="@style/GridTile"
+                android:id="@+id/pai_tile_low"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="1dp">
 
@@ -120,6 +121,7 @@
 
             <LinearLayout
                 style="@style/GridTile"
+                android:id="@+id/pai_tile_moderate"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="1dp">
@@ -147,8 +149,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/sleep_chart_legend_movement_intensity_wrapper"
                 style="@style/GridTile"
+                android:id="@+id/pai_tile_high"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp">

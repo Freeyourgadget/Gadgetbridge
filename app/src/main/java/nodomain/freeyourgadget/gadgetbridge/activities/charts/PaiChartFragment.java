@@ -17,10 +17,12 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -78,6 +80,9 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
     protected TextView mLineModerateTime;
     protected TextView mLineHighInc;
     protected TextView mLineHighTime;
+    protected LinearLayout mTileLow;
+    protected LinearLayout mTileModerate;
+    protected LinearLayout mTileHigh;
 
     protected int BACKGROUND_COLOR;
     protected int DESCRIPTION_COLOR;
@@ -105,6 +110,12 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
 
         final View rootView = inflater.inflate(R.layout.fragment_pai_chart, container, false);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rootView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                getChartsHost().enableSwipeRefresh(scrollY == 0);
+            });
+        }
+
         mTodayPieChart = rootView.findViewById(R.id.pai_chart_today);
         mWeekChart = rootView.findViewById(R.id.pai_chart_week);
         mDateView = rootView.findViewById(R.id.pai_date_view);
@@ -116,11 +127,18 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         mLineModerateTime = rootView.findViewById(R.id.pai_line_moderate_time);
         mLineHighInc = rootView.findViewById(R.id.pai_line_high_inc);
         mLineHighTime = rootView.findViewById(R.id.pai_line_high_time);
+        mTileLow = rootView.findViewById(R.id.pai_tile_low);
+        mTileModerate = rootView.findViewById(R.id.pai_tile_moderate);
+        mTileHigh = rootView.findViewById(R.id.pai_tile_high);
 
         if (!getChartsHost().getDevice().getDeviceCoordinator().supportsPaiTime()) {
             mLineLowTime.setVisibility(View.GONE);
             mLineModerateTime.setVisibility(View.GONE);
             mLineHighTime.setVisibility(View.GONE);
+        }
+
+        if (!getChartsHost().getDevice().getDeviceCoordinator().supportsPaiLow()) {
+            mTileLow.setVisibility(View.GONE);
         }
 
         setupWeekChart();
@@ -170,7 +188,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         y.setDrawZeroLine(true);
         y.setSpaceBottom(0);
         y.setAxisMinimum(0);
-        y.setAxisMaximum(100);
+        y.setAxisMaximum(getPaiTarget());
         y.setValueFormatter(getRoundFormatter());
         y.setEnabled(true);
 
@@ -188,6 +206,10 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         } else {
             return 7;
         }
+    }
+
+    private int getPaiTarget() {
+        return getChartsHost().getDevice().getDeviceCoordinator().getPaiTarget();
     }
 
     @Override
@@ -257,7 +279,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
                                                             Calendar day,
                                                             final GBDevice device) {
         day = (Calendar) day.clone(); // do not modify the caller's argument
-        day.add(Calendar.DATE, -TOTAL_DAYS);
+        day.add(Calendar.DATE, -TOTAL_DAYS + 1);
 
         List<BarEntry> entries = new ArrayList<>();
         final ArrayList<String> labels = new ArrayList<>();
@@ -297,7 +319,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         barData.setValueTextColor(Color.GRAY); //prevent tearing other graph elements with the black text. Another approach would be to hide the values cmpletely with data.setDrawValues(false);
         barData.setValueTextSize(10f);
 
-        barChart.getAxisLeft().setAxisMaximum(Math.max(maxPai, 100));
+        barChart.getAxisLeft().setAxisMaximum(Math.max(maxPai, getPaiTarget()));
 
         //LimitLine target = new LimitLine(mTargetValue);
         //barChart.getAxisLeft().removeAllLimitLines();
@@ -364,7 +386,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         final PieData data = new PieData();
         final List<PieEntry> entries = new ArrayList<>();
 
-        final int maxPai = Math.max(100, total);
+        final int maxPai = Math.max(getPaiTarget(), total);
         final String todayLabel = today != 0 ? requireContext().getString(R.string.pai_plus_num, today) : "";
 
         entries.add(new PieEntry(total - today, ""));

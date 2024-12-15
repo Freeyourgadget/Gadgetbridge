@@ -560,6 +560,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsPaiLow() {
+        return supportsPai();
+    }
+
+    @Override
+    public int getPaiTarget() {
+        return 100;
+    }
+
+    @Override
     public boolean supportsRespiratoryRate() {
         return false;
     }

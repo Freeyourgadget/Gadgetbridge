@@ -69,6 +69,16 @@ public class FitMonitoring extends RecordData {
     }
 
     @Nullable
+    public Integer getModerateActivityMinutes() {
+        return (Integer) getFieldByNumber(33);
+    }
+
+    @Nullable
+    public Integer getVigorousActivityMinutes() {
+        return (Integer) getFieldByNumber(34);
+    }
+
+    @Nullable
     public Long getTimestamp() {
         return (Long) getFieldByNumber(253);
     }
