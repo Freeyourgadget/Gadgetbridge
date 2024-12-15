@@ -829,7 +829,7 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addByte(HR_MIN, UNIT_BPM);
         builder.addFloat(TRAINING_EFFECT_AEROBIC, UNIT_NONE);
         if (version == 3) {
-            builder.addUnknown(3);
+            builder.addUnknown(3); // unknown byte and recovery time?
         } else {
             builder.addUnknown(2);
             builder.addShort(RECOVERY_TIME, UNIT_HOURS);
@@ -845,8 +845,8 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         builder.addUnknown(2);
         builder.addShort(JUMP_RATE_MAX, UNIT_JUMPS_PER_MINUTE);
         if (version == 3) {
-            builder.addUnknown(43);
-            builder.addUnknown(2);    // configuredJumpsGoal, UNIT_JUMPS
+            builder.addUnknown(43);   // probably the same as for v5 below
+            builder.addUnknown(2);    // configuredJumpsGoal, UNIT_JUMPS, probably includes 2 more bytes
             builder.addUnknown(2);
         } else {
             builder.addUnknown(27);
