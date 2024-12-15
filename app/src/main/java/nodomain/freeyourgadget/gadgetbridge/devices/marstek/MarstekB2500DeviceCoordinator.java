@@ -65,4 +65,10 @@ public class MarstekB2500DeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_battery_discharge_5
         };
     }
+
+    @Override
+    public boolean isExperimental() {
+        return true;
+    }
+
 }
