@@ -2646,8 +2646,8 @@
     <string name="redmi_buds_5_pro_combo_all">ANC / Transparency / Off</string>
     <string name="redmi_buds_5_pro_double_connection">Double Connection</string>
     <string name="redmi_buds_5_pro_double_connection_description">Allow the earbuds to connect to two devices at the same time</string>
-<!--    <string name="redmi_buds_5_pro_spatial_audio">Spatial Audio</string>-->
-<!--    <string name="redmi_buds_5_pro_spatial_audio_mode">Spatial Audio Mode</string>-->
+    <!--    <string name="redmi_buds_5_pro_spatial_audio">Spatial Audio</string>-->
+    <!--    <string name="redmi_buds_5_pro_spatial_audio_mode">Spatial Audio Mode</string>-->
     <string name="redmi_buds_5_pro_adaptive_sound">Adaptive Sound</string>
     <string name="redmi_buds_5_pro_adaptive_sound_description">Adjusts the sound according to the ear shape and the environment</string>
     <string name="redmi_buds_5_pro_equalizer_preset_standard">Standard</string>
@@ -2741,8 +2741,8 @@
     <string name="pref_adaptive_volume_control_title">Adaptive volume control</string>
     <string name="pref_adaptive_noise_cancelling_title">Adaptive ANC</string>
     <string name="pref_adaptive_noise_cancelling_summary">Set the strength of the ANC automatically depending on the ambient sound level</string>
-<!--    <string name="pref_personalized_noise_cancelling_title">Personalized ANC</string>-->
-<!--    <string name="pref_personalized_noise_cancelling_summary">Set whether to use personalized active noise cancelling</string>-->
+    <!--    <string name="pref_personalized_noise_cancelling_title">Personalized ANC</string>-->
+    <!--    <string name="pref_personalized_noise_cancelling_summary">Set whether to use personalized active noise cancelling</string>-->
     <string name="sony_speak_to_chat">Speak-to-chat</string>
     <string name="sony_speak_to_chat_summary">Turn off noise cancelling automatically when you start talking.</string>
     <string name="sony_speak_to_chat_sensitivity">Voice Detection Sensitivity</string>
@@ -3559,14 +3559,16 @@
     <string name="about_build_details_copied_to_clipboard">Build details copied to clipboard</string>
     <string name="devicetype_marstek_b2500">Marstek B2500</string>
     <string name="battery_discharge_intervals">Battery Discharge Intervals</string>
-    <string name="discharge_interval_1">Discharge Interval 1</string>
-    <string name="discharge_interval_2">Discharge Interval 2</string>
-    <string name="discharge_interval_3">Discharge Interval 3</string>
-    <string name="discharge_interval_4">Discharge Interval 4</string>
-    <string name="discharge_interval_5">Discharge Interval 5</string>
+    <string name="discharge_interval_1">Discharge interval 1</string>
+    <string name="discharge_interval_2">Discharge interval 2</string>
+    <string name="discharge_interval_3">Discharge interval 3</string>
+    <string name="discharge_interval_4">Discharge interval 4</string>
+    <string name="discharge_interval_5">Discharge interval 5</string>
     <string name="power_w">Power in W</string>
     <string name="manual_discharge_summary">when disabled, this assumes intelligent discharge controlled by an external power meter (not supported by Gadgetbridge)</string>
-    <string name="manual_discharge">Manual Discharge Intervals</string>
+    <string name="manual_discharge">Manual discharge intervals</string>
     <string name="summary_battery_discharge_intervals_set">Send configuration below to device</string>
-    <string name="battery_minimum_charge">Minimum allowed charge in %</string>
+    <string name="battery_minimum_charge">Minimum battery charge in %</string>
+    <string name="battery_allow_pass_though_summary">When enabled, the battery can be charged while discharging</string>
+    <string name="battery_allow_pass_through">Allow battery pass-though</string>
 </resources>

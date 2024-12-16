@@ -61,6 +61,7 @@ public class MarstekB2500DeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
+                R.xml.devicesettings_battery_allow_pass_though,
                 R.xml.devicesettings_battery_minimum_charge,
                 R.xml.devicesettings_battery_discharge_5
         };

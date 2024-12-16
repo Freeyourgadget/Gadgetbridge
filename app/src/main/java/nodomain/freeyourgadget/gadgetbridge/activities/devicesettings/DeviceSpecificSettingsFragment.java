@@ -884,6 +884,7 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         addPreferenceHandlerFor("lock");
 
         addPreferenceHandlerFor(PREF_BATTERY_MINIMUM_CHARGE);
+        addPreferenceHandlerFor(PREF_BATTERY_ALLOW_PASS_THOUGH);
 
         final Preference dischargeIntervalsSet = findPreference(PREF_BATTERY_DISCHARGE_INTERVALS_SET);
         if (dischargeIntervalsSet != null) {

@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.marstek;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BATTERY_ALLOW_PASS_THOUGH;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BATTERY_DISCHARGE_INTERVALS_SET;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BATTERY_DISCHARGE_MANAUAL;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BATTERY_MINIMUM_CHARGE;
@@ -45,6 +46,9 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     private static final byte[] COMMAND_REBOOT = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_REBOOT, 0x01, 0x72};
     private static final byte[] COMMAND_SET_AUTO_DISCHARGE = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x11, 0x00, 0x47};
     private static final byte[] COMMAND_SET_POWERMETER_CHANNEL1 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x2a, 0x00, 0x7c};
+    private static final byte[] COMMAND_SET_BATTERY_ALLOW_PASS_THOUGH = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x0d, 0x00, 0x5b};
+    private static final byte[] COMMAND_SET_BATTERY_DISALLOW_PASS_THOUGH = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x0d, 0x01, 0x5a};
+
 
     private static final Logger LOG = LoggerFactory.getLogger(MarstekB2500DeviceSupport.class);
     private int firmwareVersion;
@@ -97,7 +101,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         getDevice().setFirmwareVersion2("N/A");
         builder.requestMtu(512);
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_MAIN), true);
-        builder.wait(3000);
+        builder.wait(3500);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS1);
         builder.wait(750);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS2);
@@ -130,18 +134,26 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(final String config) {
-        if (config.equals(PREF_BATTERY_DISCHARGE_INTERVALS_SET)) {
-            Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
-            if (devicePrefs.getBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, true)) {
-                sendCommand("set discharge intervals", encodeDischargeIntervalsFromPreferences());
-            } else {
-                sendCommand("set dynamic discharge", COMMAND_SET_AUTO_DISCHARGE);
-                sendCommand("set channel auto", COMMAND_SET_POWERMETER_CHANNEL1);
-            }
-            return;
-        } else if (config.equals(PREF_BATTERY_MINIMUM_CHARGE)) {
-            sendCommand("set minimum charge", encodeMinimumChargeFromPreferences());
-            return;
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        switch (config) {
+            case PREF_BATTERY_DISCHARGE_INTERVALS_SET:
+                if (devicePrefs.getBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, true)) {
+                    sendCommand("set discharge intervals", encodeDischargeIntervalsFromPreferences());
+                } else {
+                    sendCommand("set dynamic discharge", COMMAND_SET_AUTO_DISCHARGE);
+                    sendCommand("set channel auto", COMMAND_SET_POWERMETER_CHANNEL1);
+                }
+                return;
+            case PREF_BATTERY_MINIMUM_CHARGE:
+                sendCommand("set minimum charge", encodeMinimumChargeFromPreferences());
+                return;
+            case PREF_BATTERY_ALLOW_PASS_THOUGH:
+                if (devicePrefs.getBoolean(PREF_BATTERY_ALLOW_PASS_THOUGH, true)) {
+                    sendCommand("set allow pass-though", COMMAND_SET_BATTERY_ALLOW_PASS_THOUGH);
+                } else {
+                    sendCommand("set disallow pass-though", COMMAND_SET_BATTERY_DISALLOW_PASS_THOUGH);
+                }
+                return;
         }
 
         LOG.warn("Unknown config changed: {}", config);
@@ -154,7 +166,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.position(12); // skip header and unknown
         firmwareVersion = buf.get();
-        boolean charge_before_discharge = buf.get() == 0x01;
+        boolean battery_allow_passthough = buf.get() != 0x01;
         boolean manual_discharge_intervals = buf.get() != 0x01;
         buf.position(buf.position() + 3); // skip unknown
         byte battery_max_use = buf.get();
@@ -169,7 +181,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
 
         devicePrefsEdit.putString(PREF_BATTERY_MINIMUM_CHARGE, String.valueOf(battery_minimum_charge));
         devicePrefsEdit.putBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, manual_discharge_intervals);
-
+        devicePrefsEdit.putBoolean(PREF_BATTERY_ALLOW_PASS_THOUGH, battery_allow_passthough);
         devicePrefsEdit.apply();
         devicePrefsEdit.commit();
 

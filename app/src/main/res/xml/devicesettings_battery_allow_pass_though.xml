@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="battery_charge_before_discharge"
+        android:layout="@layout/preference_checkbox"
+        android:summary="@string/battery_allow_pass_though_summary"
+        android:title="@string/battery_allow_pass_through" />
+</androidx.preference.PreferenceScreen>
