@@ -3678,7 +3678,7 @@
     <string name="redmi_buds_5_pro_transparency_voice">Ulepsz głosy</string>
     <string name="redmi_buds_5_pro_combo_anc_off">ANC / Wył.</string>
     <string name="redmi_buds_5_pro_equalizer_6">6 dB</string>
-    <string name="sleep_score">Wynik snu</string>
+    <string name="sleep_score">Ocena jakości snu</string>
     <string name="sleep_score_value">Wynik: %1d</string>
     <string name="devicetype_colmi_r09">Colmi R09</string>
     <string name="redmi_buds_5_pro_equalizer_preset_bass">Wzmocnij bas</string>
@@ -3696,4 +3696,5 @@
     <string name="redmi_buds_5_pro_equalizer_zero">0 dB</string>
     <string name="devicetype_huawei_freebuds_5i">Huawei FreeBuds 5i</string>
     <string name="redmi_buds_5_pro_combo_all">ANC / Przezroczystość / Wył.</string>
+    <string name="garmin_intensity_minutes">Minuty intensywnej aktywności</string>
 </resources>
