@@ -16,14 +16,14 @@
     <string name="controlcenter_navigation_drawer_close">Navigációs fiók bezárása</string>
     <string name="controlcenter_snackbar_need_longpress">Nyomja hosszan a leválasztáshoz</string>
     <string name="controlcenter_snackbar_disconnecting">Leválasztás...</string>
-    <string name="controlcenter_snackbar_connecting">Párosítás…</string>
+    <string name="controlcenter_snackbar_connecting">Kapcsolódás…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Képernyőkép készítése az eszközről</string>
     <string name="title_activity_debug">Hibakeresés</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Alkalmazáskezelő</string>
     <string name="appmanager_cached_watchapps_watchfaces">Gyorsítótárazott alkalmazások</string>
     <string name="appmanager_installed_watchapps">Telepített alkalmazások</string>
-    <string name="appmanager_installed_watchfaces">Telepített számlapok</string>
+    <string name="appmanager_installed_watchfaces">Telepített órafelületek</string>
     <string name="appmananger_app_delete">Törlés</string>
     <string name="appmananger_app_delete_cache">Törlés és eltávolítás a gyorsítótárból</string>
     <string name="appmananger_app_reinstall">Újratelepítés</string>
@@ -382,13 +382,7 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble párosítása</string>
     <string name="pebble_pairing_hint">Egy párosítási párbeszédablak fog megjelennie az Android eszközén. Ha ez nem történik meg, nézze meg az értesítési sávban és fogadja el a párosítási kérelmet. Utána fogadja el a kérelmet a Pebble-n is.</string>
-    <string name="weather_notification_label">Győződjön meg róla, hogy ez a kinézet engedélyezve van az Időjárás értesítés alkalmazásban, hogy időjárási információkat kapjon a Pebble készülékén.
-\n
-\nItt nincs szükség konfigurációra.
-\n
-\nA Pebble rendszer időjárás applikációját az alkalmazáskezelésből engedélyezheti.
-\n
-\nA támogatott számlapok automatikusan megjelenítik az időjárást.</string>
+    <string name="weather_notification_label">Győződjön meg róla, hogy ez a kinézet engedélyezve van az Időjárás értesítés alkalmazásban, hogy időjárási információkat kapjon a Pebble készülékén. \n \nItt nincs szükség konfigurációra. \n \nA Pebble rendszer időjárás applikációját az alkalmazáskezelésből engedélyezheti. \n \nA támogatott órafelületek automatikusan megjelenítik az időjárást.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth párosítás engedélyezése</string>
     <string name="pref_summary_setup_bt_pairing">Kapcsolja ki ezt, ha gondja van a kapcsolódással</string>
     <string name="unit_metric">Metrikus</string>
@@ -416,15 +410,15 @@
     <string name="discovery_yes_pair">Párosítás</string>
     <string name="discovery_dont_pair">Ne párosítsa</string>
     <string name="action_donate">Adományozás</string>
-    <string name="controlcenter_connect">Párosítás…</string>
+    <string name="controlcenter_connect">Kapcsolódás…</string>
     <string name="pref_title_weather">Időjárás</string>
     <string name="pref_auto_fetch">Aktivitásadatok automatikus lekérdezése</string>
     <string name="horizontal">Vízszintes</string>
     <string name="vertical">Függőleges</string>
-    <string name="controlcenter_change_led_color">LED szín változtatása</string>
+    <string name="controlcenter_change_led_color">LED színének változtatása</string>
     <string name="controlcenter_change_fm_frequency">FM frekvencia változtatása</string>
     <string name="pref_title_rtl">Jobbról-balra</string>
-    <string name="debugactivity_really_factoryreset_title">Biztos vissza szeretné állítani a gyári beállításokat\?</string>
+    <string name="debugactivity_really_factoryreset_title">Biztosan vissza szeretné állítani a gyári beállításokat?</string>
     <string name="zetime_analog_mode">Analóg mód</string>
     <string name="zetime_handmove_display_summary">Forgassa a csuklóját, hogy be- és kikapcsolja képernyőt.</string>
     <string name="zetime_date_format">Dátum formátum</string>
@@ -445,7 +439,7 @@
     <string name="title_activity_device_specific_settings">Eszközspecifikus beállítások</string>
     <string name="controlcenter_calibrate_device">Eszköz kalibrálása</string>
     <string name="mi2_prefs_button_press_count">Gombnyomások száma</string>
-    <string name="pref_summary_pebble_enable_bgjs">Amikor be van kapcsolva, lehetővé teszi az időjárás, akkumulátor információ stb. megjelenítését a számlapon.</string>
+    <string name="pref_summary_pebble_enable_bgjs">Ha engedélyezve van, akkor lehetővé teszi, hogy az órafelületek időjárási, akkumulátor-információkat és egyebeket jelenítsenek meg.</string>
     <string name="interval_one_minute">percenként</string>
     <string name="interval_five_minutes">5 percenként</string>
     <string name="interval_ten_minutes">10 percenként</string>
@@ -590,13 +584,13 @@
     <string name="watchface_dialog_widget_timezone">Időzóna</string>
     <string name="controlcenter_toggle_details">Részletek megjelenítése/elrejtése</string>
     <string name="preferences_fm_frequency">FM frekvencia</string>
-    <string name="watchface_dialog_widget_width">Widget szélessége (pixelben)</string>
+    <string name="watchface_dialog_widget_width">Felületi elem szélessége (pixelben)</string>
     <string name="zetime_analog_mode_hands">Csak kezek</string>
     <string name="share_log">Napló megosztása</string>
     <string name="about_description_generic">Felhőmentes és szabad forráskódú kiadás, amely helyettesíti a gyártók zárt forráskódon alapuló Android kütyü alkalmazásait.</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge névjegye</string>
+    <string name="about_activity_title_banglejs_main">A Bangle.js Gadgetbridge névjegye</string>
     <string name="watchface_dialog_widget_color_white">Fehér</string>
     <string name="watchface_dialog_widget_color">Szín</string>
     <string name="watchface_dialog_widget_x_coordinate">X koordináta (max 240)</string>
@@ -609,7 +603,7 @@
     <string name="pref_media_playpause">Lejátszás elindítása/megállítása</string>
     <string name="watchface_dialog_widget_cat_generic">Általános</string>
     <string name="watchface_dialog_widget_color_black">Fekete</string>
-    <string name="watchface_dialog_title_widget">Widget beállítások</string>
+    <string name="watchface_dialog_title_widget">Felületi elem beállítások</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Egyéni widget</string>
     <string name="watchface_dialog_widget_type">Típus</string>
     <string name="error_setting_parent_folder">Hiba a szülőmappa beállításakor: %s</string>
@@ -664,7 +658,7 @@
     <string name="reminder_time_every_day">%1$s, minden nap</string>
     <string name="menuitem_activity">Edzéselőzmények</string>
     <string name="widget_listing_label">Állapot és riasztások</string>
-    <string name="dual_band">Dupla karkötő</string>
+    <string name="dual_band">Kétsávos</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="activity_prefs_activetime_minutes">Napi cél: aktív idő percben</string>
     <string name="hr_appname_workout">Edzés</string>
@@ -697,12 +691,12 @@
         <item quantity="other">%d óra</item>
     </plurals>
     <string name="about_activity_title_main_nightly">A korai hozzáférésű Gadgetbridge kiadás névjegye</string>
-    <string name="single_band">Egy karkötő</string>
+    <string name="single_band">Egysávos</string>
     <string name="menuitem_last_workout">Utolsó edzés</string>
     <string name="pref_show_changelog">Változásnapló megjelenítése induláskor</string>
     <string name="pref_title_device_spec_settings_show_raw_graph">NYERS adatok megjelenítése az aktivitásgrafikonon</string>
     <string name="changelog_title">Újdonságok</string>
-    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (korai hozzáférésű kiadás) névjegye</string>
+    <string name="about_activity_title_banglejs_nightly">A Bangle.js Gadgetbridge (korai hozzáférésű kiadás) névjegye</string>
     <string name="sony_automatic_power_off_3_hour">3 óra</string>
     <string name="activity_prefs_alarm_min_heart_rate">Minimum pulzus</string>
     <string name="yesterdays_activity">Tegnapi aktivitás</string>
@@ -798,7 +792,7 @@
     <string name="meters">m</string>
     <string name="hr_widget_heart_rate">Pulzus</string>
     <string name="activity_type_yoga">Jóga</string>
-    <string name="kind_watchface">Számlap</string>
+    <string name="kind_watchface">Órafelület</string>
     <string name="watch9_time_minutes">Perc:</string>
     <string name="menuitem_music">Zene</string>
     <string name="prefs_find_phone">Telefon keresése</string>
@@ -1311,7 +1305,7 @@
     <string name="activity_db_management_clean_export_directory_label">Fájlok törlése az exportálás/importálás könyvtárból</string>
     <string name="prefs_wena3_vibration_smart_item">Okos rezgés</string>
     <string name="zepp_os_watchface_business_style">Üzleti stílus</string>
-    <string name="watchface_cache_confirm_overwrite">Egy számlap ezzel a névvel már létezik a gyorsítótárban. Szeretné felülírni?</string>
+    <string name="watchface_cache_confirm_overwrite">Egy órafelület ezzel a névvel már létezik a gyorsítótárban. Szeretné felülírni?</string>
     <string name="prefs_wena3_vibration_strength_item_medium">Közepes</string>
     <string name="zepp_os_watchface_emerald_moonlight">Smaragd holdfény</string>
     <string name="activity_data_management_directory_content_title">Exportálás/importálás könyvtár tartalma</string>
@@ -1343,7 +1337,7 @@
     <string name="prefs_wena3_notification_vibration_repetition_1">Egyszer</string>
     <string name="pref_title_connected_advertisement">Látható, amíg kapcsolódva van</string>
     <string name="HeartRateZones">Pulzus zónák</string>
-    <string name="button_watchface_save_apply">Mentés és alkalmazás</string>
+    <string name="button_watchface_save_apply">Mentés és alkalmaz</string>
     <string name="prefs_wena3_notification_default_call_vibration">Bejövő hívás rezgés</string>
     <string name="pref_cache_weather_summary">Az időjárás-információ gyorsítótárazva lesz az alkalmazás-újraindítások között.</string>
     <string name="zepp_os_watchface_vast_sky">Hatalmas ég</string>
@@ -1351,7 +1345,7 @@
     <string name="autoExport_lastTime_label">Utolsó automatikus exportálás: %1$s</string>
     <string name="zepp_os_watchface_simplicity_data">Egyszerű adatok</string>
     <string name="pref_title_huami_force_new_protocol">Új hitelesítési protokoll</string>
-    <string name="qhybrid_title_watchface">Számlap konfiguráció</string>
+    <string name="qhybrid_title_watchface">Órafelület beállítása</string>
     <string name="pref_title_notification_cache_while_disconnected">Gyorsítótárazás, amíg hatótávon kívül van</string>
     <string name="discovery_bluetooth_le_scan">Bluetooth LE keresés:</string>
     <string name="devicestatus_disconnected">Az eszköz leválasztódott!</string>
@@ -1718,11 +1712,7 @@
     <string name="pref_workout_detection_title">Edzésérzékelés</string>
     <string name="reminder_time_every_year">%1$s, minden évben</string>
     <string name="prefs_heartrate_alert_experimental_title">Szívritmus riasztás (kísérleti)</string>
-    <string name="watchface_install_info">A következő számlapot készül telepíteni:
-\n
-\n%1$s
-\nVerzió: %2$s, készítő: %3$s
-\n</string>
+    <string name="watchface_install_info">A következő órafelületet készül telepíteni: \n \n%1$s \nVerzió: %2$s, készítő: %3$s\n</string>
     <string name="clap_hands_to_wakeup_device">A képernyő felélesztéséhez tapsoljon a kezével</string>
     <string name="clap_hands_to_wakeup_device_summary">Az újbóli tapsolás kikapcsolja a képernyőt</string>
     <string name="pixoo_power_saving_summary">A képernyő kikapcsol, ha a mikrofon egy ideig csendet észlel</string>
@@ -1770,7 +1760,7 @@
     <string name="title_activity_contact_details">Névjegy adatok</string>
     <string name="prefs_relaxation_reminder_description">A karkötő rezgésével értesítse, ha a feszültség értéke meghaladja a 80-at</string>
     <string name="devicestatus_upload_failed">A feltöltés nem sikerült</string>
-    <string name="prefs_always_on_display_follow_watchface">A stílus követi a számlapot</string>
+    <string name="prefs_always_on_display_follow_watchface">A stílus követi az órafelületet</string>
     <string name="prefs_heartrate_alert_low_threshold">Alacsony pulzusszám riasztási küszöb</string>
     <string name="pref_title_expose_hr">Harmadik fél általi valós idejű HR hozzáférése</string>
     <string name="prefs_heartrate_alert_high_threshold">Magas pulzusszám riasztási küszöb</string>
@@ -1832,7 +1822,7 @@
     <string name="norwegian_bokmal">Norvég Bokmål</string>
     <string name="prefs_always_on_display_summary">Tartsa a kakrötő kijelzőjét mindig bekapcsolt állapotba</string>
     <string name="prefs_password_summary">Zárja le a karkötőt jelszóval, amikor eltávolítja a csuklójáról</string>
-    <string name="prefs_shortcut_cards_summary">Jobbra húzáskor az óra számlapján láthatóvá válnak a gyorsbillentyűkártyák. Ha egy alkalmazás fut, az automatikusan generált kártyákat ez a beállítás nem érinti.</string>
+    <string name="prefs_shortcut_cards_summary">Jobbra húzáskor az órafelületen láthatóvá válnak a gyorsbillentyűkártyák. Ha egy alkalmazás fut, az automatikusan generált kártyákat ez a beállítás nem érinti.</string>
     <string name="prefs_control_center">Vezérlőközpont</string>
     <string name="activity_type_swimming_openwater">Úszás (nyílt vízen)</string>
     <string name="extended_ascii">Kibővített ASCII</string>
@@ -2283,12 +2273,12 @@
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
     <string name="enable_notifications_summary">Hívás, üzenet és egyéb értesítések</string>
     <string name="devicetype_sony_linkbuds">Sony LinkBuds</string>
-    <string name="watchface_dialog_title_settings">Óra számlap beállítások</string>
+    <string name="watchface_dialog_title_settings">Órafelület beállítások</string>
     <string name="pref_switch_controls_anc_off">Zajszűrés ←→ Ki</string>
     <string name="devicetype_miband8active">Xiaomi Smart Band 8 Active</string>
     <string name="activity_filter_reset_filter">Szűrők törlése</string>
-    <string name="watchface_dialog_title_set_name">Óra számlapjának elnevezése</string>
-    <string name="watchface_upload_failed">Az óra számlapját nem sikerült feltölteni. Próbáld újra.</string>
+    <string name="watchface_dialog_title_set_name">Órafelület elnevezése</string>
+    <string name="watchface_upload_failed">Az órafelületet nem sikerült feltölteni. Próbáld újra.</string>
     <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
     <string name="prefs_active_noise_cancelling_light">Alacsony aktív zajszűrés</string>
     <string name="left_earbud">Bal oldali fülhallgató</string>
@@ -2364,7 +2354,7 @@
     <string name="pressure_relief_summary">Megakadályozza a nyomásérzést a fülben, amikor az aktív zajszűrés nincs használatban</string>
     <string name="pref_summary_physical_buttons">Az óra fizikai gombjainak beállítása</string>
     <string name="qhybrid_pref_title_actions">Műveletek</string>
-    <string name="button_watchface_settings">Óra számlap beállítások</string>
+    <string name="button_watchface_settings">Órafelület beállítások</string>
     <string name="stepRateSum">Lépésszám összege</string>
     <string name="impactMax">Maximum hatás</string>
     <string name="impactAvg">Hatás átlag</string>
@@ -2427,8 +2417,8 @@
     <string name="prefs_ambient_volume_right">Hangáteresztés hangereje (jobb)</string>
     <string name="prefs_ambient_mode">Környezeti hang mód</string>
     <string name="prefs_events_forwarding_broadcast_title">Üzenet közvetítése</string>
-    <string name="qhybrid_watchface_configuration_old_firmware">Számlap beállítások Dn1.0.2.19r és régebbi firmwarrel rendelkező eszközökhöz</string>
-    <string name="qhybrid_title_watchface_designer">Számlap szerkesztő</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Órafelület beállítások Dn1.0.2.19r és régebbi firmwarrel rendelkező eszközökhöz</string>
+    <string name="qhybrid_title_watchface_designer">Órafelület-tervező</string>
     <string name="watchface_setting_title_wrist_flick">Csukló mozgás</string>
     <string name="watchface_setting_wrist_flick_hour">Óra mutató</string>
     <string name="prefs_active_noise_cancelling_transparency">Áttetsző hang</string>
@@ -2451,9 +2441,7 @@
     <string name="sony_equalizer">Hangszínszabályzó</string>
     <string name="sony_equalizer_preset_bright">Élénk</string>
     <string name="sony_equalizer_preset_mellow">Mélabús</string>
-    <string name="fossil_hr_button_config_info">Egyes gombok nem konfigurálhatóak, mert funkciójukat az óra firmware-je keményen kódolja.
-\n
-\nFigyelem: a felső gomb hosszú megnyomásával, amikor a hivatalos Fossil alkalmazásból származó számlap van telepítve, a modulok megjelenítése/elrejtése között is váltani fog.</string>
+    <string name="fossil_hr_button_config_info">Egyes gombok nem konfigurálhatóak, mert funkciójukat az óra firmware-je keményen kódolja. \n \nFigyelem: a felső gomb hosszú megnyomásával, amikor a hivatalos Fossil alkalmazásból származó órafelület van telepítve, a felületi elemek megjelenítése/elrejtése között is váltani fog.</string>
     <string name="sony_warn_sbc_codec">Figyelmeztetés: A hangszínszabályzó, a hangpozíció és a környezeti beállítások csak az SBC audio codec esetében működnek.</string>
     <string name="sony_equalizer_preset_vocal">Ének</string>
     <string name="watchface_widget_type_custom">Egyéni modul</string>
@@ -2470,15 +2458,15 @@
     <string name="pref_force_wear_location_summary">Viselt eszköz helyszín-meghatározó szolgáltatás kényszerítése.
 \nHASZNÁLAT SAJÁT FELELŐSSÉGRE</string>
     <string name="watchface_dialog_pre_setting_position">előre beállított pozíció ehhez: %s</string>
-    <string name="info_fossil_rebuild_watchface_custom_menu">Állítsa össze az egyéni menühöz a számlapot</string>
-    <string name="uploading_watchface">Számlap feltöltése…</string>
-    <string name="uploadwatchfaceoperation_in_progress">Számlap feltöltése</string>
+    <string name="info_fossil_rebuild_watchface_custom_menu">Állítsa össze az egyéni menühöz az órafelületet</string>
+    <string name="uploading_watchface">Órafelület feltöltése…</string>
+    <string name="uploadwatchfaceoperation_in_progress">Órafelület feltöltése</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">GPS helyszín-meghatározás figyelő megállítása</string>
     <string name="watchface_setting_light_up_on_notification">Új értesítéskor világít</string>
     <string name="watchface_dialog_widget_update_timeout">Frissítési időkorlát percben</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Szöveg elrejtése időtúllépéskor</string>
-    <string name="uploadwatchfaceoperation_failed">A számlap telepítése sikertelen</string>
-    <string name="uploadwatchfaceoperation_complete">A számlap telepítése kész</string>
+    <string name="uploadwatchfaceoperation_failed">Az órafelület telepítése sikertelen</string>
+    <string name="uploadwatchfaceoperation_complete">Az órafelület telepítése kész</string>
     <string name="prefs_events_forwarding_summary">Készülék-események használata akciók és Android adások indításához</string>
     <string name="agps_status_pending">Függőben</string>
     <string name="proprietary_app_warning">Ez a funkció egy zárt forráskódú alkalmazás telepítését igényli</string>
@@ -2496,7 +2484,7 @@
     <string name="notif_battery_full">%1$s akkumulátora feltöltve</string>
     <string name="authentication_failed_check_key">Hitelesítés sikertelen, kérem ellenőrizze a hitelesítő kulcsot</string>
     <string name="pref_touch_tone_summary">Hangjelzés a fülhallgató megérintésekor</string>
-    <string name="pref_description_dashboard">Widgetek, eszközök</string>
+    <string name="pref_description_dashboard">Felületi elemek, eszközök</string>
     <string name="pref_wearing_tone">Hangvétel</string>
     <string name="pref_header_sound">Hang</string>
     <string name="pref_time_sync">Automatikus időszinkronizálás</string>
@@ -2687,4 +2675,6 @@
     <string name="controlcenter_unset_folder">Nincs megadott mappa</string>
     <string name="pref_force_options">Beállítások kényszerítése</string>
     <string name="steps_streaks_total_steps">Összes\nlépés</string>
+    <string name="cannot_upload_watchface_too_many_watchfaces_installed">Nem lehet órafelületet feltölteni, túl sok órafelület van telepítve</string>
+    <string name="watchface_resolution_doesnt_match">Az órafelület felbontása nem egyezik a készülék képernyőjével. Az órafelület felbontása %1$s, a készülék képernyője %2$s</string>
 </resources>
