@@ -43,6 +43,8 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     private static final byte[] COMMAND_GET_INFOS1 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_INFO1, 0x01, 0x54};
     private static final byte[] COMMAND_GET_INFOS2 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_INFO2, 0x00, 0x45};
     private static final byte[] COMMAND_REBOOT = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_REBOOT, 0x01, 0x72};
+    private static final byte[] COMMAND_SET_AUTO_DISCHARGE = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x11, 0x00, 0x47};
+    private static final byte[] COMMAND_SET_POWERMETER_CHANNEL1 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x2a, 0x00, 0x7c};
 
     private static final Logger LOG = LoggerFactory.getLogger(MarstekB2500DeviceSupport.class);
     private int firmwareVersion;
@@ -95,13 +97,13 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         getDevice().setFirmwareVersion2("N/A");
         builder.requestMtu(512);
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_MAIN), true);
-        builder.wait(800);
+        builder.wait(3000);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS1);
-        builder.wait(800);
+        builder.wait(750);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS2);
-        builder.wait(800);
+        builder.wait(750);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), encodeSetCurrentTime());
-        builder.wait(800);
+        builder.wait(750);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         return builder;
     }
@@ -116,7 +118,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         BluetoothGattCharacteristic characteristic = getCharacteristic(UUID_CHARACTERISTIC_MAIN);
         if (characteristic != null && contents != null) {
             builder.write(characteristic, contents);
-            builder.wait(800);
+            builder.wait(750);
             builder.queue(getQueue());
         }
     }
@@ -129,7 +131,13 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendConfiguration(final String config) {
         if (config.equals(PREF_BATTERY_DISCHARGE_INTERVALS_SET)) {
-            sendCommand("set discharge intervals", encodeDischargeIntervalsFromPreferences());
+            Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+            if (devicePrefs.getBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, true)) {
+                sendCommand("set discharge intervals", encodeDischargeIntervalsFromPreferences());
+            } else {
+                sendCommand("set dynamic discharge", COMMAND_SET_AUTO_DISCHARGE);
+                sendCommand("set channel auto", COMMAND_SET_POWERMETER_CHANNEL1);
+            }
             return;
         } else if (config.equals(PREF_BATTERY_MINIMUM_CHARGE)) {
             sendCommand("set minimum charge", encodeMinimumChargeFromPreferences());
@@ -147,7 +155,8 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         buf.position(12); // skip header and unknown
         firmwareVersion = buf.get();
         boolean charge_before_discharge = buf.get() == 0x01;
-        buf.position(buf.position() + 4); // skip unknown
+        boolean manual_discharge_intervals = buf.get() != 0x01;
+        buf.position(buf.position() + 3); // skip unknown
         byte battery_max_use = buf.get();
         short battery_current_discharge = buf.getShort();
         buf.position(buf.position() + 1); // skip unknown
@@ -157,7 +166,10 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         getDevice().sendDeviceUpdateIntent(getContext());
 
         int battery_minimum_charge = 100 - battery_max_use;
+
         devicePrefsEdit.putString(PREF_BATTERY_MINIMUM_CHARGE, String.valueOf(battery_minimum_charge));
+        devicePrefsEdit.putBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, manual_discharge_intervals);
+
         devicePrefsEdit.apply();
         devicePrefsEdit.commit();
 
