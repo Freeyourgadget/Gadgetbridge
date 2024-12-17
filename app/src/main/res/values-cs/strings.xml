@@ -3685,4 +3685,5 @@
     <string name="maxJumpRate">Maximální frekvence výskoků</string>
     <string name="devicetype_garmin_fenix_7x">Garmin Fenix 7X</string>
     <string name="devicetype_redmi_watch_5_lite">Redmi Watch 5 Lite</string>
+    <string name="garmin_intensity_minutes">Intenzivní minuty</string>
 </resources>
