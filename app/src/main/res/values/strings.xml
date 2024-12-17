@@ -2993,6 +2993,7 @@
     <string name="steps_streaks_total_steps_average_hint">Total average %d steps per day</string>
     <string name="step_streaks_achievements_sharing_message">My daily step achievements!</string>
     <string name="step_streaks_achievements_sharing_title">Steps Achievements</string>
+    <string name="weekly_total">Weekly total</string>
     <string name="prefs_hourly_chime">Hourly chime</string>
     <string name="prefs_hourly_chime_summary">The watch will beep once an hour</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>

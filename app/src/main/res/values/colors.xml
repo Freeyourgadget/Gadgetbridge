@@ -37,6 +37,9 @@
     <color name="chart_activity_light" type="color">#60bd6d</color>
     <color name="chart_activity_dark" type="color">#59b22c</color>
 
+    <color name="chart_pai_weekly" type="color">#007BFF</color>
+    <color name="chart_pai_today" type="color">#2ECC71</color>
+
     <color name="chart_not_worn_light" type="color">#545254</color>
     <color name="chart_not_worn_dark" type="color">#d8d9d8</color>
 

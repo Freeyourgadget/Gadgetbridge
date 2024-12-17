@@ -19,9 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,9 +40,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.slf4j.Logger;
@@ -55,6 +54,7 @@ import java.util.Optional;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.dashboard.GaugeDrawer;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
@@ -69,7 +69,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
 
     protected Locale mLocale;
 
-    protected PieChart mTodayPieChart;
+    protected ImageView mGoalMinutesGauge;
     protected BarChart mWeekChart;
     protected TextView mDateView;
     protected TextView mLineToday;
@@ -98,8 +98,8 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(requireContext());
         CHART_TEXT_COLOR = ContextCompat.getColor(requireContext(), R.color.secondarytext);
 
-        PAI_TOTAL_COLOR = ContextCompat.getColor(requireContext(), R.color.chart_deep_sleep_light);
-        PAI_DAY_COLOR = ContextCompat.getColor(requireContext(), R.color.chart_activity_dark);
+        PAI_TOTAL_COLOR = ContextCompat.getColor(requireContext(), R.color.chart_pai_weekly);
+        PAI_DAY_COLOR = ContextCompat.getColor(requireContext(), R.color.chart_pai_today);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
             });
         }
 
-        mTodayPieChart = rootView.findViewById(R.id.pai_chart_today);
+        mGoalMinutesGauge = rootView.findViewById(R.id.goal_minutes_gauge);
         mWeekChart = rootView.findViewById(R.id.pai_chart_week);
         mDateView = rootView.findViewById(R.id.pai_date_view);
         mLineToday = rootView.findViewById(R.id.pai_line_today);
@@ -142,27 +142,11 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         }
 
         setupWeekChart();
-        setupTodayPieChart();
 
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
 
         return rootView;
-    }
-
-    private void setupTodayPieChart() {
-        mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);
-        mTodayPieChart.getDescription().setTextColor(DESCRIPTION_COLOR);
-        mTodayPieChart.setEntryLabelColor(DESCRIPTION_COLOR);
-        mTodayPieChart.getDescription().setText("");
-        mTodayPieChart.setNoDataText("");
-        mTodayPieChart.setTouchEnabled(false);
-        mTodayPieChart.setCenterTextColor(GBApplication.getTextColor(requireContext()));
-        mTodayPieChart.setCenterTextSize(18f);
-        mTodayPieChart.setHoleColor(requireContext().getResources().getColor(R.color.transparent));
-        mTodayPieChart.setHoleRadius(85);
-        mTodayPieChart.setDrawEntryLabels(false);
-        mTodayPieChart.getLegend().setEnabled(false);
     }
 
     private void setupWeekChart() {
@@ -235,8 +219,25 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
     @Override
     protected void updateChartsnUIThread(final PaiChartsData pcd) {
         setupLegend(mWeekChart);
-        mTodayPieChart.setCenterText("");
-        mTodayPieChart.setData(pcd.getDayData().getData());
+        int[] colors = new int[] {
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_pai_weekly),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_pai_today)
+        };
+        final int width = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                300,
+                GBApplication.getContext().getResources().getDisplayMetrics()
+        );
+        mGoalMinutesGauge.setImageBitmap(GaugeDrawer.drawCircleGaugeSegmented(
+                width,
+                width / 15,
+                colors,
+                pcd.getDayData().getGaugeSegments(),
+                false,
+                String.valueOf(pcd.getDayData().getTotal()),
+                String.valueOf(getPaiTarget()),
+                getContext()
+        ));
 
         // set custom renderer for 30days bar charts
         if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
@@ -261,7 +262,6 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
     @Override
     protected void renderCharts() {
         mWeekChart.invalidate();
-        mTodayPieChart.invalidate();
     }
 
     protected String getWeeksChartsLabel(final Calendar day) {
@@ -321,30 +321,6 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
 
         barChart.getAxisLeft().setAxisMaximum(Math.max(maxPai, getPaiTarget()));
 
-        //LimitLine target = new LimitLine(mTargetValue);
-        //barChart.getAxisLeft().removeAllLimitLines();
-        //barChart.getAxisLeft().addLimitLine(target);
-
-        //float average = 0;
-        //if (TOTAL_DAYS_FOR_AVERAGE > 0) {
-        //    average = Math.abs(balance / TOTAL_DAYS_FOR_AVERAGE);
-        //}
-        //LimitLine average_line = new LimitLine(average);
-        //average_line.setLabel(getString(R.string.average, getAverage(average)));
-//
-        //if (average > (mTargetValue)) {
-        //    average_line.setLineColor(Color.GREEN);
-        //    average_line.setTextColor(Color.GREEN);
-        //} else {
-        //    average_line.setLineColor(Color.RED);
-        //    average_line.setTextColor(Color.RED);
-        //}
-        //if (average > 0) {
-        //    if (GBApplication.getPrefs().getBoolean("charts_show_average", true)) {
-        //        barChart.getAxisLeft().addLimitLine(average_line);
-        //    }
-        //}
-
         return new WeekChartsData(barData, new PreformattedXIndexLabelFormatter(labels));
     }
 
@@ -383,22 +359,14 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
             minutesHigh = 0;
         }
 
-        final PieData data = new PieData();
-        final List<PieEntry> entries = new ArrayList<>();
-
         final int maxPai = Math.max(getPaiTarget(), total);
-        final String todayLabel = today != 0 ? requireContext().getString(R.string.pai_plus_num, today) : "";
 
-        entries.add(new PieEntry(total - today, ""));
-        entries.add(new PieEntry(today, todayLabel));
-        entries.add(new PieEntry(maxPai - total, ""));
+        float[] segments = new float[] {
+                (float) (total - today) / maxPai,
+                (float) today / maxPai
+        };
 
-        final PieDataSet pieDataSet = new PieDataSet(entries, "");
-        pieDataSet.setColors(PAI_TOTAL_COLOR, PAI_DAY_COLOR, 0x0);
-        data.setDataSet(pieDataSet);
-        data.setDrawValues(false);
-
-        return new DayData(day, data, today, total, paiLow, paiModerate, paiHigh, minutesLow, minutesModerate, minutesHigh);
+        return new DayData(day, segments, today, total, paiLow, paiModerate, paiHigh, minutesLow, minutesModerate, minutesHigh);
     }
 
     protected ValueFormatter getRoundFormatter() {
@@ -441,7 +409,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
 
     protected static class DayData {
         private final Calendar day;
-        private final PieData data;
+        private final float[] gaugeSegments;
         private final int today;
         private final int total;
         private final int paiLow;
@@ -452,7 +420,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
         private final int minutesHigh;
 
         DayData(final Calendar day,
-                final PieData data,
+                float[] gaugeSegments,
                 final int today,
                 final int total,
                 final int paiLow,
@@ -462,7 +430,7 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
                 final int minutesModerate,
                 final int minutesHigh) {
             this.day = day;
-            this.data = data;
+            this.gaugeSegments = gaugeSegments;
             this.today = today;
             this.total = total;
             this.paiLow = paiLow;
@@ -473,8 +441,12 @@ public class PaiChartFragment extends AbstractChartFragment<PaiChartFragment.Pai
             this.minutesHigh = minutesHigh;
         }
 
-        public PieData getData() {
-            return data;
+        public int getTotal() {
+            return total;
+        }
+
+        public float[] getGaugeSegments() {
+            return gaugeSegments;
         }
     }
 
