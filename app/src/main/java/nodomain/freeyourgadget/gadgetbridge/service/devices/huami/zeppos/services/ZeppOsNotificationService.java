@@ -357,7 +357,7 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
 
             baos.write((byte) (hasReply ? 1 : 0));
             if (version >= 5) {
-                baos.write(1); // ?
+                baos.write(0); // 1 for silent
             }
             if (supportsPictures) {
                 baos.write((byte) (notificationSpec.picturePath != null ? 1 : 0));
@@ -366,7 +366,9 @@ public class ZeppOsNotificationService extends AbstractZeppOsService {
                 }
             }
             if (supportsNotificationKey) {
-                baos.write(notificationSpec.key.getBytes(StandardCharsets.UTF_8));
+                if (notificationSpec.key != null) {
+                    baos.write(notificationSpec.key.getBytes(StandardCharsets.UTF_8));
+                }
                 baos.write(0);
             }
 
