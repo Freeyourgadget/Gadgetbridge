@@ -333,7 +333,7 @@
     <string name="authenticating">Hitelesítés</string>
     <string name="authentication_required">Hitelesítés szükséges</string>
     <string name="appwidget_text">Zzz</string>
-    <string name="add_widget">Widget hozzáadása</string>
+    <string name="add_widget">Modul hozzáadása</string>
     <string name="activity_prefs_sleep_duration">Preferált alvásidő órában</string>
     <string name="appwidget_setting_alarm">Ébresztő beállítva: %1$02d:%2$02d</string>
     <string name="device_hw">Hardware változat: %1$s</string>
@@ -505,7 +505,7 @@
     <string name="pref_title_custom_deviceicon">Eszköz specifikus értesítés ikon megjelenítése</string>
     <string name="pref_title_notifications_timeout">Minimum időköz az értesítések között</string>
     <string name="pref_theme_system">Rendszer</string>
-    <string name="title_activity_calblacklist">Feketelistás naptárak</string>
+    <string name="title_activity_calblacklist">Tiltólistás naptárak</string>
     <string name="sonyswr12_settings_title">Sony SWR12 beállítások</string>
     <string name="sonyswr12_settings_low_vibration">Alacsony rezgés engedélyezve</string>
     <string name="sonyswr12_settings_stamina">Az energiatakarékos mód be van kapcsolva</string>
@@ -559,7 +559,7 @@
     <string name="appmanager_app_share">Megosztás</string>
     <string name="button_watchface_select_image">Háttérkép megváltoztatása</string>
     <string name="about_links">Hivatkozások</string>
-    <string name="about_contributors">Hozzájárulók</string>
+    <string name="about_contributors">Közreműködők</string>
     <string name="open_fw_installer_info_text_title">Fájltelepítő</string>
     <string name="about_additional_device_support">További eszköztámogatás</string>
     <string name="pref_rtl_max_line_length">Jobbról-balra maximális sorhossz</string>
@@ -584,7 +584,7 @@
     <string name="watchface_dialog_widget_timezone">Időzóna</string>
     <string name="controlcenter_toggle_details">Részletek megjelenítése/elrejtése</string>
     <string name="preferences_fm_frequency">FM frekvencia</string>
-    <string name="watchface_dialog_widget_width">Felületi elem szélessége (pixelben)</string>
+    <string name="watchface_dialog_widget_width">Modul szélessége (pixelben)</string>
     <string name="zetime_analog_mode_hands">Csak kezek</string>
     <string name="share_log">Napló megosztása</string>
     <string name="about_description_generic">Felhőmentes és szabad forráskódú kiadás, amely helyettesíti a gyártók zárt forráskódon alapuló Android kütyü alkalmazásait.</string>
@@ -595,7 +595,7 @@
     <string name="watchface_dialog_widget_color">Szín</string>
     <string name="watchface_dialog_widget_x_coordinate">X koordináta (max 240)</string>
     <string name="watchface_dialog_widget_y_coordinate">Y koordináta (max 240)</string>
-    <string name="watchface_setting_button_toggle_widgets">Widgetek megjelenítése/elrejtése</string>
+    <string name="watchface_setting_button_toggle_widgets">Modulok megjelenítése/elrejtése</string>
     <string name="dialog_hide">Elrejtés</string>
     <string name="activity_DB_test_export_message">Adatbázis exportálása…</string>
     <string name="activity_DB_empty_button">Adatbázis ürítése</string>
@@ -603,8 +603,8 @@
     <string name="pref_media_playpause">Lejátszás elindítása/megállítása</string>
     <string name="watchface_dialog_widget_cat_generic">Általános</string>
     <string name="watchface_dialog_widget_color_black">Fekete</string>
-    <string name="watchface_dialog_title_widget">Felületi elem beállítások</string>
-    <string name="watchface_dialog_widget_cat_custom_widget">Egyéni widget</string>
+    <string name="watchface_dialog_title_widget">Modul beállítások</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Egyéni modul</string>
     <string name="watchface_dialog_widget_type">Típus</string>
     <string name="error_setting_parent_folder">Hiba a szülőmappa beállításakor: %s</string>
     <string name="preferences_led_color">LED szín</string>
@@ -641,7 +641,7 @@
     <string name="sports_activity_quick_filter_7days">7 nap</string>
     <string name="activity_summaries">Sportaktivitások</string>
     <string name="pref_title_support_voip_calls">VoIP alkalmazás hívásainak engedélyezése</string>
-    <string name="pref_blacklist_calendars">Naptárak feketelistázása</string>
+    <string name="pref_blacklist_calendars">Naptárak tiltólistázása</string>
     <string name="pref_title_auto_export_location">Exportálás helye</string>
     <string name="pref_title_auto_export_enabled">Automatikus exportálás engedélyezve</string>
     <string name="pref_header_auto_export">Automatikus exportálás</string>
@@ -1294,7 +1294,7 @@
     <string name="prefs_wena3_notification_vibration_repetition_3">Háromszor</string>
     <string name="zepp_os_watchface_city_of_speed">Sebesség városa</string>
     <string name="prefs_phone_silent_mode">Telefon néma mód</string>
-    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Második időzóna widget</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Második időzóna felületi eleme</string>
     <string name="pref_cache_weather">Időjárás-információ gyorsítótárazása</string>
     <string name="prefs_wena3_vibration_short">Rövid</string>
     <string name="devicestatus_connecting">Az eszköz kapcsolódik</string>
@@ -1551,7 +1551,7 @@
 \nA .zip fájl telepítése után a készüléke újraindul.
 \n
 \nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
-    <string name="open_fw_installer_info_text">A Firmware/Számlap/Alkalmazás/Fájl telepítő lehetővé teszi a támogatott fájlok (firmware, számlapok, alkalmazások, GPS, erőforrások, betűtípusok...) feltöltését/telepítését a készülékre. További információk a wikiben talál: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_info_text">A Firmware/Órafelület/Alkalmazás/Fájl telepítő lehetővé teszi a támogatott fájlok (firmware, számlapok, alkalmazások, GPS, erőforrások, betűtípusok...) feltöltését/telepítését a készülékre. További információk a wikiben talál: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="open_fw_installer_connect_maximum_one_device">CSAK EGY olyan eszközt párosítson, amelyre el szeretné küldeni a fájlt.</string>
     <string name="pref_summary_general_reconnectonlytoconnected">Újrakapcsolódás csak a párosított eszközökhöz, ahelyett, hogy az összes eszközzel újrakapcsolódna</string>
     <string name="pref_display_caller_summary">Bejövő hívások telefonszámának vagy nevének megjelenítése</string>
@@ -1990,10 +1990,10 @@
     <string name="activity_type_cricket">Krikett</string>
     <string name="activity_type_baseball">Baseball</string>
     <string name="devicetype_femometer_vinca2">Femometer Vinca II</string>
-    <string name="menuitem_offline_voice">Internet nélküli hang</string>
+    <string name="menuitem_offline_voice">Kapcsolat nélküli hang</string>
     <string name="devicetype_redmiwatch3">Redmi Watch 3</string>
     <string name="menuitem_cycles">Cikluskövetés</string>
-    <string name="menuitem_widgets">Widgetek</string>
+    <string name="menuitem_widgets">Modulok</string>
     <string name="menuitem_buzzer_intensity">Hangjelzés intenzitása</string>
     <string name="activity_type_hockey">Hoki</string>
     <string name="devicetype_lefun">Lefun</string>
@@ -2142,7 +2142,7 @@
     <string name="prefs_button_variable_actions">Részletes gombnyomás beállítások</string>
     <string name="error_no_location_access">Ahhoz, hogy a szkennelés megfelelően működjön, meg kell adni és engedélyezni kell a helyszínhozzáférést</string>
     <string name="error_no_bluetooth_connect">A szkennelés megfelelő működéséhez engedélyezni kell a Bluetooth-kapcsolathoz való hozzáférést</string>
-    <string name="pref_qhybrid_title_widget_draw_circles">Widget körök rajzolása</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Modulkörök rajzolása</string>
     <string name="pref_qhybrid_save_raw_activity_files">Nyers tevékenységfájlok mentése</string>
     <string name="permission_granting_mandatory">Mindezek az engedélyek szükségesek, és ha nem adják meg őket, instabilitás léphet fel</string>
     <string name="permission_notification_policy_access">A(z) %1$s-nek hozzáférésre van szüksége a Ne zavarjon beállításokhoz, hogy azokat az óráján tiszteletben tarthassa, amikor a telefon képernyője ki van kapcsolva.
@@ -2152,7 +2152,7 @@
     <string name="pref_invalid_frequency_message">Adjon meg egy 87,5 és 108,0 közötti frekvenciát</string>
     <string name="pref_title_lower_button_short_press_action">Alsó gomb rövid megnyomású művelet</string>
     <string name="share_log_not_enabled_message">Először engedélyeznie kell a naplózást a Beállítások - Naplófájlok írása menüpontban</string>
-    <string name="quick_alarm_description">Riasztás a modulból</string>
+    <string name="quick_alarm_description">Riasztás a modulról</string>
     <string name="qhybrid_goal_in_steps">Cél lépésenként</string>
     <string name="prefs_button_single_press_action_selection_title">1. esemény művelet</string>
     <string name="prefs_button_long_press_action_selection_title">Hosszú gombnyomás művelet</string>
@@ -2306,7 +2306,7 @@
     <string name="pref_title_touch_voice_assistant">Hangasszisztens</string>
     <string name="pref_header_statistics">Sporttevékenységek statisztikái</string>
     <string name="qhybrid_summary_file_management">Fájlok fel- és letöltése</string>
-    <string name="button_watchface_add_widget">Minialkalmazás hozzáadása</string>
+    <string name="button_watchface_add_widget">Modul hozzáadása</string>
     <string name="watchface_setting_display_refresh_full">Teljes frissítés (perc)</string>
     <string name="watchface_setting_display_refresh_partial">Részleges frissítés (perc)</string>
     <string name="prefs_active_noise_cancelling_level">Aktív zajszűrés szintje</string>
@@ -2441,7 +2441,7 @@
     <string name="sony_equalizer">Hangszínszabályzó</string>
     <string name="sony_equalizer_preset_bright">Élénk</string>
     <string name="sony_equalizer_preset_mellow">Mélabús</string>
-    <string name="fossil_hr_button_config_info">Egyes gombok nem konfigurálhatóak, mert funkciójukat az óra firmware-je keményen kódolja. \n \nFigyelem: a felső gomb hosszú megnyomásával, amikor a hivatalos Fossil alkalmazásból származó órafelület van telepítve, a felületi elemek megjelenítése/elrejtése között is váltani fog.</string>
+    <string name="fossil_hr_button_config_info">Egyes gombok nem konfigurálhatóak, mert funkciójukat az óra firmware-je keményen kódolja. \n \nFigyelem: a felső gomb hosszú megnyomásával, amikor a hivatalos Fossil alkalmazásból származó órafelület van telepítve, a modulok megjelenítése/elrejtése között is váltani fog.</string>
     <string name="sony_warn_sbc_codec">Figyelmeztetés: A hangszínszabályzó, a hangpozíció és a környezeti beállítások csak az SBC audio codec esetében működnek.</string>
     <string name="sony_equalizer_preset_vocal">Ének</string>
     <string name="watchface_widget_type_custom">Egyéni modul</string>
@@ -2450,7 +2450,7 @@
     <string name="sony_equalizer_preset_treble_boost">Magas hangok erősítése</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Kör mutatása időtúllépéskor</string>
     <string name="watchface_setting_desc_wrist_flick">(a teljes letiltáshoz engedélyezze a relatív mozgást, és állítsa az összes értéket 0-ra)</string>
-    <string name="widget_screen_no_free_slots_description">Az eszközön nincs szabad hely a modulok számára (összes hely: %1$s)</string>
+    <string name="widget_screen_no_free_slots_description">Az eszközön nincs szabad hely a modulképernyők számára (összes hely: %1$s)</string>
     <string name="watchface_setting_wrist_flick_move_relative">Mozgassa a mutatókat az időhöz képest</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Egyéni előbeállítás 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Egyéni előbeállítás 2</string>
@@ -2484,7 +2484,7 @@
     <string name="notif_battery_full">%1$s akkumulátora feltöltve</string>
     <string name="authentication_failed_check_key">Hitelesítés sikertelen, kérem ellenőrizze a hitelesítő kulcsot</string>
     <string name="pref_touch_tone_summary">Hangjelzés a fülhallgató megérintésekor</string>
-    <string name="pref_description_dashboard">Felületi elemek, eszközök</string>
+    <string name="pref_description_dashboard">Modulok, bevonható eszközök</string>
     <string name="pref_wearing_tone">Hangvétel</string>
     <string name="pref_header_sound">Hang</string>
     <string name="pref_time_sync">Automatikus időszinkronizálás</string>
@@ -2677,4 +2677,34 @@
     <string name="steps_streaks_total_steps">Összes\nlépés</string>
     <string name="cannot_upload_watchface_too_many_watchfaces_installed">Nem lehet órafelületet feltölteni, túl sok órafelület van telepítve</string>
     <string name="watchface_resolution_doesnt_match">Az órafelület felbontása nem egyezik a készülék képernyőjével. Az órafelület felbontása %1$s, a készülék képernyője %2$s</string>
+    <string name="ftp_server_start_summary">Az FTP-kiszolgáló elindítása az órán</string>
+    <string name="widget_layout_two">2 modul</string>
+    <string name="devicetype_sony_wf_c500">Sony WF-C500</string>
+    <string name="devicetype_sony_wi_c100">Sony WI-C100</string>
+    <string name="devicetype_sony_wf_c700n">Sony WF-C700N</string>
+    <string name="pref_dashboard_widget_double_size_summary">Engedélyezze, hogy a modul két oszlopot foglaljon el a műszerfalon</string>
+    <string name="pref_dashboard_widget_today_hr_interval_title">Pulzusszám intervallum</string>
+    <string name="ftp_server_status">FTP-kiszolgáló állapota</string>
+    <string name="widget_missing_parts">Válassza ki az összes modult</string>
+    <string name="ftp_server_summary">Az FTP-kiszolgáló vezérlése az órán</string>
+    <string name="ftp_server_root_dir">Gyökérkönyvtár</string>
+    <string name="pref_dashboard_cards_title">Modulok megjelenítése a kártyákon</string>
+    <string name="pref_dashboard_cards_summary">Kártyák rajzolása a műszerfal moduljai köré</string>
+    <string name="pref_dashboard_widget_settings">Modul beállítások</string>
+    <string name="pref_dashboard_widget_show_legend_summary">A színeket magyarázó lista megjelenítése a modul alatt</string>
+    <string name="widget">Modul</string>
+    <string name="sony_protocol_v1">1. verzió</string>
+    <string name="sony_protocol_v2">2. verzió</string>
+    <string name="sony_protocol_v3">3. verzió</string>
+    <string name="widget_layout_single">1 modul</string>
+    <string name="widget_layout">Modul elrendezése</string>
+    <string name="widget_name_untitled">Cím nélküli modul (%1$s)</string>
+    <string name="widget_screen_delete_confirm_title">Modulképernyő törlése</string>
+    <string name="ftp_server">FTP-kiszolgáló</string>
+    <string name="ftp_server_stop_summary">Az FTP-kiszolgáló leállítása az órán</string>
+    <string name="widget_subtype">Modul altípusa</string>
+    <string name="pref_dashboard_widgets_order_summary">Válassza ki, hogy mely modulok legyenek engedélyezve és milyen sorrendben jelenjenek meg a műszerfalon</string>
+    <string name="pref_switch_noise_control">Zajszűrő kapcsoló</string>
+    <string name="ftp_server_configuration">FTP-kiszolgáló beállítása</string>
+    <string name="widget_screen">Modulképernyő</string>
 </resources>
