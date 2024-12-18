@@ -51,15 +51,7 @@
 \nNote : vous n\'avez pas à installer les fichiers .res et .gps s\'ils sont exactement les mêmes que ceux installés précédemment. 
 \n 
 \nÀ VOS RISQUES ET PÉRILS ET PÉRILS!</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor 2. 
-\n 
-\nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
-\n 
-\nNote : il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment. 
-\n 
-\nCONTINUEZ À VOS RISQUES ET PÉRILS! 
-\n 
-\nNON TESTÉ, IL PEUT ÊTRE NÉCESSAIRE DE FLASHER UN MICROLOGICIEL BEATS_W SI LE NOM DE L\'APPAREIL EST « Amazfit Band 2 »</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor 2. \n \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. \n \nNote : il n\'est pas nécessaire d\'installer le fichier .res si celui-ci est identique à celui installé précédemment. \n \nCONTINUEZ À VOS RISQUES ET PÉRILS! \n \nNON TESTÉ, IL PEUT ÊTRE NÉCESSAIRE DE FLASHER UN MICROLOGICIEL BEATS_W SI LE NOM DE L\'APPAREIL EST « Amazfit Band 2 »</string>
     <string name="fw_upgrade_notice_amazfitcor">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor. 
 \n 
 \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après installation du .fw. 
