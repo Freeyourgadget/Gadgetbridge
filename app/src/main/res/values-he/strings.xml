@@ -678,15 +678,7 @@
     <string name="pref_title_authkey">מפתח אימות</string>
     <string name="pref_summary_authkey">ניתן להחליף את מפתח האימות למפתח משותף בכל מכשירי ה־Android שלך מהם ברצונך להתחבר. מפתח בררת המחדל הקודם לכל המכשירים הוא 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Cor 2 שלך.
-\n
-\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
-\n
-\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res אם הוא כבר זהים לזה שהתקנת בעבר.
-\n
-\nהמשך התהליך הוא על אחריותך!
-\n
-\nתהליך זה לא נבדק, כנראה שיהיה עליך להתקין קושחה מסוג BEATS_W אם שם המכשיר שלך הוא „Amazfit Band 2”</string>
+    <string name="fw_upgrade_notice_amazfitcor2">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Cor 2 שלך. \n \nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res. הצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־fw. \n \nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res אם הוא כבר זהים לזה שהתקנת בעבר. \n \nהמשך התהליך הוא על אחריותך! \n \nתהליך זה לא נבדק, כנראה שיהיה עליך להתקין קושחה מסוג BEATS_W אם שם המכשיר שלך הוא „Amazfit Band 2”</string>
     <string name="dutch">הולנדית</string>
     <string name="turkish">טורקית</string>
     <string name="ukrainian">אוקראינית</string>
