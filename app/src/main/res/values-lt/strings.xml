@@ -275,13 +275,7 @@
     <string name="pref_title_support_voip_calls">Leisi VoIP programėlės skambučius</string>
     <string name="title_activity_device_specific_settings">Įrenginio specialūs nustatymai</string>
     <string name="pref_title_authkey">Prisijungimo raktas</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Jau instaliavę %s programinės įrangos į Amazfit Cor 2.
-\n
-\nĮsitikinkite, kad instaliavote .fw failą, tik po to .res failą. Jūsų apyrankė persikraus instaliavus .fw failą.
-\n
-\nPastaba. Neprivalote instaliuoti .res failo, jei failas yra identiškas prieš tai instaliuotam.
-\n
-\nVISIŠKAI NETESTUOTAS, TIKRIAUSIAI REIKIA ĮRAŠYTI BEATS_W PROGRAMINĘ ĮRANGĄ JEI ĮRENGINIO PAVADINIMAS YRA „Amazfit Band 2“</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Jau instaliavę %s programinės įrangos į Amazfit Cor 2. \n \nĮsitikinkite, kad instaliavote .fw failą, tik po to .res failą. Jūsų apyrankė persikraus instaliavus .fw failą. \n \nPastaba. Neprivalote instaliuoti .res failo, jei failas yra identiškas prieš tai instaliuotam. \n \nVISIŠKAI NETESTUOTAS, TIKRIAUSIAI REIKIA ĮRAŠYTI BEATS_W PROGRAMINĘ ĮRANGĄ JEI ĮRENGINIO PAVADINIMAS YRA „Amazfit Band 2“</string>
     <string name="fw_upgrade_notice_miband4">Jau instaliavę %s programinės įrangos į Mi Band 4.
 \n
 \nĮsitikinkite, kad instaliavote .fw failą ir po to .res failą. Jūsų laikrodis persikraus instaliavus .fw failą.
