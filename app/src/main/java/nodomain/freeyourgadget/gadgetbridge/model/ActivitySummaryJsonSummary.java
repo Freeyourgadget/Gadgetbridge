@@ -63,6 +63,12 @@ public class ActivitySummaryJsonSummary {
             summary.add("averageSpeed", distance / duration, UNIT_METERS_PER_SECOND);
         }
 
+        if (!summary.has(STEP_RATE_AVG) && summary.has(STEPS) && summary.has(ACTIVE_SECONDS)) {
+            double stepcount = summary.getNumber(STEPS, 0).doubleValue();
+            double duration = summary.getNumber(ACTIVE_SECONDS, 1).doubleValue();
+            summary.add(STEP_RATE_AVG, (double)((int)(((stepcount / duration) * 60)+0.5)), UNIT_SPM);
+        }
+
         return summary;
     }
 
@@ -169,7 +175,7 @@ public class ActivitySummaryJsonSummary {
             put(GROUP_SPEED, Arrays.asList(
                     SPEED_AVG, SPEED_MAX, SPEED_MIN, PACE_AVG_SECONDS_KM, PACE_MIN,
                     PACE_MAX, "averageSpeed2", CADENCE_AVG, CADENCE_MAX, CADENCE_MIN,
-                    STEP_RATE_AVG
+                    STEP_RATE_AVG, STEP_RATE_MAX
             ));
             put(GROUP_ELEVATION, Arrays.asList(
                     ASCENT_METERS, DESCENT_METERS, ALTITUDE_MAX, ALTITUDE_MIN, ALTITUDE_AVG,

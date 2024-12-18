@@ -43,6 +43,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SPEED_AVG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.SPEED_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STEP_RATE_MAX;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKES;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.STROKE_RATE_AVG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryEntries.JUMPS;
@@ -453,9 +454,9 @@ public class WorkoutSummaryParser extends XiaomiActivityParser implements Activi
         if (version == 1) {
             builder.addInt(PACE_MAX, UNIT_SECONDS_PER_KM);
             builder.addInt(PACE_MIN, UNIT_SECONDS_PER_KM);
-            builder.addUnknown(4);
+            builder.addFloat(SPEED_MAX, UNIT_KMPH);
             builder.addInt(STEPS, UNIT_STEPS);
-            builder.addUnknown(2);        // MAX_STEPS_PER_MINUTE, UNIT_STEPS_PER_MINUTE
+            builder.addShort(STEP_RATE_MAX, UNIT_SPM);					   
             builder.addByte(HR_AVG, UNIT_BPM);
             builder.addByte(HR_MAX, UNIT_BPM);
             builder.addByte(HR_MIN, UNIT_BPM);

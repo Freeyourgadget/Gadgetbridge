@@ -40,6 +40,7 @@ public class ActivitySummaryEntries {
 
     public static final String STEP_RATE_SUM = "stepRateSum";
     public static final String STEP_RATE_AVG = "stepRateAvg";
+    public static final String STEP_RATE_MAX = "stepRateMax";
     public static final String STEP_LENGTH_AVG = "stepLengthAvg";
 
     public static final String CADENCE_AVG = "averageCadence";

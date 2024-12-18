@@ -2266,6 +2266,7 @@
     <string name="averageSpeed">Average Speed</string>
     <string name="stepRateSum">Sum of step rate</string>
     <string name="stepRateAvg">Average step rate</string>
+    <string name="stepRateMax">Max step rate</string>
     <string name="stepLengthAvg">Average Step Length</string>
     <string name="groundContactTimeAvg">Average ground contact time</string>
     <string name="impactAvg">Average impact</string>
