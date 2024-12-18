@@ -44,7 +44,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -400,7 +402,7 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
     }
 
     private class FillDataAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final TreeMap<Long, ActivityKind> activityTimestamps = new TreeMap<>();
+        private final HashMap<Long, ActivityKind> activityTimestamps = new HashMap<>();
 
         /**
          * Add per-second activities to `activityTimestamps`
@@ -507,7 +509,11 @@ public class DashboardTodayWidget extends AbstractDashboardWidget {
             long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
             long midDaySecond = dashboardData.timeTo - (12 * 60 * 60);
             DashboardFragment.DashboardData.GeneralizedActivity previous = null;
-            for (Map.Entry<Long, ActivityKind> activity : activityTimestamps.entrySet()) {
+            List<Map.Entry<Long, ActivityKind>> sortedActivityTimestamps = activityTimestamps.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .collect(Collectors.toList());
+            for (Map.Entry<Long, ActivityKind> activity : sortedActivityTimestamps) {
                 long timestamp = activity.getKey();
                 ActivityKind activityKind = activity.getValue();
                 // Start a new merged activity on certain conditions
