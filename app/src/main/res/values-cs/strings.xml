@@ -680,15 +680,7 @@
     <string name="pref_title_authkey">Autentizační klíč</string>
     <string name="pref_summary_authkey">Nastavte stejný klíč na všech Vašich zařízeních s Androidem, ze kterých se budete připojovat. Výchozí klíč pro všechna zařízení je 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Chystáte se nainstalovat firmware %s na váš Amazfit Cor 2.
-\n
-\nNainstalujte nejprve soubor .fw a poté soubor .res. Váš náramek se po instalaci souboru .fw restartuje.
-\n
-\nPoznámka: soubor .res nemusíte instalovat, pokud je totožný s již dříve nainstalovaným.
-\n
-\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!
-\n
-\nNENÍ VŮBEC OTESTOVÁNO, POKUD JE NÁZEV VAŠEHO ZAŘÍZENÍ „Amazfit Band 2“, NEJSPÍŠE MUSÍTE FLASHNOUT FIRMWAER BEATS_W</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Chystáte se nainstalovat firmware %s na váš Amazfit Cor 2. \n \nNainstalujte nejprve soubor .fw a poté soubor .res. Váš náramek se po instalaci souboru .fw restartuje. \n \nPoznámka: soubor .res nemusíte instalovat, pokud je totožný s již dříve nainstalovaným. \n \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ! \n \nNENÍ VŮBEC OTESTOVÁNO, POKUD JE NÁZEV VAŠEHO ZAŘÍZENÍ „Amazfit Band 2“, NEJSPÍŠE MUSÍTE FLASHNOUT FIRMWAER BEATS_W</string>
     <string name="dutch">Nizozemština</string>
     <string name="turkish">Turečtina</string>
     <string name="ukrainian">Ukrajinština</string>
