@@ -368,7 +368,7 @@
     <string name="charts_legend_heartrate">心率</string>
     <string name="live_activity_heart_rate">心率</string>
     <string name="pref_title_pebble_health_store_raw">在数据库中存储原始记录</string>
-    <string name="pref_summary_pebble_health_store_raw">以“原样”保存数据，增加数据库使用量以允许稍后翻译。</string>
+    <string name="pref_summary_pebble_health_store_raw">以原样保存数据，增加数据库使用量以允许稍后翻译。</string>
     <string name="action_db_management">数据管理</string>
     <string name="title_activity_db_management">数据管理</string>
     <string name="activity_db_management_import_export_explanation">导入/导出操作将会使用您设备的以下路径（见下）。该目录可以被您的其他应用和您的计算机访问。请注意：若您卸载Gadgetbridge，该目录中的所有内容也会被删除。其中包括的数据有：
@@ -527,7 +527,7 @@
     <string name="live_activity_max_heart_rate">当前／最大心率：%1$d / %2$d</string>
     <string name="you_slept">%1$s - %2$s</string>
     <string name="you_did_not_sleep">您没有睡觉</string>
-    <string name="mi3_prefs_band_screen_unlock">手环屏幕解锁</string>
+    <string name="mi3_prefs_band_screen_unlock">手环屏幕解锁\"</string>
     <string name="mi3_prefs_band_screen_unlock_summary">滑动以解锁手环屏幕</string>
     <string name="mi3_prefs_night_mode">夜晚模式</string>
     <string name="mi3_prefs_night_mode_summary">到夜晚时自动降低手环屏幕亮度</string>
@@ -680,15 +680,7 @@
     <string name="pref_title_authkey">认证密钥</string>
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">您即将在跃我手环2(Amazfit Cor 2)上安装 %s 版本的固件
-\n
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
-\n
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
-\n
-\n风险自担！
-\n
-\n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在跃我手环2(Amazfit Cor 2)上安装 %s 版本的固件 \n \n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启 \n \n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件 \n \n风险自担！ \n \n此功能未经测试，如果您的设备名为 Amazfit Band 2，您可能需要刷入 BEATS_W 固件\\</string>
     <string name="dutch">荷兰语</string>
     <string name="turkish">土耳其语</string>
     <string name="ukrainian">乌克兰语</string>
@@ -904,13 +896,13 @@
     <string name="about_description_generic">用于替代供应商闭源穿戴设备 Android 应用程序的脱机、无版权、自由的方案。</string>
     <string name="about_activity_title_generic">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
-    <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
+    <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如 Weather notification 。更多信息请访问 Gadgetbridge 的Wiki。</string>
     <string name="menuitem_worldclock">世界时钟</string>
     <string name="permission_granting_mandatory">所有权限都是必须的，若未授予这些权限，可能会导致不稳定</string>
     <string name="error_background_service_reason">由于意外错误，启动后台服务失败。 - 点击此处查看更多详情。\n\n错误：</string>
     <string name="error_background_service_reason_truncated">无法启动后台服务是由于…</string>
     <string name="error_background_service">启动后台服务失败</string>
-    <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名“%s”</string>
+    <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名s\\</string>
     <string name="menuitem_stress">压力</string>
     <string name="menuitem_cycles">周期跟踪</string>
     <string name="menuitem_breathing">呼吸</string>
@@ -2151,7 +2143,7 @@
     <string name="pref_pair_bluetooth_calls_title">配对以进行蓝牙通话</string>
     <string name="pref_pair_bluetooth_calls_help_title">如何接听蓝牙电话</string>
     <string name="pref_pair_bluetooth_calls_help_1">1. 点击下面的按钮开始配对过程。</string>
-    <string name="pref_pair_bluetooth_calls_help_2">2. 转到手机的蓝牙设置，并与将显示的新设备配对（与您当前手表的名称相似，但带有后缀，例如“Amazfit GTR 4 - AFC8”）。</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. 转到手机的蓝牙设置，并与将显示的新设备配对（与您当前手表的名称相似，但带有后缀，例如 Amazfit GTR 4 - AFC8 ）</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. 启用下方的蓝牙通话设置。</string>
     <string name="pref_summary_receive_calls_watch">直接在手表上接打电话</string>
     <string name="pref_pair_bluetooth_calls_help_warning">警告：如果您在未与第二个实例配对的情况下启用蓝牙呼叫，来电通知可能无法按预期工作。</string>
@@ -3681,4 +3673,7 @@
     <string name="Jumps">跳远</string>
     <string name="devicetype_redmi_watch_5_lite">红米手表5 青春版</string>
     <string name="devicetype_garmin_fenix_7x">佳明 Fenix 7X</string>
+    <string name="stepRateMax">最大步数范围</string>
+    <string name="weekly_total">每周总计</string>
+    <string name="garmin_intensity_minutes">每分钟强度</string>
 </resources>
