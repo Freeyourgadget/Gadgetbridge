@@ -3056,4 +3056,7 @@
     <string name="permission_internet_access_summary">סנכרון עם משאבים מקוונים</string>
     <string name="permission_internet_access_title">גישה לאינטרנט</string>
     <string name="permission_manage_dnd_title">ניהול „לא להפריע”</string>
+    <string name="totalJumps">סך כל הקפיצות</string>
+    <string name="avgJumpRate">קצב קפיצות ממוצע</string>
+    <string name="maxJumpRate">קצב קפיצות מרבי</string>
 </resources>
