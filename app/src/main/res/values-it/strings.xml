@@ -3666,4 +3666,9 @@
     <string name="avgJumpRate">Frequenza Media Salti</string>
     <string name="totalJumps">Salti Totali</string>
     <string name="permission_send_sms_title">Invia SMS</string>
+    <string name="garmin_intensity_minutes">Minuti di intensità</string>
+    <string name="stepRateMax">Frequenza massima dei passi</string>
+    <string name="weekly_total">Totale settimanale</string>
+    <string name="devicetype_redmi_watch_5_lite">Redmi Watch 5 Lite</string>
+    <string name="devicetype_garmin_fenix_7x">Garmin Fenix 7X</string>
 </resources>
