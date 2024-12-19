@@ -979,7 +979,7 @@
     <string name="ascentMeters">Bergauf</string>
     <string name="distanceMeters">Strecke</string>
     <string name="activity_summary_detail">Detail der Sportaktivität</string>
-    <string name="maxSpeed">Maximum</string>
+    <string name="maxSpeed">Max Geschwindigkeit</string>
     <string name="prefs_events_forwarding_action_title">Aktion ausführen</string>
     <string name="prefs_events_forwarding_startnonwear">Beim nicht tragend</string>
     <string name="prefs_events_forwarding_wokeup">Beim Aufwachen</string>
@@ -1478,7 +1478,7 @@
     <string name="sony_equalizer_preset_excited">Angeregt</string>
     <string name="battery_case">Batteriefach</string>
     <string name="sony_button_mode_ambient_sound_control">Umgebungsgeräusch-Steuerung</string>
-    <string name="minSpeed">Minimum</string>
+    <string name="minSpeed">Min Geschwindigkeit</string>
     <string name="maxCadence">Max Kadenz</string>
     <string name="minCadence">Min Kadenz</string>
     <string name="sony_button_mode_off">Aus</string>
@@ -2864,7 +2864,7 @@
     <string name="devicesetting_scannable_rssi_summary">Der minimale RSSI-Schwellenwert für die Erkennung</string>
     <string name="devicesetting_scannable_debounce">Zeitüberschreitung der abtastbaren Entprellung (Sekunden)</string>
     <string name="stepRateSum">Summe der Schrittgeschwindigkeit</string>
-    <string name="stepRateAvg">Durchschnittliche Schrittfrequenz</string>
+    <string name="stepRateAvg">Mittlere Schrittfrequenz</string>
     <string name="stepLengthAvg">Durchschnittliche Schrittlänge</string>
     <string name="groundContactTimeAvg">Durchschnittliche Bodenkontaktzeit</string>
     <string name="impactAvg">Durchschnittliche Auswirkungen</string>
@@ -3409,4 +3409,6 @@
     <string name="Jumps">Sprünge</string>
     <string name="avgJumpRate">Mittlere Sprungrate</string>
     <string name="maxJumpRate">Max Sprungrate</string>
+    <string name="stepRateMax">Max Schrittfrequenz</string>
+    <string name="hrZoneEasy">Leicht</string>
 </resources>
