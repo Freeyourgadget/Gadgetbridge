@@ -164,28 +164,40 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences.Editor devicePrefsEdit = devicePrefs.getPreferences().edit();
         ByteBuffer buf = ByteBuffer.wrap(value);
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.position(12); // skip header and unknown
-        firmwareVersion = buf.get();
-        boolean battery_allow_passthough = buf.get() != 0x01;
-        boolean manual_discharge_intervals = buf.get() != 0x01;
-        buf.position(buf.position() + 3); // skip unknown
-        byte battery_max_use = buf.get();
-        short battery_current_discharge = buf.getShort();
-        buf.position(buf.position() + 1); // skip unknown
-        short battery_charge = buf.getShort();
+        buf.position(4); // skip header
+        boolean p1_active = buf.get() != 0x00; // TODO: active = connected, or power incoming?
+        boolean p2_active = buf.get() != 0x00;
+        int p1_watt = buf.getShort();
+        int p2_watt = buf.getShort();
+        buf.position(buf.position() + 2); // unknown;
 
-        getDevice().setFirmwareVersion("V" + (firmwareVersion & 0xff));
+        firmwareVersion = buf.get() & 0xff;
+        boolean battery_allow_passthough = buf.get() != 0x01;
+        boolean battery_manual_discharge_intervals = buf.get() != 0x01;
+        buf.position(buf.position() + 3); // skip unknown
+        byte battery_max_use_pct = buf.get();
+        int output_to_inverter_target = buf.getShort();
+        buf.position(buf.position() + 1); // skip unknown
+        int battery_charge_kwh = buf.getShort();
+        int output_to_inverter_1_watt = buf.getShort();
+        int output_to_inverter_2_watt = buf.getShort();
+
+        int battery_minimum_charge_pct = 100 - battery_max_use_pct;
+        int output_to_inverter_sum_watt = output_to_inverter_1_watt + output_to_inverter_2_watt;
+
+        LOG.info("p1_active: {}, p2_active: {}, p1_watt: {}W, p2_watt: {}W, battery_charge_kwh: {}kWh, battery_minimum_charge_pct: {}%, battery_allow_passthrough: {}, battery_manual_discharge_intervals: {}, output_to_inverter_target: {}W, output_to_inverter: {}W+{}W={}W, firmwareVersion: V{}, ",
+                p1_active, p2_active, p1_watt, p2_watt, battery_charge_kwh, battery_minimum_charge_pct, battery_allow_passthough, battery_manual_discharge_intervals, output_to_inverter_target, output_to_inverter_1_watt, output_to_inverter_2_watt, output_to_inverter_sum_watt, firmwareVersion);
+
+        getDevice().setFirmwareVersion("V" + firmwareVersion);
         getDevice().sendDeviceUpdateIntent(getContext());
 
-        int battery_minimum_charge = 100 - battery_max_use;
-
-        devicePrefsEdit.putString(PREF_BATTERY_MINIMUM_CHARGE, String.valueOf(battery_minimum_charge));
-        devicePrefsEdit.putBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, manual_discharge_intervals);
+        devicePrefsEdit.putString(PREF_BATTERY_MINIMUM_CHARGE, String.valueOf(battery_minimum_charge_pct));
+        devicePrefsEdit.putBoolean(PREF_BATTERY_DISCHARGE_MANAUAL, battery_manual_discharge_intervals);
         devicePrefsEdit.putBoolean(PREF_BATTERY_ALLOW_PASS_THOUGH, battery_allow_passthough);
         devicePrefsEdit.apply();
         devicePrefsEdit.commit();
 
-        int battery_percentage = (int) Math.ceil((battery_charge / 2240.0f) * 100);
+        int battery_percentage = (int) Math.ceil((battery_charge_kwh / 2240.0f) * 100);
         getDevice().setBatteryLevel(battery_percentage);
         getDevice().sendDeviceUpdateIntent(getContext());
     }
