@@ -3697,4 +3697,6 @@
     <string name="devicetype_huawei_freebuds_5i">Huawei FreeBuds 5i</string>
     <string name="redmi_buds_5_pro_combo_all">ANC / Przezroczystość / Wył.</string>
     <string name="garmin_intensity_minutes">Minuty intensywnej aktywności</string>
+    <string name="stepRateMax">Maksymalna szybkość kroku</string>
+    <string name="weekly_total">Całkowity tygodniowy</string>
 </resources>
