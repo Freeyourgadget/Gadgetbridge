@@ -98,9 +98,9 @@ public abstract class Casio2C2DSupport extends CasioSupport {
     public static final byte FEATURE_WATCH_NAME = 0x23;
     public static final byte FEATURE_MODULE_ID = 0x26;
     public static final byte FEATURE_WATCH_CONDITION = 0x28;
-    public static final byte FEATURE_DST_WATCH_STATE = 0x1d;
-    public static final byte FEATURE_DST_SETTING = 0x1e;
-    public static final byte FEATURE_WORLD_CITY = 0x1f;
+    public static final byte FEATURE_DST_WATCH_STATE = (byte) 0x1d;
+    public static final byte FEATURE_DST_SETTING = (byte) 0x1e;
+    public static final byte FEATURE_WORLD_CITY = (byte) 0x1f;
     public static final byte FEATURE_REMINDER_TITLE = 0x30;
     public static final byte FEATURE_REMINDER_TIME = 0x31;
     public static final byte FEATURE_CURRENT_TIME_MANAGER = 0x39;
@@ -207,7 +207,8 @@ public abstract class Casio2C2DSupport extends CasioSupport {
         }
 
         public boolean matches(byte[] response) {
-            if (response.length > 2 && response[0] == 0xFF && response[1] == 0x81) {
+            // 0xff is of type int which goes out of range etc. byte is signed.
+            if (response.length > 2 && response[0] == (byte) 0xFF && response[1] == (byte) 0x81) {
                 if (data.length < response.length - 2)
                     return false;
                 for (int i = 2; i < response.length; i++) {

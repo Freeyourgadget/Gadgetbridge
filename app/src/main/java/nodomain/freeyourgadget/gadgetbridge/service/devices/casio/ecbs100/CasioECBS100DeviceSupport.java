@@ -40,7 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.BasicCasio2C2D
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioTimeZone;
 
-// TODO abstract methods from GWB5600
+// TODO abstract methods out from GWB5600
 public class CasioECBS100DeviceSupport extends BasicCasio2C2DSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CasioECBS100DeviceSupport.class);
 
