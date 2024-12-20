@@ -150,7 +150,7 @@ public enum ActivityKind {
     DANCE(0x0400005c, R.string.activity_type_dance),
     MOUNTAIN_HIKE(0x040000e2, R.string.activity_type_mountain_hike, R.drawable.ic_activity_climbing),
     CROSS_TRAINER(0x0400005d, R.string.activity_type_cross_trainer),
-    FREE_TRAINING(0x0400005e, R.string.activity_type_free_training),
+    FREE_TRAINING(0x0400005e, R.string.activity_type_free_training, R.drawable.ic_activity_free_training),
     DYNAMIC_CYCLE(0x0400005f, R.string.activity_type_dynamic_cycle),
     KICKBOXING(0x04000060, R.string.activity_type_kickboxing),
     FITNESS_EXERCISES(0x04000061, R.string.activity_type_fitness_exercises),
@@ -231,7 +231,7 @@ public enum ActivityKind {
     PARKOUR(0x040000af, R.string.activity_type_parkour),
     INDOOR_RUNNING(0x040000b0, R.string.activity_type_indoor_running, R.drawable.ic_activity_indoor_running),
     OUTDOOR_RUNNING(0x040000b1, R.string.activity_type_outdoor_running, R.drawable.ic_activity_running),
-    OUTDOOR_WALKING(0x040000b2, R.string.activity_type_outdoor_walking, R.drawable.ic_activity_hiking),
+    OUTDOOR_WALKING(0x040000b2, R.string.activity_type_outdoor_walking, R.drawable.ic_activity_outdoor_walking),
     OUTDOOR_CYCLING(0x040000b3, R.string.activity_type_outdoor_cycling, R.drawable.ic_activity_biking),
     AEROBIC_COMBO(0x040000b4, R.string.activity_type_aerobic_combo),
     AEROBICS(0x040000b5, R.string.activity_type_aerobics),
@@ -274,7 +274,7 @@ public enum ActivityKind {
     SQUARE_DANCE(0x040000da, R.string.activity_type_square_dance),
     STAIR_CLIMBER(0x040000db, R.string.activity_type_stair_climber),
     STEPPER(0x040000dc, R.string.activity_type_stepper),
-    STRETCHING(0x040000dd, R.string.activity_type_stretching),
+    STRETCHING(0x040000dd, R.string.activity_type_stretching, R.drawable.ic_activity_stretching),
     TABLE_FOOTBALL(0x040000de, R.string.activity_type_table_football),
     TUG_OF_WAR(0x040000df, R.string.activity_type_tug_of_war),
     WALL_BALL(0x040000e0, R.string.activity_type_wall_ball),
@@ -293,8 +293,8 @@ public enum ActivityKind {
     BIATHLON(0x040000ee, R.string.activity_type_biathlon),
     BUNGEE_JUMPING(0x040000ef, R.string.activity_type_bungee_jumping),
     ORIENTEERING(0x040000f0, R.string.activity_type_orienteering),
-    TREKKING(0x040000f1, R.string.activity_type_trekking),
-    TRAIL_RUN(0x040000f2, R.string.activity_type_trail_run),
+    TREKKING(0x040000f1, R.string.activity_type_trekking, R.drawable.ic_activity_hiking),
+    TRAIL_RUN(0x040000f2, R.string.activity_type_trail_run, R.drawable.ic_activity_trail_run),
     ;
 
     private final int code;
