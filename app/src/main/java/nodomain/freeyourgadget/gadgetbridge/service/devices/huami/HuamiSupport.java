@@ -922,6 +922,42 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         return message;
     }
 
+    /**
+     * #2987 / #4419 - Some devices do not show the sender / title for certain notification types
+     */
+    public String getNotificationBodyCheckAcceptsSender(NotificationSpec notificationSpec) {
+        String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
+        boolean acceptsSender = HuamiIcon.acceptsSender(customIconId);
+        String message;
+
+        /* The title will be displayed beside the icon depending on the icon ID sent to the
+           device. If the icon ID does not admit a title, it will display the app's name, and
+           we will repeat the subject as part of the notification body, but only if the app name
+           is different from the subject. That way it's aesthetically pleasing.
+         */
+        if (!acceptsSender && !senderOrTitle.equals(notificationSpec.sourceName)) {
+            message = "-\0"; //if the sender is not accepted, whatever goes in this field is ignored
+            message += senderOrTitle + "\n";
+        } else {
+            message = senderOrTitle + "\0";
+        }
+
+        if (notificationSpec.subject != null) {
+            message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
+        }
+
+        if (notificationSpec.body != null) {
+            message += StringUtils.truncate(notificationSpec.body, 512);
+        }
+
+        if (notificationSpec.body == null && notificationSpec.subject == null) {
+            message += " ";
+        }
+
+        return message;
+    }
+
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         final boolean hasExtraHeader = notificationHasExtraHeader();
