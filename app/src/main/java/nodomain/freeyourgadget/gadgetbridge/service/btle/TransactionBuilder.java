@@ -77,7 +77,6 @@ public class TransactionBuilder {
         return this;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public TransactionBuilder requestMtu(int mtu){
         return add(
                 new RequestMtuAction(mtu)

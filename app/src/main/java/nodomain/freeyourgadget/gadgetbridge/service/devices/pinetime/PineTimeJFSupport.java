@@ -29,7 +29,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -511,9 +510,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         batteryInfoProfile.requestBatteryInfo(builder);
         batteryInfoProfile.enableNotify(builder, true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.requestMtu(256);
-        }
+        builder.requestMtu(256);
         return builder;
     }
 

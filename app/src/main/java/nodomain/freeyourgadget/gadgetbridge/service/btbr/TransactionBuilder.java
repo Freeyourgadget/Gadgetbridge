@@ -16,13 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.btbr;
 
-import android.os.Build;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.WriteAction;
