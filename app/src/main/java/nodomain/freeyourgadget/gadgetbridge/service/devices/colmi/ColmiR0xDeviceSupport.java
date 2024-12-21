@@ -23,6 +23,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -180,9 +182,7 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                     int levelResponse = value[1];
                     boolean charging = value[2] == 1;
                     LOG.info("Received battery level response: {}% (charging: {})", levelResponse, charging);
-                    GBDeviceEventBatteryInfo batteryEvent = new GBDeviceEventBatteryInfo();
-                    batteryEvent.level = levelResponse;
-                    batteryEvent.state = charging ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+                    GBDeviceEventBatteryInfo batteryEvent = createDeviceBatteryInfoEvent(levelResponse, charging);
                     evaluateGBDeviceEvent(batteryEvent);
                     break;
                 case ColmiR0xConstants.CMD_PHONE_NAME:
@@ -319,10 +319,9 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
                             break;
                         case ColmiR0xConstants.NOTIFICATION_BATTERY_LEVEL:
                             int levelNotif = value[2];
-                            LOG.info("Received battery level notification: {}%", levelNotif);
-                            GBDeviceEventBatteryInfo batteryNotifEvent = new GBDeviceEventBatteryInfo();
-                            batteryNotifEvent.state = BatteryState.BATTERY_NORMAL;
-                            batteryNotifEvent.level = levelNotif;
+                            charging = value[3] == 1;
+                            LOG.info("Received battery level notification: {}% (charging: {})", levelNotif, charging);
+                            GBDeviceEventBatteryInfo batteryNotifEvent = createDeviceBatteryInfoEvent(levelNotif, charging);
                             evaluateGBDeviceEvent(batteryNotifEvent);
                             break;
                         case ColmiR0xConstants.NOTIFICATION_LIVE_ACTIVITY:
@@ -398,6 +397,14 @@ public class ColmiR0xDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         return false;
+    }
+
+    @NonNull
+    private static GBDeviceEventBatteryInfo createDeviceBatteryInfoEvent(int levelResponse, boolean charging) {
+        GBDeviceEventBatteryInfo batteryEvent = new GBDeviceEventBatteryInfo();
+        batteryEvent.level = levelResponse;
+        batteryEvent.state = charging ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+        return batteryEvent;
     }
 
     private byte[] buildPacket(byte[] contents) {
