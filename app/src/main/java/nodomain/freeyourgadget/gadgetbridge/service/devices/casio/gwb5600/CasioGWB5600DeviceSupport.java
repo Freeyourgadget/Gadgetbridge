@@ -16,30 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600;
 
-import java.util.UUID;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Locale;
-
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.TextStyle;
-
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
-
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioTimeZone;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.BasicCasio2C2DSupport;
 
 public class CasioGWB5600DeviceSupport extends BasicCasio2C2DSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGWB5600DeviceSupport.class);
