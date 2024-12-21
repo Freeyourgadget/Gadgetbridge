@@ -3680,4 +3680,5 @@
     <string name="garmin_intensity_minutes">Intenzivní minuty</string>
     <string name="stepRateMax">Maximální rychlost kroků</string>
     <string name="weekly_total">Týdenní souhrn</string>
+    <string name="devicetype_casioecbs100">Casio ECB-S100</string>
 </resources>
