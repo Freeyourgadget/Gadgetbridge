@@ -16,12 +16,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class AboutActivity extends AbstractGBActivity {
 
@@ -34,7 +41,9 @@ public class AboutActivity extends AbstractGBActivity {
         String versionName = BuildConfig.VERSION_NAME;
         String versionHASH = BuildConfig.GIT_HASH_SHORT;
         about_version.setText(String.format(getString(R.string.about_version), versionName));
+        about_version.setOnClickListener(this::copyVersionToClipboard);
         about_hash.setText(String.format(getString(R.string.about_hash), versionHASH));
+        about_hash.setOnClickListener(this::copyVersionToClipboard);
 
         TextView link1 = findViewById(R.id.links1);
         link1.setMovementMethod(LinkMovementMethod.getInstance());
@@ -42,5 +51,15 @@ public class AboutActivity extends AbstractGBActivity {
         link2.setMovementMethod(LinkMovementMethod.getInstance());
         TextView link3 = findViewById(R.id.links3);
         link3.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void copyVersionToClipboard(View view) {
+        String versions = "Version: " + BuildConfig.VERSION_NAME +
+                "\nCommit: " + BuildConfig.GIT_HASH_SHORT +
+                "\nFlavor: " + BuildConfig.FLAVOR;
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Build data", versions);
+        clipboard.setPrimaryClip(clip);
+        GB.toast(getString(R.string.about_build_details_copied_to_clipboard), Toast.LENGTH_LONG, GB.INFO);
     }
 }

@@ -3556,4 +3556,5 @@
     <string name="permission_external_storage_summary">Using images, ringtones, app files and more</string>
     <string name="permission_query_all_packages_title">Query all packages</string>
     <string name="permission_query_all_packages_summary">Reading names and icons of all installed apps</string>
+    <string name="about_build_details_copied_to_clipboard">Build details copied to clipboard</string>
 </resources>
