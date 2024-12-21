@@ -98,6 +98,7 @@ public class ActivitySummaryDataTest {
                 "\"test_progress\":{" +
                 "\"type\":\"progress\"," +
                 "\"progress\":51," +
+                "\"color\":0," +
                 "\"value\":3828.0," +
                 "\"unit\":\"seconds\"" +
                 "}" +
