@@ -869,6 +869,11 @@
             android:exported="true" />
 
         <activity
+            android:name=".devices.marstek.SolarEquipmentStatusActivity"
+            android:label="Solar Equipment Status"
+            android:exported="true" />
+
+        <activity
             android:name=".devices.binary_sensor.activity.DataActivity"
             android:exported="true" />
 

@@ -23,7 +23,10 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +39,7 @@ import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.marstek.SolarEquipmentStatusActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -149,6 +153,11 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onFetchRecordedData(int dataTypes) {
+        sendCommand("get infos 1", COMMAND_GET_INFOS1);
+    }
+
+    @Override
     public void onSendConfiguration(final String config) {
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         switch (config) {
@@ -181,7 +190,7 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         ByteBuffer buf = ByteBuffer.wrap(value);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.position(4); // skip header
-        boolean p1_active = buf.get() != 0x00; // TODO: active = connected, or power incoming?
+        boolean p1_active = buf.get() != 0x00;
         boolean p2_active = buf.get() != 0x00;
         int p1_watt = buf.getShort();
         int p2_watt = buf.getShort();
@@ -216,6 +225,15 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         int battery_percentage = (int) Math.ceil((battery_charge_kwh / 2240.0f) * 100);
         getDevice().setBatteryLevel(battery_percentage);
         getDevice().sendDeviceUpdateIntent(getContext());
+
+        Intent intent = new Intent(SolarEquipmentStatusActivity.ACTION_SEND_SOLAR_EQUIPMENT_STATUS);
+        intent.putExtra(SolarEquipmentStatusActivity.EXTRA_BATTERY_PCT, battery_percentage);
+        intent.putExtra(SolarEquipmentStatusActivity.EXTRA_PANEL1_WATT, p1_watt);
+        intent.putExtra(SolarEquipmentStatusActivity.EXTRA_PANEL2_WATT, p2_watt);
+        intent.putExtra(SolarEquipmentStatusActivity.EXTRA_OUTPUT1_WATT, output_to_inverter_1_watt);
+        intent.putExtra(SolarEquipmentStatusActivity.EXTRA_OUTPUT2_WATT, output_to_inverter_2_watt);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        getContext().sendBroadcast(intent);
     }
 
     private void decodeDischargeIntervalsToPreferences(byte[] value) {
