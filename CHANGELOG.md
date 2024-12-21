@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next Release (WIP)
+#### 0.83.0
 * Add first start onboarding screen
 * Initial support for Bowers and Wilkins P Series
 * Initial support for Colmi R09
@@ -10,6 +10,7 @@
 * Initial support for Realme Buds T110
 * Initial support for Redmi Buds 5 Pro
 * Initial support for Xiaomi Smart Band 9 Pro
+* Initial support for Marstek B2500
 * Add calories charts and widgets
 * Add more workout icons
 * Bangle.js: Fix call notification in Turkish locale
