@@ -3699,4 +3699,5 @@
     <string name="garmin_intensity_minutes">Minuty intensywnej aktywności</string>
     <string name="stepRateMax">Maksymalna szybkość kroku</string>
     <string name="weekly_total">Całkowity tygodniowy</string>
+    <string name="devicetype_casioecbs100">Casio ECB-S100</string>
 </resources>
