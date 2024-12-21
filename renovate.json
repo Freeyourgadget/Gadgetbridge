@@ -12,35 +12,35 @@
   "packageRules": [
     {
       "groupName": "protobuf",
-      "matchPackagePrefixes": [
-        "com.google.protobuf"
+      "matchPackageNames": [
+        "com.google.protobuf{/,}**"
       ]
     },
     {
       "groupName": "androidx.camera",
-      "matchPackagePrefixes": [
-        "androidx.camera"
+      "matchPackageNames": [
+        "androidx.camera{/,}**"
       ]
     },
     {
       "groupName": "android-emojify",
-      "matchPackagePrefixes": [
-        "com.github.wax911.android-emojify"
+      "matchPackageNames": [
+        "com.github.wax911.android-emojify{/,}**"
       ]
     },
     {
       "description": "solarpositioning v2 needs java 17, we need to stay on v0",
-      "matchPackagePrefixes": [
-        "net.e175.klaus:solarpositioning"
-      ],
-      "allowedVersions": "<2.0"
+      "allowedVersions": "<2.0",
+      "matchPackageNames": [
+        "net.e175.klaus:solarpositioning{/,}**"
+      ]
     },
     {
       "description": "We're running a fork of the greendao v2 generator, so we must always use the corresponding core lib",
-      "matchPackagePrefixes": [
-        "org.greenrobot:greendao"
-      ],
-      "allowedVersions": "<3.0"
+      "allowedVersions": "<3.0",
+      "matchPackageNames": [
+        "org.greenrobot:greendao{/,}**"
+      ]
     }
   ]
 }
