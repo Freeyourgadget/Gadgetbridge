@@ -178,7 +178,7 @@ public class XiaomiSimpleActivityParser {
                     case 609: // tennis           0x0261
                         summary.setActivityKind(ActivityKind.TENNIS.getCode());
                         break;
-                    case 614: // billard          0x0266
+                    case 614: // billiard          0x0266
                         summary.setActivityKind(ActivityKind.BILLIARDS.getCode());
                         break;
                     case 619: // golf             0x026b
@@ -193,7 +193,7 @@ public class XiaomiSimpleActivityParser {
                     case 709: // skiing           0x02c5
                         summary.setActivityKind(ActivityKind.SKIING.getCode());
                         break;
-                    case 808: // shuttelcock      0x0328
+                    case 808: // shuttlecock      0x0328
                         summary.setActivityKind(ActivityKind.SHUTTLECOCK.getCode());
                         break;
                     default:
