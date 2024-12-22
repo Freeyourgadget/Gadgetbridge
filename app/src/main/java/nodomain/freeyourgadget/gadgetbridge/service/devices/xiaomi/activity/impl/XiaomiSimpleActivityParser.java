@@ -137,7 +137,7 @@ public class XiaomiSimpleActivityParser {
                         summary.setActivityKind(ActivityKind.ROLLER_SKATING.getCode());
                         break;
                     case 301: // stair climbing   0x012d
-                        summary.setActivityKind(ActivityKind.STAIR_CLIMBER.getCode());
+                        summary.setActivityKind(ActivityKind.STAIRS.getCode());
                         break;
                     case 303: // core training    0x012f
                         summary.setActivityKind(ActivityKind.CORE_TRAINING.getCode());
