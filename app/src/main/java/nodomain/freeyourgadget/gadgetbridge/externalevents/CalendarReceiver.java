@@ -109,10 +109,6 @@ public class CalendarReceiver extends ContentObserver {
                 scheduleSync();
             }
         };
-
-        mContext.getContentResolver().registerContentObserver(CalendarContract.Events.CONTENT_URI, true, this);
-        // Add a receiver to allow us to quickly force as calendar sync (without having to provide data)
-        ContextCompat.registerReceiver(mContext, mForceSyncReceiver, new IntentFilter(ACTION_FORCE_SYNC), RECEIVER_NOT_EXPORTED);
     }
 
     public GBDevice getGBDevice() {
@@ -263,6 +259,12 @@ public class CalendarReceiver extends ContentObserver {
                         .buildDelete().executeDeleteWithoutDetachingEntities();
             }
         }
+    }
+
+    public void registerBroadcastReceivers() {
+        mContext.getContentResolver().registerContentObserver(CalendarContract.Events.CONTENT_URI, true, this);
+        // Add a receiver to allow us to quickly force as calendar sync (without having to provide data)
+        ContextCompat.registerReceiver(mContext, mForceSyncReceiver, new IntentFilter(ACTION_FORCE_SYNC), RECEIVER_NOT_EXPORTED);
     }
 
     public void dispose() {
