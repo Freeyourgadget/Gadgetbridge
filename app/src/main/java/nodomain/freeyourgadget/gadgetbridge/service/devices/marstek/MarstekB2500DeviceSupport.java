@@ -52,13 +52,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     public static final UUID UUID_CHARACTERISTIC_MAIN = UUID.fromString("0000ff02-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_SERVICE_MAIN = UUID.fromString("0000ff00-0000-1000-8000-00805f9b34fb");
-
     private static final byte COMMAND_PREFIX = 0x73;
     private static final byte COMMAND = 0x23;
     private static final byte OPCODE_REBOOT = 0x25;
     private static final byte OPCODE_INFO1 = 0x03;
     private static final byte OPCODE_INFO2 = 0x13;
-
     // the following already have checksums precalculated (last byte)
     private static final byte[] COMMAND_GET_INFOS1 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_INFO1, 0x01, 0x54};
     private static final byte[] COMMAND_GET_INFOS2 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, OPCODE_INFO2, 0x00, 0x45};
@@ -67,9 +65,8 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
     private static final byte[] COMMAND_SET_POWERMETER_CHANNEL1 = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x2a, 0x00, 0x7c};
     private static final byte[] COMMAND_SET_BATTERY_ALLOW_PASS_THOUGH = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x0d, 0x00, 0x5b};
     private static final byte[] COMMAND_SET_BATTERY_DISALLOW_PASS_THOUGH = new byte[]{COMMAND_PREFIX, 0x06, COMMAND, 0x0d, 0x01, 0x5a};
-
-
     private static final Logger LOG = LoggerFactory.getLogger(MarstekB2500DeviceSupport.class);
+    private boolean is_initialized = false;
     private int firmwareVersion;
 
     public MarstekB2500DeviceSupport() {
@@ -86,9 +83,18 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         if (value[0] == COMMAND_PREFIX) {
             if ((value[1] == 0x10) && (value[2] == COMMAND) && (value[3] == OPCODE_INFO1)) {
                 decodeInfos(value);
+                if (!is_initialized) {
+                    sendCommand("get infos 2 (initial)", COMMAND_GET_INFOS2);
+                }
                 return true;
             } else if ((value[1] == 0x3a || value[1] == 0x22) && value[2] == COMMAND && value[3] == OPCODE_INFO2) {
                 decodeDischargeIntervalsToPreferences(value);
+                if (!is_initialized) {
+                    sendCommand("set time (initial)", encodeSetCurrentTime());
+                    gbDevice.setState(GBDevice.State.INITIALIZED);
+                    gbDevice.sendDeviceUpdateIntent(getContext());
+                    is_initialized = true;
+                }
                 return true;
             }
         }
@@ -118,12 +124,6 @@ public class MarstekB2500DeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(UUID_CHARACTERISTIC_MAIN), true);
         builder.wait(3500);
         builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS1);
-        builder.wait(750);
-        builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), COMMAND_GET_INFOS2);
-        builder.wait(750);
-        builder.write(getCharacteristic(UUID_CHARACTERISTIC_MAIN), encodeSetCurrentTime());
-        builder.wait(750);
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         return builder;
     }
 
