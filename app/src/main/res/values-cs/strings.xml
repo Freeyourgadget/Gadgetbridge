@@ -3681,4 +3681,19 @@
     <string name="stepRateMax">Maximální rychlost kroků</string>
     <string name="weekly_total">Týdenní souhrn</string>
     <string name="devicetype_casioecbs100">Casio ECB-S100</string>
+    <string name="battery_discharge_intervals">Intervaly vybíjení baterie</string>
+    <string name="discharge_interval_1">Interval vybíjení 1</string>
+    <string name="discharge_interval_2">Interval vybíjení 2</string>
+    <string name="discharge_interval_3">Interval vybíjení 3</string>
+    <string name="discharge_interval_4">Interval vybíjení 4</string>
+    <string name="power_w">Výkon ve W</string>
+    <string name="manual_discharge">Ruční intervaly vybíjení</string>
+    <string name="summary_battery_discharge_intervals_set">Odeslat konfiguraci níže do zařízení</string>
+    <string name="battery_minimum_charge">Minimální nabití baterie v %</string>
+    <string name="battery_allow_pass_though_summary">Pokud je zapnuto, lze baterii nabíjet a zároveň vybíjet</string>
+    <string name="battery_allow_pass_through">Umožnit průchod baterií</string>
+    <string name="devicetype_marstek_b2500">Marstek B2500</string>
+    <string name="about_build_details_copied_to_clipboard">Podrobnosti o sestavení zkopírovány do schránky</string>
+    <string name="discharge_interval_5">Interval vybíjení 5</string>
+    <string name="manual_discharge_summary">pokud je vypnuto, předpokládá se inteligentní vybíjení řízené externím měřičem spotřeby (není podporováno aplikací Gadgetbridge)</string>
 </resources>
