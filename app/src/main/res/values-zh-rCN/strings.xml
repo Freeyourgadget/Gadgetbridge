@@ -3676,4 +3676,20 @@
     <string name="stepRateMax">最大步数范围</string>
     <string name="weekly_total">每周总计</string>
     <string name="garmin_intensity_minutes">每分钟强度</string>
+    <string name="about_build_details_copied_to_clipboard">构建详情已复制到剪贴板</string>
+    <string name="discharge_interval_3">放电间隔 3</string>
+    <string name="discharge_interval_4">放电间隔 4</string>
+    <string name="power_w">以W计算功率</string>
+    <string name="summary_battery_discharge_intervals_set">将以下配置发送到设备</string>
+    <string name="battery_allow_pass_through">允许电池贯通</string>
+    <string name="manual_discharge">手动放电间隔</string>
+    <string name="battery_allow_pass_though_summary">启用后，电池可以边充电边放电</string>
+    <string name="manual_discharge_summary">禁用时，假定由外部功率计控制智能放电（Gadgetbridge 不支持）</string>
+    <string name="discharge_interval_2">放电间隔 2</string>
+    <string name="battery_discharge_intervals">电池放电间隔</string>
+    <string name="discharge_interval_1">放电间隔 1</string>
+    <string name="devicetype_casioecbs100">卡西欧 ECB-S100</string>
+    <string name="devicetype_marstek_b2500">储比特 B2500</string>
+    <string name="discharge_interval_5">放电间隔 5</string>
+    <string name="battery_minimum_charge">最低电池电量（%）</string>
 </resources>
