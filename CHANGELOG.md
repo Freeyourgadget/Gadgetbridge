@@ -19,6 +19,7 @@
 * Amazfit Bip 3 Pro: Fix title and sender on some notifications
 * Bangle.js: Fix calendar sync
 * Bangle.js: Fix call notification in Turkish locale
+* Bangle.js: Support sending activity type from Bangle
 * Casio GBX-100: Fix notification title
 * Charts: Display HR measurement gaps
 * Colmi R0x: Fix occasional crash on disconnection
@@ -57,7 +58,6 @@
 * Xiaomi-protobuf: Persist RR intervals during sleep
 * Zepp OS: Add sleep respiratory rate chart
 * Zepp OS: Send notification pictures
-* Bangle.js: Support sending activity type from Bangle
 
 #### 0.82.1
 * Huawei: Improve activity parsing

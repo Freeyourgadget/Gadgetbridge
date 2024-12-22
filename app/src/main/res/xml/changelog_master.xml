@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.83.0" versioncode="235">
+        <change>Add first start onboarding screen</change>
+        <change>Initial support for Bowers and Wilkins P Series</change>
+        <change>Initial support for Casio ECB-S100</change>
+        <change>Initial support for Colmi R09</change>
+        <change>Initial support for Freebuds 5i</change>
+        <change>Initial support for Garmin Fenix 6S Pro / 7X, Forerunner 55 / 235 / 620, Instinct 2</change>
+        <change>Initial support for Huawei Band 2 / 2 Pro / 3 Pro</change>
+        <change>Initial support for Oppo Enco Air / Air2</change>
+        <change>Initial support for Realme Buds T110</change>
+        <change>Initial support for Redmi Buds 5 Pro</change>
+        <change>Initial support for Xiaomi Smart Band 9 Pro</change>
+        <change>Initial support for Marstek B2500</change>
+        <change>Add calories charts and widgets</change>
+        <change>Add more workout icons</change>
+        <change>About screen: Copy build details on tap</change>
+        <change>Amazfit Bip 3 Pro: Fix title and sender on some notifications</change>
+        <change>Bangle.js: Fix calendar sync</change>
+        <change>Bangle.js: Fix call notification in Turkish locale</change>
+        <change>Bangle.js: Support sending activity type from Bangle</change>
+        <change>Casio GBX-100: Fix notification title</change>
+        <change>Charts: Display HR measurement gaps</change>
+        <change>Colmi R0x: Fix occasional crash on disconnection</change>
+        <change>Fix crash in some chart pages</change>
+        <change>Fix heart rate charts average and maximum value</change>
+        <change>Fix imperial unit on steps charts</change>
+        <change>Fix notifications after a notification is received with a time in the future</change>
+        <change>Fossil/Skagen Hybrids: Add SpO2 support</change>
+        <change>Fossil/Skagen Hybrids: Fix erroneous watchface downgrade</change>
+        <change>Garmin: Add intensity minutes, respiratory rate, sleep score</change>
+        <change>Garmin: Display AGPS age</change>
+        <change>Garmin: Fix weather temperature conversion to celsius</change>
+        <change>Garmin: Persist sleep score and metabolic rate</change>
+        <change>Garmin: Send notification pictures</change>
+        <change>Huawei Band 3 pro: Fix notifications</change>
+        <change>Huawei: Add HR zones configuration for non-P2P devices</change>
+        <change>Huawei: Add temperature chart</change>
+        <change>Huawei: Allow more languages to be set on the watch</change>
+        <change>Huawei: Display active calories</change>
+        <change>Huawei: Display high-resolution heart rate</change>
+        <change>Huawei: Fix watchface upload for some watches</change>
+        <change>Huawei: Improve activity parsing</change>
+        <change>Huawei: Music management</change>
+        <change>Huawei: Send weather error if there is no data</change>
+        <change>Huawei: Sync blood pressure if supported</change>
+        <change>Huawei: Sync skin temperature</change>
+        <change>Restore sleep balance on weekly and monthly charts</change>
+        <change>Test device: Add dummy activities</change>
+        <change>Workout page: Add colors to HR zones</change>
+        <change>Xiaomi Smart Band 8 Active: Fix freestyle and walking workout parsing </change>
+        <change>Xiaomi Smart Band 9: Fix outdoor cycling parsing</change>
+        <change>Xiaomi SPPv2: Fix message processing getting stuck after exception</change>
+        <change>Xiaomi-protobuf: Add resting heart rate</change>
+        <change>Xiaomi-protobuf: Fix activity sync stuck on duplicated or invalid files</change>
+        <change>Xiaomi-protobuf: Improve workout parsing</change>
+        <change>Xiaomi-protobuf: Persist RR intervals during sleep</change>
+        <change>Zepp OS: Add sleep respiratory rate chart</change>
+        <change>Zepp OS: Send notification pictures</change>
+    </release>
     <release version="0.82.1" versioncode="234">
         <change>Huawei: Improve activity parsing</change>
         <change>Huawei Watch GT: Fix connection failure</change>
