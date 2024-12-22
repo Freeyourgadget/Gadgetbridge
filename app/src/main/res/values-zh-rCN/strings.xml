@@ -902,7 +902,7 @@
     <string name="error_background_service_reason">由于意外错误，启动后台服务失败。 - 点击此处查看更多详情。\n\n错误：</string>
     <string name="error_background_service_reason_truncated">无法启动后台服务是由于…</string>
     <string name="error_background_service">启动后台服务失败</string>
-    <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名s\\</string>
+    <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名 \\\"%1$s\\\"</string>
     <string name="menuitem_stress">压力</string>
     <string name="menuitem_cycles">周期跟踪</string>
     <string name="menuitem_breathing">呼吸</string>
