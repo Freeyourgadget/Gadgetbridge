@@ -3534,7 +3534,7 @@
     <string name="idasen_pref_sit_height">Otur konumu yüksekliği (santimetre cinsinden)</string>
     <string name="active_calories">Aktif kalori</string>
     <string name="active_calories_short">Aktif</string>
-    <string name="music_upload_info">Aşağıdaki müzik dosyasını yüklemek üzeresiniz:\n\n%1$s\n</string>
+    <string name="music_upload_info">You are about to upload the following music file:\n\n%1$s\nSong title: %2$s\nAlbum: %3$s\n</string>
     <string name="active_calories_goal">Aktif hedef</string>
     <string name="sleep_avg">Uyku ortalaması</string>
     <string name="lowest">En düşük</string>
