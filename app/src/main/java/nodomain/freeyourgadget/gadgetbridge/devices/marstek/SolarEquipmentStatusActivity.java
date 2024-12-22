@@ -83,6 +83,7 @@ public class SolarEquipmentStatusActivity extends AbstractGBActivity {
 
     public static int[] getColors() {
         return new int[]{
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_stress_unknown),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.vo2max_value_poor_color),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.vo2max_value_fair_color),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.vo2max_value_good_color),
@@ -91,6 +92,7 @@ public class SolarEquipmentStatusActivity extends AbstractGBActivity {
 
     public static int[] getColorsOutput() {
         return new int[]{
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_stress_unknown),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.vo2max_value_good_color),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.vo2max_value_fair_color),
                 ContextCompat.getColor(GBApplication.getContext(), R.color.vo2max_value_poor_color),
@@ -99,7 +101,8 @@ public class SolarEquipmentStatusActivity extends AbstractGBActivity {
 
     public static float[] getSegments() {
         return new float[]{
-                0.1f,
+                0.01f,
+                0.09f,
                 0.2f,
                 0.7f,
         };
@@ -107,9 +110,10 @@ public class SolarEquipmentStatusActivity extends AbstractGBActivity {
 
     public static float[] getSegmentsOutput() {
         return new float[]{
+                0.01f,
                 0.33f,
                 0.33f,
-                0.34f,
+                0.33f,
         };
     }
 
