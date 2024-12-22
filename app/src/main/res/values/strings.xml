@@ -3570,5 +3570,5 @@
     <string name="summary_battery_discharge_intervals_set">Send configuration below to device</string>
     <string name="battery_minimum_charge">Minimum battery charge in %</string>
     <string name="battery_allow_pass_though_summary">When enabled, the battery can be charged while discharging</string>
-    <string name="battery_allow_pass_through">Allow battery pass-though</string>
+    <string name="battery_allow_pass_through">Allow battery pass-through</string>
 </resources>
