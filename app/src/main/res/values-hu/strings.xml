@@ -2544,7 +2544,7 @@
     <string name="pref_media_play">Médialejátszás</string>
     <string name="qhybrid_title_on_device_confirmation">Párosítás engedélyezése az eszközön</string>
     <string name="debug_companion_pair_current">Eszköz párosítása társeszközként</string>
-    <string name="dashboard_calendar_month_goals_reached_title">% a lépésszámcélból elérve</string>
+    <string name="dashboard_calendar_month_goals_reached_title">%% a lépésszámcélból elérve</string>
     <string name="pref_dashboard_first_title">A Műszerfal megjelenítése elsőként</string>
     <string name="pref_dashboard_widget_today_24h_summary">A tevékenység megjelenítése két 12 órás kör helyett egyetlen 24 órás körben</string>
     <string name="bottom_nav_dashboard">Műszerfal</string>
