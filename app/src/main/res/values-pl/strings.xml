@@ -3700,4 +3700,19 @@
     <string name="stepRateMax">Maksymalna szybkość kroku</string>
     <string name="weekly_total">Całkowity tygodniowy</string>
     <string name="devicetype_casioecbs100">Casio ECB-S100</string>
+    <string name="discharge_interval_1">Interwał rozładowania 1</string>
+    <string name="discharge_interval_2">Interwał rozładowania 2</string>
+    <string name="discharge_interval_3">Interwał rozładowania 3</string>
+    <string name="discharge_interval_4">Interwał rozładowania 4</string>
+    <string name="discharge_interval_5">Interwał rozładowania 5</string>
+    <string name="power_w">Moc w W</string>
+    <string name="manual_discharge_summary">kiedy wyłączone, to zakłada inteligentne rozładowanie kontrolowane przez zewnętrzny miernik energii (nieobsługiwane przez Gadgetbridge)</string>
+    <string name="manual_discharge">Ręczne odstępy między rozładowaniami</string>
+    <string name="summary_battery_discharge_intervals_set">Wyślij konfigurację poniżej do urządzenia</string>
+    <string name="battery_minimum_charge">Minimalny poziom naładowania baterii w %</string>
+    <string name="battery_allow_pass_though_summary">Po włączeniu tej opcji akumulator można ładować podczas rozładowywania</string>
+    <string name="about_build_details_copied_to_clipboard">Szczegóły kompilacji skopiowano do schowka</string>
+    <string name="devicetype_marstek_b2500">Marstek B2500</string>
+    <string name="battery_discharge_intervals">Interwały rozładowywania akumulatora</string>
+    <string name="battery_allow_pass_through">Zezwalaj na przepustowość baterii</string>
 </resources>
